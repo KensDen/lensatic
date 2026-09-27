@@ -36,6 +36,7 @@ ROOT = Path(__file__).resolve().parent.parent
 STACK = ROOT / "content" / "stack.json"
 SRC = ROOT / "web" / "src"
 OUT = ROOT / "web" / "lensatic.html"
+PHOTO = SRC / "about-photo.jpg"  # the maker's photo beside Why the name in About (session 7D)
 DOCS = ROOT / "docs"
 PAGES = ("privacy", "support")
 FONT_DIR = SRC / "fonts"
@@ -145,8 +146,10 @@ class FirstUse:
     or ISO/IEC 27001 (where a second form inside the designation, IEC, adds its own expansion); a form already
     in parentheses right after its spelled-out name, as in DoD Cyber Defense Command (DCDC), is left alone;
     inside an open parenthesis the expansion takes square brackets; a plural form takes a plural expansion;
-    a name marked notAbbreviation, such as MITRE, is linked and never expanded; an entry marked nameFirst (the
-    department, under its render rule) is spelled out name first, as in Department of War (DoW).
+    a name marked notAbbreviation, such as MITRE, is linked and never expanded; a term marked wellKnown, such as AI,
+    is linked the same way and never expanded, in running text or labels, though its glossary entry keeps the
+    expansion; an entry marked nameFirst (the department, under its render rule) is spelled out name first, as in
+    Department of War (DoW).
     """
     DESIGNATION = re.compile(r"(?:/([A-Z][A-Za-z]+))?\s?\d+(?:[-/:]\d+)*")
     SKIP_TAGS = {"script", "style", "svg", "textarea", "title"}
@@ -171,6 +174,11 @@ class FirstUse:
     def exp_id(e: dict) -> str:
         return f"glx-{e['slug']}"
 
+    @staticmethod
+    def spells(e: dict) -> bool:
+        """Whether the page ever spells this entry out: not a name, and not a term every reader knows."""
+        return bool(e["expansion"]) and not e.get("notAbbreviation") and not e.get("wellKnown")
+
     def label_part(self, part: str, stack: list[dict], out: list[str], describe: dict[int, list[str]]) -> str:
         """A text node inside a label: short forms only, linked or described, never expanded."""
         pieces, pos = [], 0
@@ -189,10 +197,10 @@ class FirstUse:
                     if inner:
                         found.append(inner)
                     end = des.end()
-            ids = [self.exp_id(x) for x in found if x["expansion"] and not x.get("notAbbreviation")]
+            ids = [self.exp_id(x) for x in found if self.spells(x)]
             token = part[m.start():m.end()]
             if not self.link:
-                exp = " and ".join(x["expansion"] for x in found if x["expansion"] and not x.get("notAbbreviation"))
+                exp = " and ".join(x["expansion"] for x in found if self.spells(x))
                 wrapped = f'<abbr title="{esc(exp)}">{token}</abbr>' if exp else token
                 pieces += [part[pos:m.start()], wrapped, part[m.end():end]]
             elif nolink:
@@ -266,7 +274,7 @@ class FirstUse:
                     continue
                 handled.add(e["term"])
                 link = f'<a class="gl" href="#gl-{e["slug"]}">'
-                if e.get("notAbbreviation"):
+                if e.get("notAbbreviation") or e.get("wellKnown"):
                     if not nolink:
                         pieces += [part[pos:m.start()], f"{link}{m.group(0)}</a>"]
                         seen += html.unescape(part[pos:m.end()])
@@ -283,7 +291,7 @@ class FirstUse:
                     if des:
                         end = des.end()
                         inner = self.by_form.get(des.group(1) or "")
-                        if inner and inner["term"] not in handled and not inner.get("notAbbreviation"):
+                        if inner and inner["term"] not in handled and self.spells(inner):
                             handled.add(inner["term"])
                             if inner["expansion"].lower() not in before.lower():
                                 expansions.append(inner["expansion"])
@@ -309,6 +317,19 @@ class FirstUse:
             if ids:
                 out[i] = re.sub(r"\s*>$", f' aria-describedby="{" ".join(ids)}">', out[i])
         return "".join(out)
+
+
+def jpeg_size(data: bytes) -> tuple[int, int]:
+    """Width and height from a JPEG's frame header."""
+    i = 2
+    while i < len(data) - 9:
+        if data[i] != 0xFF:
+            break
+        m, length = data[i + 1], int.from_bytes(data[i + 2:i + 4], "big")
+        if 0xC0 <= m <= 0xCF and m not in (0xC4, 0xC8, 0xCC):
+            return int.from_bytes(data[i + 7:i + 9], "big"), int.from_bytes(data[i + 5:i + 7], "big")
+        i += 2 + length
+    sys.exit("web/src/about-photo.jpg: no frame header")
 
 
 def mark_paths() -> tuple[str, str]:
@@ -470,7 +491,8 @@ class Renderer:
         return max(dates)
 
     def hero(self) -> str:
-        """The front door, top to bottom: the tile, the eyebrow, the name, the description, two buttons, the version line."""
+        """The front door, top to bottom: the tile, the eyebrow, the name, the description, two buttons, the version line,
+        which ends with the link to Why the name in About."""
         meta = self.d["meta"]
         return (f'<div class="hero" id="intro">'
                 f'<div class="tile" aria-hidden="true">{mark_svg(50, "mark tile-mark")}</div>'
@@ -480,7 +502,8 @@ class Renderer:
                 f'<p class="actions"><a class="btn primary" href="#view-doors">{self.label("heroPrimary")}</a> '
                 f'<a class="btn secondary" href="#view-stack">{self.label("heroSecondary")}</a></p>'
                 f'<p class="stamp"><a href="#view-about">{self.label("contentVersion")} {esc(meta["contentVersion"])}</a>, '
-                f'{self.label("checkedThrough")} {fmt_date(self.latest_check())}</p></div>\n')
+                f'{self.label("checkedThrough")} {fmt_date(self.latest_check())}{self.label("metaSeparator")}'
+                f'<a href="#about-name">{self.label("whyName")}</a></p></div>\n')
 
     def footer(self, page: str | None = None) -> str:
         """After main: the maker line, the licence line (all rights reserved, fonts OFL), and the policy, support and source links. Absolute
@@ -727,7 +750,8 @@ class Renderer:
             term = self.tok(g["term"], hidden=True)
             out.append({"term": term, "slug": slug(term), "expansion": self.tok(g["expansion"], hidden=True) if g.get("expansion") else None,
                         "forms": [self.tok(f, hidden=True) for f in g.get("forms", [])], "prefix": g.get("prefix", False),
-                        "notAbbreviation": g.get("notAbbreviation", False), "nameFirst": g["term"] == "{{dow}}", "src": g})
+                        "notAbbreviation": g.get("notAbbreviation", False), "wellKnown": g.get("wellKnown", False),
+                        "nameFirst": g["term"] == "{{dow}}", "src": g})
         return sorted(out, key=lambda e: e["term"].lower())
 
     def glossary(self) -> str:
@@ -768,6 +792,19 @@ class Renderer:
         if self.author:
             body += f'<p class="small made-by">{self.label("madeBy")} {esc(self.author)}</p>'
         body += f'<p class="small built-with">{self.t(meta["about"]["builtWith"])}</p>'
+        # why the name, last in About so its heading starts a part of its own; the front door's version line links here.
+        # The maker's photo sits beside the story from 768 pixels up and above it on phones, embedded as a data: URI
+        # (part of the page, not a request); the battery pins the file and checks it carries no metadata
+        if meta["about"].get("nameStory"):
+            story = "".join(f"<p>{self.t(p)}</p>" for p in meta["about"]["nameStory"])
+            photo = ""
+            if PHOTO.is_file():
+                data = PHOTO.read_bytes()
+                w, h = jpeg_size(data)
+                photo = (f'<img class="name-photo" src="data:image/jpeg;base64,{base64.b64encode(data).decode("ascii")}" '
+                         f'alt="{self.label("aboutPhotoAlt")}" width="{w}" height="{h}">')
+            body += (f'<h3 class="name-head" id="about-name">{self.label("whyNameHeading")}</h3>'
+                     f'<div class="name-story">{photo}<div class="name-text">{story}</div></div>')
         return self.section("about", body + "</div>")
 
     @staticmethod

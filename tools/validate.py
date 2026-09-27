@@ -68,6 +68,10 @@ FONT_SHA256 = {
     "web/src/fonts/ibm-plex-mono-latin-400-normal.woff2": "08949f728dc52d528e69b1667d15c89a5686a4ee9a296ff90983985f99c380f7",
     "web/src/fonts/ibm-plex-mono-latin-700-normal.woff2": "4f84d86cfd060f4ded334358ff8a4c81d4db2ed5addd568359d693f44a87765a",
 }
+# the maker's photo beside Why the name in About (session 7D): the owner's photo, resized with sips to 1200 px on its
+# longest side at quality 30 (the highest setting under 150 KB), every metadata segment stripped; pinned by SHA-256
+ABOUT_PHOTO = ROOT / "web" / "src" / "about-photo.jpg"
+ABOUT_PHOTO_SHA256 = "2ebe849baba484d5d3c500a0f83740f3e6385b1afc84a6ff7268a0537b53b83c"
 CRITIQUE = ROOT / "critique"
 BINARY_SUFFIXES = {".png", ".jpg", ".jpeg", ".gif", ".pdf", ".ico", ".icns", ".zip", ".woff", ".woff2", ".ttf"}
 
@@ -266,6 +270,51 @@ def iter_text_files(scope: Path):
             yield p
 
 
+def jpeg_segments(data: bytes) -> tuple[list[str], tuple[int, int]]:
+    """Every marker segment of a JPEG, in file order, by name (APPn, COM, DQT, SOFn, DHT, DRI, SOS), and its width and
+    height from the frame header. The walk steps over the entropy-coded data after each SOS (stuffed FF00, RSTn and fill
+    bytes), so a segment after a scan is seen too, and the file must end at EOI with nothing after it. Raises
+    ValueError on anything else: a truncated file, trailing bytes, a segment that runs past the end, no scan."""
+    if data[:2] != b"\xff\xd8":
+        raise ValueError("not a JPEG")
+    names, size, i, n = [], (0, 0), 2, len(data)
+    while True:
+        if i + 2 > n or data[i] != 0xFF:
+            raise ValueError(f"no marker at byte {i}")
+        m = data[i + 1]
+        if m == 0xFF:  # a fill byte before a marker
+            i += 1
+            continue
+        if m == 0xD9:
+            if i + 2 != n:
+                raise ValueError(f"{n - i - 2} bytes after the end of the image")
+            if "SOS" not in names:
+                raise ValueError("no scan")
+            return names, size
+        if i + 4 > n:
+            raise ValueError(f"segment header at byte {i} runs past the end")
+        length = int.from_bytes(data[i + 2:i + 4], "big")
+        if length < 2 or i + 2 + length > n:
+            raise ValueError(f"segment at byte {i} runs past the end")
+        if 0xE0 <= m <= 0xEF:
+            names.append(f"APP{m - 0xE0}")
+        elif m == 0xFE:
+            names.append("COM")
+        elif 0xC0 <= m <= 0xCF and m not in (0xC4, 0xC8, 0xCC):
+            names.append(f"SOF{m - 0xC0}")
+            size = (int.from_bytes(data[i + 7:i + 9], "big"), int.from_bytes(data[i + 5:i + 7], "big"))
+        else:
+            names.append({0xDB: "DQT", 0xC4: "DHT", 0xDD: "DRI", 0xDA: "SOS"}.get(m, hex(m)))
+        i += 2 + length
+        if m == 0xDA:  # entropy-coded data runs to the next marker that is not a stuffed byte or a restart marker
+            while True:
+                if i + 1 >= n:
+                    raise ValueError("the scan runs to the end of the file with no end-of-image marker")
+                if data[i] == 0xFF and data[i + 1] != 0x00 and not 0xD0 <= data[i + 1] <= 0xD7:
+                    break
+                i += 1
+
+
 def read_text(p: Path) -> str | None:
     try:
         return p.read_text(encoding="utf-8")
@@ -290,7 +339,9 @@ def read_local_list(p: Path) -> tuple[list[str], str]:
 
 def read_local_source(p: Path) -> tuple[list[str], str]:
     """tools/sweep_source.json names a local document and the patterns that pull the sweep terms (every capture
-    group, split on commas) and the forbidden word (the first capture group) from it."""
+    group, split on commas) and the forbidden word (the first capture group) from it. An optional exclude list names
+    words the owner has ruled out of the sweep (the first, 27 Sep 2026, so About can explain the name); each must be
+    one of the words the patterns pull, so a typo cannot pass silently."""
     spec = json.loads(p.read_text(encoding="utf-8"))
     doc = ROOT / spec["document"]
     if not doc.is_file():
@@ -306,6 +357,10 @@ def read_local_source(p: Path) -> tuple[list[str], str]:
                 w = w.strip().lower()
                 if w and w not in terms:
                     terms.append(w)
+    excluded = [w.strip().lower() for w in spec.get("exclude", [])]
+    if any(w not in terms for w in excluded):
+        fail_hard(f"{p.relative_to(ROOT)}: an excluded word is not one of the terms its patterns pull")
+    terms = [w for w in terms if w not in excluded]
     m = re.search(spec["forbidden"], text)
     if not m:
         fail_hard(f"{p.relative_to(ROOT)}: the forbidden-word pattern no longer matches its document")
@@ -795,6 +850,28 @@ def main() -> int:
             errs.append(f"{f.relative_to(ROOT).as_posix()} is not one of the pinned font files")
     rep.check("fonts: the four IBM Plex faces in web/src/fonts/ are the pinned files by SHA-256, beside OFL.txt and nothing else", errs,
               " / ".join(f"{Path(rel).name} {h[:12]}" for rel, h in FONT_SHA256.items()))
+
+    # 15c. the About photo (session 7D): the pinned file, 1200 px on its longest side, with no metadata segment
+    errs, detail = [], ""
+    if not ABOUT_PHOTO.is_file():
+        errs.append("web/src/about-photo.jpg is missing")
+    else:
+        photo = ABOUT_PHOTO.read_bytes()
+        digest = hashlib.sha256(photo).hexdigest()
+        if digest != ABOUT_PHOTO_SHA256:
+            errs.append(f"web/src/about-photo.jpg is not the pinned file (SHA-256 {digest[:12]})")
+        try:
+            segs, (w, h) = jpeg_segments(photo)
+            meta = [x for x in segs if x.startswith("APP") or x == "COM"]
+            if meta:
+                errs.append(f"web/src/about-photo.jpg carries metadata segments: {' '.join(meta)}")
+            if max(w, h) != 1200:
+                errs.append(f"web/src/about-photo.jpg is {w} x {h}, expected 1200 px on its longest side")
+            detail = f"{w} x {h}, {len(photo)} bytes, {' '.join(segs)}, SHA-256 {digest[:12]}"
+        except ValueError as exc:
+            errs.append(f"web/src/about-photo.jpg: {exc}")
+    rep.check("about photo: web/src/about-photo.jpg is the pinned file by SHA-256, a whole JPEG that ends at its end-of-image marker, "
+              "1200 px on its longest side, with no metadata segment anywhere (no APPn, no COM)", errs, detail)
 
     # 16. no overdue recheck: the support page says no content release goes out while a recheck is overdue. A content
     # release is the last changelog entry, and meta.builtOn must carry its date, so the test runs on the release date.

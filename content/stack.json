@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "0.7.0",
+    "contentVersion": "0.8.0",
     "builtOn": "2026-09-27",
     "sources": [
       "csf20",
@@ -79,6 +79,11 @@
         "version": "0.7.0",
         "date": "2026-09-27",
         "summary": "Licensing: from this version, Lensatic's code and its own text are all rights reserved. Earlier versions were released under the MIT License and CC BY 4.0, and those grants still apply to copies of them. The typefaces stay under the SIL Open Font License."
+      },
+      {
+        "version": "0.8.0",
+        "date": "2026-09-27",
+        "summary": "Why the name: a short explanation of the lensatic compass in About, linked from the front door, with the maker's photo. AI is treated as a well-known term and no longer spelled out."
       }
     ],
     "description": "An offline explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.",
@@ -86,7 +91,11 @@
       "notAffiliated": "Not affiliated with NIST, CISA, NSA, {{dow.current}}, OMB, or any framework publisher.",
       "offline": "Works offline. No account. No data collected.",
       "licensing": "Most of the frameworks Lensatic describes are United States government publications. Works prepared by United States government officers and employees as part of their official duties are in the public domain in the United States. Lensatic's own code and text are copyright 2026 Ken Connell, all rights reserved; to ask about reusing them, open an issue on the source repository. IBM Corp. holds the copyright in the typefaces, IBM Plex Sans and IBM Plex Mono, which are licensed under the SIL Open Font License (OFL), version 1.1. Where a cited work is protected, its title, names and any short quotation remain its owner's, and the work itself is described, not reproduced.",
-      "builtWith": "Built with Claude and Claude Code, checked by a validation battery, and reviewed by a human who owns the mistakes."
+      "builtWith": "Built with Claude and Claude Code, checked by a validation battery, and reviewed by a human who owns the mistakes.",
+      "nameStory": [
+        "A lensatic compass is the Army's field compass. You sight a landmark through its lens, read the bearing off the dial, and move out knowing which way you're headed. Lensatic does the same for the framework stack: find where you stand, see which framework applies, and take a bearing on what comes next.",
+        "The maker learned land navigation with one and has kept it for more than 20 years."
+      ]
     },
     "licenses": {
       "code": {
@@ -4001,6 +4010,7 @@
       "forms": [
         "AI"
       ],
+      "wellKnown": true,
       "expansion": "artificial intelligence",
       "oneLine": "In the AI Risk Management Framework from NIST, an AI system is an engineered or machine-based system that can, for a given set of objectives, generate outputs such as predictions, recommendations or decisions.",
       "entityIds": [
@@ -5645,7 +5655,7 @@
       "statusKeyUnverified": "the publisher's copy could not be reached; the note lists every address tried.",
       "statusKeyConflict": "the sources disagree; the note gives both and a date to check again.",
       "hasConflictInside": "a conflict is recorded inside",
-      "glossaryIntro": "Every abbreviation on this page, spelled out, with a plain sentence on what it is and a badge that says whether the spelling was checked against its publisher. Each section also spells out an abbreviation where it first appears.",
+      "glossaryIntro": "Every abbreviation on this page, spelled out, with a plain sentence on what it is and a badge that says whether the spelling was checked against its publisher. Each section also spells out an abbreviation where it first appears, except AI, which every reader knows.",
       "glossaryOpen": "Open in the glossary",
       "glossarySee": "See",
       "pagesNav": "Site pages",
@@ -5665,6 +5675,9 @@
       "metaSeparator": " · ",
       "listSeparator": ", ",
       "footerLicenses": "All rights reserved · Fonts OFL",
+      "whyName": "Why the name?",
+      "whyNameHeading": "Why the name",
+      "aboutPhotoAlt": "The maker's lensatic compass, open, with the sighting wire raised.",
       "footerNav": "Policies and source",
       "sourceCode": "Source code"
     },

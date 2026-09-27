@@ -1,6 +1,6 @@
 # Lensatic
 
-Lensatic is a small, offline explainer of the United States federal cybersecurity framework stack. It is the map legend: it says what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land. The stack is sorted by the question each framework answers, from outcomes and communication (NIST CSF 2.0) through definition (NIST SP 800-207), target state and maturity (the zero trust models), controls (NIST SP 800-53 and the overlays that point into it) and verification (the assessment regimes), with an AI column alongside. A matrix of zero trust pillars against CSF 2.0 functions sits at the center of the model. It is a mental-model tool, not a control lookup.
+Lensatic is a small, offline explainer of the United States federal cybersecurity framework stack. It is the map legend: it says what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land. The stack is sorted by the question each framework answers, from outcomes and communication (NIST CSF 2.0) through definition (NIST SP 800-207), target state and maturity (the zero trust models), controls (NIST SP 800-53 and the overlays that point into it) and verification (the assessment regimes), with an AI column alongside. A matrix of zero trust pillars against CSF 2.0 functions sits at the center of the model. It is a mental-model tool, not a control lookup. The name comes from the lensatic compass, the Army's field compass for taking a bearing; Lensatic helps you take a bearing on the framework stack.
 
 Live at https://kensden.github.io/lensatic/ (privacy policy: https://kensden.github.io/lensatic/privacy.html, support: https://kensden.github.io/lensatic/support.html).
 
@@ -24,7 +24,7 @@ Where a cited work is protected, its title, names and any short quotation remain
 
     tools/battery.sh
 
-Before the first run, create the local sweep list. The sweep terms and the forbidden word are never stored in this repository, so the battery reads them at run time from a gitignored file. Use `content/_sweep.txt` or `tools/sweep.txt`, holding the sweep terms and a line `forbidden: <word>`, or `tools/sweep_source.json`, which names a local document and the patterns that pull them from it. Without one, the battery stops and says so. It fails if any of these files is ever tracked.
+Before the first run, create the local sweep list. The sweep terms and the forbidden word are never stored in this repository, so the battery reads them at run time from a gitignored file. Use `content/_sweep.txt` or `tools/sweep.txt`, holding the sweep terms and a line `forbidden: <word>`, or `tools/sweep_source.json`, which names a local document and the patterns that pull them from it, and may list words the owner has ruled out of the sweep. Without one, the battery stops and says so. It fails if any of these files is ever tracked.
 
 The battery needs Python 3.11 or newer, Node 22 or newer, and a Chrome, Chromium or Edge browser. Set `LENSATIC_CHROME` if the browser is not in a standard place. Nothing is installed, and nothing leaves the repository.
 
@@ -64,7 +64,7 @@ Public frameworks and public sources only. Every framework and source entry carr
 
     python3 tools/build_web.py --author "Your Name" --pages
 
-`tools/build_web.py` renders every door, layer, framework, source, solution, helper answer, function, and all matrix cells in both pillar views into `web/lensatic.html` at build time, so the page is complete when scripts do not run (mail and file previews, locked-down desktops). The builder also renders the glossary as its own section and spells out each abbreviation where it first appears in every section, linked to its glossary entry. The behavior script under `web/src/` only enhances what is already there: one matrix view at a time, cells collapsed to their first sentence, column scrolling, a glossary popover on those links, the theme toggle and a link back to the top. Below 1200 pixels the header navigation becomes a labeled section menu that names the section in view, and below 768 pixels each matrix cell carries its pillar name. The print stylesheet opens every disclosure with CSS, prints the department's matrix view with each cell cut to its first sentence, and keeps every other section complete. The content file is also embedded byte for byte as the provenance of the render. The built file is never hand-edited.
+`tools/build_web.py` renders every door, layer, framework, source, solution, helper answer, function, and all matrix cells in both pillar views into `web/lensatic.html` at build time, so the page is complete when scripts do not run (mail and file previews, locked-down desktops). The builder also renders the glossary as its own section and spells out each abbreviation where it first appears in every section, linked to its glossary entry, except AI, which every reader knows: it is linked and never spelled out. The behavior script under `web/src/` only enhances what is already there: one matrix view at a time, cells collapsed to their first sentence, column scrolling, a glossary popover on those links, the theme toggle and a link back to the top. Below 1200 pixels the header navigation becomes a labeled section menu that names the section in view, and below 768 pixels each matrix cell carries its pillar name. The print stylesheet opens every disclosure with CSS, prints the department's matrix view with each cell cut to its first sentence, and keeps every other section complete. The content file is also embedded byte for byte as the provenance of the render. The built file is never hand-edited.
 
 With `--pages` the builder also writes the project site under `docs/` for GitHub Pages: `docs/index.html` (the built page byte for byte), `docs/privacy.html` and `docs/support.html` (plain pages with no script, their text from `content/stack.json`, on the app's theme tokens) and an empty `docs/.nojekyll`.
 
@@ -74,12 +74,13 @@ The web checks:
 - Check that the rendered text of every item is present, in the built page and in a copy with its scripts removed.
 - Measure the page in a headless Chrome, Chromium or Edge, driven through the DevTools protocol with no packages. The collapsed matrix must fit a 1280 pixel window. The header must not overflow from 360 to 1440 pixels. Nothing may be clipped at phone widths with every section open. The script-off rendering must show every text.
 - Print with scripts on and off. Each printout must stay under 20 pages, with every non-matrix text and each cell's first sentence present.
-- Scan the built page section by section. Every abbreviation needs a glossary entry and must be spelled out at its first use.
+- Scan the built page section by section. Every abbreviation needs a glossary entry and must be spelled out at its first use, except AI, whose first use in each section links to the glossary and which no built page spells out.
 - Build a fresh copy of `docs/` in `.tmp/` and compare it with the committed `docs/`. Fail if they differ, if `docs/` holds any other file, or if `docs/index.html` is not the built page byte for byte.
 - Hold the privacy and support pages to the app's offline and wall rules: no script, no resource loading, no storage, no em dash, and a clean sweep. Check that their dates, content version, next recheck and paragraphs come from content.
 - Fail on any em dash in the built page and on any email address in `docs/`, including encoded ones.
 - Check that the app keeps nothing but the theme choice and that every external link in the app sits inside Sources, as the privacy policy says.
 - Hold the footer's license line, the About licensing paragraph and the support page's sentence on reuse to the all-rights-reserved wording of content 0.7.0.
+- Hold the front door's version line to its two links, the second to Why the name in About, and check that the About photo is embedded once, as a `data:` URI of the pinned `web/src/about-photo.jpg`, with no metadata.
 - Report containment: no stray untracked files, temporary files inside the repository, and no tool naming a path outside it.
 
 The page works from a local file with no network access.
@@ -87,7 +88,7 @@ The page works from a local file with no network access.
 ## Layout
 
     content/   stack.json and its schema
-    web/       lensatic.html (built) and src/ (templates, stylesheets, behavior script, mark)
+    web/       lensatic.html (built) and src/ (templates, stylesheets, behavior script, mark, the About photo)
     docs/      the project site for GitHub Pages (built by build_web.py --pages)
     ios/       SwiftUI wrapper (later phase)
     critique/  review findings and dispositions

@@ -351,6 +351,13 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
 .about-name { margin-bottom: 0.875rem; }
 .counts { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .made-by { margin-top: 1rem; margin-bottom: 0.25rem; }
+/* why the name: the front door's version line links here, so the heading clears the sticky header when it lands */
+.name-head { margin-top: 1.75rem; scroll-margin-top: calc(var(--nav-h) + 0.5rem); }
+/* the maker's photo: above the story on phones, beside it from 768 pixels up */
+.name-story { display: grid; gap: 0.875rem 1.5rem; }
+.name-story .name-text p:first-child { margin-top: 0; }
+.name-photo { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--card-radius); }
+@media (min-width: 768px) { .name-story { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; } }
 
 /* footer, after main */
 .foot { margin-top: 4rem; border-top: 1px solid var(--line); font-size: 0.875rem; color: var(--fg-2); }
@@ -461,6 +468,8 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
   .actions { display: block; margin: 0 0 3pt; }
   .actions .btn { display: inline; min-height: 0; min-width: 0; padding: 0; margin-right: 8pt; border: 0; background: none; color: #000; font-weight: 400; }
   .stamp { font-size: 7pt; }
+  .name-story { display: block; }
+  .name-photo { width: 1.6in; margin: 0 0 3pt; border: 0; border-radius: 0; }
   .view { margin-top: 0; padding: 6pt 0 4pt; }
   .sec-head { padding-bottom: 2pt; margin-bottom: 4pt; border-bottom: 0.5pt solid #999; }
   h2, h3, .matrix-caption, .sec-head { break-after: avoid-page; }
