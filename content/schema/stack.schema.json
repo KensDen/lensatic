@@ -1,0 +1,1646 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:lensatic:stack.schema:0.7.0",
+  "title": "Lensatic content model",
+  "description": "Schema for content/stack.json, the single source of truth for Lensatic. Every rendered string lives in that file once. Prose refers to the department only through the tokens {{dow}} and {{dow.<field>}}, which render from orgs.dow.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "orgs",
+    "layers",
+    "frameworks",
+    "sources",
+    "solutions",
+    "functions",
+    "pillars",
+    "matrix",
+    "doors",
+    "helper",
+    "glossary",
+    "ai",
+    "elevator",
+    "ui",
+    "pages"
+  ],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "contentVersion",
+        "builtOn",
+        "sources",
+        "changelog",
+        "description",
+        "about",
+        "licenses"
+      ],
+      "properties": {
+        "name": {
+          "const": "Lensatic"
+        },
+        "contentVersion": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "builtOn": {
+          "$ref": "#/$defs/isoDate"
+        },
+        "sources": {
+          "description": "ids of every framework, source and solution entry the content draws on",
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "changelog": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "version",
+              "date",
+              "summary"
+            ],
+            "properties": {
+              "version": {
+                "type": "string",
+                "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+              },
+              "date": {
+                "$ref": "#/$defs/isoDate"
+              },
+              "summary": {
+                "$ref": "#/$defs/prose"
+              }
+            }
+          }
+        },
+        "description": {
+          "$ref": "#/$defs/prose"
+        },
+        "about": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "notAffiliated",
+            "offline",
+            "licensing",
+            "builtWith"
+          ],
+          "properties": {
+            "notAffiliated": {
+              "$ref": "#/$defs/prose"
+            },
+            "offline": {
+              "$ref": "#/$defs/prose"
+            },
+            "licensing": {
+              "$ref": "#/$defs/prose"
+            },
+            "builtWith": {
+              "$ref": "#/$defs/prose"
+            }
+          }
+        },
+        "licenses": {
+          "description": "The three licenses: code, content and fonts. Works prepared by United States government officers and employees as part of their official duties are in the public domain in the United States; where a cited work is protected, its title, names and any short quotation remain its owner's.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "content",
+            "fonts"
+          ],
+          "properties": {
+            "code": {
+              "$ref": "#/$defs/license"
+            },
+            "content": {
+              "$ref": "#/$defs/license"
+            },
+            "fonts": {
+              "$ref": "#/$defs/license"
+            }
+          }
+        }
+      }
+    },
+    "orgs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dow",
+        "cisa",
+        "nist",
+        "nsa",
+        "omb",
+        "ztPfmo"
+      ],
+      "properties": {
+        "dow": {
+          "description": "The one place the department's name lives. Prose renders it through tokens: {{dow}} renders the abbreviation and {{dow.current}} the current name; a first mention renders the current name followed by the abbreviation in parentheses.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "current",
+            "abbr",
+            "statutory",
+            "basis",
+            "verifiedOn",
+            "renderRule",
+            "statusNote",
+            "url",
+            "verification"
+          ],
+          "properties": {
+            "current": {
+              "type": "string",
+              "minLength": 1
+            },
+            "abbr": {
+              "type": "string",
+              "minLength": 1
+            },
+            "statutory": {
+              "type": "string",
+              "minLength": 1
+            },
+            "basis": {
+              "type": "string",
+              "minLength": 1
+            },
+            "verifiedOn": {
+              "$ref": "#/$defs/isoDate"
+            },
+            "renderRule": {
+              "type": "string",
+              "minLength": 1
+            },
+            "statusNote": {
+              "type": "string",
+              "minLength": 1
+            },
+            "url": {
+              "$ref": "#/$defs/url"
+            },
+            "verification": {
+              "$ref": "#/$defs/verification"
+            }
+          }
+        },
+        "cisa": {
+          "$ref": "#/$defs/org"
+        },
+        "nist": {
+          "$ref": "#/$defs/org"
+        },
+        "nsa": {
+          "$ref": "#/$defs/org"
+        },
+        "omb": {
+          "$ref": "#/$defs/org"
+        },
+        "ztPfmo": {
+          "$ref": "#/$defs/office"
+        }
+      }
+    },
+    "layers": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/$defs/layer"
+      }
+    },
+    "frameworks": {
+      "type": "array",
+      "minItems": 13,
+      "items": {
+        "$ref": "#/$defs/framework"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/source"
+      }
+    },
+    "solutions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/solution"
+      }
+    },
+    "functions": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "$ref": "#/$defs/function"
+      }
+    },
+    "pillars": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical",
+        "views"
+      ],
+      "properties": {
+        "canonical": {
+          "type": "array",
+          "minItems": 8,
+          "maxItems": 8,
+          "items": {
+            "$ref": "#/$defs/pillar"
+          }
+        },
+        "views": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "dow",
+            "cisa"
+          ],
+          "properties": {
+            "dow": {
+              "type": "array",
+              "minItems": 7,
+              "maxItems": 7,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/id"
+              },
+              "description": "Seven canonical ids in the DoD Zero Trust Strategy's printed order (User; Device; Application and Workload; Data; Network and Environment; Automation and Orchestration; Visibility and Analytics), which is the capability numbering 1 to 7. Owner's ruling of 9 September 2026: the printed order stands."
+            },
+            "cisa": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "pillars",
+                "crossCutting"
+              ],
+              "properties": {
+                "pillars": {
+                  "type": "array",
+                  "minItems": 5,
+                  "maxItems": 5,
+                  "uniqueItems": true,
+                  "items": {
+                    "$ref": "#/$defs/id"
+                  }
+                },
+                "crossCutting": {
+                  "type": "array",
+                  "minItems": 3,
+                  "maxItems": 3,
+                  "uniqueItems": true,
+                  "items": {
+                    "$ref": "#/$defs/id"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "matrix": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cells"
+      ],
+      "properties": {
+        "cells": {
+          "type": "array",
+          "minItems": 48,
+          "maxItems": 48,
+          "items": {
+            "$ref": "#/$defs/cell"
+          }
+        }
+      }
+    },
+    "doors": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "$ref": "#/$defs/door"
+      }
+    },
+    "helper": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 8,
+      "items": {
+        "$ref": "#/$defs/helperEntry"
+      }
+    },
+    "glossary": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/glossaryEntry"
+      }
+    },
+    "ai": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "column",
+        "socProfile",
+        "note"
+      ],
+      "properties": {
+        "column": {
+          "type": "array",
+          "minItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/id"
+              },
+              "kind": {
+                "enum": [
+                  "framework",
+                  "quick-start-guide",
+                  "governance"
+                ]
+              }
+            }
+          }
+        },
+        "socProfile": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "functionId",
+              "outcome",
+              "verification"
+            ],
+            "properties": {
+              "functionId": {
+                "$ref": "#/$defs/functionId"
+              },
+              "outcome": {
+                "$ref": "#/$defs/prose"
+              },
+              "verification": {
+                "$ref": "#/$defs/authoredRecord"
+              }
+            }
+          }
+        },
+        "note": {
+          "$ref": "#/$defs/prose"
+        }
+      }
+    },
+    "elevator": {
+      "description": "Rendering derives the elevator paragraph: one clause per framework in frameworkIds, in the listed order, drawn from that framework's oneLiner. frameworkIds is the complete list; a framework in a kept layer that is absent from it is simply not in the paragraph. omits lists the layers the paragraph skips entirely and is informational. Nothing is hand-written.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "derivedFrom",
+        "omits",
+        "frameworkIds",
+        "text"
+      ],
+      "properties": {
+        "derivedFrom": {
+          "const": "layers"
+        },
+        "omits": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "frameworkIds": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "text": {
+          "type": "null"
+        }
+      }
+    },
+    "ui": {
+      "description": "Every label the wrappers render; text never lives in a template",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sections",
+        "nav",
+        "labels",
+        "binds",
+        "nature",
+        "status",
+        "kind"
+      ],
+      "properties": {
+        "sections": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "nav": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "binds": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "nature": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "status": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "kind": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "pages": {
+      "description": "Text of the plain pages published beside the app on the project site; text never lives in a template.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "privacy",
+        "support"
+      ],
+      "properties": {
+        "privacy": {
+          "$ref": "#/$defs/page"
+        },
+        "support": {
+          "$ref": "#/$defs/page"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "functionId": {
+      "enum": [
+        "GV",
+        "ID",
+        "PR",
+        "DE",
+        "RS",
+        "RC"
+      ]
+    },
+    "categoryCode": {
+      "type": "string",
+      "pattern": "^(GV|ID|PR|DE|RS|RC)\\.[A-Z]{2}$"
+    },
+    "isoDate": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "isoDateOrNull": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "looseDate": {
+      "description": "YYYY, YYYY-MM or YYYY-MM-DD, as precise as the primary allows",
+      "type": "string",
+      "pattern": "^[0-9]{4}(-[0-9]{2}(-[0-9]{2})?)?$"
+    },
+    "url": {
+      "type": "string",
+      "pattern": "^https://"
+    },
+    "prose": {
+      "type": "string",
+      "minLength": 1
+    },
+    "org": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "abbr",
+        "url"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "abbr": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "$ref": "#/$defs/url"
+        }
+      }
+    },
+    "verification": {
+      "description": "One of the four statuses: verified, unverified and conflict use verificationRecord; authored uses authoredRecord.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/verificationRecord"
+        },
+        {
+          "$ref": "#/$defs/authoredRecord"
+        }
+      ]
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "nature",
+        "binds",
+        "deadline",
+        "note",
+        "verification"
+      ],
+      "properties": {
+        "nature": {
+          "enum": [
+            "mandate",
+            "strategy",
+            "model",
+            "definition",
+            "catalog",
+            "overlay",
+            "assessment",
+            "guidance",
+            "service"
+          ]
+        },
+        "binds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "federal-civilian",
+              "dow-components",
+              "defense-contractors-cui",
+              "voluntary-all",
+              "adopters"
+            ]
+          }
+        },
+        "deadline": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "required": [
+            "text",
+            "sourceId"
+          ],
+          "properties": {
+            "text": {
+              "type": "string",
+              "minLength": 1
+            },
+            "sourceId": {
+              "$ref": "#/$defs/id"
+            }
+          }
+        },
+        "note": {
+          "$ref": "#/$defs/prose"
+        },
+        "verification": {
+          "$ref": "#/$defs/verification"
+        }
+      }
+    },
+    "document": {
+      "description": "One published document inside a multi-document entry (a guidance series, a strategy with its capabilities volume)",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "edition",
+        "date",
+        "url",
+        "verification"
+      ],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "date": {
+          "$ref": "#/$defs/looseDate"
+        },
+        "url": {
+          "$ref": "#/$defs/url"
+        },
+        "verification": {
+          "$ref": "#/$defs/verification"
+        },
+        "note": {
+          "type": "string"
+        },
+        "authors": {
+          "description": "Citation field only: the public authors of a public work, never rendered in prose",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "order",
+        "name",
+        "question",
+        "oneLiner",
+        "frameworkIds",
+        "isColumn"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "question": {
+          "$ref": "#/$defs/prose"
+        },
+        "oneLiner": {
+          "$ref": "#/$defs/prose"
+        },
+        "frameworkIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "isColumn": {
+          "type": "boolean"
+        }
+      }
+    },
+    "framework": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "layerId",
+        "name",
+        "shortName",
+        "oneLiner",
+        "answersQuestion",
+        "publisher",
+        "title",
+        "edition",
+        "date",
+        "url",
+        "verification",
+        "authority"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "layerId": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "shortName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "oneLiner": {
+          "$ref": "#/$defs/prose"
+        },
+        "answersQuestion": {
+          "$ref": "#/$defs/prose"
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "description": "as printed on the primary",
+          "type": "string",
+          "minLength": 1
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "date": {
+          "$ref": "#/$defs/looseDate"
+        },
+        "url": {
+          "$ref": "#/$defs/url"
+        },
+        "verification": {
+          "$ref": "#/$defs/verification"
+        },
+        "authority": {
+          "$ref": "#/$defs/authority"
+        },
+        "documents": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/document"
+          }
+        },
+        "note": {
+          "type": "string"
+        },
+        "authors": {
+          "description": "Citation field only: the public authors of a public work, never rendered in prose",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attributionRequired": {
+          "description": "true when the license requires attribution on reuse; a license field is then required",
+          "type": "boolean"
+        }
+      }
+    },
+    "source": {
+      "description": "A non-framework authority the doors cite (an executive order, a memo, a roadmap, a control baseline, a certification program)",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "shortName",
+        "oneLiner",
+        "role",
+        "publisher",
+        "title",
+        "edition",
+        "date",
+        "url",
+        "verification",
+        "authority"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "shortName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "oneLiner": {
+          "$ref": "#/$defs/prose"
+        },
+        "role": {
+          "description": "what the source does inside the doors",
+          "$ref": "#/$defs/prose"
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "date": {
+          "$ref": "#/$defs/looseDate"
+        },
+        "url": {
+          "$ref": "#/$defs/url"
+        },
+        "verification": {
+          "$ref": "#/$defs/verification"
+        },
+        "authority": {
+          "$ref": "#/$defs/authority"
+        },
+        "documents": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/document"
+          }
+        },
+        "note": {
+          "type": "string"
+        },
+        "authors": {
+          "description": "Citation field only: the public authors of a public work, never rendered in prose",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attributionRequired": {
+          "description": "true when the license requires attribution on reuse; a license field is then required",
+          "type": "boolean"
+        },
+        "layerId": {
+          "description": "Optional placement on the stack for a source that belongs to a layer without being a framework",
+          "$ref": "#/$defs/id"
+        }
+      }
+    },
+    "solution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "layerId",
+        "name",
+        "shortName",
+        "oneLiner",
+        "answersQuestion",
+        "publisher",
+        "title",
+        "edition",
+        "date",
+        "url",
+        "verification",
+        "authority",
+        "validatedAgainst",
+        "adopterResponsibilities"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "layerId": {
+          "description": "the layer whose activities the solution is measured against; solutions are never listed in a layer's frameworkIds",
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "shortName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "oneLiner": {
+          "$ref": "#/$defs/prose"
+        },
+        "answersQuestion": {
+          "$ref": "#/$defs/prose"
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "description": "as printed on the primary",
+          "type": "string",
+          "minLength": 1
+        },
+        "edition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "date": {
+          "$ref": "#/$defs/looseDate"
+        },
+        "url": {
+          "$ref": "#/$defs/url"
+        },
+        "verification": {
+          "$ref": "#/$defs/verification"
+        },
+        "authority": {
+          "$ref": "#/$defs/authority"
+        },
+        "documents": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/document"
+          }
+        },
+        "note": {
+          "type": "string"
+        },
+        "authors": {
+          "description": "Citation field only: the public authors of a public work, never rendered in prose",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1
+        },
+        "attributionRequired": {
+          "description": "true when the license requires attribution on reuse; a license field is then required",
+          "type": "boolean"
+        },
+        "validatedAgainst": {
+          "description": "the model the solution was validated against, what was validated, and when",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "entityId",
+            "scope",
+            "date",
+            "verification"
+          ],
+          "properties": {
+            "entityId": {
+              "$ref": "#/$defs/id"
+            },
+            "scope": {
+              "$ref": "#/$defs/prose"
+            },
+            "date": {
+              "$ref": "#/$defs/looseDate"
+            },
+            "verification": {
+              "$ref": "#/$defs/verification"
+            }
+          }
+        },
+        "adopterResponsibilities": {
+          "description": "what an organization that adopts the solution still owns, each statement with its own basis",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "text",
+              "verification"
+            ],
+            "properties": {
+              "text": {
+                "$ref": "#/$defs/prose"
+              },
+              "verification": {
+                "$ref": "#/$defs/verification"
+              }
+            }
+          }
+        }
+      },
+      "description": "An implementation vehicle validated against a maturity model: an enterprise service or product line that organizations adopt. Distinct from a framework, which defines or measures, and from a source, which directs."
+    },
+    "function": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "question",
+        "categories",
+        "ztLanding"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/functionId"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "question": {
+          "$ref": "#/$defs/prose"
+        },
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "code",
+              "name"
+            ],
+            "properties": {
+              "code": {
+                "$ref": "#/$defs/categoryCode"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "ztLanding": {
+          "description": "where zero trust lands in this function",
+          "$ref": "#/$defs/prose"
+        }
+      }
+    },
+    "pillar": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "dowName",
+        "cisaName",
+        "cisaKind",
+        "mapping"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dowName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "cisaName": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "cisaKind": {
+          "enum": [
+            "pillar",
+            "crossCutting",
+            null
+          ]
+        },
+        "mapping": {
+          "$ref": "#/$defs/prose"
+        },
+        "capabilities": {
+          "description": "The strategy's numbered capabilities for this pillar, id and name as printed in the capabilities document",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/capabilityId"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    "cell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pillarId",
+        "functionId",
+        "text",
+        "categories",
+        "verification"
+      ],
+      "properties": {
+        "pillarId": {
+          "$ref": "#/$defs/id"
+        },
+        "functionId": {
+          "$ref": "#/$defs/functionId"
+        },
+        "text": {
+          "$ref": "#/$defs/prose"
+        },
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/categoryCode"
+          }
+        },
+        "verification": {
+          "$ref": "#/$defs/verification"
+        },
+        "capabilityIds": {
+          "description": "The DoD Zero Trust Strategy's numbered capabilities the cell's text draws on, as printed in the capabilities document; required on every DoW-view cell, may be empty with a note when none applies",
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/capabilityId"
+          }
+        }
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "order",
+        "layerId",
+        "entityIds",
+        "text",
+        "verification"
+      ],
+      "properties": {
+        "order": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 7
+        },
+        "layerId": {
+          "$ref": "#/$defs/id"
+        },
+        "entityIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "text": {
+          "$ref": "#/$defs/prose"
+        },
+        "verification": {
+          "$ref": "#/$defs/authoredRecord"
+        }
+      }
+    },
+    "door": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "whoYouAre",
+        "steps",
+        "pillarView",
+        "paragraph",
+        "verification"
+      ],
+      "properties": {
+        "id": {
+          "enum": [
+            "federal-civilian",
+            "dow",
+            "defense-contractor",
+            "other"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "whoYouAre": {
+          "$ref": "#/$defs/prose"
+        },
+        "steps": {
+          "type": "array",
+          "maxItems": 7,
+          "items": {
+            "$ref": "#/$defs/step"
+          }
+        },
+        "pillarView": {
+          "enum": [
+            "cisa",
+            "dow",
+            null
+          ]
+        },
+        "paragraph": {
+          "description": "used only by the one-paragraph door",
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "verification": {
+          "description": "Covers whoYouAre and paragraph; the steps carry their own records",
+          "$ref": "#/$defs/authoredRecord"
+        },
+        "landings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/landing"
+          }
+        }
+      }
+    },
+    "helperEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "question",
+        "answer",
+        "layerId",
+        "entityIds",
+        "verification"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "question": {
+          "$ref": "#/$defs/prose"
+        },
+        "answer": {
+          "$ref": "#/$defs/prose"
+        },
+        "layerId": {
+          "$ref": "#/$defs/id"
+        },
+        "entityIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "verification": {
+          "$ref": "#/$defs/authoredRecord"
+        }
+      }
+    },
+    "verificationRecord": {
+      "description": "A checked claim. verified = the primary URL was fetched on the verifiedOn date and title, edition and date match; unverified = the primary could not be reached, and the note records every URL tried; conflict = a mismatch with both values in the note. recheckAfter marks a fact expected to change.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "verifiedOn",
+        "method",
+        "note"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "verified",
+            "unverified",
+            "conflict"
+          ]
+        },
+        "verifiedOn": {
+          "$ref": "#/$defs/isoDateOrNull"
+        },
+        "method": {
+          "enum": [
+            "primary-fetch",
+            "none"
+          ]
+        },
+        "note": {
+          "type": "string"
+        },
+        "recheckAfter": {
+          "$ref": "#/$defs/isoDateOrNull"
+        }
+      }
+    },
+    "authoredRecord": {
+      "description": "The owner's synthesis with a cited basis: matrix cells, door text, helper answers, the SOC Profile rows. basisIds name the framework and source entries the text draws on.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "verifiedOn",
+        "method",
+        "basisIds",
+        "note"
+      ],
+      "properties": {
+        "status": {
+          "const": "authored"
+        },
+        "verifiedOn": {
+          "type": "null"
+        },
+        "method": {
+          "const": "synthesis"
+        },
+        "basisIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "landing": {
+      "description": "A short labeled paragraph inside a door for a reader class the door's steps do not cover (at most four sentences)",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "label",
+        "text",
+        "entityIds",
+        "verification"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "$ref": "#/$defs/prose"
+        },
+        "entityIds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "verification": {
+          "$ref": "#/$defs/authoredRecord"
+        }
+      }
+    },
+    "capabilityId": {
+      "type": "string",
+      "pattern": "^[1-7]\\.[0-9]{1,2}$"
+    },
+    "office": {
+      "description": "An office that the content names by role; its name and abbreviation as printed on the publisher's documents",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "abbr",
+        "url",
+        "established",
+        "role",
+        "verification"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "abbr": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "$ref": "#/$defs/url"
+        },
+        "established": {
+          "$ref": "#/$defs/prose"
+        },
+        "role": {
+          "$ref": "#/$defs/prose"
+        },
+        "verification": {
+          "$ref": "#/$defs/verification"
+        }
+      }
+    },
+    "glossaryEntry": {
+      "description": "One abbreviation or term the rendered app uses. forms are the spellings to match in rendered text (a prefix entry, such as FY, may be followed by digits); expansion is the spelled-out form as the publisher prints it, or null for a term that is not an abbreviation; notAbbreviation marks a name that its publisher never spells out, such as MITRE or the MIT License, which is matched and linked but never expanded, so its expansion is null; oneLine is a plain sentence for a reader outside federal cybersecurity.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "term",
+        "forms",
+        "expansion",
+        "oneLine",
+        "entityIds",
+        "verification"
+      ],
+      "properties": {
+        "term": {
+          "type": "string",
+          "minLength": 1
+        },
+        "forms": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "prefix": {
+          "type": "boolean"
+        },
+        "notAbbreviation": {
+          "type": "boolean"
+        },
+        "expansion": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "oneLine": {
+          "$ref": "#/$defs/prose"
+        },
+        "entityIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "verification": {
+          "$ref": "#/$defs/verification"
+        }
+      }
+    },
+    "license": {
+      "description": "One license that applies to part of the repository: its name as the publisher prints it, its SPDX identifier, the file that holds its text, the publisher's page, and what it covers.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "spdx",
+        "file",
+        "url",
+        "covers"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/prose"
+        },
+        "spdx": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9.-]+$"
+        },
+        "file": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "$ref": "#/$defs/url"
+        },
+        "covers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/prose"
+          }
+        }
+      }
+    },
+    "page": {
+      "description": "One plain page published beside the app (privacy policy, support): its title, a one-sentence description for the page's metadata, and its paragraphs. Web addresses in a paragraph render as links; the builder adds dates and the content version from meta.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "title",
+        "description",
+        "paragraphs"
+      ],
+      "properties": {
+        "title": {
+          "$ref": "#/$defs/prose"
+        },
+        "description": {
+          "$ref": "#/$defs/prose"
+        },
+        "paragraphs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/prose"
+          }
+        }
+      }
+    }
+  }
+}
