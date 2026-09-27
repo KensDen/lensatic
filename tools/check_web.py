@@ -74,7 +74,14 @@ LICENCE_ABOUT = ("Most of the frameworks Lensatic describes are United States go
                  "are licensed under the SIL Open Font License (OFL), version 1.1. Where a cited work is protected, its title, names and "
                  "any short quotation remain its owner's, and the work itself is described, not reproduced.")
 LICENCE_SUPPORT = "To ask about reusing Lensatic's code or text, open an issue on the same page."
+# the owner's ruling of 27 Sep 2026 (session 7D): these terms, and only these, are marked wellKnown in the glossary and
+# never spelled out on any built page; the guard reads this pin, not the content flag, so dropping the flag fails it
+WELL_KNOWN = {"AI": "artificial intelligence"}
 ISSUES_URL = "https://github.com/kensden/lensatic/issues"
+# the one image element the page may hold: the maker's photo in About, embedded (session 7D); the photo check below
+# decodes it against the pinned file, and any other <img> or src still fails the resource check
+PHOTO = ROOT / "web" / "src" / "about-photo.jpg"
+PHOTO_IMG_RE = re.compile(r'<img class="name-photo" src="data:image/jpeg;base64,([A-Za-z0-9+/=]+)" alt="([^"<>]*)" width="(\d+)" height="(\d+)">')
 EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
 BUILD = ROOT / "tools" / "build_web.py"
 DOM_CHECK = ROOT / "tools" / "dom_check.mjs"
@@ -288,12 +295,13 @@ def expected_items(d: dict) -> tuple[dict[str, list[str]], dict[str, int]]:
     items["elevator"] = x(*[ents[i]["oneLiner"] for i in d["elevator"]["frameworkIds"]])
     L = d["ui"]["labels"]
     # the front door (Session 7): the description, the eyebrow line and the two buttons
-    items["intro"] = x(d["meta"]["description"], L["heroEyebrow"], L["heroPrimary"], L["heroSecondary"])
+    items["intro"] = x(d["meta"]["description"], L["heroEyebrow"], L["heroPrimary"], L["heroSecondary"], L.get("whyName"))
     # the intro texts that moved (Session 7, section 4.4): the audience line, the plain definition of zero trust and the
     # note on steps and layer tags open and close the doors section; the department's note moved to About
     items["view-doors"] = x(L["audience"], L["ztPlain"], L["doorsIntro"])
     items["about-body"] = x(d["meta"]["about"]["notAffiliated"], d["meta"]["about"]["offline"], d["meta"]["about"].get("licensing"),
-                            dow["statusNote"], L["dowNote"], d["meta"]["about"]["builtWith"])
+                            dow["statusNote"], L["dowNote"], d["meta"]["about"]["builtWith"], L.get("whyNameHeading"),
+                            *d["meta"]["about"].get("nameStory", []))
     items["footer"] = x(L["footerLicenses"], L["pagesPrivacy"], L["pagesSupport"], L["sourceCode"])
     return items, counts
 
@@ -354,6 +362,7 @@ def resource_errors(text: str) -> list[str]:
     check decodes each one against the pinned faces."""
     errs = []
     text = FONT_FACE_RE.sub("@font-face { embedded }", text)
+    text = PHOTO_IMG_RE.sub('<span class="name-photo"></span>', text)
     tree = parse(text)
     for tag, attrs in tree.starts:
         if tag == "link" and set(attrs) == {"rel", "href"} and attrs["rel"] == "icon":
@@ -505,6 +514,35 @@ def contrast_report() -> tuple[list[str], list[tuple[str, str, str, float, float
     return errs, rows, info
 
 
+# --------------------------------------------------------------------------- well-known terms (Session 7D)
+def first_links(section: Node, forms_rx: re.Pattern, by_form: dict, slug_of) -> dict[str, bool]:
+    """For each well-known term used in a section's running text, whether its first use there links to its glossary
+    entry. Labels, hidden text and the skipped classes are not running text. A use inside a link, button or summary
+    counts as linked, since a link cannot nest there, and so does a glossary entry's own term."""
+    found: dict[str, bool] = {}
+
+    def walk(n: Node, anc: list[Node]) -> None:
+        if (n.tag in SKIP or "hidden" in n.attrs or n.attrs.get("aria-hidden") == "true" or is_label(n)
+                or classes_of(n) & {"url", "pillar-label", "caps", "xp"}):
+            return
+        for c in n.children:
+            if not isinstance(c, str):
+                walk(c, anc + [n])
+                continue
+            for m in forms_rx.finditer(c):
+                e = by_form[m.group(0)]
+                if not e.get("wellKnown") or e["term"] in found:
+                    continue
+                chain = anc + [n]
+                link = next((a for a in reversed(chain) if a.tag == "a"), None)
+                if link is not None and "gl" in classes_of(link):
+                    found[e["term"]] = link.attrs.get("href") == f"#gl-{slug_of(e['term'])}"
+                else:
+                    found[e["term"]] = any(a.tag in ("a", "button", "summary") or "gl-term" in classes_of(a) for a in chain)
+    walk(section, [])
+    return found
+
+
 # --------------------------------------------------------------------------- labels (Session 7, section 4.9)
 def label_errors(tree: Tree, forms_rx: re.Pattern, by_form: dict, slug_of) -> tuple[list[str], dict]:
     """Labels carry no expansion; each abbreviation in a label links to its glossary entry, described by the expansion, or
@@ -529,7 +567,7 @@ def label_errors(tree: Tree, forms_rx: re.Pattern, by_form: dict, slug_of) -> tu
                 for m in forms_rx.finditer(c):
                     e = by_form[m.group(0)]
                     stats["uses"] += 1
-                    ids = [] if (e.get("notAbbreviation") or not e["expansion"]) else [f"glx-{slug_of(e['term'])}"]
+                    ids = [] if (e.get("notAbbreviation") or e.get("wellKnown") or not e["expansion"]) else [f"glx-{slug_of(e['term'])}"]
                     if e.get("prefix"):
                         after_ = c[m.end():]
                         if n.tag == "a" and "gl" in classes_of(n) and n.parent is not None and m.end() == len(c):
@@ -538,7 +576,7 @@ def label_errors(tree: Tree, forms_rx: re.Pattern, by_form: dict, slug_of) -> tu
                             after_ = nxt if isinstance(nxt, str) else ""
                         des = re.match(r"(?:/([A-Z][A-Za-z]+))?\s?\d+(?:[-/:]\d+)*", after_)
                         inner = by_form.get(des.group(1) or "") if des else None
-                        if inner and inner["expansion"] and not inner.get("notAbbreviation"):
+                        if inner and inner["expansion"] and not inner.get("notAbbreviation") and not inner.get("wellKnown"):
                             ids.append(f"glx-{slug_of(inner['term'])}")
                     if n.tag == "a" and "gl" in classes_of(n):
                         stats["linked"] += 1
@@ -756,8 +794,23 @@ def main() -> int:
             errs.append(f"front door buttons are {got}, expected the primary to the doors and the secondary to the stack")
         if not norm(text_of(stamp)).startswith(f'{L["contentVersion"]} {d["meta"]["contentVersion"]}, {L["checkedThrough"]} '):
             errs.append("front door: the version line does not give the content version and the check date")
+        # Session 7D: the version line holds its link to About and exactly one more, Why the name?, to the heading in About
+        parts_ = [c for c in stamp.children if not (isinstance(c, str) and not c)]
+        links_ = [(c.tag, c.attrs.get("href"), norm(text_of(c))) for c in parts_ if not isinstance(c, str)]
+        middle = re.escape(f', {L["checkedThrough"]} ') + r"\d{1,2} [A-Z][a-z]{2} \d{4}" + re.escape(L["metaSeparator"])
+        if [(t_, h_) for t_, h_, _ in links_] != [("a", "#view-about"), ("a", "#about-name")] or links_[1][2] != norm(L["whyName"]):
+            errs.append(f"front door: the version line holds {links_}, expected the link to About and one link {L['whyName']!r} to #about-name")
+        elif (len(parts_) != 3 or not isinstance(parts_[1], str)
+              or not re.fullmatch(middle, htmllib.unescape(parts_[1]))):
+            errs.append(f"front door: between its two links the version line must read exactly ', {L['checkedThrough']} <date>{L['metaSeparator']}', "
+                        f"and hold nothing else; it holds {[p_ if isinstance(p_, str) else '<' + p_.tag + '>' for p_ in parts_]}")
+        target = atree_b.ids.get("about-name") or []
+        about_ = (atree_b.ids.get("view-about") or [None])[0]
+        if (len(target) != 1 or target[0].tag != "h3" or norm(text_of(target[0])) != norm(L["whyNameHeading"])
+                or about_ is None or target[0] not in list(walk_nodes(about_))):
+            errs.append("front door: #about-name is not one h3 in About reading ui.labels.whyNameHeading")
     rep.check("front door: exactly the tile, the eyebrow line, the name, the description, the two buttons (to the doors and to the stack) "
-              "and the version line, in that order", errs)
+              "and the version line, in that order; the version line ends with one link, Why the name, to its heading in About", errs)
 
     errs = []
     orders = {x["id"]: x["order"] for x in d["layers"]}
@@ -843,6 +896,40 @@ def main() -> int:
     rep.check("social card: docs/ holds exactly one image, social-card.png, byte for byte the committed source, 1200 x 630; og:url and "
               "og:image are absolute https addresses on the published site; the preview tags come from content", errs, size_)
 
+    # the About photo (Session 7D, section 4.4): embedded exactly once, in About, as a data: URI that decodes to the pinned
+    # file, with no metadata, its alt text from content and its true size; the plain pages hold no image
+    errs, detail = [], ""
+    found = PHOTO_IMG_RE.findall(rest)
+    if len(found) != 1 or rest.count("<img") != 1:
+        errs.append(f"the page holds {rest.count('<img')} <img> element(s) and {len(found)} embedded photo(s), expected exactly one of each")
+    else:
+        b64, alt, w_, h_ = found[0]
+        data = base64.b64decode(b64)
+        if not PHOTO.is_file() or data != PHOTO.read_bytes():
+            errs.append("the embedded photo does not decode to web/src/about-photo.jpg byte for byte")
+        if hashlib.sha256(data).hexdigest() != V.ABOUT_PHOTO_SHA256:
+            errs.append("the embedded photo is not the pinned file (SHA-256)")
+        try:
+            segs, (w, h) = V.jpeg_segments(data)
+            meta_ = [x for x in segs if x.startswith("APP") or x == "COM"]
+            if meta_:
+                errs.append(f"the embedded photo carries metadata segments: {' '.join(meta_)}")
+            if (int(w_), int(h_)) != (w, h):
+                errs.append(f"the photo's width and height attributes are {w_} x {h_}, the image is {w} x {h}")
+            detail = f"{w} x {h}, {len(data)} bytes embedded as {len(b64)} base64 characters"
+        except ValueError as exc:
+            errs.append(f"the embedded photo does not decode as a JPEG: {exc}")
+        if htmllib.unescape(alt) != d["ui"]["labels"].get("aboutPhotoAlt"):
+            errs.append("the photo's alt text is not ui.labels.aboutPhotoAlt")
+        about_ = (atree_b.ids.get("view-about") or [None])[0]
+        if about_ is None or not any("name-photo" in classes_of(n_) for n_ in walk_nodes(about_)):
+            errs.append("the photo is not in About")
+    for key, page in pages_text.items():
+        if "<img" in page:
+            errs.append(f"{key}: holds an image")
+    rep.check("about photo: embedded exactly once, in About, as a data: URI that decodes to the pinned web/src/about-photo.jpg, no metadata, "
+              "alt text from content, true width and height; no image on the plain pages", errs, detail)
+
     errs = []
     for f in sorted(DOCS.rglob("*")) if DOCS.is_dir() else []:
         if f.is_file():
@@ -878,7 +965,8 @@ def main() -> int:
     # id skeleton: Node script when available, Python fallback otherwise
     items, counts = expected_items(d)
     expected = sorted(set(list(items) + [f"view-{s}" for s in ("doors", "stack", "matrix", "functions", "ai", "helper", "sources", "about")] +
-                          ["table-dow", "table-cisa", "matrix-dow", "matrix-cisa", "nav", "theme-toggle", "to-top", "matrix-control", "expand-all"]))
+                          ["table-dow", "table-cisa", "matrix-dow", "matrix-cisa", "nav", "theme-toggle", "to-top", "matrix-control", "expand-all",
+                           "about-name"]))
     if node and DOM_CHECK.exists():
         proc = subprocess.run([node, str(DOM_CHECK), str(HTML)], input="\n".join(expected), capture_output=True, text=True)
         missing = [l for l in proc.stdout.splitlines() if l.startswith("MISSING")]
@@ -936,7 +1024,7 @@ def main() -> int:
         tokr = lambda v: re.sub(r"\{\{\s*dow(?:\.([A-Za-z]+))?\s*\}\}", lambda m: str(dow.get(m.group(1), "")) if m.group(1) else dow["abbr"], v or "")
         entries = [{"term": tokr(g["term"]), "expansion": tokr(g.get("expansion")) if g.get("expansion") else "",
                     "forms": [tokr(f) for f in g.get("forms", [])], "prefix": g.get("prefix", False),
-                    "notAbbreviation": g.get("notAbbreviation", False)} for g in gl]
+                    "notAbbreviation": g.get("notAbbreviation", False), "wellKnown": g.get("wellKnown", False)} for g in gl]
         by_form = {f: e for e in entries for f in e["forms"]}
         def alts(forms):
             return "|".join(re.escape(f) for f in sorted(forms, key=len, reverse=True))
@@ -992,6 +1080,8 @@ def main() -> int:
             for term, (a_, b_, e) in first.items():
                 if not e["expansion"]:
                     continue  # a name such as MITRE, or a term with no abbreviation
+                if e["wellKnown"]:
+                    continue  # a term every reader knows, such as AI: linked, never spelled out (checked below)
                 n_first += 1
                 exp = e["expansion"].lower()
                 if own.get(term, "").lower() == exp:
@@ -1037,6 +1127,31 @@ def main() -> int:
         rep.check("labels: no expansion inserted inside any label; each abbreviation in a label links to its glossary entry described by the expansion, "
                   "or its link, button or summary is described by it; every description resolves to the glossary", errs_lab,
                   f"{st['labels']} labels, {st['uses']} abbreviation uses: {st['linked']} linked, {st['described']} described by their control")
+        # well-known terms (Session 7D): linked to the glossary, never spelled out, in any built page
+        errs_wk, n_wk = [], 0
+        marked = {e["term"]: e["expansion"] for e in entries if e["wellKnown"]}
+        if marked != WELL_KNOWN:
+            errs_wk.append(f"glossary entries marked wellKnown are {marked}, expected {WELL_KNOWN}")
+        built_pages = {"web/lensatic.html": full}
+        built_pages.update({f"docs/{f}": (DOCS / f).read_text(encoding="utf-8") for f in ("index.html", "privacy.html", "support.html")
+                            if (DOCS / f).is_file()})
+        for expansion in WELL_KNOWN.values():
+            for o, c in (("(", ")"), ("[", "]")):
+                probe = f"{o}{expansion}{c}"
+                for where, text in built_pages.items():
+                    k = htmllib.unescape(text).lower().count(probe.lower())
+                    if k:
+                        errs_wk.append(f"{where}: {probe!r} appears {k} time{'s' if k != 1 else ''}")
+        for name, node_ in chunks:
+            if name in ("header", "footer"):
+                continue
+            for term, ok in first_links(node_, forms_rx, by_form, B.slug).items():
+                n_wk += 1
+                if not ok:
+                    errs_wk.append(f"{name}: the first use of {term!r} in running text is not a link to its glossary entry")
+        rep.check(f"well-known terms: only {', '.join(WELL_KNOWN)} marked; never spelled out, no parenthetical expansion in any built page; "
+                  "the first use in running text in each section links to the glossary entry", errs_wk,
+                  f"{len(built_pages)} pages, {n_wk} first uses checked")
 
     # layout, in a real engine
     errs = []
