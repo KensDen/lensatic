@@ -1,0 +1,49 @@
+/* The plain pages beside the app (privacy policy, support). No script, no images, no network. The four faces and the
+   theme tokens above this block come from the build and the top of styles.css, so the pages share the app's type,
+   its paper and dial themes (through prefers-color-scheme), its reading column, header brand and footer. */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; background: var(--bg); }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+a.url { overflow-wrap: anywhere; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+abbr { text-decoration: underline dotted; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.top { border-bottom: 1px solid var(--line); background: var(--bg); }
+.top-in { display: flex; align-items: center; max-width: 70rem; height: var(--nav-h); margin: 0 auto; padding: 0 var(--gutter); }
+.brand { display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; color: var(--accent); text-decoration: none; }
+.mark { display: block; flex: 0 0 auto; }
+.wordmark { font-weight: 700; font-size: 1.0625rem; color: var(--fg); }
+main { max-width: calc(44em + 2 * var(--gutter)); margin: 0 auto; padding: 2.5rem var(--gutter) 1rem; }
+h1 { font-size: 2.25rem; line-height: 1.15; margin: 0 0 0.5rem; letter-spacing: -0.01em; }
+p { margin: 0 0 0.9rem; }
+.small { font-family: var(--mono); font-size: 0.78125rem; color: var(--fg-2); }
+.xp { color: var(--fg-2); }
+.kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.25rem 1rem; margin: 1.25rem 0; padding: 1rem 1.25rem; background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; }
+.kv dt { color: var(--fg-2); }
+.kv dd { margin: 0; }
+.foot { margin-top: 3rem; border-top: 1px solid var(--line); font-size: 0.875rem; color: var(--fg-2); }
+.foot-in { max-width: calc(44em + 2 * var(--gutter)); margin: 0 auto; padding: 1.5rem var(--gutter) 2.5rem; }
+.foot p { margin: 0 0 0.375rem; }
+.foot-lic abbr { color: var(--fg); }
+.foot-nav { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
+.foot-nav a { display: inline-flex; align-items: center; min-height: 44px; }
+.foot-nav a[aria-current="page"] { color: var(--fg); font-weight: 700; text-decoration: none; }
+@media (max-width: 639.98px) {
+  :root { --gutter: 16px; }
+  h1 { font-size: 1.875rem; }
+  main { padding-top: 1.75rem; }
+  .kv { grid-template-columns: minmax(0, 1fr); gap: 0 1rem; }
+  .kv dd { margin-bottom: 0.35rem; }
+}
+@media print {
+  :root, :root:not([data-theme="light"]) { --bg: #fff; --bg-2: #fff; --fg: #000; --fg-2: #333; --line: #777; --line-strong: #777; --link: #000; --accent: #000; color-scheme: light; }
+  .foot-nav a[href^="http"]::after { content: " (" attr(href) ")"; }
+}

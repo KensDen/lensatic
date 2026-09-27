@@ -1,0 +1,23 @@
+# OS junk
+.DS_Store
+._*
+Thumbs.db
+Desktop.ini
+
+# Python
+*.pyc
+__pycache__/
+.venv/
+
+# build output
+.tmp/
+ios/build/
+web/dist/
+
+# local working history: never committed (amendment, 9 Sep 2026)
+handoffs/
+
+# hand-made sweep-term files: local only, never committed
+content/_sweep.txt
+tools/sweep.txt
+tools/sweep_source.json
