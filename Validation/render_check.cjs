@@ -12,6 +12,8 @@
  *   - CSV export = header + 85 rows; Markdown export = 85 bullets
  *   - search returns results; ArrowDown/Enter selects and navigates
  *   - every tab renders each of its body headings exactly once (P14, Round I)
+ *   - every embedded poster fits its frame at 1280 px, after a resize to 390 px and after the resize back,
+ *     with no reload, and the frames hold still (Round M)
  *   - zero console errors, zero page errors throughout
  */
 const path = require('path');
@@ -211,6 +213,68 @@ const TABS = ['overview', 'dualuse', 'humancommand', 'aiessentials', 'foundation
       bad.length ? `${bad.length} not once: ${bad.slice(0, 4).join(' | ')}${bad.length > 4 ? ' | ...' : ''}` : '');
   }
 
+
+  /* ---- embedded posters follow window resizes (Round M): every srcDoc poster's frame must fit its poster on
+   * load at 1280 px, after the window goes to 390 px and after it comes back, with no reload. The posters and their
+   * home tabs come from the built HTML (each iframe title under the nearest tab gate before it, as embed_check reads
+   * them, with the payload's \\u escapes decoded). A poster fits when its own content height (the root element's
+   * box, or the body's scroll height plus its margins) is at most half a pixel over its frame's height (not clipped)
+   * and at most a pixel and a half under it (not left tall after a shrink). Each width waits up to 4 s for every
+   * poster to fit and then for two samples in a row to agree; the frames must then hold still over two more
+   * samples, so a layout loop fails too. ---- */
+  {
+    const src = fs.readFileSync(HTML, 'utf-8');
+    const gates = [...src.matchAll(/active === "(\w+)"/g)].map((m) => [m.index, m[1]]);
+    const byTab = {};
+    for (const m of src.matchAll(/title:\s*"([^"]+)",\s*scrolling/g)) {
+      const g = gates.filter(([i]) => i < m.index).pop();
+      if (g) (byTab[g[1]] = byTab[g[1]] || []).push(m[1].replace(/\\u([0-9a-fA-F]{4})/g, (x, h) => String.fromCharCode(parseInt(h, 16))));
+    }
+    const expected = Object.values(byTab).reduce((n, t) => n + t.length, 0);
+    const fitAll = (titles) => page.evaluate(async (titles) => {
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+      const measure = () => titles.map((t) => {
+        const f = [...document.querySelectorAll('iframe')].find((i) => i.title === t);
+        const d = f && f.contentDocument;
+        if (!d || !d.body) return { t, missing: true };
+        const cs = d.defaultView.getComputedStyle(d.body);
+        const content = Math.max(d.documentElement.getBoundingClientRect().height, d.body.scrollHeight + parseFloat(cs.marginTop) + parseFloat(cs.marginBottom));
+        const frame = f.getBoundingClientRect().height;
+        return { t, content: Math.round(content), frame: Math.round(frame), clipped: content > frame + 0.5, loose: frame - content > 1.5 };
+      });
+      const same = (a, b) => a.every((x, k) => !x.missing && !b[k].missing && x.frame === b[k].frame);
+      let prev = measure(), m = prev;
+      for (let i = 0; i < 40; i++) {
+        await sleep(100); m = measure();
+        if (m.every((x) => !x.missing && !x.clipped && !x.loose) && same(m, prev)) break;
+        prev = m;
+      }
+      await sleep(150); const m2 = measure(); await sleep(150); const m3 = measure();
+      return { rows: m3, still: same(m3, m2) && same(m2, m) };
+    }, titles);
+    const clipped = [], moving = [];
+    let measured = 0;
+    for (const [tab, titles] of Object.entries(byTab)) {
+      await page.setViewport({ width: 1280, height: 900 });
+      await page.goto('about:blank');
+      await page.goto('file://' + HTML + '#' + tab, { waitUntil: 'load', timeout: 60000 });
+      await page.waitForFunction((n) => {
+        const f = [...document.querySelectorAll('iframe')];
+        return f.length >= n && f.every((i) => i.contentDocument && i.contentDocument.readyState === 'complete' && i.contentDocument.body);
+      }, { timeout: 30000 }, titles.length);
+      for (const [w, h] of [[1280, 900], [390, 844], [1280, 900]]) {
+        await page.setViewport({ width: w, height: h });
+        const r = await fitAll(titles);
+        measured += r.rows.filter((x) => !x.missing).length;
+        for (const x of r.rows) if (x.missing || x.clipped || x.loose) clipped.push(`${x.t.slice(0, 32)} @${w}: ${x.missing ? 'missing' : `frame ${x.frame}, content ${x.content}`}`);
+        if (!r.still) moving.push(`${tab} @${w}`);
+      }
+    }
+    await page.setViewport({ width: 1280, height: 900 });
+    check(`embedded posters fit after resizes (${expected} in ${Object.keys(byTab).length} tabs, 1280/390/1280)`,
+      expected > 0 && measured === expected * 3 && clipped.length === 0 && moving.length === 0,
+      clipped.length || moving.length ? [...clipped.slice(0, 3), ...moving.slice(0, 3).map((x) => 'still moving: ' + x)].join(' | ') : `${measured} fits measured, none clipped or left tall`);
+  }
 
   /* ---- theme pass (R37): both themes execute; prefers-color-scheme honored; toggle round-trips ---- */
   await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'dark' }]);

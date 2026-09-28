@@ -1771,7 +1771,7 @@ const content = {
       },
       {
         name: "Microsoft MDASH & MAI", icon: "🏗️", url: "https://www.microsoft.com/en-us/security/blog/2026/06/17/beyond-the-benchmark-advancing-security-at-ai-speed/",
-        summary: "Microsoft AI (MAI), led by Mustafa Suleyman, builds the MAI model family (Build 2026). MDASH (codename), Microsoft Security's multi-model agentic scanning system, runs a Prepare→Scan→Validate→Dedupe→Prove pipeline of specialized agents to discover, validate, and prove software vulnerabilities end-to-end, routing findings into GitHub Advanced Security, Azure DevOps, and Defender as a closed discover→validate→prove→fix loop. Now in production across Windows, Azure, and identity systems, and in preview in Azure Government for select US government customers since September 8, 2026; scored 96.5% (any crash, by June 17, 2026) on the 1,507-vulnerability CyberGym benchmark, and its June 2026 Patch Tuesday cohort included two CVSS 9.8 RCEs (Windows kernel, HTTP.sys). Led by Taesoo Kim (VP, Agentic Security); the stated principle is that the model is one input — the system around it is the product.",
+        summary: "Microsoft AI (MAI), led by Mustafa Suleyman, builds the MAI model family (Build 2026). MDASH (codename), Microsoft Security's multi-model agentic scanning system, runs a Prepare→Scan→Validate→Dedupe→Prove pipeline of specialized agents to discover, validate, and prove software vulnerabilities end-to-end, routing findings into GitHub Advanced Security, Azure DevOps, and Defender as a closed discover→validate→prove→fix loop. Now in production across Windows, Azure, and identity systems, and in preview in Azure Government for select US government customers and authorized partners since September 8, 2026; scored 96.5% (any crash, by June 17, 2026) on the 1,507-vulnerability CyberGym benchmark, and its June 2026 Patch Tuesday cohort included two CVSS 9.8 RCEs (Windows kernel, HTTP.sys). Led by Taesoo Kim (VP, Agentic Security); the stated principle is that the model is one input — the system around it is the product.",
         items: [
           { name: "Prepare→Scan→Validate→Dedupe→Prove", use: "A pipeline of specialized agents that discovers, validates, and proves software vulnerabilities end-to-end" },
           { name: "96.5% on CyberGym", use: "Any-crash score on the 1,507-vulnerability benchmark; now in production across Windows, Azure, and identity systems, and in preview in Azure Government since September 2026" },
@@ -3209,6 +3209,49 @@ const highlightMatch = (text, q) => {
     </Fragment>
   );
 };
+/* ---- embedded posters: fit each frame to its poster, on load and whenever the window or the poster's own
+ * document changes size. The height is the poster's own content height (its root element's box, or its body's
+ * scroll height plus margins), not scrollHeight, which never drops below the frame's current height; so a frame
+ * shrinks as well as grows. One observer watches the frame element in this window, whose width follows the window
+ * and which the browser keeps rendering even off screen; one watches the poster's root element (reflow, late
+ * fonts). A change waits for the next animation frame and is skipped under one pixel, so a resize settles in one
+ * pass and cannot loop. A removed frame or a replaced document stops its observers. ---- */
+const fitFrame = (e) => {
+  const frame = e.currentTarget;
+  let doc = null;
+  try { doc = frame.contentDocument; } catch (err) { return; }
+  if (!doc || !doc.documentElement || !doc.body || doc.__fitFrame) return;
+  doc.__fitFrame = true;
+  const win = doc.defaultView;
+  const observers = [];
+  const stop = () => { observers.forEach((o) => o.disconnect()); observers.length = 0; };
+  const fit = () => {
+    try {
+      if (!frame.isConnected || frame.contentDocument !== doc) { stop(); return; }
+      const cs = win.getComputedStyle(doc.body);
+      const h = Math.ceil(Math.max(doc.documentElement.getBoundingClientRect().height,
+        doc.body.scrollHeight + parseFloat(cs.marginTop) + parseFloat(cs.marginBottom)));
+      if (h > 0 && Math.abs(h - frame.getBoundingClientRect().height) >= 1) frame.style.height = h + "px";
+    } catch (err) { stop(); }
+  };
+  let queued = false;
+  const queue = () => {
+    if (queued) return;
+    queued = true;
+    window.requestAnimationFrame(() => { queued = false; fit(); });
+  };
+  fit();
+  if (typeof ResizeObserver === "function") {
+    const outer = new ResizeObserver(queue);
+    outer.observe(frame);
+    observers.push(outer);
+  }
+  if (win && typeof win.ResizeObserver === "function") {
+    const inner = new win.ResizeObserver(queue);
+    inner.observe(doc.documentElement);
+    observers.push(inner);
+  }
+};
 
 export default function App() {
   const [active, setActive] = useState("overview");
@@ -3708,7 +3751,7 @@ export default function App() {
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 5 }}>
           <img src={EMBLEM_SRC} alt="APT_UNICORN emblem" style={{ width: 28, height: 28, borderRadius: 6, objectFit: "cover", flexShrink: 0, boxShadow: `0 0 0 1px color-mix(in srgb, ${palette.accent} 30%, transparent)` }} />
           <span style={{ fontSize: 15, fontWeight: 700, color: palette.text, letterSpacing: "-0.01em", whiteSpace: "nowrap" }}>Agentic SecOps</span>
-          <span style={{ fontSize: 11, fontWeight: 700, color: palette.brand, border: `1px solid color-mix(in srgb, ${palette.brand} 33%, transparent)`, background: `color-mix(in srgb, ${palette.brand} 7%, transparent)`, padding: "1px 7px", borderRadius: 8, letterSpacing: "0.1em", marginLeft: "auto" }}>v5.0</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: palette.brand, border: `1px solid color-mix(in srgb, ${palette.brand} 33%, transparent)`, background: `color-mix(in srgb, ${palette.brand} 7%, transparent)`, padding: "1px 7px", borderRadius: 8, letterSpacing: "0.1em", marginLeft: "auto" }}>v5.1</span>
           <button onClick={toggleTheme} aria-label="Toggle color theme" title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             style={{ background: "transparent", border: `1px solid ${palette.border}`, color: palette.muted, borderRadius: 8, padding: "1px 8px", fontSize: 14, lineHeight: 1.5, cursor: "pointer", fontFamily: "inherit" }}>{theme === "dark" ? "\u2600" : "\u263E"}</button>
         </div>
@@ -3839,7 +3882,7 @@ export default function App() {
 
             {active === "overview" && (
               <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg, marginTop: 14 }}>
-                <iframe title="Same Horsepower, Two Outcomes" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+                <iframe title="Same Horsepower, Two Outcomes" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -4076,7 +4119,7 @@ export default function App() {
         {/* MAESTRO seven-layer */}
         {active === "threatmodel" && (
           <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg, marginTop: 14 }}>
-            <iframe title="MAESTRO seven-layer reference model" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+            <iframe title="MAESTRO seven-layer reference model" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -4181,7 +4224,7 @@ export default function App() {
         {/* CJS severity spectrum */}
         {active === "threatmodel" && (
           <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg, marginTop: 14 }}>
-            <iframe title="Cyber Jailbreak Severity spectrum" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+            <iframe title="Cyber Jailbreak Severity spectrum" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -4293,7 +4336,7 @@ export default function App() {
         )}
         {active === "threatmodel" && (
           <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg, marginTop: 14 }}>
-            <iframe title="One Operator, a Cast of Agents" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+            <iframe title="One Operator, a Cast of Agents" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -4402,7 +4445,7 @@ export default function App() {
         )}
         {active === "otics" && (
           <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg, marginTop: 14 }}>
-            <iframe title="Zero Trust for Operational Technology" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+            <iframe title="Zero Trust for Operational Technology" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -4514,7 +4557,7 @@ export default function App() {
         {/* Outcome-based org chart */}
         {active === "program" && (
           <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg, marginTop: 14 }}>
-            <iframe title="Security org chart — today vs future" scrolling="no" style={{ width: "100%", height: 520, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+            <iframe title="Security org chart — today vs future" scrolling="no" style={{ width: "100%", height: 520, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -4637,7 +4680,7 @@ export default function App() {
         {/* Three jobs taxonomy */}
         {active === "humancommand" && (
           <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg, marginTop: 14 }}>
-            <iframe title="Three jobs — automation, AI, people" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+            <iframe title="Three jobs — automation, AI, people" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -4795,7 +4838,7 @@ export default function App() {
               );
             })()}
             <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg }}>
-              <iframe title="SecOps AI maturity ladder" scrolling="no" style={{ width: "100%", height: 880, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+              <iframe title="SecOps AI maturity ladder" scrolling="no" style={{ width: "100%", height: 880, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -5125,7 +5168,7 @@ export default function App() {
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <p style={{ fontSize: 14, color: palette.muted, lineHeight: 1.65, marginTop: -6, marginBottom: 2 }}>{data.intro}</p>
             <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg }}>
-              <iframe title="Agentic SecOps reference architecture" scrolling="no" style={{ width: "100%", height: 760, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+              <iframe title="Agentic SecOps reference architecture" scrolling="no" style={{ width: "100%", height: 760, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -5270,7 +5313,7 @@ export default function App() {
             </div>
             <p style={{ fontSize: 14, color: palette.muted, lineHeight: 1.65, marginTop: 2, marginBottom: 2 }}>Companion view — the stack above says what sits where; the identity-first enforcement architecture below says how a request is policed end to end: policy decided centrally at the PDP, enforced at every PEP, and updated continuously per the Gödel mandate. A standalone print version lives in Diagrams/.</p>
             <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg }}>
-              <iframe title="Identity-first enforcement architecture" scrolling="no" style={{ width: "100%", height: 1240, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+              <iframe title="Identity-first enforcement architecture" scrolling="no" style={{ width: "100%", height: 1240, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -5527,7 +5570,7 @@ export default function App() {
             <p style={{ fontSize: 14, color: palette.muted, lineHeight: 1.65, marginTop: 0, marginBottom: 0 }}>The continuous purple teaming loop and its value-stream map — the operating cadence the architecture above is built to serve.</p>
 
             <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg }}>
-              <iframe title="Continuous purple teaming loop" scrolling="no" style={{ width: "100%", height: 820, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+              <iframe title="Continuous purple teaming loop" scrolling="no" style={{ width: "100%", height: 820, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -5650,7 +5693,7 @@ export default function App() {
             </div>
 
             <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg }}>
-              <iframe title="Value stream map — lead time per TTP" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+              <iframe title="Value stream map — lead time per TTP" scrolling="no" style={{ width: "100%", height: 600, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -5805,7 +5848,7 @@ export default function App() {
         {active === "frameworks" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 4 }}>
             <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg }}>
-              <iframe title="Zero Trust capability matrix" scrolling="no" style={{ width: "100%", height: 1080, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+              <iframe title="Zero Trust capability matrix" scrolling="no" style={{ width: "100%", height: 1080, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6145,7 +6188,7 @@ export default function App() {
 `} />
             </div>
             <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg }}>
-              <iframe title="AI security framework crosswalk" scrolling="no" style={{ width: "100%", height: 1020, border: 0, display: "block" }} onLoad={(e) => { try { e.target.style.height = e.target.contentDocument.documentElement.scrollHeight + "px"; } catch (err) {} }} srcDoc={`<!DOCTYPE html>
+              <iframe title="AI security framework crosswalk" scrolling="no" style={{ width: "100%", height: 1020, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">

@@ -229,6 +229,9 @@ const KNOWN_NOISE = [
   ['https://www.dcsa.mil/', 'Akamai edge 403 (Access Denied / errors.edgesuite.net reference page) to automated fetch; live in-browser'],
   ['http://www.w3.org/2000/svg', 'XML namespace identifier (xmlns) — the scheme is part of the namespace name; never repoint'],
   ['https://www.infosecuriosity.co.uk/posts/2026-06-28-Most-SOCs-Are-Thinking-About-AI-the-Wrong-Way/', 'site-wide 403 to automated fetch; the post loads in a reader fetch (Sep 27, 2026), and its title, author and date match the entry'],
+  ['https://sublime.security/resources/trust-then-autonomy-a-new-framework-for-evaluating-security-ai/', '429 to automated reads; reader fetch, September 27, 2026: loads and matches the entry'],
+  ['https://www.armis.com/blog/nation-state-attacks-hit-machine-speed-key-takeaways-of-the-2026-armis-cyberwarfare-report-and-what-it-means-for-security-teams/', '403 to automated reads; reader fetch, September 27, 2026: loads and matches the entry'],
+  ['https://www.sciencedirect.com/science/article/abs/pii/S0167739X26001482', '403 to automated reads; reader fetch, September 27, 2026: loads and matches the entry'],
 ];
 const knownNoise = (url) => {
   const hit = KNOWN_NOISE.find(([p]) => url.startsWith(p));

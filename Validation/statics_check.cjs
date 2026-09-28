@@ -71,6 +71,10 @@
  *      uses a system, preset, scRGB or HSL color (private mode).
  *  20. Deck fonts: the deck PDF embeds only IBM Plex faces, read from its own font dictionaries with
  *      build_exec_summary's font guard, pdffonts as a cross-check (both modes; the PDF ships).
+ * Fatal (Round M):
+ *  21. The header badge: the app's header pill (the span just before the theme toggle) reads registry.json's
+ *      current_version exactly, once in the JSX and once in the built Playbook/index.html (both modes). A release
+ *      updates the version and the pill together, so the badge cannot go stale.
  * PUBLIC EDITION MODE: a `.public-edition` marker file at the tree root switches on public mode, which
  * skips checks for files that exist only in the private working repo. Without the marker every check
  * runs exactly as before. Here: README.txt, CLAUDE-CODE-ONBOARDING.md, HARNESS-AUDIT.md and
@@ -623,6 +627,24 @@ const win = (h, w) => h.ctx.slice(Math.max(0, h.index - w), h.index + h.text.len
     } catch (e) { detail = 'unreadable: ' + String(e.message || e).slice(0, 120); }
     check('deck fonts (the deck PDF embeds only IBM Plex)', ok, detail);
   }
+}
+
+/* ---- 21. the header badge states the current version (Round M), fatal, both modes ----
+ * The pill is found by its place: the span whose style ends with marginLeft "auto", just before the theme toggle
+ * button, in the JSX and in the built payload. Each must occur exactly once and read registry.json's
+ * current_version.version, which must itself look like a version ("v" and dotted numbers). */
+{
+  let ok = false, detail = '';
+  try {
+    const want = JSON.parse(fs.readFileSync(path.join(SUITE, 'Validation', 'registry.json'), 'utf-8')).current_version.version;
+    const jsx = fs.readFileSync(path.join(SUITE, 'Playbook', 'agentic-secops-teaming.jsx'), 'utf-8');
+    const built = fs.readFileSync(path.join(SUITE, 'Playbook', 'index.html'), 'utf-8');
+    const inJsx = [...jsx.matchAll(/marginLeft: "auto" \}\}>([^<]*)<\/span>\s*<button onClick=\{toggleTheme\}/g)].map((m) => m[1]);
+    const inHtml = [...built.matchAll(/marginLeft: "auto" \} \}, "([^"]*)"\),\s*React\.createElement\("button", \{ onClick: toggleTheme/g)].map((m) => m[1]);
+    ok = /^v\d+(?:\.\d+)*$/.test(want) && inJsx.length === 1 && inHtml.length === 1 && inJsx[0] === want && inHtml[0] === want;
+    detail = `current version ${want}; the badge reads ${inJsx.join(', ') || '(not found)'} in the JSX, ${inHtml.join(', ') || '(not found)'} in index.html`;
+  } catch (e) { detail = 'unreadable: ' + String(e.message || e).slice(0, 120); }
+  check('header badge states the current version', ok, detail);
 }
 
 /* ---- report ---- */

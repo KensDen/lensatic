@@ -14,7 +14,9 @@
  *   - Improvement-Roadmap.md: must not carry a non-current triple
  *   - P05 (Round I): the field card's phasing line; sync_check's action header, label and assert;
  *     render_check's Action Plan label and asserts; Public/CLAUDE.md carries no literal canon count;
- *     and no stray canon literal (a triple, a count with its noun, a phase run) in Validation/ or Public/
+ *     and no stray canon literal (a triple, a count with its noun, a phase run) in Validation/ or Public/ (in
+ *     public mode, Validation/ or the top-level README.md, CLAUDE.md, index.html, THIRD_PARTY_NOTICES.md and
+ *     package.json, since the public tree has no Public/ folder)
  * Frozen-history diagnostics:
  *   - the current triple must NOT be in battery's exclusion list
  *   - every excluded triple must be absent from README; if present, the
@@ -183,7 +185,8 @@ if (PUBLIC) {
  * The field card's phasing line; sync_check's action header, label and assert; render_check's Action Plan label and
  * asserts (chips, CSV lines, Markdown bullets): each must equal the derived canon. Public/CLAUDE.md (CLAUDE.md in
  * public mode) must carry no literal canon count, by its own rule. And no stray canon literal in Validation/ or
- * Public/: an actions/resources/terms triple is allowed only as battery's positive triple or in its exclusion list,
+ * Public/ (public mode: Validation/ or the top-level README.md, CLAUDE.md, index.html, THIRD_PARTY_NOTICES.md and
+ * package.json; Round M): an actions/resources/terms triple is allowed only as battery's positive triple or in its exclusion list,
  * and a count stated with its noun (actions, sources, resources, links, glossary terms, tools, bullets) or a phase
  * run (All-N / Now-N / Next-N / Later-N) must equal the canon. */
 {
@@ -229,7 +232,7 @@ if (PUBLIC) {
       if (Number(m[2]) !== w) stray.push(`${at(m.index)} "${m[0]}"`);
     }
   }
-  check('P05 no stray canon literal in Validation/ or Public/', stray.length === 0, stray.length ? stray.slice(0, 4).join(' | ') + (stray.length > 4 ? ` | ... ${stray.length - 4} more` : '') : `${scan.length} files scanned`);
+  check(`P05 no stray canon literal in Validation/ or ${PUBLIC ? 'the top-level README.md, CLAUDE.md, index.html, THIRD_PARTY_NOTICES.md and package.json' : 'Public/'}`, stray.length === 0, stray.length ? stray.slice(0, 4).join(' | ') + (stray.length > 4 ? ` | ... ${stray.length - 4} more` : '') : `${scan.length} files scanned`);
 }
 
 /* ---- report ---- */
