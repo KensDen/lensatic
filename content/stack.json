@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "0.8.0",
-    "builtOn": "2026-09-27",
+    "contentVersion": "0.8.1",
+    "builtOn": "2026-09-28",
     "sources": [
       "csf20",
       "sp800-207",
@@ -84,6 +84,11 @@
         "version": "0.8.0",
         "date": "2026-09-27",
         "summary": "Why the name: a short explanation of the lensatic compass in About, linked from the front door, with the maker's photo. AI is treated as a well-known term and no longer spelled out."
+      },
+      {
+        "version": "0.8.1",
+        "date": "2026-09-28",
+        "summary": "Wording for the iOS app: the support page says the app is built from the same content, the privacy policy says the app keeps nothing, and the introductions to the doors, the stack and the matrix have app versions that describe the app's screens. No change to the stack's facts."
       }
     ],
     "description": "An offline explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.",
@@ -5632,6 +5637,7 @@
       "previousColumn": "Previous column",
       "nextColumn": "Next column",
       "matrixIntro": "Rows are the six functions of the NIST Cybersecurity Framework (CSF) 2.0; columns are the zero trust pillars, the areas of an enterprise that zero trust covers, such as users, devices and data. Each cell says what that function looks like in that pillar. Codes such as GV.PO are CSF 2.0 categories, spelled out in the function cards; the numbers in the {{dow}} model are its capability numbers, pillar first.",
+      "matrixIntroApp": "The matrix goes through the six functions of the NIST Cybersecurity Framework (CSF) 2.0 one at a time; under each function, a row for each zero trust pillar, the areas of an enterprise that zero trust covers, such as users, devices and data. Each row says what that function looks like in that pillar; open it for the full text. Codes such as GV.PO are CSF 2.0 categories, spelled out in the function cards; the numbers in the {{dow}} model are its capability numbers, pillar first.",
       "matrixCaptionDow": "{{dow}} model: seven pillars, with capability numbers",
       "matrixCaptionCisa": "CISA model: five pillars plus three cross-cutting capabilities",
       "solutionsOnLayer": "Validated solutions measured against this layer",
@@ -5644,7 +5650,9 @@
       "dowNote": "{{dow.current}} is a secondary name, authorized by executive order in September 2025, for the {{dow.statutory}} (DoD); the statutory title has not changed, and documents issued under the old name say DoD.",
       "checkedThrough": "sources checked through",
       "doorsIntro": "Pick the door that describes you. Steps run in the order you do them; the layer tag on each step shows where it sits on the stack below.",
+      "doorsIntroApp": "Pick the door that describes you. Steps run in the order you do them; the layer tag on each step shows where it sits on the stack and opens that layer.",
       "stackIntro": "The stack sorts the frameworks by the question each one answers: five layers, from the outcomes leadership funds down to who checks the evidence, with an AI column beside them. Solid chips are frameworks, dashed chips are the orders, memos and programs the doors cite, and dotted chips are solutions measured against a layer.",
+      "stackIntroApp": "The stack sorts the frameworks by the question each one answers: five layers, from the outcomes leadership funds down to who checks the evidence, then the AI column. Open a layer to see its entries: solid chips are frameworks, dashed chips are the orders, memos and programs the doors cite, and dotted chips are solutions measured against a layer.",
       "matrixJump": "Jump to",
       "matrixJumpFunctions": "the same sentences by function",
       "matrixHint": "The tables scroll sideways, one pillar per column. The six functions section repeats each cell's first sentence in one column.",
@@ -5719,7 +5727,7 @@
         "Lensatic runs entirely on your device. The app and the web page carry all of their content with them. Once open, the web page needs no connection, and a saved copy works offline.",
         "Lensatic makes no network requests. Once the web page is open it loads no scripts, fonts, images or data from anywhere, and the app does not connect to the internet.",
         "There is no account and nothing to sign in to.",
-        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web page keeps is your theme choice (system, light or dark), saved in your browser's local storage on your device; it is never sent anywhere.",
+        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web page keeps is your theme choice (system, light or dark), saved in your browser's local storage on your device and never sent anywhere; the app keeps nothing and follows your device's light or dark setting.",
         "Lensatic holds nothing about you, so there is nothing to retain or delete. Clearing this site's data in your browser removes the saved theme choice.",
         "There are no third-party software development kits (SDKs), no analytics and no advertising.",
         "In the web page and the app, the only outside links go to the public documents cited in Sources and to the source repository on GitHub; both also link to this policy and the support page. They open in your browser, under those sites' own privacy policies. This page and the support page also link to GitHub.",
@@ -5735,7 +5743,7 @@
         "Lensatic is an offline explainer of the United States federal cybersecurity framework stack. It sorts the frameworks by the question each one answers, says who each one binds, and shows where zero trust and AI land.",
         "To report a content error, open an issue at https://github.com/kensden/lensatic/issues. Name the framework or entry, say what is wrong, and cite the primary source: the publisher's own page or document that shows the correct fact.",
         "To ask about reusing Lensatic's code or text, open an issue on the same page.",
-        "Questions and problems with the app go to the same issues page. Opening an issue needs a GitHub account, and issues are public.",
+        "The iOS app is built from the same content as this site. Questions and problems with the app go to the same issues page. Opening an issue needs a GitHub account, and issues are public.",
         "Every verified entry shows the date its publisher's page was last read, and every other entry shows its status instead. An entry with a recheck date is read again when that date comes up, and no content release goes out while a recheck is overdue. The next dated recheck, if one is scheduled, is shown below."
       ]
     }

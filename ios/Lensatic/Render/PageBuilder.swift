@@ -180,12 +180,12 @@ private struct Draft {
                                identifier: "door-\(door.id.rawValue)"))
         }
         out.append(Block(.rows(rows), anchor: "doors"))
-        out.append(Block(.text(Run(l("doorsIntro", .running)), .note), anchor: "doors-note"))
+        out.append(Block(.text(Run(l("doorsIntroApp", .running)), .note), anchor: "doors-note"))
         return out
     }
 
     mutating func stack() -> [Block] {
-        var out = [sectionHead(.stack), Block(.text(Run(l("stackIntro", .running)), .body))]
+        var out = [sectionHead(.stack), Block(.text(Run(l("stackIntroApp", .running)), .body))]
         var elevator: [Span] = []
         for (i, id) in content.elevator.frameworkIds.enumerated() {
             guard let e = store.entities[id] else { continue }
@@ -206,7 +206,7 @@ private struct Draft {
     /// The matrix, function by function (the six CSF functions in the content's order), each with the current view's
     /// pillar cells as rows; every row names its pillar.
     mutating func matrix(_ view: PillarView) -> [Block] {
-        var out = [sectionHead(.matrix), Block(.text(Run(l("matrixIntro", .running)), .small))]
+        var out = [sectionHead(.matrix), Block(.text(Run(l("matrixIntroApp", .running)), .small))]
         let controls = [Control(label: Run(l("pillarViewDow")), target: .anchor("view-dow"), identifier: "pillar-view-dow"),
                         Control(label: Run(l("pillarViewCisa")), target: .anchor("view-cisa"), identifier: "pillar-view-cisa")]
         out.append(Block(.pillarViews(controls, selected: view == .dow ? 0 : 1), anchor: "matrix-control"))

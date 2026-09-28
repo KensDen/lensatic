@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:lensatic:stack.schema:0.8.0",
+  "$id": "urn:lensatic:stack.schema:0.8.1",
   "title": "Lensatic content model",
   "description": "Schema for content/stack.json, the single source of truth for Lensatic. Every rendered string lives in that file once. Prose refers to the department only through the tokens {{dow}} and {{dow.<field>}}, which render from orgs.dow.",
   "type": "object",

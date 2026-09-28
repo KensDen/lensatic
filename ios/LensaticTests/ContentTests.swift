@@ -159,9 +159,20 @@ final class ContentTests: XCTestCase {
         XCTAssertEqual(fixture.contentVersion, store.content.meta.contentVersion)
         let web = fixture.texts.map(webNorm)
         let app = Set(pages.values.flatMap(\.texts).map(webNorm))
-        let missing = Set(web).subtracting(app)
+        // a label whose words describe the web page's layout has an app version (ui.labels.<key>App) that describes the
+        // app's screens: the web's text counts as placed when its app version is placed
+        let labels = store.content.ui.labels
+        let versions = labels.keys.filter { labels[$0 + "App"] != nil }.sorted()
+        XCTAssertFalse(versions.isEmpty)
+        for key in versions {
+            XCTAssertTrue(app.contains(webNorm(labels[key + "App"] ?? "")), "ui.labels.\(key)App is placed")
+        }
+        // the web strings the app does not place because an app version stands in for them
+        let byVersion = Set(versions.compactMap { labels[$0] }.map(webNorm)).subtracting(app).intersection(web)
+        let missing = Set(web).subtracting(app).subtracting(byVersion)
         let appOnly = app.subtracting(web).sorted()
-        print("PARITY web strings \(web.count) (\(Set(web).count) distinct); app strings \(app.count) distinct; missing \(missing.count); app-only \(appOnly.count)")
+        print("PARITY web strings \(web.count) (\(Set(web).count) distinct); app strings \(app.count) distinct; missing \(missing.count); "
+              + "web strings placed by an app version \(byVersion.count) (app versions: \(versions.joined(separator: ", "))); app-only \(appOnly.count)")
         for s in appOnly { print("PARITY app-only: \(s.prefix(160))") }
         XCTAssertEqual(missing.count, 0, "missing from the app: \(missing.sorted().prefix(5))")
     }
