@@ -8,7 +8,7 @@ Works offline, no account, no data collected by Lensatic. The privacy policy not
 
 ## License
 
-Lensatic's own code and text are copyright 2026 Ken Connell, all rights reserved ([`LICENSE`](LICENSE)). The text is the summaries, matrix cell text, doors, helper answers and glossary in `content/stack.json`, the schema descriptions, the review records in `critique/`, and this README. The code is `tools/`, `web/src/`, the build and check scripts, and any future `ios/` source. The built pages, `web/lensatic.html` and everything in `docs/`, hold both. The repository is published so the work can be read and reviewed. No license is granted to copy, modify, distribute or otherwise use its code, text or artwork, in whole or in part, except as the law allows without a license or with Ken Connell's prior written permission. To ask about reusing any of it, open an issue at https://github.com/KensDen/lensatic/issues.
+Lensatic's own code and text are copyright 2026 Ken Connell, all rights reserved ([`LICENSE`](LICENSE)). The text is the summaries, matrix cell text, doors, helper answers and glossary in `content/stack.json`, the schema descriptions, the review records in `critique/`, and this README. The code is `tools/`, `web/src/`, the build and check scripts, and the iOS app's source in `ios/`. The built pages, `web/lensatic.html` and everything in `docs/`, hold both. The repository is published so the work can be read and reviewed. No license is granted to copy, modify, distribute or otherwise use its code, text or artwork, in whole or in part, except as the law allows without a license or with Ken Connell's prior written permission. To ask about reusing any of it, open an issue at https://github.com/KensDen/lensatic/issues.
 
 GitHub's Terms of Service (section D.5) let other GitHub users view and fork a public repository on GitHub, as GitHub's features allow; that is not permission to use the work anywhere else.
 
@@ -17,6 +17,8 @@ Versions of this repository published before this notice was added on 27 Septemb
 Most of the frameworks Lensatic describes are United States government publications. Works prepared by United States government officers and employees as part of their official duties are in the public domain in the United States. The app cites these publications and links to them, and the notice above covers only Lensatic's own code and text.
 
 IBM Corp. holds the copyright in the typefaces the built pages embed, IBM Plex Sans and IBM Plex Mono, which are licensed under the SIL Open Font License, Version 1.1 ([`web/src/fonts/OFL.txt`](web/src/fonts/OFL.txt)). That license, not the notice above, governs them.
+
+The iOS app in `ios/` is covered by the same all-rights-reserved notice as the rest of the repository. Its TrueType fonts are the same IBM Plex faces under the same license, converted from the web's files, with the license beside them ([`ios/Lensatic/Resources/Fonts/OFL.txt`](ios/Lensatic/Resources/Fonts/OFL.txt)); the Lensatic name and icon identify this project and, like the rest of it, are not licensed for any other use.
 
 Where a cited work is protected, its title, names and any short quotation remain its owner's, and the work itself is described, not reproduced. Nothing from the AI Defense Matrix, which its authors publish under CC BY-SA 4.0, is reproduced. The app cites it, describes it in its own words, and credits its authors and license.
 
@@ -54,7 +56,7 @@ These apply to every working session on this repository, by a person or an agent
 
 ## JSON first
 
-`content/stack.json` is the single source of truth. Every framework one-liner, every matrix cell, every door step and every helper answer lives there once, and nothing that will be rendered is written anywhere else. The schema is `content/schema/stack.schema.json` (JSON Schema draft 2020-12). The web wrapper, and the iOS wrapper when it exists, are thin views over that file and restate nothing.
+`content/stack.json` is the single source of truth. Every framework one-liner, every matrix cell, every door step and every helper answer lives there once, and nothing that will be rendered is written anywhere else. The schema is `content/schema/stack.schema.json` (JSON Schema draft 2020-12). The web wrapper and the iOS app are thin views over that file and restate nothing.
 
 ## Sources
 
@@ -85,14 +87,34 @@ The web checks:
 
 The page works from a local file with no network access.
 
+## iOS app
+
+`ios/` holds a native SwiftUI app for iPhone and iPad that renders the same `content/stack.json` as the web page. The file is a resource of the app by reference, never a copy, and so is the About photo, `web/src/about-photo.jpg`. The app shows the same sections in the same order, resolves the department tokens and spells out abbreviations by the same rules as `tools/build_web.py`, and adds nothing to the content: the only words in its Swift sources are control labels such as Done. It uses the web's colour tokens (`tools/gen_ios_colors.py` writes them into the asset catalogue) and the same IBM Plex faces, scaled with Dynamic Type.
+
+`ios/project.yml` is the source of the Xcode project. `ios/Lensatic.xcodeproj` is generated from it with XcodeGen and committed, so it opens directly:
+
+    open ios/Lensatic.xcodeproj
+
+To build and run the tests from the command line, on any iPhone or iPad simulator:
+
+    xcodebuild -project ios/Lensatic.xcodeproj -scheme Lensatic -destination 'platform=iOS Simulator,name=<device>' -derivedDataPath .tmp/DerivedData -resultBundlePath .tmp/<device>.xcresult build test
+
+The unit tests decode the real content strictly, check that the bundled file is the repository's, hold the app to the web page's text (every string `tools/build_web.py --texts` lists must appear in the app), and test each transformation rule. The UI tests open every section and run the accessibility audit on each screen, follow a door's step to its framework, switch the matrix views, find the three About links and open Why the name. The `LensaticAuditSweep` scheme runs a longer accessibility audit that reads every section top to bottom and fails nothing; its findings are read by hand. `tools/ios_shots.sh` takes screenshots of every section on the largest iPhone and iPad simulators, in light and dark and at two text sizes.
+
+The Simulator needs no Apple account. Archiving the app for the App Store needs the owner's Apple developer team, chosen in Xcode under Signing & Capabilities; nothing in this repository signs, archives or uploads it.
+
+The app keeps to the privacy policy in `docs/privacy.html` and to three App Store rules: it makes no network requests, every outside link opens in the system browser, and About links to the privacy policy (App Store Review Guideline 5.1.1), the support page and the source code. It stores nothing, and its privacy manifest declares no data collection, no tracking and no required-reason API.
+
+The battery's iOS stage, `tools/check_ios.py`, runs on every machine: the colour sets and the text list equal fresh generations; nothing under `ios/` names a web view, a networking API, stored defaults, a file write or any API the privacy manifest would have to declare; the app names no outside address but the policy, support and source links; every font scales with Dynamic Type; the fonts, the icon and the privacy manifest are the pinned files and values; and the app carries no copy of the content or the photo. Where Xcode works, it also compares the committed project with a fresh XcodeGen generation and builds and tests the app on the newest iPhone simulator; elsewhere it prints one SKIP line. XcodeGen is used from `PATH`, or from its release unpacked into `.tmp/xcodegen/`.
+
 ## Layout
 
     content/   stack.json and its schema
     web/       lensatic.html (built) and src/ (templates, stylesheets, behavior script, mark, the About photo)
     docs/      the project site for GitHub Pages (built by build_web.py --pages)
-    ios/       SwiftUI wrapper (later phase)
+    ios/       the SwiftUI app: project.yml, the generated Xcode project, sources, tests
     critique/  review findings and dispositions
-    tools/     validate.py, battery.sh, build_web.py, check_web.py, dom_check.mjs, layout_check.mjs
+    tools/     validate.py, battery.sh, build_web.py, check_web.py, check_ios.py, gen_ios_colors.py, ios_shots.sh, dom_check.mjs, layout_check.mjs
     LICENSE    the all-rights-reserved notice for Lensatic's code and text
 
-The privacy policy in `docs/privacy.html` already speaks for the app, so the iOS wrapper must keep to it: no network access, every outside link opened in the system browser, and a link to the privacy policy inside the app (App Store Review Guideline 5.1.1). When that link is added, the policy's links sentence and the battery's link check change with it.
+The privacy policy in `docs/privacy.html` speaks for the web page and the app alike; the iOS app section above says how the app keeps to it.
