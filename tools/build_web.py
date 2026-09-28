@@ -19,7 +19,7 @@ The JSON is embedded verbatim (byte for byte) inside <script type="application/j
 as the provenance of the render; the build refuses to run if the JSON contains a byte sequence
 that could end the script element.
 
-Usage: python3 tools/build_web.py [--author "Name"] [--pages]
+Usage: python3 tools/build_web.py [--author "Name"] [--pages] [--texts PATH]
 """
 from __future__ import annotations
 
@@ -847,6 +847,115 @@ class Renderer:
         return {"HEADER": fu.section(self.header()), "MAIN": main + pop, "FOOTER": fu.section(self.footer())}
 
 
+# ---------------------------------------------------------------- the static render's texts (session 8)
+def text_norm(s: str) -> str:
+    """Whitespace collapsed, and the department's spelled-out name read as its abbreviation, so a first-use expansion
+    of the department never makes a text look absent."""
+    s = s.replace("Department of War (DoW)", "DoW").replace("Department of War", "DoW")
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def split_first(s: str):
+    """The door card's split: first sentence in the summary, the rest in the body (a plain string when nothing is left)."""
+    first, rest = first_sentence(s)
+    return (first, rest) if rest else s
+
+
+def static_texts(d: dict) -> tuple[dict[str, list], dict[str, int]]:
+    """The content texts the static render places on the page, by element id: what tools/check_web.py counts for
+    static-render completeness, and, flattened by --texts, what the iOS app's parity test reads (session 8). Tokens
+    resolved, before abbreviation expansion, normalised by text_norm. A door card's split text is a tuple: the first
+    sentence on the card and the rest in its body."""
+    dow = d["orgs"]["dow"]
+    tok = lambda s: re.sub(r"\{\{\s*dow(?:\.([A-Za-z]+))?\s*\}\}", lambda m: str(dow.get(m.group(1), "")) if m.group(1) else dow["abbr"], s or "")
+    x = lambda *parts: [text_norm(tok(p)) for p in parts if p]
+    items: dict[str, list[str]] = {}
+    counts = {"doors": 0, "door steps": 0, "landings": 0, "layers": 0, "frameworks": 0, "sources": 0, "solutions": 0,
+              "helpers": 0, "functions": 0, "SOC Profile rows": 0, "DoW-view cells": 0, "CISA-view cells": 0}
+    for door in d["doors"]:
+        # the card shows the title, the first sentence of whoYouAre and a meta line; a door with no steps shows its
+        # paragraph's first sentence as the meta line, and the rest of each sits in the body
+        texts = x(door["title"])
+        for s_ in (door["whoYouAre"], door.get("paragraph")):
+            if s_:
+                sp = split_first(text_norm(tok(s_)))
+                texts.append(sp)
+        for s in door.get("steps", []):
+            texts += x(s["text"]); counts["door steps"] += 1
+        for ld in door.get("landings") or []:
+            texts += x(ld["label"], ld["text"]); counts["landings"] += 1
+        items[f"door-{door['id']}"] = texts; counts["doors"] += 1
+    ents = {e["id"]: e for e in d["frameworks"] + d["sources"] + d.get("solutions", [])}
+    for layer in d["layers"]:
+        if layer.get("isColumn"):
+            items["seam"] = x(layer["name"], layer["question"], layer["oneLiner"]) + x(*[ents[c["id"]]["shortName"] for c in d["ai"]["column"]])
+        else:
+            chips = list(layer["frameworkIds"]) + [s["id"] for s in d["sources"] if s.get("layerId") == layer["id"]]
+            chips += [s["id"] for s in d.get("solutions", []) if s.get("layerId") == layer["id"]]
+            items[f"layer-{layer['id']}"] = x(layer["name"], layer["question"], layer["oneLiner"]) + x(*[ents[i]["shortName"] for i in chips])
+        counts["layers"] += 1
+    for kind, coll in (("frameworks", d["frameworks"]), ("sources", d["sources"]), ("solutions", d.get("solutions", []))):
+        for e in coll:
+            a = e["authority"]
+            texts = x(e["name"], e["title"], e["publisher"], e["edition"], e["oneLiner"], e.get("answersQuestion"), e.get("role"),
+                      a["note"], (a.get("deadline") or {}).get("text"), e["verification"].get("note"), e.get("note"), e["url"])
+            for doc in e.get("documents", []):
+                texts += x(doc["title"], doc.get("note"))
+            if e.get("validatedAgainst"):
+                texts += x(e["validatedAgainst"]["scope"])
+            for r in e.get("adopterResponsibilities", []):
+                texts += x(r["text"])
+            items[f"ent-{e['id']}"] = texts; counts[kind] += 1
+    for h in d["helper"]:
+        items[f"helper-{h['id']}"] = x(h["question"], h["answer"]); counts["helpers"] += 1
+    for f in d["functions"]:
+        items[f"fn-{f['id']}"] = x(f["name"], f["question"], f["ztLanding"]) + x(*[c["name"] for c in f["categories"]]); counts["functions"] += 1
+    fn_name = {f["id"]: f["name"] for f in d["functions"]}
+    for r in d["ai"]["socProfile"]:
+        items[f"soc-{r['functionId']}"] = x(fn_name[r["functionId"]], r["outcome"]); counts["SOC Profile rows"] += 1
+    items["view-ai"] = x(d["ai"]["note"])
+    cells = {(c["pillarId"], c["functionId"]): c for c in d["matrix"]["cells"]}
+    views = d["pillars"]["views"]
+    for view, pillars, key in (("dow", views["dow"], "DoW-view cells"), ("cisa", views["cisa"]["pillars"] + views["cisa"]["crossCutting"], "CISA-view cells")):
+        for p in pillars:
+            for f in d["functions"]:
+                items[f"cell-{view}-{p}-{f['id']}"] = x(cells[(p, f["id"])]["text"]); counts[key] += 1
+    for g in d.get("glossary", []):
+        term = tok(g["term"])
+        items["gl-" + re.sub(r"[^a-z0-9]+", "-", term.lower()).strip("-")] = x(term, g.get("expansion"), g["oneLine"])
+        counts["glossary entries"] = counts.get("glossary entries", 0) + 1
+    items["elevator"] = x(*[ents[i]["oneLiner"] for i in d["elevator"]["frameworkIds"]])
+    L = d["ui"]["labels"]
+    # the front door (Session 7): the description, the eyebrow line and the two buttons
+    items["intro"] = x(d["meta"]["description"], L["heroEyebrow"], L["heroPrimary"], L["heroSecondary"], L.get("whyName"))
+    # the intro texts that moved (Session 7, section 4.4): the audience line, the plain definition of zero trust and the
+    # note on steps and layer tags open and close the doors section; the department's note moved to About
+    items["view-doors"] = x(L["audience"], L["ztPlain"], L["doorsIntro"])
+    items["about-body"] = x(d["meta"]["about"]["notAffiliated"], d["meta"]["about"]["offline"], d["meta"]["about"].get("licensing"),
+                            dow["statusNote"], L["dowNote"], d["meta"]["about"]["builtWith"], L.get("whyNameHeading"),
+                            *d["meta"]["about"].get("nameStory", []))
+    items["footer"] = x(L["footerLicenses"], L["pagesPrivacy"], L["pagesSupport"], L["sourceCode"])
+    return items, counts
+
+
+# where each static_texts element sits on the page, top to bottom: the front door, the doors, the stack, the matrix, the
+# six functions, the AI column, the questions, Sources, the glossary, About and the footer
+PAGE_ORDER = ("intro", "view-doors", "door-", "elevator", "layer-", "seam", "cell-dow-", "cell-cisa-", "fn-", "view-ai", "soc-",
+              "helper-", "ent-", "gl-", "about-body", "footer")
+
+
+def web_texts(d: dict) -> dict:
+    """What --texts writes: the section order and the static render's content strings, flattened in page order (a
+    door card's split text gives its two parts), for the iOS app's parity test."""
+    items, _ = static_texts(d)
+    rank = lambda k: next(i for i, pre in enumerate(PAGE_ORDER) if k == pre or (pre.endswith("-") and k.startswith(pre)))
+    ordered = sorted(items, key=rank)  # a stable sort keeps each group in the content's order
+    texts = [p for k in ordered for t in items[k] for p in ([t] if isinstance(t, str) else list(t))]
+    sections = [s for s in SECTIONS if s != "glossary" or d.get("glossary")]
+    return {"about": "Generated by tools/build_web.py --texts from content/stack.json; the battery regenerates and diffs it.",
+            "contentVersion": d["meta"]["contentVersion"], "sections": sections, "texts": texts}
+
+
 def page_css() -> str:
     """The plain pages share the app's type and theme tokens: the four faces, the token blocks at the top of styles.css
     (light, dark by preference, dark by choice), then web/src/page.css."""
@@ -964,6 +1073,8 @@ def main() -> int:
     ap.add_argument("--stack", default=str(STACK), help="content file to build from; defaults to content/stack.json")
     ap.add_argument("--pages", action="store_true", help="also write the project site under docs/ for GitHub Pages")
     ap.add_argument("--docs", default=str(DOCS), help="where --pages writes the site; defaults to docs/")
+    ap.add_argument("--texts", help="also write the static render's content strings (before abbreviation expansion) to this "
+                                    "JSON file, for the iOS app's parity test (ios/LensaticTests/Fixtures/web_texts.json)")
     args = ap.parse_args()
     data = build(args.author, Path(args.stack))
     Path(args.out).write_bytes(data)
@@ -971,6 +1082,10 @@ def main() -> int:
     if args.pages:
         for f in build_docs(data, Path(args.stack), Path(args.docs), args.author):
             print(f"wrote {f}: {f.stat().st_size} bytes")
+    if args.texts:
+        texts = web_texts(json.loads(Path(args.stack).read_text(encoding="utf-8")))
+        Path(args.texts).write_text(json.dumps(texts, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+        print(f"wrote {args.texts}: {len(texts['texts'])} texts, {len(set(texts['texts']))} distinct, {len(texts['sections'])} sections")
     return 0
 
 

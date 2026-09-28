@@ -1,0 +1,709 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00A731F84995EFFB1A76BB12 /* LensaticUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881DF3DEEE5EACF03934CE80 /* LensaticUITests.swift */; };
+		0983E3D96F38AF5BB05ED7CA /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC96B740B66DD83CDB140CA /* RootView.swift */; };
+		1380CC403B41061776D67F3D /* ibm-plex-sans-latin-400-normal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 19859E1D172EE0F40C14B4E8 /* ibm-plex-sans-latin-400-normal.ttf */; };
+		1383F5836AD63B59FB8940B1 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAC38BECDD52D0BED2CB69B /* Site.swift */; };
+		212E4EFBC23C5B745C924CC7 /* LensaticApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C6C16B2C58F0760FF8BFCC /* LensaticApp.swift */; };
+		22D99D2C5AF1C0B3EA27D61A /* Rules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EB86B058250EC0FBAD1BD /* Rules.swift */; };
+		290F5F07B274772EFB0B3876 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43322AFF28E292DACA47F882 /* AppModel.swift */; };
+		2D713C8DDDC322B72636CBED /* web_texts.json in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3CF0F552BE96037B61F3F /* web_texts.json */; };
+		347B8D86903E37F155A703B3 /* ibm-plex-mono-latin-400-normal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5258C1887004AEBE894381EF /* ibm-plex-mono-latin-400-normal.ttf */; };
+		3844D9BA7DA7E36F50893250 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F251D73E0434A7592995685C /* PrivacyInfo.xcprivacy */; };
+		389614D1CBD096E40A92DE37 /* ibm-plex-mono-latin-700-normal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBEFE2CEB61E3463722F9362 /* ibm-plex-mono-latin-700-normal.ttf */; };
+		4AA01BB6201B9381EE3DCA31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA0BE8AFF5FDED0685B89571 /* Assets.xcassets */; };
+		4CCA7E8EC200B1031C719407 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA5700B2D1EB9AE002F11C1 /* Theme.swift */; };
+		53A0F72D7558F2A58687D70F /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6EB240CC9A8039FCF96327 /* Page.swift */; };
+		5CE5B163C5303EC7925CB601 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F7CDE4F16E1CD4531750334 /* Components.swift */; };
+		5F171FE8C194421D9102D8BB /* about-photo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DDD36A651668F328DED1AE61 /* about-photo.jpg */; };
+		5F75738B9342B7470DE1E30D /* stack.json in Resources */ = {isa = PBXBuildFile; fileRef = 82124D60B87567A1830B3053 /* stack.json */; };
+		600C4146012E76C3C6468D97 /* PageBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C02403AEAEDC9A40E0BB23C3 /* PageBuilder.swift */; };
+		650861407E9F83F3AE66F5D9 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF4E37E5BB91527957380B9 /* Content.swift */; };
+		73AD49AA4BD4DECAEED41069 /* StrictDecoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529C6C62BAEF721D24C0DEC /* StrictDecoding.swift */; };
+		9690C67ED643830FF192DB84 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 32BA4EB3057307C6B64E1DED /* OFL.txt */; };
+		A019273C1EE90058A6C424D0 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46ACE2513682593AF1CDF48A /* PageView.swift */; };
+		A5DA1480ABA8310D49D00EFE /* ibm-plex-sans-latin-700-normal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 070BBC3CC29737EBA4E79971 /* ibm-plex-sans-latin-700-normal.ttf */; };
+		C024F5C87C788DE9357329A4 /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11C98B9C93EBBCCA91C2D03 /* ContentStore.swift */; };
+		C83FEBD152B989DA69C3AE6E /* stack.json in Resources */ = {isa = PBXBuildFile; fileRef = 82124D60B87567A1830B3053 /* stack.json */; };
+		DBD855B10BBF18B8E2F40FB9 /* RulesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467187B153D4B96FBD974514 /* RulesTests.swift */; };
+		DCEC71820FF513D4A4F29601 /* validate.py in Resources */ = {isa = PBXBuildFile; fileRef = 08BC6F9E6FF06847804E4DCB /* validate.py */; };
+		F0A5239763E3B43766D465A2 /* stack.json in Resources */ = {isa = PBXBuildFile; fileRef = 82124D60B87567A1830B3053 /* stack.json */; };
+		F6D3487061B65FCCADDD12D1 /* ContentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D6A804FC537AE3DA034D1C /* ContentTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		07965B532F46E68C97086134 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C187B04994C159A5968DE864 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1503D966720556975F671893;
+			remoteInfo = Lensatic;
+		};
+		CB9EC0144005537F32191164 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C187B04994C159A5968DE864 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1503D966720556975F671893;
+			remoteInfo = Lensatic;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		070BBC3CC29737EBA4E79971 /* ibm-plex-sans-latin-700-normal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ibm-plex-sans-latin-700-normal.ttf"; sourceTree = "<group>"; };
+		08BC6F9E6FF06847804E4DCB /* validate.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = validate.py; sourceTree = "<group>"; };
+		19859E1D172EE0F40C14B4E8 /* ibm-plex-sans-latin-400-normal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ibm-plex-sans-latin-400-normal.ttf"; sourceTree = "<group>"; };
+		1CF4E37E5BB91527957380B9 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
+		1FA5700B2D1EB9AE002F11C1 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		20C6C16B2C58F0760FF8BFCC /* LensaticApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensaticApp.swift; sourceTree = "<group>"; };
+		325EB86B058250EC0FBAD1BD /* Rules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rules.swift; sourceTree = "<group>"; };
+		32BA4EB3057307C6B64E1DED /* OFL.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		35D6A804FC537AE3DA034D1C /* ContentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTests.swift; sourceTree = "<group>"; };
+		43322AFF28E292DACA47F882 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		467187B153D4B96FBD974514 /* RulesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesTests.swift; sourceTree = "<group>"; };
+		46ACE2513682593AF1CDF48A /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		4A33B7A20DC64CFA87A0B1DA /* LensaticTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LensaticTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4EB3CF0F552BE96037B61F3F /* web_texts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = web_texts.json; sourceTree = "<group>"; };
+		5258C1887004AEBE894381EF /* ibm-plex-mono-latin-400-normal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ibm-plex-mono-latin-400-normal.ttf"; sourceTree = "<group>"; };
+		5CAC38BECDD52D0BED2CB69B /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
+		82124D60B87567A1830B3053 /* stack.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stack.json; sourceTree = "<group>"; };
+		881DF3DEEE5EACF03934CE80 /* LensaticUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensaticUITests.swift; sourceTree = "<group>"; };
+		977780DF5ADCA390FA53AAD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9F7CDE4F16E1CD4531750334 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		AFC96B740B66DD83CDB140CA /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		BA0BE8AFF5FDED0685B89571 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BBEFE2CEB61E3463722F9362 /* ibm-plex-mono-latin-700-normal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ibm-plex-mono-latin-700-normal.ttf"; sourceTree = "<group>"; };
+		BC6EB240CC9A8039FCF96327 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
+		C02403AEAEDC9A40E0BB23C3 /* PageBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageBuilder.swift; sourceTree = "<group>"; };
+		DDD36A651668F328DED1AE61 /* about-photo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "about-photo.jpg"; sourceTree = "<group>"; };
+		E1135D595E4102EDFF4B67E0 /* LensaticUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LensaticUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E529C6C62BAEF721D24C0DEC /* StrictDecoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrictDecoding.swift; sourceTree = "<group>"; };
+		EF30DCEDB5382486263C2041 /* Lensatic.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Lensatic.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F11C98B9C93EBBCCA91C2D03 /* ContentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStore.swift; sourceTree = "<group>"; };
+		F251D73E0434A7592995685C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0A7D379B03A8EB4C050A1586 /* LensaticUITests */ = {
+			isa = PBXGroup;
+			children = (
+				881DF3DEEE5EACF03934CE80 /* LensaticUITests.swift */,
+			);
+			path = LensaticUITests;
+			sourceTree = "<group>";
+		};
+		1F133C4F7C614419178D2223 /* Render */ = {
+			isa = PBXGroup;
+			children = (
+				43322AFF28E292DACA47F882 /* AppModel.swift */,
+				BC6EB240CC9A8039FCF96327 /* Page.swift */,
+				C02403AEAEDC9A40E0BB23C3 /* PageBuilder.swift */,
+			);
+			path = Render;
+			sourceTree = "<group>";
+		};
+		21479120F7112FF473757C77 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				5258C1887004AEBE894381EF /* ibm-plex-mono-latin-400-normal.ttf */,
+				BBEFE2CEB61E3463722F9362 /* ibm-plex-mono-latin-700-normal.ttf */,
+				19859E1D172EE0F40C14B4E8 /* ibm-plex-sans-latin-400-normal.ttf */,
+				070BBC3CC29737EBA4E79971 /* ibm-plex-sans-latin-700-normal.ttf */,
+				32BA4EB3057307C6B64E1DED /* OFL.txt */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		4F4043656ED3F75D68A45474 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				4EB3CF0F552BE96037B61F3F /* web_texts.json */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
+		4F6AD8F7BB43FA45B5CC9C80 /* content */ = {
+			isa = PBXGroup;
+			children = (
+				82124D60B87567A1830B3053 /* stack.json */,
+			);
+			name = content;
+			path = ../content;
+			sourceTree = "<group>";
+		};
+		83F7F9BA139499745F125040 /* Lensatic */ = {
+			isa = PBXGroup;
+			children = (
+				977780DF5ADCA390FA53AAD9 /* Info.plist */,
+				20C6C16B2C58F0760FF8BFCC /* LensaticApp.swift */,
+				E8D1CE45DCEC721DB98A8F26 /* Model */,
+				1F133C4F7C614419178D2223 /* Render */,
+				9FEC0212285CC8E8072ADF06 /* Resources */,
+				CA130E872CC379B808E308A2 /* Views */,
+			);
+			path = Lensatic;
+			sourceTree = "<group>";
+		};
+		9E1623061A49ADFE6A0D86F9 /* tools */ = {
+			isa = PBXGroup;
+			children = (
+				08BC6F9E6FF06847804E4DCB /* validate.py */,
+			);
+			name = tools;
+			path = ../tools;
+			sourceTree = "<group>";
+		};
+		9FEC0212285CC8E8072ADF06 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BA0BE8AFF5FDED0685B89571 /* Assets.xcassets */,
+				F251D73E0434A7592995685C /* PrivacyInfo.xcprivacy */,
+				21479120F7112FF473757C77 /* Fonts */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B4D84E5F105931F997B1AB2F = {
+			isa = PBXGroup;
+			children = (
+				4F6AD8F7BB43FA45B5CC9C80 /* content */,
+				83F7F9BA139499745F125040 /* Lensatic */,
+				C068DE008DA84791FF7EAFD9 /* LensaticTests */,
+				0A7D379B03A8EB4C050A1586 /* LensaticUITests */,
+				E82A21267EA5DA641862C4FE /* src */,
+				9E1623061A49ADFE6A0D86F9 /* tools */,
+				ED6BF8010E2FB589CD87FC7A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C068DE008DA84791FF7EAFD9 /* LensaticTests */ = {
+			isa = PBXGroup;
+			children = (
+				35D6A804FC537AE3DA034D1C /* ContentTests.swift */,
+				467187B153D4B96FBD974514 /* RulesTests.swift */,
+				4F4043656ED3F75D68A45474 /* Fixtures */,
+			);
+			path = LensaticTests;
+			sourceTree = "<group>";
+		};
+		CA130E872CC379B808E308A2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9F7CDE4F16E1CD4531750334 /* Components.swift */,
+				46ACE2513682593AF1CDF48A /* PageView.swift */,
+				AFC96B740B66DD83CDB140CA /* RootView.swift */,
+				1FA5700B2D1EB9AE002F11C1 /* Theme.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		E82A21267EA5DA641862C4FE /* src */ = {
+			isa = PBXGroup;
+			children = (
+				DDD36A651668F328DED1AE61 /* about-photo.jpg */,
+			);
+			name = src;
+			path = ../web/src;
+			sourceTree = "<group>";
+		};
+		E8D1CE45DCEC721DB98A8F26 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1CF4E37E5BB91527957380B9 /* Content.swift */,
+				F11C98B9C93EBBCCA91C2D03 /* ContentStore.swift */,
+				325EB86B058250EC0FBAD1BD /* Rules.swift */,
+				5CAC38BECDD52D0BED2CB69B /* Site.swift */,
+				E529C6C62BAEF721D24C0DEC /* StrictDecoding.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		ED6BF8010E2FB589CD87FC7A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EF30DCEDB5382486263C2041 /* Lensatic.app */,
+				4A33B7A20DC64CFA87A0B1DA /* LensaticTests.xctest */,
+				E1135D595E4102EDFF4B67E0 /* LensaticUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1503D966720556975F671893 /* Lensatic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77491E219DE1E8C04213B687 /* Build configuration list for PBXNativeTarget "Lensatic" */;
+			buildPhases = (
+				200C9357F2E92EF855A8F206 /* Sources */,
+				05474CA5EB509A48D201566C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Lensatic;
+			packageProductDependencies = (
+			);
+			productName = Lensatic;
+			productReference = EF30DCEDB5382486263C2041 /* Lensatic.app */;
+			productType = "com.apple.product-type.application";
+		};
+		3B9484B21FE2E1444A283EBA /* LensaticTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 56D0819B01E3296973236807 /* Build configuration list for PBXNativeTarget "LensaticTests" */;
+			buildPhases = (
+				02D02A35C0A25CEEBAD0A8B2 /* Sources */,
+				EEB85503F5454585D6F63A14 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				019097CAF4FB750A680FCD71 /* PBXTargetDependency */,
+			);
+			name = LensaticTests;
+			packageProductDependencies = (
+			);
+			productName = LensaticTests;
+			productReference = 4A33B7A20DC64CFA87A0B1DA /* LensaticTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		93AA71A641A23FD69205C17F /* LensaticUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 41D7A69F1CB61DC7A20C92A3 /* Build configuration list for PBXNativeTarget "LensaticUITests" */;
+			buildPhases = (
+				183FEE49D6CCCF682971AA09 /* Sources */,
+				8EF99A5EFFA8DB9C41C50B73 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DC83F545E11F0FFDAF1D3DA3 /* PBXTargetDependency */,
+			);
+			name = LensaticUITests;
+			packageProductDependencies = (
+			);
+			productName = LensaticUITests;
+			productReference = E1135D595E4102EDFF4B67E0 /* LensaticUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C187B04994C159A5968DE864 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					1503D966720556975F671893 = {
+						DevelopmentTeam = K57ZDM4BRY;
+						ProvisioningStyle = Automatic;
+					};
+					3B9484B21FE2E1444A283EBA = {
+						DevelopmentTeam = K57ZDM4BRY;
+						ProvisioningStyle = Automatic;
+					};
+					93AA71A641A23FD69205C17F = {
+						DevelopmentTeam = K57ZDM4BRY;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 1503D966720556975F671893;
+					};
+				};
+			};
+			buildConfigurationList = B46072A82E4AA5F0A82E4C2F /* Build configuration list for PBXProject "Lensatic" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = B4D84E5F105931F997B1AB2F;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = ED6BF8010E2FB589CD87FC7A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1503D966720556975F671893 /* Lensatic */,
+				3B9484B21FE2E1444A283EBA /* LensaticTests */,
+				93AA71A641A23FD69205C17F /* LensaticUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		05474CA5EB509A48D201566C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AA01BB6201B9381EE3DCA31 /* Assets.xcassets in Resources */,
+				9690C67ED643830FF192DB84 /* OFL.txt in Resources */,
+				3844D9BA7DA7E36F50893250 /* PrivacyInfo.xcprivacy in Resources */,
+				5F171FE8C194421D9102D8BB /* about-photo.jpg in Resources */,
+				347B8D86903E37F155A703B3 /* ibm-plex-mono-latin-400-normal.ttf in Resources */,
+				389614D1CBD096E40A92DE37 /* ibm-plex-mono-latin-700-normal.ttf in Resources */,
+				1380CC403B41061776D67F3D /* ibm-plex-sans-latin-400-normal.ttf in Resources */,
+				A5DA1480ABA8310D49D00EFE /* ibm-plex-sans-latin-700-normal.ttf in Resources */,
+				F0A5239763E3B43766D465A2 /* stack.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8EF99A5EFFA8DB9C41C50B73 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C83FEBD152B989DA69C3AE6E /* stack.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EEB85503F5454585D6F63A14 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5F75738B9342B7470DE1E30D /* stack.json in Resources */,
+				DCEC71820FF513D4A4F29601 /* validate.py in Resources */,
+				2D713C8DDDC322B72636CBED /* web_texts.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		02D02A35C0A25CEEBAD0A8B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F6D3487061B65FCCADDD12D1 /* ContentTests.swift in Sources */,
+				DBD855B10BBF18B8E2F40FB9 /* RulesTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		183FEE49D6CCCF682971AA09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00A731F84995EFFB1A76BB12 /* LensaticUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		200C9357F2E92EF855A8F206 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				290F5F07B274772EFB0B3876 /* AppModel.swift in Sources */,
+				5CE5B163C5303EC7925CB601 /* Components.swift in Sources */,
+				650861407E9F83F3AE66F5D9 /* Content.swift in Sources */,
+				C024F5C87C788DE9357329A4 /* ContentStore.swift in Sources */,
+				212E4EFBC23C5B745C924CC7 /* LensaticApp.swift in Sources */,
+				53A0F72D7558F2A58687D70F /* Page.swift in Sources */,
+				600C4146012E76C3C6468D97 /* PageBuilder.swift in Sources */,
+				A019273C1EE90058A6C424D0 /* PageView.swift in Sources */,
+				0983E3D96F38AF5BB05ED7CA /* RootView.swift in Sources */,
+				22D99D2C5AF1C0B3EA27D61A /* Rules.swift in Sources */,
+				1383F5836AD63B59FB8940B1 /* Site.swift in Sources */,
+				73AD49AA4BD4DECAEED41069 /* StrictDecoding.swift in Sources */,
+				4CCA7E8EC200B1031C719407 /* Theme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		019097CAF4FB750A680FCD71 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1503D966720556975F671893 /* Lensatic */;
+			targetProxy = CB9EC0144005537F32191164 /* PBXContainerItemProxy */;
+		};
+		DC83F545E11F0FFDAF1D3DA3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1503D966720556975F671893 /* Lensatic */;
+			targetProxy = 07965B532F46E68C97086134 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1857D4F9E37AC734868FBE2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGNING_ALLOWED[sdk=iphonesimulator*]" = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = K57ZDM4BRY;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		1B851B2A1BC8A0FACDE6BA37 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.kensden.lensatic.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Lensatic;
+			};
+			name = Release;
+		};
+		38AA847960B3E25A51DA1EFC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Lensatic/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.kensden.lensatic;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7110A7903AB2829DFF4F78F4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGNING_ALLOWED[sdk=iphonesimulator*]" = NO;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = K57ZDM4BRY;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		8D7B449B9C1B3B4420D8C3CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.kensden.lensatic.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Lensatic;
+			};
+			name = Debug;
+		};
+		CACCAA676DC5477DBF071F6E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Lensatic/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.kensden.lensatic;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		E28E6A804BFCCA8EE916FE41 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.kensden.lensatic.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lensatic.app/Lensatic";
+			};
+			name = Release;
+		};
+		E5A6BFD532E2375AB6ED2BFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.kensden.lensatic.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lensatic.app/Lensatic";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		41D7A69F1CB61DC7A20C92A3 /* Build configuration list for PBXNativeTarget "LensaticUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D7B449B9C1B3B4420D8C3CF /* Debug */,
+				1B851B2A1BC8A0FACDE6BA37 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		56D0819B01E3296973236807 /* Build configuration list for PBXNativeTarget "LensaticTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E5A6BFD532E2375AB6ED2BFD /* Debug */,
+				E28E6A804BFCCA8EE916FE41 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		77491E219DE1E8C04213B687 /* Build configuration list for PBXNativeTarget "Lensatic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CACCAA676DC5477DBF071F6E /* Debug */,
+				38AA847960B3E25A51DA1EFC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B46072A82E4AA5F0A82E4C2F /* Build configuration list for PBXProject "Lensatic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1857D4F9E37AC734868FBE2D /* Debug */,
+				7110A7903AB2829DFF4F78F4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C187B04994C159A5968DE864 /* Project object */;
+}

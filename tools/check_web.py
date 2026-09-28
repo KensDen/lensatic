@@ -205,8 +205,7 @@ def spaced_text(n: Node, skip_classes: frozenset, skip_labels: bool = False) -> 
 
 
 def norm(s: str) -> str:
-    s = s.replace("Department of War (DoW)", "DoW").replace("Department of War", "DoW")
-    return re.sub(r"\s+", " ", s).strip()
+    return B.text_norm(s)
 
 
 def present(t, body: str) -> bool:
@@ -228,82 +227,12 @@ def parts_of(t) -> list[str]:
 
 
 def split_first(s: str):
-    """The door card's split: first sentence in the summary, the rest in the body (a plain string when nothing is left)."""
-    first, rest = first_sentence_of(s)
-    return (first, rest) if rest else s
+    return B.split_first(s)
 
 
-def expected_items(d: dict) -> tuple[dict[str, list[str]], dict[str, int]]:
-    dow = d["orgs"]["dow"]
-    tok = lambda s: re.sub(r"\{\{\s*dow(?:\.([A-Za-z]+))?\s*\}\}", lambda m: str(dow.get(m.group(1), "")) if m.group(1) else dow["abbr"], s or "")
-    x = lambda *parts: [norm(tok(p)) for p in parts if p]
-    items: dict[str, list[str]] = {}
-    counts = {"doors": 0, "door steps": 0, "landings": 0, "layers": 0, "frameworks": 0, "sources": 0, "solutions": 0,
-              "helpers": 0, "functions": 0, "SOC Profile rows": 0, "DoW-view cells": 0, "CISA-view cells": 0}
-    for door in d["doors"]:
-        # the card shows the title, the first sentence of whoYouAre and a meta line; a door with no steps shows its
-        # paragraph's first sentence as the meta line, and the rest of each sits in the body
-        texts = x(door["title"])
-        for s_ in (door["whoYouAre"], door.get("paragraph")):
-            if s_:
-                sp = split_first(norm(tok(s_)))
-                texts.append(sp)
-        for s in door.get("steps", []):
-            texts += x(s["text"]); counts["door steps"] += 1
-        for ld in door.get("landings") or []:
-            texts += x(ld["label"], ld["text"]); counts["landings"] += 1
-        items[f"door-{door['id']}"] = texts; counts["doors"] += 1
-    ents = {e["id"]: e for e in d["frameworks"] + d["sources"] + d.get("solutions", [])}
-    for layer in d["layers"]:
-        if layer.get("isColumn"):
-            items["seam"] = x(layer["name"], layer["question"], layer["oneLiner"]) + x(*[ents[c["id"]]["shortName"] for c in d["ai"]["column"]])
-        else:
-            chips = list(layer["frameworkIds"]) + [s["id"] for s in d["sources"] if s.get("layerId") == layer["id"]]
-            chips += [s["id"] for s in d.get("solutions", []) if s.get("layerId") == layer["id"]]
-            items[f"layer-{layer['id']}"] = x(layer["name"], layer["question"], layer["oneLiner"]) + x(*[ents[i]["shortName"] for i in chips])
-        counts["layers"] += 1
-    for kind, coll in (("frameworks", d["frameworks"]), ("sources", d["sources"]), ("solutions", d.get("solutions", []))):
-        for e in coll:
-            a = e["authority"]
-            texts = x(e["name"], e["title"], e["publisher"], e["edition"], e["oneLiner"], e.get("answersQuestion"), e.get("role"),
-                      a["note"], (a.get("deadline") or {}).get("text"), e["verification"].get("note"), e.get("note"), e["url"])
-            for doc in e.get("documents", []):
-                texts += x(doc["title"], doc.get("note"))
-            if e.get("validatedAgainst"):
-                texts += x(e["validatedAgainst"]["scope"])
-            for r in e.get("adopterResponsibilities", []):
-                texts += x(r["text"])
-            items[f"ent-{e['id']}"] = texts; counts[kind] += 1
-    for h in d["helper"]:
-        items[f"helper-{h['id']}"] = x(h["question"], h["answer"]); counts["helpers"] += 1
-    for f in d["functions"]:
-        items[f"fn-{f['id']}"] = x(f["name"], f["question"], f["ztLanding"]) + x(*[c["name"] for c in f["categories"]]); counts["functions"] += 1
-    fn_name = {f["id"]: f["name"] for f in d["functions"]}
-    for r in d["ai"]["socProfile"]:
-        items[f"soc-{r['functionId']}"] = x(fn_name[r["functionId"]], r["outcome"]); counts["SOC Profile rows"] += 1
-    items["view-ai"] = x(d["ai"]["note"])
-    cells = {(c["pillarId"], c["functionId"]): c for c in d["matrix"]["cells"]}
-    views = d["pillars"]["views"]
-    for view, pillars, key in (("dow", views["dow"], "DoW-view cells"), ("cisa", views["cisa"]["pillars"] + views["cisa"]["crossCutting"], "CISA-view cells")):
-        for p in pillars:
-            for f in d["functions"]:
-                items[f"cell-{view}-{p}-{f['id']}"] = x(cells[(p, f["id"])]["text"]); counts[key] += 1
-    for g in d.get("glossary", []):
-        term = tok(g["term"])
-        items["gl-" + re.sub(r"[^a-z0-9]+", "-", term.lower()).strip("-")] = x(term, g.get("expansion"), g["oneLine"])
-        counts["glossary entries"] = counts.get("glossary entries", 0) + 1
-    items["elevator"] = x(*[ents[i]["oneLiner"] for i in d["elevator"]["frameworkIds"]])
-    L = d["ui"]["labels"]
-    # the front door (Session 7): the description, the eyebrow line and the two buttons
-    items["intro"] = x(d["meta"]["description"], L["heroEyebrow"], L["heroPrimary"], L["heroSecondary"], L.get("whyName"))
-    # the intro texts that moved (Session 7, section 4.4): the audience line, the plain definition of zero trust and the
-    # note on steps and layer tags open and close the doors section; the department's note moved to About
-    items["view-doors"] = x(L["audience"], L["ztPlain"], L["doorsIntro"])
-    items["about-body"] = x(d["meta"]["about"]["notAffiliated"], d["meta"]["about"]["offline"], d["meta"]["about"].get("licensing"),
-                            dow["statusNote"], L["dowNote"], d["meta"]["about"]["builtWith"], L.get("whyNameHeading"),
-                            *d["meta"]["about"].get("nameStory", []))
-    items["footer"] = x(L["footerLicenses"], L["pagesPrivacy"], L["pagesSupport"], L["sourceCode"])
-    return items, counts
+def expected_items(d: dict) -> tuple[dict[str, list], dict[str, int]]:
+    """The population the static-render check counts; defined once, in build_web.py, which --texts also writes."""
+    return B.static_texts(d)
 
 
 # texts that render exactly once on the page (Session 7, section 4.4), by label key

@@ -1,0 +1,118 @@
+# The source of ios/Lensatic.xcodeproj (session 8). Generate with XcodeGen from this folder: xcodegen generate
+# The battery regenerates the project into .tmp/ and diffs it, so edit this file, never the project.
+name: Lensatic
+options:
+  bundleIdPrefix: io.github.kensden
+  deploymentTarget:
+    iOS: "17.0"
+  developmentLanguage: en
+  # no intermediate groups: the files outside ios/ keep plain relative paths, so the project never takes the name of
+  # the folder the repository is checked out in
+  createIntermediateGroups: false
+settings:
+  base:
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "6.0"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: K57ZDM4BRY
+    # Simulator builds are not bundle-signed (the linker still signs every binary). The repository sits in a folder
+    # iCloud Drive syncs, which tags each built bundle with Finder information that codesign refuses; device builds
+    # and archives sign as usual.
+    CODE_SIGNING_ALLOWED[sdk=iphonesimulator*]: NO
+targets:
+  Lensatic:
+    type: application
+    platform: iOS
+    sources:
+      - path: Lensatic
+      # the content and the maker's photo by reference: the single source of each stays outside ios/
+      - path: ../content/stack.json
+        buildPhase: resources
+      - path: ../web/src/about-photo.jpg
+        buildPhase: resources
+    info:
+      path: Lensatic/Info.plist
+      properties:
+        CFBundleDisplayName: Lensatic
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ITSAppUsesNonExemptEncryption: false
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UIAppFonts:
+          - ibm-plex-sans-latin-400-normal.ttf
+          - ibm-plex-sans-latin-700-normal.ttf
+          - ibm-plex-mono-latin-400-normal.ttf
+          - ibm-plex-mono-latin-700-normal.ttf
+        # the maker line in About, as the web build's --author gives it
+        LensaticMaker: Ken Connell
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.kensden.lensatic
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        GENERATE_INFOPLIST_FILE: NO
+  LensaticTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: LensaticTests
+      # the repository's files at build time, by reference, so the tests never read outside their bundle
+      - path: ../content/stack.json
+        buildPhase: resources
+      - path: ../tools/validate.py
+        buildPhase: resources
+    dependencies:
+      - target: Lensatic
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.kensden.lensatic.tests
+        GENERATE_INFOPLIST_FILE: YES
+        # no debug information in the test bundles: symbolicating a failure otherwise reads build files from the
+        # iCloud Desktop, which the simulator waits on, and a failing test hangs instead of failing
+        GCC_GENERATE_DEBUGGING_SYMBOLS: NO
+  LensaticUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: LensaticUITests
+      - path: ../content/stack.json
+        buildPhase: resources
+    dependencies:
+      - target: Lensatic
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.kensden.lensatic.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        GCC_GENERATE_DEBUGGING_SYMBOLS: NO
+        TEST_TARGET_NAME: Lensatic
+schemes:
+  Lensatic:
+    build:
+      targets:
+        Lensatic: all
+    test:
+      config: Debug
+      targets:
+        - LensaticTests
+        - LensaticUITests
+  # the accessibility sweep, a diagnostic that reads every section top to bottom and fails nothing (LensaticUITests)
+  LensaticAuditSweep:
+    build:
+      targets:
+        Lensatic: all
+    test:
+      config: Debug
+      targets:
+        - LensaticUITests
+      environmentVariables:
+        LENSATIC_AUDIT_SWEEP: "1"
