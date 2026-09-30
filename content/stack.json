@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.0.0",
+    "contentVersion": "1.1.0",
     "builtOn": "2026-09-30",
     "sources": [
       "csf20",
@@ -17,6 +17,7 @@
       "ai-rmf",
       "ir8596",
       "ai-defense-matrix",
+      "cosai-zt-ai",
       "sp1353",
       "eo14028",
       "omb-m2209",
@@ -99,6 +100,11 @@
         "version": "1.0.0",
         "date": "2026-09-30",
         "summary": "The content the iOS app ships with. Corrections and updates from the pre-release review: the defense contractor door names the SPRS assessment score and cyber incident reporting, and names its DFARS clause in its first step; the CMMC entry says it binds contractors handling FCI or CUI; the doors give the clause number used under the FAR overhaul, and the SP 800-171 entry notes the proposed rule that would require Revision 3; the Everyone else door says when a contract can bind you and names the CIS Controls as a smaller catalog; the zero trust for OT entry says the document sets no deadline and records the dates the department has announced but not printed; the CISA maturity model links to CISA's current page and says how it binds; the FedRAMP answer describes both its Rev5 and 20x paths; the EO 14028 note says how National Security Systems are covered; the CMMC news release carries its printed headline; four matrix cells, two Respond cells and the Identify and Recover cards say more precisely what to do; the AI column says where AI lands in the matrix and counts three frameworks and a quick-start guide; the OT and ISO answers point to CISA's OT guidance and to NIST's cross-map; the glossary reads true in the app as well as on the page, names both FISMA acts, and adds SPRS and S. (Senate); the stack legend and the Sources heading describe the dashed chips as they are; MITRE ATT&CK is named in full where it first appears; the front door's date is labeled as the latest source check; the typefaces are IBM's own files, with IBM's license notice; and small corrections to citations, editions and source notes, with the dates of the sources checked again."
+      },
+      {
+        "version": "1.1.0",
+        "date": "2026-09-30",
+        "summary": "The AI column adds Zero Trust for AI Systems, Version 1.0 of 4 September 2026, from the Coalition for Secure AI (CoSAI), an OASIS Open Project. The column note gains a sentence on where the paper keeps authorization and now counts four frameworks; the glossary adds CoSAI and OASIS Open."
       }
     ],
     "description": "An offline explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.",
@@ -274,6 +280,7 @@
         "ai-rmf",
         "ir8596",
         "ai-defense-matrix",
+        "cosai-zt-ai",
         "sp1353"
       ],
       "isColumn": true
@@ -979,6 +986,42 @@
         "Sounil Yu"
       ],
       "license": "CC BY-SA 4.0",
+      "attributionRequired": true
+    },
+    {
+      "id": "cosai-zt-ai",
+      "layerId": "l6",
+      "name": "CoSAI Zero Trust for AI Systems",
+      "shortName": "CoSAI ZT for AI",
+      "oneLiner": "Zero Trust for AI Systems keeps authorization outside the model, beyond what it calls the AI threat boundary: an agent gets a scoped share of its user's rights, and a policy decision point checks each tool call.",
+      "answersQuestion": "Where must authorization sit when an AI agent acts for a user?",
+      "publisher": "Coalition for Secure AI (CoSAI), an OASIS Open Project",
+      "title": "Zero Trust for AI Systems",
+      "edition": "Version 1.0",
+      "date": "2026-09-04",
+      "url": "https://github.com/cosai-oasis/ws2-defenders/blob/main/zero-trust/Zero-Trust-for-AI-Systems.pdf",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-09-30",
+        "method": "primary-fetch",
+        "note": "PDF fetched: the cover prints the title, Version 1.0 and 4 September 2026; printed page 2 says the CoSAI Project Governing Board approved it that day, and page 9 places the model and its data pipeline inside the AI threat boundary of Figure 1 (page 8), limits an agent to a subset of its user's rights and makes each tool call a separate authorization. Added to the repository late on 15 September 2026, Eastern time (commit a733bdb), beside its Markdown source; no release or tag. The repository names Apache 2.0 and, for documentation and data, Creative Commons Attribution 4.0; this entry follows the paper's own notice."
+      },
+      "authority": {
+        "nature": "guidance",
+        "binds": [
+          "voluntary-all"
+        ],
+        "deadline": null,
+        "note": "A paper from an OASIS Open Project, outside the standards track; nothing binds anyone to it.",
+        "verification": {
+          "status": "verified",
+          "verifiedOn": "2026-09-30",
+          "method": "primary-fetch",
+          "note": "Printed page 22 carries the OASIS Open copyright notice and calls the paper a Non-Standards Track Work Product; page 21 says it may not reflect every CoSAI member's view."
+        }
+      },
+      "note": "From CoSAI's Workstream 2. A framework in the AI column because it maps zero trust onto the parts of an AI system: policies for each part (Table 1) and controls at maturity tiers (Table 2).",
+      "license": "Copyright 2026 OASIS Open, all rights reserved, with limited permissions if the notice is kept",
       "attributionRequired": true
     },
     {
@@ -5059,6 +5102,41 @@
       }
     },
     {
+      "term": "CoSAI",
+      "forms": [
+        "CoSAI"
+      ],
+      "expansion": "Coalition for Secure AI",
+      "oneLine": "An OASIS Open Project in which experts from many organizations write guidance for securing AI systems.",
+      "entityIds": [
+        "cosai-zt-ai"
+      ],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-09-30",
+        "method": "primary-fetch",
+        "note": "Name, expansion and description read on 30 September 2026 on printed pages 2 and 20 of Zero Trust for AI Systems and in the coalition's organization profile (https://github.com/cosai-oasis)."
+      }
+    },
+    {
+      "term": "OASIS Open",
+      "forms": [
+        "OASIS Open"
+      ],
+      "notAbbreviation": true,
+      "expansion": null,
+      "oneLine": "A nonprofit standards body that hosts open projects, CoSAI among them.",
+      "entityIds": [
+        "cosai-zt-ai"
+      ],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-09-30",
+        "method": "primary-fetch",
+        "note": "Read on 30 September 2026: the About Us page (https://www.oasis-open.org/org/) calls OASIS Open a nonprofit standards body and does not spell the name out; the FAQ (https://www.oasis-open.org/faq-5/) spells out the acronym OASIS and says the legal name became OASIS Open in 1998. The entry is that legal name, linked without an expansion; bare OASIS is not a form."
+      }
+    },
+    {
       "term": "IBM",
       "forms": [
         "IBM"
@@ -5504,6 +5582,10 @@
         "kind": "framework"
       },
       {
+        "id": "cosai-zt-ai",
+        "kind": "framework"
+      },
+      {
         "id": "sp1353",
         "kind": "quick-start-guide"
       },
@@ -5606,7 +5688,7 @@
         }
       }
     ],
-    "note": "Zero trust for agents is layers 2 and 3 applied to a new subject: an agent is a non-person entity, which SP 800-207 and the user pillar already cover. The AI RMF is the outcome layer for AI risk; the Cyber AI Profile applies the six functions to AI across its three focus areas; the AI Defense Matrix covers securing AI systems, the Profile's first focus area, not AI-enabled defense. The SOC Profile is a worked example of one Target Profile for an AI-enabled security operations center, one outcome per function. AI as the defender's tool lands in the automation pillar, where the {{dow}} model names it and the CISA model leaves it out. None of the three frameworks in this column, nor the quick-start guide beside them, binds anyone by its own force; the instrument that governs federal agencies' use of AI, OMB Memorandum M-25-21 of 3 April 2025, is listed here as governance outside the cybersecurity stack, and it names none of them."
+    "note": "Zero trust for agents is layers 2 and 3 applied to a new subject: an agent is a non-person entity, which SP 800-207 and the user pillar already cover. The AI RMF is the outcome layer for AI risk; the Cyber AI Profile applies the six functions to AI across its three focus areas; the AI Defense Matrix covers securing AI systems, the Profile's first focus area, not AI-enabled defense. CoSAI applies SP 800-207's policy decision point to agents: authorization stays outside the model, and each tool call gets its own access decision. The SOC Profile is a worked example of one Target Profile for an AI-enabled security operations center, one outcome per function. AI as the defender's tool lands in the automation pillar, where the {{dow}} model names it and the CISA model leaves it out. None of the four frameworks in this column, nor the quick-start guide beside them, binds anyone by its own force; the instrument that governs federal agencies' use of AI, OMB Memorandum M-25-21 of 3 April 2025, is listed here as governance outside the cybersecurity stack, and it names none of them."
   },
   "elevator": {
     "derivedFrom": "layers",
