@@ -1012,10 +1012,11 @@ def build_page(d: dict, key: str, author: str = "") -> bytes:
 
 
 def social_tags(d: dict) -> str:
-    """Link-preview tags. They load nothing in a reader's browser; only a crawler building a preview fetches the image."""
+    """Link-preview tags. They load nothing in a reader's browser; only a crawler building a preview fetches the image.
+    The preview's description is meta.pitch; the description tag for search engines stays meta.description."""
     meta = d["meta"]
     w, h = SOCIAL_SIZE
-    tags = [("property", "og:title", meta["name"]), ("property", "og:description", meta["description"]), ("property", "og:type", "website"),
+    tags = [("property", "og:title", meta["name"]), ("property", "og:description", meta["pitch"]), ("property", "og:type", "website"),
             ("property", "og:url", SITE), ("property", "og:image", f"{SITE}social-card.png"), ("property", "og:image:width", str(w)),
             ("property", "og:image:height", str(h)), ("name", "twitter:card", "summary_large_image")]
     return "\n".join(f'<meta {a}="{k}" content="{esc(v)}">' for a, k, v in tags)

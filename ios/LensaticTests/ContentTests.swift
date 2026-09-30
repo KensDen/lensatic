@@ -288,6 +288,16 @@ final class ContentTests: XCTestCase {
         XCTAssertTrue(text.contains(store.appVersion))
         XCTAssertFalse(store.maker.isEmpty)
     }
+
+    /// The pitch lines are for link previews, the README, the repository and the store listing: no screen shows them.
+    func testNoScreenShowsThePitchLines() {
+        let meta = store.content.meta
+        let shown = pages.values.flatMap(\.texts).map(webNorm)
+        for line in [meta.tagline, meta.pitch, meta.wayfinder] {
+            XCTAssertFalse(line.isEmpty)
+            XCTAssertFalse(shown.contains { $0.contains(webNorm(line)) }, "a screen shows: \(line)")
+        }
+    }
 }
 
 struct WebFixture: Decodable {

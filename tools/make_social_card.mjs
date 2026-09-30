@@ -1,5 +1,5 @@
 // Makes web/src/social-card.png, the 1200 x 630 link-preview image, once. The card is a small HTML page built from
-// content (the tile, the name, the front door's eyebrow line, the description) in the dial theme, with the embedded
+// content (the tile, the name, the front door's eyebrow line, the tagline) in the dial theme, with the embedded
 // IBM Plex faces, rendered by a headless Chrome over the DevTools Protocol. No packages, no network: Node's
 // child_process and built-in WebSocket, as tools/layout_check.mjs does. The PNG is a committed source asset; the page
 // build copies it to docs/ and never rebuilds it, so the build stays deterministic.
@@ -42,7 +42,7 @@ p.lede { font-size: 29px; line-height: 1.4; color: ${tok('fg-2')}; margin: 0; ma
 <div class="tile"><svg viewBox="${viewBox}" aria-hidden="true">${paths}</svg></div>
 <p class="eyebrow">${esc(d.ui.labels.heroEyebrow)}</p>
 <h1>${esc(d.meta.name)}</h1>
-<p class="lede">${esc(d.meta.description)}</p>
+<p class="lede">${esc(d.meta.tagline)}</p>
 </body></html>`;
 
 const CANDIDATES = [process.env.LENSATIC_CHROME, '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',

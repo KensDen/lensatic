@@ -10,7 +10,8 @@ struct RootView: View {
     var body: some View {
         @Bindable var model = model
         NavigationSplitView(columnVisibility: $columns) {
-            SectionList()
+            // the window's size class, read here: inside the split view the sidebar column is always compact
+            SectionList(isStartScreen: sizeClass == .compact)
         } detail: {
             NavigationStack(path: $model.path) {
                 Group {
@@ -45,6 +46,8 @@ struct RootView: View {
 
 struct SectionList: View {
     @Environment(AppModel.self) private var model
+    /// On iPhone the list is the start screen; on iPad it is the sidebar.
+    var isStartScreen = false
 
     var body: some View {
         @Bindable var model = model
@@ -72,6 +75,9 @@ struct SectionList: View {
         .scrollContentBackground(.hidden)
         .background(Palette.bg)
         .navigationTitle(page.title)
+        // the start screen carries the name, meta.name, as a large title, set inline: the solid bar (Appearance) covers a
+        // large title drawn below it. As the iPad's sidebar the list keeps its bar's usual title, the same name.
+        .toolbarTitleDisplayMode(isStartScreen ? .inlineLarge : .automatic)
     }
 }
 
