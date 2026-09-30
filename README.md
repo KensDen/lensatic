@@ -10,6 +10,8 @@ Works offline, no account, no data collected by Lensatic. The privacy policy not
 
 Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework publisher.
 
+See also the Zero Trust Field Guide: https://kensden.github.io/zero-trust-field-guide/
+
 ## License
 
 Lensatic's own code and text are copyright 2026 Ken Connell, all rights reserved ([`LICENSE`](LICENSE)). The text is the summaries, matrix cell text, doors, helper answers and glossary in `content/stack.json`, the schema descriptions, the review records in `critique/`, and this README. The code is `tools/`, `web/src/`, the build and check scripts, and the iOS app's source in `ios/`. The built pages, `web/lensatic.html` and everything in `docs/`, hold both. The repository is published so the work can be read and reviewed. No license is granted to copy, modify, distribute or otherwise use its code, text or artwork, in whole or in part, except as the law allows without a license or with Ken Connell's prior written permission. To ask about reusing any of it, open an issue at https://github.com/KensDen/lensatic/issues.
