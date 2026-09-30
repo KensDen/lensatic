@@ -109,6 +109,10 @@ The app keeps to the privacy policy in `docs/privacy.html` and to three App Stor
 
 The battery's iOS stage, `tools/check_ios.py`, runs on every machine: the colour sets and the text list equal fresh generations; nothing under `ios/` names a web view, a networking API, stored defaults, a file write or any API the privacy manifest would have to declare; the app names no outside address but the policy, support and source links; every font scales with Dynamic Type; the fonts, the icon and the privacy manifest are the pinned files and values; and the app carries no copy of the content or the photo. Where Xcode works, it also compares the committed project with a fresh XcodeGen generation and builds and tests the app on the newest iPhone simulator; elsewhere it prints one SKIP line. XcodeGen is used from `PATH`, or from its release unpacked into `.tmp/xcodegen/`.
 
+### App Store
+
+On the App Store the app is listed as Lensatic Cyber, because the single word was already reserved by another developer's record; everywhere else, the Home Screen included, it is Lensatic. `store/app-store.json` is the listing's source of truth, every field pasted into App Store Connect and nothing secret; its promotional text and description are built from `content/stack.json`. `store/app-store.md` is its copy sheet, one heading per field with the text to copy and the length of each text, and `python3 tools/check_listing.py --write` rebuilds both. The store screenshots come from `tools/ios_shots.sh --store`; the images stay out of the repository, and `store/screenshots.json` lists them with their sizes and hashes. The battery's listing stage, `tools/check_listing.py`, checks the fields against Apple's length limits, the settled wording and the listing rules, and checks the copy sheet and the screenshot list.
+
 ## Layout
 
     content/   stack.json and its schema

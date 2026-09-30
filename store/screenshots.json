@@ -1,0 +1,181 @@
+{
+  "about": "The App Store screenshots, taken by tools/ios_shots.sh --store and kept out of the repository; tools/check_listing.py checks this list.",
+  "screenshots": [
+    {
+      "order": 1,
+      "device": "iPhone-18-Pro-Max",
+      "display": "iPhone 6.9-inch display",
+      "screen": "start",
+      "file": "01_iPhone-18-Pro-Max_start.png",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "cc4f751bfb545a39a29c9b99d5e7ad28cf3af3b0d2443a314744631ffd1f1454",
+      "contentSha256": "e4b22744a5cf8b9a86c53208432a8302b8c4f00d3dd11bb7340f7bba09b5d761"
+    },
+    {
+      "order": 2,
+      "device": "iPhone-18-Pro-Max",
+      "display": "iPhone 6.9-inch display",
+      "screen": "doors",
+      "file": "02_iPhone-18-Pro-Max_doors.png",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "b54ba7322d74927a486afd0a3ae11cb2b43a71a7c52aff6d4ea0b40d310bc18e",
+      "contentSha256": "1cd7479c5eafc821dcd45c948332348375918094decb40f271ca2e725d2e2d1d"
+    },
+    {
+      "order": 3,
+      "device": "iPhone-18-Pro-Max",
+      "display": "iPhone 6.9-inch display",
+      "screen": "door-steps",
+      "file": "03_iPhone-18-Pro-Max_door-steps.png",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "95c0a77a3d2937aa346902f2479450e89cdcb9dcd2be8ed7e77618944c47cbc7",
+      "contentSha256": "f06d375b3cb90301fc3d9b1177dd4e1f89df03a10ae31063c65225597acc7e90"
+    },
+    {
+      "order": 4,
+      "device": "iPhone-18-Pro-Max",
+      "display": "iPhone 6.9-inch display",
+      "screen": "stack",
+      "file": "04_iPhone-18-Pro-Max_stack.png",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "6313489073dcac8aaa169f57044bf7b891f459f237eacb430286247a8907cab8",
+      "contentSha256": "9ff79a5ed80bff4f55663ad38ba0184d8f240874bc88abc1cba4fc30d659e781"
+    },
+    {
+      "order": 5,
+      "device": "iPhone-18-Pro-Max",
+      "display": "iPhone 6.9-inch display",
+      "screen": "matrix",
+      "file": "05_iPhone-18-Pro-Max_matrix.png",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "2352270997f12cb7cd3a650d7c24045bdfbf8191d5fac4648a1c9ccaba32fab1",
+      "contentSha256": "e32655a6101c4aedcbeff21cf69a92eeb2a9d28192fdd663bd422d1b8fd8e01f"
+    },
+    {
+      "order": 6,
+      "device": "iPhone-18-Pro-Max",
+      "display": "iPhone 6.9-inch display",
+      "screen": "ai",
+      "file": "06_iPhone-18-Pro-Max_ai.png",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "069882e39d962e691688b2edce70540f8036300537906abf9d639ba69b8c7ba3",
+      "contentSha256": "03c8cd0d94461c83cdaf473a93b8219882506b01825205693c240b4b81aee8cd"
+    },
+    {
+      "order": 7,
+      "device": "iPhone-18-Pro-Max",
+      "display": "iPhone 6.9-inch display",
+      "screen": "sources",
+      "file": "07_iPhone-18-Pro-Max_sources.png",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "1c4b4c3a4a54fa3f4a495b0087f69a4c8ca047100957387ab1a30e489621bda6",
+      "contentSha256": "a2624cbb0862b1ccad75f24ed3c5090803ecf5f1ce928c381a53629c4414bb41"
+    },
+    {
+      "order": 8,
+      "device": "iPhone-18-Pro-Max",
+      "display": "iPhone 6.9-inch display",
+      "screen": "about-name",
+      "file": "08_iPhone-18-Pro-Max_about-name.png",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "3279c26ed5b679dbbc1a1275c369a425155b0a0a1c134d1d53101e9a09a4c165",
+      "contentSha256": "445d8d7249e8c5f98692443fecc829c7e51dac9cf5ec67028c7da370a0bd2b32"
+    },
+    {
+      "order": 1,
+      "device": "iPad-Pro-13-inch-M5",
+      "display": "iPad 13-inch display",
+      "screen": "start",
+      "file": "01_iPad-Pro-13-inch-M5_start.png",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "b40b9353096d844a0f3eed3532b92a220e925d31083a35c8df6e1d591a2d5299",
+      "contentSha256": "785730f61cfb76c5846c3502625caed2b526a1f9e2271b382f582016e497dec8"
+    },
+    {
+      "order": 2,
+      "device": "iPad-Pro-13-inch-M5",
+      "display": "iPad 13-inch display",
+      "screen": "doors",
+      "file": "02_iPad-Pro-13-inch-M5_doors.png",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "55fcf1869dbaf5d64474ac74bc97ddb66017c82589b2cd75145c6f1a1b5be0ba",
+      "contentSha256": "e877aacdfabf6b64f01eba62f8fbbbd884ba5605fcd3630db46804507365394c"
+    },
+    {
+      "order": 3,
+      "device": "iPad-Pro-13-inch-M5",
+      "display": "iPad 13-inch display",
+      "screen": "door-steps",
+      "file": "03_iPad-Pro-13-inch-M5_door-steps.png",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "67cc4e5c0afcc51de4b273c0c1c146b46c9ad25da27400174a85c47a4270dce6",
+      "contentSha256": "a693cdf4ee2fa0d3ac5d82bcca72723ab67a4f304c4193cbc79694315c269709"
+    },
+    {
+      "order": 4,
+      "device": "iPad-Pro-13-inch-M5",
+      "display": "iPad 13-inch display",
+      "screen": "stack",
+      "file": "04_iPad-Pro-13-inch-M5_stack.png",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "348eb3abeea80b4fa024d30de1f20464f4c60168fb76cb190f70dec32f33e45f",
+      "contentSha256": "bb770e8975207f154b7730424208500d6b512dd34d6df73477159a2cbede8a38"
+    },
+    {
+      "order": 5,
+      "device": "iPad-Pro-13-inch-M5",
+      "display": "iPad 13-inch display",
+      "screen": "matrix",
+      "file": "05_iPad-Pro-13-inch-M5_matrix.png",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "4a49beb6d18917128cce56d1564b6abaf4c73aa5a80238bcd8a9ba0420c475d6",
+      "contentSha256": "8574085b246344b28104ced612707640fd7eb992213774933a53fa5dc4e47007"
+    },
+    {
+      "order": 6,
+      "device": "iPad-Pro-13-inch-M5",
+      "display": "iPad 13-inch display",
+      "screen": "ai",
+      "file": "06_iPad-Pro-13-inch-M5_ai.png",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "9cde31876cd6b4b3132be8b6a826ce0db235c2fed0270a776e760031bd18a9f3",
+      "contentSha256": "11f3ca3c5204f7a23a896c9c7d94699d18f0020796b960490b22fa7ad7a9ff3d"
+    },
+    {
+      "order": 7,
+      "device": "iPad-Pro-13-inch-M5",
+      "display": "iPad 13-inch display",
+      "screen": "sources",
+      "file": "07_iPad-Pro-13-inch-M5_sources.png",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "b6006a64686f46137a4e9c41e268989836d3e96c997e284dbb00b3603b55438f",
+      "contentSha256": "2bd73e296c1b2b625fe24761c3d4b1eb78f92bf79f8afdc38092ab3fd48f2ef9"
+    },
+    {
+      "order": 8,
+      "device": "iPad-Pro-13-inch-M5",
+      "display": "iPad 13-inch display",
+      "screen": "about-name",
+      "file": "08_iPad-Pro-13-inch-M5_about-name.png",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "de1d81cf800529227a10f15010e6872c1f1ffbfb59d79bf29c7a58a79ac37ae1",
+      "contentSha256": "c8577d71b3ef7821f3206ca714c6fdfa0c35016d79d596fd80f9e78e41bf0f07"
+    }
+  ]
+}

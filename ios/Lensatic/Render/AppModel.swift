@@ -24,11 +24,16 @@ final class AppModel {
         self.store = store
         builder = PageBuilder(store: store)
         #if DEBUG
-        // the screenshot tool (tools/ios_shots.sh) opens a section, and optionally a heading in it, by launch argument
+        // the screenshot tool (tools/ios_shots.sh) opens a section by launch argument, and optionally a heading in it or a
+        // screen pushed inside it, named by the address its links carry (lensatic:/door/<id>)
         let args = ProcessInfo.processInfo.arguments
         if let i = args.firstIndex(of: "-LensaticScreen"), i + 1 < args.count, let s = Section(rawValue: args[i + 1]) {
             selection = s
             if let j = args.firstIndex(of: "-LensaticAnchor"), j + 1 < args.count { pendingAnchor = args[j + 1] }
+            if let j = args.firstIndex(of: "-LensaticPush"), j + 1 < args.count, let url = URL(string: args[j + 1]),
+               case .push(let route)? = Target(url: url) {
+                path = [route]
+            }
         }
         #endif
     }
