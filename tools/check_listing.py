@@ -69,7 +69,7 @@ OPENING = ("The federal cyber framework landscape is thick woods: overlapping ru
            "trails that all look alike. Lensatic Cyber is the compass that shows where you stand and which way to head "
            f"next. {COMPASS}")
 WHATS_INSIDE = "What's inside"
-KEYWORD_CANDIDATES = ("zero trust", "NIST", "CSF", "800-53", "800-207", "CMMC", "RMF", "FedRAMP", "CISA", "compliance",
+KEYWORD_CANDIDATES = ("zero trust", "NIST", "CSF", "800-53", "800-207", "800-171", "CMMC", "RMF", "FedRAMP", "CISA", "compliance",
                       "cybersecurity", "federal", "framework", "controls", "reference", "governance")
 
 SITE = "https://kensden.github.io/lensatic/"
@@ -83,8 +83,18 @@ FIELDS = {"name": 30, "subtitle": 30, "promotionalText": 170, "description": 400
 # the owner's decisions of 29 September 2026: no secondary category; the United States only; iPhone and iPad at launch
 PINNED = {"name": STORE_NAME, "subtitle": SUBTITLE, "copyright": "2026 Ken Connell", "primaryCategory": "Reference",
           "secondaryCategory": None, "price": "Free", "privacyNutrition": "Data Not Collected",
-          "availability": {"countriesOrRegions": ["United States"], "devices": ["iPhone", "iPad"]},
-          "ageRating": {"contentCategories": "None", "unrestrictedWebAccess": False, "userGeneratedContent": False, "rating": "4+"}}
+          "availability": {"countriesOrRegions": ["United States"], "devices": ["iPhone", "iPad"],
+                           "appleSiliconMacAvailability": "cleared", "appleVisionProAvailability": "cleared"},
+          "ageRating": {"contentCategories": "None", "unrestrictedWebAccess": False, "userGeneratedContent": False,
+                        "messagingAndChat": False, "advertising": False, "socialMedia": False, "parentalControls": "None",
+                        "ageAssurance": "None", "medicalOrWellness": "None", "rating": "4+"}}
+# the review notes carry the support route (session 11, Q22)
+REVIEW_SUPPORT = ("Support is through the public issues page linked from the support page, where the app goes by Lensatic, "
+                  "its name outside the App Store; the app collects no data.")
+# two items of What's inside carry a gloss (session 11, Q24); the department renders through its token
+GLOSS = {"doors": ", one each for federal civilian agencies, {{dow.current}} components, defense contractors, and everyone else",
+         "sources": ": every framework and source on the stack, with its publisher, a link to the primary, and its verification "
+                    "status with its date"}
 FAMILY = {"1": "iPhone", "2": "iPad"}  # TARGETED_DEVICE_FAMILY's numbers
 MAKER_SURNAME = "Connell"  # the maker is named in the copyright line only
 NULLABLE = ("secondaryCategory", "whatsNew")  # null: no secondary category, and not used for a first version
@@ -125,11 +135,13 @@ HEADINGS = {"name": "Name", "subtitle": "Subtitle", "promotionalText": "Promotio
 NOTES = {"name": "The App Store name only; everywhere else the app is Lensatic.",
          "secondaryCategory": "None, by the owner's decision: leave it empty.",
          "price": "The price schedule's base price.",
-         "availability": "Pricing and Availability: the United States only, by the owner's decision. The app launches on "
-                         "iPhone and iPad; the build sets the devices (TARGETED_DEVICE_FAMILY 1,2), and each has its eight "
+         "availability": "Pricing and Availability: the United States only, by the owner's decision. In Pricing and "
+                         "Availability, clear Make this app available under Apple Silicon Mac Availability and Make this app "
+                         "available on Apple Vision Pro, so the store offers the app on iPhone and iPad only; each has its eight "
                          "screenshots.",
-         "ageRating": "The answers to the age rating questionnaire: every content category None, no unrestricted web access, "
-                      "no user-generated content, giving 4+.",
+         "ageRating": "The answers to the age rating questionnaire: every content category None; no unrestricted web "
+                      "access; no user-generated content; no messaging and chat, advertising or social media; parental "
+                      "controls, age assurance and medical or wellness topics none; giving 4+.",
          "privacyNutrition": "The App Privacy answer: the app collects no data.",
          "exportCompliance": "The app uses no non-exempt encryption; Info.plist says so with ITSAppUsesNonExemptEncryption set to NO.",
          "whatsNew": "Not used for a first version."}
@@ -165,7 +177,7 @@ def build_description(d: dict) -> str:
     order; the offline line; the not-affiliated sentence; the first paragraph of Why the name."""
     meta, titles = d["meta"], d["ui"]["sections"]
     order = [s for s in B.SECTIONS if s != "glossary" or d.get("glossary")]
-    inside = "\n".join([WHATS_INSIDE] + [f"- {resolve(d, titles[s])}" for s in order])
+    inside = "\n".join([WHATS_INSIDE] + [f"- {resolve(d, titles[s])}{resolve(d, GLOSS.get(s, ''))}" for s in order])
     parts = [OPENING, as_store(resolve(d, meta["wayfinder"])), resolve(d, meta["description"]), inside,
              resolve(d, meta["about"]["offline"]), resolve(d, meta["about"]["notAffiliated"]),
              as_store(resolve(d, meta["about"]["nameStory"][0]))]
@@ -356,6 +368,8 @@ def check(rep) -> None:
             errs.append("privacyNutrition says Data Not Collected, but the privacy manifest declares collection or tracking")
     except Exception as exc:  # noqa: BLE001
         errs.append(f"reading the app's settings: {exc}")
+    if REVIEW_SUPPORT not in str(listing.get("reviewNotes", "")):
+        errs.append("reviewNotes do not carry the support sentence")
     if listing.get("version") == "1.0" and listing.get("whatsNew") is not None:
         errs.append("whatsNew is set for a first version")
     rep.check("the support, marketing and privacy addresses are the site's own pages and exist in docs/; copyright, secondary "
@@ -371,8 +385,11 @@ def check(rep) -> None:
         errs.append("the README does not open with its title and, on its own line under it, meta.tagline")
     if len(lines) < 5 or meta.get("wayfinder", "\0") not in lines[4]:
         errs.append("the README's opening paragraph does not carry meta.wayfinder")
-    rep.check("README: the tagline on its own line under the title and the wayfinder line in the opening paragraph, from content",
-              errs)
+    top = "\n".join(lines[:lines.index("## License")] if "## License" in lines else lines)
+    if resolve(d, meta.get("about", {}).get("notAffiliated", "\0")) not in top.split("\n"):
+        errs.append("the README's top section does not carry the not-affiliated line, from content, on its own line")
+    rep.check("README: the tagline on its own line under the title, the wayfinder line in the opening paragraph and the "
+              "not-affiliated line in the top section, from content", errs)
 
     # the copy sheet
     fresh = sheet(listing)

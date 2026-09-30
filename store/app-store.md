@@ -38,13 +38,13 @@ Lensatic Cyber is a wayfinder, not a crosswalk. It guides you, showing which fra
 An offline explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.
 
 What's inside
-- Start here: the doors
+- Start here: the doors, one each for federal civilian agencies, Department of War components, defense contractors, and everyone else
 - The stack
 - The matrix
 - The six functions
 - The AI column
 - Questions: which framework, when
-- Sources
+- Sources: every framework and source on the stack, with its publisher, a link to the primary, and its verification status with its date
 - Glossary
 - About
 
@@ -55,12 +55,12 @@ Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework pu
 A lensatic compass is the Army's field compass. You sight a landmark through its lens, read the bearing off the dial, and move out knowing which way you're headed. Lensatic Cyber does the same for the framework stack: find where you stand, see which framework applies, and take a bearing on what comes next.
 ```
 
-1269 characters (limit 4,000)
+1506 characters (limit 4,000)
 
 ## Keywords (`keywords`)
 
 ```text
-zero trust,NIST,CSF,800-53,800-207,CMMC,RMF,FedRAMP,CISA,compliance,cybersecurity,federal,controls
+zero trust,NIST,CSF,800-53,800-207,CMMC,RMF,800-171,CISA,compliance,cybersecurity,federal,controls
 ```
 
 98 characters (limit 100)
@@ -123,21 +123,29 @@ Free
 
 ## Availability (`availability`)
 
-Pricing and Availability: the United States only, by the owner's decision. The app launches on iPhone and iPad; the build sets the devices (TARGETED_DEVICE_FAMILY 1,2), and each has its eight screenshots.
+Pricing and Availability: the United States only, by the owner's decision. In Pricing and Availability, clear Make this app available under Apple Silicon Mac Availability and Make this app available on Apple Vision Pro, so the store offers the app on iPhone and iPad only; each has its eight screenshots.
 
 ```text
 countriesOrRegions: United States
 devices: iPhone, iPad
+appleSiliconMacAvailability: cleared
+appleVisionProAvailability: cleared
 ```
 
 ## Age Rating (`ageRating`)
 
-The answers to the age rating questionnaire: every content category None, no unrestricted web access, no user-generated content, giving 4+.
+The answers to the age rating questionnaire: every content category None; no unrestricted web access; no user-generated content; no messaging and chat, advertising or social media; parental controls, age assurance and medical or wellness topics none; giving 4+.
 
 ```text
 contentCategories: None
 unrestrictedWebAccess: false
 userGeneratedContent: false
+messagingAndChat: false
+advertising: false
+socialMedia: false
+parentalControls: None
+ageAssurance: None
+medicalOrWellness: None
 rating: 4+
 ```
 
@@ -162,10 +170,10 @@ usesNonExemptEncryption: false
 ## App Review Notes (`reviewNotes`)
 
 ```text
-No sign-in is needed: the app has no accounts. It works fully offline and makes no network requests. The app summarizes public documents. The frameworks and sources on its stack are each cited in its Sources section: United States government and standards publications, and one privately published framework released under a Creative Commons license. The app is not affiliated with any agency. Outside links open in the system browser. The privacy policy is linked in About, beside the support page and the source code.
+No sign-in is needed: the app has no accounts. It works fully offline and makes no network requests. The app summarizes public documents. The frameworks and sources on its stack are each cited in its Sources section: United States government and standards publications, and one privately published framework released under a Creative Commons license. The app is not affiliated with any agency. Outside links open in the system browser. The privacy policy is linked in About, beside the support page and the source code. Support is through the public issues page linked from the support page, where the app goes by Lensatic, its name outside the App Store; the app collects no data.
 ```
 
-519 characters (limit 4,000)
+681 characters (limit 4,000)
 
 ## Version (`version`)
 
