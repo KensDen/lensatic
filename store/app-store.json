@@ -2,8 +2,8 @@
   "name": "Lensatic Cyber",
   "subtitle": "A compass for cyber frameworks",
   "promotionalText": "Federal cyber frameworks are thick woods. Lensatic Cyber is the compass: find where you stand, see which framework applies, and take a bearing on your next waypoint. 🧭",
-  "description": "The federal cyber framework landscape is thick woods: overlapping rules, shifting requirements, and a dozen trails that all look alike. Lensatic Cyber is the compass that shows where you stand and which way to head next. 🧭\n\nLensatic Cyber is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.\n\nAn offline explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.\n\nWhat's inside\n- Start here: the doors\n- The stack\n- The matrix\n- The six functions\n- The AI column\n- Questions: which framework, when\n- Sources\n- Glossary\n- About\n\nWorks offline. No account. No data collected.\n\nNot affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework publisher.\n\nA lensatic compass is the Army's field compass. You sight a landmark through its lens, read the bearing off the dial, and move out knowing which way you're headed. Lensatic Cyber does the same for the framework stack: find where you stand, see which framework applies, and take a bearing on what comes next.",
-  "keywords": "zero trust,NIST,CSF,800-53,800-207,CMMC,RMF,FedRAMP,CISA,compliance,cybersecurity,federal,controls",
+  "description": "The federal cyber framework landscape is thick woods: overlapping rules, shifting requirements, and a dozen trails that all look alike. Lensatic Cyber is the compass that shows where you stand and which way to head next. 🧭\n\nLensatic Cyber is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.\n\nAn offline explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.\n\nWhat's inside\n- Start here: the doors, one each for federal civilian agencies, Department of War components, defense contractors, and everyone else\n- The stack\n- The matrix\n- The six functions\n- The AI column\n- Questions: which framework, when\n- Sources: every framework and source on the stack, with its publisher, a link to the primary, and its verification status with its date\n- Glossary\n- About\n\nWorks offline. No account. No data collected.\n\nNot affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework publisher.\n\nA lensatic compass is the Army's field compass. You sight a landmark through its lens, read the bearing off the dial, and move out knowing which way you're headed. Lensatic Cyber does the same for the framework stack: find where you stand, see which framework applies, and take a bearing on what comes next.",
+  "keywords": "zero trust,NIST,CSF,800-53,800-207,CMMC,RMF,800-171,CISA,compliance,cybersecurity,federal,controls",
   "supportUrl": "https://kensden.github.io/lensatic/support.html",
   "marketingUrl": "https://kensden.github.io/lensatic/",
   "privacyPolicyUrl": "https://kensden.github.io/lensatic/privacy.html",
@@ -18,19 +18,27 @@
     "devices": [
       "iPhone",
       "iPad"
-    ]
+    ],
+    "appleSiliconMacAvailability": "cleared",
+    "appleVisionProAvailability": "cleared"
   },
   "ageRating": {
     "contentCategories": "None",
     "unrestrictedWebAccess": false,
     "userGeneratedContent": false,
+    "messagingAndChat": false,
+    "advertising": false,
+    "socialMedia": false,
+    "parentalControls": "None",
+    "ageAssurance": "None",
+    "medicalOrWellness": "None",
     "rating": "4+"
   },
   "privacyNutrition": "Data Not Collected",
   "exportCompliance": {
     "usesNonExemptEncryption": false
   },
-  "reviewNotes": "No sign-in is needed: the app has no accounts. It works fully offline and makes no network requests. The app summarizes public documents. The frameworks and sources on its stack are each cited in its Sources section: United States government and standards publications, and one privately published framework released under a Creative Commons license. The app is not affiliated with any agency. Outside links open in the system browser. The privacy policy is linked in About, beside the support page and the source code.",
+  "reviewNotes": "No sign-in is needed: the app has no accounts. It works fully offline and makes no network requests. The app summarizes public documents. The frameworks and sources on its stack are each cited in its Sources section: United States government and standards publications, and one privately published framework released under a Creative Commons license. The app is not affiliated with any agency. Outside links open in the system browser. The privacy policy is linked in About, beside the support page and the source code. Support is through the public issues page linked from the support page, where the app goes by Lensatic, its name outside the App Store; the app collects no data.",
   "version": "1.0",
   "whatsNew": null
 }
