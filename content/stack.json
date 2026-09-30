@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "0.8.1",
-    "builtOn": "2026-09-28",
+    "contentVersion": "0.8.2",
+    "builtOn": "2026-09-29",
     "sources": [
       "csf20",
       "sp800-207",
@@ -89,9 +89,17 @@
         "version": "0.8.1",
         "date": "2026-09-28",
         "summary": "Wording for the iOS app: the support page says the app is built from the same content, the privacy policy says the app keeps nothing, and the introductions to the doors, the stack and the matrix have app versions that describe the app's screens. No change to the stack's facts."
+      },
+      {
+        "version": "0.8.2",
+        "date": "2026-09-29",
+        "summary": "Link previews now use the Lensatic pitch; the short line and the wayfinder line are stored with the content for the README, the repository and the store listing. The start screen of the iPhone app gains its title."
       }
     ],
     "description": "An offline explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.",
+    "tagline": "Federal cyber frameworks are thick woods. Lensatic is the compass.",
+    "pitch": "Federal cyber frameworks are thick woods. Lensatic is the compass: find where you stand, see which framework applies, and take a bearing on your next waypoint.",
+    "wayfinder": "Lensatic is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.",
     "about": {
       "notAffiliated": "Not affiliated with NIST, CISA, NSA, {{dow.current}}, OMB, or any framework publisher.",
       "offline": "Works offline. No account. No data collected.",

@@ -111,6 +111,10 @@ final class LensaticUITests: XCTestCase {
         launch()
         continueAfterFailure = true  // one run reports every screen's audit issues, not only the first screen's
         XCTAssertTrue(element("section-doors").waitForExistence(timeout: 10))
+        // the start screen's bar carries the name as its title: the list's on iPhone, the sidebar's on iPad
+        let name = (Self.content["meta"] as? [String: Any])?["name"] as? String ?? ""
+        XCTAssertFalse(name.isEmpty)
+        XCTAssertTrue(app.navigationBars.staticTexts[name].firstMatch.waitForExistence(timeout: 5), "the start screen shows its title")
         try audit("section list")
         for section in Self.sections {
             open(section)

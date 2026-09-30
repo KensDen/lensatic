@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:lensatic:stack.schema:0.8.1",
+  "$id": "urn:lensatic:stack.schema:0.8.2",
   "title": "Lensatic content model",
   "description": "Schema for content/stack.json, the single source of truth for Lensatic. Every rendered string lives in that file once. Prose refers to the department only through the tokens {{dow}} and {{dow.<field>}}, which render from orgs.dow.",
   "type": "object",
@@ -34,6 +34,9 @@
         "sources",
         "changelog",
         "description",
+        "tagline",
+        "pitch",
+        "wayfinder",
         "about",
         "licenses"
       ],
@@ -83,6 +86,18 @@
           }
         },
         "description": {
+          "$ref": "#/$defs/prose"
+        },
+        "tagline": {
+          "description": "the short line for the repository description and the README",
+          "$ref": "#/$defs/prose"
+        },
+        "pitch": {
+          "description": "link previews and, with the store name, the promotional text",
+          "$ref": "#/$defs/prose"
+        },
+        "wayfinder": {
+          "description": "what Lensatic is and is not, for the README and the store description",
           "$ref": "#/$defs/prose"
         },
         "about": {

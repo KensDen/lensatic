@@ -29,6 +29,7 @@ exactly its six parts; the footer carries the three addresses; docs/ holds exact
 for byte, and the link-preview tags point at the published site; the intro texts that moved render exactly once.
 Licensing (Session 7B): the footer's licence line, the About paragraph and the support page's sentence on reuse are
 the all-rights-reserved wording ruled for content 0.7.0.
+Link previews (Session 9): og:description is meta.pitch; the description tag stays meta.description.
 The embedded JSON element is exempt from the text checks: it is content/stack.json byte for byte and is
 checked by the content battery; its URLs are data, its render tokens are data.
 """
@@ -814,8 +815,12 @@ def main() -> int:
             metas[k] = attrs.get("content")
             seen_[k] = seen_.get(k, 0) + 1
     errs += [f"<meta {k}> appears {v} times" for k, v in seen_.items() if v > 1]
-    want_ = {"og:title": d["meta"]["name"], "og:description": d["meta"]["description"], "og:type": "website", "og:url": SITE,
-             "og:image": f"{SITE}social-card.png", "og:image:width": "1200", "og:image:height": "630", "twitter:card": "summary_large_image"}
+    # the preview's description is the pitch (session 9); the description tag for search engines stays meta.description
+    want_ = {"og:title": d["meta"]["name"], "og:description": d["meta"]["pitch"], "og:type": "website", "og:url": SITE,
+             "og:image": f"{SITE}social-card.png", "og:image:width": "1200", "og:image:height": "630", "twitter:card": "summary_large_image",
+             "description": d["meta"]["description"]}
+    if "twitter:description" in metas:
+        want_["twitter:description"] = d["meta"]["pitch"]
     for k, v in want_.items():
         if metas.get(k) != v:
             errs.append(f"<meta {k}> is {metas.get(k)!r}, expected {v!r}")
@@ -823,7 +828,8 @@ def main() -> int:
         if not (metas.get(k) or "").startswith("https://kensden.github.io/lensatic/"):
             errs.append(f"{k} is not an absolute https address on kensden.github.io/lensatic/")
     rep.check("social card: docs/ holds exactly one image, social-card.png, byte for byte the committed source, 1200 x 630; og:url and "
-              "og:image are absolute https addresses on the published site; the preview tags come from content", errs, size_)
+              "og:image are absolute https addresses on the published site; the preview tags come from content (og:description the pitch, "
+              "the description tag meta.description)", errs, size_)
 
     # the About photo (Session 7D, section 4.4): embedded exactly once, in About, as a data: URI that decodes to the pinned
     # file, with no metadata, its alt text from content and its true size; the plain pages hold no image
