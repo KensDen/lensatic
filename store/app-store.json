@@ -11,6 +11,15 @@
   "primaryCategory": "Reference",
   "secondaryCategory": null,
   "price": "Free",
+  "availability": {
+    "countriesOrRegions": [
+      "United States"
+    ],
+    "devices": [
+      "iPhone",
+      "iPad"
+    ]
+  },
   "ageRating": {
     "contentCategories": "None",
     "unrestrictedWebAccess": false,
