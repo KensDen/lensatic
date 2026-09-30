@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "0.8.2",
-    "builtOn": "2026-09-29",
+    "contentVersion": "1.0.0",
+    "builtOn": "2026-09-30",
     "sources": [
       "csf20",
       "sp800-207",
@@ -94,6 +94,11 @@
         "version": "0.8.2",
         "date": "2026-09-29",
         "summary": "Link previews now use the Lensatic pitch; the short line and the wayfinder line are stored with the content for the README, the repository and the store listing. The start screen of the iPhone app gains its title."
+      },
+      {
+        "version": "1.0.0",
+        "date": "2026-09-30",
+        "summary": "The content the iOS app ships with. Corrections and updates from the pre-release review: the defense contractor door names the SPRS assessment score and cyber incident reporting, and names its DFARS clause in its first step; the CMMC entry says it binds contractors handling FCI or CUI; the doors give the clause number used under the FAR overhaul, and the SP 800-171 entry notes the proposed rule that would require Revision 3; the Everyone else door says when a contract can bind you and names the CIS Controls as a smaller catalog; the zero trust for OT entry says the document sets no deadline and records the dates the department has announced but not printed; the CISA maturity model links to CISA's current page and says how it binds; the FedRAMP answer describes both its Rev5 and 20x paths; the EO 14028 note says how National Security Systems are covered; the CMMC news release carries its printed headline; four matrix cells, two Respond cells and the Identify and Recover cards say more precisely what to do; the AI column says where AI lands in the matrix and counts three frameworks and a quick-start guide; the OT and ISO answers point to CISA's OT guidance and to NIST's cross-map; the glossary reads true in the app as well as on the page, names both FISMA acts, and adds SPRS and S. (Senate); the stack legend and the Sources heading describe the dashed chips as they are; MITRE ATT&CK is named in full where it first appears; the front door's date is labeled as the latest source check; the typefaces are IBM's own files, with IBM's license notice; and small corrections to citations, editions and source notes, with the dates of the sources checked again."
       }
     ],
     "description": "An offline explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.",
@@ -120,7 +125,7 @@
           "tools/",
           "web/src/",
           "the build and check scripts",
-          "any future ios/ source"
+          "the iOS app's source in ios/"
         ]
       },
       "content": {
@@ -264,7 +269,7 @@
       "order": 6,
       "name": "AI column",
       "question": "What do the same questions look like when the system being secured, the attacker's tool, or the defender's tool is AI?",
-      "oneLiner": "A column beside the stack that asks the same questions of AI systems and agents, the newest subject in the same matrix.",
+      "oneLiner": "A column beside the stack that asks the same questions of AI systems and agents; in the matrix an agent is a non-person entity in the user pillar, and AI as the defender's tool sits in the automation pillar.",
       "frameworkIds": [
         "ai-rmf",
         "ir8596",
@@ -289,7 +294,7 @@
       "url": "https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "NIST CSWP 29 PDF fetched: title, version 2.0 and 26 February 2024 match. The 22 Category names were checked against Appendix A Table 1 and the five Organizational Profile steps against section 3.1, Figure 3. The Community Profile definition was read on 17 September 2026 in section 3.1, printed page 6, and in the glossary entry CSF Community Profile, printed page 26."
       },
@@ -305,7 +310,7 @@
           "status": "verified",
           "verifiedOn": "2026-09-09",
           "method": "primary-fetch",
-          "note": "Section 1 of the document: the CSF 'may be adopted voluntarily and through governmental policies and mandates'. The federal direction is EO 13800 section 1(c)(ii); that order's section 1(b)(iv) covers every executive department and agency and its section 1(c)(vii) routes National Security Systems to the Secretary of Defense and the Director of National Intelligence."
+          "note": "Section 1 of the document: the CSF 'may be adopted voluntarily and through governmental policies and mandates'. The federal direction is EO 13800 section 1(c)(ii); that order's section 1(a) defines agency heads as the heads of executive departments and agencies and its section 1(c)(vii) routes National Security Systems to the Secretary of Defense and the Director of National Intelligence."
         }
       },
       "note": "Tiers characterize the rigor of an organization's cybersecurity risk governance and management practices (section 3.2); CSF 2.0 does not print the CSF 1.1 sentence that Tiers are not maturity levels. The CSF 2.0 Reference Tool is at https://csrc.nist.gov/projects/cybersecurity-framework/filters and the Informative Reference Catalog at https://csrc.nist.gov/projects/olir/informative-reference-catalog. A Community Profile, in the framework's own words, is a baseline of CSF outcomes that is created and published to address shared interests and goals among a number of organizations (section 3.1)."
@@ -324,7 +329,7 @@
       "url": "https://csrc.nist.gov/pubs/sp/800/207/final",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "CSRC record and PDF fetched: title Zero Trust Architecture, August 2020 (final posted 11 August 2020); section 3 defines the policy engine, policy administrator and policy enforcement point; the word pillar does not appear."
       },
@@ -337,7 +342,7 @@
         "note": "A definition, not a mandate; the civilian memo and the {{dow}} strategy both point to it for what zero trust means.",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-09-09",
+          "verifiedOn": "2026-09-29",
           "method": "primary-fetch",
           "note": "Front matter: developed under FISMA for federal information systems; use by nongovernmental organizations is voluntary. Cited as the definition by OMB M-22-09 and the DoD Zero Trust Strategy, both fetched."
         }
@@ -360,7 +365,8 @@
         "status": "verified",
         "verifiedOn": "2026-09-09",
         "method": "primary-fetch",
-        "note": "PDF fetched from the CIO library at dowcio.war.gov, which also serves the older dodcio.defense.gov address. Printed date 21 October 2022, version 1.0; cleared for open publication 7 November 2022; announced 22 November 2022, the date usually cited for it. Pillars, the two levels and the FY2027 mandate were read from the document; its Appendix A chart depicts the 45 capabilities, and the counts are printed in the companion roadmap."
+        "note": "PDF fetched from the CIO library at dowcio.war.gov, which also serves the older dodcio.defense.gov address. Printed date 21 October 2022, version 1.0; cleared for open publication 7 November 2022; announced 22 November 2022, the date usually cited for it. Pillars, the two levels and the FY2027 mandate were read from the document; its Appendix A chart depicts the 45 capabilities, and the counts are printed in the companion roadmap.",
+        "recheckAfter": "2026-12-15"
       },
       "authority": {
         "nature": "strategy",
@@ -387,7 +393,7 @@
           "url": "https://dowcio.war.gov/Portals/0/Documents/Library/DoD-ZTStrategy.pdf",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-09",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "Fetched; cover and running headers print 21 October 2022; change history 1.0 initial published version."
           }
@@ -407,7 +413,7 @@
           "note": "The issuance that turned the strategy into direction to components and established the zero trust portfolio office in policy (the office itself dates from January 2022). Its printed expiry of 17 July 2026 has passed; on 17 September 2026 the issuance library still listed it without a cancellation or extension, and no instruction had replaced it."
         }
       ],
-      "note": "The implementing memorandum DTM 25-003 carries a printed expiry of 17 July 2026; on 17 September 2026 the issuance library still listed it with that expiry and no cancellation, extension or successor, and no replacement instruction was found, so the FY2027 deadline rests on the strategy and the roadmap. Operational technology has its own activities and outcomes, listed at this layer as a separate entry."
+      "note": "The implementing directive-type memorandum (DTM) 25-003 carries a printed expiry of 17 July 2026; on 17 September 2026 the issuance library still listed it with that expiry and no cancellation, extension or successor, and no replacement instruction was found, so the FY2027 deadline rests on the strategy and the roadmap. Operational technology has its own activities and outcomes, listed at this layer as a separate entry."
     },
     {
       "id": "cisa-ztmm",
@@ -420,12 +426,12 @@
       "title": "Zero Trust Maturity Model",
       "edition": "Version 2.0",
       "date": "2023-04",
-      "url": "https://www.cisa.gov/zero-trust-maturity-model",
+      "url": "https://www.cisa.gov/resources-tools/resources/zero-trust-maturity-model",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-30",
         "method": "primary-fetch",
-        "note": "Version 2.0 PDF fetched from cisa.gov: cover April 2023 (resource page revision date 11 April 2023); five pillars, three cross-cutting capabilities and four stages as printed. The landing page carries CISA's site-wide Archived Content banner; the resource page lists version 2.0 as the only edition and no successor."
+        "note": "Version 2.0 PDF fetched from cisa.gov: cover April 2023 (resource page revision date 11 April 2023); five pillars, three cross-cutting capabilities and four stages as printed. The landing page carries CISA's Archived Content banner, which CISA's home page and the model's resource page (https://www.cisa.gov/resources-tools/resources/zero-trust-maturity-model) do not; the resource page, revision date 11 April 2023, lists version 2.0 as the only edition and no successor. Re-read on 30 September 2026 (session 11 fetches a3001 to a3004): the resource page, now the entry's address (a3001), prints 'Revision Date April 11, 2023' and 'CISA's Zero Trust Maturity Model Version 2.0' and carries no archive alert; the landing page at https://www.cisa.gov/zero-trust-maturity-model (a3002) still carries the Archived Content alert, and CISA's home page (a3003) does not; the version 2.0 PDF the resource page links (https://www.cisa.gov/sites/default/files/2023-04/CISA_Zero_Trust_Maturity_Model_Version_2_508c.pdf, a3004) prints April 2023 and Version 2.0 on its cover (page 1), the five pillars and three cross-cutting capabilities on page 6, and the stages Traditional, Initial, Advanced and Optimal on page 8."
       },
       "authority": {
         "nature": "model",
@@ -433,12 +439,12 @@
           "federal-civilian"
         ],
         "deadline": null,
-        "note": "Written for federal civilian agencies; M-22-09 organizes its goals by this model, and version 2.0 was revised to align with the memo. The memo, not the model, carries the deadline.",
+        "note": "Written for federal civilian agencies; it binds only through M-22-09, whose goals it organizes and which lets agencies reference it, and version 2.0 was revised to align with the memo. The memo, not the model, carries the deadline.",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-09-09",
+          "verifiedOn": "2026-09-30",
           "method": "primary-fetch",
-          "note": "The document is written for federal civilian agencies under EO 14028 and aligned to OMB M-22-09; it invites other organizations to consider it and does not frame itself as a mandate."
+          "note": "The document is written for federal civilian agencies under EO 14028 and aligned to OMB M-22-09; it invites other organizations to consider it and does not frame itself as a mandate. Re-read on 30 September 2026: the version 2.0 PDF (session 11 fetch a3004) says on page 4 that the model is 'specifically tailored for federal agencies as required by EO 14028' and that 'all organizations should review and consider adoption', and on page 5 that CISA 'revised the ZTMM to further align with M-22-09's direction for agencies'; M-22-09 (https://www.whitehouse.gov/wp-content/uploads/2022/01/M-22-09.pdf, fetch a3005) says on page 4 that agencies 'can reference' the maturity models in its Appendix A and that its goals 'are organized using the zero trust maturity model developed by CISA'."
         }
       },
       "note": "The stages are Traditional, Initial, Advanced and Optimal. Companion CISA publications on microsegmentation (2025) and operational technology (2026) are not new editions of the model."
@@ -637,7 +643,7 @@
       "url": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-OperationalTechnologyActivitiesOutcomes_v2.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-16",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "PDF fetched from the CIO library on 16 September 2026; cleared for open publication 18 November 2025. The activity chart prints Version OT.1.3 as of 25 September 2025 and counts 84 Target, 21 Advanced and 105 total activities under the User, Device, Application & Workload, Data, Network & Environment, Automation & Orchestration and Visibility & Analytics pillars. The current file name carries a v2 suffix that the document itself does not print; the November 2025 file name without the suffix returns 404 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-OperationalTechnologyActivitiesOutcomes.pdf)."
       },
@@ -647,12 +653,12 @@
           "dow-components"
         ],
         "deadline": null,
-        "note": "Written for {{dow}}-owned operational technology and control systems up to and including the point of demarcation with weapon systems and defense critical infrastructure, for which the document says separate guidance will be developed, and implemented in addition to all existing cybersecurity requirements. The document cites DTM 25-003 as directing Target Level zero trust for control systems, though the memorandum's own paragraph 11.a names systems on the department's information network without naming control systems, and its printed expiry of 17 July 2026 has passed. The document prints no date of its own and says its Advanced activities will not be held to the Target timeline.",
+        "note": "Written for {{dow}}-owned operational technology and control systems up to and including the point of demarcation with weapon systems and defense critical infrastructure, for which the document says separate guidance will be developed, and implemented in addition to all existing cybersecurity requirements. The document cites DTM 25-003 as directing Target Level zero trust for control systems, though the memorandum's own paragraph 11.a names systems on the department's information network without naming control systems, and its printed expiry of 17 July 2026 has passed. The document prints no deadline of its own and says its Advanced activities will not be held to the Target timeline. The office's senior advisor said in December 2025 that the department's operational technology dates are Target Level by the end of FY2030 and Advanced by the end of FY2033, subject to change in the next strategy; no publisher document prints them.",
         "verification": {
           "status": "verified",
           "verifiedOn": "2026-09-16",
           "method": "primary-fetch",
-          "note": "Scope, the promised separate guidance for weapon systems and defense critical infrastructure, the in-addition-to requirement, the DTM 25-003 citation and the sentence on Advanced activities read in the executive summary and the level definitions of the document on 16 September 2026; paragraph 11.a read in DTM 25-003 (https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dtm/DTM%2025-003.PDF) the same day. None of these printed a {{dow}} operational technology deadline: the document, the DTM and the CIO library (https://dowcio.war.gov/Library/). The Department of the Navy CIO's zero trust program page (https://www.doncio.navy.mil/ContentView.aspx?id=17903, 8 August 2024) sets a Navy goal of target level zero trust including operational technologies by the end of FY 2027; that is a Navy goal, not a date in the {{dow}} guidance."
+          "note": "Scope, the promised separate guidance for weapon systems and defense critical infrastructure, the in-addition-to requirement, the DTM 25-003 citation and the sentence on Advanced activities read in the executive summary and the level definitions of the document on 16 September 2026; paragraph 11.a read in DTM 25-003 (https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dtm/DTM%2025-003.PDF) the same day. None of these printed a {{dow}} operational technology deadline: the document, the DTM and the CIO library (https://dowcio.war.gov/Library/). The Department of the Navy CIO's zero trust program page (https://www.doncio.navy.mil/ContentView.aspx?id=17903, 8 August 2024) sets a Navy goal of target level zero trust including operational technologies by the end of FY 2027; that is a Navy goal, not a date in the {{dow}} guidance. The remarks of the zero trust portfolio office's senior advisor on 9 December 2025 were read on 29 September 2026 in a news report, a secondary source (https://defensescoop.com/2025/12/09/dod-zero-trust-strategy-2-0-expected-early-2026/), which gives Target Level zero trust for operational technology by the end of FY2030 and Advanced by the end of FY2033 and says those dates could change when the next strategy is published. On 30 September 2026 the CIO library still listed the 2022 strategy and this document with no newer version of either, and no publisher document printing those dates was found."
         }
       },
       "note": "The activities are aligned with the enterprise IT activities so the two can interoperate, and some OT tools may start local and join the enterprise tools later. The document names the Purdue Model, IEC 62443 and UFC 4-010-06 as established reference architectures for classifying OT systems, and lists IEC 62443 as a series of standards for the cybersecurity of OT control systems."
@@ -671,7 +677,7 @@
       "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "CSRC record fetched: title as printed; Revision 5 published September 2020 with updates as of 10 December 2020 at this URL; the record's planning note dates Release 5.2.0 to 27 August 2025 (listed under documents)."
       },
@@ -690,7 +696,7 @@
           "note": "The document's Authority section: developed under FISMA for federal information systems, consistent with OMB Circular A-130, and not applicable to national security systems without express approval; use by nongovernmental organizations is voluntary. That {{dow}} systems outside the national security set are federal information systems is an inference from FISMA, and DoD Instruction 8510.01 applies SP 800-53 to {{dow}} systems (see the RMF entry)."
         }
       },
-      "note": "Release 5.2.0 (August 2025) responds to EO 14306 on software update and patch reliability: it adds SA-15(13), SA-24 and SI-02(07), revises SI-07(12), and is the release the CSF 2.0 Informative References map to; the 2020 PDF was not reissued.",
+      "note": "Release 5.2.0 (August 2025) responds to Executive Order (EO) 14306 on software update and patch reliability: it adds SA-15(13), SA-24 and SI-02(07), revises SI-07(12), and is the release the CSF 2.0 Informative References map to; the 2020 PDF was not reissued.",
       "documents": [
         {
           "title": "Security and Privacy Controls for Information Systems and Organizations",
@@ -699,21 +705,21 @@
           "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-53r5.pdf",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-09",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "Fetched; cover September 2020, includes updates as of 12-10-2020; 492 pages."
           }
         },
         {
-          "title": "Security and Privacy Controls for Information Systems and Organizations, Release 5.2.0",
+          "title": "Security and Privacy Controls for Information Systems and Organizations",
           "edition": "Release 5.2.0",
           "date": "2025-08-27",
           "url": "https://csrc.nist.gov/projects/cprt/catalog#/cprt/framework/version/SP_800_53_5_2_0/home",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-09",
+            "verifiedOn": "2026-09-30",
             "method": "primary-fetch",
-            "note": "The CSRC planning note and the Cybersecurity and Privacy Reference Tool page, read on 9 September 2026: Release 5.2.0 issued 27 August 2025 as a minor release, distributed through the tool in browser, OSCAL, JSON and spreadsheet forms."
+            "note": "The NIST summary of changes for the release (https://csrc.nist.gov/files/projects/Risk-Management/800-53%20Comment%20Site/SP800-53-r5.2.0-changes.pdf), re-read on 30 September 2026 (session 11 fetch a4001), page 1, dated August 27, 2025: 'NIST Special Publication (SP) 800-53 Release 5.2.0, Security and Privacy Controls for Information Systems and Organizations, is available.' The title is printed without the release, which is the edition. The CSRC planning note and the Cybersecurity and Privacy Reference Tool page, read on 9 September 2026: Release 5.2.0 issued 27 August 2025 as a minor release, distributed through the tool in browser, OSCAL, JSON and spreadsheet forms."
           },
           "note": "The live control catalog; no new PDF."
         }
@@ -805,7 +811,7 @@
       "url": "https://csrc.nist.gov/pubs/sp/800/37/r2/final",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "CSRC pages fetched: SP 800-37 Revision 2, December 2018 (final 20 December 2018), seven steps Prepare through Monitor; SP 800-53A Revision 5, January 2022. The authorization definition is the OMB Circular A-130 definition quoted in the glossary."
       },
@@ -817,7 +823,7 @@
           "url": "https://csrc.nist.gov/pubs/sp/800/37/r2/final",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-09",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "Fetched; December 2018, Revision 2, seven steps as printed."
           }
@@ -829,7 +835,7 @@
           "url": "https://csrc.nist.gov/pubs/sp/800/53/a/r5/final",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-09",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "Fetched; January 2022, Revision 5."
           },
@@ -880,7 +886,7 @@
       "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "NIST AI 100-1 PDF and the NIST landing page fetched: title as printed, January 2023 on the cover, released 26 January 2023 per the page; four functions Govern, Map, Measure, Manage."
       },
@@ -893,7 +899,7 @@
         "note": "Voluntary for all organizations.",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-09-09",
+          "verifiedOn": "2026-09-29",
           "method": "primary-fetch",
           "note": "The document: 'intended to be voluntary, rights-preserving, non-sector-specific, and use-case agnostic'."
         }
@@ -914,7 +920,7 @@
       "url": "https://csrc.nist.gov/pubs/ir/8596/iprd",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "CSRC record and PDF fetched: initial preliminary draft published 16 December 2025, comment period closed 30 January 2026; the draft is organized by CSF 2.0 outcomes across three focus areas. No initial public draft had appeared by 9 September 2026; on 9 September 2026 the NCCoE project page listed the status as reviewing comments after working sessions in April and May 2026 (the page could not be reached on 17 September 2026). The initial public draft, when it appears, changes this entry. Rechecked 17 September 2026: no initial public draft on CSRC (the ipd path returns 404); the preliminary draft of 16 December 2025 remains the only release, and CSRC and the PDF cover print the subtitle NIST Community Profile. NIST IR 8607 (August 2026, section 4) planned the initial public draft for public comment in summer 2026 (https://doi.org/10.6028/NIST.IR.8607); it had not appeared on CSRC by 17 September 2026.",
         "recheckAfter": "2026-12-15"
@@ -949,7 +955,7 @@
       "url": "https://aidefensematrix.com/",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Site fetched: title and a one-line subtitle, eight rows by the six CSF 2.0 functions, Creative Commons Attribution-ShareAlike 4.0, copyright 2026; no version number or publication date is printed, and public release was about May 2026. The .org domain does not resolve."
       },
@@ -989,7 +995,7 @@
       "url": "https://csrc.nist.gov/pubs/sp/1353/ipd",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "CSRC record fetched: initial public draft published 19 August 2026, comments due 15 October 2026, part of the CSF 2.0 quick-start guide series. Rechecked 17 September 2026: still the initial public draft, comments due 15 October 2026, no second draft or final.",
         "recheckAfter": "2026-10-16"
@@ -1025,7 +1031,7 @@
       "url": "https://www.govinfo.gov/content/pkg/FR-2021-05-17/pdf/2021-10460.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Federal Register text read from the govinfo PDF (86 FR 26633): signed 12 May 2021, published 17 May 2021. Section 3, Modernizing Federal Government Cybersecurity: 3(a) says the government must advance toward Zero Trust Architecture and 3(b)(ii) gives each agency head 60 days to develop a plan to implement it."
       },
@@ -1039,12 +1045,12 @@
           "text": "Section 3(b)(ii): each agency head develops a plan to implement zero trust architecture within 60 days of the order",
           "sourceId": "eo14028"
         },
-        "note": "Binds every agency under 44 U.S.C. 3502, {{dow}} included, with National Security Systems carved out by section 9; it directs the move, and M-22-09 sets the targets.",
+        "note": "Binds every agency under 44 U.S.C. 3502, {{dow}} included; under section 9, National Security Systems follow equivalent or stricter requirements that the National Manager sets in a National Security Memorandum rather than the order's own programs; it directs the move, and M-22-09 sets the targets.",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-09-09",
+          "verifiedOn": "2026-09-30",
           "method": "primary-fetch",
-          "note": "Section 3(b) is addressed to the head of each agency, and section 10 defines agency by 44 U.S.C. 3502; the narrower Federal Civilian Executive Branch term (all agencies except the Department of Defense and the Intelligence Community, as the order defines it) is used only where the order names it; section 9 excludes National Security Systems. The Federal Register record lists EO 14141 and EO 14144 (January 2025) as cross-references, not amendments; EO 14306 (June 2025) amends EO 14144, not this order."
+          "note": "Section 3(b) is addressed to the head of each agency, and section 10 defines agency by 44 U.S.C. 3502; the narrower Federal Civilian Executive Branch term (all agencies except the Department of Defense and the Intelligence Community, as the order defines it) is used only where the order names it; section 9 routes National Security Systems to equivalent or stricter requirements set by the National Manager. The Federal Register record lists EO 14141 and EO 14144 (January 2025) as cross-references, not amendments; EO 14306 (June 2025) amends EO 14144, not this order. Re-read on 30 September 2026 from the govinfo PDF (https://www.govinfo.gov/content/pkg/FR-2021-05-17/pdf/2021-10460.pdf, session 11 fetch a3006): section 3(b), pages 3 and 4 (86 FR 26635 and 26636), 'the head of each agency shall'; section 9(a), page 13 (86 FR 26645), the National Manager 'shall adopt National Security Systems requirements that are equivalent to or exceed the cybersecurity requirements set forth in this order', codified in a National Security Memorandum, and until it issues the order's programs 'shall not apply with respect to National Security Systems'; section 10(a) and (d), page 13. The Federal Register API record (https://www.federalregister.gov/api/v1/documents/2021-10460.json, fetch a3007) still lists EO 14141 and EO 14144 under 'See' and no corrections."
         }
       },
       "note": "Later orders cross-reference it without amending it, per the Federal Register record read on 9 September 2026."
@@ -1062,7 +1068,7 @@
       "url": "https://www.whitehouse.gov/wp-content/uploads/2022/01/M-22-09.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Memo PDF fetched from whitehouse.gov (identical copy on the archived site): dated 26 January 2022; requires specific zero trust security goals by the end of fiscal year 2024; goals organized using CISA's zero trust maturity model; addressed to the heads of executive departments and agencies."
       },
@@ -1079,7 +1085,7 @@
         "note": "Binds the heads of executive departments and agencies under 44 U.S.C. 3502, {{dow}} included; the maturity model organizes the goals, the memo requires them.",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-09-09",
+          "verifiedOn": "2026-09-29",
           "method": "primary-fetch",
           "note": "Addressee line and the FY2024 goal read from the memo. Not rescinded as of 9 September 2026: the OMB memoranda page lists no rescission, and CISA Binding Operational Directive 26-02 of 5 February 2026 still cites the memo's requirements as current."
         }
@@ -1098,7 +1104,7 @@
       "url": "https://www.govinfo.gov/content/pkg/FR-2017-05-16/pdf/2017-10004.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Federal Register text read from the govinfo PDF (82 FR 22391): signed 11 May 2017, published 16 May 2017. Section 1(c)(ii): each agency head shall use the Framework 'or any successor document' to manage the agency's cybersecurity risk, with a risk management report due within 90 days."
       },
@@ -1112,7 +1118,7 @@
         "note": "Directs every agency head, {{dow}} included, to use the Framework; for everyone outside the executive branch the Framework stays voluntary.",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-09-09",
+          "verifiedOn": "2026-09-29",
           "method": "primary-fetch",
           "note": "Section 1(b)(iv) defines agencies as executive departments and agencies; section 1(c)(vii) assigns implementation for National Security Systems to the Secretary of Defense and the Director of National Intelligence. The Federal Register record read on 9 September 2026 lists only a cross-reference to EO 13636 and records no amendment or revocation."
         }
@@ -1132,7 +1138,7 @@
       "url": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-ExecutionRoadmap-v1.1.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Fetched from the CIO library: cover 'Zero Trust Execution Roadmap v1.1', 22 November 2024, cleared 9 December 2024; PDF title 'DoD Zero Trust Capability Execution Roadmap (COA 1)'; prints 45 capabilities (42 Target, 3 Advanced) and 152 activities (91 Target, 61 Advanced). The companion capabilities and activities document was fetched from the same library; its cover prints v1.1 and 22 January 2025."
       },
@@ -1148,7 +1154,7 @@
         "note": "Directs {{dow}} components; it sequences the strategy, it does not add obligations.",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-09-09",
+          "verifiedOn": "2026-09-29",
           "method": "primary-fetch",
           "note": "The roadmap sequences the strategy's mandate for {{dow}} components; the FY2027 Target Level deadline is printed in it and in the strategy."
         }
@@ -1161,7 +1167,7 @@
           "url": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-ExecutionRoadmap-v1.1.pdf",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-09",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "Fetched; 22 November 2024; three courses of action with considerations and example use cases."
           }
@@ -1173,7 +1179,7 @@
           "url": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-09",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "Fetched; the cover is image-only and prints 'DOD Zero Trust Execution Roadmap (COAs 1-3), v1.1' and '22 January 2025', with prepublication case 25-T-1465 cleared 18 March 2025; the served file's PDF metadata is dated August and September 2025. The library link text is 'Zero Trust Capabilities and Activities' and the page headers are 'DoD Zero Trust Capabilities' and 'DoD Zero Trust Activities'. Supersedes the 6 January 2023 publication; 45 capability and 152 activity identifiers counted; updates Target Level activities only."
           },
@@ -1194,7 +1200,7 @@
       "url": "https://csrc.nist.gov/pubs/sp/800/171/r2/upd1/final",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "CSRC record fetched: Revision 2, February 2020 with updates as of 28 January 2021, withdrawn on 14 May 2024 and superseded by Revision 3. Kept as the entry edition because DFARS class deviation 2024-O0013 binds this revision."
       },
@@ -1221,7 +1227,7 @@
           "url": "https://csrc.nist.gov/pubs/sp/800/171/r2/upd1/final",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-09",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "Fetched; February 2020 with updates as of 28 January 2021; withdrawn 14 May 2024, superseded by Revision 3."
           },
@@ -1234,11 +1240,12 @@
           "url": "https://csrc.nist.gov/pubs/sp/800/171/r3/final",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-09",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
-            "note": "Fetched; Revision 3, May 2024 (final 14 May 2024); no errata listed."
+            "note": "Fetched; Revision 3, May 2024 (final 14 May 2024); no errata listed. The proposed rule in the entry's note was read on 30 September 2026 in the Federal Register (https://www.federalregister.gov/documents/2026/06/23/2026-12559/federal-acquisition-regulation-revolutionary-federal-acquisition-regulation-overhaul-parts-1-2-4-33, session 11 fetches a2005 and a2007): 91 FR 37550, a proposed rule published 23 June 2026, whose proposed FAR 52.240-7, page 37633, has the contractor 'Comply with the security requirements of NIST SP 800-171 Revision 3'; a Federal Register search that day found no final rule under the overhaul's title published since 24 June 2026 (session 11 fetch a2006).",
+            "recheckAfter": "2026-12-15"
           },
-          "note": "NIST's current edition; applies to a contract only when the contract says so."
+          "note": "NIST's current edition; applies to a contract only when the contract says so. A FAR proposed rule of 23 June 2026 (91 FR 37550) would require Revision 3 for controlled unclassified information in contracts under the FAR; it was not final on 29 September 2026."
         },
         {
           "title": "Class Deviation 2024-O0013, Revision 1: Safeguarding Covered Defense Information and Cyber Incident Reporting",
@@ -1268,14 +1275,14 @@
       "url": "https://www.govinfo.gov/content/pkg/FR-2024-10-15/pdf/2024-22905.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Both final rules read from govinfo PDFs: the program rule published 15 October 2024, effective 16 December 2024; the acquisition rule published 10 September 2025, effective 10 November 2025. The rule's title carries no version number; CMMC 2.0 appears only in its comment responses."
       },
       "authority": {
         "nature": "assessment",
         "binds": [
-          "defense-contractors-cui"
+          "defense-contractors-fci-cui"
         ],
         "deadline": {
           "text": "Phase 1 began 10 November 2025 when the acquisition rule took effect; the rule's later phases, due one year apart through 10 November 2028, are suspended, implementation was paused in Phase 1 on 13 July 2026, and no new date had been set by 17 September 2026",
@@ -1299,7 +1306,7 @@
           "url": "https://www.govinfo.gov/content/pkg/FR-2024-10-15/pdf/2024-22905.pdf",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-09",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "Fetched; effective 16 December 2024."
           }
@@ -1311,13 +1318,13 @@
           "url": "https://www.govinfo.gov/content/pkg/FR-2025-09-10/pdf/2025-17359.pdf",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-09",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "Fetched; effective 10 November 2025; prescribes clause 252.204-7021 and the phased application through 10 November 2028."
           }
         },
         {
-          "title": "Suspension of CMMC Phase 2 requirements (department news release)",
+          "title": "Forging the Arsenal of Freedom: {{dow.current}} Suspends CMMC Phase II Requirements",
           "edition": "News release",
           "date": "2026-07-13",
           "url": "https://www.war.gov/News/Releases/Release/Article/4542329/forging-the-arsenal-of-freedom-department-of-war-suspends-cmmc-phase-ii-require/",
@@ -1325,7 +1332,7 @@
             "status": "verified",
             "verifiedOn": "2026-09-17",
             "method": "primary-fetch",
-            "note": "Read on 9 September 2026: suspends the transition to Phase 2 and pending milestones, opens a 60-day study and a reform task force, and keeps DFARS 252.204-7012 obligations in place. The printed headline uses the department's current name and Roman numerals. Re-read on 17 September 2026; no later department release on CMMC."
+            "note": "Read on 9 September 2026: suspends the transition to Phase 2 and pending milestones, opens a 60-day study and a reform task force, and keeps DFARS 252.204-7012 obligations in place. The printed headline uses the department's current name and Roman numerals. Re-read on 17 September 2026; no later department release on CMMC. The title is the headline as printed, read on 30 September 2026 in the department's News Releases feed on war.gov (https://www.war.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=9&Site=945, session 11 fetch a4007), whose item for this address is dated 13 July 2026; the release page itself returned 403 to a plain read that day (a4005), so the rest of this note stands on the 17 September read."
           },
           "note": "The department's announcement of the pause."
         },
@@ -1336,7 +1343,7 @@
           "url": "https://dowcio.war.gov/Portals/0/Documents/Library/ImplementingSuspensionCMMC-PhaseII.pdf",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-17",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "Fetched on 17 September 2026 from the CIO library (the older dodcio.defense.gov path now returns the same file): dated 13 July 2026 and cleared for open publication that day; Attachment 1 keeps DFARS 252.204-7012 in effect, suspends the November 2026 Phase 2 transition, lets requirement documents designate only Level 1 and Level 2 self-assessments, alongside select government-led assessments, and has active solicitations amended and existing contracts modified to remove any Level 2 C3PAO or Level 3 DIBCAC requirement. Title as listed in the CIO library; the printed subject is Implementing {{dow.current}} Chief Information Officer's Suspension of the Advancement to Cybersecurity Maturity Model Certification Phase 2 Requirements, the wording the class deviation uses when it cites the CIO memorandum."
           },
@@ -1349,7 +1356,7 @@
           "url": "https://dowcio.war.gov/Portals/0/Documents/Library/CMMC-ReformMemo.pdf",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-17",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "Fetched on 17 September 2026 from the CIO library: sets up the CMMC reform task force for a 60-day review and holds pending and future CMMC milestones in abeyance until further notice; dated by its clearance stamp of 13 July 2026."
           },
@@ -1357,7 +1364,7 @@
         },
         {
           "title": "Class Deviation 2026-O0025, Revision 3: Revolutionary FAR Overhaul Part 40 and DFARS Part 240",
-          "edition": "Revision 3, superseding Revision 2 of 16 July 2026",
+          "edition": "superseding Revision 2 of 16 July 2026",
           "date": "2026-09-03",
           "url": "https://www.acq.osd.mil/dpap/dars/classdev/DFARS_RFO/Part-240/2026-O0025_Rev3_TAB_A_Deviation_Memo.pdf",
           "verification": {
@@ -1384,7 +1391,7 @@
       "url": "https://csrc.nist.gov/pubs/sp/1800/35/final",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "CSRC record fetched: title as printed, final, June 2025 (document history final 10 June 2025), DOI 10.6028/NIST.SP.1800-35, from the National Cybersecurity Center of Excellence; the record's abstract says the guide includes mappings of ZTA principles and technologies to commonly used security standards and guidelines."
       },
@@ -1397,7 +1404,7 @@
         "note": "A practice guide: it binds no one and adds no controls; it shows how the SP 800-207 model becomes a working build.",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-09-09",
+          "verifiedOn": "2026-09-29",
           "method": "primary-fetch",
           "note": "The record's abstract: the guide explains how organizations can implement a zero trust architecture consistent with SP 800-207; no applicability or mandate language."
         }
@@ -1418,7 +1425,7 @@
       "url": "https://www.whitehouse.gov/wp-content/uploads/2025/02/M-25-21-Accelerating-Federal-Use-of-AI-through-Innovation-Governance-and-Public-Trust.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Memo PDF fetched from whitehouse.gov: dated 3 April 2025, subject as printed, addressed to the heads of executive departments and agencies; rescinds and replaces its predecessor; agency as defined in 44 U.S.C. 3502(1)."
       },
@@ -1432,10 +1439,10 @@
           "text": "A Chief AI Officer retained or designated within 60 days of 3 April 2025; the memo's other actions run on its own clock",
           "sourceId": "omb-m2521"
         },
-        "note": "Binds the heads of executive departments and agencies under 44 U.S.C. 3502(1); it does not cover AI used as a component of a National Security System, the {{dow}} and the Intelligence Community are exempt from its use-case inventory clause, and it names none of the four frameworks in this column.",
+        "note": "Binds the heads of executive departments and agencies under 44 U.S.C. 3502(1); it does not cover AI used as a component of a National Security System, the {{dow}} and the Intelligence Community are exempt from its use-case inventory clause, and it names none of the frameworks or the quick-start guide in this column.",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-09-09",
+          "verifiedOn": "2026-09-29",
           "method": "primary-fetch",
           "note": "Addressee line, the 44 U.S.C. 3502(1) definition, the 60-day Chief AI Officer clause, the inventory exemption and the national security system exclusion read from the memo."
         }
@@ -1471,7 +1478,7 @@
         "note": "Has no force of its own; it applies to the organizations that adopt it. Defense Agencies and Field Activities receive it as DISA, their single service provider for a consolidated network, migrates them, and the department's FY2027 budget request counts 119 sites where Thunderdome migrations were completed in FY2025.",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-09-16",
+          "verifiedOn": "2026-09-29",
           "method": "primary-fetch",
           "note": "Read on 16 September 2026 in DISA's budget justifications on comptroller.war.gov: the FY2026 procurement book (https://comptroller.war.gov/Portals/45/Documents/defbudget/FY2026/budget_justification/pdfs/02_Procurement/PROC_DISA_PB_2026.pdf), line item 98, which names DISA the single service provider for the consolidated network of the Defense Agencies and Field Activities and says migrating agencies will have Thunderdome's zero trust capabilities from day one, and the FY2027 cyber operation and maintenance book (https://comptroller.war.gov/Portals/45/Documents/defbudget/FY2027/budget_justification/pdfs/01_Operation_and_Maintenance/O_M_VOL_1_PART_1/DISA_Cyber_OP-5.pdf) for 119 completed site migrations in 2025 actuals."
         }
@@ -1484,7 +1491,7 @@
           "status": "verified",
           "verifiedOn": "2026-09-16",
           "method": "primary-fetch",
-          "note": "DISA newsroom story of 9 May 2025 (https://www.disa.mil/newsroom/article/partnerships-power-progress-disa-deputy-director-emphasizes-industry-collaborati-MCI2K3VHU665FZ3MIKMCB6BPQ7I4), read in a browser on 16 September 2026, states the 152 of 152 result as testing measured against the activities the CIO defines. The execution roadmap v1.1 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-ExecutionRoadmap-v1.1.pdf) prints 91 Target plus 61 Advanced activities, 152 in total, as full achievement of Advanced Level. No DISA or CIO page names a purple team, a test date or an ordinal for Thunderdome; the purple team wording, and the claim that it was the second solution after Flank Speed, appear only in April 2025 news coverage. The {{dow}} CIO's written statement for the record to a House Armed Services subcommittee on 8 May 2025 says the department declared Thunderdome and Flank Speed Advanced Level successes in FY 2025, without giving a count or saying who assessed them or when (listed under documents). The Department of the Navy CIO's and the portfolio office's own published count for Flank Speed is 151 of 152. Pages checked: the DISA newsroom, the CIO library (https://dowcio.war.gov/Library/), the office's November 2024 newsletter (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-NewsletterNov.pdf)."
+          "note": "DISA newsroom story of 9 May 2025 (https://www.disa.mil/newsroom/article/partnerships-power-progress-disa-deputy-director-emphasizes-industry-collaborati-MCI2K3VHU665FZ3MIKMCB6BPQ7I4), read in a browser on 16 September 2026, states the 152 of 152 result as testing measured against the activities the CIO defines. The execution roadmap v1.1 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-ExecutionRoadmap-v1.1.pdf) prints 91 Target plus 61 Advanced activities, 152 in total, as full achievement of Advanced Level. No DISA or CIO page names a purple team, a test date or an ordinal for Thunderdome; the purple team wording, and the claim that it was the second solution after Flank Speed, appear only in April 2025 news coverage. The {{dow}} CIO's written statement for the record to a House Armed Services subcommittee on 8 May 2025 says the department declared Thunderdome and Flank Speed Advanced Level successes in FY2025, without giving a count or saying who assessed them or when (listed under documents). The Department of the Navy CIO's and the portfolio office's own published count for Flank Speed is 151 of 152. Pages checked: the DISA newsroom, the CIO library (https://dowcio.war.gov/Library/), the office's November 2024 newsletter (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-NewsletterNov.pdf)."
         }
       },
       "adopterResponsibilities": [
@@ -1492,7 +1499,7 @@
           "text": "Defense Agencies and Field Activities moving onto DISA's consolidated network do not run that move themselves: DISA, their single service provider, surveys their sites, buys and installs the equipment and migrates their users, and they are to have Thunderdome's zero trust capabilities from the day they migrate.",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-16",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "DISA's FY2026 procurement justification (https://comptroller.war.gov/Portals/45/Documents/defbudget/FY2026/budget_justification/pdfs/02_Procurement/PROC_DISA_PB_2026.pdf), line item 98, read on 16 September 2026: DISA is the single service provider for the network the Defense Agencies and Field Activities consolidate onto; its program office surveys sites, purchases and installs equipment and then migrates users; migrating agencies will have Thunderdome zero trust capabilities from day one. The book states an aim, not a result, and does not say which zero trust activities that covers."
           }
@@ -1535,7 +1542,7 @@
           ],
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-17",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "PDF re-read on 17 September 2026 (HTTP 200): cover dated 8 May 2025; the zero trust section says the department is sponsoring 15 independent zero trust assessments in FY 2025 and declared three successes so far that year, among them Flank Speed and Thunderdome at Advanced Level; it gives no activity count and does not say who assessed either solution or when. The committee's site lists the hearing under the subcommittee's current name, Cyber, Information Technologies, and Innovation."
           },
@@ -1630,7 +1637,7 @@
           "url": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-NewsletterNov.pdf",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-16",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "Read on 16 September 2026 in the CIO library; reports Flank Speed at 151 of 152 activities."
           }
@@ -1645,7 +1652,7 @@
           ],
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-17",
+            "verifiedOn": "2026-09-29",
             "method": "primary-fetch",
             "note": "PDF re-read on 17 September 2026 (HTTP 200): cover dated 8 May 2025; the zero trust section says the department is sponsoring 15 independent zero trust assessments in FY 2025 and declared three successes so far that year, among them Flank Speed and Thunderdome at Advanced Level; it gives no activity count and does not say who assessed either solution or when. The committee's site lists the hearing under the subcommittee's current name, Cyber, Information Technologies, and Innovation."
           },
@@ -1705,7 +1712,7 @@
           "name": "Improvement"
         }
       ],
-      "ztLanding": "User, device, application, and data inventories, and the risk signals that feed access decisions."
+      "ztLanding": "User, device, network, application, and data inventories, the risk signals that feed access decisions, and the improvements that tests, exercises and incidents feed back into the program."
     },
     {
       "id": "PR",
@@ -1789,7 +1796,7 @@
           "name": "Incident Recovery Communication"
         }
       ],
-      "ztLanding": "Restore to a known-good posture; lessons feed Govern."
+      "ztLanding": "Restore to a known-good posture; lessons feed Improvement (ID.IM) and the Govern policy."
     }
   ],
   "pillars": {
@@ -1910,7 +1917,7 @@
         "dowName": "Application & Workload",
         "cisaName": "Applications and Workloads",
         "cisaKind": "pillar",
-        "mapping": "Same scope under both names, singular in one model and plural in the other.",
+        "mapping": "Same scope under both names; the {{dow}} strategy prints it both singular and plural.",
         "capabilities": [
           {
             "id": "3.1",
@@ -2632,7 +2639,7 @@
           "DE.CM",
           "DE.AE"
         ],
-        "text": "Applications and workloads are monitored continuously for their authorization to operate and against their profile and behavior baselines, and unexpected calls or state changes are correlated with identity and device telemetry to characterize the event.",
+        "text": "Applications and workloads are monitored continuously, which keeps their authorization to operate current, and are checked against their profile and behavior baselines; unexpected calls or state changes are correlated with identity and device telemetry to characterize the event.",
         "verification": {
           "status": "authored",
           "verifiedOn": null,
@@ -2655,9 +2662,10 @@
         "functionId": "RS",
         "categories": [
           "RS.MA",
-          "RS.MI"
+          "RS.MI",
+          "RS.AN"
         ],
-        "text": "A misbehaving workload is isolated or stopped and its access removed as part of incident handling.",
+        "text": "A misbehaving workload is isolated at its enforcement point, its service credentials and tokens are revoked so the policy engine denies its calls, and its state is captured for analysis before it is stopped or torn down.",
         "verification": {
           "status": "authored",
           "verifiedOn": null,
@@ -2763,7 +2771,7 @@
           "PR.DS",
           "PR.AA"
         ],
-        "text": "Data is encrypted at rest and in transit, access is granted per request based on classification, and loss prevention controls apply.",
+        "text": "Data is encrypted at rest and in transit, access is granted per request based on the data's label, and loss prevention controls apply.",
         "verification": {
           "status": "authored",
           "verifiedOn": null,
@@ -2919,10 +2927,11 @@
         "pillarId": "visibility",
         "functionId": "PR",
         "categories": [
+          "PR.PS",
           "PR.DS",
           "PR.AA"
         ],
-        "text": "Logs and telemetry are protected as data in their own right, and analytics results feed the policy engine's access decisions.",
+        "text": "Log records are generated for every access decision and made available for monitoring, logs and telemetry are protected as data in their own right, and analytics results feed the policy engine's access decisions.",
         "verification": {
           "status": "authored",
           "verifiedOn": null,
@@ -2947,7 +2956,7 @@
           "DE.CM",
           "DE.AE"
         ],
-        "text": "Telemetry from users, devices, networks, applications, and data is collected and analyzed continuously.",
+        "text": "Telemetry from users, devices, networks, applications, and data is collected in one security information and event management (SIEM) platform, enriched with threat intelligence, and correlated across pillars continuously, so activity that looks normal in one pillar and abnormal across several surfaces as an event.",
         "verification": {
           "status": "authored",
           "verifiedOn": null,
@@ -2976,7 +2985,7 @@
           "RS.AN",
           "RS.MA"
         ],
-        "text": "Analytics support incident analysis, and telemetry confirms that containment worked.",
+        "text": "Retained logs and analytics let responders establish what happened and its root cause, incident data is collected with its integrity and provenance preserved, and telemetry confirms that containment worked.",
         "verification": {
           "status": "authored",
           "verifiedOn": null,
@@ -3616,7 +3625,7 @@
     {
       "id": "defense-contractor",
       "title": "Defense contractor handling controlled unclassified information (CUI)",
-      "whoYouAre": "You are a contractor or subcontractor that handles controlled unclassified information for a {{dow}} customer. If you hold only federal contract information, the Federal Acquisition Regulation (FAR) basic safeguarding clause, 52.204-21, sets your 15 requirements; if you hold controlled unclassified information for a civilian agency, that agency's own contract clauses name the requirements.",
+      "whoYouAre": "You are a contractor or subcontractor that handles controlled unclassified information for a {{dow}} customer. If you hold only federal contract information, the Federal Acquisition Regulation (FAR) basic safeguarding clause, 52.204-21 (52.240-93 in contracts written under the FAR overhaul deviations), sets your 15 requirements; if you hold controlled unclassified information for a civilian agency, that agency's own contract clauses name the requirements; the Everyone else door covers both cases.",
       "pillarView": null,
       "paragraph": null,
       "steps": [
@@ -3626,7 +3635,7 @@
           "entityIds": [
             "sp800-171"
           ],
-          "text": "Start with Special Publication (SP) 800-171 Revision 2 from the National Institute of Standards and Technology (NIST), the 110 requirements the Defense Federal Acquisition Regulation Supplement (DFARS) clause and its class deviation make you meet for controlled unclassified information; Revision 3 is NIST's current edition and applies only when a contract says so.",
+          "text": "Start with Special Publication (SP) 800-171 Revision 2 from the National Institute of Standards and Technology (NIST), the 110 requirements that Defense Federal Acquisition Regulation Supplement (DFARS) clause 252.204-7012 and its class deviation make you meet for controlled unclassified information; Revision 3 is NIST's current edition and applies only when a contract says so.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -3643,7 +3652,7 @@
           "entityIds": [
             "cmmc20"
           ],
-          "text": "Know your Cybersecurity Maturity Model Certification (CMMC) level from the contract's 252.204-7021 clause: Phase 1 self-assessments against SP 800-171 Revision 2 still run, the certified-assessment phases are suspended as of July 2026, and DFARS 252.204-7012 never paused.",
+          "text": "Know your Cybersecurity Maturity Model Certification (CMMC) level from the contract's 252.204-7021 clause: Phase 1 self-assessments against SP 800-171 Revision 2 still run, and the certified-assessment phases are suspended as of July 2026. Two duties never paused: DFARS 252.204-7012, which also has you report cyber incidents, and the DFARS 252.204-7019 provision, which asks for a current SP 800-171 self-assessment score in the Supplier Performance Risk System (SPRS).",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -3651,7 +3660,7 @@
             "basisIds": [
               "cmmc20"
             ],
-            "note": "Owner's synthesis of the cited entries' direction into one step."
+            "note": "Owner's synthesis of the cited entries' direction into one step. The two duties that never paused rest on the department's CMMC overview (https://dowcio.war.gov/Portals/0/Documents/CMMC/CMMC-101-Nov2025.pdf), read on 30 September 2026 (session 11 fetch a2003): page 4 of 17 lists, under DFARS 252.204-7012, 'Report cyber incidents that affect contractor/subcontractor ability to perform requirements designated as operationally critical', and under DFARS 252.204-7019, 'have at least a NIST SP 800-171 self-assessment (Basic) that is current posted in SPRS'; page 5 of 17: 'The CMMC Program does not alter separately applicable requirements to protect FCI or CUI'. The provision itself was read the same day on acquisition.gov, in the DFARS as changed on 7 May 2026 (https://www.acquisition.gov/dfars/252.204-7019-notice-nistsp-800-171-dod-assessment-requirements., session 11 fetch a2001); the suspension memorandum listed under the CMMC entry keeps DFARS 252.204-7012 in effect."
           }
         },
         {
@@ -3722,7 +3731,7 @@
           "cisa-ztmm",
           "csf20"
         ],
-        "note": "Owner's synthesis of who the door is for. The pointer for contractors that hold only federal contract information names FAR 52.204-21, Basic Safeguarding of Covered Contractor Information Systems (November 2021, the clause's printed date form), 15 requirements, prescribed in FAR 4.1903; confirmed on acquisition.gov on 9 September 2026 (https://www.acquisition.gov/far/52.204-21)."
+        "note": "Owner's synthesis of who the door is for. The pointer for contractors that hold only federal contract information names FAR 52.204-21, Basic Safeguarding of Covered Contractor Information Systems (November 2021, the clause's printed date form), 15 requirements, prescribed in FAR 4.1903; confirmed on acquisition.gov on 9 September 2026 (https://www.acquisition.gov/far/52.204-21). Its number in contracts written under the FAR overhaul deviations, 52.240-93, Basic Safeguarding of Covered Contractor Information Systems, was read on 30 September 2026 in the overhaul's Part 40 on acquisition.gov (https://www.acquisition.gov/far-overhaul/far-part-deviation-guide/far-overhaul-part-40, session 11 fetch a2004, last updated 23 September 2026), 40.303-2: 'Insert the clause at 52.240-93, Basic Safeguarding of Covered Contractor Information Systems, in solicitations and contracts when the contractor or a subcontractor at any tier may have Federal contract information residing in or moving through its information system.' The clause in the overhaul's Part 52 (https://www.acquisition.gov/far-overhaul/far-part-deviation-guide/far-overhaul-part-52, session 11 fetch a2008) prints the same 15 controls, (i) to (xv). The department's Part 40 deviation, Class Deviation 2026-O0025, is listed under the CMMC entry."
       }
     },
     {
@@ -3730,7 +3739,7 @@
       "title": "Everyone else",
       "whoYouAre": "You are a company, a state or local government, a university, or anyone else with no federal mandate to meet.",
       "pillarView": null,
-      "paragraph": "Nothing on this stack binds you. Use the Cybersecurity Framework (CSF) 2.0 from the National Institute of Standards and Technology (NIST) to say what good looks like, NIST Special Publication (SP) 800-207 to define zero trust, the zero trust maturity model of the Cybersecurity and Infrastructure Security Agency (CISA) to set a target (its four stages are public and written to be borrowed), and SP 800-53 or another catalog for controls. If a customer or regulator names a framework, start from that one and work up and down the stack from there. Verification is whoever checks your evidence: an internal audit, a certifier, or a customer assessment; the layer 5 entries here are federal. If you hold federal contract information or controlled unclassified information for a government customer, the two cases below say what applies; if you hold controlled unclassified information under a {{dow}} contract, take the contractor door.",
+      "paragraph": "Nothing on this stack binds you by its own force; a government contract can, and the two cases below say how. Use the Cybersecurity Framework (CSF) 2.0 from the National Institute of Standards and Technology (NIST) to say what good looks like, NIST Special Publication (SP) 800-207 to define zero trust, the zero trust maturity model of the Cybersecurity and Infrastructure Security Agency (CISA) to set a target (its four stages are public and written to be borrowed), and SP 800-53, or a smaller catalog such as the Center for Internet Security (CIS) Controls, for controls. If a customer or regulator names a framework, start from that one and work up and down the stack from there. Verification is whoever checks your evidence: an internal audit, a certifier, or a customer assessment; the layer 5 entries here are federal. If you hold federal contract information or controlled unclassified information for a government customer, the two cases below say what applies; if you hold controlled unclassified information under a {{dow}} contract, take the contractor door.",
       "steps": [],
       "verification": {
         "status": "authored",
@@ -3747,13 +3756,13 @@
           "sp800-207",
           "sp800-53"
         ],
-        "note": "Owner's synthesis of who the door is for, from the cited entries' own applicability statements."
+        "note": "Owner's synthesis of who the door is for, from the cited entries' own applicability statements. The smaller catalog it names, the CIS Controls, is the control catalog that the helper's answer on where other frameworks land and the glossary's CIS entry describe."
       },
       "landings": [
         {
           "id": "fci-only",
           "label": "Federal contract information only",
-          "text": "Federal contract information is information not intended for public release that is provided by or generated for the government under a contract. If you hold only federal contract information for any agency, the Federal Acquisition Regulation (FAR) basic safeguarding clause, 52.204-21, sets your 15 requirements, and on a {{dow}} contract that carries the Cybersecurity Maturity Model Certification (CMMC) clause, Level 1 is a self-assessment against those same 15. Nothing else on this stack binds you; use CSF 2.0 to talk about the rest.",
+          "text": "Federal contract information is information not intended for public release that is provided by or generated for the government under a contract. If you hold only federal contract information for any agency, the Federal Acquisition Regulation (FAR) basic safeguarding clause, 52.204-21 (52.240-93 in contracts written under the FAR overhaul deviations), sets your 15 requirements, and on a {{dow}} contract that carries the Cybersecurity Maturity Model Certification (CMMC) clause, Level 1 is a self-assessment against those same 15. Nothing else on this stack binds you; use CSF 2.0 to talk about the rest.",
           "entityIds": [
             "cmmc20",
             "csf20"
@@ -3766,7 +3775,7 @@
               "cmmc20",
               "csf20"
             ],
-            "note": "Owner's synthesis. FAR 52.204-21 is cited as recorded in the contractor door's verification record (confirmed on acquisition.gov, 9 September 2026); the CMMC Level 1 basis is the program rule. The definition is the glossary entry for FCI, read on 17 September 2026 in the DFARS 252.204-7021 definitions."
+            "note": "Owner's synthesis. FAR 52.204-21 is cited as recorded in the contractor door's verification record (confirmed on acquisition.gov, 9 September 2026), as is its number under the FAR overhaul deviations, 52.240-93 (read on 30 September 2026); the CMMC Level 1 basis is the program rule. The definition is the glossary entry for FCI, read on 17 September 2026 in the DFARS 252.204-7021 definitions."
           }
         },
         {
@@ -3823,7 +3832,7 @@
     {
       "id": "csf-vs-iso27001",
       "question": "How does CSF 2.0 differ from ISO/IEC 27001?",
-      "answer": "CSF 2.0 is an outcomes framework; ISO/IEC 27001 is a certifiable management system standard. They are complementary: an organization can hold an ISO/IEC 27001 certificate and still use a CSF Profile to talk about outcomes, and the Informative References cross-map the two.",
+      "answer": "CSF 2.0 is an outcomes framework; ISO/IEC 27001 is a certifiable management system standard. They are complementary: an organization can hold an ISO/IEC 27001 certificate and still use a CSF Profile to talk about outcomes, and the Informative References cross-map the two. NIST's Informative Reference Catalog lists an ISO/IEC 27001:2022 to CSF 2.0 reference.",
       "layerId": "l1",
       "entityIds": [
         "csf20"
@@ -3835,7 +3844,7 @@
         "basisIds": [
           "csf20"
         ],
-        "note": "Owner's synthesis from the cited entries; the answer restates none of their one-liners."
+        "note": "Owner's synthesis from the cited entries; the answer restates none of their one-liners. The catalog sentence rests on NIST's Informative References page, read on 29 September 2026 (https://www.nist.gov/cyberframework/informative-references), which lists ISO/IEC-27001:2022-to-CSFv2.0 (1.0.0) in the catalog and says NIST does not conduct correctness testing on non-NIST submitted mappings."
       }
     },
     {
@@ -3859,7 +3868,7 @@
     {
       "id": "csf-and-zero-trust",
       "question": "How does CSF 2.0 relate to zero trust?",
-      "answer": "SP 800-207 defines zero trust, and the zero trust models supply the pillars and the maturity ladder. CSF 2.0 does not define zero trust; it gives you the outcome language. Put your model's pillars as columns and the six functions as rows, fill the matrix, and the result is a zero trust Target Profile: leadership reads it in outcome language, and the Informative References under each cell's Subcategories carry it down to SP 800-53 or your own control catalog. It also puts zero trust in Govern, Identify, and Detect, not only in Protect. Maturity stays with the zero trust model you use; CSF 2.0 Tiers characterize the rigor of an organization's cybersecurity risk governance and management practices.",
+      "answer": "SP 800-207 defines zero trust, and the zero trust models supply the pillars and the maturity ladder. CSF 2.0 does not define zero trust; it gives you the outcome language. Put your model's pillars as columns and the six functions as rows, fill the matrix, and the result is a zero trust Target Profile: leadership reads it in outcome language, and the Informative References under the Subcategories of each cell's Categories carry it down to SP 800-53 or your own control catalog. It also puts zero trust in Govern, Identify, and Detect, not only in Protect. Maturity stays with the zero trust model you use; CSF 2.0 Tiers characterize the rigor of an organization's cybersecurity risk governance and management practices.",
       "layerId": "l2",
       "entityIds": [
         "sp800-207",
@@ -3885,7 +3894,7 @@
     {
       "id": "where-mappings",
       "question": "Where are the mappings?",
-      "answer": "On NIST's site: the CSF 2.0 Reference Tool and the Informative Reference Catalog map each Subcategory to SP 800-53 and other sources. For either pillar model, each matrix cell carries CSF 2.0 categories, and the Informative References take those categories to SP 800-53; the CISA model prints no control mapping of its own. For the {{dow}} pillars, the DoD Zero Trust Overlays map each capability to SP 800-53 controls; they are not posted publicly in 2026, so a {{dow}} component asks its own leadership or the zero trust portfolio office for the current copy, and anyone borrowing the pillars works from the capability list and the catalog. NIST's practice guide on implementing a zero trust architecture, SP 1800-35 (final, June 2025), also publishes mappings of zero trust architecture principles and technologies to commonly used security standards and guidelines; they map its example builds, not the CISA or {{dow}} pillar models.",
+      "answer": "On the NIST site: the CSF 2.0 Reference Tool and the Informative Reference Catalog map each Subcategory to SP 800-53 and other sources. For either pillar model, each matrix cell carries CSF 2.0 categories; the Subcategories under those categories carry the Informative References to SP 800-53; the CISA model prints no control mapping of its own. For the {{dow}} pillars, the DoD Zero Trust Overlays map each capability to SP 800-53 controls; they are not posted publicly in 2026, so a {{dow}} component asks its own leadership or the zero trust portfolio office for the current copy, and anyone borrowing the pillars works from the capability list and the catalog. NIST's practice guide on implementing a zero trust architecture, SP 1800-35 (final, June 2025), also publishes mappings of zero trust architecture principles and technologies to commonly used security standards and guidelines; they map its example builds, not the CISA or {{dow}} pillar models.",
       "layerId": "l4",
       "entityIds": [
         "csf20",
@@ -3910,8 +3919,8 @@
     },
     {
       "id": "where-others-land",
-      "question": "Where do SP 800-171, CMMC, FedRAMP, ISO/IEC 27001, CIS Controls, STIGs, IL4 through IL6, and ATT&CK land?",
-      "answer": "SP 800-171 and CMMC are the contractor door: a requirements baseline and the assessment that proves it, layers 4 and 5. FedRAMP is an authorization program for cloud services, so it is verification (layer 5) over an SP 800-53 baseline (layer 4). ISO/IEC 27001 sits beside CSF 2.0 as a management system standard. CIS Controls are a control catalog, layer 4. STIGs and SRGs are the {{dow}} configuration baseline at layer 4. IL4 through IL6 are {{dow}} cloud impact levels that set the baseline and the authorization bar, layers 4 and 5 again. ATT&CK is not a layer: it is the map of adversary behavior the stack defends against, most useful under Detect and Respond, and CORA scores against its tactics.",
+      "question": "Where do SP 800-171, CMMC, FedRAMP, ISO/IEC 27001, CIS Controls, STIGs, IL4 through IL6, and MITRE ATT&CK land?",
+      "answer": "SP 800-171 and CMMC are the contractor door: a requirements baseline and the assessment that proves it, layers 4 and 5. FedRAMP is the governmentwide program that certifies cloud services for agency use, so it is verification (layer 5); its Rev5 path assesses an SP 800-53 baseline (layer 4), and its 20x path, widely available since June 2026, assesses Key Security Indicators instead. ISO/IEC 27001 sits beside CSF 2.0 as a management system standard. CIS Controls are a control catalog, layer 4. STIGs and SRGs are the {{dow}} configuration baseline at layer 4. IL4 through IL6 are {{dow}} cloud impact levels that set the baseline and the authorization bar, layers 4 and 5 again. ATT&CK is not a layer: it is the map of adversary behavior the stack defends against, most useful under Detect and Respond, and CORA scores against its tactics.",
       "layerId": "l4",
       "entityIds": [
         "sp800-171",
@@ -3933,7 +3942,7 @@
           "cora",
           "csf20"
         ],
-        "note": "Owner's synthesis from the cited entries; the answer restates none of their one-liners."
+        "note": "Owner's synthesis from the cited entries; the answer restates none of their one-liners. The FedRAMP sentence also rests on FedRAMP's own pages, read on 29 September 2026: its post of 25 June 2026 launching the Consolidated Rules for 2026 (https://www.fedramp.gov/2026-06-25-propelling-change-fedramp-launches-consolidated-rules-for-2026/) says 20x is now a widely available FedRAMP Certification path and that from 11 June 2027 FedRAMP will no longer accept applications for new Rev5 Certifications, and the 20x certification rules (https://www.fedramp.gov/2026/providers/20x/rules/fedramp-certification/) are stated against Key Security Indicators. A helper record carries no recheck date, so the recheck of 11 June 2027 sits on the FedRAMP glossary entry."
       }
     },
     {
@@ -3958,7 +3967,10 @@
           "thunderdome",
           "flank-speed",
           "dod-zt-strategy",
-          "dod-zt-roadmap"
+          "dod-zt-roadmap",
+          "dod-zt-ot",
+          "cisa-ztmm",
+          "nsa-zt"
         ],
         "note": "Owner's synthesis. Inherit is the app's word: no CIO page checked on 16 September 2026 uses it for zero trust activities; the activities table splits each activity between enterprise and component responsibility instead."
       }
@@ -3966,11 +3978,12 @@
     {
       "id": "where-ot",
       "question": "Where does operational technology land, and where does IEC 62443 fit?",
-      "answer": "Operational technology (OT) lands at layer 3. On the {{dow}} side it has its own baseline: activities and outcomes that adapt the enterprise zero trust activities to OT and control systems under the same seven pillars, stay aligned with the enterprise IT activities, and are implemented in addition to existing cybersecurity requirements; the document says separate guidance will be developed for weapon systems and defense critical infrastructure. IEC 62443, from the International Electrotechnical Commission, is a series of standards for the security of industrial automation and control systems, not a zero trust model: the {{dow}} document names it, with the Purdue Model, among the established reference architectures it treats as authoritative for classifying OT systems.",
+      "answer": "Operational technology (OT) lands at layer 3. On the {{dow}} side it has its own baseline: activities and outcomes that adapt the enterprise zero trust activities to OT and control systems under the same seven pillars, stay aligned with the enterprise IT activities, and are implemented in addition to existing cybersecurity requirements; the document says separate guidance will be developed for weapon systems and defense critical infrastructure. Civilian agencies have no separate OT baseline on this stack: the CISA maturity model is still their model, CISA's 2026 companion, Adapting Zero Trust Principles to Operational Technology, applies it to OT, and NIST SP 800-82 Revision 3 is NIST's guide to OT security. IEC 62443, from the International Electrotechnical Commission, is a series of standards for the security of industrial automation and control systems, not a zero trust model: the {{dow}} document names it, with the Purdue Model, among the established reference architectures it treats as authoritative for classifying OT systems.",
       "layerId": "l3",
       "entityIds": [
         "dod-zt-ot",
-        "dod-zt-strategy"
+        "dod-zt-strategy",
+        "cisa-ztmm"
       ],
       "verification": {
         "status": "authored",
@@ -3978,9 +3991,10 @@
         "method": "synthesis",
         "basisIds": [
           "dod-zt-ot",
-          "dod-zt-strategy"
+          "dod-zt-strategy",
+          "cisa-ztmm"
         ],
-        "note": "Owner's synthesis from the OT document. IEC 62443 is named as the document prints it. The series title follows the IEC webstore, read on 16 September 2026: newer parts carry the stem Security for industrial automation and control systems (https://webstore.iec.ch/en/publication/34421), and older parts such as IEC 62443-3-3 carry Industrial communication networks - Network and system security (https://webstore.iec.ch/en/publication/7033)."
+        "note": "Owner's synthesis from the OT document. IEC 62443 is named as the document prints it. The series title follows the IEC webstore, read on 16 September 2026: newer parts carry the stem Security for industrial automation and control systems (https://webstore.iec.ch/en/publication/34421), and older parts such as IEC 62443-3-3 carry Industrial communication networks - Network and system security (https://webstore.iec.ch/en/publication/7033). The civilian sentence rests on the CISA model's entry, on NIST SP 800-82 Revision 3 as the OT glossary entry cites it, and on CISA's joint guide Adapting Zero Trust Principles to Operational Technology, read on 30 September 2026 (session 11 fetch a6002, https://www.cisa.gov/sites/default/files/2026-04/joint-guide-adapting-zero-trust-principles-to-operational-technology_508c.pdf; its resource page, session 11 fetch a6001, https://www.cisa.gov/resources-tools/resources/adapting-zero-trust-principles-operational-technology, gives the publish date 29 April 2026): page 2 says any organization with OT systems can apply it and that it has specific references for applying zero trust to federal OT systems, page 6 says it aligns with the CISA Zero Trust Maturity Model and NIST SP 800-82 Revision 3, and page 24 lists SP 800-82 Revision 3 as the Guide to Operational Technology (OT) Security."
       }
     }
   ],
@@ -3995,7 +4009,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read in Executive Order 14347, recorded under orgs.dow on 9 September 2026 (https://www.govinfo.gov/content/pkg/FR-2025-09-10/pdf/2025-17508.pdf); 10 U.S.C. 111 rechecked on 17 September 2026 still reads Department of Defense (https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title10-section111&num=0&edition=prelim). The pending FY2027 bills recorded under orgs.dow were not rechecked."
       }
@@ -4013,7 +4027,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion read on 17 September 2026 in the department's DIB cybersecurity strategy (https://dowcio.war.gov/Portals/0/Documents/Library/DIB-CS-Strategy.pdf); statutory status from Executive Order 14347 and 10 U.S.C. 111, recorded under orgs.dow and read on 9 September 2026 (https://www.govinfo.gov/content/pkg/FR-2025-09-10/pdf/2025-17508.pdf), with 10 U.S.C. 111 rechecked on 17 September 2026."
       }
@@ -4031,7 +4045,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the AI Risk Management Framework, which pairs the abbreviation and describes an AI system (https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf)."
       }
@@ -4048,7 +4062,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in NIST's AI RMF page and the publication's printed title (https://www.nist.gov/itl/ai-risk-management-framework and https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf)."
       }
@@ -4065,7 +4079,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in NIST's About page (https://www.nist.gov/about-nist)."
       }
@@ -4082,7 +4096,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the CSF 2.0 record and its abstract (https://csrc.nist.gov/pubs/cswp/29/the-nist-cybersecurity-framework-csf-20/final) and the CSRC glossary entry (https://csrc.nist.gov/glossary/term/csf)."
       }
@@ -4099,7 +4113,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the CSRC Special Publications page (https://csrc.nist.gov/publications/sp)."
       }
@@ -4116,7 +4130,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the CSF 2.0 document, which prints NIST Cybersecurity White Paper (https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf), and in the references of NIST SP 800-61 Revision 3, which print Cybersecurity White Paper (CSWP) (https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r3.pdf)."
       }
@@ -4133,7 +4147,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the IR 8596 draft, which prints NIST Internal Report (https://nvlpubs.nist.gov/nistpubs/ir/2025/NIST.IR.8596.iprd.pdf)."
       }
@@ -4148,7 +4162,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the CSRC About page (https://csrc.nist.gov/about)."
       }
@@ -4165,7 +4179,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in NIST's NCCoE page (https://www.nist.gov/itl/applied-cybersecurity/national-cybersecurity-center-excellence-nccoe)."
       }
@@ -4182,7 +4196,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the CSRC About the RMF page (https://csrc.nist.gov/projects/risk-management/about-rmf)."
       }
@@ -4199,7 +4213,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the CSRC glossary entry (https://csrc.nist.gov/glossary/term/authorization_to_operate)."
       }
@@ -4214,7 +4228,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the CSRC glossary entry (https://csrc.nist.gov/glossary/term/information_technology)."
       }
@@ -4231,9 +4245,10 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-30",
         "method": "primary-fetch",
-        "note": "Expansion and meaning read on 17 September 2026 in NIST SP 800-82 Revision 3 (https://csrc.nist.gov/pubs/sp/800/82/r3/final)."
+        "note": "Expansion and meaning read on 30 September 2026 in NIST SP 800-82 Revision 3, whose abstract says OT encompasses a broad range of programmable systems and devices that interact with the physical environment, with industrial control systems and building automation systems among its examples (https://csrc.nist.gov/pubs/sp/800/82/r3/final, session 11 fetch a5008). NIST posted the initial public draft of Revision 4 on 21 September 2026; Revision 3 remains the final. Both read the same day in the Revision 3 page's planning note and on the draft's own page, which gives comments due 30 November 2026 (https://csrc.nist.gov/pubs/sp/800/82/r4/ipd, session 11 fetch a5009).",
+        "recheckAfter": "2026-12-01"
       }
     },
     {
@@ -4249,7 +4264,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the DoD Zero Trust Strategy's acronym list and NIST SP 800-207 (https://dowcio.war.gov/Portals/0/Documents/Library/DoD-ZTStrategy.pdf)."
       }
@@ -4266,7 +4281,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the SP 800-207 abstract (https://csrc.nist.gov/pubs/sp/800/207/final)."
       }
@@ -4283,7 +4298,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the model's version 2.0 PDF (https://www.cisa.gov/sites/default/files/2023-04/zero_trust_maturity_model_v2_508.pdf)."
       }
@@ -4317,7 +4332,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the DoD Zero Trust Strategy and the glossary of DTM 25-003 (https://dowcio.war.gov/Portals/0/Documents/Library/DoD-ZTStrategy.pdf)."
       }
@@ -4334,7 +4349,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the department's CMMC overview (https://dowcio.war.gov/Portals/0/Documents/CMMC/CMMC-101-Nov2025.pdf)."
       }
@@ -4351,7 +4366,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the department CIO's About page (https://dowcio.war.gov/About/)."
       }
@@ -4369,7 +4384,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the execution roadmap v1.1, slide 6 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-ExecutionRoadmap-v1.1.pdf)."
       }
@@ -4457,7 +4472,7 @@
         "status": "verified",
         "verifiedOn": "2026-09-17",
         "method": "primary-fetch",
-        "note": "Expansion and meaning read on 17 September 2026 in a February 2025 cloud security guide in the department CIO library, which pairs IL with Impact Level and quotes DISA's Cloud Service Provider SRG of June 2024 for what sets a level (https://dowcio.war.gov/Library/); the same definition is in section 3 of the Cloud Computing SRG, Version 1 Release 3 of 6 March 2017 (https://dl.dod.cyber.mil/wp-content/uploads/cloud/SRG/index-old.html)."
+        "note": "Expansion and meaning read on 17 September 2026 in a February 2025 cloud security guide in the department CIO library, Play 3, page 27, which pairs IL with Impact Level and quotes DISA's Cloud Service Provider SRG of June 2024 for what sets a level (https://dowcio.war.gov/Library/); the same definition is in section 3 of the Cloud Computing SRG, Version 1 Release 2 of 18 March 2016 (https://dl.dod.cyber.mil/wp-content/uploads/cloud/SRG/index-old.html)."
       }
     },
     {
@@ -4472,7 +4487,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in UFC 4-010-06 of 10 October 2023, whose foreword names this site as its only distribution source (https://www.wbdg.org/FFC/DOD/UFC/ufc_4_010_06_2023.pdf)."
       }
@@ -4489,7 +4504,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the department's CMMC About page (https://dowcio.war.gov/CMMC/About/)."
       }
@@ -4523,7 +4538,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the National Archives CUI glossary (https://www.archives.gov/cui/registry/cui-glossary.html)."
       }
@@ -4540,7 +4555,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in DFARS 252.204-7021 definitions (https://www.acquisition.gov/dfars/252.204-7021-contractor-compliance-cybersecurity-maturity-model-certification-level-requirements.)."
       }
@@ -4555,7 +4570,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in FAR 1.101 (https://www.acquisition.gov/far/1.101)."
       }
@@ -4573,9 +4588,27 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in DFARS 201.301 (https://www.acquisition.gov/dfars/201.301-policy.)."
+      }
+    },
+    {
+      "term": "SPRS",
+      "forms": [
+        "SPRS"
+      ],
+      "expansion": "Supplier Performance Risk System",
+      "oneLine": "The system in which the department sees contractors' SP 800-171 assessment scores and their CMMC status; under DFARS 252.204-7019 an offeror that must meet SP 800-171 needs a current score posted there to be considered for award.",
+      "entityIds": [
+        "sp800-171",
+        "cmmc20"
+      ],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-09-30",
+        "method": "primary-fetch",
+        "note": "Expansion and meaning read on 30 September 2026 in DFARS 252.204-7019 on acquisition.gov (https://www.acquisition.gov/dfars/252.204-7019-notice-nistsp-800-171-dod-assessment-requirements., session 11 fetch a2001), the provision of November 2023 in the DFARS as changed on 7 May 2026: paragraph (b), an offeror required to implement NIST SP 800-171 'shall have a current assessment' to be considered for award; paragraph (c)(1), its summary level scores 'are posted in the Supplier Performance Risk System (SPRS)'; paragraph (d)(3), the scores are available to the department's personnel. The Basic Assessment is 'a contractor's self-assessment' under DFARS 252.204-7020 (https://www.acquisition.gov/dfars/252.204-7020-nist-sp-800-171dod-assessment-requirements., session 11 fetch a2002). CMMC status in SPRS read the same day in the department's CMMC overview, page 11 of 17 (https://dowcio.war.gov/Portals/0/Documents/CMMC/CMMC-101-Nov2025.pdf, session 11 fetch a2003)."
       }
     },
     {
@@ -4590,7 +4623,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the department's Defense Industrial Base cybersecurity strategy (https://dowcio.war.gov/Portals/0/Documents/Library/DIB-CS-Strategy.pdf)."
       }
@@ -4641,7 +4674,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in DCSA's fact sheet of January 2025 (https://www.dcsa.mil/Portals/128/Documents/about/err/DCSA-Fact%20Sheet_Jan2025_vFinal.pdf); the readiness assessments read in DCSA's FY2027 operation and maintenance budget justification of April 2026 (https://comptroller.war.gov/Portals/45/Documents/defbudget/FY2027/budget_justification/pdfs/01_Operation_and_Maintenance/O_M_VOL_1_PART_1/DCSA_OP-5.pdf)."
       }
@@ -4761,7 +4794,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in CISA's fact sheet, revised August 2026 (https://www.cisa.gov/sites/default/files/2026-08/cisa-factsheet-cybersecurity.pdf)."
       }
@@ -4779,7 +4812,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in OMB's page (https://www.whitehouse.gov/omb/)."
       }
@@ -4814,9 +4847,9 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-30",
         "method": "primary-fetch",
-        "note": "Expansion and meaning read on 17 September 2026 in NIST's page on Executive Order (EO) 14028, the CSRC glossary and the National Archives page on executive orders (https://www.nist.gov/itl/executive-order-14028-improving-nations-cybersecurity)."
+        "note": "Expansion read on 30 September 2026 in NIST's page on Executive Order (EO) 14028 (https://www.nist.gov/itl/executive-order-14028-improving-nations-cybersecurity, session 11 fetch a5012) and in the CSRC glossary, which gives EO as Executive Order (https://csrc.nist.gov/glossary/term/eo, session 11 fetch a5011); meaning read the same day on the National Archives page on executive orders, which says they are official documents through which the President manages the operations of the Federal Government and that their text appears in the daily Federal Register (https://www.archives.gov/federal-register/executive-orders/about.html, session 11 fetch a5010)."
       }
     },
     {
@@ -4829,7 +4862,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in GovInfo's Federal Register help page (https://www.govinfo.gov/help/fr)."
       }
@@ -4846,7 +4879,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the National Archives page about the CFR (https://www.archives.gov/federal-register/cfr/about.html)."
       }
@@ -4861,7 +4894,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Meaning read on 17 September 2026 in the Office of the Law Revision Counsel's FAQ (https://uscode.house.gov/faq.xhtml); the pairing of U.S.C. with United States Code read in DoD Directive 5105.19 (https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dodd/510519p.pdf)."
       }
@@ -4876,7 +4909,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the GPO Style Manual, rule 9.9 (https://www.govinfo.gov/content/pkg/GPO-STYLEMANUAL-2016/pdf/GPO-STYLEMANUAL-2016-11.pdf)."
       }
@@ -4891,7 +4924,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the House Armed Services Committee's NDAA history page (https://armedservices.house.gov/ndaa/history-ndaa.htm)."
       }
@@ -4907,7 +4940,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion read on 17 September 2026 in the department's FY2027 budget request overview (https://comptroller.war.gov/Portals/45/Documents/defbudget/FY2027/FY2027_Budget_Request_Overview_Book.pdf); meaning read in 31 U.S.C. 1102 (https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title31-section1102&num=0&edition=prelim)."
       }
@@ -4922,9 +4955,24 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in house.gov's bills and resolutions page (https://www.house.gov/the-house-explained/the-legislative-process/bills-resolutions)."
+      }
+    },
+    {
+      "term": "S.",
+      "forms": [
+        "S."
+      ],
+      "expansion": "Senate",
+      "oneLine": "The prefix on a bill introduced in the Senate, as in S. 4784; the number follows the order in which bills are introduced.",
+      "entityIds": [],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-09-30",
+        "method": "primary-fetch",
+        "note": "Expansion and meaning read on 30 September 2026 on senate.gov: the Types of Legislation page says bills are prefixed with S. when introduced in the Senate and are followed by a number based on the order in which they are introduced (https://www.senate.gov/legislative/common/briefing/leg_laws_acts.htm, session 11 fetch a5001), and the Key to Legislative Citations gives S. as a bill originating in the Senate, as in S. 1 (https://www.senate.gov/legislative/KeytoLegislativeCitations.htm, session 11 fetch a5003)."
       }
     },
     {
@@ -4933,15 +4981,15 @@
         "FISMA"
       ],
       "expansion": "Federal Information Security Modernization Act",
-      "oneLine": "The federal law, first enacted in 2002 and amended in 2014, that requires each agency to develop, document and implement an agency-wide information security program.",
+      "oneLine": "The federal law, first enacted in 2002 as the Federal Information Security Management Act and amended in 2014 by the Federal Information Security Modernization Act, that requires each agency to develop, document and implement an agency-wide information security program.",
       "entityIds": [
         "csf20"
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-30",
         "method": "primary-fetch",
-        "note": "Expansion and meaning read on 17 September 2026 in the CSRC FISMA background page (https://csrc.nist.gov/projects/risk-management/fisma-background)."
+        "note": "Expansion and meaning read on 30 September 2026 in the CSRC FISMA background page, which says the Federal Information Security Management Act (FISMA 2002), part of the E-Government Act, was passed in December 2002 and requires each federal agency to develop, document, and implement an agency-wide program, and that the Federal Information Security Modernization Act of 2014 amends FISMA 2002 (https://csrc.nist.gov/projects/risk-management/fisma-background, session 11 fetch a5007)."
       }
     },
     {
@@ -4954,9 +5002,10 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
-        "note": "Expansion and meaning read on 17 September 2026 in GSA's FedRAMP page and 44 U.S.C. 3608 (https://www.gsa.gov/technology/government-it-initiatives/fedramp)."
+        "note": "Expansion and meaning read on 17 September 2026 in GSA's FedRAMP page and 44 U.S.C. 3608 (https://www.gsa.gov/technology/government-it-initiatives/fedramp). Recheck on 11 June 2027, the date from which FedRAMP will no longer accept applications for new Rev5 Certifications, as its post of 25 June 2026 says (https://www.fedramp.gov/2026-06-25-propelling-change-fedramp-launches-consolidated-rules-for-2026/, read on 29 September 2026); the helper answer on where other frameworks land describes both the Rev5 and the 20x paths.",
+        "recheckAfter": "2027-06-11"
       }
     },
     {
@@ -4969,9 +5018,10 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
-        "note": "Expansion read on 17 September 2026 in the ISO Standards Maintenance Portal banner (https://standards.iso.org/); the joint designation ISO/IEC 27001 read in NIST SP 800-82 Revision 3 (https://csrc.nist.gov/pubs/sp/800/82/r3/final)."
+        "note": "Expansion read on 17 September 2026 in the ISO Standards Maintenance Portal banner (https://standards.iso.org/); the joint designation ISO/IEC 27001 read in NIST SP 800-82 Revision 3 (https://csrc.nist.gov/pubs/sp/800/82/r3/final).",
+        "recheckAfter": "2026-12-01"
       },
       "prefix": true
     },
@@ -4987,7 +5037,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 on the IEC webstore page for IEC 62443-4-2:2019 (https://webstore.iec.ch/en/publication/34421)."
       },
@@ -5003,7 +5053,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in CIS's About page (https://www.cisecurity.org/about-us)."
       }
@@ -5014,11 +5064,11 @@
         "IBM"
       ],
       "expansion": "International Business Machines",
-      "oneLine": "The technology company that designed the IBM Plex typefaces this page is set in and holds their copyright.",
+      "oneLine": "The technology company that designed the IBM Plex typefaces Lensatic is set in and holds their copyright.",
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-26",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion read on 26 September 2026 on IBM's heritage page The origins of IBM, which gives the company's 1924 renaming as International Business Machines (https://www.ibm.com/history/ctr-and-ibm); the copyright holder, IBM Corp., is printed in the font license, web/src/fonts/OFL.txt."
       }
@@ -5035,7 +5085,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-23",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Name and terms read on 23 September 2026 on the Open Source Initiative's page for the license, which gives it the identifier MIT (https://opensource.org/license/mit). Its publisher never spells the name out, so the page links it without an expansion."
       }
@@ -5062,7 +5112,7 @@
         "ATT&CK"
       ],
       "expansion": "Adversarial Tactics, Techniques, and Common Knowledge",
-      "oneLine": "MITRE's public catalog of the tactics and techniques attackers use, built from observed attacks; the long form comes from a 2017 MITRE technical report, and MITRE now uses ATT&CK as a registered trademark.",
+      "oneLine": "MITRE's public catalog of the tactics and techniques attackers use, built from observed attacks; the long form is printed in a 2017 MITRE technical report, and MITRE now uses ATT&CK as a registered trademark.",
       "entityIds": [],
       "verification": {
         "status": "verified",
@@ -5083,7 +5133,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the DOI Foundation's site (https://www.doi.org/)."
       }
@@ -5099,7 +5149,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the Library of Congress format description (https://www.loc.gov/preservation/digital/formats/fdd/fdd000030.shtml)."
       }
@@ -5114,7 +5164,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-23",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion read on 23 September 2026 in the legal code, which prints Creative Commons Attribution 4.0 International Public License (https://creativecommons.org/licenses/by/4.0/legalcode.txt); meaning read in the license deed, which prints CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)."
       }
@@ -5131,7 +5181,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the license deed and legal code (https://creativecommons.org/licenses/by-sa/4.0/)."
       }
@@ -5142,13 +5192,13 @@
         "OFL"
       ],
       "expansion": "SIL Open Font License",
-      "oneLine": "A free license for typefaces, maintained by SIL: anyone may use, change and share the fonts, including inside software, but may not sell the fonts on their own; the typefaces on this page use version 1.1.",
+      "oneLine": "A free license for typefaces, published by SIL: anyone may use, change and share the fonts, including inside software, but may not sell the fonts on their own; the typefaces Lensatic uses are under version 1.1.",
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-26",
+        "verifiedOn": "2026-09-30",
         "method": "primary-fetch",
-        "note": "Expansion read on 26 September 2026 on the license's home page, which prints SIL Open Font License (OFL) version 1.1 (https://openfontlicense.org/); meaning read in the official text of version 1.1, whose preamble pairs Open Font License (OFL) (https://openfontlicense.org/open-font-license-official-text/)."
+        "note": "Expansion read on 30 September 2026 on the license's home page, which prints SIL Open Font License (OFL) version 1.1 as the current version and says the site is copyright SIL International (https://openfontlicense.org/, session 11 fetch a5004); meaning read the same day in the official text of version 1.1, whose preamble pairs Open Font License (OFL) and lets the licensed fonts be used, changed and shared freely, including bundled with software, so long as they are not sold on their own (https://openfontlicense.org/open-font-license-official-text/, session 11 fetch a5005)."
       }
     },
     {
@@ -5158,13 +5208,13 @@
       ],
       "notAbbreviation": true,
       "expansion": null,
-      "oneLine": "The language-development organization, now SIL Global, that maintains the SIL Open Font License.",
+      "oneLine": "The language-development organization, now SIL Global, that publishes the SIL Open Font License.",
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-26",
+        "verifiedOn": "2026-09-30",
         "method": "primary-fetch",
-        "note": "Name read on 26 September 2026 on SIL Global's About Us page, which gives the organization's name as SIL Global and the Summer Institute of Linguistics only as its founding name in 1934 (https://global.sil.org/about/); the maintainer is named on the license's home page (https://openfontlicense.org/). The organization no longer spells the name out, so the page links it without an expansion."
+        "note": "Name read on 30 September 2026 on SIL Global's About Us page, which gives the organization's name as SIL Global and the Summer Institute of Linguistics only as its founding name in 1934 (https://global.sil.org/about/, session 11 fetch a5006). The license's home page is SIL International's: its footer says the site is copyright SIL International and names two individuals as the license's maintainers, not named here (https://openfontlicense.org/, session 11 fetch a5004). The organization no longer spells the name out, so the page links it without an expansion."
       }
     },
     {
@@ -5178,7 +5228,7 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in RFC 3986, section 1.1.3 (https://www.rfc-editor.org/rfc/rfc3986.txt)."
       }
@@ -5193,9 +5243,10 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
-        "note": "Expansion and meaning read on 17 September 2026 in NIST SP 800-82 Revision 3, acronym list (https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-82r3.pdf)."
+        "note": "Expansion and meaning read on 17 September 2026 in NIST SP 800-82 Revision 3, acronym list (https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-82r3.pdf).",
+        "recheckAfter": "2026-12-01"
       }
     },
     {
@@ -5210,7 +5261,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the department's capabilities and activities document, capability 6.5 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf)."
       }
@@ -5227,7 +5278,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion read on 17 September 2026 in the department's capabilities and activities document, capability 7.2 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf); meaning read in the CSRC glossary entry, from NIST SP 800-92 (https://csrc.nist.gov/glossary/term/security_information_and_event_management)."
       }
@@ -5246,7 +5297,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion read on 17 September 2026 in the department's capabilities and activities document, capability 6.1 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf); meaning read in the CSRC glossary entry, from NIST SP 800-162 (https://csrc.nist.gov/glossary/term/policy_decision_point)."
       }
@@ -5263,7 +5314,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the department's capabilities and activities document, capability 1.4 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf)."
       }
@@ -5280,7 +5331,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the department's capabilities and activities document, capability 4.6, and the CSRC glossary (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf)."
       }
@@ -5297,7 +5348,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the department's capabilities and activities document, capability 5.2 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf)."
       }
@@ -5314,7 +5365,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the department's capabilities and activities document, capability 2.7 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf)."
       }
@@ -5331,7 +5382,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the department's capabilities and activities document, capability 2.7 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf)."
       }
@@ -5348,7 +5399,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the department's capabilities and activities document, capability 1.3 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf)."
       }
@@ -5365,7 +5416,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the department's capabilities and activities document, capability 2.6 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf)."
       }
@@ -5382,7 +5433,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion read on 17 September 2026 in the department's capabilities and activities document, capability 2.6 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf); meaning read in the CSRC glossary entry, from NIST SP 1800-21B (https://csrc.nist.gov/glossary/term/mobile_device_management)."
       }
@@ -5401,7 +5452,7 @@
         "status": "verified",
         "verifiedOn": "2026-09-17",
         "method": "primary-fetch",
-        "note": "Expansion and meaning read on 17 September 2026 in the department's capabilities and activities document, capability 1.9, and the CSRC glossary (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf)."
+        "note": "Expansion and meaning read on 17 September 2026 in the department's capabilities and activities document, activity 1.2.4 (the abbreviation names capability 1.9), and the CSRC glossary (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf)."
       }
     },
     {
@@ -5416,7 +5467,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion read on 17 September 2026 in the department's capabilities and activities document, capability 6.7 (https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf); meaning read in the CSRC glossary entry, from NIST SP 800-61 Revision 3 (https://csrc.nist.gov/glossary/term/incident_response)."
       }
@@ -5432,7 +5483,7 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-17",
+        "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Read on 17 September 2026 in CSF 2.0 (NIST CSWP 29), section 3.1, printed page 6, and its glossary entry CSF Community Profile, printed page 26 (https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf)."
       }
@@ -5555,7 +5606,7 @@
         }
       }
     ],
-    "note": "Zero trust for agents is layers 2 and 3 applied to a new subject: an agent is a non-person entity, which SP 800-207 and the user pillar already cover. The AI RMF is the outcome layer for AI risk; the Cyber AI Profile applies the six functions to AI across its three focus areas; the AI Defense Matrix covers securing AI systems, the Profile's first focus area, not AI-enabled defense. The SOC Profile is a worked example of one Target Profile for an AI-enabled security operations center, one outcome per function. AI as the defender's tool lands in the automation pillar, where the {{dow}} model names it and the CISA model leaves it out. None of the four frameworks in this column binds anyone by its own force; the instrument that governs federal agencies' use of AI, OMB Memorandum M-25-21 of 3 April 2025, is listed here as governance outside the cybersecurity stack, and it names none of the four."
+    "note": "Zero trust for agents is layers 2 and 3 applied to a new subject: an agent is a non-person entity, which SP 800-207 and the user pillar already cover. The AI RMF is the outcome layer for AI risk; the Cyber AI Profile applies the six functions to AI across its three focus areas; the AI Defense Matrix covers securing AI systems, the Profile's first focus area, not AI-enabled defense. The SOC Profile is a worked example of one Target Profile for an AI-enabled security operations center, one outcome per function. AI as the defender's tool lands in the automation pillar, where the {{dow}} model names it and the CISA model leaves it out. None of the three frameworks in this column, nor the quick-start guide beside them, binds anyone by its own force; the instrument that governs federal agencies' use of AI, OMB Memorandum M-25-21 of 3 April 2025, is listed here as governance outside the cybersecurity stack, and it names none of them."
   },
   "elevator": {
     "derivedFrom": "layers",
@@ -5652,15 +5703,15 @@
       "validatedAgainst": "Assessed against",
       "adopterResponsibilities": "What an adopting organization still owns",
       "groupFrameworks": "Frameworks",
-      "groupSources": "Authorities and programs the doors cite",
+      "groupSources": "Authorities, programs and guides the page cites",
       "groupSolutions": "Validated solutions",
       "ztPlain": "Zero trust, the idea most of these documents serve, means nothing is trusted because of where it connects from: every request to reach data or a system is checked against policy each time.",
       "dowNote": "{{dow.current}} is a secondary name, authorized by executive order in September 2025, for the {{dow.statutory}} (DoD); the statutory title has not changed, and documents issued under the old name say DoD.",
-      "checkedThrough": "sources checked through",
+      "checkedThrough": "latest source check",
       "doorsIntro": "Pick the door that describes you. Steps run in the order you do them; the layer tag on each step shows where it sits on the stack below.",
       "doorsIntroApp": "Pick the door that describes you. Steps run in the order you do them; the layer tag on each step shows where it sits on the stack and opens that layer.",
-      "stackIntro": "The stack sorts the frameworks by the question each one answers: five layers, from the outcomes leadership funds down to who checks the evidence, with an AI column beside them. Solid chips are frameworks, dashed chips are the orders, memos and programs the doors cite, and dotted chips are solutions measured against a layer.",
-      "stackIntroApp": "The stack sorts the frameworks by the question each one answers: five layers, from the outcomes leadership funds down to who checks the evidence, then the AI column. Open a layer to see its entries: solid chips are frameworks, dashed chips are the orders, memos and programs the doors cite, and dotted chips are solutions measured against a layer.",
+      "stackIntro": "The stack sorts the frameworks by the question each one answers: five layers, from the outcomes leadership funds down to who checks the evidence, with an AI column beside them. Solid chips are frameworks, dashed chips are other guides and memos placed on a layer, and dotted chips are solutions measured against a layer.",
+      "stackIntroApp": "The stack sorts the frameworks by the question each one answers: five layers, from the outcomes leadership funds down to who checks the evidence, then the AI column. Open a layer to see its entries: solid chips are frameworks, dashed chips are other guides and memos placed on a layer, and dotted chips are solutions measured against a layer.",
       "matrixJump": "Jump to",
       "matrixJumpFunctions": "the same sentences by function",
       "matrixHint": "The tables scroll sideways, one pillar per column. The six functions section repeats each cell's first sentence in one column.",
@@ -5671,7 +5722,7 @@
       "statusKeyUnverified": "the publisher's copy could not be reached; the note lists every address tried.",
       "statusKeyConflict": "the sources disagree; the note gives both and a date to check again.",
       "hasConflictInside": "a conflict is recorded inside",
-      "glossaryIntro": "Every abbreviation on this page, spelled out, with a plain sentence on what it is and a badge that says whether the spelling was checked against its publisher. Each section also spells out an abbreviation where it first appears, except AI, which every reader knows.",
+      "glossaryIntro": "Every abbreviation Lensatic uses, spelled out, with a plain sentence on what it is and a badge that says whether the spelling was checked against its publisher. Each section also spells out an abbreviation where it first appears, except AI, which every reader knows.",
       "glossaryOpen": "Open in the glossary",
       "glossarySee": "See",
       "pagesNav": "Site pages",
@@ -5695,12 +5746,14 @@
       "whyNameHeading": "Why the name",
       "aboutPhotoAlt": "The maker's lensatic compass, open, with the sighting wire raised.",
       "footerNav": "Policies and source",
-      "sourceCode": "Source code"
+      "sourceCode": "Source code",
+      "releasedOn": "released"
     },
     "binds": {
       "federal-civilian": "Federal civilian agencies",
       "dow-components": "{{dow}} components",
       "defense-contractors-cui": "Defense contractors handling CUI",
+      "defense-contractors-fci-cui": "Defense contractors handling FCI or CUI",
       "voluntary-all": "Voluntary for all",
       "adopters": "Organizations that adopt it"
     },
