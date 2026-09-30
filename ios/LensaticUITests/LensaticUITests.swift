@@ -124,20 +124,31 @@ final class LensaticUITests: XCTestCase {
         }
     }
 
-    /// A diagnostic, not a pass condition: every section read from top to bottom, every issue printed as SWEEP, none
+    /// A diagnostic, not a pass condition: one section read from top to bottom, every issue printed as SWEEP, none
     /// failed. Below the first screen the audit reports contrast on text whose colours measure 6.5:1 and more and that
-    /// passes wherever it is first on screen, so its findings are read by hand. Runs only in the LensaticAuditSweep
-    /// scheme, which sets LENSATIC_AUDIT_SWEEP: xcodebuild -scheme LensaticAuditSweep
-    /// -only-testing:LensaticUITests/LensaticUITests/testSweepEverySection ... test
-    func testSweepEverySection() throws {
+    /// passes wherever it is first on screen, so its findings are read by hand. Each section is its own test, from a
+    /// fresh launch, so each section's audits start with their own time budget (session 11: in one test, the audit ran
+    /// out of time before About). Runs only in the LensaticAuditSweep scheme, which sets LENSATIC_AUDIT_SWEEP:
+    /// xcodebuild -scheme LensaticAuditSweep -only-testing:LensaticUITests/LensaticUITests/testSweep01Doors (one
+    /// -only-testing per section, testSweep01Doors to testSweep09About) ... test
+    func sweepSection(_ section: String) throws {
         try XCTSkipUnless(ProcessInfo.processInfo.environment["LENSATIC_AUDIT_SWEEP"] == "1", "the sweep runs only when asked")
         launch()
         continueAfterFailure = true
-        for section in Self.sections {
-            open(section)
-            try sweep(section)
-        }
+        open(section)
+        try sweep(section)
     }
+
+    // one test per section, numbered in the web's section order (Self.sections), so a run lists them in that order
+    func testSweep01Doors() throws { try sweepSection("doors") }
+    func testSweep02Stack() throws { try sweepSection("stack") }
+    func testSweep03Matrix() throws { try sweepSection("matrix") }
+    func testSweep04Functions() throws { try sweepSection("functions") }
+    func testSweep05AI() throws { try sweepSection("ai") }
+    func testSweep06Helper() throws { try sweepSection("helper") }
+    func testSweep07Sources() throws { try sweepSection("sources") }
+    func testSweep08Glossary() throws { try sweepSection("glossary") }
+    func testSweep09About() throws { try sweepSection("about") }
 
     func testADoorStepLeadsToItsFrameworkEntry() throws {
         launch()

@@ -76,8 +76,36 @@ final class RulesTests: XCTestCase {
 
     func testAShortNameInParenthesesTakesBracketsAsOneRunOfText() {
         // the builder places "(AI RMF)" as one span, as the web's span.short is one text node
+        XCTAssertEqual(render([[Span("The risk framework 1.0")], [Span("(AI RMF)")]]),
+                       ["The risk framework 1.0", "(AI RMF [Artificial Intelligence Risk Management Framework])"])
+    }
+
+    func testANameWithAWellKnownTermWrittenShortCountsAsSpelledOut() {
+        // session 11 (ED-06): AI is never spelled out, so "AI Risk Management Framework" is AI RMF's name spelled out
+        XCTAssertEqual(rules.spelled["AI RMF"], ["Artificial Intelligence Risk Management Framework", "AI Risk Management Framework"])
         XCTAssertEqual(render([[Span("The AI Risk Management Framework 1.0")], [Span("(AI RMF)")]]),
-                       ["The AI Risk Management Framework 1.0", "(AI RMF [Artificial Intelligence Risk Management Framework])"])
+                       ["The AI Risk Management Framework 1.0", "(AI RMF)"])
+        XCTAssertEqual(render([[Span("the AI RMF applies")]]), ["the AI RMF (Artificial Intelligence Risk Management Framework) applies"])
+    }
+
+    func testADescribedLabelIsNeitherExpandedNorLinked() {
+        // session 11: an entry's own title at the top of its screen, as inside the web's summary
+        var page = Page(title: "", blocks: [Block(.title(Run(Span("NIST rules", role: .describedLabel)))), Block(.text(Run(Span("NIST says")), .body))])
+        rules.apply(&page)
+        XCTAssertEqual(page.runs.map(\.text), ["NIST rules", "NIST (National Institute of Standards and Technology) says"])
+        XCTAssertFalse(page.runs[0].segments.contains { if case .term = $0 { return true } else { return false } })
+        XCTAssertEqual(page.runs[0].described, ["National Institute of Standards and Technology"])
+    }
+
+    func testALabelInALinkDescribesThatLink() {
+        // session 11 (ED-05): an entry's name in a list of links is a label: never expanded, and the link is described
+        let target = Target.push(.entity("x"))
+        var page = Page(title: "", blocks: [Block(.text(Run([Span("Draws on: "), Span("NIST", role: .label, link: target)]), .small)),
+                                            Block(.text(Run(Span("NIST says")), .body))])
+        rules.apply(&page)
+        XCTAssertEqual(page.runs.map(\.text), ["Draws on: NIST", "NIST (National Institute of Standards and Technology) says"])
+        XCTAssertEqual(page.runs[0].linkDescribed[target], ["National Institute of Standards and Technology"])
+        XCTAssertEqual(page.runs[0].described, ["National Institute of Standards and Technology"])
     }
 
     func testInsideAParenthesisTheExpansionTakesBrackets() {
@@ -144,6 +172,34 @@ final class RulesTests: XCTestCase {
         XCTAssertEqual(Rules.formatDate("2026-09"), "Sep 2026")
         XCTAssertEqual(Rules.formatDate("2026-09-09"), "9 Sep 2026")
         XCTAssertEqual(Rules.formatDate("undated"), "undated")
+    }
+
+    /// The web build's cite_edition on the session 10 ledger's cases (ED-09, ED-10, RED-06), and designations that keep
+    /// their capital: tools/check_web.py pins the same rulings.
+    func testCitationLinesGiveTheEditionByTheRule() {
+        let cases: [(String, String, String, String?)] = [
+            ("Class Deviation 2024-O0013, Revision 1: Safeguarding Covered Defense Information and Cyber Incident Reporting", "Revision 1", "2024-05-22", nil),
+            ("Zero Trust PfMO Newsletter", "November 2024", "2024-11", nil),
+            ("NSA Zero Trust Guidance", "Eight cybersecurity information sheets (2021 to 2024) and four implementation guidelines (2026)", "2026-05-28",
+             "eight cybersecurity information sheets (2021 to 2024) and four implementation guidelines (2026)"),
+            ("The AI Defense Matrix", "None printed (copyright 2026)", "2026", "none printed (copyright 2026)"),
+            ("Cyber Operational Readiness Assessment (CORA) program", "Program; no printed edition", "2024-02-28", "program; no printed edition"),
+            ("DISA awards Thunderdome production agreement", "Production agreement awarded 28 July 2023; no printed edition", "2023-08-02",
+             "production agreement awarded 28 July 2023; no printed edition"),
+            ("DoD Zero Trust Strategy", "Version 1.0", "2022-10-21", "Version 1.0"),
+            ("Security and Privacy Controls for Information Systems and Organizations", "Revision 5 (includes updates as of 10 December 2020)", "2020-09",
+             "Revision 5 (includes updates as of 10 December 2020)"),
+            ("Improving the Nation's Cybersecurity", "Executive Order 14028", "2021-05-12", "Executive Order 14028"),
+            ("Implementing Suspension of CMMC Phase II (memorandum)", "Acquisition and Sustainment memorandum with Attachment 1, CMMC procedures",
+             "2026-07-13", "Acquisition and Sustainment memorandum with Attachment 1, CMMC procedures"),
+            ("Removing Barriers to Defense Industrial Base Expansion", "CIO memorandum", "2026-07-13", "CIO memorandum"),
+            // a title that carries "Revision 10" does not carry "Revision 1"; a date one day off is not the same date
+            ("Guide, Revision 10", "Revision 1", "2024", "Revision 1"),
+            ("Letter", "3 May 2024", "2024-05-04", "3 May 2024"),
+        ]
+        for (title, edition, date, want) in cases {
+            XCTAssertEqual(Rules.citeEdition(title: title, edition: edition, date: date), want, edition)
+        }
     }
 
     func testFirstSentenceSplitsAtTheFirstStop() {

@@ -31,6 +31,9 @@ enum SpanRole: Sendable {
     case running
     /// A label (a heading, button, chip, badge, tag or meta line): never takes an expansion and is never a first use.
     case label
+    /// A label that stands where the web has a disclosure's summary (an entry's own title and short name at the top of
+    /// its screen): as inside the web's summary, its abbreviations describe the text rather than link (session 11).
+    case describedLabel
     /// Text the rule leaves alone but reads (addresses, codes, numbers).
     case hard
     /// A glossary entry's own term: it counts as spelled out, because its expansion follows it.
@@ -74,6 +77,9 @@ struct Run: Sendable {
     var segments: [Segment] = []
     /// Expansions of abbreviations in labels that sit inside a control: they describe the control (its hint).
     var described: [String] = []
+    /// The same, by the link a label span carries (an entry's name in a list of links), for a view that draws each link
+    /// as its own control.
+    var linkDescribed: [Target: [String]] = [:]
     /// What VoiceOver reads instead of the text, where the text is an address: the site, not the address letter by letter.
     var spoken: String?
 
@@ -168,7 +174,8 @@ struct Disclosure: Sendable {
 
 indirect enum BlockKind: Sendable {
     case sectionHead(number: Run, title: Run)
-    case hero(eyebrow: Run, name: Run, lede: Run)
+    /// The eyebrow is its phrases, each ending with its separator, so a narrow screen wraps it only between phrases.
+    case hero(eyebrow: [Run], name: Run, lede: Run)
     case title(Run)
     case heading(Run)
     case text(Run, TextStyle)
@@ -179,7 +186,8 @@ indirect enum BlockKind: Sendable {
     case chips([Chip])
     case rows([NavRow])
     case steps([StepItem])
-    case tagLine(Control, Run)
+    /// A layer's tag and its name; the AI column's tag is its name, so it has no second run.
+    case tagLine(Control, Run?)
     case keyValues([KeyValue])
     case bullets([Run])
     case badges([Badge])
@@ -249,7 +257,7 @@ extension BlockKind {
             body(&n, false); body(&t, false)
             self = .sectionHead(number: n, title: t)
         case .hero(var e, var n, var l):
-            body(&e, false); body(&n, false); body(&l, false)
+            each(&e, false); body(&n, false); body(&l, false)
             self = .hero(eyebrow: e, name: n, lede: l)
         case .title(var r):
             body(&r, false)
@@ -285,9 +293,11 @@ extension BlockKind {
                 if var links = steps[i].links { body(&links, false); steps[i].links = links }
             }
             self = .steps(steps)
-        case .tagLine(var c, var r):
-            control(&c); body(&r, false)
-            self = .tagLine(c, r)
+        case .tagLine(var c, let r):
+            control(&c)
+            var run = r
+            if var x = run { body(&x, false); run = x }
+            self = .tagLine(c, run)
         case .keyValues(var kvs):
             for i in kvs.indices {
                 body(&kvs[i].key, false)

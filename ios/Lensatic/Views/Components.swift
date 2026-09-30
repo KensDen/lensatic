@@ -114,11 +114,12 @@ struct ControlButton: View {
                 .overlay(RoundedRectangle(cornerRadius: 4).strokeBorder(Palette.accent).padding(.vertical, 10))
                 .contentShape(Rectangle())
         } else if plain {
+            // laid out by its text; the version line's TapTarget makes it 44 points tall, centered on the text
             Text(control.label.text)
                 .font(Typo.stamp)
                 .foregroundStyle(Palette.link)
                 .underline()
-                .frame(minHeight: 44)
+                .frame(maxHeight: .infinity)
                 .contentShape(Rectangle())
         } else {
             Text(control.label.text)
@@ -271,6 +272,8 @@ struct LinkButtons: View {
                         .contentShape(Rectangle())
                 }
                 .accessibilityIdentifier(identifier(g.target))
+                // the entry's name is a label: the expansions of its abbreviations describe the link (session 11)
+                .accessibilityHint((run.linkDescribed[g.target] ?? []).joined(separator: ", "))
             }
         }
     }
@@ -479,6 +482,113 @@ struct StoryView: View {
     private var text: some View {
         VStack(alignment: .leading, spacing: 10) {
             ForEach(Array(paragraphs.enumerated()), id: \.offset) { _, p in RunText(run: p, style: .body) }
+        }
+    }
+}
+
+/// A control laid out by its text but tappable over at least 44 points: it reports its text's height to the line it
+/// sits in, and is placed at least 44 points tall, centered on that text, reaching into the space above and below. A
+/// line of such controls wraps like running text (session 11, EX-009) and keeps full-size targets.
+struct TapTarget: Layout {
+    var minimum: CGFloat = 44
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        subviews.first?.sizeThatFits(ProposedViewSize(width: proposal.width, height: nil)) ?? .zero
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        guard let s = subviews.first else { return }
+        s.place(at: CGPoint(x: bounds.minX, y: bounds.midY), anchor: .leading,
+                proposal: ProposedViewSize(width: bounds.width, height: max(minimum, bounds.height)))
+    }
+}
+
+/// Marks a piece of a LinkLine as a link whose target is at least 44 points tall, centered on its text.
+struct LinkLineTarget: LayoutValueKey { static let defaultValue = false }
+/// Marks a piece of a LinkLine that never starts a line alone after the piece before it: the two wrap together.
+struct LinkLineKeep: LayoutValueKey { static let defaultValue = false }
+
+/// The front door's version line: its pieces laid out left to right and wrapped like running text, each line one text
+/// line below the last. A link's 44-point target (TapTarget) reaches past its text into the space around it, over plain
+/// text but never over another link's target: a line moves down only as far as it must for that. A piece marked to keep
+/// with the one before it wraps with it, so Why the name? never starts a line alone under the version link (session 11,
+/// EX-009 and its review).
+struct LinkLine: Layout {
+    var spacing: CGFloat = 7
+    var lineSpacing: CGFloat = 2
+    var minimum: CGFloat = 44
+
+    struct Piece: Equatable {
+        var size: CGSize
+        var target = false
+        var keep = false
+    }
+
+    /// Where each piece goes in a line of this width, by the pieces' own text sizes: rows as a Flow makes them, a
+    /// keep-with-previous piece taking the piece before it onto a new row with it, then each row moved down as far as
+    /// needed so no target's box overlaps a target's box in an earlier row.
+    static func arrange(_ pieces: [Piece], width: CGFloat, spacing: CGFloat, lineSpacing: CGFloat, minimum: CGFloat) -> [CGRect] {
+        var rows: [[Int]] = [[]]
+        var x: CGFloat = 0
+        for (i, p) in pieces.enumerated() {
+            let w = min(p.size.width, width)
+            if x > 0 && x + w > width {
+                if p.keep, rows[rows.count - 1].count > 1, let prev = rows[rows.count - 1].popLast() {
+                    let pw = min(pieces[prev].size.width, width)
+                    if pw + spacing + w <= width {
+                        rows.append([prev, i])
+                        x = pw + spacing + w + spacing
+                        continue
+                    }
+                    rows[rows.count - 1].append(prev)
+                }
+                rows.append([i])
+                x = w + spacing
+            } else {
+                rows[rows.count - 1].append(i)
+                x += w + spacing
+            }
+        }
+        var frames = Array(repeating: CGRect.zero, count: pieces.count)
+        var y: CGFloat = 0
+        for (r, row) in rows.enumerated() {
+            var px: CGFloat = 0
+            for i in row {
+                let w = min(pieces[i].size.width, width)
+                frames[i] = CGRect(x: px, y: y, width: w, height: pieces[i].size.height)
+                px += w + spacing
+            }
+            // a target's box: at least `minimum` tall, centered on its text
+            func box(_ f: CGRect) -> (CGFloat, CGFloat) { let h = max(minimum, f.height); return (f.midY - h / 2, f.midY + h / 2) }
+            var shift: CGFloat = 0
+            for b in row where pieces[b].target {
+                for earlier in rows[..<r] {
+                    for a in earlier where pieces[a].target && frames[a].minX < frames[b].maxX && frames[b].minX < frames[a].maxX {
+                        shift = max(shift, box(frames[a]).1 - box(frames[b]).0)
+                    }
+                }
+            }
+            if shift > 0 { for i in row { frames[i].origin.y += shift } }
+            y = (row.map { frames[$0].maxY }.max() ?? y) + lineSpacing
+        }
+        return frames
+    }
+
+    private func frames(_ subviews: Subviews, width: CGFloat) -> [CGRect] {
+        let pieces = subviews.map { Piece(size: $0.sizeThatFits(ProposedViewSize(width: width, height: nil)), target: $0[LinkLineTarget.self],
+                                          keep: $0[LinkLineKeep.self]) }
+        return LinkLine.arrange(pieces, width: width, spacing: spacing, lineSpacing: lineSpacing, minimum: minimum)
+    }
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let width = proposal.width ?? .infinity
+        let f = frames(subviews, width: width)
+        return CGSize(width: min(f.map(\.maxX).max() ?? 0, width), height: f.map(\.maxY).max() ?? 0)
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        for (s, f) in zip(subviews, frames(subviews, width: bounds.width)) {
+            s.place(at: CGPoint(x: bounds.minX + f.minX, y: bounds.minY + f.minY), proposal: ProposedViewSize(width: f.width, height: f.height))
         }
     }
 }

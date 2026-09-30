@@ -67,9 +67,10 @@ private struct Draft {
 
     /// A short name in parentheses, one run of text as the web's span.short is one text node, so the first-use rule
     /// sees the open parenthesis (square brackets inside) and a name followed by its own form. The short name is logged.
-    mutating func paren(_ short: String) -> Span {
+    /// Beside an entry's title it is part of that title, a label (session 11).
+    mutating func paren(_ short: String, _ role: SpanRole = .running) -> Span {
         texts.append(short)
-        return Span("(\(short))")
+        return Span("(\(short))", role: role)
     }
 
     /// A label from ui.labels, logged.
@@ -93,12 +94,14 @@ private struct Draft {
         return Badge(status: v.status, run: Run(g(Rules.badgeText(v, ui: content.ui), .label, .mono)))
     }
 
+    /// Links to entries by their short names. Each names an entry, so it is a label (session 11, as the web's a.ref): it
+    /// never takes an expansion and is described by the expansions of the abbreviations it holds.
     mutating func entityLinks(_ ids: [String]) -> [Span] {
         var out: [Span] = []
         for (i, id) in ids.enumerated() {
             guard let e = store.entities[id] else { continue }
             if i > 0 { out.append(g(", ")) }
-            out.append(c(e.shortName, .running, .plain, link: .push(.entity(id))))
+            out.append(c(e.shortName, .label, .plain, link: .push(.entity(id))))
         }
         return out
     }
@@ -108,10 +111,13 @@ private struct Draft {
         return Chip(label: Run(c(e.shortName, .label)), target: .push(.entity(id)), kind: e.kind)
     }
 
+    /// A layer's tag: Layer and its number; the AI column, beside the five layers rather than a sixth, is tagged with its
+    /// name (session 11, as on the web).
     mutating func layerTag(_ id: String) -> Control? {
         guard let layer = store.layers[id] else { return nil }
-        return Control(label: Run([l("layer", .label, .mono), g(" ", .label, .mono), g(String(layer.order), .hard, .mono)]),
-                       target: .push(.layer(id)), identifier: "layer-tag-\(id)")
+        let label = layer.isColumn ? Run(c(layer.name, .label, .mono))
+            : Run([l("layer", .label, .mono), g(" ", .label, .mono), g(String(layer.order), .hard, .mono)])
+        return Control(label: label, target: .push(.layer(id)), identifier: "layer-tag-\(id)")
     }
 
     mutating func sectionHead(_ s: Section) -> Block {
@@ -150,8 +156,15 @@ private struct Draft {
     /// that ends with Why the name; the audience line and the plain definition of zero trust; the four doors; the note.
     mutating func doors() -> [Block] {
         let meta = content.meta
+        // the eyebrow as its phrases, each ending with the separator, so a narrow screen or a large text size wraps it only
+        // between phrases (session 11); the whole label is logged
+        let eyebrow = L("heroEyebrow")
+        texts.append(eyebrow)
+        let separator = L("metaSeparator"), joint = separator.replacingOccurrences(of: #"\s+$"#, with: "", options: .regularExpression)
+        let phrases = eyebrow.components(separatedBy: separator)
+        let eyebrowRuns = phrases.enumerated().map { i, p in Run(g(i < phrases.count - 1 ? p + joint : p, .label, .mono)) }
         var out: [Block] = [
-            Block(.hero(eyebrow: Run(l("heroEyebrow", .label, .mono)), name: Run(c(meta.name, .label)), lede: Run(c(meta.description))), anchor: "intro"),
+            Block(.hero(eyebrow: eyebrowRuns, name: Run(c(meta.name, .label)), lede: Run(c(meta.description))), anchor: "intro"),
             Block(.controls([
                 Control(label: Run(l("heroPrimary")), target: .anchor("doors"), prominent: true, identifier: "hero-primary"),
                 Control(label: Run(l("heroSecondary")), target: .section(.stack, anchor: nil), identifier: "hero-secondary"),
@@ -161,9 +174,8 @@ private struct Draft {
         // the comma after it stays with it, so a narrow screen breaks the line after the comma, never before it
         let version = Control(label: Run([l("contentVersion", .label, .mono), g(" ", .label, .mono), g(meta.contentVersion, .hard, .mono)]),
                               target: .section(.about, anchor: nil), identifier: "content-version")
-        let separator = L("metaSeparator").replacingOccurrences(of: #"\s+$"#, with: "", options: .regularExpression)
         let line = Run([l("checkedThrough", .label, .mono), g(" ", .label, .mono), g(Rules.formatDate(store.latestCheck), .hard, .mono),
-                        g(separator, .label, .mono)])
+                        g(joint, .label, .mono)])
         out.append(Block(.versionLine(version: version, joiner: ",", line, why: Control(label: Run(l("whyName", .label, .mono)), target: .section(.about, anchor: "about-name"),
                                                     identifier: "why-name"))))
         out.append(sectionHead(.doors))
@@ -281,8 +293,12 @@ private struct Draft {
         return Block(.statusKey(title: Run(l("statusKeyTitle", .running, .strong)), rows: rows))
     }
 
+    /// An entry's citation line: title, publisher, the edition as Rules.citeEdition gives it (left out where it repeats
+    /// the title or the date, a descriptive one lowered), date.
     mutating func citeLine(_ e: Entity) -> Run {
-        Run([c(e.title), g(". "), c(e.publisher), g(", "), c(e.edition), g(", "), g(Rules.formatDate(e.date), .hard), g(".")])
+        var spans = [c(e.title), g(". "), c(e.publisher), g(", ")]
+        if let ed = Rules.citeEdition(title: e.title, edition: e.edition, date: e.date) { spans += [g(ed), g(", ")] }
+        return Run(spans + [g(Rules.formatDate(e.date), .hard), g(".")])
     }
 
     mutating func entityBadges(_ e: Entity) -> [Badge] {
@@ -300,10 +316,11 @@ private struct Draft {
             out.append(Block(.heading(Run(l(key)))))
             var rows: [NavRow] = []
             for e in items {
+                // the entry's title and short name name it: a label, as the web's summary title (session 11)
                 var lines: [Run] = []
-                if !e.name.contains(e.shortName) { lines.append(Run(paren(e.shortName))) }
+                if !e.name.contains(e.shortName) { lines.append(Run(paren(e.shortName, .label))) }
                 lines.append(citeLine(e))
-                rows.append(NavRow(title: Run(c(e.name, .running, .strong)), lines: lines, badges: entityBadges(e),
+                rows.append(NavRow(title: Run(c(e.name, .label, .strong)), lines: lines, badges: entityBadges(e),
                                    target: .push(.entity(e.id)), identifier: "ent-row-\(e.id)"))
             }
             out.append(Block(.rows(rows)))
@@ -343,8 +360,10 @@ private struct Draft {
         let meta = content.meta
         var out = [sectionHead(.about)]
         out.append(Block(.aboutHeader(name: Run(c(meta.name, .running, .strong)), version: Run(g(store.appVersion, .hard, .mono)))))
-        out.append(Block(.text(Run([l("contentVersion", .running, .mono), g(" "), g(meta.contentVersion, .hard, .mono),
-                                     g(L("metaSeparator"), .running, .mono), g(Rules.formatDate(meta.builtOn), .hard, .mono)]), .small)))
+        // the content version and the date it was released, labeled (session 11: Q12, Q23); every space in the mono face
+        out.append(Block(.text(Run([l("contentVersion", .running, .mono), g(" ", .running, .mono), g(meta.contentVersion, .hard, .mono),
+                                     g(L("metaSeparator"), .running, .mono), l("releasedOn", .running, .mono), g(" ", .running, .mono),
+                                     g(Rules.formatDate(meta.builtOn), .hard, .mono)]), .small), anchor: "about-version"))
         out.append(Block(.text(Run(c(meta.about.notAffiliated)), .body)))
         out.append(Block(.text(Run(l("dowNote", .running)), .small), anchor: "dow-note"))
         out.append(Block(.text(Run(c(content.orgs.dow.statusNote)), .small)))
@@ -449,16 +468,18 @@ private struct Draft {
     /// citation fields with the link to the primary, the documents, and the note.
     mutating func entity(_ id: String) -> Page {
         guard let e = store.entities[id] else { return Page(title: "", blocks: []) }
-        // the name is running text, as in the web's summary (span.name is not a label), so its words count as read
-        var out = [Block(.title(Run(c(e.name))))]
-        if !e.name.contains(e.shortName) { out.append(Block(.text(Run(paren(e.shortName)), .small))) }
+        // the entry's title and short name name it: labels, as the web's summary title, and, as there, described by the
+        // expansions of their abbreviations rather than linked (session 11)
+        var out = [Block(.title(Run(c(e.name, .describedLabel))))]
+        if !e.name.contains(e.shortName) { out.append(Block(.text(Run(paren(e.shortName, .describedLabel)), .small))) }
         out.append(Block(.badges(entityBadges(e))))
         out.append(Block(.text(citeLine(e), .small), anchor: "cite"))
         out.append(Block(.text(Run(c(e.oneLiner)), .lede)))
         if let a = e.answersQuestion { out.append(Block(.text(Run([l("answers", .running, .strong), g(": ", .running, .strong), c(a)]), .body))) }
         if let r = e.role { out.append(Block(.text(Run([l("role", .running, .strong), g(": ", .running, .strong), c(r)]), .body))) }
         if let lid = e.layerId, let tag = layerTag(lid), let layer = store.layers[lid] {
-            out.append(Block(.tagLine(tag, Run(c(layer.name)))))
+            // the AI column's tag is its name, so its name is not repeated
+            out.append(Block(.tagLine(tag, layer.isColumn ? nil : Run(c(layer.name)))))
         }
         if let va = e.validatedAgainst {
             var spans = [l("validatedAgainst", .running, .strong), g(": ", .running, .strong)] + entityLinks([va.entityId])
@@ -494,12 +515,20 @@ private struct Draft {
             out.append(Block(.text(Run(l("documents", .running, .strong)), .body)))
             var items: [KeyValue] = []
             for doc in docs {
-                var head = [c(doc.title), g(", "), c(doc.edition), g(", "), g(Rules.formatDate(doc.date), .hard), g(".")]
+                var head = [c(doc.title), g(", ")]
+                if let ed = Rules.citeEdition(title: doc.title, edition: doc.edition, date: doc.date) { head += [g(ed), g(", ")] }
+                head += [g(Rules.formatDate(doc.date), .hard), g(".")]
                 if let a = doc.authors { head += [g(" "), l("authors", .running), g(": "), g(a.joined(separator: "; ")), g(".")] }
                 var value: [Span] = []
                 if let url = URL(string: doc.url) { value.append(g(L("primary"), .label, .plain, link: .external(url))) }
                 if let note = doc.note { value += [g(" ")] + linked(note) }
-                items.append(KeyValue(key: Run(head), value: Run(value), badges: [badge(doc.verification)].compactMap { $0 }))
+                var item = KeyValue(key: Run(head), value: Run(value), badges: [badge(doc.verification)].compactMap { $0 })
+                // a document badged Unverified or Conflict shows its verification note beside the badge, as the status key
+                // promises and as an authority's note does (session 11, SK-004)
+                if [.conflict, .unverified].contains(doc.verification.status), !doc.verification.note.isEmpty {
+                    item.extra = Run(linked(doc.verification.note))
+                }
+                items.append(item)
             }
             out.append(Block(.keyValues(items), anchor: "documents"))
         }
@@ -519,7 +548,8 @@ private struct Draft {
         let caps = cell.capabilityIds ?? []
         if !caps.isEmpty {
             let names = caps.map { "\($0) \(store.capabilityNames[$0] ?? "")".trimmingCharacters(in: .whitespaces) }.joined(separator: "; ")
-            out.append(Block(.text(Run([l(view == .dow ? "capabilities" : "capabilitiesDow", .running, .strong), g(": ", .running, .strong), g(names)]), .small)))
+            // the capability names name things: a label, as the web's caps-list (session 11)
+            out.append(Block(.text(Run([l(view == .dow ? "capabilities" : "capabilitiesDow", .label, .strong), g(": ", .label, .strong), g(names, .label)]), .small)))
         }
         return Page(title: col.name, blocks: out)
     }
