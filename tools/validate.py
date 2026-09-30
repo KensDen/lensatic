@@ -42,9 +42,10 @@ SWEEP_SOURCE = ROOT / "tools" / "sweep_source.json"
 SWEEP_SCOPES = ["content", "web", "ios", "critique", "docs", "store", "README.md", "LICENSE"]
 # The two license files, each pinned by its SHA-256. LICENSE is the all-rights-reserved notice for Lensatic's own code
 # and text, in the words the owner ruled on 27 Sep 2026 (session 7B), with that date filled in; it is in force from
-# content 0.7.0 and is authored text, so it passes every check README.md passes. web/src/fonts/OFL.txt is the SIL Open
-# Font License 1.1 from the @fontsource/ibm-plex-sans and @fontsource/ibm-plex-mono 5.3.0 packages: both packages' IBM
-# copyright lines, then the license text the two share, verbatim (fetched 26 Sep 2026); as a verbatim legal text it is
+# content 0.7.0 and is authored text, so it passes every check README.md passes. web/src/fonts/OFL.txt is IBM's own
+# license file for IBM Plex, LICENSE.txt from IBM's @ibm/plex-sans 1.1.0 and @ibm/plex-mono 2.5.0 packages (the same
+# file in both): the SIL Open Font License 1.1 under IBM's line with its Reserved Font Name "Plex", verbatim (session
+# 11, 30 Sep 2026); as a verbatim legal text it is
 # exempt from the em-dash and planning-vocabulary checks and from nothing else (the sweep and the forbidden-name check
 # still read it). content/LICENSE, the CC BY 4.0 legal code that governed the text before content 0.7.0, must not
 # return. Changing either pinned file on purpose means updating its hash here.
@@ -54,19 +55,20 @@ LICENSE_FONTS = ROOT / "web" / "src" / "fonts" / "OFL.txt"
 VERBATIM_LEGAL = {LICENSE_FONTS}
 LICENSE_SHA256 = {
     "LICENSE": "f901cef996683780ec4c95906b9746378abb0f54ce5e8d2021f29c242fbd1529",
-    "web/src/fonts/OFL.txt": "1ce5a37e1ccedd87fc784122101278baddf7b1cd2aa57ccb3eaee6699c471e58",
+    "web/src/fonts/OFL.txt": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
 }
 ALL_RIGHTS_RESERVED = "LicenseRef-Lensatic-All-Rights-Reserved"
 LICENSE_SPDX = {"code": (ALL_RIGHTS_RESERVED, "LICENSE"), "content": (ALL_RIGHTS_RESERVED, "LICENSE"), "fonts": ("OFL-1.1", "web/src/fonts/OFL.txt")}
 # the name and page meta.licenses gives the two all-rights-reserved entries
 LICENSE_ARR_ENTRY = {"name": "All rights reserved", "url": "https://github.com/KensDen/lensatic/blob/main/LICENSE"}
-# The four IBM Plex faces the page embeds (latin subset, regular and bold), from the same packages, verified against
-# the registry's dist.integrity and pinned here; web/src/fonts/ holds these and OFL.txt, nothing else.
+# The four IBM Plex faces the page embeds: IBM's own Latin1 subset WOFF2 files, regular and bold, from the same packages
+# (npm pack, each tarball checked against the registry's dist.integrity), byte for byte, never subset, converted or
+# renamed, and pinned here; web/src/fonts/ holds these and OFL.txt, nothing else.
 FONT_SHA256 = {
-    "web/src/fonts/ibm-plex-sans-latin-400-normal.woff2": "3b646991d30055a93a4ecc499713d4347953a74a947ecab435ab72070cbdab0e",
-    "web/src/fonts/ibm-plex-sans-latin-700-normal.woff2": "42e7b0c143c19df9d99fd896e76b48f846edf0902d200bc29796b34d12c33aa7",
-    "web/src/fonts/ibm-plex-mono-latin-400-normal.woff2": "08949f728dc52d528e69b1667d15c89a5686a4ee9a296ff90983985f99c380f7",
-    "web/src/fonts/ibm-plex-mono-latin-700-normal.woff2": "4f84d86cfd060f4ded334358ff8a4c81d4db2ed5addd568359d693f44a87765a",
+    "web/src/fonts/IBMPlexSans-Regular-Latin1.woff2": "b5ad7bd39f996144915f0ad9849a90183b27d8c28ad97ed98af5b1bebc51f6b1",
+    "web/src/fonts/IBMPlexSans-Bold-Latin1.woff2": "914f1400f363e636b6f9cc7965aa807ff01e93586e1437617525cba0a62aa78d",
+    "web/src/fonts/IBMPlexMono-Regular-Latin1.woff2": "e8993d946649b9d01abb1ed06d574b19d8ea3e66b5c3948602db335c44c18e56",
+    "web/src/fonts/IBMPlexMono-Bold-Latin1.woff2": "e256c6e8225a8792d0274ac83ead8d668b3c0668f9bd8d36a57a56594ef777e5",
 }
 # the maker's photo beside Why the name in About (session 7D): the owner's photo, resized with sips to 1200 px on its
 # longest side at quality 30 (the highest setting under 150 KB), every metadata segment stripped; pinned by SHA-256

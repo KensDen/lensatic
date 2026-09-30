@@ -27,9 +27,9 @@ const face = (family, weight, file) => `@font-face { font-family: '${family}'; f
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>
-${face('IBM Plex Sans', 400, 'ibm-plex-sans-latin-400-normal.woff2')}
-${face('IBM Plex Sans', 700, 'ibm-plex-sans-latin-700-normal.woff2')}
-${face('IBM Plex Mono', 700, 'ibm-plex-mono-latin-700-normal.woff2')}
+${face('IBM Plex Sans', 400, 'IBMPlexSans-Regular-Latin1.woff2')}
+${face('IBM Plex Sans', 700, 'IBMPlexSans-Bold-Latin1.woff2')}
+${face('IBM Plex Mono', 700, 'IBMPlexMono-Bold-Latin1.woff2')}
 html, body { margin: 0; width: ${W}px; height: ${H}px; background: ${tok('bg')}; }
 body { box-sizing: border-box; padding: 76px 88px; font-family: 'IBM Plex Sans', sans-serif; color: ${tok('fg')}; position: relative; }
 body::after { content: ""; position: absolute; left: 88px; right: 88px; bottom: 64px; border-top: 1px solid ${tok('line-strong')}; }

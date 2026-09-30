@@ -23,10 +23,10 @@ enum Palette {
 }
 
 /// IBM Plex Sans for text and IBM Plex Mono for the label roles the web gives it. Every face is scaled with Dynamic
-/// Type: each size is relative to a system text style.
+/// Type: each size is relative to a system text style. The names are the PostScript names in IBM's own TrueType files.
 enum Typo {
-    static let sans = "IBMPlexSans-Regular", sansBold = "IBMPlexSans-Bold"
-    static let mono = "IBMPlexMono-Regular", monoBold = "IBMPlexMono-Bold"
+    static let sans = "IBMPlexSans", sansBold = "IBMPlexSans-Bold"
+    static let mono = "IBMPlexMono", monoBold = "IBMPlexMono-Bold"
     static let faces = [sans, sansBold, mono, monoBold]
 
     static func font(_ face: String, _ size: CGFloat, _ style: Font.TextStyle) -> Font {

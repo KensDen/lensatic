@@ -20,7 +20,7 @@ Most of the frameworks Lensatic describes are United States government publicati
 
 IBM Corp. holds the copyright in the typefaces the built pages embed, IBM Plex Sans and IBM Plex Mono, which are licensed under the SIL Open Font License, Version 1.1 ([`web/src/fonts/OFL.txt`](web/src/fonts/OFL.txt)). That license, not the notice above, governs them.
 
-The iOS app in `ios/` is covered by the same all-rights-reserved notice as the rest of the repository. Its TrueType fonts are the same IBM Plex faces under the same license, converted from the web's files, with the license beside them ([`ios/Lensatic/Resources/Fonts/OFL.txt`](ios/Lensatic/Resources/Fonts/OFL.txt)); the Lensatic name and icon identify this project and, like the rest of it, are not licensed for any other use.
+The iOS app in `ios/` is covered by the same all-rights-reserved notice as the rest of the repository. Its fonts are IBM's own TrueType files for the same IBM Plex faces, unmodified, under the same license, with IBM's license beside them ([`ios/Lensatic/Resources/Fonts/OFL.txt`](ios/Lensatic/Resources/Fonts/OFL.txt)); the Lensatic name and icon identify this project and, like the rest of it, are not licensed for any other use.
 
 Where a cited work is protected, its title, names and any short quotation remain its owner's, and the work itself is described, not reproduced. Nothing from the AI Defense Matrix, which its authors publish under CC BY-SA 4.0, is reproduced. The app cites it, describes it in its own words, and credits its authors and license.
 

@@ -26,10 +26,10 @@
 	<string>Ken Connell</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>ibm-plex-sans-latin-400-normal.ttf</string>
-		<string>ibm-plex-sans-latin-700-normal.ttf</string>
-		<string>ibm-plex-mono-latin-400-normal.ttf</string>
-		<string>ibm-plex-mono-latin-700-normal.ttf</string>
+		<string>IBMPlexSans-Regular.ttf</string>
+		<string>IBMPlexSans-Bold.ttf</string>
+		<string>IBMPlexMono-Regular.ttf</string>
+		<string>IBMPlexMono-Bold.ttf</string>
 	</array>
 	<key>UILaunchScreen</key>
 	<dict/>

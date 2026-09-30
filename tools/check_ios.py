@@ -50,13 +50,14 @@ XCODEGEN = ROOT / ".tmp" / "xcodegen" / "bin" / "xcodegen"
 BATTERY_DERIVED = ROOT / ".tmp" / "DerivedData-battery"
 BUILD_TEST_TIMEOUT = 1800  # seconds: a failing test must turn the battery red, never hang it
 
-# the four faces converted once from web/src/fonts/ with fontTools (session 8, section 3.9) and the licence beside them
+# IBM's own four TrueType faces, byte for byte from IBM's release archives for @ibm/plex-sans 1.1.0 and @ibm/plex-mono
+# 2.5.0 (session 11: nothing converted, subset or renamed; session 8's conversion is retired), and IBM's licence beside them
 FONT_PINS = {
-    "ibm-plex-sans-latin-400-normal.ttf": "1872782504203650410eedd72d31279037355ff21e41336186b862dec220ca82",
-    "ibm-plex-sans-latin-700-normal.ttf": "6a9876b3b24e7e7d7c0b4fa22dad5935ad1d4c7c395caa7b2584ae151e625b2c",
-    "ibm-plex-mono-latin-400-normal.ttf": "3f7efa37307b8b54338fc6437acd67f8d936239ec8e0708551a9b746474f2176",
-    "ibm-plex-mono-latin-700-normal.ttf": "cb4d2f28a38d6fe38278b4812dccb0ec6a3d0801a082e5e598160ac1fd4799f4",
-    "OFL.txt": "1ce5a37e1ccedd87fc784122101278baddf7b1cd2aa57ccb3eaee6699c471e58",
+    "IBMPlexSans-Regular.ttf": "975dcda37d80f038dcd143c22e33ca2d97a0cc5a929aace1c749153b0fe1afa5",
+    "IBMPlexSans-Bold.ttf": "9e6c74a889a700d707613d24548fe4ffa6bc59559a0689d2cf9e133bdcdafb2f",
+    "IBMPlexMono-Regular.ttf": "7c6fbddca4b700be918f5f6183d9bd4464fa427fe435f0b480d77fe2bb8c5a43",
+    "IBMPlexMono-Bold.ttf": "74e5eedcfa4596497d34e19023cabdabd3a8c852b903007a5654a59591a72ffb",
+    "OFL.txt": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
 }
 # the glyph render on the dial background, its metadata chunks dropped, pixels unchanged (session 8, section 2.6)
 ICON_SHA256 = "cb9930c2ccad4ecffbb42b7426536725a24a3da693477798006ba78e4a16db41"

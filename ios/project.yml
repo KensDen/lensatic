@@ -49,10 +49,10 @@ targets:
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         UIAppFonts:
-          - ibm-plex-sans-latin-400-normal.ttf
-          - ibm-plex-sans-latin-700-normal.ttf
-          - ibm-plex-mono-latin-400-normal.ttf
-          - ibm-plex-mono-latin-700-normal.ttf
+          - IBMPlexSans-Regular.ttf
+          - IBMPlexSans-Bold.ttf
+          - IBMPlexMono-Regular.ttf
+          - IBMPlexMono-Bold.ttf
         # the maker line in About, as the web build's --author gives it
         LensaticMaker: Ken Connell
     settings:

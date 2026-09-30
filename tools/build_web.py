@@ -40,9 +40,10 @@ PHOTO = SRC / "about-photo.jpg"  # the maker's photo beside Why the name in Abou
 DOCS = ROOT / "docs"
 PAGES = ("privacy", "support")
 FONT_DIR = SRC / "fonts"
-# the four faces the page embeds: family, weight, file in web/src/fonts/ (no italics; the browser's oblique is acceptable)
-FONT_FACES = (("IBM Plex Sans", 400, "ibm-plex-sans-latin-400-normal.woff2"), ("IBM Plex Sans", 700, "ibm-plex-sans-latin-700-normal.woff2"),
-              ("IBM Plex Mono", 400, "ibm-plex-mono-latin-400-normal.woff2"), ("IBM Plex Mono", 700, "ibm-plex-mono-latin-700-normal.woff2"))
+# the four faces the page embeds: family, weight, IBM's own Latin1 subset file in web/src/fonts/ (no italics; the
+# browser's oblique is acceptable)
+FONT_FACES = (("IBM Plex Sans", 400, "IBMPlexSans-Regular-Latin1.woff2"), ("IBM Plex Sans", 700, "IBMPlexSans-Bold-Latin1.woff2"),
+              ("IBM Plex Mono", 400, "IBMPlexMono-Regular-Latin1.woff2"), ("IBM Plex Mono", 700, "IBMPlexMono-Bold-Latin1.woff2"))
 SOCIAL_CARD = SRC / "social-card.png"
 SOCIAL_SIZE = (1200, 630)
 # the published site and the source repository: the footer's three links and the link-preview tags point here
