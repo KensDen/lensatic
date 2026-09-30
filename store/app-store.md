@@ -107,7 +107,7 @@ Reference
 
 ## Secondary Category (`secondaryCategory`)
 
-Not set: pending the owner's decision.
+None, by the owner's decision: leave it empty.
 
 No value.
 
@@ -120,6 +120,15 @@ Free
 ```
 
 4 characters
+
+## Availability (`availability`)
+
+Pricing and Availability: the United States only, by the owner's decision. The app launches on iPhone and iPad; the build sets the devices (TARGETED_DEVICE_FAMILY 1,2), and each has its eight screenshots.
+
+```text
+countriesOrRegions: United States
+devices: iPhone, iPad
+```
 
 ## Age Rating (`ageRating`)
 

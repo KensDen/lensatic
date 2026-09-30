@@ -16,8 +16,10 @@ rules, checked case-insensitively on the listing's own fields only (the content 
 funds"): category Reference, never Education, no training, course, lesson, certification-prep or leadership
 language, no lenses framing and never "multi-lensatic", no promise words, no other app or product named, and the
 maker named only in the copyright line; no emoji outside the promotional text and the description's opening
-paragraph; the three addresses are the site's own pages and their files exist in docs/; the version, the encryption
-answer and the privacy answer agree with the app; the README's tagline and wayfinder lines equal the content fields;
+paragraph; the three addresses are the site's own pages and their files exist in docs/; the secondary category is none
+and the availability is the United States only, on iPhone and iPad (the owner's decisions of 29 September 2026); the
+version, the devices, the encryption answer and the privacy answer agree with the app; the README's tagline and
+wayfinder lines equal the content fields;
 the copy sheet equals a fresh generation; the screenshot list names eight screens per device, in the settled order, at
 Apple's sizes, no two alike in their files or below their status bars; and no em dash, forbidden word or email address
 in store/.
@@ -76,13 +78,16 @@ URLS = {"supportUrl": (SITE + "support.html", "support.html"), "marketingUrl": (
 # the fields, in the order App Store Connect shows them to the owner, with their limits; None has no length limit
 FIELDS = {"name": 30, "subtitle": 30, "promotionalText": 170, "description": 4000, "keywords": 100, "supportUrl": None,
           "marketingUrl": None, "privacyPolicyUrl": None, "copyright": None, "primaryCategory": None, "secondaryCategory": None,
-          "price": None, "ageRating": None, "privacyNutrition": None, "exportCompliance": None, "reviewNotes": 4000,
-          "version": None, "whatsNew": 4000}
+          "price": None, "availability": None, "ageRating": None, "privacyNutrition": None, "exportCompliance": None,
+          "reviewNotes": 4000, "version": None, "whatsNew": 4000}
+# the owner's decisions of 29 September 2026: no secondary category; the United States only; iPhone and iPad at launch
 PINNED = {"name": STORE_NAME, "subtitle": SUBTITLE, "copyright": "2026 Ken Connell", "primaryCategory": "Reference",
-          "price": "Free", "privacyNutrition": "Data Not Collected",
+          "secondaryCategory": None, "price": "Free", "privacyNutrition": "Data Not Collected",
+          "availability": {"countriesOrRegions": ["United States"], "devices": ["iPhone", "iPad"]},
           "ageRating": {"contentCategories": "None", "unrestrictedWebAccess": False, "userGeneratedContent": False, "rating": "4+"}}
+FAMILY = {"1": "iPhone", "2": "iPad"}  # TARGETED_DEVICE_FAMILY's numbers
 MAKER_SURNAME = "Connell"  # the maker is named in the copyright line only
-NULLABLE = ("secondaryCategory", "whatsNew")  # null: pending the owner's decision, and not used for a first version
+NULLABLE = ("secondaryCategory", "whatsNew")  # null: no secondary category, and not used for a first version
 
 # the listing rules, matched case-insensitively on the listing's fields
 BANNED = (
@@ -114,12 +119,15 @@ DISPLAYS = {"iPhone": ("iPhone 6.9-inch display", 1320, 2868), "iPad": ("iPad 13
 HEADINGS = {"name": "Name", "subtitle": "Subtitle", "promotionalText": "Promotional Text", "description": "Description",
             "keywords": "Keywords", "supportUrl": "Support URL", "marketingUrl": "Marketing URL",
             "privacyPolicyUrl": "Privacy Policy URL", "copyright": "Copyright", "primaryCategory": "Primary Category",
-            "secondaryCategory": "Secondary Category", "price": "Price", "ageRating": "Age Rating",
-            "privacyNutrition": "App Privacy", "exportCompliance": "Export Compliance", "reviewNotes": "App Review Notes",
-            "version": "Version", "whatsNew": "What's New in This Version"}
+            "secondaryCategory": "Secondary Category", "price": "Price", "availability": "Availability",
+            "ageRating": "Age Rating", "privacyNutrition": "App Privacy", "exportCompliance": "Export Compliance",
+            "reviewNotes": "App Review Notes", "version": "Version", "whatsNew": "What's New in This Version"}
 NOTES = {"name": "The App Store name only; everywhere else the app is Lensatic.",
-         "secondaryCategory": "Not set: pending the owner's decision.",
+         "secondaryCategory": "None, by the owner's decision: leave it empty.",
          "price": "The price schedule's base price.",
+         "availability": "Pricing and Availability: the United States only, by the owner's decision. The app launches on "
+                         "iPhone and iPad; the build sets the devices (TARGETED_DEVICE_FAMILY 1,2), and each has its eight "
+                         "screenshots.",
          "ageRating": "The answers to the age rating questionnaire: every content category None, no unrestricted web access, "
                       "no user-generated content, giving 4+.",
          "privacyNutrition": "The App Privacy answer: the app collects no data.",
@@ -180,7 +188,8 @@ def sheet(listing: dict) -> str:
             out += ["No value.", ""]
             continue
         if isinstance(value, dict):
-            text = "\n".join(f"{k}: {v if isinstance(v, str) else json.dumps(v)}" for k, v in value.items())
+            show = lambda v: v if isinstance(v, str) else ", ".join(v) if isinstance(v, list) and all(isinstance(x, str) for x in v) else json.dumps(v)  # noqa: E731
+            text = "\n".join(f"{k}: {show(v)}" for k, v in value.items())
         else:
             text = str(value)
         out += ["```text", text, "```", ""]
@@ -283,7 +292,7 @@ def check(rep) -> None:
         errs.append(f"primaryCategory is {listing.get('primaryCategory')!r}, not Reference")
     sec = listing.get("secondaryCategory")
     if sec is not None and (not isinstance(sec, str) or sec.lower() in ("education", "reference")):
-        errs.append(f"secondaryCategory is {sec!r}: it is null (pending) or a category other than Education and the primary")
+        errs.append(f"secondaryCategory is {sec!r}: a secondary category is never Education or the primary")
     for p, s in fields:
         for why, pattern in BANNED:
             for m in re.finditer(pattern, s, re.I):
@@ -315,20 +324,31 @@ def check(rep) -> None:
 
     # the addresses, the version and the app's answers
     errs = []
+    avail = listing.get("availability") if isinstance(listing.get("availability"), dict) else {}
+    names = lambda v: v if isinstance(v, list) and all(isinstance(x, str) for x in v) else []  # noqa: E731
     for k, (url, file) in URLS.items():
         if listing.get(k) != url:
             errs.append(f"{k} is {listing.get(k)!r}, expected {url!r}")
         if not (DOCS / file).is_file():
             errs.append(f"{k}: docs/{file} does not exist")
-    for k in ("copyright", "price", "privacyNutrition", "ageRating"):
+    for k in ("copyright", "secondaryCategory", "price", "availability", "privacyNutrition", "ageRating"):
         if listing.get(k) != PINNED[k]:
             errs.append(f"{k} is {listing.get(k)!r}, expected {PINNED[k]!r}")
     try:
         info = plistlib.loads(INFO.read_bytes())
         privacy = plistlib.loads(PRIVACY.read_bytes())
-        m = re.search(r'^\s*MARKETING_VERSION:\s*"?([^"\s]+)"?\s*$', PROJECT_YML.read_text(encoding="utf-8"), re.M)
+        project = PROJECT_YML.read_text(encoding="utf-8")
+        m = re.search(r'^\s*MARKETING_VERSION:\s*"?([^"\s]+)"?\s*$', project, re.M)
         if listing.get("version") != (m.group(1) if m else None):
             errs.append(f"version {listing.get('version')!r} is not the app's MARKETING_VERSION ({m.group(1) if m else 'missing'})")
+        # the devices the listing launches on are the devices the app builds for
+        fams = re.findall(r'^\s*TARGETED_DEVICE_FAMILY:\s*"?([0-9,]+)"?\s*$', project, re.M)
+        builds = [FAMILY.get(n, n) for n in fams[0].split(",")] if len(fams) == 1 else None
+        devices = avail.get("devices")
+        if builds is None:
+            errs.append(f"ios/project.yml sets TARGETED_DEVICE_FAMILY {len(fams)} times, expected once (the app target)")
+        elif devices != builds:
+            errs.append(f"availability.devices {devices!r} is not what the app builds for (TARGETED_DEVICE_FAMILY {fams[0]}: {builds!r})")
         if listing.get("exportCompliance") != {"usesNonExemptEncryption": info.get("ITSAppUsesNonExemptEncryption")} \
                 or info.get("ITSAppUsesNonExemptEncryption") is not False:
             errs.append("exportCompliance does not match ITSAppUsesNonExemptEncryption false in Info.plist")
@@ -338,9 +358,11 @@ def check(rep) -> None:
         errs.append(f"reading the app's settings: {exc}")
     if listing.get("version") == "1.0" and listing.get("whatsNew") is not None:
         errs.append("whatsNew is set for a first version")
-    rep.check("the support, marketing and privacy addresses are the site's own pages and exist in docs/; copyright, price, "
-              "age rating and privacy answer as settled; version, encryption and privacy agree with the app", errs,
-              f"version {listing.get('version')}")
+    rep.check("the support, marketing and privacy addresses are the site's own pages and exist in docs/; copyright, secondary "
+              "category (none), price, availability, age rating and privacy answer as settled; version, devices, encryption "
+              "and privacy agree with the app", errs,
+              f"version {listing.get('version')}; {', '.join(names(avail.get('countriesOrRegions')))} only, on "
+              f"{' and '.join(names(avail.get('devices')))}")
 
     # the README carries the tagline and the wayfinder line from content
     errs = []
