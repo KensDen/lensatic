@@ -289,6 +289,126 @@ final class ContentTests: XCTestCase {
         XCTAssertFalse(store.maker.isEmpty)
     }
 
+    // MARK: session 11 (Q12, Q20, Q21, Q23, Q36)
+
+    func testAboutLabelsItsDateAsTheReleaseDate() throws {
+        let page = try XCTUnwrap(pages[.section(.about, .dow)])
+        let meta = store.content.meta
+        let want = "\(store.label("contentVersion")) \(meta.contentVersion)\(store.label("metaSeparator"))\(store.label("releasedOn")) \(Rules.formatDate(meta.builtOn))"
+        let line = try XCTUnwrap(page.runs.first { $0.source == want }, "About reads \(want)")
+        // every space in the line is set in the mono face, as the Doors line's (ED-19)
+        XCTAssertTrue(line.spans.filter { $0.text.contains(" ") }.allSatisfy { $0.style == .mono })
+    }
+
+    func testTheEyebrowWrapsOnlyBetweenItsPhrases() throws {
+        let page = try XCTUnwrap(pages[.section(.doors, .dow)])
+        guard case .hero(let eyebrow, _, _)? = page.blocks.first?.kind else { return XCTFail("the doors screen does not open with the hero") }
+        let label = store.label("heroEyebrow"), separator = store.label("metaSeparator")
+        XCTAssertEqual(eyebrow.count, label.components(separatedBy: separator).count)
+        XCTAssertGreaterThan(eyebrow.count, 1)
+        XCTAssertEqual(eyebrow.map(\.source).joined(separator: " "), label)
+        XCTAssertTrue(eyebrow.dropLast().allSatisfy { $0.source.hasSuffix(separator.trimmingCharacters(in: .whitespaces)) })
+    }
+
+    func testTheAIColumnIsTaggedByItsNameNotAsASixthLayer() throws {
+        let column = try XCTUnwrap(store.content.layers.first(where: \.isColumn))
+        let entries = (store.frameworks + store.sources + store.solutions).filter { $0.layerId == column.id }
+        XCTAssertFalse(entries.isEmpty)
+        for e in entries {
+            let page = try XCTUnwrap(pages[.route(.entity(e.id))])
+            let tags = page.blocks.compactMap { b -> (Control, Run?)? in if case .tagLine(let c, let r) = b.kind { return (c, r) } else { return nil } }
+            XCTAssertEqual(tags.count, 1)
+            XCTAssertEqual(tags.first?.0.label.text, column.name)
+            XCTAssertNil(tags.first?.1, "\(e.id): the column's name is not repeated")
+        }
+        let sixth = "\(store.label("layer")) \(column.order)"
+        for (key, page) in pages { XCTAssertFalse(page.runs.contains { $0.text == sixth }, "\(key) shows \(sixth)") }
+    }
+
+    func testUnverifiedDocumentsShowTheirVerificationNote() throws {
+        var n = 0
+        for e in store.frameworks + store.sources + store.solutions {
+            let page = try XCTUnwrap(pages[.route(.entity(e.id))])
+            let extras = page.blocks.flatMap { b -> [String] in
+                if case .keyValues(let kvs) = b.kind { return kvs.compactMap { $0.extra?.source } } else { return [] }
+            }
+            for doc in e.documents ?? [] where [.unverified, .conflict].contains(doc.verification.status) {
+                n += 1
+                XCTAssertTrue(extras.contains(doc.verification.note), "\(e.id): \(doc.title.prefix(40))")
+            }
+        }
+        XCTAssertGreaterThan(n, 0)
+    }
+
+    /// The citation-line rule on the real content (Rules.citeEdition in citeLine and the documents' lines): an edition the
+    /// title carries or that repeats the date is left out, a descriptive one is lowered, as the web page gives them.
+    func testCitationLinesOnTheRealContent() throws {
+        func documentLines(_ id: String) throws -> [String] {
+            let page = try XCTUnwrap(pages[.route(.entity(id))])
+            let docs = try XCTUnwrap(page.blocks.first { $0.anchor == "documents" })
+            guard case .keyValues(let kvs) = docs.kind else { XCTFail("\(id): no documents"); return [] }
+            return kvs.map(\.key.source)
+        }
+        XCTAssertTrue(try documentLines("sp800-171").contains(
+            "Class Deviation 2024-O0013, Revision 1: Safeguarding Covered Defense Information and Cyber Incident Reporting, 22 May 2024."))
+        XCTAssertTrue(try documentLines("flank-speed").contains("Zero Trust PfMO Newsletter, Nov 2024."))
+        let nsa = try XCTUnwrap(pages[.route(.entity("nsa-zt"))])
+        let cite = try XCTUnwrap(nsa.blocks.first { $0.anchor == "cite" })
+        guard case .text(let run, _) = cite.kind else { return XCTFail("nsa-zt: no citation line") }
+        XCTAssertTrue(run.source.contains("NSA, eight cybersecurity information sheets (2021 to 2024) and four implementation guidelines (2026), 28 May 2026."),
+                      run.source)
+        XCTAssertTrue(try documentLines("nsa-zt").contains { $0.hasPrefix("Zero Trust Implementation Guideline Primer, initial release, 14 Jan 2026.") })
+    }
+
+    /// The version line's layout (LinkLine): it wraps like running text, Why the name? never starts a line alone under the
+    /// version link, and no link's 44-point target overlaps the other's, at every width.
+    func testTheVersionLineWrapsWithoutTargetsCoveringEachOther() {
+        let h: CGFloat = 17
+        func pieces(_ version: CGFloat, _ line: CGFloat, _ why: CGFloat) -> [LinkLine.Piece] {
+            [LinkLine.Piece(size: CGSize(width: version, height: h), target: true),
+             LinkLine.Piece(size: CGSize(width: line, height: h)),
+             LinkLine.Piece(size: CGSize(width: why, height: h), target: true, keep: true)]
+        }
+        func arrange(_ p: [LinkLine.Piece], _ width: CGFloat) -> [CGRect] {
+            LinkLine.arrange(p, width: width, spacing: 7, lineSpacing: 2, minimum: 44)
+        }
+        // wide: one line
+        var f = arrange(pieces(172, 257, 101), 800)
+        XCTAssertEqual(Set(f.map(\.minY)), [0])
+        // a phone: the version alone, then the line and Why the name?, one text line below, no gap
+        f = arrange(pieces(172, 257, 101), 400)
+        XCTAssertEqual(f[0].minY, 0)
+        XCTAssertEqual(f[1].minY, h + 2)
+        XCTAssertEqual(f[2].minY, h + 2)
+        // where Why the name? alone would wrap under the version link, the text before it wraps with it
+        f = arrange(pieces(172, 257, 101), 450)
+        XCTAssertEqual(f[1].minY, f[2].minY)
+        XCTAssertGreaterThan(f[1].minY, f[0].minY)
+        // two targets that would stack: the lower line moves down until their boxes meet, no further
+        f = arrange([LinkLine.Piece(size: CGSize(width: 200, height: h), target: true), LinkLine.Piece(size: CGSize(width: 250, height: h), target: true)], 300)
+        XCTAssertEqual(f[1].minY - f[0].minY, 44, accuracy: 0.001)
+        // at every width, and with a line of text that itself wraps, no target's box overlaps the other's
+        for width in stride(from: CGFloat(120), through: 900, by: 5) {
+            for line: CGFloat in [120, 257, 480] {
+                var p = pieces(172, line, 101)
+                if line > width { p[1].size = CGSize(width: width, height: h * (line / width).rounded(.up)) }
+                let g = arrange(p, width)
+                let boxes = [g[0], g[2]].map { CGRect(x: $0.minX, y: $0.midY - 22, width: $0.width, height: 44) }
+                XCTAssertFalse(boxes[0].insetBy(dx: 0, dy: 0.001).intersects(boxes[1]), "width \(width), line \(line)")
+            }
+        }
+    }
+
+    func testLinksToEntriesTakeNoExpansion() {
+        for (key, page) in pages {
+            for seg in page.runs.flatMap(\.segments) {
+                if case .expansion(let s, _, .some(.push(.entity(let id)))) = seg {
+                    XCTFail("\(key): the link to \(id) takes the expansion \(s)")
+                }
+            }
+        }
+    }
+
     /// The pitch lines are for link previews, the README, the repository and the store listing: no screen shows them.
     func testNoScreenShowsThePitchLines() {
         let meta = store.content.meta

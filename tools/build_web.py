@@ -60,9 +60,16 @@ SECTIONS = ["doors", "stack", "matrix", "functions", "ai", "helper", "sources", 
 # with the entry's expansion as the link's accessible description (aria-describedby); inside a link, button or disclosure
 # summary, that control is described by the expansion instead. Running text keeps the first-use rule, and label text
 # never counts as a first use. tools/check_web.py reads this set from here.
+# Session 11 (Q21, ED-05) adds the texts that name an entry: every link to an entry (a link list, a step's citation links,
+# the glossary's See: line, Draws on, Assessed against, a deadline's source), a cell's list of capability names, and an
+# entry's title in its Sources summary.
 LABEL_TAGS = frozenset({"h1", "h2", "h3", "h4", "th", "button", "nav", "footer"})    # headings, table headers, buttons, nav and menu items, the footer
-LABEL_CLASSES = frozenset({"door-title", "chip", "btn", "status", "door-meta", "layer-tag", "eyebrow", "stamp", "sec-num"})
+LABEL_CLASSES = frozenset({"door-title", "chip", "btn", "status", "door-meta", "layer-tag", "eyebrow", "stamp", "sec-num",
+                           "ref", "caps-list", "ent-title"})
 INTERACTIVE = frozenset({"a", "button", "summary"})
+# the statuses whose note the status key promises beside the badge: every address tried, or both readings and a date
+PROBLEM = ("conflict", "unverified")
+MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
 
 def is_label(tag: str, classes: set[str]) -> bool:
@@ -119,6 +126,57 @@ def form_pattern(forms: list[str], prefix: bool = False) -> str:
     return rf"(?<![A-Za-z0-9.])(?:{alts}){after}"
 
 
+def edition_repeats_date(edition: str, date: str | None) -> bool:
+    """True where an edition is only a date, the same one the date field gives: 'November 2024' beside 2024-11."""
+    months = "|".join(MONTH_NAMES + MONTHS)
+    m = re.fullmatch(rf"(?:(\d{{1,2}}) )?({months}) (\d{{4}})", edition or "")
+    d = re.fullmatch(r"(\d{4})-(\d{2})(?:-(\d{2}))?", date or "")
+    if not m or not d:
+        return False
+    month = (MONTH_NAMES.index(m.group(2)) if m.group(2) in MONTH_NAMES else MONTHS.index(m.group(2))) + 1
+    day = int(m.group(1)) if m.group(1) else None
+    return int(m.group(3)) == int(d.group(1)) and month == int(d.group(2)) and day == (int(d.group(3)) if d.group(3) else None)
+
+
+def descriptive_edition(edition: str) -> bool:
+    """A descriptive edition, as opposed to a designation such as 'Version 1.0', 'Revision 5' or 'Executive Order 14028':
+    its first word is an ordinary capitalized word, the word after it is a lower-case word, and the phrase up to the first
+    comma, semicolon, colon or parenthesis holds no other capitalized word (a month name aside) and no designation."""
+    head = re.split(r"[,;:(]", edition or "", maxsplit=1)[0].split()
+    if not head or not re.fullmatch(r"[A-Z][a-z]+", head[0]):
+        return False
+    if len(head) > 1 and not re.fullmatch(r"[a-z]+", head[1]):
+        return False
+    return all(re.fullmatch(r"[a-z]+|\d+", w) or w in MONTH_NAMES for w in head[1:])
+
+
+def cite_edition(title: str, edition: str, date: str | None) -> str | None:
+    """The edition as a citation line gives it (session 11, Q21: ED-09, ED-10, RED-06). A line leaves out an edition its
+    title already carries ('Revision 1' after a title that ends in it) or that only repeats its date ('November 2024'
+    beside Nov 2024); a descriptive edition runs into the line after a comma, so its first letter is lowered. The Edition
+    field keeps the value as it is."""
+    if not edition:
+        return None
+    if re.search(rf"(?<![A-Za-z0-9]){re.escape(edition)}(?![A-Za-z0-9])", title or ""):
+        return None
+    if edition_repeats_date(edition, date):
+        return None
+    return edition[0].lower() + edition[1:] if descriptive_edition(edition) else edition
+
+
+def spelled_variants(expansion: str, well_known: list[dict]) -> list[str]:
+    """The forms that count as an entry's spelled-out name: its expansion, and the expansion with a well-known term's
+    expansion written as that term, which is never spelled out (session 11, Q21, ED-06): 'AI Risk Management Framework'
+    for 'Artificial Intelligence Risk Management Framework'."""
+    out = [expansion]
+    for w in well_known:
+        for f in w["forms"]:
+            v = re.sub(re.escape(w["expansion"]), lambda _m, f=f: f, expansion, flags=re.I)
+            if v != expansion and v not in out:
+                out.append(v)
+    return out
+
+
 def names_itself(before: str, after: str, expansion: str) -> bool:
     """True where a form sits in parentheses right after its own name: the words before the parenthesis end with
     the expansion's last words (up to three), as in DoD Cyber Defense Command (DCDC)."""
@@ -135,7 +193,8 @@ class FirstUse:
     Runs over the rendered HTML of one section at a time. In running text outside scripts, styles, graphics, hidden
     elements, links to web addresses, capability numbers and pillar labels, the first match of each glossary form
     gets its expansion right after it, in a span the battery can tell apart, unless the expansion already appeared
-    earlier in that section's running text. Where links are allowed the form itself links to its glossary entry.
+    earlier in that section's running text (or the expansion with a well-known term written short, as AI Risk Management
+    Framework for AI RMF; session 11). Where links are allowed the form itself links to its glossary entry.
     A glossary entry's own term counts as spelled out, because its expansion follows it.
 
     Labels (LABEL_TAGS, LABEL_CLASSES) never take an expansion and never count as a first use: each form in a label
@@ -160,6 +219,8 @@ class FirstUse:
     def __init__(self, entries: list[dict], link: bool = True) -> None:
         self.link = link
         self.by_form: dict[str, dict] = {}
+        well_known = [e for e in entries if e.get("wellKnown") and e["expansion"]]
+        self.variants = {e["term"]: spelled_variants(e["expansion"], well_known) for e in entries if e["expansion"]}
         plain, prefix = [], []
         for e in entries:
             for f in e["forms"]:
@@ -174,6 +235,11 @@ class FirstUse:
     @staticmethod
     def exp_id(e: dict) -> str:
         return f"glx-{e['slug']}"
+
+    def spelled_before(self, e: dict, before: str) -> bool:
+        """Whether the text so far already spells the entry out, in its expansion or a variant of it (spelled_variants)."""
+        low = before.lower()
+        return any(v.lower() in low for v in self.variants.get(e["term"], [e["expansion"]]))
 
     @staticmethod
     def spells(e: dict) -> bool:
@@ -282,7 +348,7 @@ class FirstUse:
                         pos = m.end()
                     continue
                 before = seen + html.unescape(part[:m.start()])
-                if e["expansion"].lower() in before.lower():
+                if self.spelled_before(e, before):
                     continue
                 if names_itself(before, part[m.end():], e["expansion"]):
                     continue
@@ -294,7 +360,7 @@ class FirstUse:
                         inner = self.by_form.get(des.group(1) or "")
                         if inner and inner["term"] not in handled and self.spells(inner):
                             handled.add(inner["term"])
-                            if inner["expansion"].lower() not in before.lower():
+                            if not self.spelled_before(inner, before):
                                 expansions.append(inner["expansion"])
                 if m.group(0).endswith("s") and not e["term"].endswith("s") and not expansions[0].endswith("s"):
                     expansions[0] += "s"
@@ -423,17 +489,25 @@ class Renderer:
         return self.fw.get(eid) or self.src.get(eid) or self.sol.get(eid)
 
     def ent_link(self, eid: str) -> str:
+        """A link to an entry, by its short name: a label (class ref), so it never takes an expansion and the link is
+        described by the expansions of the abbreviations it holds."""
         e = self.ent(eid)
         if not e:
             sys.exit(f"entity {eid!r} does not resolve")
-        return f'<a href="#ent-{esc(eid)}">{self.t(e["shortName"])}</a>'
+        return f'<a class="ref" href="#ent-{esc(eid)}">{self.t(e["shortName"])}</a>'
 
     def ent_links(self, ids) -> str:
         return ", ".join(self.ent_link(i) for i in ids or [])
 
     def layer_tag(self, lid: str | None) -> str:
+        """A layer's tag, linked to its band in the stack: Layer and its number, or, for the AI column (isColumn), which
+        is beside the five layers rather than a sixth, the column's name, linked to the column (session 11, Q20 and Q36)."""
         layer = self.layer.get(lid or "")
-        return (f'<a class="layer-tag" href="#layer-{esc(layer["id"])}">{self.label("layer")} {layer["order"]}</a> ') if layer else ""
+        if not layer:
+            return ""
+        if layer.get("isColumn"):
+            return f'<a class="layer-tag" href="#seam">{self.t(layer["name"])}</a> '
+        return f'<a class="layer-tag" href="#layer-{esc(layer["id"])}">{self.label("layer")} {layer["order"]}</a> '
 
     def status_badge(self, v: dict | None) -> str:
         if not v:
@@ -448,9 +522,16 @@ class Renderer:
 
     def problem_note(self, v: dict | None) -> str:
         """A conflict or an unreached primary is explained where the badge shows it."""
-        if not v or v.get("status") not in ("conflict", "unverified"):
+        if not v or v.get("status") not in PROBLEM:
             return ""
         return f'<br><span class="small">{self.tl(v.get("note"))}</span>'
+
+    def cite(self, title: str, edition: str, date: str | None, publisher: str | None = None) -> str:
+        """A citation line: the title, the publisher (an entry's line), the edition as cite_edition gives it, the date."""
+        ed = cite_edition(self.tok(title), self.tok(edition), date)
+        parts = [self.t(title) + ("." if publisher is not None else "")]
+        tail = ([self.t(publisher)] if publisher is not None else []) + ([esc(ed)] if ed else []) + [fmt_date(date)]
+        return (parts[0] + " " if publisher is not None else parts[0] + ", ") + ", ".join(tail) + "."
 
     def chip(self, eid: str) -> str:
         cls = "chip" + (" src" if eid in self.src else " sol" if eid in self.sol else "")
@@ -689,15 +770,20 @@ class Renderer:
         conflict = ""
         if e["verification"]["status"] != "conflict" and any(v.get("status") == "conflict" for v in inner):
             conflict = f'<span class="status conflict">{self.t(self.ui["status"]["conflict"])}: {self.label("hasConflictInside")}</span>'
-        p = [f'<details class="ent" id="ent-{esc(e["id"])}"><summary><span class="name">{self.t(e["name"])}{short}</span><span class="badges">{self.status_badge(e["verification"])}{conflict}</span>'
-             f'<span class="cite">{self.t(e["title"])}. {self.t(e["publisher"])}, {self.t(e["edition"])}, {fmt_date(e["date"])}.</span></summary><div class="body">',
+        # the summary: the entry's title (a label), its badges and its citation line, a space between each, so the three
+        # never run together where the summary is not a grid (print)
+        p = [f'<details class="ent" id="ent-{esc(e["id"])}"><summary><span class="ent-title">{self.t(e["name"])}{short}</span> '
+             f'<span class="badges">{" ".join(b for b in (self.status_badge(e["verification"]), conflict) if b)}</span> '
+             f'<span class="cite">{self.cite(e["title"], e["edition"], e["date"], e["publisher"])}</span></summary><div class="body">',
              f'<p>{self.t(e["oneLiner"])}</p>']
         if e.get("answersQuestion"):
             p.append(f'<p><strong>{self.label("answers")}:</strong> {self.t(e["answersQuestion"])}</p>')
         if e.get("role"):
             p.append(f'<p><strong>{self.label("role")}:</strong> {self.t(e["role"])}</p>')
         if e.get("layerId"):
-            p.append(f'<p class="small">{self.layer_tag(e["layerId"])}{self.t(self.layer[e["layerId"]]["name"])}</p>')
+            # a layer's tag and its name; the AI column's tag is its name
+            lay = self.layer[e["layerId"]]
+            p.append(f'<p class="small">{self.layer_tag(e["layerId"]).rstrip() if lay.get("isColumn") else self.layer_tag(e["layerId"]) + self.t(lay["name"])}</p>')
         va = e.get("validatedAgainst")
         if va:
             p.append(f'<div class="validated"><p><strong>{self.label("validatedAgainst")}:</strong> {self.ent_link(va["entityId"])}. '
@@ -725,8 +811,16 @@ class Renderer:
             for doc in e["documents"]:
                 note = f' <span class="small">{self.tl(doc["note"])}</span>' if doc.get("note") else ""
                 authors = f' {self.label("authors")}: {esc("; ".join(doc["authors"]))}.' if doc.get("authors") else ""
-                p.append(f'<li>{self.t(doc["title"])}, {self.t(doc["edition"])}, {fmt_date(doc["date"])}.{authors} '
-                         f'<a href="{esc(doc["url"])}" rel="noreferrer">{self.label("primary")}</a> {self.status_badge(doc.get("verification"))}{note}</li>')
+                # a document badged Unverified or Conflict shows its verification note beside the badge, as the status key
+                # promises (every address tried; both readings and a date), like an entry's authority note (session 11, SK-004)
+                v = doc.get("verification") or {}
+                shown = bool(v.get("note")) and v.get("status") in PROBLEM
+                vnote = f' <span class="small">{self.tl(v["note"])}</span>' if shown else ""
+                # the link to the primary, then the badge, its note, and the document's own note; where the note shown
+                # gives the primary's address, print does not repeat it after the link (class in-note)
+                in_note = ' class="in-note"' if shown and doc["url"] in self.tok(v["note"]) else ""
+                p.append(f'<li>{self.cite(doc["title"], doc["edition"], doc["date"])}{authors} '
+                         f'<a{in_note} href="{esc(doc["url"])}" rel="noreferrer">{self.label("primary")}</a> {self.status_badge(v or None)}{vnote}{note}</li>')
             p.append("</ul>")
         if e.get("note"):
             p.append(f'<p class="small">{self.tl(e["note"])}</p>')
@@ -901,7 +995,9 @@ def static_texts(d: dict) -> tuple[dict[str, list], dict[str, int]]:
             texts = x(e["name"], e["title"], e["publisher"], e["edition"], e["oneLiner"], e.get("answersQuestion"), e.get("role"),
                       a["note"], (a.get("deadline") or {}).get("text"), e["verification"].get("note"), e.get("note"), e["url"])
             for doc in e.get("documents", []):
-                texts += x(doc["title"], doc.get("note"))
+                # an Unverified or Conflict document's verification note shows beside its badge (session 11, SK-004)
+                v = doc.get("verification") or {}
+                texts += x(doc["title"], doc.get("note"), v.get("note") if v.get("status") in PROBLEM else None)
             if e.get("validatedAgainst"):
                 texts += x(e["validatedAgainst"]["scope"])
             for r in e.get("adopterResponsibilities", []):

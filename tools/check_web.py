@@ -30,6 +30,12 @@ for byte, and the link-preview tags point at the published site; the intro texts
 Licensing (Session 7B): the footer's licence line, the About paragraph and the support page's sentence on reuse are
 the all-rights-reserved wording ruled for content 0.7.0.
 Link previews (Session 9): og:description is meta.pitch; the description tag stays meta.description.
+Session 11 (Q20, Q21, Q36): every in-page link lands on an element; layer tags name a layer by its number, or the AI
+column by its name, and link to it; links to entries, capability-name lists and entry titles are labels (the classes are
+pinned); citation lines give the edition by the ruled rule (left out where it repeats the title or the date, a
+descriptive one lowered), pinned on the ledger's cases; entry summaries keep a space between title, badges and citation;
+every Unverified or Conflict document shows its verification note; AI Risk Management Framework counts as AI RMF spelled
+out; print shows each department cell's capability numbers before its sentence and leaves out the hero's buttons.
 The embedded JSON element is exempt from the text checks: it is content/stack.json byte for byte and is
 checked by the content battery; its URLs are data, its render tokens are data.
 """
@@ -78,6 +84,32 @@ LICENCE_SUPPORT = "To ask about reusing Lensatic's code or text, open an issue o
 # the owner's ruling of 27 Sep 2026 (session 7D): these terms, and only these, are marked wellKnown in the glossary and
 # never spelled out on any built page; the guard reads this pin, not the content flag, so dropping the flag fails it
 WELL_KNOWN = {"AI": "artificial intelligence"}
+# session 11 (Q21, ED-05): the texts that name an entry are labels; the guard reads this pin, not only build_web's set
+LABEL_PINS = frozenset({"ref", "caps-list", "ent-title"})
+# session 11 (Q21, ED-06): a name with a well-known term written short counts as spelled out
+SPELLED_PINS = {"AI RMF": "AI Risk Management Framework"}
+# session 11 (Q20, ED-04): in print each key/value value is kept whole, so a note and its status pill stay together and no
+# part of a row carried over a page or column break overprints the next row (Chrome's grid fragmentation)
+PRINT_KEEP = re.compile(r"(?m)^\s*dl\.kv\s*>\s*dd\s*\{[^}]*\bbreak-inside:\s*avoid\s*;")
+# session 11 (Q21: ED-09, ED-10, RED-06): (title, edition, date, the edition the citation line gives), the ledger's cases
+# and designations that keep their capital; None is an edition the line leaves out
+CITE_RULINGS = (
+    ("Class Deviation 2024-O0013, Revision 1: Safeguarding Covered Defense Information and Cyber Incident Reporting", "Revision 1", "2024-05-22", None),
+    ("Zero Trust PfMO Newsletter", "November 2024", "2024-11", None),
+    ("NSA Zero Trust Guidance", "Eight cybersecurity information sheets (2021 to 2024) and four implementation guidelines (2026)", "2026-05-28",
+     "eight cybersecurity information sheets (2021 to 2024) and four implementation guidelines (2026)"),
+    ("The AI Defense Matrix", "None printed (copyright 2026)", "2026", "none printed (copyright 2026)"),
+    ("Cyber Operational Readiness Assessment (CORA) program", "Program; no printed edition", "2024-02-28", "program; no printed edition"),
+    ("DISA awards Thunderdome production agreement", "Production agreement awarded 28 July 2023; no printed edition", "2023-08-02",
+     "production agreement awarded 28 July 2023; no printed edition"),
+    ("DoD Zero Trust Strategy", "Version 1.0", "2022-10-21", "Version 1.0"),
+    ("Security and Privacy Controls for Information Systems and Organizations", "Revision 5 (includes updates as of 10 December 2020)", "2020-09",
+     "Revision 5 (includes updates as of 10 December 2020)"),
+    ("Improving the Nation's Cybersecurity", "Executive Order 14028", "2021-05-12", "Executive Order 14028"),
+    ("Implementing Suspension of CMMC Phase II (memorandum)", "Acquisition and Sustainment memorandum with Attachment 1, CMMC procedures",
+     "2026-07-13", "Acquisition and Sustainment memorandum with Attachment 1, CMMC procedures"),
+    ("Removing Barriers to Defense Industrial Base Expansion", "CIO memorandum", "2026-07-13", "CIO memorandum"),
+)
 ISSUES_URL = "https://github.com/kensden/lensatic/issues"
 # the one image element the page may hold: the maker's photo in About, embedded (session 7D); the photo check below
 # decodes it against the pinned file, and any other <img> or src still fails the resource check
@@ -536,6 +568,173 @@ def label_errors(tree: Tree, forms_rx: re.Pattern, by_form: dict, slug_of) -> tu
     return errs, stats
 
 
+# --------------------------------------------------------------------------- session 11 (Q20, Q21, Q36)
+def anchor_errors(tree: Tree) -> tuple[list[str], int]:
+    """Every link to a place on the page (#id) lands on an element with that id (FB-002: the AI column's tag led nowhere)."""
+    errs, n = [], 0
+    for tag, attrs in tree.starts:
+        href = attrs.get("href") or ""
+        if tag == "a" and href.startswith("#") and len(href) > 1:
+            n += 1
+            if href[1:] not in tree.ids:
+                errs.append(f"a link to {href!r} lands on nothing")
+    return sorted(set(errs)), n
+
+
+def layer_tag_errors(tree: Tree, d: dict) -> tuple[list[str], int]:
+    """A layer tag names a layer of the stack by its number and links to its band; the AI column, beside the five layers
+    and not a sixth, is tagged with its name and links to the column (RCO-03, FB-002)."""
+    errs, n = [], 0
+    word = norm(d["ui"]["labels"]["layer"])
+    columns = {norm(tok_dow(d, x["name"])): x for x in d["layers"] if x.get("isColumn")}
+    by_order = {x["order"]: x for x in d["layers"]}
+    if not any(c.tag == "aside" for c in tree.ids.get("seam", [])):
+        errs.append("the AI column is not the aside with id seam")
+    for node_ in walk_nodes(tree.root):
+        if node_.tag != "a" or "layer-tag" not in classes_of(node_):
+            continue
+        n += 1
+        txt, href = norm(text_of(node_, frozenset())), node_.attrs.get("href")
+        m = re.fullmatch(re.escape(word) + r" (\d+)", txt)
+        if m:
+            lay = by_order.get(int(m.group(1)))
+            if lay is None or lay.get("isColumn"):
+                errs.append(f"a layer tag reads {txt!r}, which is not a layer of the stack")
+            elif href != f"#layer-{lay['id']}":
+                errs.append(f"the tag {txt!r} links to {href!r}, not #layer-{lay['id']}")
+        elif txt in columns:
+            if href != "#seam":
+                errs.append(f"the tag {txt!r} links to {href!r}, not the column (#seam)")
+        else:
+            errs.append(f"a layer tag reads {txt!r}")
+    return sorted(set(errs)), n
+
+
+def entry_label_errors(tree: Tree) -> tuple[list[str], dict]:
+    """Links to entries, capability-name lists and entry titles are labels (ED-05): the classes are pinned in build_web's
+    label set, every link to an entry is a label, and every entry's summary opens with its title as a label."""
+    errs, st = [], {"links": 0, "caps": 0, "titles": 0}
+    errs += [f"build_web.LABEL_CLASSES lacks {c!r}" for c in sorted(LABEL_PINS - B.LABEL_CLASSES)]
+    for node_ in walk_nodes(tree.root):
+        cls = classes_of(node_)
+        if node_.tag == "a" and (node_.attrs.get("href") or "").startswith("#ent-"):
+            st["links"] += 1
+            if not (cls & (LABEL_PINS | {"chip"})):
+                errs.append(f"the link to {node_.attrs['href']} ({norm(text_of(node_, frozenset()))[:40]!r}) is not a label")
+        if "caps-list" in cls:
+            st["caps"] += 1
+        if node_.tag == "details" and "ent" in cls:
+            summ = next((c for c in node_.children if not isinstance(c, str) and c.tag == "summary"), None)
+            first = next((c for c in (summ.children if summ else []) if not isinstance(c, str)), None)
+            st["titles"] += 1
+            if first is None or "ent-title" not in classes_of(first):
+                errs.append(f"#{node_.attrs.get('id')}: the summary does not open with the entry's title as a label")
+    return errs, st
+
+
+def summary_errors(tree: Tree) -> list[str]:
+    """An entry's summary is its title, its badges and its citation line with a space between each, and a space between
+    its badges, so print, where the summary is not a grid, never runs them together (RED-09)."""
+    errs = []
+    for node_ in walk_nodes(tree.root):
+        if node_.tag != "details" or "ent" not in classes_of(node_):
+            continue
+        summ = next((c for c in node_.children if not isinstance(c, str) and c.tag == "summary"), None)
+        kids = [c for c in (summ.children if summ else []) if not (isinstance(c, str) and c == "")]
+        shape = [("_" if c.strip() == "" else "text") if isinstance(c, str) else " ".join(sorted(classes_of(c))) for c in kids]
+        if shape != ["ent-title", "_", "badges", "_", "cite"]:
+            errs.append(f"#{node_.attrs.get('id')}: the summary holds {shape}, expected the title, the badges and the citation, spaced")
+            continue
+        badges = [c for c in kids[2].children if not (isinstance(c, str) and c == "")]
+        got = [("_" if c.strip() == "" else "text") if isinstance(c, str) else "status" for c in badges]
+        n_b = got.count("status")
+        if got != ["status"] + ["_", "status"] * (n_b - 1):
+            errs.append(f"#{node_.attrs.get('id')}: the badges hold {got}, expected each badge with a space between")
+    return errs
+
+
+def cite_line(d: dict, title: str, edition: str, date: str | None, publisher: str | None = None) -> str:
+    """The citation line the ruling gives: title, publisher (an entry's line), the edition as cite_edition gives it, date."""
+    ed = B.cite_edition(tok_dow(d, title), tok_dow(d, edition), date)
+    head = tok_dow(d, title) + (f". {tok_dow(d, publisher)}, " if publisher is not None else ", ")
+    return norm(head + (f"{ed}, " if ed else "") + f"{B.fmt_date(date)}.")
+
+
+def cite_errors(tree: Tree, d: dict) -> tuple[list[str], int]:
+    """Citation lines (ED-09, ED-10, RED-06): the rule gives the ledger's rulings, and every entry's and document's line
+    on the page is the line the rule gives."""
+    errs, n = [], 0
+    for title, edition, date, want in CITE_RULINGS:
+        got = B.cite_edition(title, edition, date)
+        if got != want:
+            errs.append(f"the citation rule gives {got!r} for the edition {edition!r} of {title[:40]!r}, the ruling is {want!r}")
+    for coll in ("frameworks", "sources", "solutions"):
+        for e in d.get(coll, []):
+            nodes_ = tree.ids.get(f"ent-{e['id']}") or []
+            if len(nodes_) != 1:
+                continue
+            cite = next((x for x in walk_nodes(nodes_[0]) if "cite" in classes_of(x)), None)
+            n += 1
+            want = cite_line(d, e["title"], e["edition"], e["date"], e["publisher"])
+            if cite is None or norm(text_of(cite)) != want:
+                errs.append(f"#ent-{e['id']}: the citation line reads {norm(text_of(cite))[:90] if cite else None!r}, expected {want[:90]!r}")
+            docs = next((x for x in walk_nodes(nodes_[0]) if x.tag == "ul" and "docs" in classes_of(x)), None)
+            items = [c for c in (docs.children if docs else []) if not isinstance(c, str) and c.tag == "li"]
+            for doc, li in zip(e.get("documents", []), items):
+                n += 1
+                want = cite_line(d, doc["title"], doc["edition"], doc["date"])
+                if not norm(text_of(li)).startswith(want):
+                    errs.append(f"#ent-{e['id']}: a document line reads {norm(text_of(li))[:90]!r}, expected {want[:90]!r}")
+            if len(items) != len(e.get("documents", [])):
+                errs.append(f"#ent-{e['id']}: {len(items)} document lines for {len(e.get('documents', []))} documents")
+    return errs, n
+
+
+def document_note_errors(tree: Tree, d: dict) -> tuple[list[str], int]:
+    """Every document badged Unverified or Conflict shows its verification note (every address tried, or both readings
+    and a date) in its own line, right after its badge, as the status key promises (SK-004); the line reads the link to
+    the primary, the badge, that note, then the document's own note. A link to a primary whose address the note shown
+    gives carries in-note, and only then, and the print rule that writes a link's address after it leaves those out."""
+    errs, n = [], 0
+    for coll in ("frameworks", "sources", "solutions"):
+        for e in d.get(coll, []):
+            nodes_ = tree.ids.get(f"ent-{e['id']}") or []
+            docs = next((x for x in walk_nodes(nodes_[0]) if x.tag == "ul" and "docs" in classes_of(x)), None) if len(nodes_) == 1 else None
+            items = [c for c in (docs.children if docs else []) if not isinstance(c, str) and c.tag == "li"]
+            for i, (doc, li) in enumerate(zip(e.get("documents", []), items)):
+                where = f"#ent-{e['id']}: document {i + 1}"
+                v = doc.get("verification") or {}
+                shown = v.get("status") in B.PROBLEM and bool(v.get("note"))
+                kids = [c for c in li.children if not (isinstance(c, str) and c.strip() == "")]
+                at = next((k for k, c in enumerate(kids) if not isinstance(c, str) and c.tag == "a" and c.attrs.get("href") == doc["url"]), None)
+                if at is None:
+                    errs.append(f"{where}: no link to its primary")
+                    continue
+                after = kids[at + 1:]
+                if not after or isinstance(after[0], str) or "status" not in classes_of(after[0]):
+                    errs.append(f"{where}: the badge does not follow the link to the primary")
+                    continue
+                note_ = norm(tok_dow(d, v.get("note") or ""))
+                beside = after[1] if len(after) > 1 else None
+                is_note = (beside is not None and not isinstance(beside, str) and "small" in classes_of(beside)
+                           and norm(text_of(beside)) == note_)
+                if shown:
+                    n += 1
+                    if not is_note:
+                        errs.append(f"{where} is {v['status']} but its verification note is not right after its badge")
+                elif is_note:
+                    errs.append(f"{where} is {v['status']} and shows its verification note")
+                marked = "in-note" in classes_of(kids[at])
+                if marked != (shown and doc["url"] in tok_dow(d, v.get("note") or "")):
+                    errs.append(f"{where}: the link to the primary {'carries' if marked else 'lacks'} in-note, and the note shown "
+                                f"{'does not give' if marked else 'gives'} its address")
+    css = STYLES.read_text(encoding="utf-8")
+    pr = css[css.find("@media print"):] if "@media print" in css else ""
+    if not re.search(r'\.ent a\[href\^="http"\]:not\(\.url\):not\(\.in-note\)::after', pr):
+        errs.append("the print rule that writes a link's address after it does not leave out in-note links")
+    return errs, n
+
+
 def strip_scripts(html_text: str) -> str:
     def keep(m: re.Match) -> str:
         return m.group(0) if m.group(0).startswith(OPEN) else ""
@@ -768,6 +967,29 @@ def main() -> int:
     rep.check("doors: all four closed in the static render; each card's summary is its title, the first sentence of whom it is for, and "
               "its step count and the layers the steps touch (or, with no steps, its paragraph's first sentence)", errs)
 
+    # session 11 (Q20, Q21, Q36)
+    errs, n_ = anchor_errors(atree_b)
+    rep.check("in-page links: every link to a place on the page lands on an element with that id", errs, f"{n_} links")
+    errs, n_ = layer_tag_errors(atree_b, d)
+    rep.check("layer tags: each names a layer of the stack by its number and links to its band; the AI column, not a layer, is tagged "
+              "with its name and links to the column", errs, f"{n_} tags")
+    errs, st_ = entry_label_errors(atree_b)
+    rep.check("labels that name an entry: every link to an entry, every capability-name list and every entry's title is a label (classes "
+              f"{', '.join(sorted(LABEL_PINS))} pinned)", errs, f"{st_['links']} links, {st_['caps']} capability lists, {st_['titles']} titles")
+    rep.check("entry summaries: the title, the badges and the citation line, a space between each", summary_errors(atree_b))
+    errs, n_ = cite_errors(atree_b, d)
+    rep.check("citation lines: an edition the title carries or that repeats the date is left out, a descriptive one is lowered, designations "
+              "keep their capital; the ledger's rulings hold and every entry's and document's line is the ruled line", errs,
+              f"{len(CITE_RULINGS)} rulings, {n_} lines")
+    css_ = STYLES.read_text(encoding="utf-8")
+    at_ = css_.find("@media print")
+    rep.check("print stylesheet: every key/value value prints whole, so a note keeps its status pill and nothing carried over a break "
+              "overprints the next row", [] if at_ >= 0 and PRINT_KEEP.search(css_[at_:]) else
+              ["the print block does not keep dl.kv > dd whole (break-inside: avoid)"])
+    errs, n_ = document_note_errors(atree_b, d)
+    rep.check("documents: every Unverified or Conflict document shows its verification note in its own line, right after its badge; "
+              "print does not repeat an address the note gives", errs, f"{n_} notes")
+
     errs = []
     foot = (atree_b.ids.get("footer") or [None])[0]
     if foot is None or foot.tag != "footer" or foot.parent is None or foot.parent.tag != "body":
@@ -961,6 +1183,10 @@ def main() -> int:
                     "forms": [tokr(f) for f in g.get("forms", [])], "prefix": g.get("prefix", False),
                     "notAbbreviation": g.get("notAbbreviation", False), "wellKnown": g.get("wellKnown", False)} for g in gl]
         by_form = {f: e for e in entries for f in e["forms"]}
+        # the forms that count as an entry spelled out: its expansion, and the expansion with a well-known term written short
+        # (session 11, ED-06; build_web.spelled_variants, the rule pinned by SPELLED_PINS)
+        well_known = [e for e in entries if e["wellKnown"] and e["expansion"]]
+        spelled = {e["term"]: [v.lower() for v in B.spelled_variants(e["expansion"], well_known)] for e in entries if e["expansion"]}
         def alts(forms):
             return "|".join(re.escape(f) for f in sorted(forms, key=len, reverse=True))
         plain = [f for e in entries if not e["prefix"] for f in e["forms"]]
@@ -1019,18 +1245,19 @@ def main() -> int:
                     continue  # a term every reader knows, such as AI: linked, never spelled out (checked below)
                 n_first += 1
                 exp = e["expansion"].lower()
+                forms_ = spelled.get(term, [exp])
                 if own.get(term, "").lower() == exp:
                     continue
                 # spelled out earlier in the section, or in the parenthesis (square brackets inside a parenthesis)
                 # that follows the form and its designation, or the form sits in parentheses after its own name
-                if exp in txt[:a_].lower():
+                if any(v in txt[:a_].lower() for v in forms_):
                     continue
                 rest = txt[b_:]
                 if e["prefix"]:
                     des = re.match(r"(?:/[A-Z][A-Za-z]+)?\s?\d+(?:[-/:]\d+)*", rest)
                     rest = rest[des.end():] if des else rest
                 group = re.match(r" ?[(\[]([^)\]]*)[)\]]", rest)
-                if group and exp in group.group(1).lower():
+                if group and any(v in group.group(1).lower() for v in forms_):
                     continue
                 want = exp.split()[-3:]
                 if (txt[a_ - 1:a_] == "(" and rest.startswith(")")
@@ -1050,8 +1277,11 @@ def main() -> int:
                     scan(f"docs/{key}.html", ptree.ids["main"][0], coverage=False)
         rep.check("glossary: every abbreviation in the rendered text has a glossary entry", sorted(set(errs_cov)),
                   f"{len(gl)} entries, {n_abbr} abbreviation uses checked across the header, {len(chunks) - 2} sections and the footer")
-        rep.check("glossary: every abbreviation is spelled out at its first use in running text in each section and on the privacy and support pages",
-                  errs_first, f"{n_first} first uses checked")
+        for term, short in SPELLED_PINS.items():
+            if short.lower() not in spelled.get(term, []):
+                errs_first.append(f"{short!r} does not count as {term} spelled out")
+        rep.check("glossary: every abbreviation is spelled out at its first use in running text in each section and on the privacy and support pages "
+                  f"(a well-known term written short counts: {', '.join(SPELLED_PINS.values())})", errs_first, f"{n_first} first uses checked")
         # labels (Session 7, section 4.9; the label set is build_web.LABEL_TAGS and LABEL_CLASSES)
         errs_lab, st = label_errors(tree_full, forms_rx, by_form, B.slug)
         for key, page in pages_text.items():
@@ -1176,7 +1406,9 @@ def main() -> int:
                     errs.append(f"{key}: content clipped past the right edge with every disclosure open: {items_[:3]}")
             # print: every non-matrix text; the department's view only, each cell's first sentence only; under 20 pages
             cells = {(c["pillarId"], c["functionId"]): c for c in d["matrix"]["cells"]}
-            non_matrix = [p_ for k, texts in items.items() if not k.startswith("cell-") for t in texts for p_ in parts_of(t)]
+            # the hero's two buttons do nothing on paper and do not print (session 11, RED-10)
+            buttons = [norm(L["heroPrimary"]), norm(L["heroSecondary"])]
+            non_matrix = [p_ for k, texts in items.items() if not k.startswith("cell-") for t in texts for p_ in parts_of(t) if p_ not in buttons]
             leads, rests = [], []
             for p_ in d["pillars"]["views"]["dow"]:
                 for f in d["functions"]:
@@ -1184,21 +1416,46 @@ def main() -> int:
                     leads.append(norm(tok_dow(d, lead)))
                     if rest:
                         rests.append(norm(tok_dow(d, rest)))
+            n_caps = 0
             for key in ("print", "print_nojs"):
                 pr = o[key]
                 ptext = norm(pr["text"]).lower()
                 lost = [t for t in non_matrix + leads if t.lower() not in ptext]
                 leaked = [t for t in rests if t.lower() in ptext]
+                printed = [b_ for b_ in buttons if b_.lower() in ptext]
+                if printed:
+                    errs.append(f"{key}: the hero's buttons print: {printed}")
+                # the caption promises capability numbers: each department cell prints its numbers right before its sentence
+                # (session 11, RED-01), row by row as the table prints
+                pos, no_caps, n_caps = 0, [], 0
+                for f in d["functions"]:
+                    for p_ in d["pillars"]["views"]["dow"]:
+                        c_ = cells[(p_, f["id"])]
+                        lead_ = norm(tok_dow(d, first_sentence_of(c_["text"])[0])).lower()
+                        i_ = ptext.find(lead_, pos)
+                        if i_ < 0:
+                            continue  # a lost sentence is reported above
+                        caps_ = " ".join(c_.get("capabilityIds") or [])
+                        if caps_:
+                            n_caps += 1
+                            if not ptext[pos:i_].rstrip().endswith(caps_.lower()):
+                                no_caps.append(f"{p_} x {f['id']}")
+                        pos = i_ + len(lead_)
+                if no_caps or not n_caps:
+                    errs.append(f"{key}: {len(no_caps)} of {n_caps} department cells print no capability numbers before their sentence, first {no_caps[:2]}")
                 if lost or leaked or pr["cisaWrapClient"] != 0 or pr["pageScrollWidth"] > pr["viewport"] or pr["pages"] >= 20:
                     errs.append(f"{key}: {pr['pages']} pages, {len(lost)} texts missing (first {lost[0][:50]!r} )" if lost else
                                 f"{key}: {pr['pages']} pages, {len(leaked)} later cell sentences printed, CISA table width {pr['cisaWrapClient']}, page {pr['pageScrollWidth']} in {pr['viewport']}")
-            print_info = f"print {o['print']['pages']} pages with script and {o['print_nojs']['pages']} without, every non-matrix text and the {len(leads)} first sentences of the department's view present"
+            print_info = (f"print {o['print']['pages']} pages with script and {o['print_nojs']['pages']} without, every non-matrix text but the hero's buttons "
+                          f"and the {len(leads)} first sentences of the department's view present, the {n_caps} cells that carry capability numbers "
+                          f"printing them before the sentence")
             info += f"; at 375 the column buttons, ArrowRight (one column, {ak['scrollLeft']} px) and back to top work"
             info += f"; with touch emulated at 360 and 375 every chip is at least 44 px tall ({tg.get('375', {}).get('chips')} chips), at 1280 at least 36; the eyebrow is one line at 360"
             info += f"; header fits at 360, 375, 390, 414, 480, 768, 1024, 1199, 1200, 1280 and 1440, script on or off, with the section menu at 480 and below naming the section in view, in full, for every section at 360 and 375, and nothing back in the intro"
             info += f"; nothing clipped at 360, 375, 390 or 414 with every disclosure open, script on or off; every visible matrix cell names its pillar at 375 ({o.get('pillars', {}).get('375_js', {}).get('shown')} with script, {o.get('pillars', {}).get('375_nojs', {}).get('shown')} without) and none does at 768"
             info += f"; no sideways page scroll at 375, 1280, 1440; {len(want)} texts visible with scripting off at 375 and 1280; {print_info} ({o['browser'].split('/')[-1]})"
-    rep.check("layout: DoW table fits at 1280; header fits at phone widths; nothing clipped; script-off text complete; print under 20 pages and complete", errs, info)
+    rep.check("layout: DoW table fits at 1280; header fits at phone widths; nothing clipped; script-off text complete; print under 20 pages and complete, "
+              "with capability numbers and without the hero's buttons", errs, info)
 
     print("\n".join(rep.lines))
     if rep.failures:

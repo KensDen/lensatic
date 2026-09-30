@@ -72,6 +72,8 @@ struct BlockView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.horizontalSizeClass) private var sizeClass
     @Environment(\.dynamicTypeSize) private var typeSize
+    /// The gap between the eyebrow's phrases: a space in its face, at any text size.
+    @ScaledMetric(relativeTo: .footnote) private var eyebrowGap: CGFloat = 8
     let kind: BlockKind
     let act: (Target) -> Void
 
@@ -87,7 +89,14 @@ struct BlockView: View {
             }
         case .hero(let eyebrow, let name, let lede):
             VStack(alignment: .leading, spacing: 10) {
-                RunText(run: eyebrow, style: .small, font: Typo.eyebrow, color: Palette.accent).textCase(.uppercase)
+                // the eyebrow's phrases wrap only between each other, never inside one, unless a phrase alone is wider than
+                // the screen (session 11, REX-04); VoiceOver reads the line as one
+                Flow(spacing: eyebrowGap, lineSpacing: 2) {
+                    ForEach(Array(eyebrow.enumerated()), id: \.offset) { _, phrase in
+                        RunText(run: phrase, style: .small, font: Typo.eyebrow, color: Palette.accent).textCase(.uppercase)
+                    }
+                }
+                .accessibilityElement(children: .combine)
                 RunText(run: name, style: .body, font: Typo.heroName).accessibilityAddTraits(.isHeader)
                 RunText(run: lede, style: .lede, color: Palette.fg2)
             }
@@ -104,15 +113,23 @@ struct BlockView: View {
                 }
             }
         case .versionLine(let version, let joiner, let line, let why):
-            // each link is a full-size target; the line breaks between the pieces, and the comma stays with the version
-            Flow(spacing: 7, lineSpacing: 0) {
-                HStack(spacing: 0) {
-                    ControlButton(control: version, act: act, plain: true)
+            // each link is a full-size target, but the line wraps as running text: the pieces are laid out by their text,
+            // so a wrapped line sits one line below the last, and each link's 44-point target reaches past its text into
+            // the space around it, never over the other link's (LinkLine; session 11, EX-009). The comma stays with the
+            // version, so a narrow screen breaks the line after the comma, never before it; Why the name? keeps with the
+            // text before it.
+            LinkLine(spacing: 7, lineSpacing: 2) {
+                HStack(alignment: .center, spacing: 0) {
+                    TapTarget() { ControlButton(control: version, act: act, plain: true) }
                     Text(verbatim: joiner).font(Typo.stamp).foregroundStyle(Palette.fg2).accessibilityHidden(true)
                 }
-                RunText(run: line, style: .small, font: Typo.stamp, color: Palette.fg2).frame(minHeight: 44)
-                ControlButton(control: why, act: act, plain: true)
+                .layoutValue(key: LinkLineTarget.self, value: true)
+                RunText(run: line, style: .small, font: Typo.stamp, color: Palette.fg2)
+                TapTarget() { ControlButton(control: why, act: act, plain: true) }
+                    .layoutValue(key: LinkLineTarget.self, value: true)
+                    .layoutValue(key: LinkLineKeep.self, value: true)
             }
+            .padding(.vertical, 12)
         case .chips(let chips):
             Flow(spacing: 8) {
                 ForEach(Array(chips.enumerated()), id: \.offset) { _, chip in
@@ -134,7 +151,7 @@ struct BlockView: View {
         case .tagLine(let tag, let run):
             Flow(spacing: 8) {
                 ControlButton(control: tag, act: act, tag: true)
-                RunText(run: run, style: .small, color: Palette.fg2)
+                if let run { RunText(run: run, style: .small, color: Palette.fg2) }
             }
         case .keyValues(let items):
             VStack(alignment: .leading, spacing: 12) {

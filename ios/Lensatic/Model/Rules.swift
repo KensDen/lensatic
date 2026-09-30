@@ -93,6 +93,49 @@ struct Rules: Sendable {
         return out
     }
 
+    static let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+                             "November", "December"]
+
+    /// True where an edition is only a date, the same one the date field gives: "November 2024" beside 2024-11.
+    static func editionRepeatsDate(_ edition: String, _ date: String?) -> Bool {
+        let months = (monthNames + Rules.months).joined(separator: "|")
+        let ed = edition as NSString, d = (date ?? "") as NSString
+        guard let m = try! NSRegularExpression(pattern: "^(?:(\\d{1,2}) )?(\(months)) (\\d{4})$").firstMatch(in: edition, range: NSRange(location: 0, length: ed.length)),
+              let n = try! NSRegularExpression(pattern: #"^(\d{4})-(\d{2})(?:-(\d{2}))?$"#).firstMatch(in: d as String, range: NSRange(location: 0, length: d.length))
+        else { return false }
+        func group(_ r: NSTextCheckingResult, _ s: NSString, _ i: Int) -> String? {
+            r.range(at: i).location == NSNotFound ? nil : s.substring(with: r.range(at: i))
+        }
+        let name = group(m, ed, 2) ?? ""
+        let month = (monthNames.firstIndex(of: name) ?? Rules.months.firstIndex(of: name) ?? -1) + 1
+        let day = group(m, ed, 1).flatMap { Int($0) }
+        return Int(group(m, ed, 3) ?? "") == Int(group(n, d, 1) ?? "") && month == Int(group(n, d, 2) ?? "")
+            && day == group(n, d, 3).flatMap { Int($0) }
+    }
+
+    /// A descriptive edition, as opposed to a designation such as "Version 1.0", "Revision 5" or "Executive Order 14028":
+    /// its first word is an ordinary capitalized word, the word after it is a lower-case word, and the phrase up to the
+    /// first comma, semicolon, colon or parenthesis holds no other capitalized word (a month name aside) and no designation.
+    static func descriptiveEdition(_ edition: String) -> Bool {
+        let opening = edition.split(maxSplits: 1, omittingEmptySubsequences: false, whereSeparator: { ",;:(".contains($0) }).first.map(String.init) ?? ""
+        let head = opening.split(whereSeparator: \.isWhitespace).map(String.init)
+        func whole(_ s: String, _ pattern: String) -> Bool { s.range(of: "^(?:\(pattern))$", options: .regularExpression) != nil }
+        guard let first = head.first, whole(first, "[A-Z][a-z]+") else { return false }
+        if head.count > 1 && !whole(head[1], "[a-z]+") { return false }
+        return head.dropFirst().allSatisfy { whole($0, "[a-z]+|[0-9]+") || monthNames.contains($0) }
+    }
+
+    /// The edition as a citation line gives it (session 11): left out where the title already carries it or where it only
+    /// repeats the date; a descriptive edition's first letter lowered, since the line runs it in after a comma. The
+    /// Edition field keeps the value as it is. The web build's cite_edition, rule for rule.
+    static func citeEdition(title: String, edition: String, date: String?) -> String? {
+        guard !edition.isEmpty else { return nil }
+        let inTitle = "(?<![A-Za-z0-9])\(NSRegularExpression.escapedPattern(for: edition))(?![A-Za-z0-9])"
+        if title.range(of: inTitle, options: .regularExpression) != nil { return nil }
+        if editionRepeatsDate(edition, date) { return nil }
+        return descriptiveEdition(edition) ? edition.prefix(1).lowercased() + edition.dropFirst() : edition
+    }
+
     /// A status badge's words: the status, the date it was checked (verified only) and the recheck date if any.
     static func badgeText(_ v: Verification, ui: UIText) -> String {
         var txt = ui.status[v.status.rawValue] ?? v.status.rawValue
@@ -196,6 +239,9 @@ struct Rules: Sendable {
 
     let byForm: [String: Term]
     let pattern: NSRegularExpression?
+    /// The forms that count as each term's spelled-out name, by term: its expansion, and the expansion with a well-known
+    /// term's expansion written as that term (session 11): "AI Risk Management Framework" for AI RMF.
+    let spelled: [String: [String]]
     static let designation = try! NSRegularExpression(pattern: #"(?:/([A-Z][A-Za-z]+))?\s?\d+(?:[-/:]\d+)*"#)
 
     /// The first-use rule over these glossary entries: those with forms and either an expansion or the
@@ -219,6 +265,26 @@ struct Rules: Sendable {
         if !prefix.isEmpty { pats.append(formPattern(prefix, prefix: true)) }
         self.byForm = byForm
         pattern = pats.isEmpty ? nil : try! NSRegularExpression(pattern: pats.joined(separator: "|"))
+        let wellKnown = terms.filter { $0.wellKnown && !$0.forms.isEmpty && $0.expansion != nil }
+        var spelled: [String: [String]] = [:]
+        for t in terms where !t.forms.isEmpty && (t.expansion != nil || t.notAbbreviation) {
+            guard let exp = t.expansion else { continue }
+            var out = [exp]
+            for w in wellKnown {
+                for f in w.forms {
+                    let v = exp.replacingOccurrences(of: w.expansion ?? "", with: f, options: .caseInsensitive)
+                    if v != exp && !out.contains(v) { out.append(v) }
+                }
+            }
+            spelled[t.term] = out
+        }
+        self.spelled = spelled
+    }
+
+    /// Whether the text so far already spells the term out, in its expansion or a variant of it.
+    func spelledBefore(_ t: Term, _ before: String) -> Bool {
+        let low = before.lowercased()
+        return (spelled[t.term] ?? [t.expansion ?? ""]).contains { !$0.isEmpty && low.contains($0.lowercased()) }
     }
 
     /// True where a form sits in parentheses right after its own name: the words before the parenthesis end with the
@@ -241,13 +307,14 @@ struct Rules: Sendable {
     /// Spell out each abbreviation at its first use in running text on one screen. In running text, the first match
     /// of each glossary form gets its expansion after it unless the expansion already appeared on the screen; where
     /// links are allowed the form links to its glossary entry. A label never takes an expansion and never counts as a
-    /// first use: its forms link to the glossary, or, inside a control, describe the control. Names and well-known
+    /// first use: its forms link to the glossary, or, inside a control or a link, describe it. Names and well-known
     /// terms are linked at their first use and never spelled out. The department is spelled out name first.
     func apply(_ page: inout Page) {
         var scope = Scope()
         page.visitRuns { run, interactive in
             var segments: [Segment] = []
             var described: [String] = []
+            var linkDescribed: [Target: [String]] = [:]
             for span in run.spans {
                 let nolink = interactive || span.link != nil
                 switch span.role {
@@ -258,8 +325,16 @@ struct Rules: Sendable {
                     if let t = byForm[span.text.trimmingCharacters(in: .whitespaces)] { scope.handled.insert(t.term) }
                     scope.seen += span.text
                     segments.append(.text(span.text, span.style, span.link))
-                case .label:
-                    segments += label(span, nolink: nolink, described: &described)
+                case .label, .describedLabel:
+                    var own: [String] = []
+                    segments += label(span, nolink: nolink || span.role == .describedLabel, described: &own)
+                    described += own
+                    // a label that is itself a link (an entry's name in a list of links) describes that link
+                    if let link = span.link, !own.isEmpty {
+                        var list = linkDescribed[link] ?? []
+                        for x in own where !list.contains(x) { list.append(x) }
+                        linkDescribed[link] = list
+                    }
                 case .running:
                     segments += running(span, nolink: nolink, scope: &scope)
                 }
@@ -267,6 +342,7 @@ struct Rules: Sendable {
             run.segments = segments
             var once = Set<String>()
             run.described = described.filter { once.insert($0).inserted }
+            run.linkDescribed = linkDescribed
         }
     }
 
@@ -331,7 +407,7 @@ struct Rules: Sendable {
             }
             guard let expansion = t.expansion else { continue }
             let before = scope.seen + sub(0, start)
-            if before.lowercased().contains(expansion.lowercased()) { continue }
+            if spelledBefore(t, before) { continue }
             if Rules.namesItself(before: before, after: sub(formEnd, ns.length), expansion: expansion) { continue }
             var end = formEnd
             var expansions = [expansion]
@@ -339,7 +415,7 @@ struct Rules: Sendable {
                 end = des.end
                 if let inner = des.inner, !scope.handled.contains(inner.term), inner.spells, let innerExp = inner.expansion {
                     scope.handled.insert(inner.term)
-                    if !before.lowercased().contains(innerExp.lowercased()) { expansions.append(innerExp) }
+                    if !spelledBefore(inner, before) { expansions.append(innerExp) }
                 }
             }
             if form.hasSuffix("s") && !t.term.hasSuffix("s") && !expansions[0].hasSuffix("s") { expansions[0] += "s" }
