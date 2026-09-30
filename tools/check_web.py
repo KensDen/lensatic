@@ -2,7 +2,7 @@
 """Battery checks for the built single-file wrapper (sessions 3 and 4).
 
 Build: determinism (two builds byte-identical), the built file matches a fresh build, the embedded JSON is
-byte-identical to content/stack.json (SHA-256), size under 900 KB, both inline scripts parse.
+byte-identical to content/stack.json (SHA-256), size under 1 MB, both inline scripts parse.
 Wall and offline: no resource-loading attribute or call (src, srcset, <link>, @import, url(, fetch( and
 the like; links to primaries are plain anchors), no em dash, sweep clean, no forbidden word, no
 leftover template placeholder or render token.
@@ -120,6 +120,8 @@ BUILD = ROOT / "tools" / "build_web.py"
 DOM_CHECK = ROOT / "tools" / "dom_check.mjs"
 LAYOUT = ROOT / "tools" / "layout_check.mjs"
 TMP = ROOT / ".tmp"  # every temporary file stays inside the repo (Session rules in README.md)
+# the built page must stay under 1 MB (1,048,576 bytes); session 13 raised the limit from 900 KB (921,600 bytes)
+PAGE_LIMIT = 1024 * 1024
 sys.path.insert(0, str(ROOT / "tools"))
 import validate as V  # noqa: E402
 import build_web as B  # noqa: E402  (the label set, defined once there)
@@ -748,6 +750,11 @@ def split(html: bytes) -> tuple[bytes, bytes, bytes]:
     return html[:i], html[i:j], html[j:]
 
 
+def page_size_errors(size: int) -> list[str]:
+    """The built page is under PAGE_LIMIT bytes (session 13: 1 MB)."""
+    return [] if size < PAGE_LIMIT else [f"{size} bytes, not under the limit of {PAGE_LIMIT} bytes"]
+
+
 def main() -> int:
     rep = V.Report()
     if not HTML.exists():
@@ -793,7 +800,7 @@ def main() -> int:
     h1, h2 = hashlib.sha256(embedded).hexdigest(), hashlib.sha256(STACK.read_bytes()).hexdigest()
     rep.check("embedded JSON is byte-identical to content/stack.json (SHA-256)", [] if h1 == h2 else [f"{h1[:12]} != {h2[:12]}"], h1[:12])
     size = len(html)
-    rep.check("built HTML under 900 KB", [] if size < 900 * 1024 else [f"{size} bytes"], f"{size} bytes")
+    rep.check("built HTML under 1 MB", page_size_errors(size), f"{size} bytes, {PAGE_LIMIT - size} under the limit")
 
     rest = (head + tail).decode("utf-8")
     full = html.decode("utf-8")

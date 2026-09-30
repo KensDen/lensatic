@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.1.0",
+    "contentVersion": "1.1.1",
     "builtOn": "2026-09-30",
     "sources": [
       "csf20",
@@ -105,6 +105,11 @@
         "version": "1.1.0",
         "date": "2026-09-30",
         "summary": "The AI column adds Zero Trust for AI Systems, Version 1.0 of 4 September 2026, from the Coalition for Secure AI (CoSAI), an OASIS Open Project. The column note gains a sentence on where the paper keeps authorization and now counts four frameworks; the glossary adds CoSAI and OASIS Open."
+      },
+      {
+        "version": "1.1.1",
+        "date": "2026-09-30",
+        "summary": "The RMF entry now notes the Cybersecurity Risk Management Construct that the {{dow}} CIO announced in September 2025 and presents as the successor to the RMF process, and the glossary adds CSRMC. The {{dow}} door's first step says what to do about the implementation plan now and names the expired memorandum; its steps add the roadmap's courses of action and the yearly waiver. The Thunderdome note dates DISA's release 28 July 2023 and its republication 2 August 2023, and names DISA's own copy as the one read. The CMMC entry's two layers are rechecked, with the next check on 10 November 2026, and the SP 1353 entry records a recheck."
       }
     ],
     "description": "An offline explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.",
@@ -820,7 +825,8 @@
         "status": "verified",
         "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
-        "note": "CSRC pages fetched: SP 800-37 Revision 2, December 2018 (final 20 December 2018), seven steps Prepare through Monitor; SP 800-53A Revision 5, January 2022. The authorization definition is the OMB Circular A-130 definition quoted in the glossary."
+        "note": "CSRC pages fetched: SP 800-37 Revision 2, December 2018 (final 20 December 2018), seven steps Prepare through Monitor; SP 800-53A Revision 5, January 2022. The authorization definition is the OMB Circular A-130 definition quoted in the glossary. The CSRMC sentences rest on the CIO announcement of 24 September 2025 (https://dowcio.war.gov/In-the-News/Article/4367432/), read on 30 September 2026 (session 13 fetches c003 and c019), which calls the RMF the previous Risk Management Framework and presents the construct in five phases, and on the construct itself (https://media.defense.gov/2025/Sep/24/2003808112/-1/-1/1/DOD-CIO-CYBER-SECURITY-RISK-MANAGEMENT-CONSTRUCT.PDF), read on 30 September 2026: its five phases, Design, Build, Test, Onboard and Operations, each name the RMF steps they carry, and it prints no date and does not cancel DoD Instruction 8510.01. DoD Instruction 8510.01, read on 30 September 2026, is effective 19 July 2022, reissues and cancels the 2014 instruction, and says nothing of being cancelled; the CIO library (https://dowcio.war.gov/Library/), read on 29 September 2026 (session 10 fetch u094), still listed Instruction 8510.01 for the RMF. The construct and the instruction returned 403 to a plain read later that day (session 13 fetches c002, c001).",
+        "recheckAfter": "2026-12-15"
       },
       "documents": [
         {
@@ -877,7 +883,7 @@
           "note": "SP 800-37 executive summary: 'Circular A-130 requires agencies to implement the RMF'; use by nongovernmental organizations is voluntary. DoD Instruction 8510.01 (19 July 2022) adopts the NIST RMF for {{dow}} systems (listed under documents)."
         }
       },
-      "note": "The seven steps span two layers: Prepare comes first and serves both; Categorize, Select and Implement sit with the controls layer; Assess, Authorize and Monitor are the verification layer."
+      "note": "The seven steps span two layers: Prepare comes first and serves both; Categorize, Select and Implement sit with the controls layer; Assess, Authorize and Monitor are the verification layer. On 24 September 2025 the {{dow}} CIO announced a Cybersecurity Risk Management Construct (CSRMC) that it presents as the successor to the RMF process; DoD Instruction 8510.01 was still the instruction in the CIO library on 29 September 2026. The construct's five phases are organized around the RMF steps."
     },
     {
       "id": "ai-rmf",
@@ -1038,12 +1044,12 @@
       "url": "https://csrc.nist.gov/pubs/sp/1353/ipd",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-29",
+        "verifiedOn": "2026-09-30",
         "method": "primary-fetch",
-        "note": "CSRC record fetched: initial public draft published 19 August 2026, comments due 15 October 2026, part of the CSF 2.0 quick-start guide series. Rechecked 17 September 2026: still the initial public draft, comments due 15 October 2026, no second draft or final.",
+        "note": "CSRC record fetched: initial public draft published 19 August 2026, comments due 15 October 2026, part of the CSF 2.0 quick-start guide series. Rechecked 17 September 2026: still the initial public draft, comments due 15 October 2026, no second draft or final. Rechecked 30 September 2026 (session 13 fetch c012): still the initial public draft of 19 August 2026, comments due 15 October 2026, with one history entry.",
         "recheckAfter": "2026-10-16"
       },
-      "note": "Placed in the AI column as a quick-start guide rather than a framework. Comments are open until 15 October 2026, as of 17 September 2026.",
+      "note": "Placed in the AI column as a quick-start guide rather than a framework. Comments are open until 15 October 2026, as of 30 September 2026.",
       "authority": {
         "nature": "guidance",
         "binds": [
@@ -1334,10 +1340,10 @@
         "note": "Binds defense contractors and subcontractors when the clause is in the contract.",
         "verification": {
           "status": "conflict",
-          "verifiedOn": "2026-09-17",
+          "verifiedOn": "2026-09-30",
           "method": "primary-fetch",
-          "note": "Two layers, rechecked 17 September 2026. Rule text, unamended (the electronic Code of Federal Regulations, current to 15 September 2026; no Federal Register rule or notice amending either since 13 July 2026): 32 CFR 170.3(e)(2) starts Phase 2 one year after Phase 1, which would be 10 November 2026, and DFARS 204.7504 phases the clause through 10 November 2028. Department policy in effect: the CIO and acquisition memoranda of 13 July 2026 suspend the Phase 2 transition with no new date and let solicitations and contracts call only for Level 1 and Level 2 self-assessments, alongside select government-led assessments; Class Deviation 2026-O0025 carries that into contracting, first in Revision 2 of 16 July 2026 and now in Revision 3 of 3 September 2026. The department's CMMC page says the program is paused in Phase 1. No task force report or 60-day review result had been published. Both layers recorded; the memoranda and the deviation are listed under documents.",
-          "recheckAfter": "2026-10-15"
+          "note": "Two layers, rechecked 30 September 2026. Rule text, unamended: the electronic Code of Federal Regulations is current to 28 September 2026 and shows no change to part 170 since 16 December 2024 (session 13 fetches c008, c009, c016), and the Federal Register shows no rule or notice amending either rule since 13 July 2026 (c013); 32 CFR 170.3(e)(2) (c016) starts Phase 2 one year after Phase 1, which would be 10 November 2026, and DFARS 204.7504 phases the clause through 10 November 2028. Department policy in effect: the CIO and acquisition memoranda of 13 July 2026 suspend the Phase 2 transition with no new date and let solicitations and contracts call only for Level 1 and Level 2 self-assessments, alongside select government-led assessments; Class Deviation 2026-O0025 carries that into contracting, first in Revision 2 of 16 July 2026 and now in Revision 3 of 3 September 2026, still the latest revision when read on 30 September 2026 (the class deviation list did not load from here, session 13 fetch c010). The department's CMMC page, read on 30 September 2026 (c011), still reports the 13 July 2026 suspension of Phase 2 with the Phase 1 self-assessment requirements in place. No task force report or new Phase 2 date had been published by 30 September 2026. Both layers recorded; the memoranda and the deviation are listed under documents.",
+          "recheckAfter": "2026-11-10"
         }
       },
       "note": "Commonly called CMMC 2.0. Level 1 is a self-assessment against the 15 requirements of FAR 52.204-21. Level 2 covers the 110 requirements of SP 800-171 Revision 2 and under the rule is either self-assessed or certified by a C3PAO, as the contract specifies. Level 3 adds 24 requirements from SP 800-172 and under the rule is assessed by the government's DCMA DIBCAC. The department's suspension of 13 July 2026 (listed under documents, with the memoranda and the class deviation that carries it into contracts) limits new CMMC requirements to Level 1 and Level 2 self-assessments, has Level 2 C3PAO and Level 3 DIBCAC requirements removed from active solicitations and, before the next option is exercised or at the next scheduled administrative modification, from existing contracts, and leaves the DFARS 252.204-7012 obligation in place; no task force report had been published by 17 September 2026.",
@@ -1508,9 +1514,9 @@
       "url": "https://www.doncio.navy.mil/chips/ArticleDetails.aspx?ID=16374",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-16",
+        "verifiedOn": "2026-09-30",
         "method": "primary-fetch",
-        "note": "DISA release of 2 August 2023, bylined to DISA public affairs and read on 16 September 2026 where the Department of the Navy CIO's online magazine republished it: a follow-on production agreement awarded 28 July 2023 for DISA's zero trust network access and application security architecture. DISA's release of 6 March 2023 (https://www.doncio.navy.mil/CHIPS/ArticleDetails.aspx?ID=16121) says the prototype proved that commercial technologies, including secure access service edge, software-defined wide area networks and customer edge security stacks, and application security stacks, can improve both security and network performance in an existing enterprise environment. DISA's own Thunderdome page is gone: https://disa.mil/en/About/Thunderdome gave no response and https://www.disa.mil/en/About/Thunderdome returned 404."
+        "note": "DISA release of 28 July 2023, bylined to DISA public affairs and read on 16 September 2026 where the Department of the Navy CIO's online magazine republished it on 2 August 2023: a follow-on production agreement awarded 28 July 2023 for DISA's zero trust network access and application security architecture. DISA's own distribution of the release on a newswire service, headed 'News provided by Defense Information Systems Agency' and dated 28 July 2023 (https://www.prnewswire.com/news-releases/disa-awards-thunderdome-production-agreement-301888665.html), read on 30 September 2026 (session 13 fetch c006), is the publisher's copy read: the same headline, and a follow-on production agreement awarded that day for its zero trust network access and application security architecture. The magazine page could not be re-read on 30 September 2026: it returned a rejection page (session 13 fetch c007). DISA's release of 6 March 2023 (https://www.doncio.navy.mil/CHIPS/ArticleDetails.aspx?ID=16121) says the prototype proved that commercial technologies, including secure access service edge, software-defined wide area networks and customer edge security stacks, and application security stacks, can improve both security and network performance in an existing enterprise environment. DISA's own Thunderdome page is gone: https://disa.mil/en/About/Thunderdome gave no response and https://www.disa.mil/en/About/Thunderdome returned 404."
       },
       "authority": {
         "nature": "service",
@@ -3521,7 +3527,7 @@
             "dod-zt-strategy",
             "dod-zt-roadmap"
           ],
-          "text": "Start with the DoD Zero Trust Strategy and its execution roadmap, which set the Target Level, the deadline, and the phasing; the implementing memorandum's printed expiry has passed with no replacement found, so the FY2027 deadline rests on those two documents. Each military department, like every other component, keeps its own zero trust implementation plan; the strategy had components send those plans to the {{dow}} Chief Information Officer (CIO) through the zero trust portfolio office by 23 September 2023, and the implementing memorandum made that a yearly submission until its printed expiry.",
+          "text": "Start with the DoD Zero Trust Strategy and its execution roadmap, which set the Target Level, the deadline, and the phasing; the implementing memorandum, directive-type memorandum (DTM) 25-003, passed its printed expiry on 17 July 2026 with no replacement found, so the FY2027 deadline rests on those two documents. Keep your component's zero trust implementation plan current and ask the zero trust portfolio office what it expects now: the strategy set the first plans due to the {{dow}} CIO and JFHQ-DODIN, now the Cyber Defense Command, by 23 September 2023, and no current source repeats the yearly submission the DTM required.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -3530,7 +3536,7 @@
               "dod-zt-strategy",
               "dod-zt-roadmap"
             ],
-            "note": "Owner's synthesis of the cited entries' direction into one step. The plan sentence follows the strategy's Goal 2, which set the first component plans due 23 September 2023 through the office, and DTM 25-003, Attachment 2, paragraph 11.d (https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dtm/DTM%2025-003.PDF), which made the submission yearly; both read on 16 September 2026. The yearly cadence rests on the DTM alone, and no current source repeats it after the DTM's printed expiry of 17 July 2026."
+            "note": "Owner's synthesis of the cited entries' direction into one step. The first plans' due date and their two recipients, the CIO and JFHQ-DODIN, follow the strategy's Goal 2 (printed page 12), read on 30 September 2026 (session 13 fetch c017). DTM 25-003's printed expiry of 17 July 2026 and the yearly submission it required (Attachment 2, paragraph 11.d) rest on the DTM itself (https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dtm/DTM%2025-003.PDF), read on 16 September 2026; its issue date of 17 July 2025 and expiration of 17 July 2026 rest also on the issuance library's table of DTMs (https://www.esd.whs.mil/DD/DoD-Issuances/DTM/), read on 30 September 2026. Both addresses returned 403 to a plain read later that day (session 13 fetches c005, c004). The command's new name follows the JFHQ-DODIN glossary entry and the CORA entry. No current source repeats the yearly submission after the DTM's printed expiry."
           }
         },
         {
@@ -3540,7 +3546,7 @@
             "dod-zt-strategy",
             "dod-zt-roadmap"
           ],
-          "text": "Work the seven pillars and 45 capabilities as your model; each capability breaks into activities, 152 in all, and the 91 at Target Level come first, with the 61 at Advanced Level where the mission needs them.",
+          "text": "Work the seven pillars and 45 capabilities as your model; each capability breaks into activities, 152 in all, and the 91 at Target Level come first, with the 61 at Advanced Level where the mission needs them; the roadmap offers three courses of action (uplift your own infrastructure, use a commercial cloud, or use an on-premises cloud the department or a component owns) and lets you mix them, and an enterprise service can deliver some activities for you (see Questions).",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -3549,7 +3555,7 @@
               "dod-zt-strategy",
               "dod-zt-roadmap"
             ],
-            "note": "Owner's synthesis of the cited entries' direction into one step."
+            "note": "Owner's synthesis of the cited entries' direction into one step. The courses of action follow the execution roadmap (page 6 of 54, with their labels on pages 10 to 12), read on 30 September 2026 (session 13 fetch c018): components may use any or all of the three. The enterprise service clause follows the Questions answer on where validated solutions and enterprise services land."
           }
         },
         {
@@ -3613,7 +3619,7 @@
             "rmf-ato",
             "cora"
           ],
-          "text": "Show proof of each Target Level outcome to your authorizing official and the {{dow}} CIO zero trust portfolio office, keep the Risk Management Framework (RMF) authorization current, and expect the Cyber Operational Readiness Assessment (CORA) to assess the readiness of the defended network.",
+          "text": "Show proof of each Target Level outcome to your authorizing official and the {{dow}} CIO zero trust portfolio office, keep the Risk Management Framework (RMF) authorization current, and expect the Cyber Operational Readiness Assessment (CORA) to assess the readiness of the defended network; a system that cannot meet Target Level needs a waiver request to the portfolio office, renewed every year, for the CIO's approval.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -3623,7 +3629,7 @@
               "rmf-ato",
               "cora"
             ],
-            "note": "Owner's synthesis of the cited entries' direction into one step."
+            "note": "Owner's synthesis of the cited entries' direction into one step. The waiver follows the strategy (printed page 8, footnote 28, and printed page 15), read on 30 September 2026 (session 13 fetch c017): systems unable to comply submit a waiver request to the portfolio office every year for the CIO's approval."
           }
         },
         {
@@ -4259,6 +4265,23 @@
         "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in the CSRC glossary entry (https://csrc.nist.gov/glossary/term/authorization_to_operate)."
+      }
+    },
+    {
+      "term": "CSRMC",
+      "forms": [
+        "CSRMC"
+      ],
+      "expansion": "Cybersecurity Risk Management Construct",
+      "oneLine": "An approach to cybersecurity risk in five phases that the {{dow}} CIO announced on 24 September 2025 and presents as the successor to the RMF process.",
+      "entityIds": [
+        "rmf-ato"
+      ],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-09-30",
+        "method": "primary-fetch",
+        "note": "Expansion and meaning read on 30 September 2026 in the CIO announcement of 24 September 2025 (https://dowcio.war.gov/In-the-News/Article/4367432/), session 13 fetches c003 and c019."
       }
     },
     {
