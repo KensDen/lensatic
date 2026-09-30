@@ -103,7 +103,7 @@
   {"check": "P08", "label": "OWASP LLM Top 10 / AgentPoison", "words": ["agentpoison"], "reason": "I-D015 A: AgentPoison is a second source the action cites; the Research Library carries the paper"},
   {"check": "P08", "label": "EU AI Act 2024/1689 · AI Omnibus (Reg 2026/1744)", "words": ["omnibus", "reg", "2026/1744"], "reason": "I-D016 A: the amending regulation the action applies"},
   {"check": "P08", "label": "OWASP ASI06 · Memory & Context Poisoning", "words": ["context", "poisoning"], "reason": "I-D019 A: the risk's own name is the clearer label; the linked post is OWASP's treatment of that risk"},
-  {"check": "P03", "phrase": "in preview in Azure Government for select US government customers since September 8, 2026", "reason": "I-D020: rechecked Sep 27, 2026, still a preview; kept with its date"},
+  {"check": "P03", "phrase": "in preview in Azure Government for select US government customers and authorized partners since September 8, 2026", "reason": "I-D020: rechecked Sep 27, 2026, still a preview; kept with its date"},
   {"check": "P03", "phrase": "with preview access for select US government customers and authorized partners (Sep 8, 2026)", "reason": "I-D024: rechecked Sep 27, 2026, still a preview; kept with its date"},
   {"check": "P03", "phrase": "MCP Top 10 (2025, beta)", "reason": "I-D021 and I-D026: rechecked Sep 27, 2026, the list is still in beta (Phase 3, Beta Release and Pilot Testing)"},
   {"check": "P03", "phrase": "in beta release and pilot testing", "reason": "I-D022: rechecked Sep 27, 2026, the list is still in beta"},
@@ -118,13 +118,10 @@
   "colors": ["000000", "040817", "04111C", "081130", "0A1128", "0B1B3D", "0F1834", "10B981", "131B33", "152042", "2DD4BF", "3B82F6", "45C4F4", "4A9A4A", "4AFF9A", "6B7E9C", "6EE7B7", "73DEF6", "8A8A00", "8FA3C2", "93C5FD", "ABE4FA", "B273B5", "B85A00", "C8D7EC", "DCC0DE", "EAF4FF", "EF4444", "F07FC0", "F59E0B", "FCA5A5", "FCD34D", "FDBA74", "FF8C42"]
  },
  "license": {
-  "_about": "Round J. The LICENSE pin (the sha256 of the private template, Public/LICENSE), the ship-date token and the words on either side of the date the export writes in its place, the license-term patterns (case-insensitive), the allowances and the short notice. statics_check (15 to 17) and the export gate's LICENSE_TERMS group both read this entry, so the two scan with the same patterns and the same allowances. Each allowance names its files (private-tree names) and its exact text, and must be present exactly as pinned; a hit is allowed only inside that text. Each pattern carries a character class and each allowed text a JSON unicode escape, so that neither matches itself when the gate scans this file.",
-  "sha256": "2d88ff47565142222821b3f4e2955dff1251bba77bbc8b5b309d78814170507f",
-  "token": "{SHIP\u005fDATE}",
-  "date_context": ["published before this notice was added on ", ", including release v5.0"],
+  "_about": "Round J. The LICENSE pin (the sha256 of Public/LICENSE, which ships as LICENSE byte for byte; Round N retired the ship-date token with the notice's dated paragraph), the license-term patterns (case-insensitive), the allowances and the short notice. statics_check (15 to 17) and the export gate's LICENSE_TERMS group both read this entry, so the two scan with the same patterns and the same allowances. Each allowance names its files (private-tree names) and its exact text, and must be present exactly as pinned; a hit is allowed only inside that text. Each pattern carries a character class and each allowed text a JSON unicode escape, so that neither matches itself when the gate scans this file.",
+  "sha256": "51be373f64dc0ccaf7516c217784611de024b4c67a20800887113a8c78a00aff",
   "patterns": ["BY-NC-S[A]", "Non-?Commerc[i]al", "Creative\\s*Common[s]", "\\bCC[ -]B[Y]\\b"],
   "allow": [
-   {"id": "J-L1", "files": ["Public/LICENSE"], "text": "were released under the Creative\u0020Commons Attribution-Non\u0043ommercial-ShareAlike 4.0 International license.", "reason": "LICENSE's history sentence: the grant earlier versions carried, which still applies to copies of them"},
    {"id": "J-B1", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "AI FOR security stays with CDM. CC\u0020BY-SA 4.0.", "reason": "approved third-party mention: the AI Defense Matrix (Zeltser & Yu) entry states the matrix's own terms"},
    {"id": "J-B2", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "(arXiv:2511.00739v1, Nov 2025; CC\u0020BY 4.0)", "reason": "approved third-party mention: the Georgia Tech and Intel paper's own terms"},
    {"id": "J-B3", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "(v1.4, March 2026; CC\u0020BY 4.0)", "reason": "approved third-party mention: the SANS guidelines' own terms"}

@@ -38,7 +38,7 @@ After editing `Playbook/agentic-secops-teaming.jsx`, rebuild the app with `npm r
 
 ## License
 
-© 2026 Ken Connell. All rights reserved. This repository is public so the work can be read and reviewed. No license to copy, adapt or reuse it is granted. [LICENSE](LICENSE) has the full notice, how to ask for permission, and the terms that still apply to earlier versions. Embedded fonts and libraries keep their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+© 2026 Ken Connell. All rights reserved. This repository is public so the work can be read and reviewed. No license to copy, adapt or reuse it is granted. [LICENSE](LICENSE) has the full notice and how to ask for permission. Embedded fonts and libraries keep their own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 
 Third-party product, tool, and framework names referenced in this playbook are trademarks of their respective owners. A personal project: views are my own and do not represent any employer, client, or vendor.
 

@@ -50,8 +50,8 @@
  *  13. P10: a figure in a tab body block or card with no source link and no named source.
  *  14. P11: absolutes and vendor claims stated as fact, in a sentence that attributes nothing.
  * Fatal (Round J, through Validation/registry.json's "license" entry, which the export gate reads too):
- *  15. LICENSE is the pinned notice: in private mode Public/LICENSE's sha256 is the pin; in public mode LICENSE is the
- *      pinned template with one date ("Month D, YYYY") in the ship-date token's place.
+ *  15. LICENSE is the pinned notice: its sha256 is the pin, Public/LICENSE in private mode and LICENSE in public mode
+ *      (the same bytes since Round N: the notice holds no date, so the export ships it as it is).
  *  16. No license terms outside the allowances: the registry's patterns (the name, the identifiers and the web
  *      address of the license earlier versions carried) have zero hits in the shipped text units, the raw text of
  *      their sources (every XML part of the brief and the deck), Playbook/index.html, THIRD_PARTY_NOTICES.md,
@@ -418,37 +418,21 @@ const win = (h, w) => h.ctx.slice(Math.max(0, h.index - w), h.index + h.text.len
 }
 
 /* ---- 15 to 17. the license (Round J), fatal ----
- * registry.json's "license" entry holds the pin, the ship-date token with the words around it, the patterns, the
- * allowances and the short notice; the export gate's LICENSE_TERMS group reads the same entry. Its patterns and its
- * allowed texts are written so that they do not match themselves (a character class in each pattern, a JSON unicode
- * escape in each allowed text), because the gate scans registry.json as well. */
+ * registry.json's "license" entry holds the pin, the patterns, the allowances and the short notice; the export
+ * gate's LICENSE_TERMS group reads the same entry. Its patterns and its allowed texts are written so that they do not
+ * match themselves (a character class in each pattern, a JSON unicode escape in each allowed text), because the gate
+ * scans registry.json as well. */
 {
   const crypto = require('crypto');
   const { execFileSync } = require('child_process');
   const L = REG.license || {};
   const sha = (b) => crypto.createHash('sha256').update(b).digest('hex');
-  const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  /* 15. private mode: Public/LICENSE's sha256 is the pin; public mode: LICENSE is the pinned template with one
-   * "Month D, YYYY" date in the token's place */
+  /* 15. LICENSE's sha256 is the pin, in both modes (Round N: the notice holds no date) */
   {
     const rel = TU.onDisk(SUITE, 'Public/LICENSE');
-    const buf = fs.readFileSync(path.join(SUITE, rel));
-    let ok = false, detail = '';
-    if (!PUBLIC) {
-      const h = sha(buf); ok = !!L.sha256 && h === L.sha256;
-      detail = `sha256 ${h.slice(0, 16)}… ${ok ? '= the pin' : '!= the pin ' + String(L.sha256).slice(0, 16) + '…'}`;
-    } else {
-      const t = buf.toString('utf-8');
-      const MONTH = '(?:January|February|March|April|May|June|July|August|September|October|November|December)';
-      const [pre, post] = L.date_context || ['', ''];
-      const ms = pre && post ? [...t.matchAll(new RegExp(`(?<=${esc(pre)})${MONTH} (?:[1-9]|[12]\\d|3[01]), \\d{4}(?=${esc(post)})`, 'g'))] : [];
-      if (ms.length === 1 && L.token) {
-        const tmpl = t.slice(0, ms[0].index) + L.token + t.slice(ms[0].index + ms[0][0].length);
-        ok = !!L.sha256 && sha(Buffer.from(tmpl, 'utf-8')) === L.sha256;
-        detail = `ship date ${ms[0][0]}; with the token back it is ${ok ? 'the pinned template' : 'not the pinned template'}`;
-      } else detail = `${ms.length} ship date(s) in the token's place (expected 1)`;
-    }
-    check(`license: ${rel} is the pinned notice`, ok, detail);
+    const h = sha(fs.readFileSync(path.join(SUITE, rel)));
+    const ok = !!L.sha256 && h === L.sha256;
+    check(`license: ${rel} is the pinned notice`, ok, `sha256 ${h.slice(0, 16)}… ${ok ? '= the pin' : '!= the pin ' + String(L.sha256).slice(0, 16) + '…'}`);
   }
   /* 16. no license terms outside the allowances: the text units, the raw text of their sources (every XML part of the
    * brief and the deck), Playbook/index.html, THIRD_PARTY_NOTICES.md, package.json and LICENSE */

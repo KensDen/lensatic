@@ -1173,7 +1173,7 @@ const content = {
       },
       {
         heading: "The Pentagon's AI Push (Adoption Signal)",
-        text: `The federal direction of travel is unambiguous. In July 2025 the DoD's Chief Digital and AI Office (CDAO) awarded prototype agreements with a $200M ceiling each to Anthropic, Google, OpenAI, and xAI to build agentic AI workflows across mission areas, taking a commercial-first approach. On March 3, 2026 the Department of War designated Anthropic a supply chain risk, and on September 25, 2026 the D.C. Circuit denied Anthropic's petitions for review. Vendor-specific accreditations have followed (e.g., GovCloud IL5 authorizations; air-gapped cloud reaching IL6 for classified workloads), and tailored government model variants now operate in sensitive environments. Agentic security tooling is following the same path: Microsoft reports that its MDASH scanning system entered preview in Azure Government for select US government customers in September 2026. For practitioners, this validates the thesis: the question leadership is asking is no longer "should we use agentic AI," but "how do we adopt it responsibly and get it authorized." (Specific awards, levels, and vendor statuses change — verify current details before quoting in any formal setting.)`,
+        text: `The federal direction of travel is unambiguous. In July 2025 the DoD's Chief Digital and AI Office (CDAO) awarded prototype agreements with a $200M ceiling each to Anthropic, Google, OpenAI, and xAI to build agentic AI workflows across mission areas, taking a commercial-first approach. On March 3, 2026 the Department of War designated Anthropic a supply chain risk, and on September 25, 2026 the D.C. Circuit denied Anthropic's petitions for review. Vendor-specific accreditations have followed (e.g., GovCloud IL5 authorizations; air-gapped cloud reaching IL6 for classified workloads), and tailored government model variants now operate in sensitive environments. Agentic security tooling is following the same path: Microsoft reports that its MDASH scanning system entered preview in Azure Government for select US government customers and authorized partners in September 2026. For practitioners, this validates the thesis: the question leadership is asking is no longer "should we use agentic AI," but "how do we adopt it responsibly and get it authorized." (Specific awards, levels, and vendor statuses change — verify current details before quoting in any formal setting.)`,
       },
       {
         heading: "Responsible-Use Boundaries Are Part of the Deal",
@@ -1774,7 +1774,7 @@ const content = {
         summary: "Microsoft AI (MAI), led by Mustafa Suleyman, builds the MAI model family (Build 2026). MDASH (codename), Microsoft Security's multi-model agentic scanning system, runs a Prepare→Scan→Validate→Dedupe→Prove pipeline of specialized agents to discover, validate, and prove software vulnerabilities end-to-end, routing findings into GitHub Advanced Security, Azure DevOps, and Defender as a closed discover→validate→prove→fix loop. Now in production across Windows, Azure, and identity systems, and in preview in Azure Government for select US government customers and authorized partners since September 8, 2026; scored 96.5% (any crash, by June 17, 2026) on the 1,507-vulnerability CyberGym benchmark, and its June 2026 Patch Tuesday cohort included two CVSS 9.8 RCEs (Windows kernel, HTTP.sys). Led by Taesoo Kim (VP, Agentic Security); the stated principle is that the model is one input — the system around it is the product.",
         items: [
           { name: "Prepare→Scan→Validate→Dedupe→Prove", use: "A pipeline of specialized agents that discovers, validates, and proves software vulnerabilities end-to-end" },
-          { name: "96.5% on CyberGym", use: "Any-crash score on the 1,507-vulnerability benchmark; now in production across Windows, Azure, and identity systems, and in preview in Azure Government since September 2026" },
+          { name: "96.5% on CyberGym", use: "Any-crash score on the 1,507-vulnerability benchmark; now in production across Windows, Azure, and identity systems, and in preview in Azure Government for select US government customers and authorized partners since September 2026" },
           { name: "Two CVSS 9.8 RCEs", use: "June 2026 Patch Tuesday — Windows kernel and HTTP.sys — routed into GitHub Advanced Security, Azure DevOps, and Defender" },
           { name: "The System Is the Product", use: "Led by Taesoo Kim (VP, Agentic Security); the model is one input — the system around it is the product" },
         ],
@@ -3870,10 +3870,12 @@ export default function App() {
         {/* Overview / Foundations / Red / Blue / Purple / Containment */}
         {["overview", "dualuse", "aiessentials", "humancommand", "foundations", "red", "blue", "purple", "governance", "compliance", "threatmodel", "federal", "classified", "insiders", "tradecraft", "containment", "agentir", "cscrm", "vendor", "cti", "hunting", "otics", "learningpath"].includes(active) && (
           <>
-            {active !== "fluency" && (
+            {/* the glossary button: the entry tabs only */}
+            {["overview", "humancommand", "foundations"].includes(active) && (
               <button onClick={() => go("fluency")} title="Open the AI Fluency glossary"
-                style={{ alignSelf: "flex-start", background: palette.accent, border: "none", color: "var(--on-accent)", borderRadius: 100, padding: "5px 14px", fontSize: 12, fontWeight: 600, fontFamily: "inherit", letterSpacing: "0.05em", cursor: "pointer", marginBottom: 14, display: "flex", alignItems: "center", gap: 6, boxShadow: "var(--glow-accent)" }}>
-                📕 New to the terms? Open the AI Fluency glossary →
+                style={{ alignSelf: "flex-start", background: palette.accent, border: "none", color: "var(--on-accent)", borderRadius: 100, padding: "5px 14px", fontSize: 12, fontWeight: 600, fontFamily: "inherit", letterSpacing: "0.05em", cursor: "pointer", marginBottom: 14, display: "block", textAlign: "left", lineHeight: 1.45, boxShadow: "var(--glow-accent)" }}>
+                📕 New to the terms? <br />
+                Open the AI Fluency glossary →
               </button>
             )}
             <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 22 }}>
