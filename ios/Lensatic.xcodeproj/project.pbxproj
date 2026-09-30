@@ -9,15 +9,13 @@
 /* Begin PBXBuildFile section */
 		00A731F84995EFFB1A76BB12 /* LensaticUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 881DF3DEEE5EACF03934CE80 /* LensaticUITests.swift */; };
 		0983E3D96F38AF5BB05ED7CA /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC96B740B66DD83CDB140CA /* RootView.swift */; };
-		1380CC403B41061776D67F3D /* ibm-plex-sans-latin-400-normal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 19859E1D172EE0F40C14B4E8 /* ibm-plex-sans-latin-400-normal.ttf */; };
 		1383F5836AD63B59FB8940B1 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAC38BECDD52D0BED2CB69B /* Site.swift */; };
 		212E4EFBC23C5B745C924CC7 /* LensaticApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C6C16B2C58F0760FF8BFCC /* LensaticApp.swift */; };
 		22D99D2C5AF1C0B3EA27D61A /* Rules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EB86B058250EC0FBAD1BD /* Rules.swift */; };
+		2344EA901E394A09FF324C8D /* IBMPlexMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F1DEC354B932B82248B9A2F /* IBMPlexMono-Bold.ttf */; };
 		290F5F07B274772EFB0B3876 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43322AFF28E292DACA47F882 /* AppModel.swift */; };
 		2D713C8DDDC322B72636CBED /* web_texts.json in Resources */ = {isa = PBXBuildFile; fileRef = 4EB3CF0F552BE96037B61F3F /* web_texts.json */; };
-		347B8D86903E37F155A703B3 /* ibm-plex-mono-latin-400-normal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5258C1887004AEBE894381EF /* ibm-plex-mono-latin-400-normal.ttf */; };
 		3844D9BA7DA7E36F50893250 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F251D73E0434A7592995685C /* PrivacyInfo.xcprivacy */; };
-		389614D1CBD096E40A92DE37 /* ibm-plex-mono-latin-700-normal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBEFE2CEB61E3463722F9362 /* ibm-plex-mono-latin-700-normal.ttf */; };
 		4AA01BB6201B9381EE3DCA31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA0BE8AFF5FDED0685B89571 /* Assets.xcassets */; };
 		4CCA7E8EC200B1031C719407 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA5700B2D1EB9AE002F11C1 /* Theme.swift */; };
 		53A0F72D7558F2A58687D70F /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6EB240CC9A8039FCF96327 /* Page.swift */; };
@@ -28,14 +26,16 @@
 		650861407E9F83F3AE66F5D9 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF4E37E5BB91527957380B9 /* Content.swift */; };
 		73AD49AA4BD4DECAEED41069 /* StrictDecoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529C6C62BAEF721D24C0DEC /* StrictDecoding.swift */; };
 		9690C67ED643830FF192DB84 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 32BA4EB3057307C6B64E1DED /* OFL.txt */; };
+		9E86C20273991E27F4A5C0BE /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 750C9F3601B22441A4BC806B /* IBMPlexMono-Regular.ttf */; };
 		A019273C1EE90058A6C424D0 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46ACE2513682593AF1CDF48A /* PageView.swift */; };
-		A5DA1480ABA8310D49D00EFE /* ibm-plex-sans-latin-700-normal.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 070BBC3CC29737EBA4E79971 /* ibm-plex-sans-latin-700-normal.ttf */; };
 		C024F5C87C788DE9357329A4 /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11C98B9C93EBBCCA91C2D03 /* ContentStore.swift */; };
 		C83FEBD152B989DA69C3AE6E /* stack.json in Resources */ = {isa = PBXBuildFile; fileRef = 82124D60B87567A1830B3053 /* stack.json */; };
+		DB7573AAEF18A3285361036C /* IBMPlexSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3A450855B8144AE3A84163A /* IBMPlexSans-Regular.ttf */; };
 		DBD855B10BBF18B8E2F40FB9 /* RulesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467187B153D4B96FBD974514 /* RulesTests.swift */; };
 		DCEC71820FF513D4A4F29601 /* validate.py in Resources */ = {isa = PBXBuildFile; fileRef = 08BC6F9E6FF06847804E4DCB /* validate.py */; };
 		F0A5239763E3B43766D465A2 /* stack.json in Resources */ = {isa = PBXBuildFile; fileRef = 82124D60B87567A1830B3053 /* stack.json */; };
 		F6D3487061B65FCCADDD12D1 /* ContentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D6A804FC537AE3DA034D1C /* ContentTests.swift */; };
+		F7272F9ABDBFFA2E445D0F06 /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0413BC5E902605EECD09E725 /* IBMPlexSans-Bold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,9 +56,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		070BBC3CC29737EBA4E79971 /* ibm-plex-sans-latin-700-normal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ibm-plex-sans-latin-700-normal.ttf"; sourceTree = "<group>"; };
+		0413BC5E902605EECD09E725 /* IBMPlexSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Bold.ttf"; sourceTree = "<group>"; };
 		08BC6F9E6FF06847804E4DCB /* validate.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = validate.py; sourceTree = "<group>"; };
-		19859E1D172EE0F40C14B4E8 /* ibm-plex-sans-latin-400-normal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ibm-plex-sans-latin-400-normal.ttf"; sourceTree = "<group>"; };
 		1CF4E37E5BB91527957380B9 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		1FA5700B2D1EB9AE002F11C1 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		20C6C16B2C58F0760FF8BFCC /* LensaticApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensaticApp.swift; sourceTree = "<group>"; };
@@ -70,15 +69,15 @@
 		46ACE2513682593AF1CDF48A /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		4A33B7A20DC64CFA87A0B1DA /* LensaticTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LensaticTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EB3CF0F552BE96037B61F3F /* web_texts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = web_texts.json; sourceTree = "<group>"; };
-		5258C1887004AEBE894381EF /* ibm-plex-mono-latin-400-normal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ibm-plex-mono-latin-400-normal.ttf"; sourceTree = "<group>"; };
 		5CAC38BECDD52D0BED2CB69B /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
+		6F1DEC354B932B82248B9A2F /* IBMPlexMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Bold.ttf"; sourceTree = "<group>"; };
+		750C9F3601B22441A4BC806B /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
 		82124D60B87567A1830B3053 /* stack.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = stack.json; sourceTree = "<group>"; };
 		881DF3DEEE5EACF03934CE80 /* LensaticUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensaticUITests.swift; sourceTree = "<group>"; };
 		977780DF5ADCA390FA53AAD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9F7CDE4F16E1CD4531750334 /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
 		AFC96B740B66DD83CDB140CA /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		BA0BE8AFF5FDED0685B89571 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BBEFE2CEB61E3463722F9362 /* ibm-plex-mono-latin-700-normal.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ibm-plex-mono-latin-700-normal.ttf"; sourceTree = "<group>"; };
 		BC6EB240CC9A8039FCF96327 /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
 		C02403AEAEDC9A40E0BB23C3 /* PageBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageBuilder.swift; sourceTree = "<group>"; };
 		DDD36A651668F328DED1AE61 /* about-photo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "about-photo.jpg"; sourceTree = "<group>"; };
@@ -87,6 +86,7 @@
 		EF30DCEDB5382486263C2041 /* Lensatic.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Lensatic.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F11C98B9C93EBBCCA91C2D03 /* ContentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStore.swift; sourceTree = "<group>"; };
 		F251D73E0434A7592995685C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		F3A450855B8144AE3A84163A /* IBMPlexSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -111,10 +111,10 @@
 		21479120F7112FF473757C77 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				5258C1887004AEBE894381EF /* ibm-plex-mono-latin-400-normal.ttf */,
-				BBEFE2CEB61E3463722F9362 /* ibm-plex-mono-latin-700-normal.ttf */,
-				19859E1D172EE0F40C14B4E8 /* ibm-plex-sans-latin-400-normal.ttf */,
-				070BBC3CC29737EBA4E79971 /* ibm-plex-sans-latin-700-normal.ttf */,
+				6F1DEC354B932B82248B9A2F /* IBMPlexMono-Bold.ttf */,
+				750C9F3601B22441A4BC806B /* IBMPlexMono-Regular.ttf */,
+				0413BC5E902605EECD09E725 /* IBMPlexSans-Bold.ttf */,
+				F3A450855B8144AE3A84163A /* IBMPlexSans-Regular.ttf */,
 				32BA4EB3057307C6B64E1DED /* OFL.txt */,
 			);
 			path = Fonts;
@@ -344,13 +344,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AA01BB6201B9381EE3DCA31 /* Assets.xcassets in Resources */,
+				2344EA901E394A09FF324C8D /* IBMPlexMono-Bold.ttf in Resources */,
+				9E86C20273991E27F4A5C0BE /* IBMPlexMono-Regular.ttf in Resources */,
+				F7272F9ABDBFFA2E445D0F06 /* IBMPlexSans-Bold.ttf in Resources */,
+				DB7573AAEF18A3285361036C /* IBMPlexSans-Regular.ttf in Resources */,
 				9690C67ED643830FF192DB84 /* OFL.txt in Resources */,
 				3844D9BA7DA7E36F50893250 /* PrivacyInfo.xcprivacy in Resources */,
 				5F171FE8C194421D9102D8BB /* about-photo.jpg in Resources */,
-				347B8D86903E37F155A703B3 /* ibm-plex-mono-latin-400-normal.ttf in Resources */,
-				389614D1CBD096E40A92DE37 /* ibm-plex-mono-latin-700-normal.ttf in Resources */,
-				1380CC403B41061776D67F3D /* ibm-plex-sans-latin-400-normal.ttf in Resources */,
-				A5DA1480ABA8310D49D00EFE /* ibm-plex-sans-latin-700-normal.ttf in Resources */,
 				F0A5239763E3B43766D465A2 /* stack.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

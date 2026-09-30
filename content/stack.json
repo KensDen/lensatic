@@ -141,7 +141,7 @@
         "file": "web/src/fonts/OFL.txt",
         "url": "https://openfontlicense.org/",
         "covers": [
-          "IBM Plex Sans and IBM Plex Mono, regular and bold, latin subset, in web/src/fonts/ and embedded in the built pages"
+          "IBM Plex Sans and IBM Plex Mono, regular and bold: IBM's own Latin1 subset files in web/src/fonts/, embedded in the built pages, and IBM's own TrueType files in ios/Lensatic/Resources/Fonts/, all unmodified"
         ]
       }
     }
