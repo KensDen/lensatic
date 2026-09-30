@@ -5,7 +5,16 @@ import SwiftUI
 struct RootView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.horizontalSizeClass) private var sizeClass
-    @State private var columns = NavigationSplitViewVisibility.all
+    @State private var columns = RootView.startColumns
+
+    /// Both columns; a Debug build started with -LensaticDetailOnly hides the list, for the screenshot tool
+    /// (tools/ios_shots.sh --store)
+    private static var startColumns: NavigationSplitViewVisibility {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-LensaticDetailOnly") { return .detailOnly }
+        #endif
+        return .all
+    }
 
     var body: some View {
         @Bindable var model = model

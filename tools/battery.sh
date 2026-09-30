@@ -17,6 +17,9 @@ else
 fi
 # the iOS app (Session 8, section 4.5): static checks everywhere; project generation, build and tests where Xcode works
 python3 tools/check_ios.py || RED=1
+# the App Store listing (Session 9, section 4.2): the fields and their limits, the settled wording, the listing rules,
+# the copy sheet and the screenshot list
+python3 tools/check_listing.py || RED=1
 # handoffs/ is local working history and must never be tracked (amendment, 9 Sep 2026)
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   if [ -n "$(git ls-files handoffs)" ]; then
@@ -49,7 +52,7 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     echo "PASS  containment: no tracked symlinks; tools and sources name no user or temp path outside the repo (browser binaries only)"
   fi
 fi
-for d in web ios critique; do
+for d in web ios critique store; do
   [ -d "$d" ] && echo "PASS  $d/ present" || { echo "FAIL  $d/ missing"; RED=1; }
 done
 if [ "$RED" = "0" ]; then echo "== BATTERY GREEN =="; else echo "== BATTERY RED =="; fi

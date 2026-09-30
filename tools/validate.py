@@ -39,7 +39,7 @@ README = ROOT / "README.md"
 SWEEP_FILE_CONTENT = CONTENT / "_sweep.txt"
 SWEEP_FILE_TOOLS = ROOT / "tools" / "sweep.txt"
 SWEEP_SOURCE = ROOT / "tools" / "sweep_source.json"
-SWEEP_SCOPES = ["content", "web", "ios", "critique", "docs", "README.md", "LICENSE"]
+SWEEP_SCOPES = ["content", "web", "ios", "critique", "docs", "store", "README.md", "LICENSE"]
 # The two license files, each pinned by its SHA-256. LICENSE is the all-rights-reserved notice for Lensatic's own code
 # and text, in the words the owner ruled on 27 Sep 2026 (session 7B), with that date filled in; it is in force from
 # content 0.7.0 and is authored text, so it passes every check README.md passes. web/src/fonts/OFL.txt is the SIL Open
@@ -647,7 +647,7 @@ def main() -> int:
                 for probe, t in probes:
                     if probe in line:
                         errs.append(f"{rel}:{ln}: contains sweep term #{terms.index(t) + 1}" + ("" if probe == t else " (rot13 form)"))
-    rep.check("sweep list clean across content/, web/, ios/, critique/, docs/, README.md, LICENSE", errs,
+    rep.check("sweep list clean across content/, web/, ios/, critique/, docs/, store/, README.md, LICENSE", errs,
               f"{scanned} files, {len(terms)} terms, loaded from {source_desc}")
 
     # 10. em dash
