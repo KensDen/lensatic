@@ -8,8 +8,8 @@
  *
  * Verifies in a real browser (file://):
  *   - app mounts; all 35 tabs route by hash with unique "NN / 35" counters
- *   - Action Plan chips compute All-85 / Now-40 / Next-35 / Later-10 live
- *   - CSV export = header + 85 rows; Markdown export = 85 bullets
+ *   - Action Plan chips compute All-86 / Now-40 / Next-36 / Later-10 live
+ *   - CSV export = header + 86 rows; Markdown export = 86 bullets
  *   - search returns results; ArrowDown/Enter selects and navigates
  *   - every tab renders each of its body headings exactly once (P14, Round I)
  *   - every embedded poster fits its frame at 1280 px, after a resize to 390 px and after the resize back,
@@ -132,8 +132,8 @@ const TABS = ['overview', 'dualuse', 'humancommand', 'aiessentials', 'foundation
     const chip = (n) => { const m = t.match(new RegExp(n + ' \u00b7 (\\d+)')); return m ? +m[1] : null; };
     return { all: chip('All'), now: chip('Now'), next: chip('Next'), later: chip('Later') };
   });
-  check('Action Plan live counts 85/40/35/10',
-    plan.all === 85 && plan.now === 40 && plan.next === 35 && plan.later === 10,
+  check('Action Plan live counts 86/40/36/10',
+    plan.all === 86 && plan.now === 40 && plan.next === 36 && plan.later === 10,
     JSON.stringify(plan));
 
   const csv = await page.evaluate(async () => new Promise((res) => {
@@ -146,10 +146,10 @@ const TABS = ['overview', 'dualuse', 'humancommand', 'aiessentials', 'foundation
       if (!captured) return res({ ok: false });
       const text = await captured.text();
       const lines = text.split('\r\n').filter(Boolean);
-      res({ ok: lines.length === 86 && lines[0] === 'Phase,Owner,Action,Tab,Source,Frameworks,Implementation', lines: lines.length });
+      res({ ok: lines.length === 87 && lines[0] === 'Phase,Owner,Action,Tab,Source,Frameworks,Implementation', lines: lines.length });
     }, 300);
   }));
-  check('CSV export 86 lines (header+85)', csv.ok, `lines=${csv.lines}`);
+  check('CSV export 87 lines (header+86)', csv.ok, `lines=${csv.lines}`);
 
   const md = await page.evaluate(async () => new Promise((res) => {
     const orig = URL.createObjectURL.bind(URL); let captured = null;
@@ -160,10 +160,10 @@ const TABS = ['overview', 'dualuse', 'humancommand', 'aiessentials', 'foundation
     setTimeout(async () => {
       if (!captured) return res({ ok: false });
       const text = await captured.text();
-      res({ ok: (text.match(/^- \*\*/gm) || []).length === 85 });
+      res({ ok: (text.match(/^- \*\*/gm) || []).length === 86 });
     }, 300);
   }));
-  check('Markdown export 85 bullets', md.ok);
+  check('Markdown export 86 bullets', md.ok);
 
   const kb = await page.evaluate(async () => {
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

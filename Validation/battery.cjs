@@ -6,7 +6,7 @@
  *   1. sync_check.cjs        — structural / counts / zero-external / byte-sync
  *   2. deck + documents      — PPTX slide count (unzip), PDF page counts
  *                              (python3+pypdf, else pdfinfo, else best-effort),
- *                              study-guide Part 8 mirror = 224 links,
+ *                              study-guide Part 8 mirror = 226 links,
  *                              Part 8 sub-group labels = the app's (P06),
  *                              executive summary HTML zero external loads,
  *                              landing page zero external loads,
@@ -125,7 +125,7 @@ const pdfPages = (p) => {
   const guide = fs.readFileSync(path.join(SUITE, 'Documents', 'Agentic-SecOps-Study-Guide.md'), 'utf-8');
   const p8 = guide.indexOf('## Part 8'); const p9 = guide.indexOf('## Part 9');
   const links = (guide.slice(p8, p9).match(/\[[^\]]+\]\(https?:\/\/[^)]+\)/g) || []).length;
-  add('docs', 'study guide Part 8 mirror = 224 links', links === 224 ? 'PASS' : 'FAIL', `links=${links}`);
+  add('docs', 'study guide Part 8 mirror = 226 links', links === 226 ? 'PASS' : 'FAIL', `links=${links}`);
   /* P06 (Round I): the Part 8 mirror's sub-group labels equal the app's sub-groups, group by group and in order, and
    * each label is a paragraph of its own (a blank line before and after), so none renders inside a bullet */
   {
@@ -168,15 +168,15 @@ const pdfPages = (p) => {
   }
   if (PUBLIC) {
     for (const name of ['README canonical 31/31 consistent', 'README deck-count headers read 31',
-      'README carries 224 (no stale 119-162 stat)']) add('docs', name, 'SKIPPED', NOT_SHIPPED);
+      'README carries 226 (no stale 119-162 stat)']) add('docs', name, 'SKIPPED', NOT_SHIPPED);
   } else {
     const readme = fs.readFileSync(path.join(SUITE, 'README.txt'), 'utf-8');
     const ok38 = readme.includes('Verified: 31 .pptx slides and\n31 PDF pages') ||
       /Verified: 31 \.pptx slides and\s*\n?31 PDF pages/.test(readme);
     add('docs', 'README canonical 31/31 consistent', ok38 && !readme.includes('36 is authoritative') && !readme.includes('37 is authoritative') && !readme.includes('38 is authoritative') && !readme.includes('32 is authoritative') ? 'PASS' : 'FAIL');
     add('docs', 'README deck-count headers read 31', readme.includes('CANONICAL DECK COUNT: 31 SLIDES') && readme.includes('SLIDE INVENTORY (31)') ? 'PASS' : 'FAIL');
-    add('docs', 'README carries 224 (no stale 119-162 stat)',
-      readme.includes('85/224/85') && !readme.includes('63/119/64') && !readme.includes('63/122/64') && !readme.includes('63/123/64') && !readme.includes('63/124/64') && !readme.includes('63/125/64') && !readme.includes('64/128/66') && !readme.includes('65/131/66') && !readme.includes('66/132/66') && !readme.includes('68/136/67') && !readme.includes('69/138/67') && !readme.includes('71/141/67') && !readme.includes('74/151/67') && !readme.includes('77/154/72') ? 'PASS' : 'FAIL');
+    add('docs', 'README carries 226 (no stale 119-162 stat)',
+      readme.includes('86/226/87') && !readme.includes('63/119/64') && !readme.includes('63/122/64') && !readme.includes('63/123/64') && !readme.includes('63/124/64') && !readme.includes('63/125/64') && !readme.includes('64/128/66') && !readme.includes('65/131/66') && !readme.includes('66/132/66') && !readme.includes('68/136/67') && !readme.includes('69/138/67') && !readme.includes('71/141/67') && !readme.includes('74/151/67') && !readme.includes('77/154/72') ? 'PASS' : 'FAIL');
   }
 }
 

@@ -1,6 +1,6 @@
 # Agentic SecOps Tradecraft Playbook
 
-A field reference for red, blue, and purple teaming in the age of agentic AI: 85 sourced actions, 224 indexed resources, 85 glossary terms, and 16 diagrams. Every external claim links to its source.
+A field reference for red, blue, and purple teaming in the age of agentic AI: 86 sourced actions, 226 indexed resources, 87 glossary terms, and 16 diagrams. Every external claim links to its source.
 
 **Open it:** https://kensden.github.io/agentic-secops-playbook/
 
