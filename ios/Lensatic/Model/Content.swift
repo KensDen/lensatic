@@ -177,7 +177,8 @@ struct Authority: Decodable, Sendable {
 
     enum Binds: String, Decodable, Sendable {
         case federalCivilian = "federal-civilian", dowComponents = "dow-components"
-        case defenseContractorsCUI = "defense-contractors-cui", voluntaryAll = "voluntary-all", adopters
+        case defenseContractorsCUI = "defense-contractors-cui", defenseContractorsFCICUI = "defense-contractors-fci-cui"
+        case voluntaryAll = "voluntary-all", adopters
     }
 
     struct Deadline: Decodable, Sendable {

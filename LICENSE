@@ -2,6 +2,6 @@ Copyright (c) 2026 Ken Connell. All rights reserved.
 
 This repository is published so the work can be read and reviewed. No license is granted to copy, modify, distribute, sublicense or otherwise use its code, its written content or its artwork, in whole or in part, except as the law allows without a license, or with Ken Connell's prior written permission. To ask, open an issue on this repository.
 
-Third-party material keeps its own terms. The IBM Plex typefaces in web/src/fonts/ and ios/Lensatic/Resources/Fonts/ are licensed under the SIL Open Font License, Version 1.1 (see the OFL.txt beside each). United States government works described or cited here are in the public domain in the United States; this notice covers only Lensatic's own code and text.
+Third-party material keeps its own terms. The IBM Plex typefaces in web/src/fonts/ and ios/Lensatic/Resources/Fonts/ are licensed under the SIL Open Font License, Version 1.1 (see the OFL.txt beside each). Works prepared by United States government officers and employees as part of their official duties are in the public domain in the United States; this notice covers only Lensatic's own code and text.
 
 Versions of this repository published before this notice was added on 27 September 2026 were released under the MIT License (code) and the Creative Commons Attribution 4.0 International license (text). Those grants still apply to copies of those earlier versions. They do not apply to anything added or changed since.

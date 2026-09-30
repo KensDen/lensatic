@@ -503,7 +503,7 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
   dl.kv { grid-template-columns: max-content minmax(0, 1fr); gap: 0 5pt; margin: 2pt 0; }
   dl.kv dd a.url { display: inline; padding: 0; }
   .auth, .validated, .adopter { margin: 2pt 0; padding-left: 4pt; border-left-width: 1.5pt; }
-  .status { padding: 0 3pt; font-size: 0.85em; border-width: 0.5pt; }
+  .status { padding: 0 3pt; font-size: 0.85em; border-width: 0.5pt; white-space: normal; }
   .docs, .fncard ul, .adopter ul { padding-left: 0.9rem; margin: 1pt 0; }
   .fncard .cat-list { padding-left: 0; }
   .soc { background: none; }
