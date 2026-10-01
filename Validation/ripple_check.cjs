@@ -90,7 +90,8 @@ if (PUBLIC) {
 /* ---- study guide ---- */
 const guide = read('Documents/Agentic-SecOps-Study-Guide.md');
 const p8 = guide.slice(guide.indexOf('## Part 8'), guide.indexOf('## Part 9'));
-const links = (p8.match(/\[[^\]]+\]\(https?:\/\/[^)]+\)/g) || []).length;
+/* hundred-and-ninth pass: a link text may hold one balanced [...] (the [un]prompted 2026 talk names) */
+const links = (p8.match(/\[(?:[^\[\]]|\[[^\[\]]*\])+\]\(https?:\/\/[^)]+\)/g) || []).length;
 check(`study guide Part-8 mirror = ${R}`, links === R, `links=${links}`);
 const addenda = guide.split('\n').filter((l) => /\*\*.*addendum \(/.test(l));
 const latest = addenda[addenda.length - 1] || '';
@@ -164,7 +165,8 @@ if (PUBLIC) {
   check('Roadmap carries no stale triple', null, NOT_SHIPPED);
 } else {
   const roadmap = read('Documents/Improvement-Roadmap.md');
-  const stray = (roadmap.match(/\b\d{2}\/1\d{2}\/\d{2}\b/g) || []).filter((t) => t !== TRIPLE);
+  /* hundred-and-ninth pass: any triple, not only a 1xx resource count (the old pattern could not see 2xx) */
+  const stray = (roadmap.match(/\b\d{2,3}\/\d{3}\/\d{2,3}\b/g) || []).filter((t) => t !== TRIPLE);
   check('Roadmap carries no stale triple', stray.length === 0, stray.join(',') || 'none');
 }
 

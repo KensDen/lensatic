@@ -5,8 +5,8 @@
  *
  * Checks:
  *   1. JSX nav parity (content tabs <-> nav entries, both 35)
- *   2. Canonical counts: 86 actions (40/36/10), 227 resources / 13 groups,
- *      87 glossary terms / 5 groups, 34 tools / 6 categories
+ *   2. Canonical counts: 87 actions (40/37/10), 243 resources / 13 groups,
+ *      88 glossary terms / 5 groups, 34 tools / 6 categories
  *   3. index.html zero external loads (script src / link href / remote img /
  *      @import / remote url() / fetch(http)
  *   4. All 16 diagram posters: zero external loads, balanced <html> tags;
@@ -57,7 +57,7 @@ check('nav parity 35<->35',
 /* ---- 2. canonical counts ---- */
 const phase = (p) => (jsx.match(new RegExp(`phase:\\s*"${p}"`, 'g')) || []).length;
 const now = phase('Now'), next = phase('Next'), later = phase('Later');
-check('actions 86 (40/36/10)', now === 40 && next === 36 && later === 10,
+check('actions 87 (40/37/10)', now === 40 && next === 37 && later === 10,
   `Now=${now} Next=${next} Later=${later}`);
 
 const resourceGroups = ['Frameworks & Standards', 'Community & Collective Resources', 'The Offense\u2013Defense Balance',
@@ -76,14 +76,14 @@ gpos.forEach((x, k) => {
   const block = jsx.slice(x.i, end);
   resTotal += (block.match(/\{\s*(?:sub:\s*"[^"]*",\s*)?name:\s*"/g) || []).length;
 });
-check('resources 227 / 13 groups', gpos.length === 13 && resTotal === 227,
+check('resources 243 / 13 groups', gpos.length === 13 && resTotal === 243,
   `groups=${gpos.length} items=${resTotal}`);
 
 /* ---- tier integrity (TIERING round): every RI entry carries a tier; split pinned ---- */
 const riSlice = jsx.slice(gpos[0].i, gpos[gpos.length - 1].i + 80000);
 const tierSpine = (riSlice.match(/tier: "spine"/g) || []).length;
 const tierAppx = (riSlice.match(/tier: "appendix"/g) || []).length;
-check('tier integrity 177 spine / 50 appendix', tierSpine === 177 && tierAppx === 50 && tierSpine + tierAppx === resTotal,
+check('tier integrity 187 spine / 56 appendix', tierSpine === 187 && tierAppx === 56 && tierSpine + tierAppx === resTotal,
   `spine=${tierSpine} appendix=${tierAppx} total=${resTotal}`);
 
 /* ---- impl integrity (ACTIONABILITY): armed and empty until exemplar payloads land ---- */
@@ -91,10 +91,11 @@ const riNames = new Set([...riSlice.matchAll(/name: "((?:[^"\\]|\\.)*)", url:/g)
 const implBlocks = [...jsx.matchAll(/impl: \{([^{}]*)\}/g)];
 let implOk = true, implNote = '';
 for (const m of implBlocks) {
-  const stepsM = m[1].match(/steps: \[([^\]]*)\]/);
+  /* hundred-and-ninth pass: a "]" inside a quoted step or ref (the [un]prompted 2026 talk names) does not end the array */
+  const stepsM = m[1].match(/steps: \[((?:"(?:[^"\\]|\\.)*"|[^\]"])*)\]/);
   const nSteps = stepsM ? ((stepsM[1].match(/"/g) || []).length / 2) : 0;
   if (nSteps < 1) { implOk = false; implNote = 'impl without steps'; break; }
-  const refsM = m[1].match(/refs: \[([^\]]*)\]/);
+  const refsM = m[1].match(/refs: \[((?:"(?:[^"\\]|\\.)*"|[^\]"])*)\]/);
   if (refsM) for (const rm of [...refsM[1].matchAll(/"((?:[^"\\]|\\.)*)"/g)]) {
     if (!riNames.has(rm[1])) { implOk = false; implNote = 'unresolved ref: ' + rm[1].slice(0, 48); break; }
   }
@@ -106,7 +107,7 @@ const fluencyStart = jsx.search(/^  fluency: \{/m);
 const fluencyEnd = jsx.indexOf('\n  learningpath: {', fluencyStart);
 const fluencyBlock = jsx.slice(fluencyStart, fluencyEnd > 0 ? fluencyEnd : fluencyStart + 60000);
 const terms = (fluencyBlock.match(/\{\s*term:\s*"/g) || []).length;
-check('glossary 87 terms', terms === 87, `terms=${terms}`);
+check('glossary 88 terms', terms === 88, `terms=${terms}`);
 
 const toolsStart = jsx.search(/^  tools: \{/m);
 const toolsEnd = jsx.indexOf('\n  risks: {', toolsStart);

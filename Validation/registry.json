@@ -24,7 +24,9 @@
   {"id": "F11", "topic": "BOD 26-04", "figure": "1% of vulnerability instances in the three-day class", "scope": "CISA's initial analysis at one large civilian agency", "date": "June 2026", "source": "CISA BOD 26-04",
    "match": "\\b1\\s?% of vulnerability", "label": "one large civilian agency|initial analysis", "window": 250},
   {"id": "F12", "topic": "BOD 26-04", "figure": "more than 60% can wait for the next system upgrade", "scope": "CISA's initial analysis at one large civilian agency", "date": "June 2026", "source": "CISA BOD 26-04",
-   "match": "\\b60\\s?%(?= can wait)", "label": "one large civilian agency|initial analysis", "window": 250}
+   "match": "\\b60\\s?%(?= can wait)", "label": "one large civilian agency|initial analysis", "window": 250},
+  {"id": "F13", "topic": "Permission prompts", "figure": "97% of Claude Code permission prompts approved", "scope": "the share of permission prompts users approve in Claude Code; Anthropic states no period or population", "date": "August 7, 2026", "source": "Anthropic (claude.com, Aug 2026)",
+   "match": "\\b9[37]\\s?%", "when": "permission prompt|approv", "label": "August 2026", "window": 150}
  ],
  "claims": [
   {"id": "C01", "fact": "the Department of War's designation and the D.C. Circuit's ruling (Round H, D003): one dated, neutral sentence at every site", "sites": "RES:3:13, ES:S13, TAB:federal:B9, TAB:federal:B10",
@@ -103,12 +105,13 @@
   {"check": "P08", "label": "OWASP LLM Top 10 / AgentPoison", "words": ["agentpoison"], "reason": "I-D015 A: AgentPoison is a second source the action cites; the Research Library carries the paper"},
   {"check": "P08", "label": "EU AI Act 2024/1689 · AI Omnibus (Reg 2026/1744)", "words": ["omnibus", "reg", "2026/1744"], "reason": "I-D016 A: the amending regulation the action applies"},
   {"check": "P08", "label": "OWASP ASI06 · Memory & Context Poisoning", "words": ["context", "poisoning"], "reason": "I-D019 A: the risk's own name is the clearer label; the linked post is OWASP's treatment of that risk"},
-  {"check": "P03", "phrase": "in preview in Azure Government for select US government customers and authorized partners since September 8, 2026", "reason": "I-D020: rechecked Sep 27, 2026, still a preview; kept with its date"},
-  {"check": "P03", "phrase": "with preview access for select US government customers and authorized partners (Sep 8, 2026)", "reason": "I-D024: rechecked Sep 27, 2026, still a preview; kept with its date"},
+  {"check": "P03", "phrase": "in preview in Azure Government for select US government customers and authorized partners since September 8, 2026", "reason": "I-D020: rechecked Sep 30, 2026, still a preview; kept with its date"},
+  {"check": "P03", "phrase": "with preview access for select US government customers and authorized partners (Sep 8, 2026)", "reason": "I-D024: rechecked Sep 30, 2026, still a preview; kept with its date"},
   {"check": "P03", "phrase": "MCP Top 10 (2025, beta)", "reason": "I-D021 and I-D026: rechecked Sep 27, 2026, the list is still in beta (Phase 3, Beta Release and Pilot Testing)"},
   {"check": "P03", "phrase": "in beta release and pilot testing", "reason": "I-D022: rechecked Sep 27, 2026, the list is still in beta"},
   {"check": "P03", "phrase": "with a held-out review set planned as the tracker scales", "reason": "I-D023: rechecked Sep 27, 2026, the review set has not shipped"},
-  {"check": "P03", "phrase": "as of May 2026, expected in adversary hands within two to four months", "reason": "I-D025 A: a dated forecast, stated as of its date"}
+  {"check": "P03", "phrase": "as of May 2026, expected in adversary hands within two to four months", "reason": "I-D025 A: a dated forecast, stated as of its date"},
+  {"check": "P03", "phrase": "in public preview for Enterprise Plus customers since August 2026", "reason": "hundred-and-ninth pass (it postdates the Round I decision ids): rechecked Sep 30, 2026; Google's documentation for the Threat Hunting agent (its Threat Hunt agent overview, updated Sep 28, 2026) still says public preview, under pre-GA terms"}
  ],
  "baseline": [
   {"id": "I-D029", "check": "P13", "file": "Documents/Agentic-SecOps-Executive-Summary.pdf", "hit": "page 7 of 7", "context": "page 7 of 7", "status": "accepted", "note": "the summary's last page is above the 90% budget line; I-D029 A (Sep 27, 2026): keep the baseline, and the next content round that adds to the summary trims first", "fill_max": 0.962}

@@ -128,6 +128,21 @@ async function fallbackChrome(puppeteer) {
   let failures = 0;
   const check = (name, ok, detail) => { results.push([name, ok, detail || '']); if (!ok) failures++; };
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  /* hundred-and-ninth pass: every wait is on a result, never the clock, for up to WAIT_MS (the fixed 150, 340
+   * and 1050 ms waits, and the figure pass's 500 and 400 ms, could fail under heavy load) */
+  const WAIT_MS = 10000;
+  /* the counter each tab shows ("NN / 35") is its position in the built page's own sections array */
+  const TAB_IDS = (() => {
+    const m = fs.readFileSync(HTML, 'utf-8').match(/const sections = \[([\s\S]*?)\n\s*\];/);
+    return m ? [...m[1].matchAll(/^\s*\{ id: "([a-z]+)",/gm)].map((x) => x[1]) : [];
+  })();
+  const counterFor = (id) => String(TAB_IDS.indexOf(id) + 1).padStart(2, '0') + ' / ' + String(TAB_IDS.length).padStart(2, '0');
+  const routeTo = async (tab) => {
+    if (!TAB_IDS.includes(tab)) return false;
+    await page.evaluate((t) => { location.hash = '#' + t; }, tab);
+    return page.waitForFunction((want) => ((document.body.innerText.match(/(\d{2}) \/ (\d{2})/) || [])[0] || '') === want,
+      { timeout: WAIT_MS, polling: 25 }, counterFor(tab)).then(() => true, () => false);
+  };
 
   /* ---- R37: the anchor + figure passes execute under BOTH themes ---- */
   for (const THEME of ['dark', 'light']) {
@@ -141,16 +156,31 @@ async function fallbackChrome(puppeteer) {
     await page.waitForFunction(() => {
       const r = document.getElementById('root'); return r && r.innerText.length > 200;
     }, { timeout: 30000 });
-    await setTheme();
-    await sleep(150);
+    await setTheme(); /* setting the attribute is synchronous: no wait */
     await page.evaluate((q) => {
       const input = document.querySelector('input[placeholder]');
       const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
       setter.call(input, q);
       input.dispatchEvent(new Event('input', { bubbles: true }));
     }, term);
-    await sleep(340);
-    const clicked = await page.evaluate(() => {
+    /* wait for the visible search results */
+    const listed = await page.waitForFunction(() => {
+      const input = document.querySelector('input[placeholder]');
+      const wrap = input && input.closest('div').parentElement;
+      return !!wrap && [...wrap.querySelectorAll('button')].some((b) => b.offsetParent !== null && b.textContent.trim().length > 3);
+    }, { timeout: WAIT_MS, polling: 25 }).then(() => true, () => false);
+    /* record the seek flash with an observer installed before the click, so a slow machine can neither miss it
+     * nor catch it after it clears (seek() holds it 1400 ms) */
+    await page.evaluate(() => {
+      window.__flashed = null;
+      new MutationObserver((ms) => {
+        for (const m of ms) {
+          const e = m.target;
+          if (e.id && e.id.startsWith('b-') && e.style.background && e.style.background.includes('var(--accent) 14%')) window.__flashed = e.id;
+        }
+      }).observe(document.getElementById('root'), { attributes: true, attributeFilter: ['style'], subtree: true });
+    });
+    const clicked = listed && await page.evaluate(() => {
       const input = document.querySelector('input[placeholder]');
       const wrap = input.closest('div').parentElement;
       const bs = [...wrap.querySelectorAll('button')].filter((b) => b.offsetParent !== null && b.textContent.trim().length > 3);
@@ -158,12 +188,10 @@ async function fallbackChrome(puppeteer) {
       bs[0].click();
       return true;
     });
-    await sleep(1050);
-    /* coupled to the seek() flash in the JSX: el.style.background = "color-mix(in srgb, var(--accent) 14%, transparent)" */
-    const ok = clicked && await page.evaluate(() => {
-      const f = [...document.querySelectorAll('[id^="b-"]')].find((e) => e.style.background && e.style.background.includes('var(--accent) 14%'));
-      return !!f && window.scrollY > 0;
-    });
+    /* coupled to the seek() flash in the JSX: el.style.background = "color-mix(in srgb, var(--accent) 14%, transparent)";
+     * wait until the observer has recorded it and the page has scrolled */
+    const ok = clicked && await page.waitForFunction(() => !!window.__flashed && window.scrollY > 0,
+      { timeout: WAIT_MS, polling: 25 }).then(() => true, () => false);
     if (ok) resolved++; else anchorFails.push(term);
   }
   check(`anchors resolve [${THEME}] (${resolved}/${ANCHOR_COUNT})`, resolved === ANCHOR_COUNT,
@@ -181,22 +209,18 @@ async function fallbackChrome(puppeteer) {
   const figureFails = [];
   const homeTabs = FIGURES.map((f) => f.tab);
   for (const fig of FIGURES) {
-    // present on its home tab
-    const present = await page.evaluate(async (t) => {
-      const s = (ms) => new Promise((r) => setTimeout(r, ms));
-      location.hash = '#' + t.tab; await s(500);
-      const el = document.querySelector(`iframe[title="${t.title}"]`);
+    // present on its home tab: route, wait for that tab's counter, then for the figure
+    const present = (await routeTo(fig.tab)) && await page.waitForFunction((title) => {
+      const el = document.querySelector(`iframe[title="${title}"]`);
       return !!el && el.offsetParent !== null;
-    }, fig);
+    }, { timeout: WAIT_MS, polling: 25 }, fig.title).then(() => true, () => false);
     // absent on every OTHER figure's home tab (cross-check matrix)
     let absentEverywhereElse = true;
     for (const other of homeTabs) {
       if (other === fig.tab) continue;
-      const absent = await page.evaluate(async (arg) => {
-        const s = (ms) => new Promise((r) => setTimeout(r, ms));
-        location.hash = '#' + arg.tab; await s(400);
-        return document.querySelector(`iframe[title="${arg.title}"]`) === null;
-      }, { tab: other, title: fig.title });
+      /* checked once the other tab's counter shows (the route has rendered) */
+      const absent = (await routeTo(other)) && await page.evaluate((title) =>
+        document.querySelector(`iframe[title="${title}"]`) === null, fig.title);
       if (!absent) { absentEverywhereElse = false; break; }
     }
     if (present && absentEverywhereElse) figuresOk++;

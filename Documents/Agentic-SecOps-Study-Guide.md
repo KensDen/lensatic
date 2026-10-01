@@ -47,7 +47,7 @@ Keep the glossary handy as you read. The self-check at the end is grouped by Par
 
 ## About this edition
 
-**September 30, 2026 addendum (public edition).** This guide tracks the Agentic SecOps Tradecraft Playbook, a living reference that changes in dated passes. This public edition is an independent personal project: it keeps the guide's substance and sources and leaves out the working change log behind them. The guide and the app stay in lockstep, and the app's counts are: 86 actions (40 Now / 36 Next / 10 Later), 227 sources / 13 groups, 87 glossary terms, 34 tools.
+**October 1, 2026 addendum (public edition).** This guide tracks the Agentic SecOps Tradecraft Playbook, a living reference that changes in dated passes. This public edition is an independent personal project: it keeps the guide's substance and sources and leaves out the working change log behind them. The guide and the app stay in lockstep, and the app's counts are: 87 actions (40 Now / 37 Next / 10 Later), 243 sources / 13 groups, 88 glossary terms, 34 tools.
 
 -----
 
@@ -510,11 +510,13 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [NIST — AI 100-2 (Adversarial Machine Learning Taxonomy)](https://csrc.nist.gov/pubs/ai/100/2/e2025/final)
 - [NIST — AI 600-1 (GenAI Profile)](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.600-1.pdf)
 - [NIST — Cybersecurity Framework 2.0 (CSF)](https://www.nist.gov/cyberframework)
+- [NIST — SP 1800-35 (Implementing a Zero Trust Architecture)](https://csrc.nist.gov/pubs/sp/1800/35/final)
 - [NIST — SP 800-207 (Zero Trust Architecture)](https://csrc.nist.gov/pubs/sp/800/207/final)
 - [NIST — SP 800-61r3 (Incident Response Recommendations)](https://csrc.nist.gov/pubs/sp/800/61/r3/final)
 
 *OWASP*
 
+- [OWASP — Agentic Top 10 (2026)](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/)
 - [OWASP — AI Agent Security Cheat Sheet](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/AI_Agent_Security_Cheat_Sheet.md)
 - [OWASP — AI Exchange (324-page PDF)](https://owaspai.org/OWASP-AI-Exchange.pdf)
 - [OWASP — AI Exchange Threat Advisor](https://owaspai.org/docs/ai_security_overview/)
@@ -561,12 +563,14 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 
 *NIST*
 
+- [NIST NCCoE — Software and AI Agent Identity and Authorization (Concept Paper, Feb 2026)](https://csrc.nist.gov/pubs/other/2026/02/05/accelerating-the-adoption-of-software-and-ai-agent/ipd)
 - [NIST — IR 8547: Transition to Post-Quantum Cryptography Standards (draft)](https://csrc.nist.gov/pubs/ir/8547/ipd)
 - [NIST — Post-Quantum Cryptography Standards (FIPS 203/204/205, Aug 2024)](https://csrc.nist.gov/pubs/fips/203/final)
 
 *NSA*
 
 - [NSA — CNSA 2.0 (Commercial National Security Algorithm Suite)](https://www.nsa.gov/Cybersecurity/Post-Quantum-Cybersecurity-Resources/)
+- [NSA — MCP Security Design Considerations for AI-Driven Automation (May 2026)](https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4496698/nsa-releases-security-design-considerations-for-ai-driven-automation-leveraging/)
 
 *Counterintelligence & Insider Threat*
 
@@ -586,6 +590,8 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [CISA — Principles for the Secure Integration of AI in OT (2025)](https://www.cisa.gov/news-events/news/new-joint-guide-advances-secure-integration-artificial-intelligence-operational-technology)
 - [Five Eyes — Careful Adoption of Agentic AI Services (May 2026)](https://www.cisa.gov/resources-tools/resources/careful-adoption-agentic-ai-services)
 - [Microsoft — A CISO’s Guide to Securing AI (Federal & DIB)](https://techcommunity.microsoft.com/blog/publicsectorblog/a-cisos-guide-to-securing-ai---securing-ai-for-federal-dib-and-dow-entities/4464081)
+- [NSA AISC — AI Data Security (May 2025)](https://www.cisa.gov/resources-tools/resources/ai-data-security-best-practices-securing-data-used-train-operate-ai-systems)
+- [NSA AISC — Deploying AI Systems Securely (Apr 2024)](https://www.cisa.gov/news-events/alerts/2024/04/15/joint-guidance-deploying-ai-systems-securely)
 
 **4. Frontier Labs & National-Security Research**
 
@@ -594,6 +600,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Anthropic + NNSA — Nuclear Safeguards](https://www.anthropic.com/research/nuclear-safeguards-for-ai)
 - [Anthropic + PNNL — Critical Infrastructure](https://www.anthropic.com/research/critical-infrastructure-defense)
 - [Anthropic — AI models on realistic cyber ranges (Jan 2026)](https://www.anthropic.com/research/cyber-toolkits-update)
+- [Anthropic — Auto Mode Is Now the Default in Claude Code (Aug 2026)](https://claude.com/blog/auto-mode-default-in-claude-code)
 - [Anthropic — Claude Code Security (defenders)](https://www.anthropic.com/news/claude-code-security)
 - [Anthropic — Containing Claude (engineering)](https://www.anthropic.com/engineering/how-we-contain-claude)
 - [Anthropic — Disrupting AI Espionage (GTG-1002)](https://www.anthropic.com/news/disrupting-AI-espionage)
@@ -666,21 +673,29 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 
 *More from the Field*
 
+- [Adam Krivka & Ondrej Vlcek (AISLE) — AI Found 12 Zero-Days in OpenSSL ([un]prompted 2026)](https://www.youtube.com/watch?v=IjL2qN1KDe8)
+- [Andrew Bullen (Stripe) — Breaking the Lethal Trifecta ([un]prompted 2026)](https://www.youtube.com/watch?v=cNE7P5FkqR8)
 - [Anton Chuvakin — Stop Building a 2003 SOC with AI (Part 1, Jun 2026)](https://medium.com/anton-on-security/stop-building-a-2003-soc-with-ai-a-modern-people-process-framework-part-1-7220513c9de1)
 - [Aurora — Automated Cyberattack Emulation from CTI (classical planning + LLM)](https://arxiv.org/pdf/2407.16928)
+- [Avishai Efrat & Roey Ben Chaim (Zenity) — Total Recon ([un]prompted 2026)](https://www.youtube.com/watch?v=N0DukgZSREo)
 - [Binary Defense — NightBeacon CMD: The Glass-Box SOC Workbench (webinar)](https://binarydefense.com/webinars/nightbeacon-cmd-the-glass-box-soc-workbench-that-keeps-humans-in-command)
 - [Caroline Wong (The AI Cybersecurity Handbook) — When You Turn On AI, Who Owns the New Signals? (Jul 2026)](https://www.theaicyberhandbook.com/when-you-turn-on-ai-who-owns-the-new-signals/)
 - [CSA — State of AI Cybersecurity 2026 (survey)](https://cloudsecurityalliance.org/blog/2026/04/02/the-state-of-ai-cybersecurity-2026-unveiling-insights-from-over-1-500-security-leaders)
 - [CSO Online — AI Red Teaming Comes of Age (2026)](https://www.csoonline.com/article/4181930/ai-red-teaming-comes-of-age.html)
 - [IBM X-Force (Patrick Fussell) — The Front of the Cyber Kill Chain Just Moved (Jun 2026)](https://www.ibm.com/think/x-force/The-front-of-the-cyber-kill-chain-just-moved)
+- [Joshua Saxe — The Hard Part Isn’t Building the Agent ([un]prompted 2026)](https://www.youtube.com/watch?v=rO2yA52U_i4)
+- [Matt Maisel (Sondera) — Hooking Coding Agents with the Cedar Policy Language ([un]prompted 2026)](https://www.youtube.com/watch?v=m6pzrqFJ6hE)
 - [Microsoft CTI-REALM — Benchmark for CTI-to-Detection Agents](https://www.microsoft.com/en-us/security/blog/2026/03/20/cti-realm-a-new-benchmark-for-end-to-end-detection-rule-generation-with-ai-agents/)
+- [Nicholas Carlini (Anthropic) — Black-hat LLMs ([un]prompted 2026)](https://www.youtube.com/watch?v=1sd26pWhfmg)
 - [NOVA & PromptIntel — Adversarial-Prompt Detection & IoPC Feed (Roccia)](https://promptintel.novahunting.ai)
 - [Purple Book — From Snapshots to Living Intelligence (Threat Modeling, Jun 2026)](https://www.thepurplebook.club/blog-posts/from-snapshots-to-living-intelligence-ai-driven-threat-modeling-in-the-world-of-cyber-centric-frontier-models)
 - [Rob T. Lee — Sleep. Diet. Exercise. AI. (SANS)](https://robtlee73.substack.com/)
 - [SANS — The AI-Enabled Vulnerability Analysis Loop (SEC543 × Anthropic, Jun 2026)](https://www.sans.org/blog/ai-enabled-source-code-vulnerability-analysis-loop-sec543-and-anthropics-guidance)
+- [Sergej Epp (Sysdig) — 8 Minutes to Admin ([un]prompted 2026)](https://www.youtube.com/watch?v=xCtcQkJBReQ)
 - [Stephen Tate (infosecuriosity) — Most SOCs Are Thinking About AI the Wrong Way (Jun 2026)](https://www.infosecuriosity.co.uk/posts/2026-06-28-Most-SOCs-Are-Thinking-About-AI-the-Wrong-Way/)
 - [Sublime Security — Trust, Then Autonomy (Evaluating Security AI)](https://sublime.security/resources/trust-then-autonomy-a-new-framework-for-evaluating-security-ai/)
 - [Torq — 20 Questions for AI SOC Vendors (Apocalypse Manifesto, Jun 2026)](https://torq.io/resources/ai-soc-apocalypse/)
+- [Wes Ring & Josiah Peedikayil (Block) — Operation Pale Fire ([un]prompted 2026)](https://www.youtube.com/watch?v=SUa1nta8FGQ)
 - [Wiz — Red Agent POV: Autonomous Offensive AI (2026)](https://www.wiz.io/blog/red-agent-pov-series)
 
 **8. Regulatory & Compliance**
@@ -817,6 +832,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Microsoft — Announcing Zero Trust for AI](https://www.microsoft.com/en-us/security/blog/2026/03/19/new-tools-and-guidance-announcing-zero-trust-for-ai/)
 - [Microsoft — Defense in Depth for Autonomous Agents](https://www.microsoft.com/en-us/security/blog/2026/05/14/defense-in-depth-autonomous-ai-agents/)
 - [NSA — Zero Trust Implementation Guidelines (ZIGs, 2026)](https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4496862/nsa-launches-zero-trust-implementation-guidelines-resource-webpage/)
+- [OpenID Foundation — Identity Management for Agentic AI (Oct 2025)](https://openid.net/wp-content/uploads/2025/10/Identity-Management-for-Agentic-AI.pdf)
 - [Valente & Zalewski — Beyond Zero: Enterprise Security for the AI Era (May 2026)](https://arxiv.org/abs/2605.22985)
 
 -----

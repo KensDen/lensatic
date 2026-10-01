@@ -7,9 +7,10 @@
  * report it without failing the run.
  *
  * Verifies in a real browser (file://):
- *   - app mounts; all 35 tabs route by hash with unique "NN / 35" counters
- *   - Action Plan chips compute All-86 / Now-40 / Next-36 / Later-10 live
- *   - CSV export = header + 86 rows; Markdown export = 86 bullets
+ *   - app mounts; all 35 tabs route by hash, each showing the "NN / 35" counter at its own position (the ids
+ *     are read from the built page's sections array, so the list cannot go stale)
+ *   - Action Plan chips compute All-87 / Now-40 / Next-37 / Later-10 live
+ *   - CSV export = header + 87 rows; Markdown export = 87 bullets
  *   - search returns results; ArrowDown/Enter selects and navigates
  *   - every tab renders each of its body headings exactly once (P14, Round I)
  *   - every embedded poster fits its frame at 1280 px, after a resize to 390 px and after the resize back,
@@ -70,12 +71,14 @@ async function fallbackChrome(puppeteer) {
   return null;
 }
 
-const TABS = ['overview', 'dualuse', 'humancommand', 'aiessentials', 'foundations', 'red', 'blue',
-  'purple', 'maturity', 'roadmap', 'program', 'architecture', 'usecase', 'infra', 'netsec',
-  'otics', 'metrics', 'governance', 'compliance', 'threatmodel', 'federal', 'classified',
-  'insiders', 'tradecraft', 'containment', 'agentir', 'vendor', 'cscrm', 'threats', 'cti',
-  'hunting', 'frontier', 'frameworks', 'academic', 'cases', 'tools', 'risks', 'fluency',
-  'learningpath', 'actionplan', 'resources'];
+/* the live tab ids in counter order, read from the built page's own sections array (the "NN / 35" counter is a
+ * tab's position there). Hundred-and-ninth pass: the hand list it replaces carried six ids no tab has (dualuse,
+ * aiessentials, usecase, classified, tradecraft, hunting), whose hashes left the route where it was. */
+const TAB_COUNT = 35;
+const TABS = (() => {
+  const m = fs.existsSync(HTML) ? fs.readFileSync(HTML, 'utf-8').match(/const sections = \[([\s\S]*?)\n\s*\];/) : null;
+  return m ? [...m[1].matchAll(/^\s*\{ id: "([a-z]+)",/gm)].map((x) => x[1]) : [];
+})();
 
 (async () => {
   const puppeteer = resolvePuppeteer();
@@ -109,20 +112,21 @@ const TABS = ['overview', 'dualuse', 'humancommand', 'aiessentials', 'foundation
 
   const tabResults = await page.evaluate(async (tabs) => {
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    const counterNow = () => (document.body.innerText.match(/(\d{2}) \/ (\d{2})/) || [])[0] || '';
     const out = [];
-    for (const id of tabs) {
-      location.hash = '#' + id;
-      await sleep(90);
-      const counter = (document.body.innerText.match(/(\d{2}) \/ (\d{2})/) || [])[0] || '';
-      out.push({ id, counter, len: document.body.innerText.length });
+    for (let i = 0; i < tabs.length; i++) {
+      const want = String(i + 1).padStart(2, '0') + ' / ' + String(tabs.length).padStart(2, '0');
+      location.hash = '#' + tabs[i];
+      /* wait on the result: this tab's own counter, for up to 5 s */
+      for (let t = 0; t < 250 && counterNow() !== want; t++) await sleep(20);
+      out.push({ id: tabs[i], want, counter: counterNow(), len: document.body.innerText.length });
     }
     return out;
   }, TABS);
-  const uniq = new Set(tabResults.map((t) => t.counter)).size;
-  const allOf35 = tabResults.every((t) => / \/ 35$/.test(' ' + t.counter));
-  const dead = tabResults.filter((t) => !t.counter || t.len < 500).map((t) => t.id);
-  check('35 tabs route with unique /35 counters', uniq === 35 && allOf35 && !dead.length,
-    `unique=${uniq}` + (dead.length ? ` dead=${dead}` : ''));
+  const wrong = tabResults.filter((t) => t.counter !== t.want || t.len < 500).map((t) => `${t.id}=${t.counter || 'none'}`);
+  check(`${TAB_COUNT} tabs route, each counter at its own position`,
+    TABS.length === TAB_COUNT && tabResults.length === TAB_COUNT && !wrong.length,
+    `tabs=${TABS.length}` + (wrong.length ? ` wrong=${wrong.join(',')}` : ''));
 
   const plan = await page.evaluate(async () => {
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -132,8 +136,8 @@ const TABS = ['overview', 'dualuse', 'humancommand', 'aiessentials', 'foundation
     const chip = (n) => { const m = t.match(new RegExp(n + ' \u00b7 (\\d+)')); return m ? +m[1] : null; };
     return { all: chip('All'), now: chip('Now'), next: chip('Next'), later: chip('Later') };
   });
-  check('Action Plan live counts 86/40/36/10',
-    plan.all === 86 && plan.now === 40 && plan.next === 36 && plan.later === 10,
+  check('Action Plan live counts 87/40/37/10',
+    plan.all === 87 && plan.now === 40 && plan.next === 37 && plan.later === 10,
     JSON.stringify(plan));
 
   const csv = await page.evaluate(async () => new Promise((res) => {
@@ -146,10 +150,10 @@ const TABS = ['overview', 'dualuse', 'humancommand', 'aiessentials', 'foundation
       if (!captured) return res({ ok: false });
       const text = await captured.text();
       const lines = text.split('\r\n').filter(Boolean);
-      res({ ok: lines.length === 87 && lines[0] === 'Phase,Owner,Action,Tab,Source,Frameworks,Implementation', lines: lines.length });
+      res({ ok: lines.length === 88 && lines[0] === 'Phase,Owner,Action,Tab,Source,Frameworks,Implementation', lines: lines.length });
     }, 300);
   }));
-  check('CSV export 87 lines (header+86)', csv.ok, `lines=${csv.lines}`);
+  check('CSV export 88 lines (header+87)', csv.ok, `lines=${csv.lines}`);
 
   const md = await page.evaluate(async () => new Promise((res) => {
     const orig = URL.createObjectURL.bind(URL); let captured = null;
@@ -160,10 +164,10 @@ const TABS = ['overview', 'dualuse', 'humancommand', 'aiessentials', 'foundation
     setTimeout(async () => {
       if (!captured) return res({ ok: false });
       const text = await captured.text();
-      res({ ok: (text.match(/^- \*\*/gm) || []).length === 86 });
+      res({ ok: (text.match(/^- \*\*/gm) || []).length === 87 });
     }, 300);
   }));
-  check('Markdown export 86 bullets', md.ok);
+  check('Markdown export 87 bullets', md.ok);
 
   const kb = await page.evaluate(async () => {
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
