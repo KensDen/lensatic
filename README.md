@@ -19,7 +19,7 @@ A field reference for red, blue, and purple teaming in the age of agentic AI: 87
 
 ## Go deeper
 
-[Zero Trust Field Guide](https://kensden.github.io/zero-trust-field-guide/) is my companion study guide: an eight-week plan with a shared Zero Trust core (NIST SP 800-207 and the CISA Zero Trust Maturity Model), then DoW, federal civilian and private-sector tracks, with one-page quick references. Public sources only; it links back here for the agentic view.
+[Zero Trust Accelerator: Field Guide](https://kensden.github.io/zero-trust-field-guide/) is my companion study guide: an eight-week plan with a shared Zero Trust core (NIST SP 800-207 and the CISA Zero Trust Maturity Model), then DoW, federal civilian and private-sector tracks, with one-page quick references. Public sources only; it links back here for the agentic view.
 
 ## How it was built
 

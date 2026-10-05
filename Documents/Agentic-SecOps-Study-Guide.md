@@ -828,7 +828,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Google DeepMind — AI Control Roadmap (v0.1)](https://deepmind.google/blog/securing-the-future-of-ai-agents/)
 - [Google DeepMind — Three Layers of Agentic Security](https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/securing-the-future-of-ai-agents/three-layers-of-agent-security.pdf)
 - [IETF — RFC 8693 (OAuth 2.0 Token Exchange)](https://datatracker.ietf.org/doc/html/rfc8693)
-- [Ken Connell — Zero Trust Field Guide (v2.1, Sep 2026)](https://kensden.github.io/zero-trust-field-guide/)
+- [Ken Connell — Zero Trust Accelerator: Field Guide (Sep 2026)](https://kensden.github.io/zero-trust-field-guide/)
 - [Microsoft — Announcing Zero Trust for AI](https://www.microsoft.com/en-us/security/blog/2026/03/19/new-tools-and-guidance-announcing-zero-trust-for-ai/)
 - [Microsoft — Defense in Depth for Autonomous Agents](https://www.microsoft.com/en-us/security/blog/2026/05/14/defense-in-depth-autonomous-ai-agents/)
 - [NSA — Zero Trust Implementation Guidelines (ZIGs, 2026)](https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4496862/nsa-launches-zero-trust-implementation-guidelines-resource-webpage/)
