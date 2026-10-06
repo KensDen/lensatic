@@ -10,7 +10,7 @@ Works offline, no account, no data collected by Lensatic. The privacy policy not
 
 Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework publisher.
 
-See also the Zero Trust Field Guide: https://kensden.github.io/zero-trust-field-guide/
+See also the Zero Trust Accelerator: Field Guide: https://kensden.github.io/zero-trust-field-guide/
 
 ## License
 
