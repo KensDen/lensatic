@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.1.1",
-    "builtOn": "2026-09-30",
+    "contentVersion": "1.2.0",
+    "builtOn": "2026-10-06",
     "sources": [
       "csf20",
       "sp800-207",
@@ -110,6 +110,11 @@
         "version": "1.1.1",
         "date": "2026-09-30",
         "summary": "The RMF entry now notes the Cybersecurity Risk Management Construct that the {{dow}} CIO announced in September 2025 and presents as the successor to the RMF process, and the glossary adds CSRMC. The {{dow}} door's first step says what to do about the implementation plan now and names the expired memorandum; its steps add the roadmap's courses of action and the yearly waiver. The Thunderdome note dates DISA's release 28 July 2023 and its republication 2 August 2023, and names DISA's own copy as the one read. The CMMC entry's two layers are rechecked, with the next check on 10 November 2026, and the SP 1353 entry records a recheck."
+      },
+      {
+        "version": "1.2.0",
+        "date": "2026-10-06",
+        "summary": "The doors are now trailheads, to match the compass and map language, and the version line's link reads Why 'Lensatic'?"
       }
     ],
     "description": "An offline explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.",
@@ -1072,7 +1077,7 @@
       "name": "Executive Order 14028",
       "shortName": "EO 14028",
       "oneLiner": "EO 14028 orders every federal agency head to modernize cybersecurity, including a plan to adopt zero trust architecture.",
-      "role": "Root mandate for the federal civilian door.",
+      "role": "Root mandate for the federal civilian trailhead.",
       "publisher": "The White House",
       "title": "Improving the Nation's Cybersecurity",
       "edition": "Executive Order 14028",
@@ -1109,7 +1114,7 @@
       "name": "OMB Memorandum M-22-09",
       "shortName": "M-22-09",
       "oneLiner": "M-22-09 is the federal zero trust strategy memo: it sets the goals every executive department and agency must meet, organized by the CISA maturity model.",
-      "role": "Cited by the civilian door for its goals and its deadline.",
+      "role": "Cited by the civilian trailhead for its goals and its deadline.",
       "publisher": "OMB",
       "title": "Moving the U.S. Government Toward Zero Trust Cybersecurity Principles",
       "edition": "M-22-09",
@@ -1145,7 +1150,7 @@
       "name": "Executive Order 13800",
       "shortName": "EO 13800",
       "oneLiner": "EO 13800 directs every federal agency head to use the NIST Cybersecurity Framework to manage the agency's cyber risk.",
-      "role": "The order that makes the CSF the federal outcome language; cited by the civilian door's Profile step.",
+      "role": "The order that makes the CSF the federal outcome language; cited by the civilian trailhead's Profile step.",
       "publisher": "The White House",
       "title": "Strengthening the Cybersecurity of Federal Networks and Critical Infrastructure",
       "edition": "Executive Order 13800",
@@ -1179,7 +1184,7 @@
       "name": "DoD Zero Trust Execution Roadmap and Capabilities",
       "shortName": "DoD ZT Roadmap",
       "oneLiner": "The execution roadmap sequences the 152 zero trust activities, 91 of them at Target Level, by course of action and fiscal year toward the strategy's deadline.",
-      "role": "Phasing for the {{dow}} door.",
+      "role": "Phasing for the {{dow}} trailhead.",
       "publisher": "DoD CIO",
       "title": "Zero Trust Execution Roadmap",
       "edition": "v1.1",
@@ -1241,7 +1246,7 @@
       "name": "NIST SP 800-171",
       "shortName": "SP 800-171",
       "oneLiner": "SP 800-171 lists the security requirements a nonfederal organization must meet to protect the controlled unclassified information it handles for the government.",
-      "role": "Control layer for the defense contractor door.",
+      "role": "Control layer for the defense contractor trailhead.",
       "publisher": "NIST",
       "title": "Protecting Controlled Unclassified Information in Nonfederal Systems and Organizations",
       "edition": "Revision 2 (includes updates as of 28 January 2021)",
@@ -1316,7 +1321,7 @@
       "name": "Cybersecurity Maturity Model Certification (CMMC) Program",
       "shortName": "CMMC",
       "oneLiner": "CMMC is the {{dow}} program that verifies, at three levels, that a contractor meets the security requirements for the information it handles, by self-assessment, by an accredited third-party assessor, or by a government assessment.",
-      "role": "Certification layer for the defense contractor door.",
+      "role": "Certification layer for the defense contractor trailhead.",
       "publisher": "DoD CIO",
       "title": "Cybersecurity Maturity Model Certification (CMMC) Program",
       "edition": "32 CFR Part 170, final rule (89 FR 83092)",
@@ -1432,7 +1437,7 @@
       "shortName": "SP 1800-35",
       "layerId": "l4",
       "oneLiner": "SP 1800-35 is NIST's practice guide for implementing a zero trust architecture consistent with SP 800-207, built from example implementations and mapped to common standards.",
-      "role": "Implementation guidance at layer 4 for any door; cited by the mapping helper.",
+      "role": "Implementation guidance at layer 4 for any trailhead; cited by the mapping helper.",
       "publisher": "NIST",
       "title": "Implementing a Zero Trust Architecture: High-Level Document",
       "edition": "NIST SP 1800-35, final",
@@ -3510,7 +3515,7 @@
           "sp800-207",
           "sp800-53"
         ],
-        "note": "Owner's synthesis of who the door is for, from the cited entries' own applicability statements."
+        "note": "Owner's synthesis of who the trailhead is for, from the cited entries' own applicability statements."
       }
     },
     {
@@ -3668,13 +3673,13 @@
           "eo13800",
           "dod-zt-ot"
         ],
-        "note": "Owner's synthesis of who the door is for, from the cited entries' own applicability statements."
+        "note": "Owner's synthesis of who the trailhead is for, from the cited entries' own applicability statements."
       }
     },
     {
       "id": "defense-contractor",
       "title": "Defense contractor handling controlled unclassified information (CUI)",
-      "whoYouAre": "You are a contractor or subcontractor that handles controlled unclassified information for a {{dow}} customer. If you hold only federal contract information, the Federal Acquisition Regulation (FAR) basic safeguarding clause, 52.204-21 (52.240-93 in contracts written under the FAR overhaul deviations), sets your 15 requirements; if you hold controlled unclassified information for a civilian agency, that agency's own contract clauses name the requirements; the Everyone else door covers both cases.",
+      "whoYouAre": "You are a contractor or subcontractor that handles controlled unclassified information for a {{dow}} customer. If you hold only federal contract information, the Federal Acquisition Regulation (FAR) basic safeguarding clause, 52.204-21 (52.240-93 in contracts written under the FAR overhaul deviations), sets your 15 requirements; if you hold controlled unclassified information for a civilian agency, that agency's own contract clauses name the requirements; the Everyone else trailhead covers both cases.",
       "pillarView": null,
       "paragraph": null,
       "steps": [
@@ -3719,7 +3724,7 @@
             "sp800-207",
             "dod-zt-strategy"
           ],
-          "text": "Use SP 800-207 for what zero trust means. No rule on this door requires it of you; the DoD Zero Trust Strategy expects the Defense Industrial Base to execute it, and it reaches you through what a customer writes into a contract.",
+          "text": "Use SP 800-207 for what zero trust means. No rule at this trailhead requires it of you; the DoD Zero Trust Strategy expects the Defense Industrial Base to execute it, and it reaches you through what a customer writes into a contract.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -3780,7 +3785,7 @@
           "cisa-ztmm",
           "csf20"
         ],
-        "note": "Owner's synthesis of who the door is for. The pointer for contractors that hold only federal contract information names FAR 52.204-21, Basic Safeguarding of Covered Contractor Information Systems (November 2021, the clause's printed date form), 15 requirements, prescribed in FAR 4.1903; confirmed on acquisition.gov on 9 September 2026 (https://www.acquisition.gov/far/52.204-21). Its number in contracts written under the FAR overhaul deviations, 52.240-93, Basic Safeguarding of Covered Contractor Information Systems, was read on 30 September 2026 in the overhaul's Part 40 on acquisition.gov (https://www.acquisition.gov/far-overhaul/far-part-deviation-guide/far-overhaul-part-40, session 11 fetch a2004, last updated 23 September 2026), 40.303-2: 'Insert the clause at 52.240-93, Basic Safeguarding of Covered Contractor Information Systems, in solicitations and contracts when the contractor or a subcontractor at any tier may have Federal contract information residing in or moving through its information system.' The clause in the overhaul's Part 52 (https://www.acquisition.gov/far-overhaul/far-part-deviation-guide/far-overhaul-part-52, session 11 fetch a2008) prints the same 15 controls, (i) to (xv). The department's Part 40 deviation, Class Deviation 2026-O0025, is listed under the CMMC entry."
+        "note": "Owner's synthesis of who the trailhead is for. The pointer for contractors that hold only federal contract information names FAR 52.204-21, Basic Safeguarding of Covered Contractor Information Systems (November 2021, the clause's printed date form), 15 requirements, prescribed in FAR 4.1903; confirmed on acquisition.gov on 9 September 2026 (https://www.acquisition.gov/far/52.204-21). Its number in contracts written under the FAR overhaul deviations, 52.240-93, Basic Safeguarding of Covered Contractor Information Systems, was read on 30 September 2026 in the overhaul's Part 40 on acquisition.gov (https://www.acquisition.gov/far-overhaul/far-part-deviation-guide/far-overhaul-part-40, session 11 fetch a2004, last updated 23 September 2026), 40.303-2: 'Insert the clause at 52.240-93, Basic Safeguarding of Covered Contractor Information Systems, in solicitations and contracts when the contractor or a subcontractor at any tier may have Federal contract information residing in or moving through its information system.' The clause in the overhaul's Part 52 (https://www.acquisition.gov/far-overhaul/far-part-deviation-guide/far-overhaul-part-52, session 11 fetch a2008) prints the same 15 controls, (i) to (xv). The department's Part 40 deviation, Class Deviation 2026-O0025, is listed under the CMMC entry."
       }
     },
     {
@@ -3788,7 +3793,7 @@
       "title": "Everyone else",
       "whoYouAre": "You are a company, a state or local government, a university, or anyone else with no federal mandate to meet.",
       "pillarView": null,
-      "paragraph": "Nothing on this stack binds you by its own force; a government contract can, and the two cases below say how. Use the Cybersecurity Framework (CSF) 2.0 from the National Institute of Standards and Technology (NIST) to say what good looks like, NIST Special Publication (SP) 800-207 to define zero trust, the zero trust maturity model of the Cybersecurity and Infrastructure Security Agency (CISA) to set a target (its four stages are public and written to be borrowed), and SP 800-53, or a smaller catalog such as the Center for Internet Security (CIS) Controls, for controls. If a customer or regulator names a framework, start from that one and work up and down the stack from there. Verification is whoever checks your evidence: an internal audit, a certifier, or a customer assessment; the layer 5 entries here are federal. If you hold federal contract information or controlled unclassified information for a government customer, the two cases below say what applies; if you hold controlled unclassified information under a {{dow}} contract, take the contractor door.",
+      "paragraph": "Nothing on this stack binds you by its own force; a government contract can, and the two cases below say how. Use the Cybersecurity Framework (CSF) 2.0 from the National Institute of Standards and Technology (NIST) to say what good looks like, NIST Special Publication (SP) 800-207 to define zero trust, the zero trust maturity model of the Cybersecurity and Infrastructure Security Agency (CISA) to set a target (its four stages are public and written to be borrowed), and SP 800-53, or a smaller catalog such as the Center for Internet Security (CIS) Controls, for controls. If a customer or regulator names a framework, start from that one and work up and down the stack from there. Verification is whoever checks your evidence: an internal audit, a certifier, or a customer assessment; the layer 5 entries here are federal. If you hold federal contract information or controlled unclassified information for a government customer, the two cases below say what applies; if you hold controlled unclassified information under a {{dow}} contract, start at the contractor trailhead.",
       "steps": [],
       "verification": {
         "status": "authored",
@@ -3805,7 +3810,7 @@
           "sp800-207",
           "sp800-53"
         ],
-        "note": "Owner's synthesis of who the door is for, from the cited entries' own applicability statements. The smaller catalog it names, the CIS Controls, is the control catalog that the helper's answer on where other frameworks land and the glossary's CIS entry describe."
+        "note": "Owner's synthesis of who the trailhead is for, from the cited entries' own applicability statements. The smaller catalog it names, the CIS Controls, is the control catalog that the helper's answer on where other frameworks land and the glossary's CIS entry describe."
       },
       "landings": [
         {
@@ -3824,7 +3829,7 @@
               "cmmc20",
               "csf20"
             ],
-            "note": "Owner's synthesis. FAR 52.204-21 is cited as recorded in the contractor door's verification record (confirmed on acquisition.gov, 9 September 2026), as is its number under the FAR overhaul deviations, 52.240-93 (read on 30 September 2026); the CMMC Level 1 basis is the program rule. The definition is the glossary entry for FCI, read on 17 September 2026 in the DFARS 252.204-7021 definitions."
+            "note": "Owner's synthesis. FAR 52.204-21 is cited as recorded in the contractor trailhead's verification record (confirmed on acquisition.gov, 9 September 2026), as is its number under the FAR overhaul deviations, 52.240-93 (read on 30 September 2026); the CMMC Level 1 basis is the program rule. The definition is the glossary entry for FCI, read on 17 September 2026 in the DFARS 252.204-7021 definitions."
           }
         },
         {
@@ -3899,7 +3904,7 @@
     {
       "id": "what-first",
       "question": "What do we do first?",
-      "answer": "If a mandate binds you, your door's first step names it, and the door's later steps supply the target. In CSF 2.0 terms: scope the Profile and gather what you need, then start with the Govern outcomes: organizational context, risk strategy, and roles. Build a Current Profile and a Target Profile, analyze the gaps and plan, then implement and update. The action plan comes from the gap between the two Profiles.",
+      "answer": "If a mandate binds you, your trailhead's first step names it, and the trailhead's later steps supply the target. In CSF 2.0 terms: scope the Profile and gather what you need, then start with the Govern outcomes: organizational context, risk strategy, and roles. Build a Current Profile and a Target Profile, analyze the gaps and plan, then implement and update. The action plan comes from the gap between the two Profiles.",
       "layerId": "l1",
       "entityIds": [
         "csf20"
@@ -3969,7 +3974,7 @@
     {
       "id": "where-others-land",
       "question": "Where do SP 800-171, CMMC, FedRAMP, ISO/IEC 27001, CIS Controls, STIGs, IL4 through IL6, and MITRE ATT&CK land?",
-      "answer": "SP 800-171 and CMMC are the contractor door: a requirements baseline and the assessment that proves it, layers 4 and 5. FedRAMP is the governmentwide program that certifies cloud services for agency use, so it is verification (layer 5); its Rev5 path assesses an SP 800-53 baseline (layer 4), and its 20x path, widely available since June 2026, assesses Key Security Indicators instead. ISO/IEC 27001 sits beside CSF 2.0 as a management system standard. CIS Controls are a control catalog, layer 4. STIGs and SRGs are the {{dow}} configuration baseline at layer 4. IL4 through IL6 are {{dow}} cloud impact levels that set the baseline and the authorization bar, layers 4 and 5 again. ATT&CK is not a layer: it is the map of adversary behavior the stack defends against, most useful under Detect and Respond, and CORA scores against its tactics.",
+      "answer": "SP 800-171 and CMMC are the contractor trailhead: a requirements baseline and the assessment that proves it, layers 4 and 5. FedRAMP is the governmentwide program that certifies cloud services for agency use, so it is verification (layer 5); its Rev5 path assesses an SP 800-53 baseline (layer 4), and its 20x path, widely available since June 2026, assesses Key Security Indicators instead. ISO/IEC 27001 sits beside CSF 2.0 as a management system standard. CIS Controls are a control catalog, layer 4. STIGs and SRGs are the {{dow}} configuration baseline at layer 4. IL4 through IL6 are {{dow}} cloud impact levels that set the baseline and the authorization bar, layers 4 and 5 again. ATT&CK is not a layer: it is the map of adversary behavior the stack defends against, most useful under Detect and Respond, and CORA scores against its tactics.",
       "layerId": "l4",
       "entityIds": [
         "sp800-171",
@@ -5731,7 +5736,7 @@
   },
   "ui": {
     "sections": {
-      "doors": "Start here: the doors",
+      "doors": "Start here: the trailheads",
       "stack": "The stack",
       "matrix": "The matrix",
       "functions": "The six functions",
@@ -5742,7 +5747,7 @@
       "glossary": "Glossary"
     },
     "nav": {
-      "doors": "Doors",
+      "doors": "Trailheads",
       "stack": "Stack",
       "matrix": "Matrix",
       "functions": "Functions",
@@ -5794,7 +5799,7 @@
       "skip": "Skip to content",
       "sectionsNav": "Sections",
       "backToTop": "Back to top",
-      "audience": "For anyone handed a framework, a maturity model, or a zero trust deadline and asked where it fits: federal civilian agencies, {{dow}} components, defense contractors, and anyone else borrowing the United States federal models. Start with the door that describes you.",
+      "audience": "For anyone handed a framework, a maturity model, or a zero trust deadline and asked where it fits: federal civilian agencies, {{dow}} components, defense contractors, and anyone else borrowing the United States federal models. Start at the trailhead that describes you.",
       "pillarView": "Pillar view",
       "expandAll": "Expand all",
       "collapseAll": "Collapse all",
@@ -5813,8 +5818,8 @@
       "ztPlain": "Zero trust, the idea most of these documents serve, means nothing is trusted because of where it connects from: every request to reach data or a system is checked against policy each time.",
       "dowNote": "{{dow.current}} is a secondary name, authorized by executive order in September 2025, for the {{dow.statutory}} (DoD); the statutory title has not changed, and documents issued under the old name say DoD.",
       "checkedThrough": "latest source check",
-      "doorsIntro": "Pick the door that describes you. Steps run in the order you do them; the layer tag on each step shows where it sits on the stack below.",
-      "doorsIntroApp": "Pick the door that describes you. Steps run in the order you do them; the layer tag on each step shows where it sits on the stack and opens that layer.",
+      "doorsIntro": "Pick the trailhead that describes you. Steps run in the order you do them; the layer tag on each step shows where it sits on the stack below.",
+      "doorsIntroApp": "Pick the trailhead that describes you. Steps run in the order you do them; the layer tag on each step shows where it sits on the stack and opens that layer.",
       "stackIntro": "The stack sorts the frameworks by the question each one answers: five layers, from the outcomes leadership funds down to who checks the evidence, with an AI column beside them. Solid chips are frameworks, dashed chips are other guides and memos placed on a layer, and dotted chips are solutions measured against a layer.",
       "stackIntroApp": "The stack sorts the frameworks by the question each one answers: five layers, from the outcomes leadership funds down to who checks the evidence, then the AI column. Open a layer to see its entries: solid chips are frameworks, dashed chips are other guides and memos placed on a layer, and dotted chips are solutions measured against a layer.",
       "matrixJump": "Jump to",
@@ -5823,7 +5828,7 @@
       "capabilitiesDow": "{{dow}} capabilities",
       "statusKeyTitle": "What the status labels mean",
       "statusKeyVerified": "the publisher's own copy was read on the date shown and matches.",
-      "statusKeyAuthored": "this app's own synthesis of the cited sources, not a quotation. Door steps, matrix cells and helper answers are all authored, even where no label is shown.",
+      "statusKeyAuthored": "this app's own synthesis of the cited sources, not a quotation. Trailhead steps, matrix cells and helper answers are all authored, even where no label is shown.",
       "statusKeyUnverified": "the publisher's copy could not be reached; the note lists every address tried.",
       "statusKeyConflict": "the sources disagree; the note gives both and a date to check again.",
       "hasConflictInside": "a conflict is recorded inside",
@@ -5838,7 +5843,7 @@
       "pagesNextRecheck": "Next dated recheck",
       "pagesNoRecheck": "none scheduled",
       "heroEyebrow": "Works offline · No account · No data collected",
-      "heroPrimary": "Start with your door",
+      "heroPrimary": "Find your trailhead",
       "heroSecondary": "See the stack",
       "doorMetaSteps": "{n} steps",
       "doorMetaStep": "1 step",
@@ -5847,7 +5852,7 @@
       "metaSeparator": " · ",
       "listSeparator": ", ",
       "footerLicenses": "All rights reserved · Fonts OFL",
-      "whyName": "Why the name?",
+      "whyName": "Why 'Lensatic'?",
       "whyNameHeading": "Why the name",
       "aboutPhotoAlt": "The maker's lensatic compass, open, with the sighting wire raised.",
       "footerNav": "Policies and source",
