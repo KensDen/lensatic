@@ -14,7 +14,7 @@ See also the Zero Trust Accelerator: Field Guide: https://kensden.github.io/zero
 
 ## License
 
-Lensatic's own code and text are copyright 2026 Ken Connell, all rights reserved ([`LICENSE`](LICENSE)). The text is the summaries, matrix cell text, doors, helper answers and glossary in `content/stack.json`, the schema descriptions, the review records in `critique/`, and this README. The code is `tools/`, `web/src/`, the build and check scripts, and the iOS app's source in `ios/`. The built pages, `web/lensatic.html` and everything in `docs/`, hold both. The repository is published so the work can be read and reviewed. No license is granted to copy, modify, distribute or otherwise use its code, text or artwork, in whole or in part, except as the law allows without a license or with Ken Connell's prior written permission. To ask about reusing any of it, open an issue at https://github.com/KensDen/lensatic/issues.
+Lensatic's own code and text are copyright 2026 Ken Connell, all rights reserved ([`LICENSE`](LICENSE)). The text is the summaries, matrix cell text, trailheads, helper answers and glossary in `content/stack.json`, the schema descriptions, the review records in `critique/`, and this README. The code is `tools/`, `web/src/`, the build and check scripts, and the iOS app's source in `ios/`. The built pages, `web/lensatic.html` and everything in `docs/`, hold both. The repository is published so the work can be read and reviewed. No license is granted to copy, modify, distribute or otherwise use its code, text or artwork, in whole or in part, except as the law allows without a license or with Ken Connell's prior written permission. To ask about reusing any of it, open an issue at https://github.com/KensDen/lensatic/issues.
 
 GitHub's Terms of Service (section D.5) let other GitHub users view and fork a public repository on GitHub, as GitHub's features allow; that is not permission to use the work anywhere else.
 
@@ -42,7 +42,7 @@ The battery needs Python 3.11 or newer, Node 22 or newer, and a Chrome, Chromium
 - One-liners are unique and appear nowhere else.
 - Provenance and authority fields are complete.
 - The matrix holds exactly 48 unique cells, and the two pillar views cover all eight canonical pillars.
-- Door steps resolve.
+- Trailhead steps resolve.
 - The sweep is clean in plain and rot13 form across `content/`, `web/`, `ios/`, `critique/`, `docs/`, `store/`, this file and `LICENSE`, and the forbidden word appears nowhere in them.
 - No em dash appears in `content/`, `critique/`, this file or `LICENSE`.
 - The department name is rendered only from `orgs.dow`.
@@ -62,7 +62,7 @@ These apply to every working session on this repository, by a person or an agent
 
 ## JSON first
 
-`content/stack.json` is the single source of truth. Every framework one-liner, every matrix cell, every door step and every helper answer lives there once, and nothing that will be rendered is written anywhere else. The schema is `content/schema/stack.schema.json` (JSON Schema draft 2020-12). The web wrapper and the iOS app are thin views over that file and restate nothing.
+`content/stack.json` is the single source of truth. Every framework one-liner, every matrix cell, every trailhead step and every helper answer lives there once, and nothing that will be rendered is written anywhere else. The schema is `content/schema/stack.schema.json` (JSON Schema draft 2020-12). The web wrapper and the iOS app are thin views over that file and restate nothing.
 
 ## Sources
 
@@ -72,7 +72,7 @@ Public frameworks and public sources only. Every framework and source entry carr
 
     python3 tools/build_web.py --author "Your Name" --pages
 
-`tools/build_web.py` renders every door, layer, framework, source, solution, helper answer, function, and all matrix cells in both pillar views into `web/lensatic.html` at build time, so the page is complete when scripts do not run (mail and file previews, locked-down desktops). The builder also renders the glossary as its own section and spells out each abbreviation where it first appears in every section, linked to its glossary entry, except AI, which every reader knows: it is linked and never spelled out. The behavior script under `web/src/` only enhances what is already there: one matrix view at a time, cells collapsed to their first sentence, column scrolling, a glossary popover on those links, the theme toggle and a link back to the top. Below 1200 pixels the header navigation becomes a labeled section menu that names the section in view, and below 768 pixels each matrix cell carries its pillar name. The print stylesheet opens every disclosure with CSS, prints the department's matrix view with each cell's capability numbers and first sentence, leaves out the front door's two buttons, and keeps every other section complete. The content file is also embedded byte for byte as the provenance of the render. The built file is never hand-edited.
+`tools/build_web.py` renders every trailhead, layer, framework, source, solution, helper answer, function, and all matrix cells in both pillar views into `web/lensatic.html` at build time, so the page is complete when scripts do not run (mail and file previews, locked-down desktops). The builder also renders the glossary as its own section and spells out each abbreviation where it first appears in every section, linked to its glossary entry, except AI, which every reader knows: it is linked and never spelled out. The behavior script under `web/src/` only enhances what is already there: one matrix view at a time, cells collapsed to their first sentence, column scrolling, a glossary popover on those links, the theme toggle and a link back to the top. Below 1200 pixels the header navigation becomes a labeled section menu that names the section in view, and below 768 pixels each matrix cell carries its pillar name. The print stylesheet opens every disclosure with CSS, prints the department's matrix view with each cell's capability numbers and first sentence, leaves out the front door's two buttons, and keeps every other section complete. The content file is also embedded byte for byte as the provenance of the render. The built file is never hand-edited.
 
 With `--pages` the builder also writes the project site under `docs/` for GitHub Pages: `docs/index.html` (the built page byte for byte), `docs/privacy.html` and `docs/support.html` (plain pages with no script, their text from `content/stack.json`, on the app's theme tokens) and an empty `docs/.nojekyll`.
 
@@ -105,7 +105,7 @@ To build and run the tests from the command line, on any iPhone or iPad simulato
 
     xcodebuild -project ios/Lensatic.xcodeproj -scheme Lensatic -destination 'platform=iOS Simulator,name=<device>' -derivedDataPath .tmp/DerivedData -resultBundlePath .tmp/<device>.xcresult build test
 
-The unit tests decode the real content strictly, check that the bundled file is the repository's, hold the app to the web page's text (every string `tools/build_web.py --texts` lists must appear in the app), and test each transformation rule. The UI tests open every section and run the accessibility audit on each screen, follow a door's step to its framework, switch the matrix views, find the three About links and open Why the name. The `LensaticAuditSweep` scheme runs a longer accessibility audit that reads every section top to bottom, one test per section so each has its own audit budget, and fails nothing; its findings are read by hand. `tools/ios_shots.sh` takes screenshots of every section on the largest iPhone and iPad simulators, in light and dark and at two text sizes.
+The unit tests decode the real content strictly, check that the bundled file is the repository's, hold the app to the web page's text (every string `tools/build_web.py --texts` lists must appear in the app), and test each transformation rule. The UI tests open every section and run the accessibility audit on each screen, follow a trailhead's step to its framework, switch the matrix views, find the three About links and open Why the name. The `LensaticAuditSweep` scheme runs a longer accessibility audit that reads every section top to bottom, one test per section so each has its own audit budget, and fails nothing; its findings are read by hand. `tools/ios_shots.sh` takes screenshots of every section on the largest iPhone and iPad simulators, in light and dark and at two text sizes.
 
 The Simulator needs no Apple account. Archiving the app for the App Store needs the owner's Apple developer team, chosen in Xcode under Signing & Capabilities; nothing in this repository signs, archives or uploads it.
 
