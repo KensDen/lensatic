@@ -152,19 +152,14 @@ private struct Draft {
         return Page(title: store.navTitle(s), blocks: blocks)
     }
 
-    /// The front door, then the doors: the eyebrow, the name, the description, the two buttons and the version line
+    /// The front door, then the doors: the name, the description, the two buttons and the version line
     /// that ends with Why the name; the audience line and the plain definition of zero trust; the four doors; the note.
     mutating func doors() -> [Block] {
         let meta = content.meta
-        // the eyebrow as its phrases, each ending with the separator, so a narrow screen or a large text size wraps it only
-        // between phrases (session 11); the whole label is logged
-        let eyebrow = L("heroEyebrow")
-        texts.append(eyebrow)
-        let separator = L("metaSeparator"), joint = separator.replacingOccurrences(of: #"\s+$"#, with: "", options: .regularExpression)
-        let phrases = eyebrow.components(separatedBy: separator)
-        let eyebrowRuns = phrases.enumerated().map { i, p in Run(g(i < phrases.count - 1 ? p + joint : p, .label, .mono)) }
+        // the separator without its trailing space, after the check date on the version line
+        let joint = L("metaSeparator").replacingOccurrences(of: #"\s+$"#, with: "", options: .regularExpression)
         var out: [Block] = [
-            Block(.hero(eyebrow: eyebrowRuns, name: Run(c(meta.name, .label)), lede: Run(c(meta.description))), anchor: "intro"),
+            Block(.hero(name: Run(c(meta.name, .label)), lede: Run(c(meta.description))), anchor: "intro"),
             Block(.controls([
                 Control(label: Run(l("heroPrimary")), target: .anchor("doors"), prominent: true, identifier: "hero-primary"),
                 Control(label: Run(l("heroSecondary")), target: .section(.stack, anchor: nil), identifier: "hero-secondary"),

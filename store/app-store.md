@@ -35,7 +35,7 @@ The federal cyber framework landscape is thick woods: overlapping rules, shiftin
 
 Lensatic Cyber is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.
 
-An offline explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.
+An explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.
 
 What's inside
 - Start here: the trailheads, one each for federal civilian agencies, Department of War components, defense contractors, and everyone else
@@ -48,14 +48,14 @@ What's inside
 - Glossary
 - About
 
-Works offline. No account. No data collected.
+No account. No data collected.
 
 Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework publisher.
 
 A lensatic compass is the Army's field compass. You sight a landmark through its lens, read the bearing off the dial, and move out knowing which way you're headed. Lensatic Cyber does the same for the framework stack: find where you stand, see which framework applies, and take a bearing on what comes next.
 ```
 
-1511 characters (limit 4,000)
+1488 characters (limit 4,000)
 
 ## Keywords (`keywords`)
 

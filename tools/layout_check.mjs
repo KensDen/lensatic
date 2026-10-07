@@ -148,7 +148,7 @@ const HEADER = `(() => {
 })()`;
 
 // tap targets (Session 7): chips at least 44 px tall on a coarse pointer, at least 36 px on a fine one; buttons and menu
-// links at least 44 px; the front door's eyebrow on one line
+// links at least 44 px
 const TARGETS = `(() => {
   const coarse = matchMedia('(pointer: coarse)').matches;
   const floor = coarse ? 44 : 36;
@@ -166,10 +166,7 @@ const TARGETS = `(() => {
     .map((e) => (e.id || e.className) + ' ' + Math.round(e.getBoundingClientRect().width) + 'x' + Math.round(e.getBoundingClientRect().height));
   const menuLinks = menu && menu.open ? [...menu.querySelectorAll('.navmenu-list a')].filter((e) => e.getBoundingClientRect().height).length : 0;
   if (menu) menu.open = wasOpen;
-  const eb = document.querySelector('.eyebrow');
-  const lh = eb ? parseFloat(getComputedStyle(eb).lineHeight) || eb.getBoundingClientRect().height : 0;
-  return { coarse, floor, chips, menuLinks, small: small.slice(0, 5), controls: controls.slice(0, 5),
-           eyebrowOneLine: eb ? (eb.getClientRects().length === 1 && eb.scrollWidth <= eb.clientWidth + 1 && eb.getBoundingClientRect().height < lh * 1.5 + 1) : false };
+  return { coarse, floor, chips, menuLinks, small: small.slice(0, 5), controls: controls.slice(0, 5) };
 })()`;
 
 // visible text with every disclosure opened the way a reader would open it (clicks, not script-created text)

@@ -174,8 +174,8 @@ struct Disclosure: Sendable {
 
 indirect enum BlockKind: Sendable {
     case sectionHead(number: Run, title: Run)
-    /// The eyebrow is its phrases, each ending with its separator, so a narrow screen wraps it only between phrases.
-    case hero(eyebrow: [Run], name: Run, lede: Run)
+    /// The front door's head: the name and the description (session 16: no line above the name).
+    case hero(name: Run, lede: Run)
     case title(Run)
     case heading(Run)
     case text(Run, TextStyle)
@@ -256,9 +256,9 @@ extension BlockKind {
         case .sectionHead(var n, var t):
             body(&n, false); body(&t, false)
             self = .sectionHead(number: n, title: t)
-        case .hero(var e, var n, var l):
-            each(&e, false); body(&n, false); body(&l, false)
-            self = .hero(eyebrow: e, name: n, lede: l)
+        case .hero(var n, var l):
+            body(&n, false); body(&l, false)
+            self = .hero(name: n, lede: l)
         case .title(var r):
             body(&r, false)
             self = .title(r)
