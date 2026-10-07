@@ -300,14 +300,18 @@ final class ContentTests: XCTestCase {
         XCTAssertTrue(line.spans.filter { $0.text.contains(" ") }.allSatisfy { $0.style == .mono })
     }
 
-    func testTheEyebrowWrapsOnlyBetweenItsPhrases() throws {
+    /// The front door is the name, the description, the two buttons and the version line, in that order: no line above
+    /// the name, and the label that stood there is gone from the content (session 16).
+    func testTheFrontDoorIsTheNameTheDescriptionTheButtonsAndTheVersionLine() throws {
         let page = try XCTUnwrap(pages[.section(.doors, .dow)])
-        guard case .hero(let eyebrow, _, _)? = page.blocks.first?.kind else { return XCTFail("the doors screen does not open with the hero") }
-        let label = store.label("heroEyebrow"), separator = store.label("metaSeparator")
-        XCTAssertEqual(eyebrow.count, label.components(separatedBy: separator).count)
-        XCTAssertGreaterThan(eyebrow.count, 1)
-        XCTAssertEqual(eyebrow.map(\.source).joined(separator: " "), label)
-        XCTAssertTrue(eyebrow.dropLast().allSatisfy { $0.source.hasSuffix(separator.trimmingCharacters(in: .whitespaces)) })
+        XCTAssertNil(store.content.ui.labels["heroEyebrow"], "ui.labels.heroEyebrow is back in the content")
+        guard page.blocks.count >= 3, case .hero(let name, let lede) = page.blocks[0].kind else { return XCTFail("the doors screen does not open with the hero") }
+        XCTAssertEqual(page.blocks[0].anchor, "intro")
+        XCTAssertEqual(name.source, store.content.meta.name)
+        XCTAssertEqual(lede.source, store.content.meta.description)
+        guard case .controls(let buttons) = page.blocks[1].kind else { return XCTFail("the two buttons do not follow the hero") }
+        XCTAssertEqual(buttons.map(\.identifier), ["hero-primary", "hero-secondary"])
+        guard case .versionLine = page.blocks[2].kind else { return XCTFail("the version line does not follow the buttons") }
     }
 
     func testTheAIColumnIsTaggedByItsNameNotAsASixthLayer() throws {

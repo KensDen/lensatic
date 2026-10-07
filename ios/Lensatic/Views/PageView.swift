@@ -72,8 +72,6 @@ struct BlockView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.horizontalSizeClass) private var sizeClass
     @Environment(\.dynamicTypeSize) private var typeSize
-    /// The gap between the eyebrow's phrases: a space in its face, at any text size.
-    @ScaledMetric(relativeTo: .footnote) private var eyebrowGap: CGFloat = 8
     let kind: BlockKind
     let act: (Target) -> Void
 
@@ -87,16 +85,8 @@ struct BlockView: View {
                 }
                 Rectangle().fill(Palette.line).frame(height: 1).accessibilityHidden(true)
             }
-        case .hero(let eyebrow, let name, let lede):
+        case .hero(let name, let lede):
             VStack(alignment: .leading, spacing: 10) {
-                // the eyebrow's phrases wrap only between each other, never inside one, unless a phrase alone is wider than
-                // the screen (session 11, REX-04); VoiceOver reads the line as one
-                Flow(spacing: eyebrowGap, lineSpacing: 2) {
-                    ForEach(Array(eyebrow.enumerated()), id: \.offset) { _, phrase in
-                        RunText(run: phrase, style: .small, font: Typo.eyebrow, color: Palette.accent).textCase(.uppercase)
-                    }
-                }
-                .accessibilityElement(children: .combine)
                 RunText(run: name, style: .body, font: Typo.heroName).accessibilityAddTraits(.isHeader)
                 RunText(run: lede, style: .lede, color: Palette.fg2)
             }

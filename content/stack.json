@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.1",
+    "contentVersion": "1.2.2",
     "builtOn": "2026-10-06",
     "sources": [
       "csf20",
@@ -120,15 +120,20 @@
         "version": "1.2.1",
         "date": "2026-10-06",
         "summary": "About now opens with the wayfinder line: what Lensatic is, and what it is not."
+      },
+      {
+        "version": "1.2.2",
+        "date": "2026-10-06",
+        "summary": "The front no longer leads with the offline line, and Lensatic no longer calls itself offline; About keeps no account and no data collected."
       }
     ],
-    "description": "An offline explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.",
+    "description": "An explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.",
     "tagline": "Federal cyber frameworks are thick woods. Lensatic is the compass.",
     "pitch": "Federal cyber frameworks are thick woods. Lensatic is the compass: find where you stand, see which framework applies, and take a bearing on your next waypoint.",
     "wayfinder": "Lensatic is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.",
     "about": {
       "notAffiliated": "Not affiliated with NIST, CISA, NSA, {{dow.current}}, OMB, or any framework publisher.",
-      "offline": "Works offline. No account. No data collected.",
+      "offline": "No account. No data collected.",
       "licensing": "Most of the frameworks Lensatic describes are United States government publications. Works prepared by United States government officers and employees as part of their official duties are in the public domain in the United States. Lensatic's own code and text are copyright 2026 Ken Connell, all rights reserved; to ask about reusing them, open an issue on the source repository. IBM Corp. holds the copyright in the typefaces, IBM Plex Sans and IBM Plex Mono, which are licensed under the SIL Open Font License (OFL), version 1.1. Where a cited work is protected, its title, names and any short quotation remain its owner's, and the work itself is described, not reproduced.",
       "builtWith": "Built with Claude and Claude Code, checked by a validation battery, and reviewed by a human who owns the mistakes.",
       "nameStory": [
@@ -5847,7 +5852,6 @@
       "pagesEffective": "Effective",
       "pagesNextRecheck": "Next dated recheck",
       "pagesNoRecheck": "none scheduled",
-      "heroEyebrow": "Works offline · No account · No data collected",
       "heroPrimary": "Find your trailhead",
       "heroSecondary": "See the stack",
       "doorMetaSteps": "{n} steps",
@@ -5916,7 +5920,7 @@
       "title": "Lensatic support",
       "description": "How to report a content error in Lensatic, how its content is re-verified, and the current content version.",
       "paragraphs": [
-        "Lensatic is an offline explainer of the United States federal cybersecurity framework stack. It sorts the frameworks by the question each one answers, says who each one binds, and shows where zero trust and AI land.",
+        "Lensatic is an explainer of the United States federal cybersecurity framework stack. It sorts the frameworks by the question each one answers, says who each one binds, and shows where zero trust and AI land.",
         "To report a content error, open an issue at https://github.com/kensden/lensatic/issues. Name the framework or entry, say what is wrong, and cite the primary source: the publisher's own page or document that shows the correct fact.",
         "To ask about reusing Lensatic's code or text, open an issue on the same page.",
         "The iOS app is built from the same content as this site. Questions and problems with the app go to the same issues page. Opening an issue needs a GitHub account, and issues are public.",

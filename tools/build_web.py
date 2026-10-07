@@ -64,7 +64,7 @@ SECTIONS = ["doors", "stack", "matrix", "functions", "ai", "helper", "sources", 
 # the glossary's See: line, Draws on, Assessed against, a deadline's source), a cell's list of capability names, and an
 # entry's title in its Sources summary.
 LABEL_TAGS = frozenset({"h1", "h2", "h3", "h4", "th", "button", "nav", "footer"})    # headings, table headers, buttons, nav and menu items, the footer
-LABEL_CLASSES = frozenset({"door-title", "chip", "btn", "status", "door-meta", "layer-tag", "eyebrow", "stamp", "sec-num",
+LABEL_CLASSES = frozenset({"door-title", "chip", "btn", "status", "door-meta", "layer-tag", "stamp", "sec-num",
                            "ref", "caps-list", "ent-title"})
 INTERACTIVE = frozenset({"a", "button", "summary"})
 # the statuses whose note the status key promises beside the badge: every address tried, or both readings and a date
@@ -573,12 +573,11 @@ class Renderer:
         return max(dates)
 
     def hero(self) -> str:
-        """The front door, top to bottom: the tile, the eyebrow, the name, the description, two buttons, the version line,
+        """The front door, top to bottom: the tile, the name, the description, two buttons, the version line,
         which ends with the link to Why the name in About."""
         meta = self.d["meta"]
         return (f'<div class="hero" id="intro">'
                 f'<div class="tile" aria-hidden="true">{mark_svg(50, "mark tile-mark")}</div>'
-                f'<p class="eyebrow">{self.label("heroEyebrow")}</p>'
                 f'<h1>{esc(meta["name"])}</h1>'
                 f'<p class="lede">{self.t(meta["description"])}</p>'
                 f'<p class="actions"><a class="btn primary" href="#view-doors">{self.label("heroPrimary")}</a> '
@@ -1025,8 +1024,8 @@ def static_texts(d: dict) -> tuple[dict[str, list], dict[str, int]]:
         counts["glossary entries"] = counts.get("glossary entries", 0) + 1
     items["elevator"] = x(*[ents[i]["oneLiner"] for i in d["elevator"]["frameworkIds"]])
     L = d["ui"]["labels"]
-    # the front door (Session 7): the description, the eyebrow line and the two buttons
-    items["intro"] = x(d["meta"]["description"], L["heroEyebrow"], L["heroPrimary"], L["heroSecondary"], L.get("whyName"))
+    # the front door (Session 7; session 16 took off the line above the name): the description, the two buttons and Why the name
+    items["intro"] = x(d["meta"]["description"], L["heroPrimary"], L["heroSecondary"], L.get("whyName"))
     # the intro texts that moved (Session 7, section 4.4): the audience line, the plain definition of zero trust and the
     # note on steps and layer tags open and close the doors section; the department's note moved to About
     items["view-doors"] = x(L["audience"], L["ztPlain"], L["doorsIntro"])

@@ -1,5 +1,5 @@
 // Makes web/src/social-card.png, the 1200 x 630 link-preview image, once. The card is a small HTML page built from
-// content (the tile, the name, the front door's eyebrow line, the tagline) in the dial theme, with the embedded
+// content (the tile, the name, the tagline; session 16 took off the line above the name) in the dial theme, with the embedded
 // IBM Plex faces, rendered by a headless Chrome over the DevTools Protocol. No packages, no network: Node's
 // child_process and built-in WebSocket, as tools/layout_check.mjs does. The PNG is a committed source asset; the page
 // build copies it to docs/ and never rebuilds it, so the build stays deterministic.
@@ -29,18 +29,15 @@ const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replac
 const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><style>
 ${face('IBM Plex Sans', 400, 'IBMPlexSans-Regular-Latin1.woff2')}
 ${face('IBM Plex Sans', 700, 'IBMPlexSans-Bold-Latin1.woff2')}
-${face('IBM Plex Mono', 700, 'IBMPlexMono-Bold-Latin1.woff2')}
 html, body { margin: 0; width: ${W}px; height: ${H}px; background: ${tok('bg')}; }
 body { box-sizing: border-box; padding: 76px 88px; font-family: 'IBM Plex Sans', sans-serif; color: ${tok('fg')}; position: relative; }
 body::after { content: ""; position: absolute; left: 88px; right: 88px; bottom: 64px; border-top: 1px solid ${tok('line-strong')}; }
 .tile { width: 116px; height: 116px; border-radius: 26px; background: ${tok('tile-bg')}; box-shadow: inset 0 0 0 1px ${tok('line-strong')}; display: grid; place-items: center; color: ${tok('tile-fg')}; margin-bottom: 36px; }
 .tile svg { width: 82px; height: 82px; }
-.eyebrow { font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 22px; letter-spacing: 0.14em; text-transform: uppercase; color: ${tok('accent')}; margin: 0 0 14px; }
 h1 { font-size: 84px; line-height: 1; margin: 0 0 22px; letter-spacing: -0.01em; }
 p.lede { font-size: 29px; line-height: 1.4; color: ${tok('fg-2')}; margin: 0; max-width: 1000px; }
 </style></head><body>
 <div class="tile"><svg viewBox="${viewBox}" aria-hidden="true">${paths}</svg></div>
-<p class="eyebrow">${esc(d.ui.labels.heroEyebrow)}</p>
 <h1>${esc(d.meta.name)}</h1>
 <p class="lede">${esc(d.meta.tagline)}</p>
 </body></html>`;

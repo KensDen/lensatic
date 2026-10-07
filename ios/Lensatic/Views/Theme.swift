@@ -55,7 +55,6 @@ enum Typo {
         }
     }
 
-    static let eyebrow = font(monoBold, 13, .footnote)
     static let stamp = font(mono, 13, .footnote)
     static let secNum = font(monoBold, 13, .footnote)
     static let sectionTitle = font(sansBold, 26, .title2)

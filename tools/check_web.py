@@ -25,7 +25,7 @@ The new look (Session 7): the only url( in any page is an embedded @font-face so
 of the four pinned faces; the tab icon is an SVG data URI with no reference in it; the colour tokens meet the contrast
 floors; labels carry no expansion and describe their abbreviations (the label set is read from build_web.py); every
 door is closed in the static render and its card shows its title, first sentence and meta line; the front door holds
-exactly its six parts; the footer carries the three addresses; docs/ holds exactly one image, the social card, byte
+exactly its five parts; the footer carries the three addresses; docs/ holds exactly one image, the social card, byte
 for byte, and the link-preview tags point at the published site; the intro texts that moved render exactly once.
 Licensing (Session 7B): the footer's licence line, the About paragraph and the support page's sentence on reuse are
 the all-rights-reserved wording ruled for content 0.7.0.
@@ -433,7 +433,7 @@ NON_COLOUR_TOKENS = frozenset({"fade", "shadow", "radius", "card-radius", "maxw"
 CONTRAST_PAIRS = [
     ("text on page", "fg", "bg", 4.5), ("text on surface (cards, header row)", "fg", "bg-2", 4.5),
     ("secondary text on page", "fg-2", "bg", 4.5), ("secondary text on surface", "fg-2", "bg-2", 4.5),
-    ("accent text on page (numbers, eyebrow, mono labels)", "accent", "bg", 4.5), ("accent text on surface (door meta, layer tags, codes)", "accent", "bg-2", 4.5),
+    ("accent text on page (numbers, mono labels)", "accent", "bg", 4.5), ("accent text on surface (door meta, layer tags, codes)", "accent", "bg-2", 4.5),
     ("links on page", "link", "bg", 4.5), ("links on surface", "link", "bg-2", 4.5),
     ("text on accent (primary button, pressed control)", "accent-fg", "accent", 4.5),
     ("text on the AI column", "fg", "seam", 4.5), ("secondary text on the AI column", "fg-2", "seam", 4.5),
@@ -920,15 +920,15 @@ def main() -> int:
     hero = (atree_b.ids.get("intro") or [None])[0]
     kids = [c for c in hero.children if not isinstance(c, str)] if hero else []
     shape = [(c.tag, classes_of(c)) for c in kids]
-    expect = [("div", {"tile"}), ("p", {"eyebrow"}), ("h1", set()), ("p", {"lede"}), ("p", {"actions"}), ("p", {"stamp"})]
+    expect = [("div", {"tile"}), ("h1", set()), ("p", {"lede"}), ("p", {"actions"}), ("p", {"stamp"})]
     loose = [c.strip() for c in (hero.children if hero else []) if isinstance(c, str) and c.strip()]
     if shape != expect or loose:
-        errs.append(f"the front door holds {[t for t, _ in shape]} {loose if loose else ''}, expected tile, eyebrow, h1, lede, actions, stamp")
+        errs.append(f"the front door holds {[t for t, _ in shape]} {loose if loose else ''}, expected tile, h1, lede, actions, stamp")
     else:
-        tile, eyebrow, h1_, lede, actions, stamp = kids
+        tile, h1_, lede, actions, stamp = kids
         if tile.attrs.get("aria-hidden") != "true" or [c.tag for c in tile.children if not isinstance(c, str)] != ["svg"]:
             errs.append("the tile is not a hidden graphic holding only the mark")
-        for node_, want_ in ((eyebrow, L["heroEyebrow"]), (h1_, d["meta"]["name"]), (lede, tok_dow(d, d["meta"]["description"]))):
+        for node_, want_ in ((h1_, d["meta"]["name"]), (lede, tok_dow(d, d["meta"]["description"]))):
             if norm(text_of(node_)) != norm(want_):
                 errs.append(f"front door: {node_.tag}.{node_.attrs.get('class', '')} reads {norm(text_of(node_))[:50]!r}")
         got = [(c.tag, classes_of(c), c.attrs.get("href"), norm(text_of(c))) for c in actions.children if not isinstance(c, str)]
@@ -952,7 +952,7 @@ def main() -> int:
         if (len(target) != 1 or target[0].tag != "h3" or norm(text_of(target[0])) != norm(L["whyNameHeading"])
                 or about_ is None or target[0] not in list(walk_nodes(about_))):
             errs.append("front door: #about-name is not one h3 in About reading ui.labels.whyNameHeading")
-    rep.check("front door: exactly the tile, the eyebrow line, the name, the description, the two buttons (to the doors and to the stack) "
+    rep.check("front door: exactly the tile, the name, the description, the two buttons (to the doors and to the stack) "
               "and the version line, in that order; the version line ends with one link, Why the name, to its heading in About", errs)
 
     errs = []
@@ -1368,7 +1368,7 @@ def main() -> int:
             want = [p_ for texts in items.values() for t in texts for p_ in parts_of(t)]
             for key in ("nojs_375", "nojs_1280"):
                 m = o[key]
-                vis = norm(m["visibleText"]).lower()  # innerText applies text-transform: the eyebrow and meta lines read in capitals
+                vis = norm(m["visibleText"]).lower()  # innerText applies text-transform: the door meta lines and mono headings read in capitals
                 if m["scripted"] or m["openCells"] != 42 or m["cisaHidden"] is not False:
                     errs.append(f"{key}: expected the no-script page (both tables, cells open)")
                 lost = [t for t in want if t.lower() not in vis]
@@ -1413,8 +1413,6 @@ def main() -> int:
                     errs.append(f"{key}: buttons or menu links under 44 px: {m['controls']}")
                 if key in ("360", "375") and m.get("menuLinks", 0) < 9:
                     errs.append(f"{key}: the section menu's links were not measured open ({m.get('menuLinks')} seen)")
-            if not tg.get("360", {}).get("eyebrowOneLine"):
-                errs.append("360: the front door's eyebrow line does not fit on one line")
             for key, items_ in o["clipped"].items():
                 if items_:
                     errs.append(f"{key}: content clipped past the right edge with every disclosure open: {items_[:3]}")
@@ -1464,7 +1462,7 @@ def main() -> int:
                           f"and the {len(leads)} first sentences of the department's view present, the {n_caps} cells that carry capability numbers "
                           f"printing them before the sentence")
             info += f"; at 375 the column buttons, ArrowRight (one column, {ak['scrollLeft']} px) and back to top work"
-            info += f"; with touch emulated at 360 and 375 every chip is at least 44 px tall ({tg.get('375', {}).get('chips')} chips), at 1280 at least 36; the eyebrow is one line at 360"
+            info += f"; with touch emulated at 360 and 375 every chip is at least 44 px tall ({tg.get('375', {}).get('chips')} chips), at 1280 at least 36"
             info += f"; header fits at 360, 375, 390, 414, 480, 768, 1024, 1199, 1200, 1280 and 1440, script on or off, with the section menu at 480 and below naming the section in view, in full, for every section at 360 and 375, and nothing back in the intro"
             info += f"; nothing clipped at 360, 375, 390 or 414 with every disclosure open, script on or off; every visible matrix cell names its pillar at 375 ({o.get('pillars', {}).get('375_js', {}).get('shown')} with script, {o.get('pillars', {}).get('375_nojs', {}).get('shown')} without) and none does at 768"
             info += f"; no sideways page scroll at 375, 1280, 1440; {len(want)} texts visible with scripting off at 375 and 1280; {print_info} ({o['browser'].split('/')[-1]})"
