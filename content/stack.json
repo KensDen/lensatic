@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.2",
+    "contentVersion": "1.2.3",
     "builtOn": "2026-10-06",
     "sources": [
       "csf20",
@@ -125,6 +125,11 @@
         "version": "1.2.2",
         "date": "2026-10-06",
         "summary": "The front no longer leads with the offline line, and Lensatic no longer calls itself offline; About keeps no account and no data collected."
+      },
+      {
+        "version": "1.2.3",
+        "date": "2026-10-06",
+        "summary": "AI is no longer a glossary link across the page; it links to its definition only in the AI column."
       }
     ],
     "description": "An explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.",

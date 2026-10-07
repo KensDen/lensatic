@@ -67,6 +67,8 @@ LABEL_TAGS = frozenset({"h1", "h2", "h3", "h4", "th", "button", "nav", "footer"}
 LABEL_CLASSES = frozenset({"door-title", "chip", "btn", "status", "door-meta", "layer-tag", "stamp", "sec-num",
                            "ref", "caps-list", "ent-title"})
 INTERACTIVE = frozenset({"a", "button", "summary"})
+# the one section where a well-known term (AI) links to its glossary entry, at its first use in running text (session 17)
+WELL_KNOWN_SECTION = "ai"
 # the statuses whose note the status key promises beside the badge: every address tried, or both readings and a date
 PROBLEM = ("conflict", "unverified")
 MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -207,8 +209,9 @@ class FirstUse:
     in parentheses right after its spelled-out name, as in DoD Cyber Defense Command (DCDC), is left alone;
     inside an open parenthesis the expansion takes square brackets; a plural form takes a plural expansion;
     a name marked notAbbreviation, such as MITRE, is linked and never expanded; a term marked wellKnown, such as AI,
-    is linked the same way and never expanded, in running text or labels, though its glossary entry keeps the
-    expansion; an entry marked nameFirst (the department, under its render rule) is spelled out name first, as in
+    is never expanded, in running text or labels, though its glossary entry keeps the expansion, and is linked only at
+    its first use in the running text of the AI column (WELL_KNOWN_SECTION; session 17), plain everywhere else, labels
+    included; an entry marked nameFirst (the department, under its render rule) is spelled out name first, as in
     Department of War (DoW).
     """
     DESIGNATION = re.compile(r"(?:/([A-Z][A-Za-z]+))?\s?\d+(?:[-/:]\d+)*")
@@ -270,6 +273,8 @@ class FirstUse:
                 exp = " and ".join(x["expansion"] for x in found if self.spells(x))
                 wrapped = f'<abbr title="{esc(exp)}">{token}</abbr>' if exp else token
                 pieces += [part[pos:m.start()], wrapped, part[m.end():end]]
+            elif e.get("wellKnown"):
+                pieces.append(part[pos:end])  # a term every reader knows is plain in a label (session 17)
             elif nolink:
                 owner = next((fr for fr in reversed(stack) if fr["tag"] in INTERACTIVE), None)
                 if owner is not None:
@@ -282,7 +287,9 @@ class FirstUse:
         pieces.append(part[pos:])
         return "".join(pieces)
 
-    def section(self, chunk: str) -> str:
+    def section(self, chunk: str, links_well_known: bool = False) -> str:
+        """One section's HTML with its first uses applied; a well-known term links at its first use only where
+        links_well_known is set, the AI column (session 17)."""
         if not self.rx:
             return chunk
         out: list[str] = []
@@ -342,7 +349,7 @@ class FirstUse:
                 handled.add(e["term"])
                 link = f'<a class="gl" href="#gl-{e["slug"]}">'
                 if e.get("notAbbreviation") or e.get("wellKnown"):
-                    if not nolink:
+                    if not nolink and (links_well_known or not e.get("wellKnown")):
                         pieces += [part[pos:m.start()], f"{link}{m.group(0)}</a>"]
                         seen += html.unescape(part[pos:m.end()])
                         pos = m.end()
@@ -927,15 +934,16 @@ class Renderer:
                 f'{body}\n</section>\n')
 
     def render(self) -> dict[str, str]:
-        chunks = [self.hero(), self.doors(), self.stack(), self.matrix(), self.functions(), self.ai(), self.helper(), self.sources()]
+        chunks = [("intro", self.hero()), ("doors", self.doors()), ("stack", self.stack()), ("matrix", self.matrix()),
+                  ("functions", self.functions()), ("ai", self.ai()), ("helper", self.helper()), ("sources", self.sources())]
         if "glossary" in self.sections:
-            chunks.append(self.glossary())
-        chunks.append(self.about())
+            chunks.append(("glossary", self.glossary()))
+        chunks.append(("about", self.about()))
         # abbreviations are spelled out at their first use in running text in every section, from the glossary; the
-        # header and the footer hold labels only
+        # header and the footer hold labels only; a well-known term (AI) links to its entry only in the AI column
         entries = [e for e in self.glossary_entries() if e["forms"] and (e["expansion"] or e["notAbbreviation"])]
         fu = FirstUse(entries)
-        main = "".join(fu.section(c) for c in chunks)
+        main = "".join(fu.section(c, links_well_known=(k == WELL_KNOWN_SECTION)) for k, c in chunks)
         pop = ""
         if "glossary" in self.sections:
             pop = (f'<div class="gl-pop" id="gl-pop" role="note" hidden><div class="gl-pop-body"></div>'

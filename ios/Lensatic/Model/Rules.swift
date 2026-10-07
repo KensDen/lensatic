@@ -307,9 +307,11 @@ struct Rules: Sendable {
     /// Spell out each abbreviation at its first use in running text on one screen. In running text, the first match
     /// of each glossary form gets its expansion after it unless the expansion already appeared on the screen; where
     /// links are allowed the form links to its glossary entry. A label never takes an expansion and never counts as a
-    /// first use: its forms link to the glossary, or, inside a control or a link, describe it. Names and well-known
-    /// terms are linked at their first use and never spelled out. The department is spelled out name first.
-    func apply(_ page: inout Page) {
+    /// first use: its forms link to the glossary, or, inside a control or a link, describe it. Names are linked at their
+    /// first use and never spelled out. A well-known term (AI) is never spelled out and links to its entry only at its
+    /// first use in running text on the AI column screen (linksWellKnown; session 17), plain everywhere else, labels
+    /// included, as on the web. The department is spelled out name first.
+    func apply(_ page: inout Page, linksWellKnown: Bool = false) {
         var scope = Scope()
         page.visitRuns { run, interactive in
             var segments: [Segment] = []
@@ -336,7 +338,7 @@ struct Rules: Sendable {
                         linkDescribed[link] = list
                     }
                 case .running:
-                    segments += running(span, nolink: nolink, scope: &scope)
+                    segments += running(span, nolink: nolink, linksWellKnown: linksWellKnown, scope: &scope)
                 }
             }
             run.segments = segments
@@ -372,7 +374,7 @@ struct Rules: Sendable {
             }
             let exps = found.filter(\.spells).compactMap(\.expansion)
             described += exps
-            if nolink {
+            if nolink || t.wellKnown {  // a term every reader knows is plain in a label (session 17)
                 text(pos, end)
             } else {
                 text(pos, m.range.location)
@@ -385,7 +387,7 @@ struct Rules: Sendable {
         return out
     }
 
-    private func running(_ span: Span, nolink: Bool, scope: inout Scope) -> [Segment] {
+    private func running(_ span: Span, nolink: Bool, linksWellKnown: Bool, scope: inout Scope) -> [Segment] {
         let ns = span.text as NSString
         var out: [Segment] = [], pos = 0
         func sub(_ a: Int, _ b: Int) -> String { b > a ? ns.substring(with: NSRange(location: a, length: b - a)) : "" }
@@ -397,7 +399,7 @@ struct Rules: Sendable {
             guard let t = byForm[form], !scope.handled.contains(t.term) else { continue }
             scope.handled.insert(t.term)
             if t.notAbbreviation || t.wellKnown {
-                if !nolink {
+                if !nolink && (linksWellKnown || !t.wellKnown) {
                     text(sub(pos, start))
                     out.append(.term(form, slug: t.slug, span.style))
                     scope.seen += sub(pos, formEnd)

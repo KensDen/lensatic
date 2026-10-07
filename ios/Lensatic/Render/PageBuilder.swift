@@ -24,7 +24,10 @@ struct PageBuilder {
         case .glossaryEntry(let slug): page = b.glossaryEntry(slug)
         }
         page.texts = b.texts
-        store.rules.apply(&page)
+        // AI links to its glossary entry only on the AI column screen, at its first use there (session 17)
+        var aiColumn = false
+        if case .section(.ai, _) = key { aiColumn = true }
+        store.rules.apply(&page, linksWellKnown: aiColumn)
         return page
     }
 

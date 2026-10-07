@@ -84,6 +84,9 @@ LICENCE_SUPPORT = "To ask about reusing Lensatic's code or text, open an issue o
 # the owner's ruling of 27 Sep 2026 (session 7D): these terms, and only these, are marked wellKnown in the glossary and
 # never spelled out on any built page; the guard reads this pin, not the content flag, so dropping the flag fails it
 WELL_KNOWN = {"AI": "artificial intelligence"}
+# the owner's ruling of 6 Oct 2026 (session 17): a well-known term links to its glossary entry in one place only, its first
+# use in the running text of the AI column, and is plain everywhere else, labels included; the guard reads this pin
+WELL_KNOWN_SECTION = "view-ai"
 # session 11 (Q21, ED-05): the texts that name an entry are labels; the guard reads this pin, not only build_web's set
 LABEL_PINS = frozenset({"ref", "caps-list", "ent-title"})
 # session 11 (Q21, ED-06): a name with a well-known term written short counts as spelled out
@@ -481,10 +484,11 @@ def contrast_report() -> tuple[list[str], list[tuple[str, str, str, float, float
 
 
 # --------------------------------------------------------------------------- well-known terms (Session 7D)
-def first_links(section: Node, forms_rx: re.Pattern, by_form: dict, slug_of) -> dict[str, bool]:
+def first_links(section: Node, forms_rx: re.Pattern, by_form: dict, slug_of, strict: bool = False) -> dict[str, bool]:
     """For each well-known term used in a section's running text, whether its first use there links to its glossary
     entry. Labels, hidden text and the skipped classes are not running text. A use inside a link, button or summary
-    counts as linked, since a link cannot nest there, and so does a glossary entry's own term."""
+    counts as linked, since a link cannot nest there, and so does a glossary entry's own term, unless strict, where only
+    a glossary link on the use itself counts (session 17: the AI column's one link must sit on the first use)."""
     found: dict[str, bool] = {}
 
     def walk(n: Node, anc: list[Node]) -> None:
@@ -504,7 +508,7 @@ def first_links(section: Node, forms_rx: re.Pattern, by_form: dict, slug_of) -> 
                 if link is not None and "gl" in classes_of(link):
                     found[e["term"]] = link.attrs.get("href") == f"#gl-{slug_of(e['term'])}"
                 else:
-                    found[e["term"]] = any(a.tag in ("a", "button", "summary") or "gl-term" in classes_of(a) for a in chain)
+                    found[e["term"]] = not strict and any(a.tag in ("a", "button", "summary") or "gl-term" in classes_of(a) for a in chain)
     walk(section, [])
     return found
 
@@ -512,8 +516,9 @@ def first_links(section: Node, forms_rx: re.Pattern, by_form: dict, slug_of) -> 
 # --------------------------------------------------------------------------- labels (Session 7, section 4.9)
 def label_errors(tree: Tree, forms_rx: re.Pattern, by_form: dict, slug_of) -> tuple[list[str], dict]:
     """Labels carry no expansion; each abbreviation in a label links to its glossary entry, described by the expansion, or
-    sits in a link, button or summary that the expansion describes. Every description resolves to the glossary."""
-    errs, stats = [], {"labels": 0, "uses": 0, "linked": 0, "described": 0, "names": 0}
+    sits in a link, button or summary that the expansion describes; a well-known term (AI) is plain in a label (session
+    17). Every description resolves to the glossary."""
+    errs, stats = [], {"labels": 0, "uses": 0, "linked": 0, "described": 0, "names": 0, "plain": 0}
     exp_ids = {}
     for n in walk_nodes(tree.root):
         if "gl-exp" in classes_of(n) and "id" in n.attrs:
@@ -533,6 +538,13 @@ def label_errors(tree: Tree, forms_rx: re.Pattern, by_form: dict, slug_of) -> tu
                 for m in forms_rx.finditer(c):
                     e = by_form[m.group(0)]
                     stats["uses"] += 1
+                    if e.get("wellKnown"):
+                        # a term every reader knows is plain in a label, never a glossary link (session 17)
+                        if n.tag == "a" and "gl" in classes_of(n):
+                            errs.append(f"label link for the well-known term {m.group(0)!r}: well-known terms are plain in labels")
+                        else:
+                            stats["plain"] += 1
+                        continue
                     ids = [] if (e.get("notAbbreviation") or e.get("wellKnown") or not e["expansion"]) else [f"glx-{slug_of(e['term'])}"]
                     if e.get("prefix"):
                         after_ = c[m.end():]
@@ -1256,7 +1268,7 @@ def main() -> int:
                 if not e["expansion"]:
                     continue  # a name such as MITRE, or a term with no abbreviation
                 if e["wellKnown"]:
-                    continue  # a term every reader knows, such as AI: linked, never spelled out (checked below)
+                    continue  # a term every reader knows, such as AI: never spelled out (checked below, with its one link)
                 n_first += 1
                 exp = e["expansion"].lower()
                 forms_ = spelled.get(term, [exp])
@@ -1304,9 +1316,10 @@ def main() -> int:
                 if is_label(n_) and any("xp" in classes_of(x) for x in walk_nodes(n_)):
                     errs_lab.append(f"{key}: an expansion sits inside a label <{n_.tag}>")
         rep.check("labels: no expansion inserted inside any label; each abbreviation in a label links to its glossary entry described by the expansion, "
-                  "or its link, button or summary is described by it; every description resolves to the glossary", errs_lab,
-                  f"{st['labels']} labels, {st['uses']} abbreviation uses: {st['linked']} linked, {st['described']} described by their control")
-        # well-known terms (Session 7D): linked to the glossary, never spelled out, in any built page
+                  "or its link, button or summary is described by it, and AI, a term every reader knows, is plain; every description resolves to the glossary", errs_lab,
+                  f"{st['labels']} labels, {st['uses']} abbreviation uses: {st['linked']} linked, {st['described']} described by their control, {st['plain']} plain AI")
+        # well-known terms (Session 7D): never spelled out, in any built page; session 17: linked to the glossary once, at the
+        # first use in the AI column's running text, and plain everywhere else
         errs_wk, n_wk = [], 0
         marked = {e["term"]: e["expansion"] for e in entries if e["wellKnown"]}
         if marked != WELL_KNOWN:
@@ -1321,16 +1334,26 @@ def main() -> int:
                     k = htmllib.unescape(text).lower().count(probe.lower())
                     if k:
                         errs_wk.append(f"{where}: {probe!r} appears {k} time{'s' if k != 1 else ''}")
+        n_links = 0
+        for term in WELL_KNOWN:
+            href_ = f"#gl-{B.slug(term)}"
+            where_ = [name for name, node_ in chunks for n_ in walk_nodes(node_)
+                      if n_.tag == "a" and "gl" in classes_of(n_) and n_.attrs.get("href") == href_]
+            n_links += len(where_)
+            if where_ != [WELL_KNOWN_SECTION]:
+                errs_wk.append(f"{term} links to its glossary entry in {where_ or 'no section'}, expected exactly once, in {WELL_KNOWN_SECTION}")
         for name, node_ in chunks:
-            if name in ("header", "footer"):
+            if name != WELL_KNOWN_SECTION:
                 continue
-            for term, ok in first_links(node_, forms_rx, by_form, B.slug).items():
+            for term, ok in first_links(node_, forms_rx, by_form, B.slug, strict=True).items():
                 n_wk += 1
                 if not ok:
                     errs_wk.append(f"{name}: the first use of {term!r} in running text is not a link to its glossary entry")
+        if n_wk != len(WELL_KNOWN):
+            errs_wk.append(f"{WELL_KNOWN_SECTION}: {n_wk} well-known terms used in running text, expected {len(WELL_KNOWN)}")
         rep.check(f"well-known terms: only {', '.join(WELL_KNOWN)} marked; never spelled out, no parenthetical expansion in any built page; "
-                  "the first use in running text in each section links to the glossary entry", errs_wk,
-                  f"{len(built_pages)} pages, {n_wk} first uses checked")
+                  "linked to the glossary exactly once, at the first use in the AI column's running text, and plain everywhere else", errs_wk,
+                  f"{len(built_pages)} pages, {n_links} glossary link{'s' if n_links != 1 else ''}, in {WELL_KNOWN_SECTION}")
 
     # layout, in a real engine
     errs = []
