@@ -237,6 +237,17 @@ final class ContentTests: XCTestCase {
         }
     }
 
+    /// Session 17: AI links to its glossary entry on one screen only, the AI column, and once there; every other screen,
+    /// glossary entries included, shows it plain.
+    func testAILinksOnceAndOnlyOnTheAIColumnScreen() {
+        var linked: [String] = []
+        for (key, page) in pages {
+            let n = page.runs.flatMap(\.segments).filter { if case .term("AI", _, _) = $0 { return true } else { return false } }.count
+            if n > 0 { linked.append("\(key) \(n)") }
+        }
+        XCTAssertEqual(linked, ["\(PageKey.section(.ai, .dow)) 1"])
+    }
+
     func testFirstUseOfAIOnTheAIColumnScreenLinksToItsEntry() throws {
         let page = try XCTUnwrap(pages[.section(.ai, .dow)])
         // the first running text on the screen that uses AI is the column's note

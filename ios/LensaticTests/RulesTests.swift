@@ -128,15 +128,28 @@ final class RulesTests: XCTestCase {
         guard case .term("MITRE", "mitre", _) = out[0] else { return XCTFail("MITRE is not linked") }
     }
 
-    func testAWellKnownTermIsLinkedAtFirstUseAndNeverSpelledOut() {
-        let out = segments([Span("AI helps; AI hurts.")])
-        XCTAssertEqual(out.map(\.string).joined(), "AI helps; AI hurts.")
-        guard case .term("AI", "ai", _) = out[0] else { return XCTFail("AI is not linked") }
-        var page = Page(title: "", blocks: [Block(.heading(Run(Span("AI and NIST", role: .label)))),
-                                            Block(.rows([NavRow(title: Run(Span("AI", role: .label)), target: .anchor("x"), identifier: "x")]))])
-        rules.apply(&page)
-        XCTAssertFalse(page.accessibilityLabels.contains { $0.contains("artificial intelligence") })
-        XCTAssertFalse(page.runs.flatMap(\.described).contains("artificial intelligence"))
+    /// Session 17: a well-known term is never spelled out, and links to its entry only at its first use in running text
+    /// on the AI column screen; it is plain on every other screen and in every label.
+    func testAWellKnownTermLinksOnlyAtFirstUseOnTheAIColumnAndIsNeverSpelledOut() {
+        func isTerm(_ form: String) -> (Segment) -> Bool { { if case .term(let f, _, _) = $0 { return f == form } else { return false } } }
+        let plain = segments([Span("AI helps; AI hurts.")])
+        XCTAssertEqual(plain.map(\.string).joined(), "AI helps; AI hurts.")
+        XCTAssertFalse(plain.contains(where: isTerm("AI")), "AI is linked off the AI column")
+        var page = Page(title: "", blocks: [Block(.text(Run(Span("AI helps; AI hurts.")), .body))])
+        rules.apply(&page, linksWellKnown: true)
+        let linked = page.runs[0].segments
+        XCTAssertEqual(linked.map(\.string).joined(), "AI helps; AI hurts.")
+        guard case .term("AI", "ai", _) = linked[0] else { return XCTFail("AI is not linked at its first use on the AI column") }
+        XCTAssertEqual(linked.filter(isTerm("AI")).count, 1, "AI is linked past its first use")
+        for aiColumn in [false, true] {
+            var labels = Page(title: "", blocks: [Block(.heading(Run(Span("AI and NIST", role: .label)))),
+                                                  Block(.rows([NavRow(title: Run(Span("AI", role: .label)), target: .anchor("x"), identifier: "x")]))])
+            rules.apply(&labels, linksWellKnown: aiColumn)
+            XCTAssertFalse(labels.runs.flatMap(\.segments).contains(where: isTerm("AI")), "AI is linked in a label")
+            XCTAssertTrue(labels.runs[0].segments.contains(where: isTerm("NIST")), "a label's other abbreviation no longer links")
+            XCTAssertFalse(labels.accessibilityLabels.contains { $0.contains("artificial intelligence") })
+            XCTAssertFalse(labels.runs.flatMap(\.described).contains("artificial intelligence"))
+        }
     }
 
     func testALabelIsNeverExpandedAndIsNotAFirstUse() {
