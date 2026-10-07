@@ -409,14 +409,30 @@ final class ContentTests: XCTestCase {
         }
     }
 
-    /// The pitch lines are for link previews, the README, the repository and the store listing: no screen shows them.
-    func testNoScreenShowsThePitchLines() {
+    /// The tagline and the pitch are for link previews, the README, the repository and the store listing: no screen
+    /// shows them. The wayfinder line opens About (session 15): the block right after the content version line, before
+    /// the not-affiliated paragraph, and no other screen shows it.
+    func testThePitchLinesStayOffScreenAndTheWayfinderOpensAbout() throws {
         let meta = store.content.meta
         let shown = pages.values.flatMap(\.texts).map(webNorm)
-        for line in [meta.tagline, meta.pitch, meta.wayfinder] {
+        for line in [meta.tagline, meta.pitch] {
             XCTAssertFalse(line.isEmpty)
             XCTAssertFalse(shown.contains { $0.contains(webNorm(line)) }, "a screen shows: \(line)")
         }
+        let wayfinder = webNorm(meta.wayfinder)
+        XCTAssertFalse(wayfinder.isEmpty)
+        let aboutKey = PageKey.section(.about, .dow)
+        for (key, page) in pages where key != aboutKey {
+            XCTAssertFalse(page.texts.map(webNorm).contains { $0.contains(wayfinder) }, "\(key) shows the wayfinder line")
+        }
+        let blocks = try XCTUnwrap(pages[aboutKey]).blocks
+        let version = try XCTUnwrap(blocks.firstIndex { $0.anchor == "about-version" }, "About has no content version line")
+        func source(_ i: Int) -> String? {
+            guard blocks.indices.contains(i), case .text(let run, _) = blocks[i].kind else { return nil }
+            return webNorm(run.source)
+        }
+        XCTAssertEqual(source(version + 1), wayfinder, "the block after the content version line is not the wayfinder line")
+        XCTAssertEqual(source(version + 2), webNorm(meta.about.notAffiliated), "the not-affiliated paragraph does not follow the wayfinder line")
     }
 }
 
