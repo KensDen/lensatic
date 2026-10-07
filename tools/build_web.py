@@ -877,7 +877,9 @@ class Renderer:
         walk(self.d)
         meta = self.d["meta"]
         badges = "".join(f'<span class="status {k}">{self.t(self.ui["status"][k])} {n}</span>' for k, n in counts.items())
+        # the wayfinder line opens About, after the name and the content version (session 15)
         body = (f'<div id="about-body"><p class="about-name"><strong>{esc(meta["name"])}</strong> <span class="small">{self.label("contentVersion")} {esc(meta["contentVersion"])}</span></p>'
+                f'<p>{self.t(meta["wayfinder"])}</p>'
                 f'<p>{self.t(meta["about"]["notAffiliated"])}</p>'
                 f'<p class="small" id="dow-note">{self.label("dowNote")}</p>'
                 f'<p class="small">{self.t(self.dow["statusNote"])}</p>'
@@ -1028,7 +1030,7 @@ def static_texts(d: dict) -> tuple[dict[str, list], dict[str, int]]:
     # the intro texts that moved (Session 7, section 4.4): the audience line, the plain definition of zero trust and the
     # note on steps and layer tags open and close the doors section; the department's note moved to About
     items["view-doors"] = x(L["audience"], L["ztPlain"], L["doorsIntro"])
-    items["about-body"] = x(d["meta"]["about"]["notAffiliated"], d["meta"]["about"]["offline"], d["meta"]["about"].get("licensing"),
+    items["about-body"] = x(d["meta"]["wayfinder"], d["meta"]["about"]["notAffiliated"], d["meta"]["about"]["offline"], d["meta"]["about"].get("licensing"),
                             dow["statusNote"], L["dowNote"], d["meta"]["about"]["builtWith"], L.get("whyNameHeading"),
                             *d["meta"]["about"].get("nameStory", []))
     items["footer"] = x(L["footerLicenses"], L["pagesPrivacy"], L["pagesSupport"], L["sourceCode"])

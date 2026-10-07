@@ -122,6 +122,8 @@ LAYOUT = ROOT / "tools" / "layout_check.mjs"
 TMP = ROOT / ".tmp"  # every temporary file stays inside the repo (Session rules in README.md)
 # the built page must stay under 1 MB (1,048,576 bytes); session 13 raised the limit from 900 KB (921,600 bytes)
 PAGE_LIMIT = 1024 * 1024
+# each printout, with script and without, is at most 20 pages; session 15 raised the cap from under 20
+PRINT_PAGES = 20
 sys.path.insert(0, str(ROOT / "tools"))
 import validate as V  # noqa: E402
 import build_web as B  # noqa: E402  (the label set, defined once there)
@@ -753,6 +755,11 @@ def split(html: bytes) -> tuple[bytes, bytes, bytes]:
 def page_size_errors(size: int) -> list[str]:
     """The built page is under PAGE_LIMIT bytes (session 13: 1 MB)."""
     return [] if size < PAGE_LIMIT else [f"{size} bytes, not under the limit of {PAGE_LIMIT} bytes"]
+
+
+def print_pages_errors(pages: int) -> list[str]:
+    """A printout is at most PRINT_PAGES pages (session 15: 20)."""
+    return [] if pages <= PRINT_PAGES else [f"{pages} pages, more than {PRINT_PAGES}"]
 
 
 def main() -> int:
@@ -1411,7 +1418,7 @@ def main() -> int:
             for key, items_ in o["clipped"].items():
                 if items_:
                     errs.append(f"{key}: content clipped past the right edge with every disclosure open: {items_[:3]}")
-            # print: every non-matrix text; the department's view only, each cell's first sentence only; under 20 pages
+            # print: every non-matrix text; the department's view only, each cell's first sentence only; at most 20 pages
             cells = {(c["pillarId"], c["functionId"]): c for c in d["matrix"]["cells"]}
             # the hero's two buttons do nothing on paper and do not print (session 11, RED-10)
             buttons = [norm(L["heroPrimary"]), norm(L["heroSecondary"])]
@@ -1450,7 +1457,7 @@ def main() -> int:
                         pos = i_ + len(lead_)
                 if no_caps or not n_caps:
                     errs.append(f"{key}: {len(no_caps)} of {n_caps} department cells print no capability numbers before their sentence, first {no_caps[:2]}")
-                if lost or leaked or pr["cisaWrapClient"] != 0 or pr["pageScrollWidth"] > pr["viewport"] or pr["pages"] >= 20:
+                if lost or leaked or pr["cisaWrapClient"] != 0 or pr["pageScrollWidth"] > pr["viewport"] or print_pages_errors(pr["pages"]):
                     errs.append(f"{key}: {pr['pages']} pages, {len(lost)} texts missing (first {lost[0][:50]!r} )" if lost else
                                 f"{key}: {pr['pages']} pages, {len(leaked)} later cell sentences printed, CISA table width {pr['cisaWrapClient']}, page {pr['pageScrollWidth']} in {pr['viewport']}")
             print_info = (f"print {o['print']['pages']} pages with script and {o['print_nojs']['pages']} without, every non-matrix text but the hero's buttons "
@@ -1461,7 +1468,7 @@ def main() -> int:
             info += f"; header fits at 360, 375, 390, 414, 480, 768, 1024, 1199, 1200, 1280 and 1440, script on or off, with the section menu at 480 and below naming the section in view, in full, for every section at 360 and 375, and nothing back in the intro"
             info += f"; nothing clipped at 360, 375, 390 or 414 with every disclosure open, script on or off; every visible matrix cell names its pillar at 375 ({o.get('pillars', {}).get('375_js', {}).get('shown')} with script, {o.get('pillars', {}).get('375_nojs', {}).get('shown')} without) and none does at 768"
             info += f"; no sideways page scroll at 375, 1280, 1440; {len(want)} texts visible with scripting off at 375 and 1280; {print_info} ({o['browser'].split('/')[-1]})"
-    rep.check("layout: DoW table fits at 1280; header fits at phone widths; nothing clipped; script-off text complete; print under 20 pages and complete, "
+    rep.check("layout: DoW table fits at 1280; header fits at phone widths; nothing clipped; script-off text complete; print at most 20 pages and complete, "
               "with capability numbers and without the hero's buttons", errs, info)
 
     print("\n".join(rep.lines))

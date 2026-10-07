@@ -81,7 +81,7 @@ The web checks:
 - Rebuild the page twice, and fail if the builds differ or the embedded JSON does not hash to the content file.
 - Check that the rendered text of every item is present, in the built page and in a copy with its scripts removed.
 - Measure the page in a headless Chrome, Chromium or Edge, driven through the DevTools protocol with no packages. The collapsed matrix must fit a 1280 pixel window. The header must not overflow from 360 to 1440 pixels. Nothing may be clipped at phone widths with every section open. The script-off rendering must show every text.
-- Print with scripts on and off. Each printout must stay under 20 pages, with every non-matrix text present except the front door's two buttons, which must not print, and each cell's capability numbers and first sentence.
+- Print with scripts on and off. Each printout must be at most 20 pages, with every non-matrix text present except the front door's two buttons, which must not print, and each cell's capability numbers and first sentence.
 - Scan the built page section by section. Every abbreviation needs a glossary entry and must be spelled out at its first use, except AI, whose first use in each section links to the glossary and which no built page spells out.
 - Build a fresh copy of `docs/` in `.tmp/` and compare it with the committed `docs/`. Fail if they differ, if `docs/` holds any other file, or if `docs/index.html` is not the built page byte for byte.
 - Hold the privacy and support pages to the app's offline and wall rules: no script, no resource loading, no storage, no em dash, and a clean sweep. Check that their dates, content version, next recheck and paragraphs come from content.

@@ -31,7 +31,7 @@ struct Meta: Decodable, Sendable {
     let changelog: [ChangelogEntry]
     let description: String
     /// The pitch lines are for link previews, the README, the repository and the store listing: decoded, since the
-    /// decoding is strict, and shown on no screen.
+    /// decoding is strict. The tagline and the pitch are shown on no screen; the wayfinder line opens About (session 15).
     let tagline: String
     let pitch: String
     let wayfinder: String

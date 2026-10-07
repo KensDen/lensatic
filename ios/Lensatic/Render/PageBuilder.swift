@@ -364,6 +364,8 @@ private struct Draft {
         out.append(Block(.text(Run([l("contentVersion", .running, .mono), g(" ", .running, .mono), g(meta.contentVersion, .hard, .mono),
                                      g(L("metaSeparator"), .running, .mono), l("releasedOn", .running, .mono), g(" ", .running, .mono),
                                      g(Rules.formatDate(meta.builtOn), .hard, .mono)]), .small), anchor: "about-version"))
+        // the wayfinder line opens About, after the name and the content version, as on the web (session 15)
+        out.append(Block(.text(Run(c(meta.wayfinder)), .body)))
         out.append(Block(.text(Run(c(meta.about.notAffiliated)), .body)))
         out.append(Block(.text(Run(l("dowNote", .running)), .small), anchor: "dow-note"))
         out.append(Block(.text(Run(c(content.orgs.dow.statusNote)), .small)))

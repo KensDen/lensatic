@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.0",
+    "contentVersion": "1.2.1",
     "builtOn": "2026-10-06",
     "sources": [
       "csf20",
@@ -115,6 +115,11 @@
         "version": "1.2.0",
         "date": "2026-10-06",
         "summary": "The doors are now trailheads, to match the compass and map language, and the version line's link reads Why 'Lensatic'?"
+      },
+      {
+        "version": "1.2.1",
+        "date": "2026-10-06",
+        "summary": "About now opens with the wayfinder line: what Lensatic is, and what it is not."
       }
     ],
     "description": "An offline explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.",
