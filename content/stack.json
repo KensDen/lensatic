@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.4",
+    "contentVersion": "1.2.5",
     "builtOn": "2026-10-11",
     "sources": [
       "csf20",
@@ -135,6 +135,11 @@
         "version": "1.2.4",
         "date": "2026-10-11",
         "summary": "Lensatic now calls itself a guide to the federal cybersecurity frameworks, and the back-to-top button goes all the way to the top."
+      },
+      {
+        "version": "1.2.5",
+        "date": "2026-10-11",
+        "summary": "The Lensatic name in the header now goes all the way to the top, like the back-to-top button."
       }
     ],
     "description": "A guide to the United States federal cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
