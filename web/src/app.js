@@ -143,6 +143,15 @@
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll);
       onScroll();
+      /* all the way up, as the page's scroll-behavior rule moves (smooth unless the reader prefers reduced motion), with
+         focus at the start of the page and no #start added to the address; a modified click keeps the link's own behavior */
+      var start = $('#start');
+      toTop.addEventListener('click', function (e) {
+        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+        e.preventDefault();
+        window.scrollTo(0, 0);
+        if (start) start.focus({ preventScroll: true });
+      });
     }
 
     /* ---------- a link to a closed disclosure opens it ---------- */

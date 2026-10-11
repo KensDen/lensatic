@@ -557,7 +557,7 @@ class Renderer:
             f'  <details class="navmenu" id="navmenu"><summary class="btn"><span class="navmenu-label">{self.label("sectionsNav")}</span>'
             f'<span class="navmenu-current" hidden></span></summary><nav class="navmenu-list" aria-label="{self.label("sectionsNav")}">{menu}</nav></details>\n'
             '  <div class="tools">\n'
-            f'    <a class="btn icon totop" id="to-top" href="#top" hidden><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M8 3 L13 9 L9.5 9 L9.5 13 L6.5 13 L6.5 9 L3 9 Z" fill="currentColor"/></svg><span class="vh totop-label">{self.label("backToTop", hidden=True)}</span></a>\n'
+            f'    <a class="btn icon totop" id="to-top" href="#start" hidden><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M8 3 L13 9 L9.5 9 L9.5 13 L6.5 13 L6.5 9 L3 9 Z" fill="currentColor"/></svg><span class="vh totop-label">{self.label("backToTop", hidden=True)}</span></a>\n'
             f'    <button type="button" class="btn icon theme" id="theme-toggle" hidden data-label="{th["theme"]}" data-system="{th["themeSystem"]}" data-light="{th["themeLight"]}" data-dark="{th["themeDark"]}"><svg class="theme-icon" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5 A6.5 6.5 0 0 1 8 14.5 Z" fill="currentColor"/></svg><span class="vh theme-k">{th["theme"]}: </span><span class="vh theme-v">{th["themeSystem"]}</span></button>\n'
             "  </div>\n"
             "</div></header>\n"
