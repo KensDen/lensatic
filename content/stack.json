@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.3",
-    "builtOn": "2026-10-06",
+    "contentVersion": "1.2.4",
+    "builtOn": "2026-10-11",
     "sources": [
       "csf20",
       "sp800-207",
@@ -130,9 +130,14 @@
         "version": "1.2.3",
         "date": "2026-10-06",
         "summary": "AI is no longer a glossary link across the page; it links to its definition only in the AI column."
+      },
+      {
+        "version": "1.2.4",
+        "date": "2026-10-11",
+        "summary": "Lensatic now calls itself a guide to the federal cybersecurity frameworks, and the back-to-top button goes all the way to the top."
       }
     ],
-    "description": "An explainer of the United States federal cybersecurity framework stack: what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land.",
+    "description": "A guide to the United States federal cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
     "tagline": "Federal cyber frameworks are thick woods. Lensatic is the compass.",
     "pitch": "Federal cyber frameworks are thick woods. Lensatic is the compass: find where you stand, see which framework applies, and take a bearing on your next waypoint.",
     "wayfinder": "Lensatic is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.",
@@ -827,7 +832,7 @@
           "note": "The release names JFHQ-DODIN as the command that assesses DoDIN networks; a DCSA budget justification on comptroller.war.gov shows DCSA also runs CORAs of cleared contractors with SIPRNet connections; the FY2027 justification of April 2026 (https://comptroller.war.gov/Portals/45/Documents/defbudget/FY2027/budget_justification/pdfs/01_Operation_and_Maintenance/O_M_VOL_1_PART_1/DCSA_OP-5.pdf), read on 17 September 2026, says DCSA performs them for contractors with approved SIPRNet information systems."
         }
       },
-      "note": "The program launched on 1 March 2024 after a nine-month pilot. The command that launched CORA was later designated a subordinate unified command under section 1502 of the FY2025 NDAA and renamed the DoD Cyber Defense Command (DCDC) by the Secretary. The release does not connect CORA to zero trust; the stack places it at layer 5 because it is the department's operational readiness assessment of its networks, renamed from the Command Cyber Readiness Inspection. The verbs at this layer differ: the {{dow}} CIO's zero trust portfolio office conducted one purple team test of a solution against the zero trust activities and sponsored a second, and its execution roadmap names validating that solutions meet the activities as the aim of assessment; CORA assesses the cyber readiness of {{dow}} networks for the commanders and directors of their areas of operation. Wording settled by the ruling of this explainer's owner on 17 September 2026: this explainer calls CORA a readiness assessment, not an inspection, because the launch release says the program moved from an inspection compliance mindset to an operational readiness mindset (https://www.dcdc.mil/News-Information/DCDC-News/Article-Display/Article/3689211/jfhq-dodin-to-officially-launch-its-new-cyber-operational-readiness-assessment/)."
+      "note": "The program launched on 1 March 2024 after a nine-month pilot. The command that launched CORA was later designated a subordinate unified command under section 1502 of the FY2025 NDAA and renamed the DoD Cyber Defense Command (DCDC) by the Secretary. The release does not connect CORA to zero trust; the stack places it at layer 5 because it is the department's operational readiness assessment of its networks, renamed from the Command Cyber Readiness Inspection. The verbs at this layer differ: the {{dow}} CIO's zero trust portfolio office conducted one purple team test of a solution against the zero trust activities and sponsored a second, and its execution roadmap names validating that solutions meet the activities as the aim of assessment; CORA assesses the cyber readiness of {{dow}} networks for the commanders and directors of their areas of operation. Wording settled by the ruling of Lensatic's owner on 17 September 2026: Lensatic calls CORA a readiness assessment, not an inspection, because the launch release says the program moved from an inspection compliance mindset to an operational readiness mindset (https://www.dcdc.mil/News-Information/DCDC-News/Article-Display/Article/3689211/jfhq-dodin-to-officially-launch-its-new-cyber-operational-readiness-assessment/)."
     },
     {
       "id": "rmf-ato",
@@ -5925,7 +5930,7 @@
       "title": "Lensatic support",
       "description": "How to report a content error in Lensatic, how its content is re-verified, and the current content version.",
       "paragraphs": [
-        "Lensatic is an explainer of the United States federal cybersecurity framework stack. It sorts the frameworks by the question each one answers, says who each one binds, and shows where zero trust and AI land.",
+        "Lensatic is a guide to the United States federal cybersecurity frameworks. It sorts them by the question each one answers, says who each one binds, and shows where zero trust and AI land.",
         "To report a content error, open an issue at https://github.com/kensden/lensatic/issues. Name the framework or entry, say what is wrong, and cite the primary source: the publisher's own page or document that shows the correct fact.",
         "To ask about reusing Lensatic's code or text, open an issue on the same page.",
         "The iOS app is built from the same content as this site. Questions and problems with the app go to the same issues page. Opening an issue needs a GitHub account, and issues are public.",

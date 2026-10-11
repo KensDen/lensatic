@@ -13,8 +13,9 @@ script element removed except the embedded JSON; no section of that copy is empt
 Layout (Session 4): a headless Chrome, Chromium or Edge measures the collapsed DoW table at 1280 and
 1440 (fail if wider than the viewport at 1280), checks the page for sideways overflow at 375, 1280 and
 1440 and for content clipped past the right edge at 360 to 414 with every disclosure open, exercises the
-column buttons, arrow keys and back to top at 375, reads the visible text with scripting disabled, and
-reads the print rendering.
+column buttons, arrow keys and back to top at 375, takes back to top from About to scrollY 0 at 375 and 1280
+with scripting on and off (Session 18), reads the visible text with scripting disabled, and reads the print
+rendering.
 Pages (Session 6): docs/index.html is web/lensatic.html byte for byte; docs/ matches a fresh --pages build
 (index, privacy, support, the social card, an empty .nojekyll); the privacy and support pages carry no script and
 pass the same resource, em-dash, placeholder and sweep rules as the app, show the effective date, content version and
@@ -1148,7 +1149,7 @@ def main() -> int:
     # id skeleton: Node script when available, Python fallback otherwise
     items, counts = expected_items(d)
     expected = sorted(set(list(items) + [f"view-{s}" for s in ("doors", "stack", "matrix", "functions", "ai", "helper", "sources", "about")] +
-                          ["table-dow", "table-cisa", "matrix-dow", "matrix-cisa", "nav", "theme-toggle", "to-top", "matrix-control", "expand-all",
+                          ["table-dow", "table-cisa", "matrix-dow", "matrix-cisa", "nav", "theme-toggle", "to-top", "start", "matrix-control", "expand-all",
                            "about-name"]))
     if node and DOM_CHECK.exists():
         proc = subprocess.run([node, str(DOM_CHECK), str(HTML)], input="\n".join(expected), capture_output=True, text=True)
@@ -1388,6 +1389,25 @@ def main() -> int:
             bt = j375["backToTop"]
             if bt["hiddenAttr"] or bt["atTop"] != "hidden" or bt["afterScroll"] != "visible":
                 errs.append(f"375: back to top does not appear after the first screenful ({bt})")
+            # back to top goes all the way (Session 18): from About it lands at scrollY 0, script on or off; with script the
+            # button is shown, the script takes the click (the address gains no #start), and focus reaches the start of the page
+            tt = o.get("toTop", {})
+            for key in ("375_js", "375_nojs", "1280_js", "1280_nojs"):
+                m = tt.get(key)
+                if not m:
+                    errs.append(f"back to top {key}: not measured")
+                    continue
+                if m["deep"] < 2 * m["vh"]:
+                    errs.append(f"back to top {key}: the page was not scrolled deep before activating it ({m['deep']} px)")
+                elif m["scrollY"] != 0:
+                    errs.append(f"back to top {key}: from {m['deep']} px it ended at {m['scrollY']} px, not the top (link {m['href']!r})")
+                if key.endswith("_js"):
+                    if not m["shown"]:
+                        errs.append(f"back to top {key}: not shown after scrolling to About")
+                    if m["hash"]:
+                        errs.append(f"back to top {key}: the link was followed to {m['hash']!r}; the script did not take the click")
+                    if m["focus"] != "start":
+                        errs.append(f"back to top {key}: focus on {m['focus']!r}, not the start of the page")
             want = [p_ for texts in items.values() for t in texts for p_ in parts_of(t)]
             for key in ("nojs_375", "nojs_1280"):
                 m = o[key]
@@ -1485,12 +1505,14 @@ def main() -> int:
                           f"and the {len(leads)} first sentences of the department's view present, the {n_caps} cells that carry capability numbers "
                           f"printing them before the sentence")
             info += f"; at 375 the column buttons, ArrowRight (one column, {ak['scrollLeft']} px) and back to top work"
+            info += (f"; back to top from About lands at the very top at 375 and 1280, script on or off "
+                     f"(from {tt.get('375_js', {}).get('deep')} px at 375, {tt.get('1280_js', {}).get('deep')} px at 1280), focus at the start of the page")
             info += f"; with touch emulated at 360 and 375 every chip is at least 44 px tall ({tg.get('375', {}).get('chips')} chips), at 1280 at least 36"
             info += f"; header fits at 360, 375, 390, 414, 480, 768, 1024, 1199, 1200, 1280 and 1440, script on or off, with the section menu at 480 and below naming the section in view, in full, for every section at 360 and 375, and nothing back in the intro"
             info += f"; nothing clipped at 360, 375, 390 or 414 with every disclosure open, script on or off; every visible matrix cell names its pillar at 375 ({o.get('pillars', {}).get('375_js', {}).get('shown')} with script, {o.get('pillars', {}).get('375_nojs', {}).get('shown')} without) and none does at 768"
             info += f"; no sideways page scroll at 375, 1280, 1440; {len(want)} texts visible with scripting off at 375 and 1280; {print_info} ({o['browser'].split('/')[-1]})"
-    rep.check("layout: DoW table fits at 1280; header fits at phone widths; nothing clipped; script-off text complete; print at most 20 pages and complete, "
-              "with capability numbers and without the hero's buttons", errs, info)
+    rep.check("layout: DoW table fits at 1280; header fits at phone widths; back to top reaches the very top; nothing clipped; script-off text complete; "
+              "print at most 20 pages and complete, with capability numbers and without the hero's buttons", errs, info)
 
     print("\n".join(rep.lines))
     if rep.failures:
