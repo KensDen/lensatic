@@ -194,30 +194,32 @@ try {
     out.js_375.backToTop = await p.evaluate(`(async () => { const t = document.getElementById('to-top'); window.scrollTo({ top: 0, behavior: 'instant' }); await new Promise(r => setTimeout(r, 400)); const atTop = getComputedStyle(t).visibility; window.scrollTo({ top: innerHeight * 3, behavior: 'instant' }); await new Promise(r => setTimeout(r, 400)); return { atTop, afterScroll: getComputedStyle(t).visibility, hiddenAttr: t.hidden }; })()`);
     await p.close();
   }
-  // back to top goes all the way (Session 18): from About, deep in the page, activating it lands at scrollY 0, at 375 and
-  // 1280, script on or off. With script the shown button gets a real mouse click, which the script must take (the address
-  // gains no #start), and focus must reach the start of the page; without script the build renders it hidden, so its link
-  // is activated from the protocol. The waits happen here,
-  // not in the page: with page scripts disabled the page's timers never fire.
+  // back to top goes all the way (Session 18), and so does the name in the header (Session 19): from About, deep in the
+  // page, activating either lands at scrollY 0, at 375 and 1280, script on or off, each on a fresh page. A shown link gets
+  // a real mouse click; back to top, which the build renders hidden, is activated from the protocol without script. With
+  // script the click must be the script's (the address gains no #start) and focus must reach the start of the page. The
+  // waits happen here, not in the page: with page scripts disabled the page's timers never fire.
   out.toTop = {};
-  for (const w of [375, 1280]) {
-    for (const js of [true, false]) {
-      const p = await page({ width: w, height: w < 768 ? 812 : 900, js, mobile: w < 768 });
-      const deep = await p.evaluate(`(() => { const a = document.getElementById('view-about'); window.scrollTo({ top: a.getBoundingClientRect().top + scrollY, behavior: 'instant' }); return scrollY; })()`);
-      await sleep(500);
-      const b = await p.evaluate(`(() => { const t = document.getElementById('to-top'); const r = t.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2, shown: !t.hidden && getComputedStyle(t).visibility === 'visible' && r.width > 0, href: t.getAttribute('href'), vh: innerHeight }; })()`);
-      if (js) {
-        for (const type of ['mouseMoved', 'mousePressed', 'mouseReleased']) {
-          await send('Input.dispatchMouseEvent', { type, x: b.x, y: b.y, ...(type === 'mouseMoved' ? {} : { button: 'left', clickCount: 1 }) }, p.sessionId);
+  for (const [name, sel] of [['to-top', '#to-top'], ['brand', '.top .brand']]) {
+    for (const w of [375, 1280]) {
+      for (const js of [true, false]) {
+        const p = await page({ width: w, height: w < 768 ? 812 : 900, js, mobile: w < 768 });
+        const deep = await p.evaluate(`(() => { const a = document.getElementById('view-about'); window.scrollTo({ top: a.getBoundingClientRect().top + scrollY, behavior: 'instant' }); return scrollY; })()`);
+        await sleep(500);
+        const b = await p.evaluate(`(() => { const t = document.querySelector('${sel}'); const r = t.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2, shown: !t.hidden && getComputedStyle(t).visibility === 'visible' && r.width > 0, href: t.getAttribute('href'), vh: innerHeight }; })()`);
+        if (b.shown) {
+          for (const type of ['mouseMoved', 'mousePressed', 'mouseReleased']) {
+            await send('Input.dispatchMouseEvent', { type, x: b.x, y: b.y, ...(type === 'mouseMoved' ? {} : { button: 'left', clickCount: 1 }) }, p.sessionId);
+          }
+        } else {
+          await p.evaluate(`document.querySelector('${sel}').click()`);
         }
-      } else {
-        await p.evaluate(`document.getElementById('to-top').click()`);
+        // smooth scrolling has settled once scrollY has left where it was and held for 400 ms (at most 5 s)
+        let y = deep, same = 0;
+        for (let i = 0; i < 100 && same < 8; i++) { await sleep(50); const n = await p.evaluate('scrollY'); same = n === y && n !== deep ? same + 1 : 0; y = n; }
+        out.toTop[`${name}_${w}_${js ? 'js' : 'nojs'}`] = { deep, ...b, ...(await p.evaluate(`(() => { const a = document.activeElement; return { scrollY, focus: a && a !== document.body ? a.id || a.tagName.toLowerCase() : null, hash: location.hash }; })()`)) };
+        await p.close();
       }
-      // smooth scrolling has settled once scrollY has left where it was and held for 400 ms (at most 5 s)
-      let y = deep, same = 0;
-      for (let i = 0; i < 100 && same < 8; i++) { await sleep(50); const n = await p.evaluate('scrollY'); same = n === y && n !== deep ? same + 1 : 0; y = n; }
-      out.toTop[`${w}_${js ? 'js' : 'nojs'}`] = { deep, ...b, ...(await p.evaluate(`(() => { const a = document.activeElement; return { scrollY, focus: a && a !== document.body ? a.id || a.tagName.toLowerCase() : null, hash: location.hash }; })()`)) };
-      await p.close();
     }
   }
   out.header = {};

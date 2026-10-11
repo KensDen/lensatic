@@ -135,7 +135,18 @@
       });
     });
 
-    /* ---------- back to top, after the first screenful ---------- */
+    /* ---------- to the top: back to top, after the first screenful, and the name in the header ---------- */
+    /* all the way up, as the page's scroll-behavior rule moves (smooth unless the reader prefers reduced motion), with
+       focus at the start of the page and no #start added to the address; a modified click keeps the link's own behavior */
+    var start = $('#start');
+    var goStart = function (e) {
+      if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+      e.preventDefault();
+      window.scrollTo(0, 0);
+      if (start) start.focus({ preventScroll: true });
+    };
+    var brand = $('.top .brand');
+    if (brand) brand.addEventListener('click', goStart);
     var toTop = $('#to-top');
     if (toTop) {
       toTop.hidden = false;
@@ -143,15 +154,7 @@
       window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', onScroll);
       onScroll();
-      /* all the way up, as the page's scroll-behavior rule moves (smooth unless the reader prefers reduced motion), with
-         focus at the start of the page and no #start added to the address; a modified click keeps the link's own behavior */
-      var start = $('#start');
-      toTop.addEventListener('click', function (e) {
-        if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
-        e.preventDefault();
-        window.scrollTo(0, 0);
-        if (start) start.focus({ preventScroll: true });
-      });
+      toTop.addEventListener('click', goStart);
     }
 
     /* ---------- a link to a closed disclosure opens it ---------- */

@@ -552,7 +552,7 @@ class Renderer:
         return (
             f'<a class="skip" href="#main">{self.label("skip")}</a>\n'
             '<header class="top" id="top"><div class="top-in">\n'
-            f'  <a class="brand" href="#top">{mark_svg()}<span class="wordmark">{esc(self.d["meta"]["name"])}</span></a>\n'
+            f'  <a class="brand" href="#start">{mark_svg()}<span class="wordmark">{esc(self.d["meta"]["name"])}</span></a>\n'
             f'  <nav class="nav" id="nav" aria-label="{self.label("sectionsNav")}">{nav}</nav>\n'
             f'  <details class="navmenu" id="navmenu"><summary class="btn"><span class="navmenu-label">{self.label("sectionsNav")}</span>'
             f'<span class="navmenu-current" hidden></span></summary><nav class="navmenu-list" aria-label="{self.label("sectionsNav")}">{menu}</nav></details>\n'
