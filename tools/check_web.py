@@ -37,6 +37,8 @@ pinned); citation lines give the edition by the ruled rule (left out where it re
 descriptive one lowered), pinned on the ledger's cases; entry summaries keep a space between title, badges and citation;
 every Unverified or Conflict document shows its verification note; AI Risk Management Framework counts as AI RMF spelled
 out; print shows each department cell's capability numbers before its sentence and leaves out the hero's buttons.
+Session 20: a glossary entry shows a status badge only when it is not verified, then exactly one of its status; every
+framework, source and solution keeps every badge its records give.
 The embedded JSON element is exempt from the text checks: it is content/stack.json byte for byte and is
 checked by the content battery; its URLs are data, its render tokens are data.
 """
@@ -752,6 +754,61 @@ def document_note_errors(tree: Tree, d: dict) -> tuple[list[str], int]:
     return errs, n
 
 
+def badge_errors(tree: Tree, d: dict) -> tuple[list[str], dict]:
+    """Badges by exception in the glossary, every badge elsewhere (session 20). A glossary entry shows a status badge only
+    when its status is not verified: none for a verified spelling, exactly one, of its status and reading its status's
+    name, otherwise. Every framework, source and solution keeps all its badges: its summary's, a Conflict badge in the
+    summary when a record inside is in conflict, its authority note's, its validated-against line's, each adopter
+    responsibility's, its Verification row's and each document's, the statuses on the page those its records give."""
+    errs, st = [], {"glossary": 0, "glossaryBadges": 0, "entries": 0, "badges": 0}
+    names = d["ui"]["status"]
+    for g in d.get("glossary", []):
+        nodes_ = tree.ids.get(f"gl-{B.slug(tok_dow(d, g['term']))}") or []
+        if len(nodes_) != 1:
+            errs.append(f"glossary {g['term']!r}: {len(nodes_)} entries on the page")
+            continue
+        st["glossary"] += 1
+        s = g["verification"]["status"]
+        badges = [x for x in walk_nodes(nodes_[0]) if "status" in classes_of(x)]
+        st["glossaryBadges"] += len(badges)
+        if s == "verified":
+            if badges:
+                errs.append(f"glossary {g['term']!r} is verified and shows {len(badges)} badge{'s' if len(badges) != 1 else ''}")
+        elif len(badges) != 1 or classes_of(badges[0]) != {"status", s} or not norm(text_of(badges[0])).startswith(names[s]):
+            errs.append(f"glossary {g['term']!r} is {s} and shows {[norm(text_of(b)) for b in badges]}, expected one {names[s]} badge")
+
+    def inner(node, top: bool = True):
+        """The statuses of the verification records inside an entry, its own left out."""
+        if isinstance(node, dict):
+            for k, v in node.items():
+                if k == "verification" and isinstance(v, dict) and not top:
+                    yield v.get("status")
+                yield from inner(v, False)
+        elif isinstance(node, list):
+            for x in node:
+                yield from inner(x, False)
+
+    for coll in ("frameworks", "sources", "solutions"):
+        for e in d.get(coll, []):
+            nodes_ = tree.ids.get(f"ent-{e['id']}") or []
+            if len(nodes_) != 1:
+                errs.append(f"#ent-{e['id']}: {len(nodes_)} entries on the page")
+                continue
+            st["entries"] += 1
+            own = e["verification"]["status"]
+            want = [own, own]  # the summary's badge and the Verification row's
+            if own != "conflict" and "conflict" in inner({k: v for k, v in e.items() if k != "verification"}):
+                want.append("conflict")
+            want += [x["verification"]["status"] for x in [e.get("authority") or {}, e.get("validatedAgainst") or {}]
+                     + list(e.get("adopterResponsibilities") or []) + list(e.get("documents") or []) if x.get("verification")]
+            got = [sorted(classes_of(x) - {"status"})[0] if classes_of(x) - {"status"} else "" for x in walk_nodes(nodes_[0])
+                   if "status" in classes_of(x)]
+            st["badges"] += len(got)
+            if sorted(got) != sorted(want):
+                errs.append(f"#ent-{e['id']}: badges {sorted(got)}, expected {sorted(want)}")
+    return errs, st
+
+
 def strip_scripts(html_text: str) -> str:
     def keep(m: re.Match) -> str:
         return m.group(0) if m.group(0).startswith(OPEN) else ""
@@ -1016,6 +1073,11 @@ def main() -> int:
     errs, n_ = document_note_errors(atree_b, d)
     rep.check("documents: every Unverified or Conflict document shows its verification note in its own line, right after its badge; "
               "print does not repeat an address the note gives", errs, f"{n_} notes")
+    # session 20: glossary badges by exception
+    errs, st_ = badge_errors(atree_b, d)
+    rep.check("badges: a glossary entry shows a status badge only when it is not verified, then exactly one, of its status; every "
+              "framework, source and solution keeps every badge its records give", errs,
+              f"{st_['glossary']} glossary entries, {st_['glossaryBadges']} glossary badges; {st_['entries']} entries, {st_['badges']} badges")
 
     errs = []
     foot = (atree_b.ids.get("footer") or [None])[0]

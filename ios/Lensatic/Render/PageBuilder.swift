@@ -340,7 +340,9 @@ private struct Draft {
         if let exp = t.expansion { body += [c(exp), g(". ")] }
         body.append(c(entry.oneLine))
         if !entry.entityIds.isEmpty { body += [g(" "), l("glossarySee", .running), g(": ")] + entityLinks(entry.entityIds) }
-        return GlossaryItem(anchor: "gl-\(t.slug)", term: Run(c(t.term, .glossaryTerm, .monoStrong)), body: Run(body), badge: badge(entry.verification))
+        // a glossary entry carries a badge only by exception: a verified spelling shows none (session 20)
+        let shown = entry.verification.status == .verified ? nil : entry.verification
+        return GlossaryItem(anchor: "gl-\(t.slug)", term: Run(c(t.term, .glossaryTerm, .monoStrong)), body: Run(body), badge: badge(shown))
     }
 
     mutating func glossaryEntry(_ slug: String) -> Page {

@@ -862,8 +862,11 @@ class Renderer:
             # the expansion carries an id: a label's abbreviation elsewhere on the page is described by it
             exp = f'<span class="gl-exp" id="{FirstUse.exp_id(e)}">{esc(e["expansion"])}</span>. ' if e["expansion"] else ""
             see = f' <span class="small">{self.label("glossarySee")}: {self.ent_links(g["entityIds"])}</span>' if g.get("entityIds") else ""
+            # a glossary entry carries a badge only by exception: a verified spelling shows none (session 20)
+            v = g.get("verification")
+            badge = f' {self.status_badge(v)}' if v and v["status"] != "verified" else ""
             rows.append(f'<div class="gl-entry" id="gl-{e["slug"]}"><dt><span class="gl-term">{esc(e["term"])}</span></dt>'
-                        f'<dd>{exp}{self.t(g["oneLine"])}{see} {self.status_badge(g.get("verification"))}</dd></div>')
+                        f'<dd>{exp}{self.t(g["oneLine"])}{see}{badge}</dd></div>')
         body = (f'<p class="section-intro">{self.label("glossaryIntro")}</p>\n<dl class="glossary" id="glossary-list">\n'
                 + "\n".join(rows) + "\n</dl>")
         return self.section("glossary", body)

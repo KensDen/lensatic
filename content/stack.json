@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.5",
+    "contentVersion": "1.2.6",
     "builtOn": "2026-10-11",
     "sources": [
       "csf20",
@@ -140,6 +140,11 @@
         "version": "1.2.5",
         "date": "2026-10-11",
         "summary": "The Lensatic name in the header now goes all the way to the top, like the back-to-top button."
+      },
+      {
+        "version": "1.2.6",
+        "date": "2026-10-11",
+        "summary": "Glossary entries no longer each carry a Verified badge; a badge now marks only an entry that could not be confirmed."
       }
     ],
     "description": "A guide to the United States federal cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -5857,7 +5862,7 @@
       "statusKeyUnverified": "the publisher's copy could not be reached; the note lists every address tried.",
       "statusKeyConflict": "the sources disagree; the note gives both and a date to check again.",
       "hasConflictInside": "a conflict is recorded inside",
-      "glossaryIntro": "Every abbreviation Lensatic uses, spelled out, with a plain sentence on what it is and a badge that says whether the spelling was checked against its publisher. Each section also spells out an abbreviation where it first appears, except AI, which every reader knows.",
+      "glossaryIntro": "Every abbreviation Lensatic uses, spelled out, with a plain sentence on what it is. Each spelling was checked against its publisher; an entry carries a badge only where that could not be confirmed. Each section also spells out an abbreviation where it first appears, except AI, which every reader knows.",
       "glossaryOpen": "Open in the glossary",
       "glossarySee": "See",
       "pagesNav": "Site pages",
@@ -5939,7 +5944,7 @@
         "To report a content error, open an issue at https://github.com/kensden/lensatic/issues. Name the framework or entry, say what is wrong, and cite the primary source: the publisher's own page or document that shows the correct fact.",
         "To ask about reusing Lensatic's code or text, open an issue on the same page.",
         "The iOS app is built from the same content as this site. Questions and problems with the app go to the same issues page. Opening an issue needs a GitHub account, and issues are public.",
-        "Every verified entry shows the date its publisher's page was last read, and every other entry shows its status instead. An entry with a recheck date is read again when that date comes up, and no content release goes out while a recheck is overdue. The next dated recheck, if one is scheduled, is shown below."
+        "Every verified framework, source and solution shows the date its publisher's page was last read, and every other one shows its status instead. A glossary entry shows a status only where its spelling could not be confirmed. An entry with a recheck date is read again when that date comes up, and no content release goes out while a recheck is overdue. The next dated recheck, if one is scheduled, is shown below."
       ]
     }
   }
