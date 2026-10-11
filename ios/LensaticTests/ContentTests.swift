@@ -355,6 +355,69 @@ final class ContentTests: XCTestCase {
         XCTAssertGreaterThan(n, 0)
     }
 
+    func glossaryItems(_ page: Page?) -> [GlossaryItem] {
+        (page?.blocks ?? []).flatMap { b -> [GlossaryItem] in if case .glossary(let xs) = b.kind { return xs } else { return [] } }
+    }
+
+    /// A glossary entry carries a badge only by exception (session 20): none for a verified spelling, on the glossary
+    /// screen and in the sheet a term opens; an entry that is unverified, in conflict or authored shows its badge in both;
+    /// every entry screen keeps every badge its records give.
+    func testGlossaryEntriesCarryABadgeOnlyByException() throws {
+        let items = glossaryItems(pages[.section(.glossary, .dow)])
+        XCTAssertEqual(items.count, store.content.glossary.count)
+        for (item, entry) in zip(items, store.terms.compactMap { t in store.content.glossary.first { $0.term == t.term } }) {
+            XCTAssertEqual(item.badge != nil, entry.verification.status != .verified, item.anchor)
+        }
+        for t in store.terms {
+            let sheet = glossaryItems(pages[.glossaryEntry(t.slug)])
+            let entry = try XCTUnwrap(store.content.glossary.first { $0.term == t.term })
+            XCTAssertEqual(sheet.count, 1, t.term)
+            XCTAssertEqual(sheet.first?.badge != nil, entry.verification.status != .verified, t.term)
+        }
+        // the first entry, set in a copy of the content to each status but verified, shows its badge, there and in its sheet
+        let verifiedNow = Set(store.content.glossary.filter { $0.verification.status == .verified }.map(\.term))
+        for status in [Verification.Status.unverified, .conflict, .authored] {
+            let data = try mutated { tree in
+                self.first(&tree, "glossary") { g in
+                    var v = g["verification"] as! [String: Any]
+                    v["status"] = status.rawValue
+                    if status == .authored {
+                        v["method"] = "synthesis"
+                        v["verifiedOn"] = NSNull()
+                        v["basisIds"] = [self.store.frameworks[0].id]
+                        v["recheckAfter"] = nil
+                    }
+                    g["verification"] = v
+                }
+            }
+            let mutant = try ContentStore(data: data)
+            let builder = PageBuilder(store: mutant)
+            let changed = try XCTUnwrap(mutant.content.glossary.first { verifiedNow.contains($0.term) && $0.verification.status != .verified })
+            let slug = try XCTUnwrap(mutant.terms.first { $0.term == changed.term }?.slug)
+            let screen = glossaryItems(builder.page(.section(.glossary, .dow)))
+            XCTAssertEqual(screen.first { $0.anchor == "gl-\(slug)" }?.badge?.status, status, status.rawValue)
+            XCTAssertEqual(screen.filter { $0.badge != nil }.count, items.filter { $0.badge != nil }.count + 1, status.rawValue)
+            XCTAssertEqual(glossaryItems(builder.page(.glossaryEntry(slug))).first?.badge?.status, status, status.rawValue)
+        }
+        // every entry screen: its own badge and the Verification row's, a Conflict badge when a record inside is in
+        // conflict, and the badges of its authority note, its validated-against line, its adopter responsibilities and
+        // its documents
+        for e in store.frameworks + store.sources + store.solutions {
+            let shown = try XCTUnwrap(pages[.route(.entity(e.id))]).blocks.flatMap { b -> [Verification.Status] in
+                switch b.kind {
+                case .badges(let xs): return xs.map(\.status)
+                case .keyValues(let kvs): return kvs.flatMap { $0.badges.map(\.status) }
+                default: return []
+                }
+            }
+            var want = [e.verification.status, e.verification.status, e.authority.verification.status]
+            if e.verification.status != .conflict && e.innerVerifications.contains(where: { $0.status == .conflict }) { want.append(.conflict) }
+            if let va = e.validatedAgainst { want.append(va.verification.status) }
+            want += (e.adopterResponsibilities ?? []).map(\.verification.status) + (e.documents ?? []).map(\.verification.status)
+            XCTAssertEqual(shown.map(\.rawValue).sorted(), want.map(\.rawValue).sorted(), e.id)
+        }
+    }
+
     /// The citation-line rule on the real content (Rules.citeEdition in citeLine and the documents' lines): an edition the
     /// title carries or that repeats the date is left out, a descriptive one is lowered, as the web page gives them.
     func testCitationLinesOnTheRealContent() throws {
