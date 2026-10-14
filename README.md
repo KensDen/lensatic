@@ -1,6 +1,6 @@
-<img src="icon-512.png" width="72" height="72" alt="Zero Trust Accelerator: a zero with a compass needle">
+<img src="icon-512.png" width="72" height="72" alt="Zero Trust Field Guide: a zero with a compass needle">
 
-# Zero Trust Accelerator: Field Guide
+# Zero Trust Field Guide
 
 A Zero Trust study guide and one-page quick references for anyone leading or learning Zero Trust: a shared core, then DoW, federal civilian and private-sector tracks.
 
@@ -30,7 +30,7 @@ I reviewed every change, and I own the result, mistakes included.
 
 ## License
 
-The Zero Trust Accelerator: Field Guide is copyright 2026 Ken Connell, all rights reserved ([LICENSE](LICENSE)). The repository is published so the work can be read and used for personal study. No license is granted to copy, modify, distribute or otherwise use its text or files, in whole or in part, except as the law allows without a license or with Ken Connell's prior written permission. To ask about reuse, open an issue at https://github.com/KensDen/zero-trust-field-guide/issues.
+The Zero Trust Field Guide is copyright 2026 Ken Connell, all rights reserved ([LICENSE](LICENSE)). The repository is published so the work can be read and used for personal study. No license is granted to copy, modify, distribute or otherwise use its text or files, in whole or in part, except as the law allows without a license or with Ken Connell's prior written permission. To ask about reuse, open an issue at https://github.com/KensDen/zero-trust-field-guide/issues.
 
 GitHub's Terms of Service (section D.5) let other GitHub users view and fork a public repository on GitHub, as GitHub's features allow; that is not permission to use the work anywhere else.
 
