@@ -11,7 +11,7 @@ A Zero Trust study guide and one-page quick references for anyone leading or lea
 | | |
 |---|---|
 | [Web page](index.html) | The study guide, the three Quick References and the grouped Sources list on one phone-first page, in light and dark themes, with a track switcher at the top. |
-| [Study guide (PDF)](20261006_ZT_Study_Guide_v2.5.pdf) | The printable guide, core and all three tracks: US Letter, 26 pages, with page numbers. |
+| [Study guide (PDF)](20261017_ZT_Study_Guide_v2.6.pdf) | The printable guide, core and all three tracks: US Letter, 26 pages, with page numbers. |
 | [Quick Reference: DoW (PDF)](20261006_ZT_Quick_Reference_DoW_v2.5.pdf) | The DoW job aid on one US Letter page. |
 | [Quick Reference: Federal civilian (PDF)](20261006_ZT_Quick_Reference_Federal_Civilian_v2.5.pdf) | The federal civilian job aid on one US Letter page. |
 | [Quick Reference: Private sector (PDF)](20261006_ZT_Quick_Reference_Private_Sector_v2.5.pdf) | The private-sector job aid on one US Letter page. |
