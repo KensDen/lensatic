@@ -444,6 +444,12 @@ def favicon() -> str:
     return "data:image/svg+xml," + urllib.parse.quote(svg, safe="/=:.,-")
 
 
+def umbrella_card_alt() -> str:
+    """The shared hub card's one description (tools/build_hub.py card_alt): the umbrella's name and the card band line."""
+    s = umbrella()
+    return f'{s["name"]}: {s["cardBand"]["line"]}'
+
+
 def umbrella() -> dict:
     """hub/site.json: the umbrella's sections, their addresses and the version line."""
     return json.loads(HUB_SITE.read_text(encoding="utf-8"))
@@ -1170,8 +1176,9 @@ def social_tags(d: dict) -> str:
     w, h = SOCIAL_SIZE
     tags = [("property", "og:title", umbrella_title(d)), ("property", "og:description", meta["pitch"]), ("property", "og:type", "website"),
             ("property", "og:url", f"{SITE}{MAPS_KEY}/"), ("property", "og:image", f"{SITE}{SOCIAL_NAME}"), ("property", "og:image:width", str(w)),
-            ("property", "og:image:height", str(h)), ("name", "twitter:card", "summary_large_image")]
-    return "\n".join(f'<meta {a}="{k}" content="{esc(v)}">' for a, k, v in tags)
+            ("property", "og:image:height", str(h)), ("property", "og:image:alt", umbrella_card_alt()), ("name", "twitter:card", "summary_large_image")]
+    # the canonical address loads nothing; it tells a crawler which copy is the page (gauntlet question 34)
+    return "\n".join(f'<meta {a}="{k}" content="{esc(v)}">' for a, k, v in tags) + f'\n<link rel="canonical" href="{SITE}{MAPS_KEY}/">'
 
 
 def build_docs(index: bytes, stack: Path, docs: Path, author: str = "") -> list[Path]:

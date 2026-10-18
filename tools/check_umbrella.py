@@ -249,10 +249,11 @@ def main() -> int:
     # ---- sitemap
     sm = (DOCS / "sitemap.xml").read_text(encoding="utf-8")
     locs = re.findall(r"<loc>([^<]+)</loc>", sm)
-    want_locs = [s["site"] + p for p in ("", "maps/", "guides/", "guides/zero-trust/", "playbook/", "playbook/Playbook/")]
+    want_locs = [s["site"] + p for p in bh.SITEMAP_PAGES]
     errs = [] if locs == want_locs else [f"sitemap lists {locs}"]
-    errs += [f"{u} has no page in docs/" for u in locs if not (DOCS / u[len(s["site"]):] / "index.html").is_file()]
-    rep.check("sitemap: docs/sitemap.xml lists the hub, the map, the guides index, the Zero Trust guide, the landing and the app, each a page in docs/", errs)
+    page_of = lambda rel: DOCS / rel if rel.endswith(".html") else DOCS / rel / "index.html"
+    errs += [f"{u} has no page in docs/" for u in locs if not page_of(u[len(s["site"]):]).is_file()]
+    rep.check("sitemap: docs/sitemap.xml lists the hub, the map, the guides index, the Zero Trust guide, the landing, the app, privacy and support, each a page in docs/", errs)
 
     # ---- sweep
     src = os.environ.get("LENSATIC_PRIVATE_SWEEP")
