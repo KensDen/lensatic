@@ -9,7 +9,7 @@ Writes, from sources inside this repository only:
   docs/guides/zero-trust/    the Zero Trust guide's published files, copied from guides/zero-trust/ byte for byte
   docs/playbook/             the Agentic SecOps landing, app, documents, deck, diagrams and card, copied from playbook/
 
-The map's pages (docs/maps/index.html, docs/privacy.html, docs/support.html, docs/social-card.png, docs/.nojekyll)
+The map's pages (docs/maps/index.html, docs/privacy.html, docs/support.html, docs/social-card-v2.png, docs/.nojekyll)
 are written by tools/build_web.py --pages, not here.
 
 The hub and the guides index follow the map's own rules: no script, no resource loading (the type and the marks are
@@ -152,7 +152,7 @@ HUB_CSS = """.lx-hero-lines { margin: var(--s-5) 0 0; padding: 0; list-style: no
 
 
 def head(s: dict, title: str, description: str, url: str, image_alt: str) -> str:
-    card = s["site"] + "social-card.png"
+    card = s["site"] + bw.SOCIAL_NAME  # the hub card, published by tools/build_web.py --pages
     tags = [("property", "og:title", title), ("property", "og:description", description), ("property", "og:type", "website"),
             ("property", "og:url", url), ("property", "og:image", card), ("property", "og:image:width", "1200"),
             ("property", "og:image:height", "630"), ("property", "og:image:alt", image_alt), ("name", "twitter:card", "summary_large_image")]

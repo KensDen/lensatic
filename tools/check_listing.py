@@ -54,8 +54,8 @@ INFO = ROOT / "ios" / "Lensatic" / "Info.plist"
 PRIVACY = ROOT / "ios" / "Lensatic" / "Resources" / "PrivacyInfo.xcprivacy"
 PROJECT_YML = ROOT / "ios" / "project.yml"
 
-# the settled wording (the owner's decisions of 27 and 28 September 2026, and of 18 October 2026 for "Public sector" in the
-# tagline and pitch), verbatim. Only the App Store says "Lensatic Cyber"; everywhere else says "Lensatic".
+# the settled wording (the owner's decisions of 27 and 28 September 2026, and of 18 October 2026 for "public sector" in the
+# tagline, the pitch and the description's opening), verbatim. Only the App Store says "Lensatic Cyber"; everywhere else says "Lensatic".
 STORE_NAME = "Lensatic Cyber"
 SUBTITLE = "A compass for cyber frameworks"
 TAGLINE = "Public sector cyber frameworks are thick woods. Lensatic is the compass."
@@ -65,7 +65,7 @@ WAYFINDER = ("Lensatic is a wayfinder, not a crosswalk. It guides you, showing w
              "the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber "
              "assurance terrain.")
 COMPASS = "\U0001F9ED"
-OPENING = ("The federal cyber framework landscape is thick woods: overlapping rules, shifting requirements, and a dozen "
+OPENING = ("The public sector cyber framework landscape is thick woods: overlapping rules, shifting requirements, and a dozen "
            "trails that all look alike. Lensatic Cyber is the compass that shows where you stand and which way to head "
            f"next. {COMPASS}")
 WHATS_INSIDE = "What's inside"

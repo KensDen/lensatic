@@ -11,10 +11,10 @@ A Zero Trust study guide and one-page quick references for anyone leading or lea
 | | |
 |---|---|
 | [Web page](index.html) | The study guide, the three Quick References and the grouped Sources list on one phone-first page, in light and dark themes, with a track switcher at the top. |
-| [Study guide (PDF)](20261019_ZT_Study_Guide_v2.8.1.pdf) | The printable guide, core and all three tracks: US Letter, 26 pages, with page numbers. |
-| [Quick Reference: DoW (PDF)](20261019_ZT_Quick_Reference_DoW_v2.8.1.pdf) | The DoW job aid on one US Letter page. |
-| [Quick Reference: Federal civilian (PDF)](20261019_ZT_Quick_Reference_Federal_Civilian_v2.8.1.pdf) | The federal civilian job aid on one US Letter page. |
-| [Quick Reference: Private sector (PDF)](20261019_ZT_Quick_Reference_Private_Sector_v2.8.1.pdf) | The private-sector job aid on one US Letter page. |
+| [Study guide (PDF)](20261018_ZT_Study_Guide_v2.8.1.pdf) | The printable guide, core and all three tracks: US Letter, 26 pages, with page numbers. |
+| [Quick Reference: DoW (PDF)](20261018_ZT_Quick_Reference_DoW_v2.8.1.pdf) | The DoW job aid on one US Letter page. |
+| [Quick Reference: Federal civilian (PDF)](20261018_ZT_Quick_Reference_Federal_Civilian_v2.8.1.pdf) | The federal civilian job aid on one US Letter page. |
+| [Quick Reference: Private sector (PDF)](20261018_ZT_Quick_Reference_Private_Sector_v2.8.1.pdf) | The private-sector job aid on one US Letter page. |
 | [Verification record](VERIFICATION.md) | What was checked, against which primary source and page, and what was corrected, for v1.0, v2.0 and v2.2. |
 | [License](LICENSE) | The all-rights-reserved notice. |
 

@@ -65,7 +65,8 @@ ROOT = Path(__file__).resolve().parent.parent
 STACK = ROOT / "content" / "stack.json"
 HTML = ROOT / "web" / "lensatic.html"
 DOCS = ROOT / "docs"
-DOC_FILES = ("maps/index.html", "privacy.html", "support.html", "social-card.png", ".nojekyll")
+SOCIAL_NAME = "social-card-v2.png"  # the card's published name, as tools/build_web.py sets it (SOCIAL_NAME there)
+DOC_FILES = ("maps/index.html", "privacy.html", "support.html", SOCIAL_NAME, ".nojekyll")
 # Lensatic 2.0: the rest of docs/ belongs to the umbrella (tools/build_hub.py writes it, tools/check_umbrella.py checks it)
 UMBRELLA_FILES = ("index.html", "guides/index.html", "sitemap.xml", "shared/lensatic.css")
 UMBRELLA_DIRS = ("guides/", "playbook/", "shared/")      # published copies; the moved sections keep their own checks
@@ -1127,12 +1128,14 @@ def main() -> int:
     errs = []
     imgs = sorted(q.relative_to(DOCS).as_posix() for q in DOCS.rglob("*") if q.is_file() and q.suffix.lower() in IMAGE_SUFFIXES
                   and not q.relative_to(DOCS).as_posix().startswith(UMBRELLA_DIRS)) if DOCS.is_dir() else []
-    if imgs != ["social-card.png"]:
-        errs.append(f"the map's part of docs/ holds the images {imgs}, expected exactly social-card.png")
-    card = DOCS / "social-card.png"
+    if B.SOCIAL_NAME != SOCIAL_NAME:
+        errs.append(f"tools/build_web.py publishes the card as {B.SOCIAL_NAME}, this check expects {SOCIAL_NAME}")
+    if imgs != [SOCIAL_NAME]:
+        errs.append(f"the map's part of docs/ holds the images {imgs}, expected exactly {SOCIAL_NAME}")
+    card = DOCS / SOCIAL_NAME
     size_ = "missing"
     if not card.is_file() or not SOCIAL_SRC.is_file() or card.read_bytes() != SOCIAL_SRC.read_bytes():
-        errs.append("docs/social-card.png is not web/src/social-card.png byte for byte")
+        errs.append(f"docs/{SOCIAL_NAME} is not web/src/social-card.png byte for byte")
     else:
         data = card.read_bytes()
         w_, h_ = int.from_bytes(data[16:20], "big"), int.from_bytes(data[20:24], "big")
@@ -1148,7 +1151,7 @@ def main() -> int:
     errs += [f"<meta {k}> appears {v} times" for k, v in seen_.items() if v > 1]
     # the preview's description is the pitch (session 9); the description tag for search engines stays meta.description
     want_ = {"og:title": B.umbrella_title(d), "og:description": d["meta"]["pitch"], "og:type": "website", "og:url": f"{SITE}{B.MAPS_KEY}/",
-             "og:image": f"{SITE}social-card.png", "og:image:width": "1200", "og:image:height": "630", "twitter:card": "summary_large_image",
+             "og:image": f"{SITE}{SOCIAL_NAME}", "og:image:width": "1200", "og:image:height": "630", "twitter:card": "summary_large_image",
              "description": d["meta"]["description"]}
     if "twitter:description" in metas:
         want_["twitter:description"] = d["meta"]["pitch"]
@@ -1158,7 +1161,7 @@ def main() -> int:
     for k in ("og:url", "og:image"):
         if not (metas.get(k) or "").startswith("https://kensden.github.io/lensatic/"):
             errs.append(f"{k} is not an absolute https address on kensden.github.io/lensatic/")
-    rep.check("social card: the map's part of docs/ holds exactly one image, social-card.png, byte for byte the committed source, 1200 x 630; og:url and "
+    rep.check(f"social card: the map's part of docs/ holds exactly one image, {SOCIAL_NAME}, byte for byte the committed source, 1200 x 630; og:url and "
               "og:image are absolute https addresses on the published site; the preview tags come from content (og:description the pitch, "
               "the description tag meta.description)", errs, size_)
 

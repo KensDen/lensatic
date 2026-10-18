@@ -12,7 +12,7 @@ still makes no network request. The tab icon is an inline SVG data URI of the ap
 With --pages it also writes the map's part of the project site under docs/ for GitHub Pages: docs/maps/index.html
 (byte-identical to the built page; Lensatic 2.0 moved the map to /lensatic/maps/ and the hub took the root),
 docs/privacy.html and docs/support.html (plain pages, no script, text from content/stack.json, theme tokens from the
-top of styles.css, the same type), docs/social-card.png (web/src/social-card.png, byte for byte, the Lensatic card the
+top of styles.css, the same type), docs/social-card-v2.png (web/src/social-card.png, byte for byte, the Lensatic card the
 hub and the map share; only a link-preview crawler fetches it) and an empty docs/.nojekyll. tools/build_hub.py writes
 the rest of docs/.
 
@@ -51,6 +51,9 @@ FONT_DIR = SRC / "fonts"
 FONT_FACES = (("IBM Plex Sans", 400, "IBMPlexSans-Regular-Latin1.woff2"), ("IBM Plex Sans", 700, "IBMPlexSans-Bold-Latin1.woff2"),
               ("IBM Plex Mono", 400, "IBMPlexMono-Regular-Latin1.woff2"), ("IBM Plex Mono", 700, "IBMPlexMono-Bold-Latin1.woff2"))
 SOCIAL_CARD = SRC / "social-card.png"
+# the card's published name. A new name makes link-preview caches fetch it afresh: social-card-v2.png since the Public
+# sector tagline (18 October 2026), when LinkedIn kept showing the cached card
+SOCIAL_NAME = "social-card-v2.png"
 HUB_SITE = ROOT / "hub" / "site.json"        # the umbrella's section names and addresses (Lensatic 2.0)
 SHARED_CSS = ROOT / "hub" / "lensatic.css"   # the field system's shared tokens and chrome, inlined before styles.css
 MAPS_KEY = "maps"
@@ -1166,7 +1169,7 @@ def social_tags(d: dict) -> str:
     meta = d["meta"]
     w, h = SOCIAL_SIZE
     tags = [("property", "og:title", umbrella_title(d)), ("property", "og:description", meta["pitch"]), ("property", "og:type", "website"),
-            ("property", "og:url", f"{SITE}{MAPS_KEY}/"), ("property", "og:image", f"{SITE}social-card.png"), ("property", "og:image:width", str(w)),
+            ("property", "og:url", f"{SITE}{MAPS_KEY}/"), ("property", "og:image", f"{SITE}{SOCIAL_NAME}"), ("property", "og:image:width", str(w)),
             ("property", "og:image:height", str(h)), ("name", "twitter:card", "summary_large_image")]
     return "\n".join(f'<meta {a}="{k}" content="{esc(v)}">' for a, k, v in tags)
 
@@ -1177,7 +1180,7 @@ def build_docs(index: bytes, stack: Path, docs: Path, author: str = "") -> list[
     docs.mkdir(parents=True, exist_ok=True)
     files = {f"{MAPS_KEY}/index.html": index, ".nojekyll": b""}
     files.update({f"{k}.html": build_page(d, k, author) for k in PAGES})
-    files["social-card.png"] = SOCIAL_CARD.read_bytes()
+    files[SOCIAL_NAME] = SOCIAL_CARD.read_bytes()
     out = []
     for name, data in files.items():
         (docs / name).parent.mkdir(parents=True, exist_ok=True)
