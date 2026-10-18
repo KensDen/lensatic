@@ -41,11 +41,13 @@ GitHub's Terms of Service (section D.5) let other GitHub users view and fork a p
 
 Versions of this repository published before this notice was added on 27 September 2026 were released under the MIT License (code) and Creative Commons Attribution 4.0 International (text). Those grants still apply to copies of those earlier versions. They do not apply to anything added or changed since. On 27 September 2026 the repository's earlier history was replaced with a single fresh commit, so those versions are no longer part of its history.
 
+Zero Trust, in `guides/zero-trust/`, and Agentic SecOps, in `playbook/`, carry their own notices, [`guides/zero-trust/LICENSE`](guides/zero-trust/LICENSE) and [`playbook/LICENSE`](playbook/LICENSE), and LICENSE marks each work. For Zero Trust it records, in its own words: "Versions 1.0 (27 September 2026) and 2.0 (30 September 2026) were released under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license (CC BY-NC-SA 4.0). That grant still applies to copies of those versions. It does not apply to anything added or changed since."
+
 Most of the frameworks Lensatic describes are United States government publications. Works prepared by United States government officers and employees as part of their official duties are in the public domain in the United States. The app cites these publications and links to them, and the notice above covers only Lensatic's own code and text.
 
 IBM Corp. holds the copyright in the typefaces the built pages embed, IBM Plex Sans and IBM Plex Mono, which are licensed under the SIL Open Font License, Version 1.1 ([`web/src/fonts/OFL.txt`](web/src/fonts/OFL.txt)). That license, not the notice above, governs them.
 
-The iOS app in `ios/` is covered by the same all-rights-reserved notice as the rest of the repository. Its fonts are IBM's own TrueType files for the same IBM Plex faces, unmodified, under the same license, with IBM's license beside them ([`ios/Lensatic/Resources/Fonts/OFL.txt`](ios/Lensatic/Resources/Fonts/OFL.txt)); the Lensatic name and icon identify this project and, like the rest of it, are not licensed for any other use.
+The iOS app in `ios/` is covered by the same all-rights-reserved notice as the rest of Framework Maps. Its fonts are IBM's own TrueType files for the same IBM Plex faces, unmodified, under the same license, with IBM's license beside them ([`ios/Lensatic/Resources/Fonts/OFL.txt`](ios/Lensatic/Resources/Fonts/OFL.txt)); the Lensatic name and icon identify this project and, like the rest of it, are not licensed for any other use.
 
 Where a cited work is protected, its title, names and any short quotation remain its owner's, and the work itself is described, not reproduced. Nothing from the AI Defense Matrix, which its authors publish under CC BY-SA 4.0, is reproduced. The app cites it, describes it in its own words, and credits its authors and license.
 
