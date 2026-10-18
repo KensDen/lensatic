@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.6",
-    "builtOn": "2026-10-11",
+    "contentVersion": "1.2.7",
+    "builtOn": "2026-10-19",
     "sources": [
       "csf20",
       "sp800-207",
@@ -145,11 +145,16 @@
         "version": "1.2.6",
         "date": "2026-10-11",
         "summary": "Glossary entries no longer each carry a Verified badge; a badge now marks only an entry that could not be confirmed."
+      },
+      {
+        "version": "1.2.7",
+        "date": "2026-10-19",
+        "summary": "The tagline now speaks of public sector cyber frameworks, and the privacy policy also covers the Zero Trust page and the Agentic SecOps app. SP 1353 is rechecked: its comment period closed on 15 October 2026 and it is still the initial public draft."
       }
     ],
     "description": "A guide to the United States federal cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
-    "tagline": "Federal cyber frameworks are thick woods. Lensatic is the compass.",
-    "pitch": "Federal cyber frameworks are thick woods. Lensatic is the compass: find where you stand, see which framework applies, and take a bearing on your next waypoint.",
+    "tagline": "Public sector cyber frameworks are thick woods. Lensatic is the compass.",
+    "pitch": "Public sector cyber frameworks are thick woods. Lensatic is the compass: find where you stand, see which framework applies, and take a bearing on your next waypoint.",
     "wayfinder": "Lensatic is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.",
     "about": {
       "notAffiliated": "Not affiliated with NIST, CISA, NSA, {{dow.current}}, OMB, or any framework publisher.",
@@ -1079,12 +1084,12 @@
       "url": "https://csrc.nist.gov/pubs/sp/1353/ipd",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-30",
+        "verifiedOn": "2026-10-18",
         "method": "primary-fetch",
-        "note": "CSRC record fetched: initial public draft published 19 August 2026, comments due 15 October 2026, part of the CSF 2.0 quick-start guide series. Rechecked 17 September 2026: still the initial public draft, comments due 15 October 2026, no second draft or final. Rechecked 30 September 2026 (session 13 fetch c012): still the initial public draft of 19 August 2026, comments due 15 October 2026, with one history entry.",
-        "recheckAfter": "2026-10-16"
+        "note": "CSRC record fetched: initial public draft published 19 August 2026, comments due 15 October 2026, part of the CSF 2.0 quick-start guide series. Rechecked 17 September 2026: still the initial public draft, comments due 15 October 2026, no second draft or final. Rechecked 30 September 2026 (session 13 fetch c012): still the initial public draft of 19 August 2026, comments due 15 October 2026, with one history entry. Rechecked 18 October 2026: still the initial public draft of 19 August 2026, the public comment period closed on 15 October 2026, one history entry, no second draft or final.",
+        "recheckAfter": "2026-12-15"
       },
-      "note": "Placed in the AI column as a quick-start guide rather than a framework. Comments are open until 15 October 2026, as of 30 September 2026.",
+      "note": "Placed in the AI column as a quick-start guide rather than a framework. Its comment period closed on 15 October 2026, and it was still the initial public draft on 18 October 2026.",
       "authority": {
         "nature": "guidance",
         "binds": [
@@ -5931,6 +5936,7 @@
         "Lensatic holds nothing about you, so there is nothing to retain or delete. Clearing this site's data in your browser removes the saved theme choice.",
         "There are no third-party software development kits (SDKs), no analytics and no advertising.",
         "In the web page and the app, the only outside links go to the public documents cited in Sources and to the source repository on GitHub; both also link to this policy and the support page. They open in your browser, under those sites' own privacy policies. This page and the support page also link to GitHub.",
+          "The Zero Trust page and the Agentic SecOps app on this site store only a theme choice in this browser and link out to their public sources.",
         "The web copy at https://kensden.github.io/lensatic/ is hosted by GitHub Pages. GitHub's documentation for GitHub Pages says it logs and stores the internet protocol (IP) address of each visitor for security purposes (https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection); see also the GitHub Privacy Statement (https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Lensatic itself collects nothing from those visits.",
         "Questions about this policy: open an issue on the repository's GitHub issues page, https://github.com/kensden/lensatic/issues. Opening an issue needs a GitHub account, and issues are public. An issue you open stays on GitHub under GitHub's privacy statement; ask in the issue and it will be deleted.",
         "The effective date is the date of the content release that built this page, so it moves with each release."
