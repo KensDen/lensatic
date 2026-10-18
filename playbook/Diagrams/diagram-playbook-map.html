@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Playbook at a Glance</title>
+<style>
+  :root{
+    --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
+    --border:rgba(160,200,255,0.11); --border2:rgba(160,200,255,0.17);
+    --text:#EAF4FF; --muted:#8FA3C2; --dim:#6B7E9C; --accent:#45C4F4;
+    --intel:#ff8c42; --red:#EF4444; --blue:#3B82F6; --purple:#B273B5; --green:#10B981; --gold:#F59E0B;
+    --tint-accent:#ABE4FA; --tint-purple:#DCC0DE; --tint-blue:#93C5FD; --tint-gold:#FCD34D; --tint-red:#FCA5A5; --tint-intel:#FDBA74; --tint-green:#6EE7B7;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
+    background-image:
+      radial-gradient(1100px 620px at 50% 26%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 60%),
+      linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:auto,46px 46px,46px 46px;}
+  .poster{max-width:1180px; margin:0 auto}
+  .rev{opacity:0; transform:translateY(10px); animation:up .6s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes up{to{opacity:1; transform:none}}
+  header{padding-bottom:16px; margin-bottom:22px; border-bottom:1px solid var(--border2); text-align:center}
+  h1{font-size:clamp(22px,3vw,36px); font-weight:700; letter-spacing:.04em; text-transform:uppercase; line-height:1.1}
+  h1 .a{color:var(--accent)}
+  .subtitle{color:var(--muted); font-size:13px; margin-top:8px}
+
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+  .sec{background:var(--surface); border:1px solid var(--border); border-top:3px solid var(--border2); border-radius:8px; padding:11px 12px; transition:transform .15s ease}
+  .sec:hover{transform:translateY(-3px)}
+  .sec .sh{display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:9px}
+  .sec .st{font-size:11.5px; font-weight:700; letter-spacing:.02em; line-height:1.15}
+  .sec .sn{font-size:9px; color:var(--dim); border:1px solid var(--border2); border-radius:10px; padding:1px 7px; white-space:nowrap}
+  .chips{display:flex; flex-wrap:wrap; gap:5px}
+  .chips span{font-size:8.7px; color:var(--muted); background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:3px 7px; line-height:1.2}
+  .s1{border-top-color:var(--accent)} .s1 .st{color:var(--tint-accent)} .s1 .sn{color:var(--accent)}
+  .s2{border-top-color:var(--purple)} .s2 .st{color:var(--tint-purple)} .s2 .sn{color:var(--purple)}
+  .s3{border-top-color:var(--blue)} .s3 .st{color:var(--tint-blue)} .s3 .sn{color:var(--blue)}
+  .s4{border-top-color:var(--gold)} .s4 .st{color:var(--tint-gold)} .s4 .sn{color:var(--gold)}
+  .s5{border-top-color:var(--red)} .s5 .st{color:var(--tint-red)} .s5 .sn{color:var(--red)}
+  .s6{border-top-color:var(--intel)} .s6 .st{color:var(--tint-intel)} .s6 .sn{color:var(--intel)}
+  .s7{border-top-color:var(--green)} .s7 .st{color:var(--tint-green)} .s7 .sn{color:var(--green)}
+  .wide{grid-column:span 2}
+
+  .footer{margin-top:20px; padding-top:14px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  .footer .l{font-size:10px; color:var(--dim); line-height:1.55; max-width:74%} .footer .l b{color:var(--muted)}
+  .footer .r .badge{display:inline-block; border:1px solid var(--border2); border-radius:4px; padding:3px 8px; color:var(--accent); font-weight:700; letter-spacing:.1em; font-size:10px}
+
+  @media (max-width:980px){ .grid{grid-template-columns:repeat(2,1fr)} .wide{grid-column:span 1} }
+  @media (max-width:560px){ .grid{grid-template-columns:1fr} }
+  @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
+  .copy{margin-top:5px}
+</style>
+</head>
+<body>
+<div class="poster">
+  <header class="rev" style="animation-delay:.02s">
+    <h1>The Playbook <span class="a">at a Glance</span></h1>
+    <div class="subtitle">35 plays across 7 themes &mdash; foundations, the teaming loop, strategy &amp; build, mission assurance, security &amp; intel ops, and the reference depth behind it</div>
+  </header>
+
+  <div class="grid">
+    <div class="sec s1 rev" style="animation-delay:.06s">
+      <div class="sh"><span class="st">Foundations</span><span class="sn">3</span></div>
+      <div class="chips"><span>Overview</span><span>Human in Command</span><span>Fundamentals</span></div>
+    </div>
+    <div class="sec s2 rev" style="animation-delay:.1s">
+      <div class="sh"><span class="st">Teaming</span><span class="sn">3</span></div>
+      <div class="chips"><span>Red Team</span><span>Blue Team</span><span>Purple Team</span></div>
+    </div>
+    <div class="sec s3 rev" style="animation-delay:.14s">
+      <div class="sh"><span class="st">Strategy &amp; Planning</span><span class="sn">5</span></div>
+      <div class="chips"><span>Maturity Model</span><span>Roadmap</span><span>Program &amp; Operating Model</span><span>Metrics &amp; ROI</span><span>Action Plan</span></div>
+    </div>
+    <div class="sec s4 rev" style="animation-delay:.18s">
+      <div class="sh"><span class="st">Technical (Build)</span><span class="sn">4</span></div>
+      <div class="chips"><span>Reference Architecture</span><span>Infrastructure &amp; Compute</span><span>Network &amp; Security Controls</span><span>OT, ICS &amp; SCADA</span></div>
+    </div>
+    <div class="sec s5 rev" style="animation-delay:.22s">
+      <div class="sh"><span class="st">Mission Assurance (GRC)</span><span class="sn">4</span></div>
+      <div class="chips"><span>Governance</span><span>Compliance</span><span>Federal &amp; DoD</span><span>Procurement &amp; Vendor Risk</span></div>
+    </div>
+    <div class="sec s6 rev" style="animation-delay:.26s">
+      <div class="sh"><span class="st">Security &amp; Intelligence Ops</span><span class="sn">7</span></div>
+      <div class="chips"><span>AI Threat Modeling</span><span>AI Threat Landscape</span><span>CTI for Agentic SecOps</span><span>Agentic Insider Risk</span><span>Agent Containment</span><span>Agent Incident Response</span><span>Supply-Chain Counter-Threat</span></div>
+    </div>
+    <div class="sec s7 wide rev" style="animation-delay:.3s">
+      <div class="sh"><span class="st">Reference</span><span class="sn">9</span></div>
+      <div class="chips"><span>Frontier AI &amp; Government</span><span>Frameworks</span><span>Research Library</span><span>Case Studies</span><span>Risks &amp; Ethics</span><span>Tools &amp; Tech Stack</span><span>AI Fluency</span><span>Learning Path</span><span>Resource Index</span></div>
+    </div>
+  </div>
+
+  <div class="footer rev" style="animation-delay:.36s">
+    <div class="l"><b>One continuous, governed, human-led approach.</b> Foundations frame the problem; red / blue / purple is the engine; strategy and the technical build make it real; mission assurance and security / intel ops keep it safe and current &mdash; with a reference library underneath. <b>35 plays &middot; 7 themes.</b><div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="r"><span class="badge">AGENTIC SECOPS</span></div>
+  </div>
+</div>
+</body>
+</html>
