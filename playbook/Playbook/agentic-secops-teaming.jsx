@@ -5808,7 +5808,7 @@ export default function App() {
 <body>
 <div class="poster">
   <header class="rev" style="animation-delay:.02s">
-    <h1>Value Stream Map <span class="a">: Lead Time per New TTP</span></h1>
+    <h1>Value Stream Map: <span class="a">Lead Time per New TTP</span></h1>
     <div class="subtitle">Agentic purple teaming vs. the traditional manual cycle: same work, the wait states removed</div>
   </header>
 
