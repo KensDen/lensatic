@@ -31,7 +31,7 @@ Public sector cyber frameworks are thick woods. Lensatic is the compass: find wh
 ## Description (`description`)
 
 ```text
-The federal cyber framework landscape is thick woods: overlapping rules, shifting requirements, and a dozen trails that all look alike. Lensatic Cyber is the compass that shows where you stand and which way to head next. 🧭
+The public sector cyber framework landscape is thick woods: overlapping rules, shifting requirements, and a dozen trails that all look alike. Lensatic Cyber is the compass that shows where you stand and which way to head next. 🧭
 
 Lensatic Cyber is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.
 
@@ -55,7 +55,7 @@ Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework pu
 A lensatic compass is the Army's field compass. You sight a landmark through its lens, read the bearing off the dial, and move out knowing which way you're headed. Lensatic Cyber does the same for the framework stack: find where you stand, see which framework applies, and take a bearing on what comes next.
 ```
 
-1468 characters (limit 4,000)
+1474 characters (limit 4,000)
 
 ## Keywords (`keywords`)
 
