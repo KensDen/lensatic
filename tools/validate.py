@@ -45,6 +45,12 @@ SWEEP_SCOPES = ["content", "web", "ios", "critique", "docs", "hub", "README.md",
 # published copies under docs/ are left out of this sweep too: their text is theirs, held by their own checks, and the
 # owner's private sweep list runs across everything in tools/check_umbrella.py.
 SWEEP_SKIP = ("docs/guides/zero-trust/", "docs/playbook/")
+# List scopes (owner's decision, 18 October 2026, gauntlet questions 5 to 7): this sweep's list (list B, tools/sweep_source.json
+# or a local list) governs Lensatic. The owner's private list (list A, LENSATIC_PRIVATE_SWEEP) was built for the Zero Trust
+# guide, and its scope is guides/zero-trust/; its matches elsewhere in Lensatic and on kensden.github.io are expected and are
+# not findings (critique/20261018_Naming_Check_v1.0.md). tools/check_umbrella.py still runs it over the umbrella's own files.
+# Embedded base64 data (data: URIs) is removed before matching, so a chance match inside an image or a font is not a hit.
+DATA_URI = re.compile(r"data:[a-z/+.-]+;base64,[A-Za-z0-9+/=]+")
 # The two license files, each pinned by its SHA-256. LICENSE is the all-rights-reserved notice for Lensatic's own code
 # and text, in the words the owner ruled on 27 Sep 2026 (session 7B), with that date filled in; it is in force from
 # content 0.7.0 and is authored text, so it passes every check README.md passes. web/src/fonts/OFL.txt is IBM's own
@@ -650,7 +656,7 @@ def main() -> int:
             for probe, t in probes:
                 if probe in str(rel).lower():
                     errs.append(f"{rel}: file name contains sweep term #{terms.index(t) + 1}")
-            for ln, line in enumerate(text.lower().splitlines(), 1):
+            for ln, line in enumerate(DATA_URI.sub("", text).lower().splitlines(), 1):
                 for probe, t in probes:
                     if probe in line:
                         errs.append(f"{rel}:{ln}: contains sweep term #{terms.index(t) + 1}" + ("" if probe == t else " (rot13 form)"))
@@ -683,8 +689,8 @@ def main() -> int:
     errs = []
     lower_hits = []
     process_hits = []
-    # Lensatic 2.0 (owner's decision 1, 18 October 2026): the forbidden word is now the name of a Lensatic section, which the
-    # README's top section must name, so README.md left this check; content/, critique/, LICENSE and the font licence stay
+    # Lensatic 2.0 (owner's decision 1, 18 October 2026): README.md left this check; content/, critique/, LICENSE and the font
+    # licence stay
     for p in list(iter_text_files(CONTENT)) + list(iter_text_files(CRITIQUE)) + [LICENSE_CODE, LICENSE_FONTS]:
         if not p.exists():
             continue

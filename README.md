@@ -66,7 +66,7 @@ Since Lensatic 2.0 the battery also runs `tools/check_umbrella.py` (the hub, the
 - Provenance and authority fields are complete.
 - The matrix holds exactly 48 unique cells, and the two pillar views cover all eight canonical pillars.
 - Trailhead steps resolve.
-- The sweep is clean in plain and rot13 form across `content/`, `web/`, `ios/` (the App Store listing in `ios/store/` included), `critique/`, `docs/` (bar the moved sections' published copies, which their own checks hold), `hub/`, this file and `LICENSE`, and the forbidden word appears nowhere in `content/`, `critique/` or `LICENSE` (Lensatic 2.0 made it a section's name, which this file names).
+- The sweep is clean in plain and rot13 form across `content/`, `web/`, `ios/` (the App Store listing in `ios/store/` included), `critique/`, `docs/` (bar the moved sections' published copies, which their own checks hold), `hub/`, this file and `LICENSE`, and the forbidden word appears nowhere in `content/`, `critique/` or `LICENSE`.
 - No em dash appears in `content/`, `critique/`, this file or `LICENSE`.
 - The department name is rendered only from `orgs.dow`.
 - Glossary terms and spellings are unique, resolve to their entries and carry an expansion.

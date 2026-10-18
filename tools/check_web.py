@@ -926,8 +926,8 @@ def main() -> int:
         for probe in (tname, codecs.encode(tname, "rot13")):
             if probe in low:
                 hits.append(f"term #{terms.index(tname) + 1}")
-    # Lensatic 2.0 (owner's decision 1, 18 October 2026): the forbidden word is now the name of a Lensatic section, so it may
-    # appear in the umbrella bar's section link and nowhere else in the wrapper
+    # Lensatic 2.0 (owner's decision 1, 18 October 2026): the umbrella bar is held by tools/check_umbrella.py and is left out
+    # of this check
     if V.FORBIDDEN_WORD in re.sub(r'<nav class="lx-bar".*?</nav>', "", rest, flags=re.S):
         hits.append("forbidden word")
     rep.check("sweep clean and no forbidden word in the wrapper", hits, f"{len(terms)} terms from {src}")
