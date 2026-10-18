@@ -60,7 +60,7 @@ A plain large language model (LLM) takes text in and produces text out. It has n
 An **Agentic AI system** wraps an LLM in machinery that lets it *act*. A useful mental model is four components working in a loop:
 
 - **Reasoning core**: the LLM that interprets goals, plans steps, and decides what to do next.
-- **Tools**, functions the agent can call to affect the world: search the web, run code, query a database, send an email, hit an internal API, move money. In modern systems these tools are increasingly exposed through the **Model Context Protocol (MCP)**, a standard that lets agents discover and call external tools/servers, which is powerful, and a major new attack surface (Part 3).
+- **Tools**: functions the agent can call to affect the world: search the web, run code, query a database, send an email, hit an internal API, move money. In modern systems these tools are increasingly exposed through the **Model Context Protocol (MCP)**, a standard that lets agents discover and call external tools/servers, which is powerful, and a major new attack surface (Part 3).
 - **Memory**: state the agent carries across steps or sessions, often backed by a vector database (the store behind retrieval-augmented generation, or RAG).
 - **Orchestration / planning**: the logic that chains steps together and, in multi-agent systems, lets agents delegate to and call one another.
 

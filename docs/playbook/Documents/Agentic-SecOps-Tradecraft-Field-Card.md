@@ -20,9 +20,9 @@
 - **The lethal trifecta**: private-data access + untrusted-content exposure + external communication = exfiltration risk. Break at least one leg in every agent design.
 
 ## The teaming loop (red → blue → purple, continuous)
-- **Red**, emulate agentic adversaries: multi-step, tool-using, intelligence-driven (agents acting as named threat actors using your own CTI).
+- **Red**: emulate agentic adversaries: multi-step, tool-using, intelligence-driven (agents acting as named threat actors using your own CTI).
 - **Blue**: defend *with* agents, but validate everything. Detection-as-code: version-controlled, peer-reviewed, CI/CD-tested, not console-tuned.
-- **Purple**, close the loop: every red finding becomes a tested detection; re-run emulation to prove it fires. Point-in-time assessment is dead; the loop is the product.
+- **Purple**: close the loop: every red finding becomes a tested detection; re-run emulation to prove it fires. Point-in-time assessment is dead; the loop is the product.
 - **Continuous agent evaluation**: agents degrade. Keep checking they're still good.
 
 ## Defensive controls (the agent-security checklist)
@@ -38,11 +38,11 @@
 
 ## Containment & incident response
 - **Cryptographically anchored agent identity** with short-lived credentials.
-- **Assume-compromise**. Vulnerability management and IR converge: patch the asset, then determine whether an adversary beat the patch there.
+- **Assume-compromise**: vulnerability management and IR converge: patch the asset, then determine whether an adversary beat the patch there.
 - **Agent IR**: reversibility and rapid rollback; isolate and contain, don't only prevent.
 
 ## Governance, GRC & federal
-- **NIST AI RMF**, GOVERN / MAP / MEASURE / MANAGE: the backbone to align to.
+- **NIST AI RMF**: GOVERN / MAP / MEASURE / MANAGE: the backbone to align to.
 - **Anchor frameworks**: OWASP LLM Top 10 + Agentic (ASI) Top 10 + NHI Top 10; MITRE ATT&CK + ATLAS; NIST SP 800-207 (zero trust); Google SAIF; ISO 42001; EU AI Act.
 - **Policy = tool arrangement**: an agent's effective policy is what it may do, which tools and data it can reach, and how memory and updates land. The arrangement diagram is the governance artifact.
 - **Federal**: RMF / cATO and continuous monitoring; emergency-patch criteria redesigned for machine-speed exploitation.
