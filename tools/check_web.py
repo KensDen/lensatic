@@ -133,7 +133,7 @@ CITE_RULINGS = (
      "2026-07-13", "Acquisition and Sustainment memorandum with Attachment 1, CMMC procedures"),
     ("Removing Barriers to Defense Industrial Base Expansion", "CIO memorandum", "2026-07-13", "CIO memorandum"),
 )
-ISSUES_URL = "https://github.com/kensden/lensatic/issues"
+ISSUES_URL = "https://github.com/KensDen/lensatic/issues"
 # the one image element the page may hold: the maker's photo in About, embedded (session 7D); the photo check below
 # decodes it against the pinned file, and any other <img> or src still fails the resource check
 PHOTO = ROOT / "web" / "src" / "about-photo.jpg"
