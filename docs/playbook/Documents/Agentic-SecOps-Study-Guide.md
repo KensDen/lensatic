@@ -2,7 +2,7 @@
 
 © 2026 Ken Connell. All rights reserved.
 
-*A self-study guide to red, blue, and purple teaming of agentic AI systems.*
+*A self-study guide to red, blue, and purple teaming of Agentic AI systems.*
 
 This guide assumes you already understand SOC fundamentals — alerts, telemetry, the kill chain, MITRE ATT&CK, EDR/SIEM — but are newer to AI/ML security specifically. It builds from “what is an AI agent” up to running red, blue, and purple exercises against agentic systems, and it points you to the current frameworks, tools, and certifications. Where it helps, it connects concepts to the Microsoft security stack (Defender, Sentinel, Security Copilot), which many enterprises run.
 
@@ -51,13 +51,13 @@ Keep the glossary handy as you read. The self-check at the end is grouped by Par
 
 -----
 
-## Part 0 — Foundations: what “agentic AI” actually is
+## Part 0 — Foundations: what “Agentic AI” actually is
 
 The single most important distinction to internalize is the difference between a **language model** and an **agent**.
 
 A plain large language model (LLM) takes text in and produces text out. It has no hands. The worst it can do on its own is say something wrong or harmful.
 
-An **agentic AI system** wraps an LLM in machinery that lets it *act*. A useful mental model is four components working in a loop:
+An **Agentic AI system** wraps an LLM in machinery that lets it *act*. A useful mental model is four components working in a loop:
 
 - **Reasoning core** — the LLM that interprets goals, plans steps, and decides what to do next.
 - **Tools** — functions the agent can call to affect the world: search the web, run code, query a database, send an email, hit an internal API, move money. In modern systems these tools are increasingly exposed through the **Model Context Protocol (MCP)**, a standard that lets agents discover and call external tools/servers — which is powerful, and a major new attack surface (Part 3).
@@ -76,7 +76,7 @@ Why this matters for security, in one sentence: **an agent can take real actions
 
 ## Part 1 — The two questions that frame everything
 
-Almost everything in agentic AI security falls into one of two questions, and most real work touches both. Keep this framing in your head constantly, because people routinely talk past each other by conflating them.
+Almost everything in Agentic AI security falls into one of two questions, and most real work touches both. Keep this framing in your head constantly, because people routinely talk past each other by conflating them.
 
 **Question A — How do we secure the AI agents themselves?** Here the agent is the *target*. You’re protecting an autonomous system that customers, employees, or other systems interact with.
 
@@ -105,7 +105,7 @@ Seven bodies of work define the vocabulary of this field. You will hear these re
 |MITRE ATLAS                                   |MITRE                              |Adversary tactics & techniques vs AI systems (the “ATT&CK for AI”)|Threat modeling, red teaming, mapping detections                      |
 |NIST AI RMF + AI 100-2                        |NIST                               |Governance framework + formal adversarial-ML taxonomy             |Risk management, compliance, shared terminology                       |
 |Google Secure AI Framework (SAIF)             |Google                             |Conceptual framework of secure-AI best practices                  |High-level program design; basis of some training                     |
-|CSA MAESTRO                                   |Cloud Security Alliance (Ken Huang)|A 7-layer threat-modeling method for agentic AI                   |Architecturally threat-modeling a specific agent or multi-agent system|
+|CSA MAESTRO                                   |Cloud Security Alliance (Ken Huang)|A 7-layer threat-modeling method for Agentic AI                   |Architecturally threat-modeling a specific agent or multi-agent system|
 
 A note before the lists: the SANS adversarial course (SEC536) makes a point of teaching attacks that fall **beyond the OWASP Top 10** — MCP-specific abuse, side channels, weight theft, vision evasion, and classic appsec bugs reappearing in AI plumbing. The frameworks are necessary scaffolding, not a complete map of the attack surface. Treat them as the shared language, and Part 3 as the fuller terrain.
 
@@ -367,7 +367,7 @@ SEC598’s whole thesis is that continuous purple teaming is an *automation-engi
 - **Detection-as-code feedback** — each red finding becomes a new or improved detection in source control, and emulation re-runs to prove it fires (SEC598’s “Detection as Code” labs, including LLM-assisted detection testing).
 - **The supporting stack** — infrastructure-as-code (**Terraform**, **Ansible**) to stand up consistent environments, **Python/Jupyter** for enrichment and analysis, SOAR (**Tines**) for orchestration, and DFIR tooling (**Velociraptor**, **Timesketch**) for automated triage. Jason Ostrom’s open-source **PurpleCloud** and **Automated Emulation** projects are purpose-built for scalable cloud adversary emulation.
 
-A useful distinction: the emulation/automation side leans on **MITRE ATT&CK** (the system/network TTPs you’re validating detections against), while the AI-attack side leans on **MITRE ATLAS** and the OWASP/NIST AI taxonomies. A mature agentic-AI purple program uses both — ATLAS-mapped attacks against the AI system, ATT&CK-mapped emulation for the surrounding environment.
+A useful distinction: the emulation/automation side leans on **MITRE ATT&CK** (the system/network TTPs you’re validating detections against), while the AI-attack side leans on **MITRE ATLAS** and the OWASP/NIST AI taxonomies. A mature Agentic-AI purple program uses both — ATLAS-mapped attacks against the AI system, ATT&CK-mapped emulation for the surrounding environment.
 
 ### Maturity model — crawl, walk, run
 
@@ -551,7 +551,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [MIT — AI Risk Repository](https://airisk.mit.edu)
 - [Responsible AI Collaborative](https://raicollab.org)
 
-**3. Federal & DoD Standards**
+**3. Federal & DoW Standards**
 
 *Standards & Authorization*
 
@@ -843,7 +843,7 @@ This part exists because SEC536 and SEC598, plus the closely related SEC535, def
 
 ### How the three courses fit the Part 1 matrix
 
-- **SEC536 — Adversarial AI (A-Red):** attacking the AI system itself. This is the course most aligned with Question A of the Part 1 matrix (securing agentic AI), viewed from the attacker’s seat.
+- **SEC536 — Adversarial AI (A-Red):** attacking the AI system itself. This is the course most aligned with Question A of the Part 1 matrix (securing Agentic AI), viewed from the attacker’s seat.
 - **SEC535 — Offensive AI (B-Red):** using AI as a weapon. This rounds out the offensive picture and explains the AI-accelerated adversary your blue and purple work has to keep pace with.
 - **SEC598 — AI and Security Automation (all teams, both questions):** the automation and purple-teaming backbone, with the GASAE certification. This is the course most aligned with the purple, operationalize-it work.
 
@@ -851,12 +851,12 @@ This part exists because SEC536 and SEC598, plus the closely related SEC535, def
 
 - *Section 1: Foundations of Attack Techniques.* How LLMs process input and why each mechanism is an attack primitive; AI-specific reconnaissance; direct and indirect injection; memory and RAG poisoning; multimodal evasion. Labs include abusing AI assistants, reconnaissance against AI systems, prompt injection, AI memory and context poisoning, and computer-vision evasion attacks.
 - *Section 2: Infrastructure, Integrations, and Advanced Attacks.* Jailbreak techniques and guardrail evasion; exposed inference hosts and ML platforms; timing side channels, API authorization flaws, and weight extraction. Labs include jailbreaks and weight theft, AI architecture flaws, timing side channels, exploiting mass assignments and hidden features, and model theft and extraction.
-- *Section 3: Alignment, Interfaces, Agents, and MCP.* Alignment failures as a testable surface (reward hacking, goal misgeneralization, sandbagging); sycophancy and constitutional AI abuse; stored XSS and SSRF through AI interfaces; agentic attacks, multi-agent topologies, and MCP exploitation. Labs include AI alignment issues discovery, weaponizing a sycophantic AI, stored XSS via AI chat, attacking agentic AI, and attacking MCP servers.
+- *Section 3: Alignment, Interfaces, Agents, and MCP.* Alignment failures as a testable surface (reward hacking, goal misgeneralization, sandbagging); sycophancy and constitutional AI abuse; stored XSS and SSRF through AI interfaces; agentic attacks, multi-agent topologies, and MCP exploitation. Labs include AI alignment issues discovery, weaponizing a sycophantic AI, stored XSS via AI chat, attacking Agentic AI, and attacking MCP servers.
 
 ### SEC598 syllabus at a glance
 
 - *Section 1 — Foundations of GenAI, LLMs, and Security Automation:* why automation/AI now; security engineering the CI/CD approach; configuration management and policy-as-code at scale; automation triggers and SOAR; foundations of detection-as-code, GenAI, and LLMs.
-- *Section 2 — Security Automation Engineering and AI Workflows:* PowerShell automation for offense and defense; infrastructure-as-code with Terraform; building automated firing ranges; Python/Jupyter for SOC enrichment; SOAR tooling, playbook automation, and agentic AI engineering.
+- *Section 2 — Security Automation Engineering and AI Workflows:* PowerShell automation for offense and defense; infrastructure-as-code with Terraform; building automated firing ranges; Python/Jupyter for SOC enrichment; SOAR tooling, playbook automation, and Agentic AI engineering.
 - *Section 3 — Cloud Automation and AI Security Services:* cloud governance (Azure and AWS); cloud-native automated monitoring and enforcement; intelligent automation with Microsoft AI and AWS Bedrock; cloud-native incident response; AWS AI agents targeting Kubernetes and continuous security testing.
 - *Section 4 — Red Team Automation and Offensive AI Agents:* adversary emulation and purple methodologies; MITRE ATT&CK-driven offensive frameworks; AI-powered red-team agents and autonomous adversaries; cloud-native emulation and detection validation; continuous adversary simulation in CI/CD. Labs use Atomic Red Team, Caldera, and CrewAI red-team agents.
 - *Section 5 — Defensive Automation and AI-Augmented Response:* modern SOC evolution; defensible architectures with embedded automation; modular incident response and SOAR; AI-infused detection-as-code; countering adversarial automation. Labs use Velociraptor, Timesketch, and Tines.
@@ -880,7 +880,7 @@ The following are concrete things worth being able to explain or attempt, inform
 
 ## Glossary
 
-- **Agent / agentic AI** — an AI system that can plan and take actions via tools, with memory and (often) multi-step autonomy, not just produce text.
+- **Agent / Agentic AI** — an AI system that can plan and take actions via tools, with memory and (often) multi-step autonomy, not just produce text.
 - **Agent loop** — perceive → reason → act → observe, repeated until a goal is met.
 - **Direct prompt injection** — malicious instructions supplied directly by the user.
 - **Indirect prompt injection** — malicious instructions hidden in external content the agent later ingests.
@@ -906,7 +906,7 @@ The following are concrete things worth being able to explain or attempt, inform
 - **Red / Blue / Purple team** — offense / defense / the integrated feedback loop between them.
 - **PyRIT** — Microsoft’s open-source AI red-teaming toolkit.
 - **RAMPART** — Microsoft’s pytest-based agentic red-teaming framework (built on PyRIT).
-- **MAESTRO** — a Cloud Security Alliance (Ken Huang) 7-layer threat-modeling framework for agentic AI; complementary to OWASP’s work, not part of it.
+- **MAESTRO** — a Cloud Security Alliance (Ken Huang) 7-layer threat-modeling framework for Agentic AI; complementary to OWASP’s work, not part of it.
 - **ATLAS** — MITRE’s adversarial-techniques knowledge base for AI (“ATT&CK for AI”).
 - **AI RMF** — NIST’s AI Risk Management Framework (Govern, Map, Measure, Manage).
 - **Detection-as-code** — detections written, version-controlled, reviewed, and tested through CI/CD like software.
@@ -998,7 +998,7 @@ Use these for active recall. After finishing a Part, answer its questions in pla
 **Part 6 — Purple team**
 
 24. Describe the purple-team feedback loop in one sentence, and name two adversary-emulation tools.
-25. When would you map to ATLAS versus ATT&CK in an agentic-AI purple program?
+25. When would you map to ATLAS versus ATT&CK in an Agentic-AI purple program?
 26. What are the crawl/walk/run stages of purple-team autonomy?
 
 **Part 7 — Hands-on practice**

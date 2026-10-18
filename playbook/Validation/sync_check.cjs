@@ -62,7 +62,7 @@ check('actions 87 (40/37/10)', now === 40 && next === 37 && later === 10,
 
 const resourceGroups = ['Frameworks & Standards', 'Community & Collective Resources', 'The Offense\u2013Defense Balance',
   'Threat Intelligence & Industry Reports', 'Zero Trust & Agentic Insider Risk',
-  'Vendor & Platform Security', 'Federal & DoD Standards', 'Regulatory & Compliance',
+  'Vendor & Platform Security', 'Federal & DoW Standards', 'Regulatory & Compliance',
   'Human-Centric AI Adoption', 'Practitioner & Industry Insights',
   'Voices to Follow',
   'Frontier Labs & National-Security Research', 'Research & Reference'];
