@@ -143,11 +143,20 @@ def main() -> int:
         errs.append("guides/zero-trust/index.html: the umbrella bar is missing or stale (refresh the guide's snapshot and rebuild it)")
     if css not in zt:
         errs.append("guides/zero-trust/index.html: the shared stylesheet is missing or stale (refresh the guide's snapshot and rebuild it)")
-    foot = bh.footer(s, d, "../../")
-    if foot[:-len("</footer>")] not in zt:
+    foot = bh.footer(s, d, "../../", licence=s["repo"] + "/blob/main/guides/zero-trust/LICENSE")  # 2.0.2: its rights line links its own notice
+    if zt.count(foot) != 1:
         errs.append("guides/zero-trust/index.html: the shared footer is missing or stale")
+    # Lensatic 2.0.2: every page with the umbrella bar carries the one theme script in its head, before its first stylesheet
+    head = bw.theme_head()
+    for rel, page in (("docs/index.html", (DOCS / "index.html").read_text(encoding="utf-8")),
+                      ("docs/guides/index.html", (DOCS / "guides" / "index.html").read_text(encoding="utf-8")),
+                      ("web/lensatic.html", wrapper), ("guides/zero-trust/index.html", zt),
+                      ("playbook/index.html", (ROOT / "playbook" / "index.html").read_text(encoding="utf-8")),
+                      ("playbook/Playbook/index.html", (ROOT / "playbook" / "Playbook" / "index.html").read_text(encoding="utf-8"))):
+        if page.count(head) != 1 or page.index(head) > page.index("<style"):
+            errs.append(f"{rel}: the shared theme script is missing, stale or after a stylesheet")
     rep.check("chrome: the Agentic SecOps landing and app, the map and the Zero Trust guide carry the current umbrella bar and shared "
-              "stylesheet (and the guide the shared footer)", errs)
+              "stylesheet (and the guide the shared footer); every page with the bar carries the one theme script", errs)
 
     # ---- tokens
     errs = []
@@ -178,10 +187,12 @@ def main() -> int:
                 r_ = ratio(lx[fg], lx[surf]); worst = min(worst, r_)
                 if r_ < 4.5:
                     errs.append(f"{theme}: --{fg} on --{surf} {r_:.2f}")
-        for a_, b_, floor in (("accent-fg", "accent", 4.5), ("focus", "bg", 3.0), ("focus", "bg-2", 3.0), ("tile-fg", "tile-bg", 3.0)):
+        for a_, b_, floor in (("accent-fg", "accent", 4.5), ("on-sec-maps", "sec-maps", 4.5), ("on-sec-guides", "sec-guides", 4.5),
+                              ("on-sec-playbook", "sec-playbook", 4.5), ("focus", "bg", 3.0), ("focus", "bg-2", 3.0), ("tile-fg", "tile-bg", 3.0)):
             if ratio(lx[a_], lx[b_]) < floor:
                 errs.append(f"{theme}: --{a_} on --{b_} {ratio(lx[a_], lx[b_]):.2f} under {floor}")
-    rep.check("contrast: every field-system text colour on every surface meets 4.5 in both themes; the focus ring and the mark 3", errs,
+    rep.check("contrast: every field-system text colour on every surface meets 4.5 in both themes, and each section button's label on its "
+              "accent (Lensatic 2.0.2); the focus ring and the mark 3", errs,
               f"lowest text pair {worst:.2f}")
 
     # ---- links

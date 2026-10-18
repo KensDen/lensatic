@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# embed_check.py — battery layer 2b (promoted from scratchpad/s3_embed_check.py, QC-POLISH).
+# embed_check.py: battery layer 2b (promoted from scratchpad/s3_embed_check.py, QC-POLISH).
 # Static both-directions assert (ROUND-27 pattern) against built index.html.
 import re, sys
 import os

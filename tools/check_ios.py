@@ -335,7 +335,7 @@ def check_static(rep) -> None:
         scanned += 1
         rel = p.relative_to(ROOT)
         if p.suffix in EM_DASH_SUFFIXES or p.name.endswith(".pbxproj"):
-            errs += [f"{rel}:{ln}: em dash" for ln, line in enumerate(text.splitlines(), 1) if "—" in line]
+            errs += [f"{rel}:{ln}: em dash" for ln, line in enumerate(text.splitlines(), 1) if "\u2014" in line]
         if p.name != "OFL.txt":
             errs += [f"{rel}:{ln}: the forbidden word" for ln, line in enumerate(text.splitlines(), 1) if V.FORBIDDEN_WORD in line]
         for m in re.finditer(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}", text):

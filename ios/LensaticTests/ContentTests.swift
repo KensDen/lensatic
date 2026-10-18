@@ -318,7 +318,7 @@ final class ContentTests: XCTestCase {
         XCTAssertNil(store.content.ui.labels["heroEyebrow"], "ui.labels.heroEyebrow is back in the content")
         guard page.blocks.count >= 3, case .hero(let name, let lede) = page.blocks[0].kind else { return XCTFail("the doors screen does not open with the hero") }
         XCTAssertEqual(page.blocks[0].anchor, "intro")
-        XCTAssertEqual(name.source, store.content.meta.name)
+        XCTAssertEqual(name.source, store.label("mapName"))  // content 1.2.11: the map's own name, Framework Maps
         XCTAssertEqual(lede.source, store.content.meta.description)
         guard case .controls(let buttons) = page.blocks[1].kind else { return XCTFail("the two buttons do not follow the hero") }
         XCTAssertEqual(buttons.map(\.identifier), ["hero-primary", "hero-secondary"])

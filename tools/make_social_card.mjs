@@ -1,6 +1,7 @@
 // Makes a 1200 x 630 link-preview card, once, for one Lensatic page: the hub (web/src/social-card.png, which the hub and
 // the map share), the Zero Trust guide (guides/zero-trust/social-card.png) or the Agentic SecOps playbook
-// (playbook/social-card.png). Lensatic 2.0 (18 October 2026) made them one family in the Lensatic field system: the
+// (playbook/social-card-v2.png since Lensatic 2.0.2, a new name so link previews fetch it again; the emblem now sits in the
+// dark rounded-square tile the other two marks use). Lensatic 2.0 (18 October 2026) made them one family in the Lensatic field system: the
 // page's own mark, eyebrow, title and lede on the dark ground with the faint grid, and the same lower band on every card
 // (the compass, Lensatic, the three section names, the address, over a rule in the three section colours). The text is
 // hub/site.json's cards entry; the colours are hub/lensatic.css's dark tokens. Each card is a small HTML page with the
@@ -17,7 +18,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const arg = (k, dflt) => (args.indexOf(k) >= 0 ? args[args.indexOf(k) + 1] : dflt);
 const CARD = arg('--card', 'hub');
-const DEFAULT_OUT = { hub: 'web/src/social-card.png', 'zero-trust': 'guides/zero-trust/social-card.png', playbook: 'playbook/social-card.png' };
+const DEFAULT_OUT = { hub: 'web/src/social-card.png', 'zero-trust': 'guides/zero-trust/social-card.png', playbook: 'playbook/social-card-v2.png' };
 if (!DEFAULT_OUT[CARD]) { console.error(`unknown card ${CARD}`); process.exit(2); }
 const OUT = resolve(ROOT, arg('--out', DEFAULT_OUT[CARD]));
 const W = 1200, H = 630;
@@ -36,7 +37,7 @@ const dataUri = (file, mime) => `data:${mime};base64,${readFileSync(join(ROOT, f
 const MARKS = {
   compass: () => compass('tile'),
   zero: () => `<img class="mark" src="${dataUri('guides/zero-trust/icon.svg', 'image/svg+xml')}" alt="">`,
-  emblem: () => `<img class="mark" src="${dataUri('hub/marks/apt-unicorn-emblem.webp', 'image/webp')}" alt="">`,
+  emblem: () => `<div class="tile"><img class="art" src="${dataUri('hub/marks/apt-unicorn-emblem.webp', 'image/webp')}" alt=""></div>`,
 };
 const face = (family, weight, file) => `@font-face { font-family: '${family}'; font-weight: ${weight}; font-style: normal; src: url(data:font/woff2;base64,${readFileSync(join(ROOT, 'web', 'src', 'fonts', file)).toString('base64')}) format('woff2'); }`;
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -54,7 +55,7 @@ body { box-sizing: border-box; position: relative; font-family: 'IBM Plex Sans',
 .main { position: absolute; left: 88px; right: 88px; top: 64px; }
 .tile { width: 108px; height: 108px; border-radius: 24px; background: ${tok('tile-bg')}; box-shadow: inset 0 0 0 1px ${tok('line-strong')};
   display: grid; place-items: center; color: ${tok('tile-fg')}; margin-bottom: 30px; }
-.tile svg { width: 76px; height: 76px; }
+.tile svg, .tile .art { width: 76px; height: 76px; display: block; }
 .mark { display: block; width: 108px; height: 108px; margin-bottom: 30px; }
 .eyebrow { font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 22px; letter-spacing: 0.14em; text-transform: uppercase;
   color: ${eyebrowColour}; margin: 0 0 14px; }

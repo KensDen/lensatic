@@ -1,19 +1,19 @@
 #!/usr/bin/env node
-/* anchor_check.cjs — Agentic SecOps anchor-resolution battery layer (layer 6).
+/* anchor_check.cjs: Agentic SecOps anchor-resolution battery layer (layer 6).
  *   CHROME_PATH=/path/to/chrome node Validation/anchor_check.cjs [html-path]
  *   node Validation/anchor_check.cjs /tmp/scratch.html   (canary / ad-hoc target)
  *
  * Machine-checks the failure class render_check cannot see: render_check asserts
- * mount + tab-routing + zero console errors, but NOT PRESENCE — a mis-keyed gate
+ * mount + tab-routing + zero console errors, but NOT PRESENCE: a mis-keyed gate
  * silently fails to render and still passes green. This layer closes that gap
  * for the deep-link anchor set and the tab-gated srcDoc figures (the ROUND-27
  * both-directions hand check, generalized to a cross-check matrix).
  *
  * Two exact-match constants, house count-assert pattern (sync_check style):
- *   ANCHOR_COUNT        — search-indexed deep-link anchors that must resolve.
- *   GATED_FIGURE_COUNT  — tab-gated srcDoc figures under a single-tab gate whose
+ *   ANCHOR_COUNT: search-indexed deep-link anchors that must resolve.
+ *   GATED_FIGURE_COUNT: tab-gated srcDoc figures under a single-tab gate whose
  *                         presence/absence is cross-checked. Bounded to the three
- *                         fresh embeds (ROUND-25/26/27) — the at-risk set this
+ *                         fresh embeds (ROUND-25/26/27): the at-risk set this
  *                         round was authored to guard. The tree carries more
  *                         iframes (older, long-stable embeds); the run reports the
  *                         total so coverage is transparent (no silent cap).
@@ -21,7 +21,7 @@
  * MANIFEST DISCIPLINE: ANCHORS and FIGURES below ARE the canonical definitions
  * (no formal definition existed in the tree at authoring). Any round that adds or
  * removes a search-indexed anchor, or moves/adds/removes a gated figure, MUST
- * ripple the manifest AND its constant in the SAME commit — the length assert
+ * ripple the manifest AND its constant in the SAME commit: the length assert
  * below fails loudly otherwise.
  *
  * Exit 0 = pass; 1 = fail; 2 = SKIPPED (no browser), so battery.cjs degrades
@@ -38,7 +38,7 @@ const ANCHOR_COUNT = 11;
 const ANCHORS = [
   'MCP attack surface', 'test manual', 'clone this repo', 'BlueBench', 'worked example',
   'guardrails', 'Alberta', 'MOSAIC', 'mukul975', 'Boko Haram',
-  'Oligo', /* TIERING: appendix-tier RI entry — asserts the Appendix expander auto-opens on deep-link (D3) */
+  'Oligo', /* TIERING: appendix-tier RI entry: asserts the Appendix expander auto-opens on deep-link (D3) */
 ];
 const GATED_FIGURE_COUNT = 3;
 const FIGURES = [
@@ -95,7 +95,7 @@ async function fallbackChrome(puppeteer) {
 (async () => {
   console.log('================ ANCHOR-RESOLUTION CHECK ================');
 
-  /* manifest integrity — fails before the browser even launches */
+  /* manifest integrity: fails before the browser even launches */
   if (ANCHORS.length !== ANCHOR_COUNT) {
     console.log(`  ✗ ANCHOR manifest length ${ANCHORS.length} != ANCHOR_COUNT ${ANCHOR_COUNT}`);
     process.exit(1);
