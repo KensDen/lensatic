@@ -3852,7 +3852,7 @@ export default function App() {
       </div>
 
       {/* Section progress bar */}
-      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, padding: "5px 28px", background: palette.bg, borderBottom: `1px solid ${palette.border}` }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "5px 28px", background: palette.bg, borderBottom: `1px solid ${palette.border}` }}>
         <span style={{ fontSize: 12.5, fontWeight: 700, color: palette.muted, letterSpacing: "0.14em", whiteSpace: "nowrap" }}>
           {String(sections.findIndex(s => s.id === active) + 1).padStart(2, "0")} / {String(sections.length).padStart(2, "0")}
         </span>

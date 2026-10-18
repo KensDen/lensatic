@@ -21171,7 +21171,7 @@ function App() {
                     return (React.createElement("button", { key: s.id, onClick: () => go(s.id), className: "navchip", style: { background: active === s.id ? s.dim : "transparent", border: active === s.id ? `1px solid ${s.color}` : `1px solid ${palette.border}`, borderRadius: 4, color: active === s.id ? s.color : palette.muted, padding: "6px 9px", fontSize: 13, fontFamily: "inherit", letterSpacing: "0.04em", cursor: "pointer", whiteSpace: "nowrap", transition: "all 0.15s", fontWeight: active === s.id ? 700 : 400 } }, s.label));
                 })))))),
             React.createElement("div", { style: { position: "absolute", top: 0, right: 0, height: "100%", width: 28, pointerEvents: "none", background: `linear-gradient(90deg, transparent, color-mix(in srgb, ${palette.surface} 94%, transparent))` } })),
-        React.createElement("div", { style: { display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, padding: "5px 28px", background: palette.bg, borderBottom: `1px solid ${palette.border}` } },
+        React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "5px 28px", background: palette.bg, borderBottom: `1px solid ${palette.border}` } },
             React.createElement("span", { style: { fontSize: 12.5, fontWeight: 700, color: palette.muted, letterSpacing: "0.14em", whiteSpace: "nowrap" } },
                 String(sections.findIndex(s => s.id === active) + 1).padStart(2, "0"),
                 " / ",
