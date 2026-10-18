@@ -957,7 +957,7 @@ class Renderer:
         meta = self.d["meta"]
         badges = "".join(f'<span class="status {k}">{self.t(self.ui["status"][k])} {n}</span>' for k, n in counts.items())
         # the wayfinder line opens About, after the name and the content version (session 15)
-        body = (f'<div id="about-body"><p class="about-name"><strong>{esc(meta["name"])}</strong> <span class="small">{self.label("contentVersion")} {esc(meta["contentVersion"])}</span></p>'
+        body = (f'<div id="about-body"><p class="about-name"><strong>{self.label("mapName")}</strong> <span class="small">{self.label("contentVersion")} {esc(meta["contentVersion"])}</span></p>'
                 f'<p>{self.t(meta["wayfinder"])}</p>'
                 f'<p>{self.t(meta["about"]["notAffiliated"])}</p>'
                 f'<p class="small" id="dow-note">{self.label("dowNote")}</p>'
