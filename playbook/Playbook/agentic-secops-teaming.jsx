@@ -3813,7 +3813,7 @@ export default function App() {
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 5 }}>
           <img src={EMBLEM_SRC} alt="APT_UNICORN emblem" style={{ width: 28, height: 28, objectFit: "contain", flexShrink: 0 }} />
           <span style={{ fontSize: 15, fontWeight: 700, color: palette.text, letterSpacing: "-0.01em", whiteSpace: "nowrap" }}>Agentic SecOps</span>
-          <span style={{ fontSize: 11, fontWeight: 700, color: palette.brand, border: `1px solid color-mix(in srgb, ${palette.brand} 33%, transparent)`, background: `color-mix(in srgb, ${palette.brand} 7%, transparent)`, padding: "1px 7px", borderRadius: 8, letterSpacing: "0.1em", marginLeft: "auto" }}>v5.2</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: palette.brand, border: `1px solid color-mix(in srgb, ${palette.brand} 33%, transparent)`, background: `color-mix(in srgb, ${palette.brand} 7%, transparent)`, padding: "1px 7px", borderRadius: 8, letterSpacing: "0.1em", marginLeft: "auto" }}>v5.2.1</span>
           <button onClick={toggleTheme} aria-label="Toggle color theme" title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
             style={{ background: "transparent", border: `1px solid ${palette.border}`, color: palette.muted, borderRadius: 8, padding: "1px 8px", fontSize: 14, lineHeight: 1.5, cursor: "pointer", fontFamily: "inherit" }}>{theme === "dark" ? "\u2600" : "\u263E"}</button>
         </div>

@@ -133,6 +133,6 @@
  },
  "current_version": {
   "_about": "Round M. The release version the app's header badge (the pill before the theme toggle) states. statics_check 21 fails unless the pill reads exactly this in the JSX and in Playbook/index.html, so a release updates this entry and the pill together.",
-  "version": "v5.2"
+  "version": "v5.2.1"
  }
 }
