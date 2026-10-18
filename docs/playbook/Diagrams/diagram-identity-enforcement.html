@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Identity-First Enforcement Architecture — Agentic SecOps</title>
+<style>
+  :root{
+    --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
+    --border:rgba(160,200,255,0.11); --border2:rgba(160,200,255,0.17);
+    --text:#EAF4FF; --muted:#8FA3C2; --dim:#6B7E9C; --accent:#45C4F4;
+    --consume:#3B82F6; --edge:#ff8c42; --orch:#45C4F4; --enclave:#EF4444; --data:#F59E0B; --govern:#F07FC0;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px; overflow-x:auto;
+    background-image:
+      radial-gradient(1100px 600px at 14% -5%, color-mix(in srgb, var(--govern) 7%, transparent), transparent 60%),
+      radial-gradient(1000px 600px at 88% 0%, color-mix(in srgb, var(--accent) 5%, transparent), transparent 55%),
+      linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:auto,auto,46px 46px,46px 46px;}
+  .poster{max-width:1340px; margin:0 auto; min-width:1240px}
+  .rev{opacity:0; transform:translateY(10px); animation:up .6s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes up{to{opacity:1; transform:none}}
+  header{padding-bottom:16px; margin-bottom:18px; border-bottom:1px solid var(--border2)}
+  h1{font-size:clamp(24px,3.2vw,38px); font-weight:700; letter-spacing:.05em; text-transform:uppercase; line-height:1.05}
+  h1 .a{color:var(--accent)}
+  .subtitle{color:var(--muted); font-size:12.5px; margin-top:8px; max-width:1060px}
+
+  /* bands + cards */
+  .band{border-radius:7px; border:1px solid var(--border); background:var(--surface); padding:11px 13px; position:relative; overflow:hidden; margin-bottom:12px}
+  .band::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px}
+  .blab{font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:9px; padding-left:4px; display:flex; gap:10px; align-items:baseline; flex-wrap:wrap}
+  .blab .sub{font-weight:400; text-transform:none; letter-spacing:0; color:var(--muted); font-size:9.5px}
+  .c{background:var(--surface2); border:1px solid var(--border2); border-radius:5px; padding:8px 10px; position:relative}
+  .c .n{font-size:11px; font-weight:700; line-height:1.25; padding-right:30px}
+  .c .d{font-size:9px; color:var(--muted); margin-top:3px; line-height:1.4}
+  .c .eg{font-size:8px; color:var(--dim); margin-top:3px; letter-spacing:.04em}
+
+  /* badges */
+  .pep{display:inline-block; font-size:7.5px; font-weight:700; letter-spacing:.08em; padding:2px 5px; border-radius:3px; border:1px solid var(--govern); color:var(--govern); margin-top:5px}
+  .pep::after{content:" → PDP"}
+  .num{position:absolute; top:7px; right:7px; width:18px; height:18px; border-radius:50%; font-size:9.5px; font-weight:700; display:flex; align-items:center; justify-content:center; background:var(--surface3); border:1px solid var(--accent); color:var(--accent)}
+  .num.ret{border-color:var(--edge); color:var(--edge)}
+
+  /* identity control plane */
+  .identity{border-color:var(--govern)}
+  .identity::before{background:var(--govern)}
+  .identity .blab{color:var(--govern)}
+  .idgrid{display:grid; grid-template-columns:repeat(6,1fr); gap:8px}
+
+  /* update pipeline strip */
+  .pipeline{border:1px dashed var(--accent); border-radius:7px; padding:8px 13px; margin-bottom:14px; background:color-mix(in srgb, var(--accent) 4%, transparent); display:flex; gap:14px; align-items:center}
+  .pipeline .t{font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); white-space:nowrap}
+  .pipeline .d{font-size:9.5px; color:var(--muted); line-height:1.5}
+  .pipeline .d b{color:var(--text); font-weight:700}
+
+  /* planes */
+  .planes{display:grid; grid-template-columns:0.86fr 1fr 1fr 1.18fr 1fr; gap:10px; margin-bottom:12px}
+  .plane{border-radius:7px; border:1px solid var(--border); background:var(--surface); padding:10px 11px; position:relative; overflow:hidden}
+  .plane::before{content:""; position:absolute; left:0; top:0; right:0; height:3px}
+  .plab{font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:8px}
+  .plane .stack{display:flex; flex-direction:column; gap:7px}
+  .p-consume::before{background:var(--consume)} .p-consume .plab{color:var(--consume)}
+  .p-edge::before{background:var(--edge)} .p-edge .plab{color:var(--edge)}
+  .p-orch::before{background:var(--orch)} .p-orch .plab{color:var(--orch)}
+  .p-data::before{background:var(--data)} .p-data .plab{color:var(--data)}
+
+  /* enclave */
+  .p-enclave{border:1px solid var(--enclave); background:linear-gradient(180deg, color-mix(in srgb, var(--enclave) 6%, transparent), color-mix(in srgb, var(--enclave) 2%, transparent))}
+  .p-enclave::before{background:var(--enclave)}
+  .p-enclave .plab{color:var(--enclave)}
+  .enclave-note{font-size:8.5px; color:var(--enclave); border:1px dashed color-mix(in srgb, var(--enclave) 55%, transparent); border-radius:4px; padding:5px 7px; margin-top:7px; line-height:1.45}
+
+  .flownote{font-size:8.5px; color:var(--dim); margin-top:7px; line-height:1.45}
+  .arrow{color:var(--accent); font-weight:700}
+
+  /* trifecta + federal strips */
+  .strip{border-radius:7px; border:1px solid var(--border); background:var(--surface); padding:9px 13px; margin-bottom:12px}
+  .strip .t{font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; margin-bottom:7px}
+  .tri .t{color:var(--enclave)}
+  .trigrid{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+  .leg{background:var(--surface2); border:1px solid var(--border2); border-radius:5px; padding:7px 10px}
+  .leg .n{font-size:10px; font-weight:700}
+  .leg .d{font-size:9px; color:var(--muted); margin-top:2px; line-height:1.4}
+  .fed{border-color:color-mix(in srgb, var(--data) 45%, transparent)}
+  .fed .t{color:var(--data)}
+  .fed .d{font-size:9.5px; color:var(--muted); line-height:1.5}
+  .fed .d b{color:var(--text)}
+
+  /* cross-cutting bands */
+  .xcut{display:flex; gap:14px; align-items:baseline; flex-wrap:wrap}
+  .xcut .t{font-size:10.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; white-space:nowrap}
+  .xcut .items{font-size:9.5px; color:var(--muted); line-height:1.6}
+  .xcut .items b{color:var(--text); font-weight:700}
+  .x-plat{border-color:var(--border2)} .x-plat .t{color:var(--text)} .x-plat::before{background:var(--border2)}
+  .x-obs::before{background:var(--consume)} .x-obs .t{color:var(--consume)}
+
+  /* legend + footer */
+  .legend{display:flex; gap:18px; flex-wrap:wrap; align-items:center; border-top:1px solid var(--border2); padding-top:12px; margin-top:4px; font-size:9px; color:var(--muted)}
+  .legend .k{display:flex; gap:6px; align-items:center}
+  .dotreq{width:14px; height:14px; border-radius:50%; border:1px solid var(--accent); color:var(--accent); font-size:8px; display:inline-flex; align-items:center; justify-content:center; font-weight:700}
+  .dotret{width:14px; height:14px; border-radius:50%; border:1px solid var(--edge); color:var(--edge); font-size:8px; display:inline-flex; align-items:center; justify-content:center; font-weight:700}
+  .dashline{width:26px; border-top:1px dashed var(--accent)}
+  footer{display:flex; justify-content:space-between; align-items:center; gap:14px; margin-top:14px; flex-wrap:wrap}
+  footer .align{font-size:9px; color:var(--dim); letter-spacing:.04em}
+  .brand{font-size:10px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); border:1px solid var(--border2); border-radius:4px; padding:5px 10px; white-space:nowrap}
+  @media (max-width: 980px){
+    .poster{min-width:0}
+    .idgrid{grid-template-columns:repeat(3,1fr)}
+    .planes{grid-template-columns:repeat(2,1fr)}
+  }
+  @media (max-width: 640px){
+    .idgrid{grid-template-columns:repeat(2,1fr)}
+    .planes{grid-template-columns:1fr}
+    .trigrid{grid-template-columns:1fr}
+    .pipeline{flex-direction:column; align-items:flex-start; gap:6px}
+    body{padding:20px 14px 32px}
+  }
+  .copy{margin-top:5px}
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <header class="rev">
+    <h1>IDENTITY-FIRST <span class="a">ENFORCEMENT ARCHITECTURE</span></h1>
+    <div class="subtitle">Zero-trust control plane for agentic AI — policy decided centrally, enforced at every hop, updated continuously. The flow-and-enforcement companion to the Reference Architecture stack view: that poster says what sits where; this one says how a request is policed end to end.</div>
+  </header>
+
+  <!-- IDENTITY & POLICY CONTROL PLANE -->
+  <div class="band identity rev" style="animation-delay:.05s">
+    <div class="blab">Identity &amp; Policy Control Plane <span class="sub">enterprise-wide, not AI-specific — agents are first-class non-human identities in the same directory, same governance</span></div>
+    <div class="idgrid">
+      <div class="c"><div class="n">Identity Provider</div><div class="d">Workforce + NHI AuthN. OIDC/SAML, MFA, device trust, continuous access evaluation.</div><div class="eg">e.g. Entra ID</div></div>
+      <div class="c"><div class="n">NHI / ICAM — Agent Identity</div><div class="d">Every agent: unique ID, named owner, least privilege, instant revocation. No shared service accounts.</div><div class="eg">e.g. Entra Agent ID · Agent 365</div></div>
+      <div class="c"><div class="n">Token Service (OBO)</div><div class="d">On-behalf-of exchange; short-lived, scoped tokens. The agent never outranks its principal.</div></div>
+      <div class="c"><div class="n">PIP — Policy Information</div><div class="d">Decision context: data classification, device posture, risk signals, session state.</div></div>
+      <div class="c"><div class="n">PAP — Policy Administration</div><div class="d">Where guardrail and authorization policy is authored — purple-loop findings land here.</div></div>
+      <div class="c"><div class="n">PDP — Policy Decision</div><div class="d">Central decision point — the non-LLM reference monitor. ABAC/PBAC with obligations; deterministic, auditable.</div></div>
+    </div>
+  </div>
+
+  <!-- CONTINUOUS-UPDATE PIPELINE -->
+  <div class="pipeline rev" style="animation-delay:.1s">
+    <div class="t">Continuous-Update Pipeline</div>
+    <div class="d"><b>Purple loop finds an evasion → PAP updates policy → PDP decides → hot-push to every PEP.</b> No application redeploys. This is the deployment shape of the Gödel mandate (NIST, Jun 2026): no finite guardrail set is universally robust, so the architecture must assume guardrails change continuously — central authoring, distributed enforcement (CSA gateway prescription).</div>
+  </div>
+
+  <!-- PLANES -->
+  <div class="planes rev" style="animation-delay:.15s">
+
+    <div class="plane p-consume">
+      <div class="plab">Consumption <span style="color:var(--dim);font-weight:400">· hops 1, 11</span></div>
+      <div class="stack">
+        <div class="c"><span class="num">1</span><div class="n">User / App / Client</div><div class="d">Every prompt is untrusted input. AuthN against the IdP; identity rides the whole flow.</div></div>
+        <div class="c"><span class="num ret">11</span><div class="n">Response Delivered</div><div class="d">Only after output enforcement clears it.</div></div>
+      </div>
+      <div class="flownote">Request enters <span class="arrow">→</span> right; returns <span class="arrow">←</span> left.</div>
+    </div>
+
+    <div class="plane p-edge">
+      <div class="plab">Edge &amp; Gateway <span style="color:var(--dim);font-weight:400">· hops 2–3, 10</span></div>
+      <div class="stack">
+        <div class="c"><span class="num">2</span><div class="n">Edge Screen</div><div class="d">WAF, rate limits, bot screening, coarse RBAC at the API gateway.</div></div>
+        <div class="c"><span class="num">3</span><div class="n">AI Firewall / LLM Gateway — Input Guardrail</div><div class="d">Prompt-injection and jailbreak screening, schema and allow-list checks — before the model sees anything.</div><span class="pep">PEP</span></div>
+        <div class="c"><span class="num ret">10</span><div class="n">Output Guardrail</div><div class="d">Grounding check, PII redaction, response filtering — before the user sees anything.</div><span class="pep">PEP</span></div>
+      </div>
+      <div class="flownote">Input <b>and</b> output enforcement — two distinct points, both hot-updateable.</div>
+    </div>
+
+    <div class="plane p-orch">
+      <div class="plab">Orchestration <span style="color:var(--dim);font-weight:400">· hops 4–5</span></div>
+      <div class="stack">
+        <div class="c"><span class="num">4</span><div class="n">Orchestrator / Agent</div><div class="d">Planning and tool selection; system-prompt vault; runs under the agent's own NHI.</div></div>
+        <div class="c"><div class="n">Agent Memory</div><div class="d">Session-scoped, tenant-isolated, encrypted. The agent acts only under its delegated scope.</div></div>
+        <div class="c"><span class="num">5</span><div class="n">HITL Gate — High-Risk Acts</div><div class="d">Human sign-off where impact warrants it. Human in command — a checkpoint, not a bystander.</div><span class="pep">PEP</span></div>
+      </div>
+    </div>
+
+    <div class="plane p-enclave">
+      <div class="plab">Execution — Agent Enclave <span style="color:var(--dim);font-weight:400">· hops 6–8</span></div>
+      <div class="stack">
+        <div class="c"><span class="num">6</span><div class="n">Model + Runtime Guardrail</div><div class="d">Inference with I/O inspection wrapped around it. The model is capability, never authority.</div><span class="pep">PEP</span></div>
+        <div class="c"><span class="num">7</span><div class="n">RAG — Retriever + Vector DB</div><div class="d">Sanitize, re-rank, provenance-check retrieved context; tenant-partitioned, integrity-verified store.</div><span class="pep">PEP</span></div>
+        <div class="c"><span class="num">8</span><div class="n">MCP Gateway → Tool Calling</div><div class="d">Signed tool allow-list, call validation, output checks; sandboxed execution. External reach exits via egress only.</div><span class="pep">PEP</span></div>
+      </div>
+      <div class="enclave-note">Deterministic environment boundary — the layer that holds when the model layer provably cannot (Gödel, Jun 2026). Steps 6–8 iterate: the agent loop runs inside the walls.</div>
+    </div>
+
+    <div class="plane p-data">
+      <div class="plab">Data &amp; Egress <span style="color:var(--dim);font-weight:400">· hop 9</span></div>
+      <div class="stack">
+        <div class="c"><div class="n">Data Sources — Classified</div><div class="d">Docs, DBs, APIs under FGAC row/field filters delivered as PDP obligations.</div><span class="pep">PEP</span></div>
+        <div class="c"><div class="n">Encryption &amp; Tokenization</div><div class="d">At rest and in transit; key-scoped access.</div></div>
+        <div class="c"><span class="num">9</span><div class="n">Egress Filtering / DLP</div><div class="d">Exfiltration prevention. The only door out — every external call walks through it.</div><span class="pep">PEP</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TRIFECTA -->
+  <div class="strip tri rev" style="animation-delay:.2s">
+    <div class="t">The Lethal Trifecta — every flow must break at least one leg</div>
+    <div class="trigrid">
+      <div class="leg"><div class="n">Leg 1 — Private Data</div><div class="d">Broken at the data plane: classification + FGAC obligations decide what the agent can even see.</div></div>
+      <div class="leg"><div class="n">Leg 2 — Untrusted Content</div><div class="d">Broken at the gateway and RAG: input guardrail screening + retrieval provenance before context enters the loop.</div></div>
+      <div class="leg"><div class="n">Leg 3 — External Comms</div><div class="d">Broken at the boundary: MCP signed allow-list + egress filtering — no unlisted destination, ever.</div></div>
+    </div>
+  </div>
+
+  <!-- FEDERAL OVERLAY -->
+  <div class="strip fed rev" style="animation-delay:.25s">
+    <div class="t">Federal Overlay</div>
+    <div class="d">The agent enclave maps to your <b>impact-level boundary</b> (IL4/IL5 — GCC-High / DoD regions; air-gapped where mission demands). The observability band below feeds <b>cATO evidence taps</b>: continuous monitoring <b>is</b> the authorization, not the binder — the same discovery-to-update cadence the Gödel result mandates.</div>
+  </div>
+
+  <!-- CROSS-CUTTING -->
+  <div class="band x-plat rev" style="animation-delay:.3s">
+    <div class="xcut"><div class="t">Platform Security — cross-cutting</div>
+    <div class="items"><b>Secrets &amp; KMS</b> · <b>Supply-chain provenance</b> (SBOM/AIBOM, signed models &amp; tools) · <b>Network segmentation</b> · <b>mTLS</b> service-to-service — every hop authenticated both ways.</div></div>
+  </div>
+  <div class="band x-obs rev" style="animation-delay:.35s">
+    <div class="xcut"><div class="t">Observability, Detection &amp; Response</div>
+    <div class="items"><b>Structured logging incl. prompt-level capture</b> (no prompt logs = blind spot) · <b>Distributed tracing</b> — prompt → tool → data lineage · <b>SIEM / SOC</b> (e.g. Sentinel) · <b>Immutable audit trail</b> · <b>AuthN/AuthZ + CAE events</b> · <span style="color:var(--data)">→ cATO evidence tap</span></div></div>
+  </div>
+
+  <!-- LEGEND + FOOTER -->
+  <div class="legend rev" style="animation-delay:.4s">
+    <div class="k"><span class="pep" style="margin-top:0">PEP</span><span>= enforcement point querying the central PDP per request</span></div>
+    <div class="k"><span class="dotreq">1</span><span>–</span><span class="dotreq">9</span><span>request path</span></div>
+    <div class="k"><span class="dotret">10</span><span>–</span><span class="dotret">11</span><span>return path</span></div>
+    <div class="k"><span class="dashline"></span><span>continuous policy-update pipeline</span></div>
+  </div>
+
+  <footer class="rev" style="animation-delay:.45s">
+    <div class="align">Aligned: NIST SP 800-207 · XACML 3.0 · OWASP LLM Top 10 (2026) + Agentic Top 10 · MITRE ATLAS · NIST AI RMF&nbsp;&nbsp;|&nbsp;&nbsp;Pattern: planes + central PDP per standard zero-trust practice<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="brand">Agentic SecOps</div>
+  </footer>
+
+</div>
+</body>
+</html>

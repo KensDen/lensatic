@@ -1,0 +1,182 @@
+/* The Lensatic field system: the shared tokens and chrome for every Lensatic page (the hub, the section landings, the
+   Zero Trust guide, and the umbrella bar on the map and the Agentic SecOps app). This file is the source; docs/shared/
+   lensatic.css is its published copy, and each page's build inlines it, so no page loads it over the network.
+   Tokens use the map's names, so the map's styles.css holds the same values under the same names (tools/check_umbrella.py
+   compares them). Dark ground seeded from the Agentic SecOps palette, with a light theme that is a real theme.
+   Section accents mark eyebrows, tile rules and the active section link only, never meaning on their own. */
+:root {
+  --bg: #F3F4F1;
+  --bg-2: #FFFFFF;
+  --bg-3: #E9EBE6;
+  --fg: #0B1220;
+  --fg-2: #4A5568;
+  --line: #D9DCD4;
+  --line-strong: #A9AEA3;
+  --accent: #075985;
+  --accent-fg: #FFFFFF;
+  --link: #075985;
+  --focus: #075985;
+  --bad: #B91C1C;
+  --sec-maps: #0F766E;
+  --sec-guides: #4A5D23;
+  --sec-playbook: #5E2868;
+  --tile-bg: #0E100D;
+  --tile-fg: #9BE15D;
+  --grid: none;
+  --radius: 8px;
+  --card-radius: 12px;
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --maxw: 68rem;
+  --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #040817;
+    --bg-2: #0A1128;
+    --bg-3: #0F1834;
+    --fg: #EAF4FF;
+    --fg-2: #8FA3C2;
+    --line: #1A2645;
+    --line-strong: #2B3B62;
+    --accent: #45C4F4;
+    --accent-fg: #04111C;
+    --link: #73DEF6;
+    --focus: #73DEF6;
+    --bad: #EF4444;
+    --sec-maps: #2DD4BF;
+    --sec-guides: #9BE15D;
+    --sec-playbook: #B273B5;
+    --tile-bg: #161A13;
+    --tile-fg: #9BE15D;
+    --grid: linear-gradient(rgba(69,196,244,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(69,196,244,0.04) 1px, transparent 1px);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #040817;
+  --bg-2: #0A1128;
+  --bg-3: #0F1834;
+  --fg: #EAF4FF;
+  --fg-2: #8FA3C2;
+  --line: #1A2645;
+  --line-strong: #2B3B62;
+  --accent: #45C4F4;
+  --accent-fg: #04111C;
+  --link: #73DEF6;
+  --focus: #73DEF6;
+  --bad: #EF4444;
+  --sec-maps: #2DD4BF;
+  --sec-guides: #9BE15D;
+  --sec-playbook: #B273B5;
+  --tile-bg: #161A13;
+  --tile-fg: #9BE15D;
+  --grid: linear-gradient(rgba(69,196,244,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(69,196,244,0.04) 1px, transparent 1px);
+  color-scheme: dark;
+}
+
+/* ---- chrome: every rule below is scoped to an lx- class, so it can sit beside any page's own stylesheet ---- */
+.lx-page { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 1rem; line-height: 1.55;
+  -webkit-text-size-adjust: 100%; }
+.lx-page a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.lx-page a:hover { text-decoration-thickness: 2px; }
+.lx-page :focus-visible, .lx-bar :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+.lx-skip { position: absolute; left: var(--s-2); top: -100px; z-index: 100; padding: var(--s-2) var(--s-3); background: var(--bg-2); color: var(--fg);
+  border: 1px solid var(--line-strong); border-radius: var(--radius); }
+.lx-skip:focus { top: var(--s-2); }
+.lx-wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--s-4); }
+.lx-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* the top bar: mark, Lensatic, the three section links, About */
+.lx-bar { background: var(--bg-2); border-bottom: 1px solid var(--line); font-family: var(--sans); }
+.lx-bar-in { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--s-4); display: flex; flex-wrap: wrap; align-items: center;
+  column-gap: var(--s-5); }
+.lx-brand { display: inline-flex; align-items: center; gap: var(--s-2); min-height: 44px; color: var(--fg); font-weight: 700;
+  font-size: 1.0625rem; text-decoration: none; letter-spacing: -0.005em; }
+.lx-bar a.lx-brand { color: var(--fg); text-decoration: none; }
+.lx-tile { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 7px; background: var(--tile-bg);
+  color: var(--tile-fg); flex: none; }
+.lx-tile svg { width: 20px; height: 20px; }
+.lx-sections { display: flex; flex-wrap: wrap; align-items: stretch; column-gap: var(--s-4); margin: 0; padding: 0; list-style: none; }
+.lx-sections a { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg-2); font-size: 0.9375rem;
+  text-decoration: none; border-bottom: 2px solid transparent; }
+.lx-bar .lx-sections a:hover { color: var(--fg); }
+.lx-bar .lx-sections a[aria-current="page"] { color: var(--fg); font-weight: 700; }
+.lx-sections a[data-sec="maps"][aria-current="page"] { border-bottom-color: var(--sec-maps); }
+.lx-sections a[data-sec="guides"][aria-current="page"] { border-bottom-color: var(--sec-guides); }
+.lx-sections a[data-sec="playbook"][aria-current="page"] { border-bottom-color: var(--sec-playbook); }
+.lx-tools { margin-left: auto; display: flex; align-items: center; gap: var(--s-2); }
+
+/* the page header: eyebrow, H1, one-line standfirst */
+.lx-head { padding-top: var(--s-7); padding-bottom: var(--s-6); }
+.lx-eyebrow { margin: 0 0 var(--s-3); font-family: var(--mono); font-weight: 700; font-size: 0.8125rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--fg-2); }
+.lx-eyebrow.maps, .lx-maps .lx-eyebrow { color: var(--sec-maps); }
+.lx-eyebrow.guides, .lx-guides .lx-eyebrow { color: var(--sec-guides); }
+.lx-eyebrow.playbook, .lx-playbook .lx-eyebrow { color: var(--sec-playbook); }
+.lx-head h1 { margin: 0 0 var(--s-3); font-size: clamp(2rem, 6vw, 2.75rem); line-height: 1.1; letter-spacing: -0.015em; }
+.lx-standfirst { margin: 0; max-width: 44rem; font-size: 1.125rem; color: var(--fg-2); }
+.lx-hero { background-color: var(--bg); background-image: var(--grid); background-size: 60px 60px; border-bottom: 1px solid var(--line); }
+.lx-mark { display: block; width: 56px; height: 56px; margin-bottom: var(--s-4); }
+.lx-mark.lx-tile { width: 56px; height: 56px; border-radius: 13px; }
+.lx-mark.lx-tile svg { width: 40px; height: 40px; }
+
+/* the tile: a section or a guide, with its mark, rule, one line, counts and an Open button */
+.lx-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr)); gap: var(--s-4); margin: 0; padding: 0;
+  list-style: none; }
+.lx-tile-card { position: relative; display: flex; flex-direction: column; gap: var(--s-3); padding: var(--s-5); background: var(--bg-2);
+  border: 1px solid var(--line); border-top: 3px solid var(--line-strong); border-radius: var(--card-radius); }
+.lx-tile-card.maps { border-top-color: var(--sec-maps); }
+.lx-tile-card.guides { border-top-color: var(--sec-guides); }
+.lx-tile-card.playbook { border-top-color: var(--sec-playbook); }
+.lx-tile-card h2, .lx-tile-card h3 { margin: 0; font-size: 1.375rem; line-height: 1.2; }
+.lx-tile-card p { margin: 0; color: var(--fg-2); }
+.lx-tile-card .lx-icon { width: 44px; height: 44px; display: block; }
+.lx-tile-card .lx-icon.lx-tile { border-radius: 10px; }
+.lx-tile-card .lx-icon.lx-tile svg { width: 32px; height: 32px; }
+.lx-count { font-family: var(--mono); font-size: 0.875rem; color: var(--fg-2); }
+.lx-tile-card .lx-actions { margin-top: auto; padding-top: var(--s-2); }
+
+/* buttons */
+.lx-actions { display: flex; flex-wrap: wrap; gap: var(--s-2); margin: 0; }
+.lx-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 var(--s-4);
+  border-radius: var(--radius); border: 1px solid var(--line-strong); background: var(--bg-2); color: var(--fg); font-weight: 700;
+  font-size: 0.9375rem; text-decoration: none; }
+.lx-page a.lx-btn { color: var(--fg); text-decoration: none; }
+.lx-page a.lx-btn:hover { border-color: var(--fg-2); }
+.lx-page a.lx-btn.lx-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+
+/* sections of a page */
+.lx-section { padding-top: var(--s-6); padding-bottom: var(--s-6); border-top: 1px solid var(--line); }
+.lx-hero + .lx-section, .lx-head + .lx-section { border-top: 0; }
+.lx-section > h2 { margin: 0 0 var(--s-4); font-size: 1.5rem; line-height: 1.25; }
+.lx-section p { max-width: 44rem; }
+.lx-list { margin: 0; padding-left: 1.25rem; }
+.lx-list li + li { margin-top: var(--s-1); }
+
+/* the footer: version line, privacy, support, repository */
+.lx-foot { margin-top: var(--s-7); border-top: 1px solid var(--line); background: var(--bg-2); font-size: 0.9375rem; color: var(--fg-2); }
+.lx-foot-in { max-width: var(--maxw); margin: 0 auto; padding: var(--s-5) var(--s-4); display: flex; flex-wrap: wrap; align-items: center;
+  justify-content: space-between; gap: var(--s-2) var(--s-5); }
+.lx-version { margin: 0; font-family: var(--mono); font-size: 0.875rem; }
+.lx-foot ul, .lx-foot-in ul { display: flex; flex-wrap: wrap; gap: 0 var(--s-4); margin: 0; padding: 0; list-style: none; }
+.lx-foot a, .lx-foot-in a { display: inline-flex; align-items: center; min-height: 44px; color: var(--link); }
+
+@media (max-width: 40rem) {
+  .lx-bar-in { column-gap: var(--s-4); }
+  .lx-sections { column-gap: var(--s-3); }
+  .lx-sections a { font-size: 0.875rem; }
+  .lx-head { padding-top: var(--s-6); padding-bottom: var(--s-5); }
+}
+@media print {
+  .lx-bar, .lx-skip { display: none; }
+  .lx-hero { background-image: none; }
+}

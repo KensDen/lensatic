@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three Jobs, Kept Distinct</title>
+<style>
+  :root{
+    --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
+    --border:rgba(160,200,255,0.11); --border2:rgba(160,200,255,0.17);
+    --text:#EAF4FF; --muted:#8FA3C2; --dim:#6B7E9C; --accent:#45C4F4;
+    --intel:#ff8c42; --red:#EF4444; --blue:#3B82F6; --purple:#B273B5; --green:#10B981; --gold:#F59E0B;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
+    background-image:
+      radial-gradient(1000px 600px at 50% 20%, color-mix(in srgb, var(--accent) 5%, transparent), transparent 60%),
+      linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:auto,46px 46px,46px 46px;}
+  .poster{max-width:1180px; margin:0 auto}
+  .rev{opacity:0; transform:translateY(10px); animation:up .6s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes up{to{opacity:1; transform:none}}
+  header{padding-bottom:16px; margin-bottom:22px}
+  h1{font-size:clamp(21px,2.8vw,32px); font-weight:700; letter-spacing:.02em; line-height:1.12; position:relative; display:inline-block}
+  h1:after{content:""; display:block; width:64px; height:3px; background:var(--accent); margin-top:10px}
+  .subtitle{color:var(--muted); font-size:13px; margin-top:14px}
+
+  .cols{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
+  .col{background:var(--surface); border:1px solid var(--border); border-radius:9px; padding:16px 16px 18px; border-top:3px solid var(--border2)}
+  .col .hd{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px}
+  .col .who{font-size:15px; font-weight:700; letter-spacing:.05em}
+  .col .idx{font-size:11px; color:var(--dim)}
+  .col .handles{font-size:11px; color:var(--muted); margin-bottom:10px}
+  .col .handles b{font-weight:700}
+  .col .def{font-size:11px; font-style:italic; color:#C7CEE0; line-height:1.5; border-left:2px solid var(--border2); padding-left:11px; margin-bottom:14px; min-height:66px}
+  .col ul{list-style:none}
+  .col li{font-size:10.5px; color:var(--muted); padding-left:15px; position:relative; margin-bottom:7px; line-height:1.4}
+  .col li:before{content:"▸"; position:absolute; left:0; color:var(--dim)}
+
+  .c-auto{border-top-color:var(--blue)} .c-auto .who,.c-auto .handles b{color:var(--blue)} .c-auto .def{border-left-color:var(--blue)}
+  .c-ai{border-top-color:var(--accent)} .c-ai .who,.c-ai .handles b{color:var(--accent)} .c-ai .def{border-left-color:var(--accent)}
+  .c-ppl{border-top-color:var(--purple)} .c-ppl .who,.c-ppl .handles b{color:var(--purple)} .c-ppl .def{border-left-color:var(--purple)}
+
+  .strip{margin-top:18px; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:13px 16px; text-align:center; font-size:12px; line-height:1.5}
+  .strip .m{color:var(--dim); margin-right:6px} .strip b{color:var(--accent)}
+
+  .footer{margin-top:16px; padding-top:14px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  .footer .l{font-size:10px; color:var(--dim); line-height:1.55; max-width:70%} .footer .l b{color:var(--muted)}
+  .footer .r .badge{display:inline-block; border:1px solid var(--border2); border-radius:4px; padding:3px 8px; color:var(--accent); font-weight:700; letter-spacing:.1em; font-size:10px}
+
+  @media (max-width:820px){ .cols{grid-template-columns:1fr} .col .def{min-height:0} }
+  @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
+  .copy{margin-top:5px}
+</style>
+</head>
+<body>
+<div class="poster">
+  <header class="rev" style="animation-delay:.02s">
+    <h1>Three jobs, kept distinct</h1>
+    <div class="subtitle">How work splits in an AI-ready SOC</div>
+  </header>
+
+  <div class="cols rev" style="animation-delay:.08s">
+    <div class="col c-auto">
+      <div class="hd"><span class="who">AUTOMATION</span><span class="idx">/01</span></div>
+      <div class="handles">&rarr; handles the <b>CERTAIN</b></div>
+      <div class="def">"Known steps, predictable outcomes"</div>
+      <ul><li>Enrichment</li><li>Ticketing</li><li>Blocking known-bad</li></ul>
+    </div>
+    <div class="col c-ai">
+      <div class="hd"><span class="who">AI</span><span class="idx">/02</span></div>
+      <div class="handles">&rarr; handles the <b>VARIABLE</b></div>
+      <div class="def">"Choosing and running the right investigative steps, then making sense of the results"</div>
+      <ul><li>Investigation path selection</li><li>Correlation</li><li>Sensemaking</li></ul>
+    </div>
+    <div class="col c-ppl">
+      <div class="hd"><span class="who">PEOPLE</span><span class="idx">/03</span></div>
+      <div class="handles">&rarr; handle the <b>NOVEL</b></div>
+      <div class="def">"Genuinely new behavior, ambiguity, and judgment"</div>
+      <ul><li>New attacker behavior</li><li>Business judgment</li><li>Deciding what to codify for AI next</li></ul>
+    </div>
+  </div>
+
+  <div class="strip rev" style="animation-delay:.18s"><span class="m">&#9656;</span>The multiplier is <b>codified expertise applied at scale</b> — not AI replacing the expert.</div>
+
+  <div class="footer rev" style="animation-delay:.24s">
+    <div class="l"><b>Bolting AI onto existing tasks makes them faster but leaves the shape of the work untouched.</b> The gain comes from keeping these three jobs distinct — automating the certain, letting AI run the variable, and reserving people for the novel.<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="r"><span class="badge">AGENTIC SECOPS</span></div>
+  </div>
+</div>
+</body>
+</html>

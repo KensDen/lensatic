@@ -9,10 +9,16 @@ that need script are rendered with the hidden attribute and unhidden by the scri
 Type (Session 7): the four IBM Plex faces in web/src/fonts/ are embedded as base64 @font-face rules, so the page
 still makes no network request. The tab icon is an inline SVG data URI of the app's tile.
 
-With --pages it also writes the project site under docs/ for GitHub Pages: docs/index.html (byte-identical to
-the built page), docs/privacy.html and docs/support.html (plain pages, no script, text from content/stack.json,
-theme tokens from the top of styles.css, the same type), docs/social-card.png (web/src/social-card.png, byte
-for byte; only a link-preview crawler fetches it) and an empty docs/.nojekyll.
+With --pages it also writes the map's part of the project site under docs/ for GitHub Pages: docs/maps/index.html
+(byte-identical to the built page; Lensatic 2.0 moved the map to /lensatic/maps/ and the hub took the root),
+docs/privacy.html and docs/support.html (plain pages, no script, text from content/stack.json, theme tokens from the
+top of styles.css, the same type), docs/social-card.png (web/src/social-card.png, byte for byte, the Lensatic card the
+hub and the map share; only a link-preview crawler fetches it) and an empty docs/.nojekyll. tools/build_hub.py writes
+the rest of docs/.
+
+Lensatic 2.0 (18 October 2026): the page carries the umbrella bar above its own header (hub/site.json gives the section
+names and addresses; hub/lensatic.css, the field system's shared file, is inlined before styles.css), and its title is
+"Lensatic · Framework Maps". The map's content is unchanged.
 
 Deterministic: the output depends only on the inputs and the --author flag.
 The JSON is embedded verbatim (byte for byte) inside <script type="application/json" id="stack">
@@ -45,6 +51,9 @@ FONT_DIR = SRC / "fonts"
 FONT_FACES = (("IBM Plex Sans", 400, "IBMPlexSans-Regular-Latin1.woff2"), ("IBM Plex Sans", 700, "IBMPlexSans-Bold-Latin1.woff2"),
               ("IBM Plex Mono", 400, "IBMPlexMono-Regular-Latin1.woff2"), ("IBM Plex Mono", 700, "IBMPlexMono-Bold-Latin1.woff2"))
 SOCIAL_CARD = SRC / "social-card.png"
+HUB_SITE = ROOT / "hub" / "site.json"        # the umbrella's section names and addresses (Lensatic 2.0)
+SHARED_CSS = ROOT / "hub" / "lensatic.css"   # the field system's shared tokens and chrome, inlined before styles.css
+MAPS_KEY = "maps"
 SOCIAL_SIZE = (1200, 630)
 # the published site and the source repository: the footer's three links and the link-preview tags point here
 SITE = "https://kensden.github.io/lensatic/"
@@ -430,6 +439,37 @@ def favicon() -> str:
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="{TILE_BG}"/>'
            f'<g transform="translate(9 9) scale({46 / w:g})">{paths}</g></svg>')
     return "data:image/svg+xml," + urllib.parse.quote(svg, safe="/=:.,-")
+
+
+def umbrella() -> dict:
+    """hub/site.json: the umbrella's sections, their addresses and the version line."""
+    return json.loads(HUB_SITE.read_text(encoding="utf-8"))
+
+
+def umbrella_title(d: dict) -> str:
+    """The map's page title under the umbrella: Lensatic · Framework Maps."""
+    sec = next(x for x in umbrella()["sections"] if x["key"] == MAPS_KEY)
+    return f'{d["meta"]["name"]} · {sec["name"]}'
+
+
+def umbrella_bar(s: dict, root: str, active: str | None, brand_mark: bool = True) -> str:
+    """The top bar every Lensatic page shares: the mark, Lensatic, the three section links and About. On the map the
+    app's own header follows at once with the mark, so the bar's brand is the name alone."""
+    mark = (f'<span class="lx-tile" aria-hidden="true">{mark_svg(20, "lx-compass")}</span>') if brand_mark else ""
+    links = []
+    for sec in s["sections"]:
+        cur = ' aria-current="page"' if sec["key"] == active else ""
+        links.append(f'<li><a href="{root}{sec["path"]}" data-sec="{sec["key"]}"{cur}>{esc(sec["name"])}</a></li>')
+    links.append(f'<li><a href="{root}#about">{esc(s["aboutLabel"])}</a></li>')
+    return (f'<nav class="lx-bar" aria-label="{esc(s["name"])}"><div class="lx-bar-in">'
+            f'<a class="lx-brand" href="{root}">{mark}<span>{esc(s["name"])}</span></a>'
+            f'<ul class="lx-sections">{"".join(links)}</ul></div></nav>')
+
+
+def umbrella_links(root: str = "../") -> list[str]:
+    """Every address the map's umbrella bar links to (tools/check_web.py allows exactly these outside Sources)."""
+    s = umbrella()
+    return [root] + [f"{root}{x['path']}" for x in s["sections"]] + [f"{root}#about"]
 
 
 def font_css() -> str:
@@ -1125,8 +1165,8 @@ def social_tags(d: dict) -> str:
     The preview's description is meta.pitch; the description tag for search engines stays meta.description."""
     meta = d["meta"]
     w, h = SOCIAL_SIZE
-    tags = [("property", "og:title", meta["name"]), ("property", "og:description", meta["pitch"]), ("property", "og:type", "website"),
-            ("property", "og:url", SITE), ("property", "og:image", f"{SITE}social-card.png"), ("property", "og:image:width", str(w)),
+    tags = [("property", "og:title", umbrella_title(d)), ("property", "og:description", meta["pitch"]), ("property", "og:type", "website"),
+            ("property", "og:url", f"{SITE}{MAPS_KEY}/"), ("property", "og:image", f"{SITE}social-card.png"), ("property", "og:image:width", str(w)),
             ("property", "og:image:height", str(h)), ("name", "twitter:card", "summary_large_image")]
     return "\n".join(f'<meta {a}="{k}" content="{esc(v)}">' for a, k, v in tags)
 
@@ -1135,11 +1175,12 @@ def build_docs(index: bytes, stack: Path, docs: Path, author: str = "") -> list[
     """The project site for GitHub Pages: the app page byte for byte, the two plain pages, the social card, an empty .nojekyll."""
     d = json.loads(stack.read_text(encoding="utf-8"))
     docs.mkdir(parents=True, exist_ok=True)
-    files = {"index.html": index, ".nojekyll": b""}
+    files = {f"{MAPS_KEY}/index.html": index, ".nojekyll": b""}
     files.update({f"{k}.html": build_page(d, k, author) for k in PAGES})
     files["social-card.png"] = SOCIAL_CARD.read_bytes()
     out = []
     for name, data in files.items():
+        (docs / name).parent.mkdir(parents=True, exist_ok=True)
         (docs / name).write_bytes(data)
         out.append(docs / name)
     return out
@@ -1153,13 +1194,19 @@ def build(author: str, stack: Path = STACK) -> bytes:
             sys.exit(f"refusing to embed: stack.json contains {bad!r}, which cannot sit inside a script element verbatim")
     d = json.loads(text)
     template = (SRC / "template.html").read_text(encoding="utf-8")
-    styles = font_css() + "\n" + (SRC / "styles.css").read_text(encoding="utf-8").rstrip("\n")
+    styles = (font_css() + "\n" + SHARED_CSS.read_text(encoding="utf-8").rstrip("\n") + "\n"
+              + (SRC / "styles.css").read_text(encoding="utf-8").rstrip("\n"))
     app = (SRC / "app.js").read_text(encoding="utf-8").rstrip("\n")
     head_js = (SRC / "head.js").read_text(encoding="utf-8").rstrip("\n")
     parts = Renderer(d, author).render()
+    # the umbrella bar sits after the skip link, so the skip link stays the first stop, and before the app's own header
+    head_html, sep, rest = parts["HEADER"].partition('\n<header class="top"')
+    if not sep:
+        sys.exit("the header no longer opens with the skip link and header.top")
+    parts["HEADER"] = head_html + "\n" + umbrella_bar(umbrella(), "../", MAPS_KEY, brand_mark=False) + sep + rest
     build_json = json.dumps({"author": author, "contentVersion": d["meta"]["contentVersion"]}, ensure_ascii=False, sort_keys=True)
     lang = "en"
-    replacements = {"{{LANG}}": lang, "{{TITLE}}": esc(d["meta"]["name"]), "{{DESCRIPTION}}": esc(d["meta"]["description"]),
+    replacements = {"{{LANG}}": lang, "{{TITLE}}": esc(umbrella_title(d)), "{{DESCRIPTION}}": esc(d["meta"]["description"]),
                     "{{ICON}}": favicon(), "{{SOCIAL}}": social_tags(d),
                     "{{HEAD_JS}}": head_js, "{{STYLES}}": styles, "{{HEADER}}": parts["HEADER"], "{{MAIN}}": parts["MAIN"],
                     "{{FOOTER}}": parts["FOOTER"], "{{BUILD_JSON}}": build_json}
