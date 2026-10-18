@@ -131,10 +131,11 @@ async function fallbackChrome(puppeteer) {
   /* hundred-and-ninth pass: every wait is on a result, never the clock, for up to WAIT_MS (the fixed 150, 340
    * and 1050 ms waits, and the figure pass's 500 and 400 ms, could fail under heavy load) */
   const WAIT_MS = 10000;
-  /* the counter each tab shows ("NN / 35") is its position in the built page's own sections array */
+  /* the counter each tab shows ("NN / 35") is its position in the built page's own menu, navGroups (v5.2.2,
+   * gauntlet Q3: the counter follows the menu order, not the sections array) */
   const TAB_IDS = (() => {
-    const m = fs.readFileSync(HTML, 'utf-8').match(/const sections = \[([\s\S]*?)\n\s*\];/);
-    return m ? [...m[1].matchAll(/^\s*\{ id: "([a-z]+)",/gm)].map((x) => x[1]) : [];
+    const m = fs.readFileSync(HTML, 'utf-8').match(/const navGroups = \[([\s\S]*?)\n\s*\];/);
+    return m ? [...m[1].matchAll(/ids: \[([^\]]*)\]/g)].flatMap((x) => [...x[1].matchAll(/"([a-z]+)"/g)].map((y) => y[1])) : [];
   })();
   const counterFor = (id) => String(TAB_IDS.indexOf(id) + 1).padStart(2, '0') + ' / ' + String(TAB_IDS.length).padStart(2, '0');
   const routeTo = async (tab) => {
