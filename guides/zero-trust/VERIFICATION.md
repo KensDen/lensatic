@@ -1,4 +1,4 @@
-# Zero Trust Field Guide: Verification Record
+# Zero Trust: Verification Record
 
 Public edition v1.0, 27 September 2026.
 
@@ -246,7 +246,7 @@ Not checked:
 | Zero Trust Maturity Model v2.0 | CISA, Apr 2023 | <https://www.cisa.gov/sites/default/files/2023-04/zero_trust_maturity_model_v2_508.pdf> |
 | Zero Trust Maturity Model (landing page) | CISA | <https://www.cisa.gov/resources-tools/resources/zero-trust-maturity-model> |
 | Zero Trust in the Age of AI (see-also; the author's companion NotebookLM notebook; opening it needs a Google account) | Ken Connell | <https://notebooklm.link.google/jaUFZqYbnxIe> |
-| Agentic SecOps Tradecraft Playbook (see-also; the author's own companion project) | Ken Connell | <https://kensden.github.io/agentic-secops-playbook/> |
+| Agentic SecOps (see-also; the author's own companion project) | Ken Connell | <https://kensden.github.io/lensatic/playbook/> |
 | Zero Trust for AI Systems, v1.0 | Coalition for Secure AI (CoSAI, an OASIS Open Project), Sep 2026 | <https://github.com/cosai-oasis/ws2-defenders/blob/main/zero-trust/Zero-Trust-for-AI-Systems.pdf> |
 
 ### DoW
