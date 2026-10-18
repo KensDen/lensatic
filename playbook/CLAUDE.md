@@ -1,6 +1,6 @@
-# Agentic SecOps Tradecraft Playbook: notes for Claude Code
+# Agentic SecOps: notes for Claude Code
 
-This is the public edition of the Agentic SecOps Tradecraft Playbook, built by Ken Connell with Claude and Claude Code. The source of truth for the app is `Playbook/agentic-secops-teaming.jsx`. The script payload in `Playbook/index.html` is generated and never hand-edited; the shell around it (head, tokens, fonts) is edited directly. Regenerate the payload with `node Validation/build.cjs`.
+This is the public edition of the Agentic SecOps playbook, built by Ken Connell with Claude and Claude Code. The source of truth for the app is `Playbook/agentic-secops-teaming.jsx`. The script payload in `Playbook/index.html` is generated and never hand-edited; the shell around it (head, tokens, fonts) is edited directly. Regenerate the payload with `node Validation/build.cjs`.
 
 ## Ship gate
 

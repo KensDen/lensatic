@@ -1,25 +1,26 @@
-# Agentic SecOps Tradecraft Playbook
+# Agentic SecOps
 
 A field reference for red, blue, and purple teaming in the age of agentic AI: 87 sourced actions, 243 indexed resources, 88 glossary terms, and 16 diagrams. Every external claim links to its source.
 
-**Open it:** https://kensden.github.io/agentic-secops-playbook/
+**Open it:** https://kensden.github.io/lensatic/playbook/
 
 ## What's inside
 
 | | |
 |---|---|
-| [Playbook app](https://kensden.github.io/agentic-secops-playbook/Playbook/) | The interactive reference: one self-contained HTML file that works offline in any modern browser and makes no network calls. |
+| [Playbook app](https://kensden.github.io/lensatic/playbook/Playbook/) | The interactive reference: one self-contained HTML file that works offline in any modern browser and makes no network calls. |
 | [Executive summary](Documents/Agentic-SecOps-Executive-Summary.pdf) | The leadership read, built from [its HTML source](Documents/Agentic-SecOps-Executive-Summary.html). |
 | [Briefing deck](Deck/Agentic-SecOps-Master-Deck.pdf) | One story told three ways, for executive, technical, and general audiences. |
 | [Study guide](Documents/Agentic-SecOps-Study-Guide.md) | A self-study path from "what is an agent" to running red, blue, and purple exercises against agentic systems. |
 | [Field card](Documents/Agentic-SecOps-Tradecraft-Field-Card.md) | The operational spine on two pages. Load it into an agent's context or read it in one sitting. |
 | [Concept brief](Documents/Adversary-Emulation-Concept-Brief.pdf) | Intelligence-driven agentic adversary emulation, written as a discussion piece. |
-| [Diagrams](https://kensden.github.io/agentic-secops-playbook/#diagrams) | Sixteen standalone posters, fourteen of them also embedded in the app. |
+| [Diagrams](https://kensden.github.io/lensatic/playbook/#diagrams) | Sixteen standalone posters, fourteen of them also embedded in the app. |
 | [Validation](Validation/) | The battery that keeps everything above in lockstep. |
 
 ## Version history
 
-- v5.1, 27 Sep 2026: public edition, all rights reserved. New content and study guide self-checks. Fixes through 14 Oct 2026 added Zero Trust for AI sources and talks, links to the Zero Trust Field Guide, and glossary and emblem fixes.
+- v5.2, 18 Oct 2026: joins Lensatic as its Playbook section, renamed Agentic SecOps.
+- v5.1, 27 Sep 2026: public edition, all rights reserved. New content and study guide self-checks. Fixes through 14 Oct 2026 added Zero Trust for AI sources and talks, links to the Zero Trust guide, and glossary and emblem fixes.
 - v5.0, 25 Sep 2026: first public edition. The playbook, deck, study guide and executive summary, rebuilt for publication.
 - v4.0, 4 Aug 2026: implementation steps for 78 of the 85 recommended actions, each linked to its sources. The Reference Index grows to 210 entries.
 - v3.0, 16 Jul 2026: visual redesign, with dark and light themes and all 16 diagrams retinted.
@@ -28,7 +29,7 @@ A field reference for red, blue, and purple teaming in the age of agentic AI: 87
 
 ## Go deeper
 
-[Zero Trust Field Guide](https://kensden.github.io/zero-trust-field-guide/) is my companion study guide: an eight-week plan with a shared Zero Trust core (NIST SP 800-207 and the CISA Zero Trust Maturity Model), then DoW, federal civilian and private-sector tracks, with one-page quick references. Public sources only; it links back here for the agentic view.
+[Zero Trust](https://kensden.github.io/lensatic/guides/zero-trust/), in Lensatic's Field Guides, is my companion study guide: an eight-week plan with a shared Zero Trust core (NIST SP 800-207 and the CISA Zero Trust Maturity Model), then DoW, federal civilian and private-sector tracks, with one-page quick references. Public sources only; it links back here for the agentic view.
 
 ## How it was built
 

@@ -1,7 +1,7 @@
 {
   "name": "agentic-secops-playbook",
   "private": true,
-  "description": "Agentic SecOps Tradecraft Playbook, public edition",
+  "description": "Agentic SecOps, public edition",
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "battery": "node Validation/battery.cjs",

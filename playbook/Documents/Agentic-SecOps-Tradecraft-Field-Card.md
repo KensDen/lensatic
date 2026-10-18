@@ -1,8 +1,8 @@
-# Agentic SecOps Tradecraft Field Card
+# Agentic SecOps Field Card
 
 © 2026 Ken Connell. All rights reserved.
 
-*A two-page distillation of the Agentic SecOps Tradecraft Playbook — the operational spine across all seven themes. **Load it into an agent's context** to apply these controls during design and operations; **read it in one sitting** as a field reference. The full playbook is the source of truth for depth, sources, and rationale.*
+*A two-page distillation of the Agentic SecOps playbook — the operational spine across all seven themes. **Load it into an agent's context** to apply these controls during design and operations; **read it in one sitting** as a field reference. The full playbook is the source of truth for depth, sources, and rationale.*
 
 ---
 
