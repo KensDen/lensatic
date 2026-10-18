@@ -3824,7 +3824,7 @@ export default function App() {
             <img src={EMBLEM_SRC} alt="APT_UNICORN emblem" style={{ width: 20, height: 20, objectFit: "contain", display: "block" }} />
           </span>
           <span style={{ fontSize: 15, fontWeight: 700, color: palette.text, letterSpacing: "-0.01em", whiteSpace: "nowrap" }}>Agentic SecOps</span>
-          <span style={{ fontSize: 11, fontWeight: 700, color: palette.brand, border: `1px solid color-mix(in srgb, ${palette.brand} 33%, transparent)`, background: `color-mix(in srgb, ${palette.brand} 7%, transparent)`, padding: "1px 7px", borderRadius: 8, letterSpacing: "0.1em", marginLeft: "auto" }}>v5.3.0</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: palette.brand, border: `1px solid color-mix(in srgb, ${palette.brand} 33%, transparent)`, background: `color-mix(in srgb, ${palette.brand} 7%, transparent)`, padding: "1px 7px", borderRadius: 8, letterSpacing: "0.1em", marginLeft: "auto" }}>v5.3.1</span>
         </div>
         {/* below 680px the header keeps the title, the badge, the chips and the progress row; the subtitle and the eyebrow wait for wider screens */}
         <style>{`@media (max-width:679.98px){.pb-head-sub,.pb-head-eyebrow{display:none}}`}</style>
