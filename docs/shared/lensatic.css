@@ -126,7 +126,7 @@
 .lx-standfirst { margin: 0; max-width: 44rem; font-size: 1.125rem; color: var(--fg-2); }
 .lx-hero { background-color: var(--bg); background-image: var(--grid); background-size: 60px 60px; border-bottom: 1px solid var(--line); }
 .lx-mark { display: block; width: 56px; height: 56px; margin-bottom: var(--s-4); }
-.lx-mark.lx-tile { width: 56px; height: 56px; border-radius: 13px; }
+.lx-mark.lx-tile { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 13px; }
 .lx-mark.lx-tile svg { width: 40px; height: 40px; }
 
 /* the tile: a section or a guide, with its mark, rule, one line, counts and an Open button */
@@ -140,7 +140,7 @@
 .lx-tile-card h2, .lx-tile-card h3 { margin: 0; font-size: 1.375rem; line-height: 1.2; }
 .lx-tile-card p { margin: 0; color: var(--fg-2); }
 .lx-tile-card .lx-icon { width: 44px; height: 44px; display: block; }
-.lx-tile-card .lx-icon.lx-tile { border-radius: 10px; }
+.lx-tile-card .lx-icon.lx-tile { display: grid; place-items: center; border-radius: 10px; }
 .lx-tile-card .lx-icon.lx-tile svg { width: 32px; height: 32px; }
 .lx-count { font-family: var(--mono); font-size: 0.875rem; color: var(--fg-2); }
 .lx-tile-card .lx-actions { margin-top: auto; padding-top: var(--s-2); }
