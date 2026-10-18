@@ -928,9 +928,11 @@ def main() -> int:
         for probe in (tname, codecs.encode(tname, "rot13")):
             if probe in low:
                 hits.append(f"term #{terms.index(tname) + 1}")
-    # Lensatic 2.0 (owner's decision 1, 18 October 2026): the umbrella bar is held by tools/check_umbrella.py and is left out
-    # of this check
-    if V.FORBIDDEN_WORD in re.sub(r'<nav class="lx-bar".*?</nav>', "", rest, flags=re.S):
+    # Lensatic 2.0 (owner's decision 1, 18 October 2026): the umbrella's chrome, the bar and the shared card's description, is
+    # held by tools/check_umbrella.py and is left out of this check
+    chrome = re.sub(r'<nav class="lx-bar".*?</nav>', "", rest, flags=re.S)
+    chrome = re.sub(r'<meta property="og:image:alt" content="[^"]*">', "", chrome)
+    if V.FORBIDDEN_WORD in chrome:
         hits.append("forbidden word")
     rep.check("sweep clean and no forbidden word in the wrapper", hits, f"{len(terms)} terms from {src}")
 
