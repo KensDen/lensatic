@@ -54,12 +54,12 @@ INFO = ROOT / "ios" / "Lensatic" / "Info.plist"
 PRIVACY = ROOT / "ios" / "Lensatic" / "Resources" / "PrivacyInfo.xcprivacy"
 PROJECT_YML = ROOT / "ios" / "project.yml"
 
-# the settled wording (the owner's decisions of 27 and 28 September 2026), verbatim. Only the App Store says
-# "Lensatic Cyber"; everywhere else says "Lensatic".
+# the settled wording (the owner's decisions of 27 and 28 September 2026, and of 18 October 2026 for "Public sector" in the
+# tagline and pitch), verbatim. Only the App Store says "Lensatic Cyber"; everywhere else says "Lensatic".
 STORE_NAME = "Lensatic Cyber"
 SUBTITLE = "A compass for cyber frameworks"
-TAGLINE = "Federal cyber frameworks are thick woods. Lensatic is the compass."
-PITCH = ("Federal cyber frameworks are thick woods. Lensatic is the compass: find where you stand, see which framework "
+TAGLINE = "Public sector cyber frameworks are thick woods. Lensatic is the compass."
+PITCH = ("Public sector cyber frameworks are thick woods. Lensatic is the compass: find where you stand, see which framework "
          "applies, and take a bearing on your next waypoint.")
 WAYFINDER = ("Lensatic is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how "
              "the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber "
@@ -168,8 +168,17 @@ def as_store(s: str) -> str:
     return re.sub(r"\bLensatic\b(?! Cyber)", STORE_NAME, s)
 
 
+def promotional(pitch: str) -> str:
+    """The pitch with the store name, a space and the compass. With "Public sector" (18 October 2026) that form runs to 174
+    UTF-16 units, over the limit of 170, so the promotional text then carries the pitch as the content says it ("Lensatic
+    is the compass"), still with the compass; the store name stays in the name, the subtitle and the description. The
+    owner settles the promotional text at the next submission."""
+    s = f"{as_store(pitch)} {COMPASS}"
+    return s if units(s) <= FIELDS["promotionalText"] else f"{pitch} {COMPASS}"
+
+
 def build_promotional(d: dict) -> str:
-    return f"{as_store(d['meta']['pitch'])} {COMPASS}"
+    return promotional(d["meta"]["pitch"])
 
 
 def build_description(d: dict) -> str:
@@ -265,8 +274,8 @@ def check(rep) -> None:
         errs.append("the description's opening paragraph is not the settled text")
     if len(paras) < 2 or paras[1] != as_store(WAYFINDER):
         errs.append("the description's second paragraph is not the wayfinder line with the store name")
-    if listing.get("promotionalText") != f"{as_store(PITCH)} {COMPASS}":
-        errs.append("the promotional text is not the pitch with the store name, a space and the compass")
+    if listing.get("promotionalText") != promotional(PITCH):
+        errs.append("the promotional text is not the pitch (with the store name where it fits the limit), a space and the compass")
     if listing.get("promotionalText") != build_promotional(d):
         errs.append("the promotional text is not a fresh build from meta.pitch; run tools/check_listing.py --write")
     if listing.get("description") != build_description(d):
