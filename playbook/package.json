@@ -1,0 +1,15 @@
+{
+  "name": "agentic-secops-playbook",
+  "private": true,
+  "description": "Agentic SecOps Tradecraft Playbook, public edition",
+  "license": "SEE LICENSE IN LICENSE",
+  "scripts": {
+    "battery": "node Validation/battery.cjs",
+    "build": "node Validation/build.cjs",
+    "build:summary": "node Validation/build_exec_summary.cjs"
+  },
+  "devDependencies": {
+    "puppeteer": "^25.2.1",
+    "typescript": "^6.0.3"
+  }
+}
