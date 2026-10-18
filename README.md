@@ -12,7 +12,7 @@ Lensatic 2.0 holds three sections, each with its own build, checks and README in
 
 The hub at https://kensden.github.io/lensatic/ links all three (privacy policy: https://kensden.github.io/lensatic/privacy.html, support: https://kensden.github.io/lensatic/support.html).
 
-Framework Maps content version: 1.2.11.
+Framework Maps content version: 1.2.12.
 
 No account, no data collected by Lensatic. The privacy policy notes what GitHub Pages logs about visits to the hosted copy.
 

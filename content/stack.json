@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.11",
+    "contentVersion": "1.2.12",
     "builtOn": "2026-10-18",
     "sources": [
       "csf20",
@@ -170,6 +170,11 @@
         "version": "1.2.11",
         "date": "2026-10-18",
         "summary": "The map's own header and title say Framework Maps, under the eyebrow Lensatic · Framework Maps, and the privacy policy names the one theme key, lensatic-theme, that every page with the umbrella bar shares."
+      },
+      {
+        "version": "1.2.12",
+        "date": "2026-10-18",
+        "summary": "The glossary intro and the About name line call the map Framework Maps."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -5891,7 +5896,7 @@
       "statusKeyUnverified": "the publisher's copy could not be reached; the note lists every address tried.",
       "statusKeyConflict": "the sources disagree; the note gives both and a date to check again.",
       "hasConflictInside": "a conflict is recorded inside",
-      "glossaryIntro": "Every abbreviation Lensatic uses, spelled out, with a plain sentence on what it is. Each spelling was checked against its publisher; an entry carries a badge only where that could not be confirmed. Each section also spells out an abbreviation where it first appears, except AI, which every reader knows.",
+      "glossaryIntro": "Every abbreviation Framework Maps uses, spelled out, with a plain sentence on what it is. Each spelling was checked against its publisher; an entry carries a badge only where that could not be confirmed. Each section also spells out an abbreviation where it first appears, except AI, which every reader knows.",
       "glossaryOpen": "Open in the glossary",
       "glossarySee": "See",
       "pagesNav": "Site pages",
