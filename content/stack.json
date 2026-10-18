@@ -174,7 +174,7 @@
       {
         "version": "1.2.12",
         "date": "2026-10-18",
-        "summary": "The glossary intro and the About name line call the map Framework Maps."
+        "summary": "The glossary intro calls the map Framework Maps."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
