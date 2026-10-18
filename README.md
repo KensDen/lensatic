@@ -8,7 +8,7 @@ Lensatic 2.0 holds three sections, each with its own build, checks and README in
 
 - **Framework Maps**, https://kensden.github.io/lensatic/maps/: the map described above, built from `content/stack.json` by `tools/`, with the iOS app in `ios/`.
 - **Field Guides**, https://kensden.github.io/lensatic/guides/: guided study routes. The first is [Zero Trust](https://kensden.github.io/lensatic/guides/zero-trust/), in `guides/zero-trust/`.
-- **Playbook**, https://kensden.github.io/lensatic/playbook/: Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of agentic AI, in `playbook/`.
+- **Playbook**, https://kensden.github.io/lensatic/playbook/: Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI, in `playbook/`.
 
 The hub at https://kensden.github.io/lensatic/ links all three (privacy policy: https://kensden.github.io/lensatic/privacy.html, support: https://kensden.github.io/lensatic/support.html).
 

@@ -46,6 +46,8 @@ DOCS = ROOT / "docs"
 
 # what each moved section publishes: everything its pages link to, nothing from its build or validation trees
 ZT_FILES = ("index.html", "icon.svg", "icon-512.png", "apple-touch-icon.png", "favicon-32.png", "social-card.png")
+# the pages the sitemap lists, under the site address (privacy and support since gauntlet question 38)
+SITEMAP_PAGES = ("", "maps/", "guides/", "guides/zero-trust/", "playbook/", "playbook/Playbook/", "privacy.html", "support.html")
 ZT_PDF = re.compile(r"^\d{8}_ZT_(Study_Guide|Quick_Reference_[A-Za-z_]+)_v\d+\.\d+(?:\.\d+)?\.pdf$")
 PLAYBOOK_FILES = ("index.html", "social-card.png", "Playbook/index.html")
 PLAYBOOK_DIRS = ("Documents", "Deck", "Diagrams")
@@ -149,6 +151,8 @@ HUB_CSS = """.lx-hero-lines { margin: var(--s-5) 0 0; padding: 0; list-style: no
 .lx-refs { display: flex; flex-wrap: wrap; gap: 0 var(--s-4); margin: 0; padding: 0; list-style: none; }
 .lx-refs a { display: inline-flex; align-items: center; min-height: 44px; }
 .lx-about p { color: var(--fg); }
+.lx-byline { margin: var(--s-2) 0 0; color: var(--fg-2); }
+.lx-byline a { display: inline-flex; align-items: center; min-height: 44px; color: var(--link); }
 .lx-name-head { margin: var(--s-6) 0 var(--s-3); font-size: 1.25rem; line-height: 1.3; }
 .lx-name-story { display: grid; gap: var(--s-3) var(--s-5); }
 .lx-name-text p:first-child { margin-top: 0; }
@@ -190,6 +194,17 @@ def name_story(r: "bw.Renderer", about: dict) -> str:
             f'<div class="lx-name-story">{photo}<div class="lx-name-text">{story}</div></div>')
 
 
+def byline(s: dict) -> str:
+    """Who made it, under the hub's lede, linked to the maker's site (hub/site.json byline; gauntlet question 62)."""
+    b = s["byline"]
+    return f'<p class="lx-byline">{esc(b["text"][: -len(b["name"])])}<a href="{esc(b["href"])}">{esc(b["name"])}</a></p>'
+
+
+def card_alt(s: dict) -> str:
+    """The one description of the shared hub card, used wherever a page previews it (the hub, the guides index, the map)."""
+    return f'{s["name"]}: {s["cardBand"]["line"]}'
+
+
 def hub_page(s: dict, d: dict) -> str:
     r = bw.Renderer(d, "")
     fu = first_use(r)
@@ -204,7 +219,7 @@ def hub_page(s: dict, d: dict) -> str:
     kicker = " · ".join(x["name"] for x in s["sections"])
     hero = (f'<header class="lx-hero"><div class="lx-wrap lx-head">{tile("lx-mark lx-tile")}'
             f'<p class="lx-eyebrow">{esc(kicker)}</p><h1>{esc(s["name"])}</h1>'
-            f'<p class="lx-standfirst">{esc(d["meta"]["tagline"])}</p><ul class="lx-hero-lines">{hero_lines}</ul></div></header>\n')
+            f'<p class="lx-standfirst">{esc(d["meta"]["tagline"])}</p>{byline(s)}<ul class="lx-hero-lines">{hero_lines}</ul></div></header>\n')
     sections = (f'<section class="lx-wrap lx-section" aria-labelledby="sections-h"><h2 id="sections-h" class="lx-vh">{esc(kicker)}</h2>'
                 f'<ul class="lx-tiles">{"".join(tiles)}</ul></section>\n')
     about_html = (f'<section class="lx-wrap lx-section lx-about" id="about" aria-labelledby="about-h"><h2 id="about-h">{esc(s["aboutLabel"])}</h2>'
@@ -212,7 +227,7 @@ def hub_page(s: dict, d: dict) -> str:
     body = (f'<body class="lx-page">\n<a class="lx-skip" href="#main">{r.label("skip")}</a>\n{bar(s, "./", None)}\n<main id="main">\n'
             f'{fu.section(hero)}{fu.section(sections)}{fu.section(about_html)}'
             f'</main>\n{footer(s, d, "./")}\n</body>\n</html>\n')
-    return head(s, s["name"], d["meta"]["pitch"], s["site"], f'{s["name"]}: {kicker}') + body
+    return head(s, s["name"], d["meta"]["pitch"], s["site"], card_alt(s)) + body
 
 
 def guide_pdfs(key: str) -> dict[str, str]:
@@ -251,11 +266,11 @@ def guides_page(s: dict, d: dict) -> str:
                f'<ul class="lx-tiles">{"".join(tiles)}</ul></section>\n')
     body = (f'<body class="lx-page lx-guides">\n<a class="lx-skip" href="#main">{r.label("skip")}</a>\n{bar(s, "../", "guides")}\n<main id="main">\n'
             f'{fu.section(top)}{fu.section(listing)}</main>\n{footer(s, d, "../")}\n</body>\n</html>\n')
-    return head(s, f'{s["name"]} · {sec["name"]}', sec["line"], s["site"] + sec["path"], f'{s["name"]}: {sec["name"]}') + body
+    return head(s, f'{s["name"]} · {sec["name"]}', sec["line"], s["site"] + sec["path"], card_alt(s)) + body
 
 
 def sitemap(s: dict) -> str:
-    pages = ["", "maps/", "guides/", "guides/zero-trust/", "playbook/", "playbook/Playbook/"]
+    pages = SITEMAP_PAGES
     rows = "".join(f'  <url><loc>{s["site"]}{p}</loc><lastmod>{s["date"]}</lastmod></url>\n' for p in pages)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{rows}</urlset>\n'
 

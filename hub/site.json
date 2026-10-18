@@ -1,11 +1,12 @@
 {
- "about": "The umbrella's shared data: the section names, addresses and one-line descriptions, the hub's tagline, the guides list, the version line and the order of the hub's About blocks (aboutBlocks: meta.about fields in content/stack.json; nameStory is the Framework Maps name panel, its heading and the compass photo, rendered from the same content). tools/build_hub.py builds the hub and the guides index from it, and tools/build_web.py draws the map's umbrella bar from it. The Zero Trust guide's build and the Agentic SecOps landing and app carry the same bar, and tools/check_umbrella.py holds every page to this file. Counts are never typed here: build_hub.py reads them from content/stack.json, the guides list and the Agentic SecOps sources.",
+ "about": "The umbrella's shared data: the section names, addresses and one-line descriptions, the hub's tagline, the guides list, the version line, the hub's byline and the order of the hub's About blocks (aboutBlocks: meta.about fields in content/stack.json; nameStory is the Framework Maps name panel, its heading and the compass photo, rendered from the same content). tools/build_hub.py builds the hub and the guides index from it, and tools/build_web.py draws the map's umbrella bar from it. The Zero Trust guide's build and the Agentic SecOps landing and app carry the same bar, and tools/check_umbrella.py holds every page to this file. Counts are never typed here: build_hub.py reads them from content/stack.json, the guides list and the Agentic SecOps sources.",
  "name": "Lensatic",
  "site": "https://kensden.github.io/lensatic/",
  "repo": "https://github.com/KensDen/lensatic",
  "version": "2.0.1",
  "date": "2026-10-18",
  "dateText": "18 October 2026",
+ "byline": {"text": "By Ken Connell", "name": "Ken Connell", "href": "https://kensden.github.io/"},
  "aboutLabel": "About",
  "aboutBlocks": ["notAffiliated", "offline", "licensing", "nameStory"],
  "sections": [
@@ -13,7 +14,7 @@
    "key": "maps",
    "name": "Framework Maps",
    "path": "maps/",
-   "hero": "Framework Maps shows what each federal cyber framework is for, how the frameworks relate and who each one binds.",
+   "hero": "Framework Maps shows what each public sector cyber framework is for, how the frameworks relate and who each one binds.",
    "line": "What each framework is for, how they fit together and who each one binds, with zero trust and AI in view.",
    "open": "Open Framework Maps"
   },
@@ -29,8 +30,8 @@
    "key": "playbook",
    "name": "Playbook",
    "path": "playbook/",
-   "hero": "Playbook holds Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of agentic AI.",
-   "line": "Agentic SecOps: a tradecraft playbook for red, blue and purple teaming in the age of agentic AI.",
+   "hero": "Playbook holds Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI.",
+   "line": "Agentic SecOps: a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI.",
    "open": "Open the Playbook"
   }
  ],
@@ -83,7 +84,7 @@
   "playbook": {
    "eyebrow": "Lensatic · Playbook",
    "title": "Agentic SecOps",
-   "lede": "A tradecraft playbook for red, blue and purple teaming in the age of agentic AI.",
+   "lede": "A tradecraft playbook for red, blue and purple teaming in the age of Agentic AI.",
    "mark": "emblem",
    "accent": "playbook"
   }
