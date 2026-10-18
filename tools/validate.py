@@ -93,7 +93,7 @@ DOOR_IDS = ["federal-civilian", "dow", "defense-contractor", "other"]
 DOW_REQUIRED = ["current", "abbr", "statutory", "basis", "verifiedOn", "renderRule", "statusNote"]
 STATUSES = ("verified", "authored", "unverified", "conflict")
 URL_RE = re.compile(r"https?://\S+")
-EM_DASH = "—"
+EM_DASH = "\u2014"
 TOKEN_RE = re.compile(r"\{\{([^{}]*)\}\}")
 # The forbidden word is never written into this repository: FORBIDDEN_WORD is read at run time from the local
 # sweep source, like the sweep terms (see local_sweep_source below).

@@ -393,12 +393,13 @@ def storage_errors(text: str) -> list[str]:
                      (r"\bcaches\.", "caches"), (r"openDatabase", "openDatabase"), (r"cookieStore", "cookieStore"),
                      (r"navigator\.storage", "navigator.storage"), (r"['\"`]cookie['\"`]", "cookie by name")):
         errs += [f"{lab} at offset {m.start()}" for m in re.finditer(pat, text)]
-    # every mention of localStorage must be a direct getItem or setItem call on the theme key; aliases, property
-    # writes and access by name all fail
-    ok = re.compile(r"localStorage\.(getItem|setItem)\(\s*(['\"`])lensatic-theme\2")
+    # every mention of localStorage must be a direct getItem or setItem call on the theme key, or (Lensatic 2.0.2) the
+    # one-time move of an older choice: a getItem or removeItem call on the Zero Trust or Agentic SecOps key it replaces;
+    # aliases, property writes and access by name all fail
+    ok = re.compile(r"localStorage\.(?:(?:getItem|setItem)\(\s*(['\"`])lensatic-theme\1|(?:getItem|removeItem)\(\s*(['\"`])(?:ztfg|playbook)-theme\2)")
     for m in re.finditer(r"localStorage", text):
         if not ok.match(text, m.start()):
-            errs.append(f"localStorage use other than a getItem or setItem call on the lensatic-theme key at offset {m.start()}")
+            errs.append(f"localStorage use other than the theme key (or the one-time move of the two keys it replaces) at offset {m.start()}")
     return errs
 
 
@@ -904,7 +905,7 @@ def main() -> int:
 
     # inline scripts parse (a script that fails to parse would leave the pre-script guard hiding cell text)
     node = shutil.which("node")
-    scripts = [m.group(1) for m in re.finditer(r"<script>(.*?)</script>", full, re.S)]
+    scripts = [m.group(1) for m in re.finditer(r"<script(?: id=\"lx-theme-head\")?>(.*?)</script>", full, re.S)]
     errs = []
     if node:
         for i, s in enumerate(scripts):
@@ -918,7 +919,7 @@ def main() -> int:
     # no resource loading outside plain anchors to primaries
     rep.check("no network references: no resource-loading element, attribute or call; primaries are plain links", resource_errors(rest))
     rep.check("storage: the page keeps nothing but the theme choice (localStorage key lensatic-theme), as the privacy policy says", storage_errors(rest))
-    rep.check("no em dash (U+2014) in the built HTML", [f"offset {i}" for i, ch in enumerate(full) if ch == "—"][:5])
+    rep.check("no em dash (U+2014) in the built HTML", [f"offset {i}" for i, ch in enumerate(full) if ch == "\u2014"][:5])
     rep.check("no leftover template placeholders or render tokens", [f"offset {m.start()}" for m in re.finditer(r"\{\{", rest)][:5])
 
     terms, src = V.load_sweep_terms()
@@ -1014,15 +1015,16 @@ def main() -> int:
     hero = (atree_b.ids.get("intro") or [None])[0]
     kids = [c for c in hero.children if not isinstance(c, str)] if hero else []
     shape = [(c.tag, classes_of(c)) for c in kids]
-    expect = [("div", {"tile"}), ("h1", set()), ("p", {"lede"}), ("p", {"actions"}), ("p", {"stamp"})]
+    expect = [("div", {"tile"}), ("p", {"eyebrow"}), ("h1", set()), ("p", {"lede"}), ("p", {"actions"}), ("p", {"stamp"})]
     loose = [c.strip() for c in (hero.children if hero else []) if isinstance(c, str) and c.strip()]
     if shape != expect or loose:
-        errs.append(f"the front door holds {[t for t, _ in shape]} {loose if loose else ''}, expected tile, h1, lede, actions, stamp")
+        errs.append(f"the front door holds {[t for t, _ in shape]} {loose if loose else ''}, expected tile, eyebrow, h1, lede, actions, stamp")
     else:
-        tile, h1_, lede, actions, stamp = kids
+        tile, eyebrow_, h1_, lede, actions, stamp = kids
         if tile.attrs.get("aria-hidden") != "true" or [c.tag for c in tile.children if not isinstance(c, str)] != ["svg"]:
             errs.append("the tile is not a hidden graphic holding only the mark")
-        for node_, want_ in ((h1_, d["meta"]["name"]), (lede, tok_dow(d, d["meta"]["description"]))):
+        # content 1.2.11: the map's own name, Framework Maps, under the eyebrow "Lensatic · Framework Maps"
+        for node_, want_ in ((eyebrow_, L["mapEyebrow"]), (h1_, L["mapName"]), (lede, tok_dow(d, d["meta"]["description"]))):
             if norm(text_of(node_)) != norm(want_):
                 errs.append(f"front door: {node_.tag}.{node_.attrs.get('class', '')} reads {norm(text_of(node_))[:50]!r}")
         got = [(c.tag, classes_of(c), c.attrs.get("href"), norm(text_of(c))) for c in actions.children if not isinstance(c, str)]
@@ -1241,7 +1243,7 @@ def main() -> int:
     # id skeleton: Node script when available, Python fallback otherwise
     items, counts = expected_items(d)
     expected = sorted(set(list(items) + [f"view-{s}" for s in ("doors", "stack", "matrix", "functions", "ai", "helper", "sources", "about")] +
-                          ["table-dow", "table-cisa", "matrix-dow", "matrix-cisa", "nav", "theme-toggle", "to-top", "start", "matrix-control", "expand-all",
+                          ["table-dow", "table-cisa", "matrix-dow", "matrix-cisa", "nav", "lx-theme", "to-top", "start", "matrix-control", "expand-all",
                            "about-name"]))
     if node and DOM_CHECK.exists():
         proc = subprocess.run([node, str(DOM_CHECK), str(HTML)], input="\n".join(expected), capture_output=True, text=True)

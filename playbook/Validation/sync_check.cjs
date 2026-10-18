@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* sync_check.cjs — Agentic SecOps suite structural validation.
+/* sync_check.cjs: Agentic SecOps suite structural validation.
  * Pure Node, zero dependencies required. Run from anywhere:
  *   node Validation/sync_check.cjs
  *
@@ -60,7 +60,7 @@ const now = phase('Now'), next = phase('Next'), later = phase('Later');
 check('actions 87 (40/37/10)', now === 40 && next === 37 && later === 10,
   `Now=${now} Next=${next} Later=${later}`);
 
-const resourceGroups = ['Frameworks & Standards', 'Community & Collective Resources', 'The Offense\u2013Defense Balance',
+const resourceGroups = ['Frameworks & Standards', 'Community & Collective Resources', 'The Offense-Defense Balance',
   'Threat Intelligence & Industry Reports', 'Zero Trust & Agentic Insider Risk',
   'Vendor & Platform Security', 'Federal & DoW Standards', 'Regulatory & Compliance',
   'Human-Centric AI Adoption', 'Practitioner & Industry Insights',
@@ -212,7 +212,7 @@ if (ts && payload) {
   const samples = [...jsx.matchAll(/"((?:[^"\\]|\\.){40,90})"/g)]
     .map((m) => m[1]).filter((x) => !x.includes('\\')).slice(0, 60);
   const missing = samples.filter((x) => !payload.includes(x));
-  check('JSX<->HTML sync (TRIPWIRE — install `typescript` for byte-proof)',
+  check('JSX<->HTML sync (TRIPWIRE: install `typescript` for byte-proof)',
     samples.length >= 30 && missing.length === 0,
     `sampled=${samples.length} missing=${missing.length}`);
 }

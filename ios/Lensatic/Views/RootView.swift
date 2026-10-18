@@ -84,7 +84,7 @@ struct SectionList: View {
         .scrollContentBackground(.hidden)
         .background(Palette.bg)
         .navigationTitle(page.title)
-        // the start screen carries the name, meta.name, as a large title, set inline: the solid bar (Appearance) covers a
+        // the start screen carries the map's name, ui.labels.mapName, as a large title, set inline: the solid bar (Appearance) covers a
         // large title drawn below it. As the iPad's sidebar the list keeps its bar's usual title, the same name.
         .toolbarTitleDisplayMode(isStartScreen ? .inlineLarge : .automatic)
     }

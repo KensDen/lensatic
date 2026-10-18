@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* link_check.cjs — Agentic SecOps suite URL sweep (read-only).
+/* link_check.cjs: Agentic SecOps suite URL sweep (read-only).
  *   node Validation/link_check.cjs                 collect + network sweep
  *   node Validation/link_check.cjs --collect-only  collect + report counts, no network
  *   options: --currency-json <file> writes the currency sweep (P03), --redirects-json <file> the
@@ -7,7 +7,7 @@
  *
  * Zero npm dependencies: Node 18+ built-ins only (global fetch,
  * AbortSignal.timeout) plus the system `unzip` via child_process for the
- * zip-container sources (.pptx / .docx) — the same pattern battery.cjs uses.
+ * zip-container sources (.pptx / .docx): the same pattern battery.cjs uses.
  * Nothing is installed and node_modules / the manifests are never touched.
  *
  * Sources (authored only): the Playbook JSX, README.txt, the text Documents,
@@ -227,7 +227,7 @@ const KNOWN_NOISE = [
   ['https://danielmiessler.com/podcast/', 'convention-ratified redirect to the show host; do not re-fold'],
   ['https://www.iso.org/', 'ISO WAF 403 to automated fetch; live in-browser'],
   ['https://www.dcsa.mil/', 'Akamai edge 403 (Access Denied / errors.edgesuite.net reference page) to automated fetch; live in-browser'],
-  ['http://www.w3.org/2000/svg', 'XML namespace identifier (xmlns) — the scheme is part of the namespace name; never repoint'],
+  ['http://www.w3.org/2000/svg', 'XML namespace identifier (xmlns): the scheme is part of the namespace name; never repoint'],
   ['https://www.infosecuriosity.co.uk/posts/2026-06-28-Most-SOCs-Are-Thinking-About-AI-the-Wrong-Way/', 'site-wide 403 to automated fetch; the post loads in a reader fetch (Sep 27, 2026), and its title, author and date match the entry'],
   ['https://sublime.security/resources/trust-then-autonomy-a-new-framework-for-evaluating-security-ai/', '429 to automated reads; reader fetch, September 27, 2026: loads and matches the entry'],
   ['https://www.armis.com/blog/nation-state-attacks-hit-machine-speed-key-takeaways-of-the-2026-armis-cyberwarfare-report-and-what-it-means-for-security-teams/', '403 to automated reads; reader fetch, September 27, 2026: loads and matches the entry'],
@@ -247,7 +247,7 @@ function classify(url, info) {
 async function probe(url) {
   try {
     const head = await doFetch(url, 'HEAD');
-    if (head.status >= 400) {                 // method maybe rejected — try GET
+    if (head.status >= 400) {                 // method maybe rejected: try GET
       try { return classify(url, await doFetch(url, 'GET')); }
       catch (e) { return classify(url, head); }
     }
