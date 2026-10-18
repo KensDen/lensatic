@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Zero Trust for AI Agents — Capability Matrix</title>
+<title>Zero Trust for AI Agents: Capability Matrix</title>
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -185,7 +185,7 @@
     </div>
     <div class="tagline-wrap">
       <div class="tagline">"Trust nothing. Verify everything. Assume breach."</div>
-      <div class="source"><b>Framework:</b> Anthropic — <i>Zero Trust for AI Agents</i> (eBook, 2026)<br>Visualization for the Agentic SecOps playbook · controls paraphrased from the eBook</div>
+      <div class="source"><b>Framework:</b> Anthropic, <i>Zero Trust for AI Agents</i> (eBook, 2026)<br>Visualization for the Agentic SecOps playbook · controls paraphrased from the eBook</div>
     </div>
   </header>
 
@@ -197,7 +197,7 @@
 
       <div class="pcard">
         <div class="h">Never trust, always verify</div>
-        <div class="b">Every access request is authenticated &amp; authorized regardless of origin — a request from inside the network gets the same scrutiny as one from outside.</div>
+        <div class="b">Every access request is authenticated &amp; authorized regardless of origin: a request from inside the network gets the same scrutiny as one from outside.</div>
       </div>
       <div class="pcard">
         <div class="h">Assume breach</div>
@@ -209,13 +209,13 @@
       </div>
       <div class="pcard test">
         <div class="h">Design test: "impossible, not tedious"</div>
-        <div class="b">Friction-only controls — rate limits, extra hops, non-standard ports, SMS MFA — degrade against agentic attackers with unlimited patience and near-zero per-attempt cost. Prefer a control that removes a capability over one that throttles it.</div>
+        <div class="b">Friction-only controls: rate limits, extra hops, non-standard ports, SMS MFA, degrade against agentic attackers with unlimited patience and near-zero per-attempt cost. Prefer a control that removes a capability over one that throttles it.</div>
       </div>
 
       <div class="whynow">
         <div class="colhead">Why now</div>
         <div class="stat"><span class="n">months&nbsp;→&nbsp;hours</span><span class="d">Frontier AI compresses the vulnerability-to-exploit timeline, at a marginal cost measured in dollars.</span></div>
-        <div class="stat"><span class="n">250 docs</span><span class="d">Enough malicious documents to backdoor LLMs from 600M to 13B parameters — surviving safety training.</span></div>
+        <div class="stat"><span class="n">250 docs</span><span class="d">Enough malicious documents to backdoor LLMs from 600M to 13B parameters, surviving safety training.</span></div>
         <div class="stat"><span class="n">50% → &lt;2%</span><span class="d">Indirect-injection success after Microsoft's spotlighting clearly delimits untrusted content.</span></div>
         <div class="stat"><span class="n">95%</span><span class="d">Jailbreak attempts blocked by constitutional classifiers, with minimal over-refusal.</span></div>
       </div>
@@ -223,12 +223,12 @@
 
     <!-- ============ CENTER: CAPABILITY MATRIX ============ -->
     <main class="rev" style="animation-delay:.14s">
-      <div class="colhead">Capability Matrix — 3 Tiers × 7 Domains</div>
-      <div class="matrix-meta">Each tier builds on the one before it — advancing means strengthening controls, not replacing them. "Skip one capability and attackers exploit the gap."</div>
+      <div class="colhead">Capability Matrix: 3 Tiers × 7 Domains</div>
+      <div class="matrix-meta">Each tier builds on the one before it: advancing means strengthening controls, not replacing them. "Skip one capability and attackers exploit the gap."</div>
       <div class="matrix">
         <!-- header row -->
         <div class="mh corner"><span>Control&nbsp;domain</span></div>
-        <div class="mh f"><div class="t">Foundation</div><div class="s">minimum viable — the floor has been raised</div></div>
+        <div class="mh f"><div class="t">Foundation</div><div class="s">minimum viable: the floor has been raised</div></div>
         <div class="mh e"><div class="t">Enterprise</div><div class="s">target maturity for most organizations</div></div>
         <div class="mh a"><div class="t">Advanced</div><div class="s">high-stakes / regulated / national security</div></div>
 
@@ -274,7 +274,7 @@
         <div class="cell e"><b>Formal governance framework</b> with cross-functional stakeholder oversight.</div>
         <div class="cell a"><b>Continuous enforcement</b> with automated compliance checking in deployment pipelines.</div>
 
-        <div class="matrix-note">Identity comes first — without verifiable identity you can't enforce access, keep meaningful audit trails, or attribute actions. The <b>Foundation floor has risen</b>: static API keys and SMS MFA no longer qualify, even at the entry tier.</div>
+        <div class="matrix-note">Identity comes first: without verifiable identity you can't enforce access, keep meaningful audit trails, or attribute actions. The <b>Foundation floor has risen</b>: static API keys and SMS MFA no longer qualify, even at the entry tier.</div>
       </div>
     </main>
 
@@ -303,32 +303,32 @@
         <div class="b">RAG / vector-DB poisoning, shared-context attacks in multi-tenant setups, and gradual long-term memory drift.</div>
       </div>
 
-      <div class="rising"><b>The floor keeps rising.</b> Expect today's Advanced tier to become Enterprise standard as the space evolves — and Enterprise to become Foundation. Architect for breach from day one.</div>
+      <div class="rising"><b>The floor keeps rising.</b> Expect today's Advanced tier to become Enterprise standard as the space evolves, and Enterprise to become Foundation. Architect for breach from day one.</div>
     </aside>
   </div>
 
   <!-- ============ WORKFLOW ============ -->
   <div class="workflow rev" style="animation-delay:.26s">
-    <div class="colhead">Implementation Workflow — 8 Phases</div>
+    <div class="colhead">Implementation Workflow: 8 Phases</div>
     <div class="wf-grid">
       <div class="phase"><div class="n">01</div><div class="h">Identify requirements</div><div class="b">Align security, legal, compliance &amp; business on regulatory and operational goals.</div></div>
       <div class="phase"><div class="n">02</div><div class="h">Manage supply chain</div><div class="b">AI-BOM, OpenSSF Scorecard, cryptographic signing, vendor assessments.</div></div>
       <div class="phase"><div class="n">03</div><div class="h">Define agent boundaries</div><div class="b">Unique ID, approved/prohibited actions, least agency, blast radius.</div></div>
       <div class="phase"><div class="n">04</div><div class="h">Defend prompt injection</div><div class="b">Input isolation, constitutional classifiers, limit the attack surface.</div></div>
       <div class="phase"><div class="n">05</div><div class="h">Secure tool access</div><div class="b">Allow-listing, parameter validation, sandboxing, approval escalation.</div></div>
-      <div class="phase"><div class="n">06</div><div class="h">Protect credentials</div><div class="b">Short-lived, hardware-bound, per-agent, JIT — never embedded in code.</div></div>
+      <div class="phase"><div class="n">06</div><div class="h">Protect credentials</div><div class="b">Short-lived, hardware-bound, per-agent, JIT, never embedded in code.</div></div>
       <div class="phase"><div class="n">07</div><div class="h">Safeguard memory</div><div class="b">Session isolation, integrity checks at retrieval, retention TTLs.</div></div>
-      <div class="phase"><div class="n">08</div><div class="h">Measure what matters</div><div class="b">Dwell time, coverage, explainability — detect a rogue agent within an hour.</div></div>
+      <div class="phase"><div class="n">08</div><div class="h">Measure what matters</div><div class="b">Dwell time, coverage, explainability: detect a rogue agent within an hour.</div></div>
     </div>
 
     <div class="soar">
       <div class="lbl">Agentic&nbsp;SOAR</div>
-      <div class="tx">Run defensive operations at the speed autonomous threats demand. <b>Put a model at the front of the alert queue</b> for first-pass triage; automate the bookkeeping — evidence, enrichment, correlation, write-ups — and keep humans on the containment, disclosure, and customer-comms <b>decisions</b>. Map detection coverage to MITRE ATT&amp;CK (prioritize lateral movement &amp; credential access), and rehearse a tabletop for five simultaneous incidents, not one.</div>
+      <div class="tx">Run defensive operations at the speed autonomous threats demand. <b>Put a model at the front of the alert queue</b> for first-pass triage; automate the bookkeeping: evidence, enrichment, correlation, write-ups, and keep humans on the containment, disclosure, and customer-comms <b>decisions</b>. Map detection coverage to MITRE ATT&amp;CK (prioritize lateral movement &amp; credential access), and rehearse a tabletop for five simultaneous incidents, not one.</div>
     </div>
   </div>
 
   <footer class="rev" style="animation-delay:.30s">
-    <div class="l"><b>Source &amp; accuracy:</b> framework, tiers, domains, threats and phases are from Anthropic's <i>Zero Trust for AI Agents</i> eBook (2026); cell text is paraphrased. Note: Anthropic's short blog summary labels the tiers "Foundation / Advanced / Optimized," but the eBook body — the authoritative implementation tables shown here — uses <b>Foundation / Enterprise / Advanced</b>. This is an original visualization, not Anthropic's official graphic.<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="l"><b>Source &amp; accuracy:</b> framework, tiers, domains, threats and phases are from Anthropic's <i>Zero Trust for AI Agents</i> eBook (2026); cell text is paraphrased. Note: Anthropic's short blog summary labels the tiers "Foundation / Advanced / Optimized," but the eBook body, the authoritative implementation tables shown here, uses <b>Foundation / Enterprise / Advanced</b>. This is an original visualization, not Anthropic's official graphic.<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
     <div class="r"><span class="badge">AGENTIC SECOPS</span><br><br>Lensatic · Playbook</div>
   </footer>
 

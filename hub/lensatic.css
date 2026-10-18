@@ -3,7 +3,8 @@
    lensatic.css is its published copy, and each page's build inlines it, so no page loads it over the network.
    Tokens use the map's names, so the map's styles.css holds the same values under the same names (tools/check_umbrella.py
    compares them). Dark ground seeded from the Agentic SecOps palette, with a light theme that is a real theme.
-   Section accents mark eyebrows, tile rules and the active section link only, never meaning on their own. */
+   Section accents mark eyebrows, tile rules, the active section link and each section's primary button, never meaning on
+   their own; the --on-sec-* tokens are the label colours on those buttons (Lensatic 2.0.2, every pair AA in both themes). */
 :root {
   --bg: #F3F4F1;
   --bg-2: #FFFFFF;
@@ -20,6 +21,9 @@
   --sec-maps: #0F766E;
   --sec-guides: #4A5D23;
   --sec-playbook: #5E2868;
+  --on-sec-maps: #FFFFFF;
+  --on-sec-guides: #FFFFFF;
+  --on-sec-playbook: #FFFFFF;
   --tile-bg: #0E100D;
   --tile-fg: #9BE15D;
   --grid: none;
@@ -55,6 +59,9 @@
     --sec-maps: #2DD4BF;
     --sec-guides: #9BE15D;
     --sec-playbook: #B273B5;
+    --on-sec-maps: #04111C;
+    --on-sec-guides: #04111C;
+    --on-sec-playbook: #04111C;
     --tile-bg: #161A13;
     --tile-fg: #9BE15D;
     --grid: linear-gradient(rgba(69,196,244,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(69,196,244,0.04) 1px, transparent 1px);
@@ -77,6 +84,9 @@
   --sec-maps: #2DD4BF;
   --sec-guides: #9BE15D;
   --sec-playbook: #B273B5;
+  --on-sec-maps: #04111C;
+  --on-sec-guides: #04111C;
+  --on-sec-playbook: #04111C;
   --tile-bg: #161A13;
   --tile-fg: #9BE15D;
   --grid: linear-gradient(rgba(69,196,244,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(69,196,244,0.04) 1px, transparent 1px);
@@ -95,7 +105,7 @@
 .lx-wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--s-4); }
 .lx-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
-/* the top bar: mark, Lensatic, the three section links, About */
+/* the top bar: mark, Lensatic, the three section links, About, and the theme toggle at the end of the bar */
 .lx-bar { background: var(--bg-2); border-bottom: 1px solid var(--line); font-family: var(--sans); }
 .lx-bar-in { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--s-4); display: flex; flex-wrap: wrap; align-items: center;
   column-gap: var(--s-5); }
@@ -114,6 +124,11 @@
 .lx-sections a[data-sec="guides"][aria-current="page"] { border-bottom-color: var(--sec-guides); }
 .lx-sections a[data-sec="playbook"][aria-current="page"] { border-bottom-color: var(--sec-playbook); }
 .lx-tools { margin-left: auto; display: flex; align-items: center; gap: var(--s-2); }
+.lx-theme { display: inline-grid; place-items: center; width: 44px; height: 44px; margin: 0; padding: 0; border: 1px solid var(--line-strong);
+  border-radius: var(--radius); background: transparent; color: var(--fg); cursor: pointer; font: inherit; }
+.lx-theme[hidden] { display: none; }
+.lx-theme:hover { border-color: var(--fg-2); }
+.lx-theme svg { width: 18px; height: 18px; display: block; }
 
 /* the page header: eyebrow, H1, one-line standfirst */
 .lx-head { padding-top: var(--s-7); padding-bottom: var(--s-6); }
@@ -128,6 +143,7 @@
 .lx-mark { display: block; width: 56px; height: 56px; margin-bottom: var(--s-4); }
 .lx-mark.lx-tile { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 13px; }
 .lx-mark.lx-tile svg { width: 40px; height: 40px; }
+.lx-tile img { display: block; width: 71%; height: auto; }  /* a raster mark in the tile (the APT_UNICORN emblem), at the compass's share */
 
 /* the tile: a section or a guide, with its mark, rule, one line, counts and an Open button */
 .lx-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr)); gap: var(--s-4); margin: 0; padding: 0;
@@ -153,6 +169,10 @@
 .lx-page a.lx-btn { color: var(--fg); text-decoration: none; }
 .lx-page a.lx-btn:hover { border-color: var(--fg-2); }
 .lx-page a.lx-btn.lx-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+/* each section's primary button takes its accent: on the hub by its card, on a section's own pages by the body's class */
+.lx-tile-card.maps a.lx-btn.lx-primary, .lx-page.lx-maps a.lx-btn.lx-primary { background: var(--sec-maps); border-color: var(--sec-maps); color: var(--on-sec-maps); }
+.lx-tile-card.guides a.lx-btn.lx-primary, .lx-page.lx-guides a.lx-btn.lx-primary { background: var(--sec-guides); border-color: var(--sec-guides); color: var(--on-sec-guides); }
+.lx-tile-card.playbook a.lx-btn.lx-primary, .lx-page.lx-playbook a.lx-btn.lx-primary { background: var(--sec-playbook); border-color: var(--sec-playbook); color: var(--on-sec-playbook); }
 
 /* sections of a page */
 .lx-section { padding-top: var(--s-6); padding-bottom: var(--s-6); border-top: 1px solid var(--line); }
@@ -167,9 +187,14 @@
 .lx-foot-in { max-width: var(--maxw); margin: 0 auto; padding: var(--s-5) var(--s-4); display: flex; flex-wrap: wrap; align-items: center;
   justify-content: space-between; gap: var(--s-2) var(--s-5); }
 .lx-version { margin: 0; font-family: var(--mono); font-size: 0.875rem; }
+.lx-copy { margin: 0; }
 .lx-foot ul, .lx-foot-in ul { display: flex; flex-wrap: wrap; gap: 0 var(--s-4); margin: 0; padding: 0; list-style: none; }
 .lx-foot a, .lx-foot-in a { display: inline-flex; align-items: center; min-height: 44px; color: var(--link); }
 
+@media (max-width: 47.99rem) {
+  .lx-tools { order: 1; }   /* the toggle stays on the brand's row; the section links take the row below */
+  .lx-sections { order: 2; flex-basis: 100%; }
+}
 @media (max-width: 40rem) {
   .lx-bar-in { column-gap: var(--s-4); }
   .lx-sections { column-gap: var(--s-3); }
@@ -177,6 +202,6 @@
   .lx-head { padding-top: var(--s-6); padding-bottom: var(--s-5); }
 }
 @media print {
-  .lx-bar, .lx-skip { display: none; }
+  .lx-bar, .lx-skip, .lx-theme { display: none; }
   .lx-hero { background-image: none; }
 }

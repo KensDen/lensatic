@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* render_check.cjs — Agentic SecOps headless render battery.
+/* render_check.cjs: Agentic SecOps headless render battery.
  * Requires a Chrome/Chromium binary and puppeteer (or puppeteer-core).
  *   CHROME_PATH=/path/to/chrome node Validation/render_check.cjs
  *   node Validation/render_check.cjs /tmp/scratch.html   (canary / ad-hoc target)
@@ -32,7 +32,7 @@ function resolvePuppeteer() {
 }
 /* scan puppeteer's managed-browser cache for a Chrome-for-Testing binary
  * (puppeteer.executablePath() is async in current puppeteer, so probe the
- * cache dir directly — cross-platform, no version coupling) */
+ * cache dir directly: cross-platform, no version coupling) */
 function puppeteerCacheChrome() {
   const os = require('os');
   const root = path.join(process.env.PUPPETEER_CACHE_DIR || path.join(os.homedir(), '.cache', 'puppeteer'), 'chrome');
@@ -281,9 +281,10 @@ const TABS = (() => {
       clipped.length || moving.length ? [...clipped.slice(0, 3), ...moving.slice(0, 3).map((x) => 'still moving: ' + x)].join(' | ') : `${measured} fits measured, none clipped or left tall`);
   }
 
-  /* ---- theme pass (R37): both themes execute; prefers-color-scheme honored; toggle round-trips ---- */
+  /* ---- theme pass (R37): both themes execute; prefers-color-scheme honored; toggle round-trips. v5.3.0: the toggle is the
+   * Lensatic bar's (#lx-theme: system, light, dark in turn) and the one key is lensatic-theme ---- */
   await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'dark' }]);
-  await page.evaluate(() => { try { localStorage.removeItem('playbook-theme'); } catch (e) {} });
+  await page.evaluate(() => { try { localStorage.removeItem('lensatic-theme'); localStorage.removeItem('playbook-theme'); } catch (e) {} });
   await page.goto('file://' + HTML, { waitUntil: 'load', timeout: 60000 });
   await page.waitForFunction(() => { const r = document.getElementById('root'); return r && r.innerText.length > 200; }, { timeout: 30000 });
   const darkPass = await page.evaluate(() => ({
@@ -295,7 +296,7 @@ const TABS = (() => {
   check('theme: dark honored on dark-pref first load', darkPass.attr === 'dark' && darkPass.mounted && darkPass.counter, JSON.stringify(darkPass));
 
   await page.emulateMediaFeatures([{ name: 'prefers-color-scheme', value: 'light' }]);
-  await page.evaluate(() => { try { localStorage.removeItem('playbook-theme'); } catch (e) {} });
+  await page.evaluate(() => { try { localStorage.removeItem('lensatic-theme'); localStorage.removeItem('playbook-theme'); } catch (e) {} });
   await page.goto('file://' + HTML, { waitUntil: 'load', timeout: 60000 });
   await page.waitForFunction(() => { const r = document.getElementById('root'); return r && r.innerText.length > 200; }, { timeout: 30000 });
   const lightPass = await page.evaluate(() => ({
@@ -310,14 +311,14 @@ const TABS = (() => {
   const toggle = await page.evaluate(async () => {
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const attr = () => document.documentElement.getAttribute('data-theme');
-    const btn = Array.from(document.querySelectorAll('button')).find((b) => (b.getAttribute('aria-label') || '') === 'Toggle color theme');
-    if (!btn) return { ok: false, why: 'toggle button not found' };
-    const a0 = attr(); btn.click(); await sleep(120);
-    const a1 = attr(); btn.click(); await sleep(120);
-    const a2 = attr();
+    const btn = document.getElementById('lx-theme');
+    if (!btn || btn.hidden) return { ok: false, why: 'the bar\'s theme toggle not found or hidden' };
+    const seen = [[attr(), btn.getAttribute('aria-label')]];
+    for (let i = 0; i < 3; i++) { btn.click(); await sleep(120); seen.push([attr(), btn.getAttribute('aria-label')]); }
     let persisted = null;
-    try { persisted = localStorage.getItem('playbook-theme'); } catch (e) { persisted = 'storage-denied'; }
-    return { ok: a0 === 'light' && a1 === 'dark' && a2 === 'light', a0, a1, a2, persisted };
+    try { persisted = localStorage.getItem('lensatic-theme'); } catch (e) { persisted = 'storage-denied'; }
+    const want = [['light', 'Theme: System'], ['light', 'Theme: Light'], ['dark', 'Theme: Dark'], ['light', 'Theme: System']];
+    return { ok: JSON.stringify(seen) === JSON.stringify(want), seen, persisted };
   });
   check('theme: toggle round-trips (persistence reported, not asserted)', toggle.ok, JSON.stringify(toggle));
 

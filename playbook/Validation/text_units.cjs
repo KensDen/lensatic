@@ -38,7 +38,7 @@ const JSX_REL = 'Playbook/agentic-secops-teaming.jsx';
 const GUIDE_REL = 'Documents/Agentic-SecOps-Study-Guide.md';
 const FROZEN_HEAD = '## June 2026 refresh \u2014 what changed in this revision';
 const EDITION_HEAD = '## About this edition';
-const PART0 = '\n-----\n\n## Part 0 \u2014 Foundations';
+const PART0 = '\n-----\n\n## Part 0: Foundations';  // v5.3.0: no dash in the heading
 const PUBLIC_NAMES = { 'Public/README.md': 'README.md', 'Public/CLAUDE.md': 'CLAUDE.md', 'Public/index.html': 'index.html',
   'Public/THIRD_PARTY_NOTICES.md': 'THIRD_PARTY_NOTICES.md', 'Public/LICENSE': 'LICENSE', 'Public/_package.json': 'package.json' };
 const NO_PROSE_KEYS = new Set(['id', 'ids', 'icon', 'color', 'dim', 'url', 'tier', 'phase', 'owner', 'severity', 'viz', 'mitTabs', 'kind']);

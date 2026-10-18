@@ -461,18 +461,35 @@ def umbrella_title(d: dict) -> str:
     return f'{d["meta"]["name"]} · {sec["name"]}'
 
 
+THEME_HEAD_JS = ROOT / "hub" / "theme-head.js"   # Lensatic 2.0.2: the one theme choice, applied before first paint
+THEME_BAR_JS = ROOT / "hub" / "theme-bar.js"     # and the bar's toggle that changes it
+THEME_ICON = ('<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5" '
+              'fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5 A6.5 6.5 0 0 1 8 14.5 Z" fill="currentColor"/></svg>')
+
+
+def theme_head() -> str:
+    """The script every page with the umbrella bar carries in its head, before any style is painted."""
+    return f'<script id="lx-theme-head">\n{THEME_HEAD_JS.read_text(encoding="utf-8").rstrip()}\n</script>'
+
+
 def umbrella_bar(s: dict, root: str, active: str | None, brand_mark: bool = True) -> str:
-    """The top bar every Lensatic page shares: the mark, Lensatic, the three section links and About. On the map the
-    app's own header follows at once with the mark, so the bar's brand is the name alone."""
+    """The top bar every Lensatic page shares: the mark, Lensatic, the three section links, About and the theme toggle
+    (Lensatic 2.0.2: one toggle, the same icon in the same place on every page, hidden until its script runs). On the map
+    the app's own header follows at once with the mark, so the bar's brand is the name alone."""
     mark = (f'<span class="lx-tile" aria-hidden="true">{mark_svg(20, "lx-compass")}</span>') if brand_mark else ""
     links = []
     for sec in s["sections"]:
         cur = ' aria-current="page"' if sec["key"] == active else ""
         links.append(f'<li><a href="{root}{sec["path"]}" data-sec="{sec["key"]}"{cur}>{esc(sec["name"])}</a></li>')
     links.append(f'<li><a href="{root}#about">{esc(s["aboutLabel"])}</a></li>')
+    L = json.loads(STACK.read_text(encoding="utf-8"))["ui"]["labels"]
+    toggle = (f'<div class="lx-tools"><button type="button" class="lx-theme" id="lx-theme" hidden aria-label="{esc(L["theme"])}: {esc(L["themeSystem"])}" '
+              f'data-label="{esc(L["theme"])}" data-system="{esc(L["themeSystem"])}" data-light="{esc(L["themeLight"])}" data-dark="{esc(L["themeDark"])}">'
+              f'{THEME_ICON}</button></div>')
     return (f'<nav class="lx-bar" aria-label="{esc(s["name"])}"><div class="lx-bar-in">'
             f'<a class="lx-brand" href="{root}">{mark}<span>{esc(s["name"])}</span></a>'
-            f'<ul class="lx-sections">{"".join(links)}</ul></div></nav>')
+            f'<ul class="lx-sections">{"".join(links)}</ul>{toggle}</div></nav>'
+            f'<script>\n{THEME_BAR_JS.read_text(encoding="utf-8").rstrip()}\n</script>')
 
 
 def umbrella_links(root: str = "../") -> list[str]:
@@ -597,17 +614,15 @@ class Renderer:
     def header(self) -> str:
         nav = "".join(f'<a href="#view-{s}" data-sec="{s}">{self.t(self.ui["nav"][s])}</a>' for s in self.sections)
         menu = "".join(f'<a href="#view-{s}" data-sec="{s}">{self.t(self.ui["nav"][s], hidden=True)}</a>' for s in self.sections)
-        th = {k: self.label(k, hidden=True) for k in ("theme", "themeSystem", "themeLight", "themeDark")}
         return (
             f'<a class="skip" href="#main">{self.label("skip")}</a>\n'
             '<header class="top" id="top"><div class="top-in">\n'
-            f'  <a class="brand" href="#start">{mark_svg()}<span class="wordmark">{esc(self.d["meta"]["name"])}</span></a>\n'
+            f'  <a class="brand" href="#start">{mark_svg()}<span class="wordmark">{self.label("mapName")}</span></a>\n'
             f'  <nav class="nav" id="nav" aria-label="{self.label("sectionsNav")}">{nav}</nav>\n'
             f'  <details class="navmenu" id="navmenu"><summary class="btn"><span class="navmenu-label">{self.label("sectionsNav")}</span>'
             f'<span class="navmenu-current" hidden></span></summary><nav class="navmenu-list" aria-label="{self.label("sectionsNav")}">{menu}</nav></details>\n'
             '  <div class="tools">\n'
             f'    <a class="btn icon totop" id="to-top" href="#start" hidden><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><path d="M8 3 L13 9 L9.5 9 L9.5 13 L6.5 13 L6.5 9 L3 9 Z" fill="currentColor"/></svg><span class="vh totop-label">{self.label("backToTop", hidden=True)}</span></a>\n'
-            f'    <button type="button" class="btn icon theme" id="theme-toggle" hidden data-label="{th["theme"]}" data-system="{th["themeSystem"]}" data-light="{th["themeLight"]}" data-dark="{th["themeDark"]}"><svg class="theme-icon" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5 A6.5 6.5 0 0 1 8 14.5 Z" fill="currentColor"/></svg><span class="vh theme-k">{th["theme"]}: </span><span class="vh theme-v">{th["themeSystem"]}</span></button>\n'
             "  </div>\n"
             "</div></header>\n"
         )
@@ -629,12 +644,12 @@ class Renderer:
         return max(dates)
 
     def hero(self) -> str:
-        """The front door, top to bottom: the tile, the name, the description, two buttons, the version line,
-        which ends with the link to Why the name in About."""
+        """The front door, top to bottom: the tile, the eyebrow, the name (Framework Maps since content 1.2.11), the
+        description, two buttons, the version line, which ends with the link to Why the name in About."""
         meta = self.d["meta"]
         return (f'<div class="hero" id="intro">'
                 f'<div class="tile" aria-hidden="true">{mark_svg(50, "mark tile-mark")}</div>'
-                f'<h1>{esc(meta["name"])}</h1>'
+                f'<p class="eyebrow">{self.label("mapEyebrow")}</p><h1>{self.label("mapName")}</h1>'
                 f'<p class="lede">{self.t(meta["description"])}</p>'
                 f'<p class="actions"><a class="btn primary" href="#view-doors">{self.label("heroPrimary")}</a> '
                 f'<a class="btn secondary" href="#view-stack">{self.label("heroSecondary")}</a></p>'
@@ -1228,7 +1243,7 @@ def build(author: str, stack: Path = STACK) -> bytes:
     lang = "en"
     replacements = {"{{LANG}}": lang, "{{TITLE}}": esc(umbrella_title(d)), "{{DESCRIPTION}}": esc(d["meta"]["description"]),
                     "{{ICON}}": favicon(), "{{SOCIAL}}": social_tags(d),
-                    "{{HEAD_JS}}": head_js, "{{STYLES}}": styles, "{{HEADER}}": parts["HEADER"], "{{MAIN}}": parts["MAIN"],
+                    "{{THEME_HEAD}}": theme_head(), "{{HEAD_JS}}": head_js, "{{STYLES}}": styles, "{{HEADER}}": parts["HEADER"], "{{MAIN}}": parts["MAIN"],
                     "{{FOOTER}}": parts["FOOTER"], "{{BUILD_JSON}}": build_json}
     head, sep, tail = template.partition("{{STACK_JSON}}")
     if not sep:

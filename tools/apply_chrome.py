@@ -6,7 +6,9 @@ script payload that playbook/Validation/build.cjs writes) are hand-edited source
 marked regions that this tool owns:
   <style id="lx-shared">...</style>       hub/lensatic.css byte for byte, before the page's own styles, so the page's
                                           own tokens win wherever a name is shared (only --accent, with equal values)
-  <!-- lx-bar --> ... <!-- /lx-bar -->    the umbrella bar from hub/site.json, right after <body>
+  <!-- lx-bar --> ... <!-- /lx-bar -->    the umbrella bar from hub/site.json, right after <body>, with its theme toggle
+  <!-- lx-theme --> ... <!-- /lx-theme -->  the shared theme script (hub/theme-head.js, Lensatic 2.0.2), before the page's
+                                          first stylesheet, so the saved choice applies before first paint
 Usage: python3 tools/apply_chrome.py [--check]   (--check changes nothing and exits 1 if a region is missing or stale)
 """
 from __future__ import annotations
@@ -25,17 +27,24 @@ import build_web as bw  # noqa: E402
 PAGES = ((ROOT / "playbook" / "index.html", "../"), (ROOT / "playbook" / "Playbook" / "index.html", "../../"))
 STYLE_RE = re.compile(r'<style id="lx-shared">\n.*?\n</style>\n', re.S)
 BAR_RE = re.compile(r"<!-- lx-bar -->\n.*?\n<!-- /lx-bar -->\n", re.S)
+THEME_RE = re.compile(r"<!-- lx-theme -->\n.*?\n<!-- /lx-theme -->\n", re.S)
 
 
-def regions(root: str) -> tuple[str, str]:
+def regions(root: str) -> tuple[str, str, str]:
     css = bw.SHARED_CSS.read_text(encoding="utf-8").rstrip("\n")
     style = f'<style id="lx-shared">\n{css}\n</style>\n'
     bar = f"<!-- lx-bar -->\n{bw.umbrella_bar(bw.umbrella(), root, 'playbook')}\n<!-- /lx-bar -->\n"
-    return style, bar
+    theme = f"<!-- lx-theme -->\n{bw.theme_head()}\n<!-- /lx-theme -->\n"
+    return style, bar, theme
 
 
 def apply(text: str, root: str) -> str:
-    style, bar = regions(root)
+    style, bar, theme = regions(root)
+    if THEME_RE.search(text):
+        text = THEME_RE.sub(lambda m: theme, text, count=1)
+    else:
+        i = text.index("<style")   # before the page's first stylesheet
+        text = text[:i] + theme + text[i:]
     if STYLE_RE.search(text):
         text = STYLE_RE.sub(lambda m: style, text, count=1)
     else:
@@ -58,8 +67,7 @@ def main() -> int:
         text = page.read_text(encoding="utf-8")
         new = apply(text, root)
         if args.check:
-            style, bar = regions(root)
-            if len(STYLE_RE.findall(text)) != 1 or len(BAR_RE.findall(text)) != 1 or new != text:
+            if len(STYLE_RE.findall(text)) != 1 or len(BAR_RE.findall(text)) != 1 or len(THEME_RE.findall(text)) != 1 or new != text:
                 stale.append(str(page.relative_to(ROOT)))
         elif new != text:
             page.write_text(new, encoding="utf-8")

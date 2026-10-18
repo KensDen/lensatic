@@ -12,8 +12,10 @@ Writes, from sources inside this repository only:
 The map's pages (docs/maps/index.html, docs/privacy.html, docs/support.html, docs/social-card-v2.png, docs/.nojekyll)
 are written by tools/build_web.py --pages, not here.
 
-The hub and the guides index follow the map's own rules: no script, no resource loading (the type and the marks are
-embedded), no storage, the theme from prefers-color-scheme. Text comes from hub/site.json and content/stack.json; counts
+The hub and the guides index follow the map's own rules: no resource loading (the type and the marks are embedded), and
+the theme from prefers-color-scheme until a reader picks one. Since Lensatic 2.0.2 their only script is the shared theme
+pair every page with the umbrella bar carries (hub/theme-head.js in the head, hub/theme-bar.js with the bar's toggle),
+and their only storage is that choice, the localStorage key lensatic-theme. Text comes from hub/site.json and content/stack.json; counts
 are read from their sources, never typed: frameworks and glossary terms from content/stack.json, guides from
 hub/site.json's guides list, and the Agentic SecOps actions, resources and glossary terms from its JSX by the same
 parse as playbook/Validation/ripple_check.cjs. Deterministic: the output depends only on the inputs.
@@ -49,7 +51,7 @@ ZT_FILES = ("index.html", "icon.svg", "icon-512.png", "apple-touch-icon.png", "f
 # the pages the sitemap lists, under the site address (privacy and support since gauntlet question 38)
 SITEMAP_PAGES = ("", "maps/", "guides/", "guides/zero-trust/", "playbook/", "playbook/Playbook/", "privacy.html", "support.html")
 ZT_PDF = re.compile(r"^\d{8}_ZT_(Study_Guide|Quick_Reference_[A-Za-z_]+)_v\d+\.\d+(?:\.\d+)?\.pdf$")
-PLAYBOOK_FILES = ("index.html", "social-card.png", "Playbook/index.html")
+PLAYBOOK_FILES = ("index.html", "social-card-v2.png", "Playbook/index.html")  # the card renamed in Lensatic 2.0.2
 PLAYBOOK_DIRS = ("Documents", "Deck", "Diagrams")
 
 
@@ -114,12 +116,13 @@ def emblem() -> str:
 
 
 def section_icon(key: str, cls: str) -> str:
-    """Each section's own mark, at its existing art: the compass, the slashed zero, the APT_UNICORN emblem."""
+    """Each section's own mark, at its existing art: the compass, the slashed zero, the APT_UNICORN emblem. The compass
+    and (since Lensatic 2.0.2) the emblem sit in the dark rounded-square tile the slashed zero's own art is drawn on."""
     if key == "maps":
         return f'<span class="{cls} lx-tile" aria-hidden="true">{compass(32)}</span>'
     if key == "guides":
         return f'<img class="{cls}" src="{zt_mark()}" alt="" width="44" height="44">'
-    return f'<img class="{cls}" src="{emblem()}" alt="" width="44" height="44">'
+    return f'<span class="{cls} lx-tile" aria-hidden="true"><img src="{emblem()}" alt="" width="32" height="32"></span>'
 
 
 def bar(s: dict, root: str, active: str | None, brand_mark: bool = True) -> str:
@@ -127,12 +130,17 @@ def bar(s: dict, root: str, active: str | None, brand_mark: bool = True) -> str:
     return bw.umbrella_bar(s, root, active, brand_mark)
 
 
-def footer(s: dict, d: dict, root: str) -> str:
+def footer(s: dict, d: dict, root: str, licence: str | None = None) -> str:
+    """The shared footer: the version line, the policy, support and source links, and (Lensatic 2.0.2, gauntlet question 33)
+    one rights line, "Copyright 2026 Ken Connell. All rights reserved.", linked to the root LICENSE, or to a section's
+    own notice where it has one (the Zero Trust guide passes its LICENSE)."""
     L = d["ui"]["labels"]
+    lic = licence or f'{s["repo"]}/blob/main/LICENSE'
     return ('<footer class="lx-foot"><div class="lx-foot-in">'
             f'<p class="lx-version">{esc(s["name"])} {esc(s["version"])}, {esc(s["dateText"])}</p>'
             f'<ul><li><a href="{root}privacy.html">{esc(L["pagesPrivacy"])}</a></li><li><a href="{root}support.html">{esc(L["pagesSupport"])}</a></li>'
-            f'<li><a href="{esc(s["repo"])}">{esc(L["sourceCode"])}</a></li></ul></div></footer>')
+            f'<li><a href="{esc(s["repo"])}">{esc(L["sourceCode"])}</a></li></ul></div>'
+            f'<div class="lx-foot-in"><p class="lx-copy">{esc(s["rights"])} <a href="{esc(lic)}">{esc(s["rightsLink"])}</a>.</p></div></footer>')
 
 
 def styles() -> str:
@@ -169,7 +177,7 @@ def head(s: dict, title: str, description: str, url: str, image_alt: str) -> str
     return ("<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n"
             "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n"
             "<meta name=\"color-scheme\" content=\"light dark\">\n<meta name=\"referrer\" content=\"no-referrer\">\n"
-            f"<link rel=\"icon\" href=\"{bw.favicon()}\">\n<title>{esc(title)}</title>\n"
+            f"<link rel=\"icon\" href=\"{bw.favicon()}\">\n<title>{esc(title)}</title>\n{bw.theme_head()}\n"
             f"<meta name=\"description\" content=\"{esc(description)}\">\n<link rel=\"canonical\" href=\"{esc(url)}\">\n{meta}\n"
             f"<style>\n{styles()}\n</style>\n</head>\n")
 

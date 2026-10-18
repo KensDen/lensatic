@@ -12,7 +12,7 @@ Lensatic 2.0 holds three sections, each with its own build, checks and README in
 
 The hub at https://kensden.github.io/lensatic/ links all three (privacy policy: https://kensden.github.io/lensatic/privacy.html, support: https://kensden.github.io/lensatic/support.html).
 
-Framework Maps content version: 1.2.10.
+Framework Maps content version: 1.2.11.
 
 No account, no data collected by Lensatic. The privacy policy notes what GitHub Pages logs about visits to the hosted copy.
 
@@ -30,6 +30,7 @@ Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework pu
 
 ## Version history
 
+- 2.0.2, 18 October 2026: one theme toggle in the umbrella bar for every page, Framework Maps under its own name, section-tinted buttons, the APT_UNICORN emblem in its tile, and a rights line in the hub and guides index footers.
 - 2.0.1, 18 October 2026: the hub tells where the name comes from; the notices allow personal study.
 - 2.0, 18 October 2026: Framework Maps, Field Guides and Playbook under one roof.
 

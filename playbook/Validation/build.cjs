@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* Validation/build.cjs — rebuild Playbook/index.html from the JSX source.
+/* Validation/build.cjs: rebuild Playbook/index.html from the JSX source.
  *
  * Mirrors the exact pipeline used in every maintenance pass:
  *   1. read Playbook/agentic-secops-teaming.jsx (the source of truth)
@@ -10,7 +10,7 @@
  *   5. run Validation/sync_check.cjs to verify the result byte-for-byte
  *
  * Requires the `typescript` package (local `npm install typescript` in the
- * suite root, or a global install). Never edit index.html by hand — edit the
+ * suite root, or a global install). Never edit index.html by hand: edit the
  * JSX and run this.
  */
 const fs = require('fs'), path = require('path'), cp = require('child_process');

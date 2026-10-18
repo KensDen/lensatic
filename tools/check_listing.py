@@ -182,12 +182,15 @@ def build_promotional(d: dict) -> str:
 
 
 def build_description(d: dict) -> str:
-    """The settled opening; the wayfinder line; meta.description; What's inside, the section titles in the page's
-    order; the offline line; the not-affiliated sentence; the first paragraph of Why the name."""
+    """The settled opening; the wayfinder line; meta.description, introduced by the map's own name (content 1.2.11:
+    "Framework Maps is a guide to ..."); What's inside, the section titles in the page's order; the offline line; the
+    not-affiliated sentence; the first paragraph of Why the name."""
     meta, titles = d["meta"], d["ui"]["sections"]
     order = [s for s in B.SECTIONS if s != "glossary" or d.get("glossary")]
     inside = "\n".join([WHATS_INSIDE] + [f"- {resolve(d, titles[s])}{resolve(d, GLOSS.get(s, ''))}" for s in order])
-    parts = [OPENING, as_store(resolve(d, meta["wayfinder"])), resolve(d, meta["description"]), inside,
+    desc = resolve(d, meta["description"])
+    named = f'{d["ui"]["labels"]["mapName"]} is {desc[0].lower()}{desc[1:]}'
+    parts = [OPENING, as_store(resolve(d, meta["wayfinder"])), named, inside,
              resolve(d, meta["about"]["offline"]), resolve(d, meta["about"]["notAffiliated"]),
              as_store(resolve(d, meta["about"]["nameStory"][0]))]
     return "\n\n".join(parts)
