@@ -355,7 +355,7 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
 .made-by { margin-top: 1rem; margin-bottom: 0.25rem; }
 /* why the name: the front door's version line links here, so the heading clears the sticky header when it lands */
 .name-head { margin-top: 1.75rem; scroll-margin-top: calc(var(--nav-h) + 0.5rem); }
-/* the maker's photo: above the story on phones, beside it from 768 pixels up */
+/* the compass photo: above the story on phones, beside it from 768 pixels up */
 .name-story { display: grid; gap: 0.875rem 1.5rem; }
 .name-story .name-text p:first-child { margin-top: 0; }
 .name-photo { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--card-radius); }

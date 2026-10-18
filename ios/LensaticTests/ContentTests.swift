@@ -274,7 +274,7 @@ final class ContentTests: XCTestCase {
         let image = try XCTUnwrap(UIImage(data: data))
         XCTAssertEqual(image.size.width * image.scale, 1200)
         XCTAssertEqual(image.size.height * image.scale, 800)
-        XCTAssertEqual(store.label("aboutPhotoAlt"), "The maker's lensatic compass, open, with the sighting wire raised.")
+        XCTAssertEqual(store.label("aboutPhotoAlt"), "My lensatic compass, open, with the sighting wire raised.")
     }
 
     func testEveryFaceIsRegistered() {
