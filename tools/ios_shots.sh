@@ -11,7 +11,7 @@
 # the AI column, Sources, About at Why the name). Each capture loses its alpha
 # channel (tools/png_opaque.swift, which refuses a file with any pixel that is not opaque) and must then be, by sips,
 # exactly Apple's size for its display (iPhone 6.9-inch 1320 x 2868, iPad 13-inch 2064 x 2752), RGB with no alpha.
-# Files are <nn>_<device>_<screen>.png; store/screenshots.json lists each file's order, device, display, screen, size,
+# Files are <nn>_<device>_<screen>.png; ios/store/screenshots.json lists each file's order, device, display, screen, size,
 # SHA-256, and the SHA-256 of its pixels below the status bar (tools/check_listing.py holds no two alike, so a screen
 # taken twice fails). The images stay out of the repository.
 # Usage: tools/ios_shots.sh [output folder]           (default handoffs/session8-work/shots)
@@ -160,8 +160,8 @@ for kind in ("iPhone", "iPad"):
                       "width": w, "height": h, "sha256": hashlib.sha256(f.read_bytes()).hexdigest(), "contentSha256": content[f.name]})
 doc = {"about": "The App Store screenshots, taken by tools/ios_shots.sh --store and kept out of the repository; "
                 "tools/check_listing.py checks this list.", "screenshots": shots}
-Path("store/screenshots.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-print(f"wrote store/screenshots.json: {len(shots)} screenshots")
+Path("ios/store/screenshots.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+print(f"wrote ios/store/screenshots.json: {len(shots)} screenshots")
 PY
 else
   for f in "$OUT"/*.png; do
