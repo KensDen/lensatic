@@ -60,7 +60,7 @@ A plain large language model (LLM) takes text in and produces text out. It has n
 An **Agentic AI system** wraps an LLM in machinery that lets it *act*. A useful mental model is four components working in a loop:
 
 - **Reasoning core**: the LLM that interprets goals, plans steps, and decides what to do next.
-- **Tools**: functions the agent can call to affect the world: search the web, run code, query a database, send an email, hit an internal API, move money. In modern systems these tools are increasingly exposed through the **Model Context Protocol (MCP)**, a standard that lets agents discover and call external tools/servers, which is powerful, and a major new attack surface (Part 3).
+- **Tools**, functions the agent can call to affect the world: search the web, run code, query a database, send an email, hit an internal API, move money. In modern systems these tools are increasingly exposed through the **Model Context Protocol (MCP)**, a standard that lets agents discover and call external tools/servers, which is powerful, and a major new attack surface (Part 3).
 - **Memory**: state the agent carries across steps or sessions, often backed by a vector database (the store behind retrieval-augmented generation, or RAG).
 - **Orchestration / planning**: the logic that chains steps together and, in multi-agent systems, lets agents delegate to and call one another.
 
@@ -943,7 +943,7 @@ The following are concrete things worth being able to explain or attempt, inform
 - **Memory Poisoning (Agentic)**: Implanting false or malicious entries in an agent's persistent memory or knowledge store so the corruption survives sessions and steers future actions (e.g., AgentPoison).
 - **Slopsquatting**: Registering packages under names LLMs tend to hallucinate so AI-generated code imports attacker malware: supply-chain squatting aimed at machine-written software.
 - **Tool Poisoning (MCP)**: Hiding malicious instructions or behavior inside a tool's description or output so any agent that loads the tool is compromised: the MCP-era supply-chain variant of injection.
-- **AI Firewall / LLM Gateway**: An inspection layer in front of the model that screens prompts and outputs for injection, data leakage, and policy violations: it pairs with, never replaces, network egress controls.
+- **AI Firewall / LLM Gateway**: An inspection layer in front of the model that screens prompts and outputs for injection, data leakage, and policy violations, it pairs with, never replaces, network egress controls.
 - **Capability-Based Control**: Granting an agent explicit, scoped capabilities, what data may flow where, instead of trusting model judgment; the design behind DeepMind's CaMeL. Deterministic bounds over probabilistic defenses.
 - **Circuit Breaker**: An automatic, threshold-triggered halt on agent activity (spend, action rate, anomaly score), the machine-speed kill switch pre-wired before an incident, not improvised during one.
 - **Egress Filtering**: Default-deny outbound network control with destination allowlisting: the concrete defense that breaks the lethal trifecta's external-communication leg.
