@@ -71,7 +71,7 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     echo "PASS  containment: no tracked symlinks; tools and sources name no user or temp path outside the repo (browser binaries only)"
   fi
 fi
-for d in web ios critique store hub guides playbook docs; do
+for d in content web tools ios hub guides playbook docs critique; do
   [ -d "$d" ] && echo "PASS  $d/ present" || { echo "FAIL  $d/ missing"; RED=1; }
 done
 if [ "$RED" = "0" ]; then echo "== BATTERY GREEN =="; else echo "== BATTERY RED =="; fi

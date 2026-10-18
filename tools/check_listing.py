@@ -2,7 +2,7 @@
 """Battery checks for the App Store listing (session 9, section 4.2).
 
 store/app-store.json holds every field the owner pastes into App Store Connect, and nothing secret; store/app-store.md
-is its copy sheet, generated from it by this tool; store/screenshots.json lists the store screenshots, which
+is its copy sheet, generated from it by this tool; ios/store/screenshots.json lists the store screenshots, which
 tools/ios_shots.sh --store takes and which stay out of the repository.
 
 The checks: every field is present and no other; the length limits (name 30, subtitle 30, promotional text 170,
@@ -22,8 +22,8 @@ version, the devices, the encryption answer and the privacy answer agree with th
 wayfinder lines equal the content fields;
 the copy sheet equals a fresh generation; the screenshot list names eight screens per device, in the settled order, at
 Apple's sizes, no two alike in their files or below their status bars; and no em dash, forbidden word or email address
-in store/.
-The sweep covers store/ in validate.py.
+in ios/store/.
+The sweep covers ios/store/ in validate.py (as part of ios/).
 
 Usage: python3 tools/check_listing.py [--write]
   --write  rebuild the promotional text and the description in store/app-store.json from content/stack.json, then
@@ -43,7 +43,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 import build_web as B  # noqa: E402  (the section order and the department tokens, as the page renders them)
 import validate as V  # noqa: E402  (the forbidden word, the report format)
 
-STORE = ROOT / "store"
+STORE = ROOT / "ios" / "store"  # the App Store listing moved under ios/ in the Lensatic 2.0 cleanup (18 October 2026)
 LISTING = STORE / "app-store.json"
 SHEET = STORE / "app-store.md"
 SHOTS = STORE / "screenshots.json"
@@ -403,9 +403,9 @@ def check(rep) -> None:
     try:
         shots = load(SHOTS)["screenshots"]
     except FileNotFoundError:
-        shots, errs = [], ["store/screenshots.json is missing; run tools/ios_shots.sh --store"]
+        shots, errs = [], ["ios/store/screenshots.json is missing; run tools/ios_shots.sh --store"]
     except Exception as exc:  # noqa: BLE001
-        shots, errs = [], [f"store/screenshots.json: {exc}"]
+        shots, errs = [], [f"ios/store/screenshots.json: {exc}"]
     by_device: dict[str, list[dict]] = {}
     for s in shots:
         by_device.setdefault(str(s.get("device")), []).append(s)
@@ -429,11 +429,11 @@ def check(rep) -> None:
     for k, what in (("sha256", "file"), ("contentSha256", "content")):
         hashes = [s.get(k) for s in shots]
         errs += [f"two screenshots share the {what} SHA-256 {x[:12]}" for x in sorted({x for x in hashes if x and hashes.count(x) > 1})]
-    rep.check("store/screenshots.json: eight screens per device (start, doors, a door's steps, stack, matrix, AI column, "
+    rep.check("ios/store/screenshots.json: eight screens per device (start, doors, a door's steps, stack, matrix, AI column, "
               "sources, About at Why the name) at Apple's sizes (iPhone 6.9-inch 1320 x 2868, iPad 13-inch 2064 x 2752), "
               "each with the SHA-256 of its file and of its pixels below the status bar, no two alike", errs, f"{len(shots)} screenshots")
 
-    # the house rules in store/
+    # the house rules in ios/store/
     errs, scanned = [], 0
     for p in sorted(STORE.rglob("*")) if STORE.is_dir() else []:
         if not p.is_file() or p.name == ".DS_Store":
@@ -444,7 +444,7 @@ def check(rep) -> None:
         errs += [f"{rel}:{ln}: em dash" for ln, line in enumerate(text.splitlines(), 1) if "\u2014" in line]
         errs += [f"{rel}:{ln}: the forbidden word" for ln, line in enumerate(text.splitlines(), 1) if V.FORBIDDEN_WORD in line]
         errs += [f"{rel}: an email address" for _ in EMAIL_RE.finditer(text)]
-    rep.check("no em dash, forbidden word or email address in store/", sorted(set(errs)), f"{scanned} files")
+    rep.check("no em dash, forbidden word or email address in ios/store/", sorted(set(errs)), f"{scanned} files")
 
 
 def write() -> None:

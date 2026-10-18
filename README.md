@@ -21,8 +21,7 @@ Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework pu
     content/    the map's content: stack.json and its schema
     web/        the map's web page: lensatic.html (built) and src/ (templates, stylesheets, behavior script, mark, photo)
     tools/      the map's build and checks, the hub build, the shared-chrome tool and the umbrella checks
-    ios/        the map's SwiftUI app: project.yml, the generated Xcode project, sources, tests
-    store/      the App Store listing: app-store.json, its copy sheet and the screenshot list
+    ios/        the map's SwiftUI app: project.yml, the generated Xcode project, sources, tests, and store/, its App Store listing
     hub/        the hub's source: the field system's shared stylesheet, site.json, the marks and DESIGN.md
     guides/     Field Guides: zero-trust/, the Zero Trust guide as it publishes (page, PDFs, README, record, LICENSE)
     playbook/   Agentic SecOps, whole: the app, documents, deck, diagrams, its notices and its own battery
@@ -66,7 +65,7 @@ Since Lensatic 2.0 the battery also runs `tools/check_umbrella.py` (the hub, the
 - Provenance and authority fields are complete.
 - The matrix holds exactly 48 unique cells, and the two pillar views cover all eight canonical pillars.
 - Trailhead steps resolve.
-- The sweep is clean in plain and rot13 form across `content/`, `web/`, `ios/`, `critique/`, `docs/` (bar the moved sections' published copies, which their own checks hold), `store/`, `hub/`, this file and `LICENSE`, and the forbidden word appears nowhere in `content/`, `critique/` or `LICENSE` (Lensatic 2.0 made it a section's name, which this file names).
+- The sweep is clean in plain and rot13 form across `content/`, `web/`, `ios/` (the App Store listing in `ios/store/` included), `critique/`, `docs/` (bar the moved sections' published copies, which their own checks hold), `hub/`, this file and `LICENSE`, and the forbidden word appears nowhere in `content/`, `critique/` or `LICENSE` (Lensatic 2.0 made it a section's name, which this file names).
 - No em dash appears in `content/`, `critique/`, this file or `LICENSE`.
 - The department name is rendered only from `orgs.dow`.
 - Glossary terms and spellings are unique, resolve to their entries and carry an expansion.
@@ -138,6 +137,6 @@ The battery's iOS stage, `tools/check_ios.py`, runs on every machine: the color 
 
 ### App Store
 
-On the App Store the app will be listed as Lensatic Cyber, because the single word was already reserved by another developer's record; everywhere else, the Home Screen included, it is Lensatic. `store/app-store.json` is the listing's source of truth, every field pasted into App Store Connect and nothing secret; its promotional text and description are built from `content/stack.json`, apart from the description's settled opening paragraph, its What's inside heading and the glosses on two of its items, which `tools/check_listing.py` holds. `store/app-store.md` is its copy sheet, one heading per field with the text to copy and the length of each text, and `python3 tools/check_listing.py --write` rebuilds both. The store screenshots come from `tools/ios_shots.sh --store`; the images stay out of the repository, and `store/screenshots.json` lists them with their sizes and hashes. The battery's listing stage, `tools/check_listing.py`, checks the fields against Apple's length limits, the settled wording and the listing rules, and checks the copy sheet and the screenshot list.
+On the App Store the app will be listed as Lensatic Cyber, because the single word was already reserved by another developer's record; everywhere else, the Home Screen included, it is Lensatic. `ios/store/app-store.json` is the listing's source of truth, every field pasted into App Store Connect and nothing secret; its promotional text and description are built from `content/stack.json`, apart from the description's settled opening paragraph, its What's inside heading and the glosses on two of its items, which `tools/check_listing.py` holds. `ios/store/app-store.md` is its copy sheet, one heading per field with the text to copy and the length of each text, and `python3 tools/check_listing.py --write` rebuilds both. The store screenshots come from `tools/ios_shots.sh --store`; the images stay out of the repository, and `ios/store/screenshots.json` lists them with their sizes and hashes. The battery's listing stage, `tools/check_listing.py`, checks the fields against Apple's length limits, the settled wording and the listing rules, and checks the copy sheet and the screenshot list.
 
 The privacy policy in `docs/privacy.html` speaks for the web page and the app alike; the iOS app section above says how the app keeps to it.
