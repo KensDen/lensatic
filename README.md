@@ -30,6 +30,7 @@ Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework pu
 
 ## Version history
 
+- 2.0.1, 18 October 2026: the hub tells where the name comes from; the notices allow personal study.
 - 2.0, 18 October 2026: Framework Maps, Field Guides and Playbook under one roof.
 
 ## License

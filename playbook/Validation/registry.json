@@ -122,7 +122,7 @@
  },
  "license": {
   "_about": "Round J. The LICENSE pin (the sha256 of Public/LICENSE, which ships as LICENSE byte for byte; Round N retired the ship-date token with the notice's dated paragraph), the license-term patterns (case-insensitive), the allowances and the short notice. statics_check (15 to 17) and the export gate's LICENSE_TERMS group both read this entry, so the two scan with the same patterns and the same allowances. Each allowance names its files (private-tree names) and its exact text, and must be present exactly as pinned; a hit is allowed only inside that text. Each pattern carries a character class and each allowed text a JSON unicode escape, so that neither matches itself when the gate scans this file.",
-  "sha256": "51be373f64dc0ccaf7516c217784611de024b4c67a20800887113a8c78a00aff",
+  "sha256": "27caf988f624d46ccd5df23c4faa996cd12aab4b7c59dd2db74432772cde1119",
   "patterns": ["BY-NC-S[A]", "Non-?Commerc[i]al", "Creative\\s*Common[s]", "\\bCC[ -]B[Y]\\b"],
   "allow": [
    {"id": "J-B1", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "AI FOR security stays with CDM. CC\u0020BY-SA 4.0.", "reason": "approved third-party mention: the AI Defense Matrix (Zeltser & Yu) entry states the matrix's own terms"},

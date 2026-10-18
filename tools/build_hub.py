@@ -2,7 +2,7 @@
 """Build the Lensatic umbrella pages and publish the two moved sections into docs/ (Lensatic 2.0).
 
 Writes, from sources inside this repository only:
-  docs/index.html            the hub: top bar, hero, the three section tiles, About, footer
+  docs/index.html            the hub: top bar, hero, the three section tiles, About (ending on where the name comes from), footer
   docs/guides/index.html     the guides index: one tile per guide (Zero Trust is the first)
   docs/shared/lensatic.css   hub/lensatic.css byte for byte, the field system's one shared file
   docs/sitemap.xml           the hub, the map, the guides index, the Zero Trust guide, the Playbook landing and app
@@ -148,7 +148,12 @@ HUB_CSS = """.lx-hero-lines { margin: var(--s-5) 0 0; padding: 0; list-style: no
 .lx-guide-meta dd { margin: 0 0 var(--s-2); }
 .lx-refs { display: flex; flex-wrap: wrap; gap: 0 var(--s-4); margin: 0; padding: 0; list-style: none; }
 .lx-refs a { display: inline-flex; align-items: center; min-height: 44px; }
-.lx-about p { color: var(--fg); }"""
+.lx-about p { color: var(--fg); }
+.lx-name-head { margin: var(--s-6) 0 var(--s-3); font-size: 1.25rem; line-height: 1.3; }
+.lx-name-story { display: grid; gap: var(--s-3) var(--s-5); }
+.lx-name-text p:first-child { margin-top: 0; }
+.lx-name-photo { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--card-radius); }
+@media (min-width: 768px) { .lx-name-story { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; } }"""
 
 
 def head(s: dict, title: str, description: str, url: str, image_alt: str) -> str:
@@ -172,6 +177,19 @@ def first_use(r: "bw.Renderer"):
     return bw.FirstUse(entries, link=False)
 
 
+def name_story(r: "bw.Renderer", about: dict) -> str:
+    """Where the name comes from, as the Framework Maps About panel tells it: its heading, the maker's compass photo and
+    meta.about.nameStory, from content/stack.json and ui.labels, never restated. The photo is web/src/about-photo.jpg
+    byte for byte, embedded as a data: URI as on the map (part of the page, not a request), with the map's alt text."""
+    data = bw.PHOTO.read_bytes()
+    w, h = bw.jpeg_size(data)
+    photo = (f'<img class="lx-name-photo" src="data:image/jpeg;base64,{base64.b64encode(data).decode("ascii")}" '
+             f'alt="{r.label("aboutPhotoAlt")}" width="{w}" height="{h}">')
+    story = "".join(f"<p>{r.t(p)}</p>" for p in about["nameStory"])
+    return (f'<h3 class="lx-name-head" id="about-name">{r.label("whyNameHeading")}</h3>'
+            f'<div class="lx-name-story">{photo}<div class="lx-name-text">{story}</div></div>')
+
+
 def hub_page(s: dict, d: dict) -> str:
     r = bw.Renderer(d, "")
     fu = first_use(r)
@@ -190,7 +208,7 @@ def hub_page(s: dict, d: dict) -> str:
     sections = (f'<section class="lx-wrap lx-section" aria-labelledby="sections-h"><h2 id="sections-h" class="lx-vh">{esc(kicker)}</h2>'
                 f'<ul class="lx-tiles">{"".join(tiles)}</ul></section>\n')
     about_html = (f'<section class="lx-wrap lx-section lx-about" id="about" aria-labelledby="about-h"><h2 id="about-h">{esc(s["aboutLabel"])}</h2>'
-                  f'<p>{r.t(about["notAffiliated"])}</p><p>{r.t(about["offline"])}</p><p>{r.t(about["licensing"])}</p></section>\n')
+                  + "".join(name_story(r, about) if k == "nameStory" else f"<p>{r.t(about[k])}</p>" for k in s["aboutBlocks"]) + "</section>\n")
     body = (f'<body class="lx-page">\n<a class="lx-skip" href="#main">{r.label("skip")}</a>\n{bar(s, "./", None)}\n<main id="main">\n'
             f'{fu.section(hero)}{fu.section(sections)}{fu.section(about_html)}'
             f'</main>\n{footer(s, d, "./")}\n</body>\n</html>\n')
