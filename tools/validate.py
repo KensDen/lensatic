@@ -59,7 +59,7 @@ LICENSE_CONTENT_RETIRED = CONTENT / "LICENSE"
 LICENSE_FONTS = ROOT / "web" / "src" / "fonts" / "OFL.txt"
 VERBATIM_LEGAL = {LICENSE_FONTS}
 LICENSE_SHA256 = {
-    "LICENSE": "5c388438099edc9345fad5b0eeca1a9856540b927226256fcf3679f78880d484",
+    "LICENSE": "3ef4573fd6a95dc22a0f527b27b14411ac9cf79fe562abf04f22ddc1160c1322",  # Lensatic 2.0 (18 October 2026): the merged notice, three works labelled, earlier grants word for word
     "web/src/fonts/OFL.txt": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
 }
 ALL_RIGHTS_RESERVED = "LicenseRef-Lensatic-All-Rights-Reserved"
