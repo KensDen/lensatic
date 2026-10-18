@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Road to Assume-Agentic, Assume-Inside</title>
+<style>
+  :root{
+    --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
+    --border:rgba(160,200,255,0.11); --border2:rgba(160,200,255,0.17);
+    --text:#EAF4FF; --muted:#8FA3C2; --dim:#6B7E9C; --accent:#45C4F4;
+    --intel:#ff8c42; --red:#EF4444; --blue:#3B82F6; --purple:#B273B5; --green:#10B981; --gold:#F59E0B;
+    --tint-accent:#ABE4FA; --tint-purple:#DCC0DE; --tint-blue:#93C5FD; --tint-gold:#FCD34D; --tint-red:#FCA5A5; --tint-intel:#FDBA74; --tint-green:#6EE7B7;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
+    background-image:
+      radial-gradient(1100px 600px at 50% 26%, color-mix(in srgb, var(--purple) 7%, transparent), transparent 60%),
+      linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:auto,46px 46px,46px 46px;}
+  .poster{max-width:1180px; margin:0 auto}
+  .rev{opacity:0; transform:translateY(10px); animation:up .6s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes up{to{opacity:1; transform:none}}
+  header{padding-bottom:16px; margin-bottom:24px; border-bottom:1px solid var(--border2); text-align:center}
+  h1{font-size:clamp(22px,3vw,36px); font-weight:700; letter-spacing:.04em; text-transform:uppercase; line-height:1.1}
+  h1 .a{color:var(--red)}
+  .subtitle{color:var(--muted); font-size:13px; margin-top:8px}
+
+  .tl{display:grid; grid-template-columns:repeat(5,1fr); gap:14px; position:relative}
+  .tl::before{content:""; position:absolute; top:42px; left:2%; right:2%; height:2px;
+    background:linear-gradient(90deg,var(--blue),var(--purple),var(--intel),var(--red),var(--accent)); opacity:.45; border-radius:2px}
+  .col{display:flex; flex-direction:column; align-items:center}
+  .date{font-size:10px; font-weight:700; letter-spacing:.04em; height:26px; display:flex; align-items:center; text-align:center}
+  .dot{width:16px; height:16px; border-radius:50%; border:3px solid var(--bg); position:relative; z-index:2; margin-bottom:14px}
+  .card{background:var(--surface); border:1px solid var(--border); border-top:3px solid var(--border2); border-radius:8px; padding:11px 12px; width:100%; flex:1; transition:transform .15s ease}
+  .card:hover{transform:translateY(-3px)}
+  .card .tt{font-size:12px; font-weight:700; line-height:1.15; margin-bottom:6px}
+  .card .dd{font-size:9.5px; color:var(--muted); line-height:1.5}
+  .e1 .date{color:var(--blue)} .e1 .dot{background:var(--blue)} .e1.card,.e1 .card{border-top-color:var(--blue)} .e1 .tt{color:var(--tint-blue)}
+  .e2 .date{color:var(--purple)} .e2 .dot{background:var(--purple)} .e2 .card{border-top-color:var(--purple)} .e2 .tt{color:var(--tint-purple)}
+  .e3 .date{color:var(--intel)} .e3 .dot{background:var(--intel)} .e3 .card{border-top-color:var(--intel)} .e3 .tt{color:var(--tint-intel)}
+  .e4 .date{color:var(--red)} .e4 .dot{background:var(--red)} .e4 .card{border-top-color:var(--red)} .e4 .tt{color:var(--tint-red)}
+  .e5 .date{color:var(--accent)} .e5 .dot{background:var(--accent)} .e5 .card{border-top-color:var(--accent)} .e5 .tt{color:var(--tint-accent)}
+  .tag{display:inline-block; font-size:8px; letter-spacing:.06em; text-transform:uppercase; color:var(--dim); border:1px solid var(--border2); border-radius:3px; padding:1px 5px; margin-bottom:6px}
+
+  .footer{margin-top:26px; padding-top:14px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  .footer .l{font-size:10px; color:var(--dim); line-height:1.55; max-width:74%} .footer .l b{color:var(--muted)}
+  .footer .src{font-size:8.5px;color:var(--dim);margin-top:5px; line-height:1.5}
+  .footer .r .badge{display:inline-block; border:1px solid var(--border2); border-radius:4px; padding:3px 8px; color:var(--accent); font-weight:700; letter-spacing:.1em; font-size:10px}
+
+  @media (max-width:820px){
+    .tl{grid-template-columns:1fr; gap:10px} .tl::before{display:none}
+    .col{flex-direction:row; align-items:stretch; gap:10px} .date{width:84px; height:auto} .dot{display:none}
+  }
+  @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
+  .copy{font-size:8.5px;color:var(--dim);margin-top:5px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="poster">
+  <header class="rev" style="animation-delay:.02s">
+    <h1>The Road to <span class="a">Assume-Agentic, Assume-Inside</span></h1>
+    <div class="subtitle">Two years of public cases &mdash; the threat got faster, AI-driven, and already inside; the federal response followed</div>
+  </header>
+
+  <div class="tl">
+    <div class="col e1 rev" style="animation-delay:.08s"><div class="date">FEB 2024</div><div class="dot"></div>
+      <div class="card"><span class="tag">Nation-state &middot; OT</span><div class="tt">Volt Typhoon</div><div class="dd">PRC state actor pre-positions inside US critical infrastructure using living-off-the-land tradecraft &mdash; staged to disrupt, not to steal.</div></div></div>
+    <div class="col e2 rev" style="animation-delay:.16s"><div class="date">2025</div><div class="dot"></div>
+      <div class="card"><span class="tag">AI-orchestrated</span><div class="tt">GTG-1002</div><div class="dd">First documented large-scale AI-orchestrated cyber-espionage campaign &mdash; AI ran the great majority of the operation, humans only at key decision points.</div></div></div>
+    <div class="col e3 rev" style="animation-delay:.24s"><div class="date">DEC 2025&ndash;FEB 2026</div><div class="dot"></div>
+      <div class="card"><span class="tag">Single operator</span><div class="tt">Mexican multi-agency breach</div><div class="dd">One operator used Claude Code + GPT to breach nine agencies, with AI generating ~75% of commands &mdash; one person at the speed of a team. <i>(as reported by Gambit Security)</i></div></div></div>
+    <div class="col e4 rev" style="animation-delay:.32s"><div class="date">APR 2026</div><div class="dot"></div>
+      <div class="card"><span class="tag">Physical disruption</span><div class="tt">Iran &mdash; advisory AA26-097A</div><div class="dd">Iranian-affiliated actors manipulate PLC project files and HMI displays in US water, energy, and government facilities &mdash; real operational disruption.</div></div></div>
+    <div class="col e5 rev" style="animation-delay:.4s"><div class="date">APR&ndash;MAY 2026</div><div class="dot"></div>
+      <div class="card"><span class="tag">The response</span><div class="tt">CISA responds</div><div class="dd">&ldquo;Adapting Zero Trust Principles to OT&rdquo; + CI Fortify: assume the adversary is inside; validate on identity; isolate and recover.</div></div></div>
+  </div>
+
+  <div class="footer rev" style="animation-delay:.48s">
+    <div class="l"><b>The trajectory is unmistakable</b> &mdash; faster, AI-driven, and already inside. Defenses built for human-speed, perimeter-trust adversaries are aimed at the wrong threat; this playbook is built for this one.
+      <div class="src">Sources: Anthropic threat disclosure (GTG-1002); Gambit Security; CISA advisories &amp; guidance (Volt Typhoon, AA26-097A, Adapting Zero Trust to OT, CI Fortify). Figures indicative &mdash; verify before quoting in formal settings.</div>
+    <div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="r"><span class="badge">AGENTIC SECOPS</span></div>
+  </div>
+</div>
+</body>
+</html>

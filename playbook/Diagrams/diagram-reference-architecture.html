@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic SecOps — Reference Architecture</title>
+<style>
+  :root{
+    --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
+    --border:rgba(160,200,255,0.11); --border2:rgba(160,200,255,0.17);
+    --text:#EAF4FF; --muted:#8FA3C2; --dim:#6B7E9C; --accent:#45C4F4;
+    --purple:#B273B5;
+    --human:#3B82F6; --reason:#45C4F4; --detect:#ff8c42; --govern:#F07FC0; --data:#F59E0B;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
+    background-image:
+      radial-gradient(1100px 600px at 14% -5%, color-mix(in srgb, var(--human) 6%, transparent), transparent 60%),
+      radial-gradient(1000px 600px at 88% 0%, color-mix(in srgb, var(--accent) 5%, transparent), transparent 55%),
+      linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:auto,auto,46px 46px,46px 46px;}
+  .poster{max-width:1340px; margin:0 auto}
+  .rev{opacity:0; transform:translateY(10px); animation:up .6s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes up{to{opacity:1; transform:none}}
+  header{padding-bottom:18px; margin-bottom:22px; border-bottom:1px solid var(--border2)}
+  h1{font-size:clamp(24px,3.2vw,40px); font-weight:700; letter-spacing:.05em; text-transform:uppercase; line-height:1.05}
+  h1 .a{color:var(--accent)}
+  .subtitle{color:var(--muted); font-size:13px; margin-top:8px}
+
+  .frame{display:grid; grid-template-columns:34px 1fr 150px; gap:14px; align-items:stretch}
+  /* left flow rail */
+  .flowrail{position:relative; border-radius:6px; background:linear-gradient(180deg,color-mix(in srgb, var(--data) 16%, transparent),color-mix(in srgb, var(--human) 16%, transparent)); border:1px solid var(--border2)}
+  .flowrail .t{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-90deg); white-space:nowrap; font-size:9.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--accent)}
+  .flowrail .up{position:absolute; top:6px; left:50%; transform:translateX(-50%); color:var(--accent); font-size:14px}
+
+  .stack{display:flex; flex-direction:column; gap:10px}
+  .band{border-radius:7px; border:1px solid var(--border); background:var(--surface); padding:11px 13px; position:relative; overflow:hidden}
+  .band::before{content:""; position:absolute; left:0; top:0; bottom:0; width:4px}
+  .band .blab{font-size:11px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; margin-bottom:9px; padding-left:4px}
+  .cards{display:grid; gap:8px}
+  .c{background:var(--surface2); border:1px solid var(--border2); border-radius:5px; padding:9px 11px; transition:transform .15s ease}
+  .c:hover{transform:translateY(-2px)}
+  .c .n{font-size:11.5px; font-weight:700; color:var(--text); line-height:1.2}
+  .c .d{font-size:9.5px; color:var(--muted); margin-top:3px; line-height:1.4}
+  .c .badge{font-size:8px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--dim)}
+
+  .b-human::before{background:var(--human)} .b-human .blab{color:var(--human)}
+  .b-reason::before{background:var(--reason)} .b-reason .blab{color:var(--reason)}
+  .b-detect::before{background:var(--detect)} .b-detect .blab{color:var(--detect)}
+  .b-govern::before{background:var(--govern)} .b-govern .blab{color:var(--govern)}
+  .b-data::before{background:var(--data)} .b-data .blab{color:var(--data)}
+
+  /* right loop rail */
+  .looprail{position:relative; border-left:2px dashed color-mix(in srgb, var(--purple) 55%, transparent); border-radius:0}
+  .looptag{position:absolute; top:50%; left:8px; transform:translateY(-50%); font-size:9px; color:var(--purple); font-weight:700; letter-spacing:.06em; line-height:1.5}
+  .looptag .ico{font-size:15px; display:block; margin-bottom:4px}
+
+  footer{margin-top:22px; padding-top:14px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  footer .l{font-size:10px; color:var(--dim); line-height:1.55; max-width:70%}
+  footer .l b{color:var(--muted)}
+  footer .r .badge{display:inline-block; border:1px solid var(--border2); border-radius:4px; padding:3px 8px; color:var(--accent); font-weight:700; letter-spacing:.1em; font-size:10px}
+
+  @media (max-width:860px){
+    .frame{grid-template-columns:1fr}
+    .flowrail{display:none} .looprail{display:none}
+  }
+  @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
+  .copy{margin-top:5px}
+</style>
+</head>
+<body>
+<div class="poster">
+  <header class="rev" style="animation-delay:.02s">
+    <h1>Reference <span class="a">Architecture</span></h1>
+    <div class="subtitle">Agentic SecOps on the Microsoft security stack — five layers, human-in-command at the top, data foundation at the base</div>
+  </header>
+
+  <div class="frame rev" style="animation-delay:.08s">
+    <!-- left: upward data flow -->
+    <div class="flowrail"><span class="up">▲</span><span class="t">Data &amp; telemetry flows up</span></div>
+
+    <!-- stack -->
+    <div class="stack">
+      <div class="band b-human">
+        <div class="blab">① Human-in-Command Layer</div>
+        <div class="cards" style="grid-template-columns:1fr 1fr">
+          <div class="c"><div class="n">SOC Analysts &amp; Threat Hunters</div><div class="d">Judgment, escalation, and the decisions that warrant a human.</div></div>
+          <div class="c"><div class="n">Strategy &amp; Continuous Improvement</div><div class="d">Governance, policy, and roadmap — owns the loop.</div></div>
+        </div>
+      </div>
+
+      <div class="band b-reason">
+        <div class="blab">② Agentic Reasoning Layer</div>
+        <div class="cards" style="grid-template-columns:1fr 1fr 1fr">
+          <div class="c"><div class="badge">Microsoft</div><div class="n">Security Copilot</div><div class="d">Reasoning engine across the stack.</div></div>
+          <div class="c"><div class="n">Security Copilot Agents</div><div class="d">Triage, phishing, alert handling.</div></div>
+          <div class="c"><div class="n">Red / Blue / Purple Teaming Agents</div><div class="d">Emulate, detect, close gaps.</div></div>
+        </div>
+      </div>
+
+      <div class="band b-detect">
+        <div class="blab">③ Detection &amp; Response Plane</div>
+        <div class="cards" style="grid-template-columns:1fr 1fr 1fr">
+          <div class="c"><div class="badge">Microsoft</div><div class="n">Sentinel</div><div class="d">SIEM / SOAR.</div></div>
+          <div class="c"><div class="badge">Microsoft</div><div class="n">Defender XDR</div><div class="d">Endpoint, identity, email, cloud.</div></div>
+          <div class="c"><div class="n">Threat Intelligence Feeds</div><div class="d">Fuel the loop with fresh TTPs.</div></div>
+        </div>
+      </div>
+
+      <div class="band b-govern">
+        <div class="blab">④ Agent Governance &amp; Identity Layer</div>
+        <div class="cards" style="grid-template-columns:1fr 1fr 1fr">
+          <div class="c"><div class="badge">Microsoft</div><div class="n">Agent 365</div><div class="d">Agent control plane.</div></div>
+          <div class="c"><div class="badge">Microsoft</div><div class="n">Entra Agent ID</div><div class="d">Non-human identities, least privilege.</div></div>
+          <div class="c"><div class="n">Defender + Purview + Intune</div><div class="d">Runtime protection, data security, blast-radius mapping.</div></div>
+        </div>
+      </div>
+
+      <div class="band b-data">
+        <div class="blab">⑤ Data &amp; Telemetry Foundation</div>
+        <div class="cards" style="grid-template-columns:1fr 1fr 1fr">
+          <div class="c"><div class="n">Sentinel Data Lake / Log Analytics</div><div class="d">The system of record.</div></div>
+          <div class="c"><div class="n">Data Provenance &amp; Integrity Controls</div><div class="d">Trust what the agents read.</div></div>
+          <div class="c"><div class="n">Sandboxed, Egress-Controlled Execution</div><div class="d">Contain the blast radius.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- right: continuous loop -->
+    <div class="looprail"><div class="looptag"><span class="ico">↻</span>Continuous loop: detection &amp; intel feed the agentic reasoning layer — coverage compounds every cycle.</div></div>
+  </div>
+
+  <footer class="rev" style="animation-delay:.18s">
+    <div class="l"><b>Reference pattern</b> for an agentic SecOps build on Microsoft. Layers are logical, not physical — map them to your impact level and authorization boundary. The Technical (Build) tabs detail each plane.<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="r"><span class="badge">AGENTIC SECOPS</span></div>
+  </footer>
+</div>
+</body>
+</html>

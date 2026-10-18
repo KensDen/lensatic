@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Continuous Purple Teaming Loop</title>
+<style>
+  :root{
+    --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
+    --border:rgba(160,200,255,0.11); --border2:rgba(160,200,255,0.17);
+    --text:#EAF4FF; --muted:#8FA3C2; --dim:#6B7E9C; --accent:#45C4F4;
+    --intel:#ff8c42; --red:#EF4444; --blue:#3B82F6; --purple:#B273B5; --green:#10B981; --gold:#F59E0B;
+    --tint-accent:#ABE4FA; --tint-purple:#DCC0DE; --tint-blue:#93C5FD; --tint-gold:#FCD34D; --tint-red:#FCA5A5; --tint-intel:#FDBA74; --tint-green:#6EE7B7;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
+    background-image:
+      radial-gradient(1000px 600px at 50% 50%, color-mix(in srgb, var(--purple) 7%, transparent), transparent 60%),
+      linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:auto,46px 46px,46px 46px;}
+  .poster{max-width:1180px; margin:0 auto}
+  .rev{opacity:0; transform:translateY(10px); animation:up .6s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes up{to{opacity:1; transform:none}}
+  header{padding-bottom:16px; margin-bottom:22px; border-bottom:1px solid var(--border2); text-align:center}
+  h1{font-size:clamp(22px,3vw,36px); font-weight:700; letter-spacing:.04em; text-transform:uppercase; line-height:1.1}
+  h1 .a{color:var(--purple)}
+  .subtitle{color:var(--muted); font-size:13px; margin-top:8px}
+
+  .ring{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;
+    grid-template-areas:"s7 s1 s2" "leg hub s3" "s6 s5 s4";}
+  .node{background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:11px 13px; border-top:3px solid var(--border2); transition:transform .15s ease, border-color .15s ease}
+  .node:hover{transform:translateY(-3px)}
+  .node .top{display:flex; align-items:center; gap:8px; margin-bottom:6px}
+  .node .num{width:24px; height:24px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; color:var(--bg); flex-shrink:0}
+  .node .ph{font-size:12px; font-weight:700; letter-spacing:.02em; line-height:1.1}
+  .node .d{font-size:9.5px; color:var(--muted); line-height:1.46}
+
+  .s1{grid-area:s1} .s2{grid-area:s2} .s3{grid-area:s3} .s4{grid-area:s4}
+  .s5{grid-area:s5} .s6{grid-area:s6} .s7{grid-area:s7}
+  .n-intel{border-top-color:var(--intel)} .n-intel .num{background:var(--intel)} .n-intel .ph{color:var(--intel)}
+  .n-red{border-top-color:var(--red)} .n-red .num{background:var(--red)} .n-red .ph{color:var(--red)}
+  .n-blue{border-top-color:var(--blue)} .n-blue .num{background:var(--blue)} .n-blue .ph{color:var(--blue)}
+  .n-purple{border-top-color:var(--purple)} .n-purple .num{background:var(--purple)} .n-purple .ph{color:var(--purple)}
+  .n-green{border-top-color:var(--green)} .n-green .num{background:var(--green)} .n-green .ph{color:var(--green)}
+  .n-gold{border-top-color:var(--gold)} .n-gold .num{background:var(--gold)} .n-gold .ph{color:var(--gold)}
+
+  .hub{grid-area:hub; border:1px solid color-mix(in srgb, var(--purple) 50%, transparent); border-radius:50%; aspect-ratio:1/1;
+    background:radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--purple) 16%, transparent), color-mix(in srgb, var(--purple) 4%, transparent) 70%);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:18px}
+  .hub .ico{font-size:30px; color:var(--purple); line-height:1}
+  .hub .ht{font-size:13px; font-weight:700; color:var(--tint-purple); margin-top:8px; letter-spacing:.02em}
+  .hub .hs{font-size:10px; color:var(--muted); margin-top:5px; line-height:1.4}
+
+  .leg{grid-area:leg; display:flex; align-items:center}
+  .legbox{background:var(--surface2); border:1px dashed var(--border2); border-radius:8px; padding:12px 13px}
+  .legbox .t{font-size:10px; font-weight:700; color:var(--accent); letter-spacing:.1em; text-transform:uppercase; margin-bottom:7px}
+  .legbox .r{display:flex; align-items:center; gap:7px; font-size:9px; color:var(--muted); margin-bottom:4px}
+  .legbox .dot{width:9px; height:9px; border-radius:2px; flex-shrink:0}
+
+  .footer{margin-top:20px; padding-top:14px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  .footer .l{font-size:10px; color:var(--dim); line-height:1.55; max-width:70%} .footer .l b{color:var(--muted)}
+  .footer .r .badge{display:inline-block; border:1px solid var(--border2); border-radius:4px; padding:3px 8px; color:var(--accent); font-weight:700; letter-spacing:.1em; font-size:10px}
+
+  @media (max-width:820px){
+    .ring{display:flex; flex-direction:column; gap:9px}
+    .hub{order:0; aspect-ratio:auto; border-radius:10px; padding:14px} .hub .ico{font-size:24px}
+    .s1{order:1}.s2{order:2}.s3{order:3}.s4{order:4}.s5{order:5}.s6{order:6}.s7{order:7}
+    .leg{order:8}
+  }
+  @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
+  .copy{margin-top:5px}
+</style>
+</head>
+<body>
+<div class="poster">
+  <header class="rev" style="animation-delay:.02s">
+    <h1>The Continuous <span class="a">Purple Teaming Loop</span></h1>
+    <div class="subtitle">From threat intel to deployed detection — clockwise, and every TTP re-enters at step 1</div>
+  </header>
+
+  <div class="ring rev" style="animation-delay:.08s">
+    <!-- hub -->
+    <div class="hub">
+      <div class="ico">↻</div>
+      <div class="ht">Continuous Purple Loop</div>
+      <div class="hs">Coverage rises with every cycle</div>
+    </div>
+
+    <div class="node s1 n-intel"><div class="top"><span class="num">1</span><span class="ph">Intel — TTP Ingested</span></div><div class="d">A new threat-intel technique becomes a hypothesis. Source: Sentinel &amp; Defender threat intelligence.</div></div>
+    <div class="node s2 n-red"><div class="top"><span class="num">2</span><span class="ph">Red — Emulate</span></div><div class="d">Red agent safely emulates the TTP in a sandbox, mapped to MITRE ATT&amp;CK / ATLAS. Human-approved scope.</div></div>
+    <div class="node s3 n-blue"><div class="top"><span class="num">3</span><span class="ph">Blue — Detect?</span></div><div class="d">Blue agent checks whether Sentinel / Defender detected it — flagging a coverage gap if nothing fired.</div></div>
+    <div class="node s4 n-purple"><div class="top"><span class="num">4</span><span class="ph">Analyze — Root-Cause</span></div><div class="d">Security Copilot root-causes the detection gap and proposes a new analytic rule.</div></div>
+    <div class="node s5 n-purple"><div class="top"><span class="num">5</span><span class="ph">Engineer — Build &amp; Test</span></div><div class="d">Detection-engineering agent writes the rule, tests it against the emulation, and stages it for review.</div></div>
+    <div class="node s6 n-green"><div class="top"><span class="num">6</span><span class="ph">Human Gate — Approve</span></div><div class="d">A human analyst reviews and approves before promotion. Human-in-command, not a rubber stamp.</div></div>
+    <div class="node s7 n-gold"><div class="top"><span class="num">7</span><span class="ph">Promote — Deploy &amp; Monitor</span></div><div class="d">Approved rule ships to production in Sentinel. Coverage updates; Agent 365 logs every agent action.</div></div>
+
+    <!-- legend in the open cell -->
+    <div class="leg">
+      <div class="legbox">
+        <div class="t">↻ Phases</div>
+        <div class="r"><span class="dot" style="background:var(--intel)"></span>Intel</div>
+        <div class="r"><span class="dot" style="background:var(--red)"></span>Red — emulate</div>
+        <div class="r"><span class="dot" style="background:var(--blue)"></span>Blue — detect</div>
+        <div class="r"><span class="dot" style="background:var(--purple)"></span>Analyze &amp; engineer</div>
+        <div class="r"><span class="dot" style="background:var(--green)"></span>Human gate</div>
+        <div class="r"><span class="dot" style="background:var(--gold)"></span>Promote</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer rev" style="animation-delay:.18s">
+    <div class="l"><b>The engine of the maturity model.</b> Run by hand it's slow; run by agents it closes continuously at machine speed — with the human gate reserved for judgment. Every new TTP re-enters at step 1, steadily raising coverage.<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="r"><span class="badge">AGENTIC SECOPS</span></div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+{
+ "about": "The umbrella's shared data: the section names, addresses and one-line descriptions, the hub's tagline, the guides list and the version line. tools/build_hub.py builds the hub and the guides index from it, and tools/build_web.py draws the map's umbrella bar from it. The Zero Trust guide's build and the Agentic SecOps landing and app carry the same bar, and tools/check_umbrella.py holds every page to this file. Counts are never typed here: build_hub.py reads them from content/stack.json, the guides list and the Agentic SecOps sources.",
+ "name": "Lensatic",
+ "site": "https://kensden.github.io/lensatic/",
+ "repo": "https://github.com/KensDen/lensatic",
+ "version": "2.0",
+ "date": "2026-10-18",
+ "dateText": "18 October 2026",
+ "aboutLabel": "About",
+ "sections": [
+  {
+   "key": "maps",
+   "name": "Framework Maps",
+   "path": "maps/",
+   "hero": "Framework Maps shows what each federal cyber framework is for, how the frameworks relate and who each one binds.",
+   "line": "What each framework is for, how they fit together and who each one binds, with zero trust and AI in view.",
+   "open": "Open Framework Maps"
+  },
+  {
+   "key": "guides",
+   "name": "Field Guides",
+   "path": "guides/",
+   "hero": "Field Guides walks the eight-week Zero Trust route: a shared core, then a track for where you work, with one-page references.",
+   "line": "Guided study routes. The first is Zero Trust: eight weeks, a shared core, three tracks and one-page references.",
+   "open": "Open Field Guides"
+  },
+  {
+   "key": "playbook",
+   "name": "Playbook",
+   "path": "playbook/",
+   "hero": "Playbook holds Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of agentic AI.",
+   "line": "Agentic SecOps: a tradecraft playbook for red, blue and purple teaming in the age of agentic AI.",
+   "open": "Open the Playbook"
+  }
+ ],
+ "guides": [
+  {
+   "key": "zero-trust",
+   "name": "Zero Trust",
+   "path": "zero-trust/",
+   "line": "Eight weeks from practitioner to lead. A shared core, then a track for where you work.",
+   "shape": "Weeks 1 to 4 are the shared core, for everyone: NIST SP 800-207 and the CISA Zero Trust Maturity Model. Weeks 5 to 8 are your track.",
+   "tracks": [
+    "DoW",
+    "Federal civilian",
+    "Private sector"
+   ],
+   "references": "A one-page quick reference for each track, and the whole study guide as a printable PDF.",
+   "notebook": {
+    "name": "Zero Trust in the Age of AI",
+    "url": "https://notebooklm.link.google/jaUFZqYbnxIe",
+    "line": "A companion NotebookLM notebook built on the guide's sources, the 2025 to 2026 guidance on AI agents and recorded talks. Anyone with the link and a Google account can read it and ask it questions."
+   },
+   "open": "Open the Zero Trust guide"
+  }
+ ],
+ "labels": {
+  "guideShape": "Eight weeks",
+  "guideTracks": "Tracks",
+  "guideReferences": "Quick references",
+  "guideNotebook": "Companion notebook",
+  "pdfStudyGuide": "Study guide (PDF)",
+  "pdfDoW": "Quick Reference: DoW (PDF)",
+  "pdfFederalCivilian": "Quick Reference: Federal civilian (PDF)",
+  "pdfPrivateSector": "Quick Reference: Private sector (PDF)"
+ },
+ "cards": {
+  "hub": {
+   "eyebrow": "Framework Maps · Field Guides · Playbook",
+   "title": "Lensatic",
+   "lede": "Federal cyber frameworks are thick woods. Lensatic is the compass.",
+   "mark": "compass",
+   "accent": ""
+  },
+  "zero-trust": {
+   "eyebrow": "Lensatic · Field Guides",
+   "title": "Zero Trust",
+   "lede": "Eight weeks from practitioner to lead. A shared core, then a track for where you work.",
+   "mark": "zero",
+   "accent": "guides"
+  },
+  "playbook": {
+   "eyebrow": "Lensatic · Playbook",
+   "title": "Agentic SecOps",
+   "lede": "A tradecraft playbook for red, blue and purple teaming in the age of agentic AI.",
+   "mark": "emblem",
+   "accent": "playbook"
+  }
+ },
+ "cardBand": {
+  "line": "Framework Maps · Field Guides · Playbook",
+  "address": "kensden.github.io/lensatic"
+ }
+}
