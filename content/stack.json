@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.7",
+    "contentVersion": "1.2.8",
     "builtOn": "2026-10-18",
     "sources": [
       "csf20",
@@ -84,7 +84,7 @@
       {
         "version": "0.8.0",
         "date": "2026-09-27",
-        "summary": "Why the name: a short explanation of the lensatic compass in About, linked from the front door, with the maker's photo. AI is treated as a well-known term and no longer spelled out."
+        "summary": "Why the name: a short explanation of the lensatic compass in About, linked from the front door, with a photo of the compass. AI is treated as a well-known term and no longer spelled out."
       },
       {
         "version": "0.8.1",
@@ -150,6 +150,11 @@
         "version": "1.2.7",
         "date": "2026-10-18",
         "summary": "The tagline now speaks of public sector cyber frameworks, and the privacy policy also covers the Zero Trust page and the Agentic SecOps app. SP 1353 is rechecked: its comment period closed on 15 October 2026 and it is still the initial public draft."
+      },
+      {
+        "version": "1.2.8",
+        "date": "2026-10-18",
+        "summary": "Why the name now speaks in the first person, and the photo's alt text calls it my compass. An older changelog line now calls it a photo of the compass."
       }
     ],
     "description": "A guide to the United States federal cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -163,7 +168,7 @@
       "builtWith": "Built with Claude and Claude Code, checked by a validation battery, and reviewed by a human who owns the mistakes.",
       "nameStory": [
         "A lensatic compass is the Army's field compass. You sight a landmark through its lens, read the bearing off the dial, and move out knowing which way you're headed. Lensatic does the same for the framework stack: find where you stand, see which framework applies, and take a bearing on what comes next.",
-        "The maker learned land navigation with one and has kept it for more than 20 years."
+        "I learned land navigation with one in the Army and have kept it for more than 20 years. This one is mine."
       ]
     },
     "licenses": {
@@ -5888,7 +5893,7 @@
       "footerLicenses": "All rights reserved · Fonts OFL",
       "whyName": "Why 'Lensatic'?",
       "whyNameHeading": "Why the name",
-      "aboutPhotoAlt": "The maker's lensatic compass, open, with the sighting wire raised.",
+      "aboutPhotoAlt": "My lensatic compass, open, with the sighting wire raised.",
       "footerNav": "Policies and source",
       "sourceCode": "Source code",
       "releasedOn": "released"
