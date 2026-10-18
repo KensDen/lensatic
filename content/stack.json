@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.8",
+    "contentVersion": "1.2.9",
     "builtOn": "2026-10-18",
     "sources": [
       "csf20",
@@ -155,6 +155,11 @@
         "version": "1.2.8",
         "date": "2026-10-18",
         "summary": "Why the name now speaks in the first person, and the photo's alt text calls it my compass. An older changelog line now calls it a photo of the compass."
+      },
+      {
+        "version": "1.2.9",
+        "date": "2026-10-18",
+        "summary": "The privacy and support pages write the issues address as github.com/KensDen/lensatic/issues."
       }
     ],
     "description": "A guide to the United States federal cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -5943,7 +5948,7 @@
         "In the web page and the app, the only outside links go to the public documents cited in Sources and to the source repository on GitHub; both also link to this policy and the support page. They open in your browser, under those sites' own privacy policies. This page and the support page also link to GitHub.",
           "The Zero Trust page and the Agentic SecOps app on this site store only a theme choice in this browser and link out to their public sources.",
         "The web copy at https://kensden.github.io/lensatic/ is hosted by GitHub Pages. GitHub's documentation for GitHub Pages says it logs and stores the internet protocol (IP) address of each visitor for security purposes (https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection); see also the GitHub Privacy Statement (https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Lensatic itself collects nothing from those visits.",
-        "Questions about this policy: open an issue on the repository's GitHub issues page, https://github.com/kensden/lensatic/issues. Opening an issue needs a GitHub account, and issues are public. An issue you open stays on GitHub under GitHub's privacy statement; ask in the issue and it will be deleted.",
+        "Questions about this policy: open an issue on the repository's GitHub issues page, https://github.com/KensDen/lensatic/issues. Opening an issue needs a GitHub account, and issues are public. An issue you open stays on GitHub under GitHub's privacy statement; ask in the issue and it will be deleted.",
         "The effective date is the date of the content release that built this page, so it moves with each release."
       ]
     },
@@ -5952,7 +5957,7 @@
       "description": "How to report a content error in Lensatic, how its content is re-verified, and the current content version.",
       "paragraphs": [
         "Lensatic is a guide to the United States federal cybersecurity frameworks. It sorts them by the question each one answers, says who each one binds, and shows where zero trust and AI land.",
-        "To report a content error, open an issue at https://github.com/kensden/lensatic/issues. Name the framework or entry, say what is wrong, and cite the primary source: the publisher's own page or document that shows the correct fact.",
+        "To report a content error, open an issue at https://github.com/KensDen/lensatic/issues. Name the framework or entry, say what is wrong, and cite the primary source: the publisher's own page or document that shows the correct fact.",
         "To ask about reusing Lensatic's code or text, open an issue on the same page.",
         "The iOS app is built from the same content as this site. Questions and problems with the app go to the same issues page. Opening an issue needs a GitHub account, and issues are public.",
         "Every verified framework, source and solution shows the date its publisher's page was last read, and every other one shows its status instead. A glossary entry shows a status only where its spelling could not be confirmed. An entry with a recheck date is read again when that date comes up, and no content release goes out while a recheck is overdue. The next dated recheck, if one is scheduled, is shown below."
