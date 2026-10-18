@@ -22,6 +22,23 @@ python3 tools/check_ios.py ${LENSATIC_NO_XCODE:+--no-xcode} || RED=1
 # the App Store listing (Session 9, section 4.2): the fields and their limits, the settled wording, the listing rules,
 # the copy sheet and the screenshot list
 python3 tools/check_listing.py || RED=1
+# Lensatic 2.0 (18 October 2026): the umbrella. tools/check_umbrella.py holds the hub, the guides index, the published copies
+# of the moved sections and the field system; LENSATIC_PRIVATE_SWEEP may name the owner's private sweep list for its sweep
+python3 tools/check_umbrella.py || RED=1
+# the Agentic SecOps section keeps its own seven-layer battery (decision 4), run in its own tree; its browser layers need
+# its dev dependencies (npm install in playbook/, see playbook/README.md) and a Chrome it can find (CHROME_PATH)
+if [ -d playbook/node_modules ]; then
+  if [ -z "${CHROME_PATH:-}" ]; then
+    for c in "${LENSATIC_CHROME:-}" "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "/Applications/Chromium.app/Contents/MacOS/Chromium"; do
+      [ -n "$c" ] && [ -x "$c" ] && { export CHROME_PATH="$c"; break; }
+    done
+  fi
+  PB_OUT="$(cd playbook && node Validation/battery.cjs 2>&1)"; PB_CODE=$?
+  printf '%s\n' "$PB_OUT" | grep -E '\[(sync|ripple|statics|docs|embed|render|anchor) *\]|FAILURE|ALL GREEN' | sed 's/^/      /'
+  if [ "$PB_CODE" = "0" ]; then echo "PASS  playbook/: the Agentic SecOps battery is ALL GREEN"; else echo "FAIL  playbook/: the Agentic SecOps battery is red"; RED=1; fi
+else
+  echo "FAIL  playbook/node_modules is missing: run npm install in playbook/ before the battery (see playbook/README.md)"; RED=1
+fi
 # handoffs/ is local working history and must never be tracked (amendment, 9 Sep 2026)
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   if [ -n "$(git ls-files handoffs)" ]; then
@@ -54,7 +71,7 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     echo "PASS  containment: no tracked symlinks; tools and sources name no user or temp path outside the repo (browser binaries only)"
   fi
 fi
-for d in web ios critique store; do
+for d in web ios critique store hub guides playbook docs; do
   [ -d "$d" ] && echo "PASS  $d/ present" || { echo "FAIL  $d/ missing"; RED=1; }
 done
 if [ "$RED" = "0" ]; then echo "== BATTERY GREEN =="; else echo "== BATTERY RED =="; fi

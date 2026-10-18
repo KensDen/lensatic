@@ -4,13 +4,34 @@ Federal cyber frameworks are thick woods. Lensatic is the compass.
 
 Lensatic is a small guide to the United States federal cybersecurity frameworks. It is for anyone handed a framework, a maturity model, or a zero trust deadline and asked where it fits: federal civilian agencies, Department of War (DoW) components, defense contractors, and anyone else borrowing the United States federal models. It is the map legend: it says what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land. The stack is sorted by the question each framework answers, from outcomes and communication (the National Institute of Standards and Technology (NIST) Cybersecurity Framework (CSF) 2.0) through definition (NIST Special Publication (SP) 800-207), target state and maturity (the zero trust models), controls (NIST SP 800-53 and the overlays that point into it) and verification (the assessment regimes), with an AI column alongside. A matrix of zero trust pillars against CSF 2.0 functions sits at the center of the model. Lensatic is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain. The name comes from the lensatic compass, the Army's field compass for taking a bearing; Lensatic helps you take a bearing on the framework stack.
 
-Live at https://kensden.github.io/lensatic/ (privacy policy: https://kensden.github.io/lensatic/privacy.html, support: https://kensden.github.io/lensatic/support.html).
+Lensatic 2.0 holds three sections, each with its own build, checks and README in its own tree:
+
+- **Framework Maps**, https://kensden.github.io/lensatic/maps/: the map described above, built from `content/stack.json` by `tools/`, with the iOS app in `ios/`.
+- **Field Guides**, https://kensden.github.io/lensatic/guides/: guided study routes. The first is [Zero Trust](https://kensden.github.io/lensatic/guides/zero-trust/), in `guides/zero-trust/`.
+- **Playbook**, https://kensden.github.io/lensatic/playbook/: Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of agentic AI, in `playbook/`.
+
+The hub at https://kensden.github.io/lensatic/ links all three (privacy policy: https://kensden.github.io/lensatic/privacy.html, support: https://kensden.github.io/lensatic/support.html).
+
+Framework Maps content version: 1.2.6.
 
 No account, no data collected by Lensatic. The privacy policy notes what GitHub Pages logs about visits to the hosted copy.
 
 Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework publisher.
 
-See also the Zero Trust Field Guide: https://kensden.github.io/zero-trust-field-guide/
+    content/    the map's content: stack.json and its schema
+    web/        the map's web page: lensatic.html (built) and src/ (templates, stylesheets, behavior script, mark, photo)
+    tools/      the map's build and checks, the hub build, the shared-chrome tool and the umbrella checks
+    ios/        the map's SwiftUI app: project.yml, the generated Xcode project, sources, tests
+    store/      the App Store listing: app-store.json, its copy sheet and the screenshot list
+    hub/        the hub's source: the field system's shared stylesheet, site.json, the marks and DESIGN.md
+    guides/     Field Guides: zero-trust/, the Zero Trust guide as it publishes (page, PDFs, README, record, LICENSE)
+    playbook/   Agentic SecOps, whole: the app, documents, deck, diagrams, its notices and its own battery
+    docs/       the GitHub Pages root: published copies only
+    critique/   review findings and naming records
+
+## Version history
+
+- 2.0, 18 October 2026: Framework Maps, Field Guides and Playbook under one roof.
 
 ## License
 
@@ -34,7 +55,9 @@ Where a cited work is protected, its title, names and any short quotation remain
 
 Before the first run, create the local sweep list. The sweep terms and the forbidden word are never stored in this repository, so the battery reads them at run time from a gitignored file. Use `content/_sweep.txt` or `tools/sweep.txt`, holding the sweep terms and a line `forbidden: <word>`, or `tools/sweep_source.json`, which names a local document and the patterns that pull them from it, and may list words the owner has ruled out of the sweep. Without one, the battery stops and says so. It fails if any of these files is ever tracked.
 
-The battery needs Python 3.11 or newer, Node 22 or newer, and a Chrome, Chromium or Edge browser. Set `LENSATIC_CHROME` if the browser is not in a standard place. Nothing is installed, and nothing leaves the repository.
+The battery needs Python 3.11 or newer, Node 22 or newer, and a Chrome, Chromium or Edge browser. Set `LENSATIC_CHROME` if the browser is not in a standard place. The map's checks install nothing, and nothing leaves the repository.
+
+Since Lensatic 2.0 the battery also runs `tools/check_umbrella.py` (the hub, the guides index, the published copies of the moved sections and the field system) and the Agentic SecOps battery in `playbook/`, which needs that section's dev dependencies: run `npm install` in `playbook/` once (see `playbook/README.md`). `LENSATIC_PRIVATE_SWEEP` may name the owner's private sweep list for the umbrella's sweep, which is skipped without it. `LENSATIC_NO_XCODE=1` runs the iOS stage's static checks only, for a machine where Xcode cannot run unattended.
 
 `tools/validate.py` checks the content:
 
@@ -43,7 +66,7 @@ The battery needs Python 3.11 or newer, Node 22 or newer, and a Chrome, Chromium
 - Provenance and authority fields are complete.
 - The matrix holds exactly 48 unique cells, and the two pillar views cover all eight canonical pillars.
 - Trailhead steps resolve.
-- The sweep is clean in plain and rot13 form across `content/`, `web/`, `ios/`, `critique/`, `docs/`, `store/`, this file and `LICENSE`, and the forbidden word appears nowhere in them.
+- The sweep is clean in plain and rot13 form across `content/`, `web/`, `ios/`, `critique/`, `docs/` (bar the moved sections' published copies, which their own checks hold), `store/`, `hub/`, this file and `LICENSE`, and the forbidden word appears nowhere in `content/`, `critique/` or `LICENSE` (Lensatic 2.0 made it a section's name, which this file names).
 - No em dash appears in `content/`, `critique/`, this file or `LICENSE`.
 - The department name is rendered only from `orgs.dow`.
 - Glossary terms and spellings are unique, resolve to their entries and carry an expansion.
@@ -74,7 +97,7 @@ Public frameworks and public sources only. Every framework and source entry carr
 
 `tools/build_web.py` renders every trailhead, layer, framework, source, solution, helper answer, function, and all matrix cells in both pillar views into `web/lensatic.html` at build time, so the page is complete when scripts do not run (mail and file previews, locked-down desktops). The builder also renders the glossary as its own section and spells out each abbreviation where it first appears in every section, linked to its glossary entry, except AI, which every reader knows: it is never spelled out, and is linked to its glossary entry only in the AI column. The behavior script under `web/src/` only enhances what is already there: one matrix view at a time, cells collapsed to their first sentence, column scrolling, a glossary popover on those links, the theme toggle and a link back to the top. Below 1200 pixels the header navigation becomes a labeled section menu that names the section in view, and below 768 pixels each matrix cell carries its pillar name. The print stylesheet opens every disclosure with CSS, prints the department's matrix view with each cell's capability numbers and first sentence, leaves out the front door's two buttons, and keeps every other section complete. The content file is also embedded byte for byte as the provenance of the render. The built file is never hand-edited.
 
-With `--pages` the builder also writes the project site under `docs/` for GitHub Pages: `docs/index.html` (the built page byte for byte), `docs/privacy.html` and `docs/support.html` (plain pages with no script, their text from `content/stack.json`, on the app's theme tokens) and an empty `docs/.nojekyll`.
+With `--pages` the builder also writes the map's part of the project site under `docs/` for GitHub Pages: `docs/maps/index.html` (the built page byte for byte), `docs/privacy.html` and `docs/support.html` (plain pages with no script, their text from `content/stack.json`, on the app's theme tokens), `docs/social-card.png` and an empty `docs/.nojekyll`. `python3 tools/build_hub.py` writes the rest: the hub (`docs/index.html`), the guides index, the shared stylesheet, the sitemap and the published copies of `guides/zero-trust/` and `playbook/`. `python3 tools/apply_chrome.py` refreshes the umbrella bar and the shared stylesheet in the two hand-edited Agentic SecOps pages.
 
 The web checks:
 
@@ -83,7 +106,7 @@ The web checks:
 - Measure the page in a headless Chrome, Chromium or Edge, driven through the DevTools protocol with no packages. The collapsed matrix must fit a 1280 pixel window. The header must not overflow from 360 to 1440 pixels. Nothing may be clipped at phone widths with every section open. The script-off rendering must show every text.
 - Print with scripts on and off. Each printout must be at most 20 pages, with every non-matrix text present except the front door's two buttons, which must not print, and each cell's capability numbers and first sentence.
 - Scan the built page section by section. Every abbreviation needs a glossary entry and must be spelled out at its first use, except AI, which no built page spells out and which links to the glossary only at its first use in the AI column.
-- Build a fresh copy of `docs/` in `.tmp/` and compare it with the committed `docs/`. Fail if they differ, if `docs/` holds any other file, or if `docs/index.html` is not the built page byte for byte.
+- Build a fresh copy of the map's part of `docs/` in `.tmp/` and compare it with the committed one. Fail if they differ, if `docs/` holds a file neither the map's build nor the umbrella writes, or if `docs/maps/index.html` is not the built page byte for byte.
 - Hold the privacy and support pages to the app's offline and wall rules: no script, no resource loading, no storage, no em dash, and a clean sweep. Check that their dates, content version, next recheck and paragraphs come from content.
 - Fail on any em dash in the built page and on any email address in `docs/`, including encoded ones.
 - Check that the web page keeps nothing but the theme choice and that every external link on it sits inside Sources or among the footer's links to the privacy policy, the support page and the source code, as the privacy policy says.
@@ -116,16 +139,5 @@ The battery's iOS stage, `tools/check_ios.py`, runs on every machine: the color 
 ### App Store
 
 On the App Store the app will be listed as Lensatic Cyber, because the single word was already reserved by another developer's record; everywhere else, the Home Screen included, it is Lensatic. `store/app-store.json` is the listing's source of truth, every field pasted into App Store Connect and nothing secret; its promotional text and description are built from `content/stack.json`, apart from the description's settled opening paragraph, its What's inside heading and the glosses on two of its items, which `tools/check_listing.py` holds. `store/app-store.md` is its copy sheet, one heading per field with the text to copy and the length of each text, and `python3 tools/check_listing.py --write` rebuilds both. The store screenshots come from `tools/ios_shots.sh --store`; the images stay out of the repository, and `store/screenshots.json` lists them with their sizes and hashes. The battery's listing stage, `tools/check_listing.py`, checks the fields against Apple's length limits, the settled wording and the listing rules, and checks the copy sheet and the screenshot list.
-
-## Layout
-
-    content/   stack.json and its schema
-    web/       lensatic.html (built) and src/ (templates, stylesheets, behavior script, mark, the About photo)
-    docs/      the project site for GitHub Pages (built by build_web.py --pages)
-    ios/       the SwiftUI app: project.yml, the generated Xcode project, sources, tests
-    store/     the App Store listing: app-store.json, its copy sheet app-store.md, and screenshots.json
-    critique/  review findings and dispositions
-    tools/     validate.py, battery.sh, build_web.py, check_web.py, check_ios.py, check_listing.py, gen_ios_colors.py, ios_shots.sh, make_social_card.mjs, png_opaque.swift, dom_check.mjs, layout_check.mjs
-    LICENSE    the all-rights-reserved notice for Lensatic's code and text
 
 The privacy policy in `docs/privacy.html` speaks for the web page and the app alike; the iOS app section above says how the app keeps to it.
