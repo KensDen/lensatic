@@ -444,6 +444,12 @@ def favicon() -> str:
     return "data:image/svg+xml," + urllib.parse.quote(svg, safe="/=:.,-")
 
 
+def umbrella_card_alt() -> str:
+    """The shared hub card's one description (tools/build_hub.py card_alt): the umbrella's name and the card band line."""
+    s = umbrella()
+    return f'{s["name"]}: {s["cardBand"]["line"]}'
+
+
 def umbrella() -> dict:
     """hub/site.json: the umbrella's sections, their addresses and the version line."""
     return json.loads(HUB_SITE.read_text(encoding="utf-8"))
@@ -852,8 +858,14 @@ class Renderer:
             p.append(f'<dt>{self.label("license")}</dt><dd>{esc(e["license"])}{attr}</dd>')
         p.append(f'<dt>{self.label("edition")}</dt><dd>{self.t(e["edition"])}</dd>')
         p.append(f'<dt>{self.label("date")}</dt><dd>{fmt_date(e["date"])}</dd>')
-        p.append(f'<dt>{self.label("primary")}</dt><dd><a class="url" href="{esc(e["url"])}" rel="noreferrer">{esc(e["url"])}</a></dd>')
-        p.append(f'<dt>{self.label("verification")}</dt><dd>{self.status_badge(e["verification"])} <span class="small">{self.tl(e["verification"].get("note"))}</span></dd>')
+        unread = e["verification"].get("status") == "unverified" and e["verification"].get("method") == "none"
+        if unread:
+            # never read: the addresses its note records as gone are shown as text, not as live links (gauntlet question 46)
+            p.append(f'<dt>{self.label("primary")}</dt><dd><span class="url">{esc(e["url"])}</span></dd>')
+        else:
+            p.append(f'<dt>{self.label("primary")}</dt><dd><a class="url" href="{esc(e["url"])}" rel="noreferrer">{esc(e["url"])}</a></dd>')
+        vnote = self.t(e["verification"].get("note")) if unread else self.tl(e["verification"].get("note"))
+        p.append(f'<dt>{self.label("verification")}</dt><dd>{self.status_badge(e["verification"])} <span class="small">{vnote}</span></dd>')
         p.append("</dl>")
         if e.get("documents"):
             p.append(f'<p class="small"><strong>{self.label("documents")}</strong></p><ul class="docs">')
@@ -1132,6 +1144,10 @@ def recheck_dates(node) -> list[str]:
     return out
 
 
+def L_has(d: dict, key: str) -> bool:
+    return key in d.get("ui", {}).get("labels", {})
+
+
 def build_page(d: dict, key: str, author: str = "") -> bytes:
     """One plain page beside the app. Text from content (pages.<key>, meta, ui.labels), no script, no network."""
     r = Renderer(d, author)
@@ -1142,7 +1158,7 @@ def build_page(d: dict, key: str, author: str = "") -> bytes:
     body += [f"<p>{r.tl(s)}</p>" for s in page["paragraphs"]]
     if key == "support":
         body.append(f'<p>{r.t(meta["about"]["notAffiliated"])}</p>')
-        rows = [(r.label("contentVersion"), esc(meta["contentVersion"]))]
+        rows = [(r.label("pagesContentVersion") if L_has(d, "pagesContentVersion") else r.label("contentVersion"), esc(meta["contentVersion"]))]
         due = sorted(x for x in recheck_dates(d) if x >= meta["builtOn"])
         rows.append((r.label("pagesNextRecheck"),
                      f'<time datetime="{due[0]}">{fmt_date(due[0])}</time>' if due else r.label("pagesNoRecheck")))
@@ -1170,8 +1186,9 @@ def social_tags(d: dict) -> str:
     w, h = SOCIAL_SIZE
     tags = [("property", "og:title", umbrella_title(d)), ("property", "og:description", meta["pitch"]), ("property", "og:type", "website"),
             ("property", "og:url", f"{SITE}{MAPS_KEY}/"), ("property", "og:image", f"{SITE}{SOCIAL_NAME}"), ("property", "og:image:width", str(w)),
-            ("property", "og:image:height", str(h)), ("name", "twitter:card", "summary_large_image")]
-    return "\n".join(f'<meta {a}="{k}" content="{esc(v)}">' for a, k, v in tags)
+            ("property", "og:image:height", str(h)), ("property", "og:image:alt", umbrella_card_alt()), ("name", "twitter:card", "summary_large_image")]
+    # the canonical address loads nothing; it tells a crawler which copy is the page (gauntlet question 34)
+    return "\n".join(f'<meta {a}="{k}" content="{esc(v)}">' for a, k, v in tags) + f'\n<link rel="canonical" href="{SITE}{MAPS_KEY}/">'
 
 
 def build_docs(index: bytes, stack: Path, docs: Path, author: str = "") -> list[Path]:

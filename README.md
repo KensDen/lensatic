@@ -2,17 +2,17 @@
 
 Public sector cyber frameworks are thick woods. Lensatic is the compass.
 
-Lensatic is a small guide to the United States federal cybersecurity frameworks. It is for anyone handed a framework, a maturity model, or a zero trust deadline and asked where it fits: federal civilian agencies, Department of War (DoW) components, defense contractors, and anyone else borrowing the United States federal models. It is the map legend: it says what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land. The stack is sorted by the question each framework answers, from outcomes and communication (the National Institute of Standards and Technology (NIST) Cybersecurity Framework (CSF) 2.0) through definition (NIST Special Publication (SP) 800-207), target state and maturity (the zero trust models), controls (NIST SP 800-53 and the overlays that point into it) and verification (the assessment regimes), with an AI column alongside. A matrix of zero trust pillars against CSF 2.0 functions sits at the center of the model. Lensatic is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain. The name comes from the lensatic compass, the Army's field compass for taking a bearing; Lensatic helps you take a bearing on the framework stack.
+Framework Maps, Lensatic's first section, is a small guide to the United States public sector cybersecurity frameworks. It is for anyone handed a framework, a maturity model, or a zero trust deadline and asked where it fits: federal civilian agencies, Department of War (DoW) components, defense contractors, and anyone else borrowing the United States federal models. It is the map legend: it says what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land. The stack is sorted by the question each framework answers, from outcomes and communication (the National Institute of Standards and Technology (NIST) Cybersecurity Framework (CSF) 2.0) through definition (NIST Special Publication (SP) 800-207), target state and maturity (the zero trust models), controls (NIST SP 800-53 and the overlays that point into it) and verification (the assessment regimes), with an AI column alongside. A matrix of zero trust pillars against CSF 2.0 functions sits at the center of the model. Lensatic is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain. The name comes from the lensatic compass, the Army's field compass for taking a bearing; Lensatic helps you take a bearing on the framework stack.
 
 Lensatic 2.0 holds three sections, each with its own build, checks and README in its own tree:
 
 - **Framework Maps**, https://kensden.github.io/lensatic/maps/: the map described above, built from `content/stack.json` by `tools/`, with the iOS app in `ios/`.
 - **Field Guides**, https://kensden.github.io/lensatic/guides/: guided study routes. The first is [Zero Trust](https://kensden.github.io/lensatic/guides/zero-trust/), in `guides/zero-trust/`.
-- **Playbook**, https://kensden.github.io/lensatic/playbook/: Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of agentic AI, in `playbook/`.
+- **Playbook**, https://kensden.github.io/lensatic/playbook/: Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI, in `playbook/`.
 
 The hub at https://kensden.github.io/lensatic/ links all three (privacy policy: https://kensden.github.io/lensatic/privacy.html, support: https://kensden.github.io/lensatic/support.html).
 
-Framework Maps content version: 1.2.9.
+Framework Maps content version: 1.2.10.
 
 No account, no data collected by Lensatic. The privacy policy notes what GitHub Pages logs about visits to the hosted copy.
 
@@ -41,11 +41,13 @@ GitHub's Terms of Service (section D.5) let other GitHub users view and fork a p
 
 Versions of this repository published before this notice was added on 27 September 2026 were released under the MIT License (code) and Creative Commons Attribution 4.0 International (text). Those grants still apply to copies of those earlier versions. They do not apply to anything added or changed since. On 27 September 2026 the repository's earlier history was replaced with a single fresh commit, so those versions are no longer part of its history.
 
+Zero Trust, in `guides/zero-trust/`, and Agentic SecOps, in `playbook/`, carry their own notices, [`guides/zero-trust/LICENSE`](guides/zero-trust/LICENSE) and [`playbook/LICENSE`](playbook/LICENSE), and LICENSE marks each work. For Zero Trust it records, in its own words: "Versions 1.0 (27 September 2026) and 2.0 (30 September 2026) were released under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license (CC BY-NC-SA 4.0). That grant still applies to copies of those versions. It does not apply to anything added or changed since."
+
 Most of the frameworks Lensatic describes are United States government publications. Works prepared by United States government officers and employees as part of their official duties are in the public domain in the United States. The app cites these publications and links to them, and the notice above covers only Lensatic's own code and text.
 
 IBM Corp. holds the copyright in the typefaces the built pages embed, IBM Plex Sans and IBM Plex Mono, which are licensed under the SIL Open Font License, Version 1.1 ([`web/src/fonts/OFL.txt`](web/src/fonts/OFL.txt)). That license, not the notice above, governs them.
 
-The iOS app in `ios/` is covered by the same all-rights-reserved notice as the rest of the repository. Its fonts are IBM's own TrueType files for the same IBM Plex faces, unmodified, under the same license, with IBM's license beside them ([`ios/Lensatic/Resources/Fonts/OFL.txt`](ios/Lensatic/Resources/Fonts/OFL.txt)); the Lensatic name and icon identify this project and, like the rest of it, are not licensed for any other use.
+The iOS app in `ios/` is covered by the same all-rights-reserved notice as the rest of Framework Maps. Its fonts are IBM's own TrueType files for the same IBM Plex faces, unmodified, under the same license, with IBM's license beside them ([`ios/Lensatic/Resources/Fonts/OFL.txt`](ios/Lensatic/Resources/Fonts/OFL.txt)); the Lensatic name and icon identify this project and, like the rest of it, are not licensed for any other use.
 
 Where a cited work is protected, its title, names and any short quotation remain its owner's, and the work itself is described, not reproduced. Nothing from the AI Defense Matrix, which its authors publish under CC BY-SA 4.0, is reproduced. The app cites it, describes it in its own words, and credits its authors and license.
 
@@ -66,7 +68,7 @@ Since Lensatic 2.0 the battery also runs `tools/check_umbrella.py` (the hub, the
 - Provenance and authority fields are complete.
 - The matrix holds exactly 48 unique cells, and the two pillar views cover all eight canonical pillars.
 - Trailhead steps resolve.
-- The sweep is clean in plain and rot13 form across `content/`, `web/`, `ios/` (the App Store listing in `ios/store/` included), `critique/`, `docs/` (bar the moved sections' published copies, which their own checks hold), `hub/`, this file and `LICENSE`, and the forbidden word appears nowhere in `content/`, `critique/` or `LICENSE` (Lensatic 2.0 made it a section's name, which this file names).
+- The sweep is clean in plain and rot13 form across `content/`, `web/`, `ios/` (the App Store listing in `ios/store/` included), `critique/`, `docs/` (bar the moved sections' published copies, which their own checks hold), `hub/`, this file and `LICENSE`, and the forbidden word appears nowhere in `content/`, `critique/` or `LICENSE`.
 - No em dash appears in `content/`, `critique/`, this file or `LICENSE`.
 - The department name is rendered only from `orgs.dow`.
 - Glossary terms and spellings are unique, resolve to their entries and carry an expansion.
@@ -140,4 +142,4 @@ The battery's iOS stage, `tools/check_ios.py`, runs on every machine: the color 
 
 On the App Store the app will be listed as Lensatic Cyber, because the single word was already reserved by another developer's record; everywhere else, the Home Screen included, it is Lensatic. `ios/store/app-store.json` is the listing's source of truth, every field pasted into App Store Connect and nothing secret; its promotional text and description are built from `content/stack.json`, apart from the description's settled opening paragraph, its What's inside heading and the glosses on two of its items, which `tools/check_listing.py` holds. `ios/store/app-store.md` is its copy sheet, one heading per field with the text to copy and the length of each text, and `python3 tools/check_listing.py --write` rebuilds both. The store screenshots come from `tools/ios_shots.sh --store`; the images stay out of the repository, and `ios/store/screenshots.json` lists them with their sizes and hashes. The battery's listing stage, `tools/check_listing.py`, checks the fields against Apple's length limits, the settled wording and the listing rules, and checks the copy sheet and the screenshot list.
 
-The privacy policy in `docs/privacy.html` speaks for the web page and the app alike; the iOS app section above says how the app keeps to it.
+The privacy policy in `docs/privacy.html` speaks for every Lensatic page and for the iOS app; the iOS app section above says how the app keeps to it.

@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.9",
+    "contentVersion": "1.2.10",
     "builtOn": "2026-10-18",
     "sources": [
       "csf20",
@@ -160,9 +160,14 @@
         "version": "1.2.9",
         "date": "2026-10-18",
         "summary": "The privacy and support pages write the issues address as github.com/KensDen/lensatic/issues."
+      },
+      {
+        "version": "1.2.10",
+        "date": "2026-10-18",
+        "summary": "The map describes the public sector cybersecurity frameworks. Support and the privacy policy speak for all three sections and name the iOS app. The AI column says Humans in Command. Two glossary lines take the statutory-name token, five checked dates follow their notes, the {{dow}} note gets a recheck date, and addresses recorded as gone show as text. One build credit wording."
       }
     ],
-    "description": "A guide to the United States federal cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
+    "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
     "tagline": "Public sector cyber frameworks are thick woods. Lensatic is the compass.",
     "pitch": "Public sector cyber frameworks are thick woods. Lensatic is the compass: find where you stand, see which framework applies, and take a bearing on your next waypoint.",
     "wayfinder": "Lensatic is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.",
@@ -170,7 +175,7 @@
       "notAffiliated": "Not affiliated with NIST, CISA, NSA, {{dow.current}}, OMB, or any framework publisher.",
       "offline": "No account. No data collected.",
       "licensing": "Most of the frameworks Lensatic describes are United States government publications. Works prepared by United States government officers and employees as part of their official duties are in the public domain in the United States. Lensatic's own code and text are copyright 2026 Ken Connell, all rights reserved; to ask about reusing them, open an issue on the source repository. IBM Corp. holds the copyright in the typefaces, IBM Plex Sans and IBM Plex Mono, which are licensed under the SIL Open Font License (OFL), version 1.1. Where a cited work is protected, its title, names and any short quotation remain its owner's, and the work itself is described, not reproduced.",
-      "builtWith": "Built with Claude and Claude Code, checked by a validation battery, and reviewed by a human who owns the mistakes.",
+      "builtWith": "Built with Claude and Claude Code, reviewed by a human who owns the mistakes.",
       "nameStory": [
         "A lensatic compass is the Army's field compass. You sight a landmark through its lens, read the bearing off the dial, and move out knowing which way you're headed. Lensatic does the same for the framework stack: find where you stand, see which framework applies, and take a bearing on what comes next.",
         "I learned land navigation with one in the Army and have kept it for more than 20 years. This one is mine."
@@ -226,7 +231,8 @@
         "status": "verified",
         "verifiedOn": "2026-09-09",
         "method": "primary-fetch",
-        "note": "EO 14347 read from the govinfo Federal Register PDF (FR Doc. 2025-17508); 10 U.S.C. 111 read on uscode.house.gov; bill status read on congress.gov; the department's own site is www.war.gov and uses the current name."
+        "note": "EO 14347 read from the govinfo Federal Register PDF (FR Doc. 2025-17508); 10 U.S.C. 111 read on uscode.house.gov; bill status read on congress.gov; the department's own site is www.war.gov and uses the current name.",
+        "recheckAfter": "2026-12-15"
       }
     },
     "cisa": {
@@ -718,7 +724,7 @@
         "note": "Written for {{dow}}-owned operational technology and control systems up to and including the point of demarcation with weapon systems and defense critical infrastructure, for which the document says separate guidance will be developed, and implemented in addition to all existing cybersecurity requirements. The document cites DTM 25-003 as directing Target Level zero trust for control systems, though the memorandum's own paragraph 11.a names systems on the department's information network without naming control systems, and its printed expiry of 17 July 2026 has passed. The document prints no deadline of its own and says its Advanced activities will not be held to the Target timeline. The office's senior advisor said in December 2025 that the department's operational technology dates are Target Level by the end of FY2030 and Advanced by the end of FY2033, subject to change in the next strategy; no publisher document prints them.",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-09-16",
+          "verifiedOn": "2026-09-30",
           "method": "primary-fetch",
           "note": "Scope, the promised separate guidance for weapon systems and defense critical infrastructure, the in-addition-to requirement, the DTM 25-003 citation and the sentence on Advanced activities read in the executive summary and the level definitions of the document on 16 September 2026; paragraph 11.a read in DTM 25-003 (https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dtm/DTM%2025-003.PDF) the same day. None of these printed a {{dow}} operational technology deadline: the document, the DTM and the CIO library (https://dowcio.war.gov/Library/). The Department of the Navy CIO's zero trust program page (https://www.doncio.navy.mil/ContentView.aspx?id=17903, 8 August 2024) sets a Navy goal of target level zero trust including operational technologies by the end of FY 2027; that is a Navy goal, not a date in the {{dow}} guidance. The remarks of the zero trust portfolio office's senior advisor on 9 December 2025 were read on 29 September 2026 in a news report, a secondary source (https://defensescoop.com/2025/12/09/dod-zero-trust-strategy-2-0-expected-early-2026/), which gives Target Level zero trust for operational technology by the end of FY2030 and Advanced by the end of FY2033 and says those dates could change when the next strategy is published. On 30 September 2026 the CIO library still listed the 2022 strategy and this document with no newer version of either, and no publisher document printing those dates was found."
         }
@@ -852,7 +858,7 @@
         "note": "A readiness assessment of {{dow}} networks; it verifies, it does not define. Cleared contractors with SIPRNet connections are assessed by DCSA under the same program.",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-09-09",
+          "verifiedOn": "2026-09-17",
           "method": "primary-fetch",
           "note": "The release names JFHQ-DODIN as the command that assesses DoDIN networks; a DCSA budget justification on comptroller.war.gov shows DCSA also runs CORAs of cleared contractors with SIPRNet connections; the FY2027 justification of April 2026 (https://comptroller.war.gov/Portals/45/Documents/defbudget/FY2027/budget_justification/pdfs/01_Operation_and_Maintenance/O_M_VOL_1_PART_1/DCSA_OP-5.pdf), read on 17 September 2026, says DCSA performs them for contractors with approved SIPRNet information systems."
         }
@@ -873,7 +879,7 @@
       "url": "https://csrc.nist.gov/pubs/sp/800/37/r2/final",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-29",
+        "verifiedOn": "2026-09-30",
         "method": "primary-fetch",
         "note": "CSRC pages fetched: SP 800-37 Revision 2, December 2018 (final 20 December 2018), seven steps Prepare through Monitor; SP 800-53A Revision 5, January 2022. The authorization definition is the OMB Circular A-130 definition quoted in the glossary. The CSRMC sentences rest on the CIO announcement of 24 September 2025 (https://dowcio.war.gov/In-the-News/Article/4367432/), read on 30 September 2026 (session 13 fetches c003 and c019), which calls the RMF the previous Risk Management Framework and presents the construct in five phases, and on the construct itself (https://media.defense.gov/2025/Sep/24/2003808112/-1/-1/1/DOD-CIO-CYBER-SECURITY-RISK-MANAGEMENT-CONSTRUCT.PDF), read on 30 September 2026: its five phases, Design, Build, Test, Onboard and Operations, each name the RMF steps they carry, and it prints no date and does not cancel DoD Instruction 8510.01. DoD Instruction 8510.01, read on 30 September 2026, is effective 19 July 2022, reissues and cancels the 2014 instruction, and says nothing of being cancelled; the CIO library (https://dowcio.war.gov/Library/), read on 29 September 2026 (session 10 fetch u094), still listed Instruction 8510.01 for the RMF. The construct and the instruction returned 403 to a plain read later that day (session 13 fetches c002, c001).",
         "recheckAfter": "2026-12-15"
@@ -1339,7 +1345,7 @@
           "url": "https://csrc.nist.gov/pubs/sp/800/171/r3/final",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-29",
+            "verifiedOn": "2026-09-30",
             "method": "primary-fetch",
             "note": "Fetched; Revision 3, May 2024 (final 14 May 2024); no errata listed. The proposed rule in the entry's note was read on 30 September 2026 in the Federal Register (https://www.federalregister.gov/documents/2026/06/23/2026-12559/federal-acquisition-regulation-revolutionary-federal-acquisition-regulation-overhaul-parts-1-2-4-33, session 11 fetches a2005 and a2007): 91 FR 37550, a proposed rule published 23 June 2026, whose proposed FAR 52.240-7, page 37633, has the contractor 'Comply with the security requirements of NIST SP 800-171 Revision 3'; a Federal Register search that day found no final rule under the overhaul's title published since 24 June 2026 (session 11 fetch a2006).",
             "recheckAfter": "2026-12-15"
@@ -1429,7 +1435,7 @@
           "url": "https://www.war.gov/News/Releases/Release/Article/4542329/forging-the-arsenal-of-freedom-department-of-war-suspends-cmmc-phase-ii-require/",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-17",
+            "verifiedOn": "2026-09-30",
             "method": "primary-fetch",
             "note": "Read on 9 September 2026: suspends the transition to Phase 2 and pending milestones, opens a 60-day study and a reform task force, and keeps DFARS 252.204-7012 obligations in place. The printed headline uses the department's current name and Roman numerals. Re-read on 17 September 2026; no later department release on CMMC. The title is the headline as printed, read on 30 September 2026 in the department's News Releases feed on war.gov (https://www.war.gov/DesktopModules/ArticleCS/RSS.ashx?ContentType=9&Site=945, session 11 fetch a4007), whose item for this address is dated 13 July 2026; the release page itself returned 403 to a plain read that day (a4005), so the rest of this note stands on the 17 September read."
           },
@@ -1566,7 +1572,7 @@
         "status": "verified",
         "verifiedOn": "2026-09-30",
         "method": "primary-fetch",
-        "note": "DISA release of 28 July 2023, bylined to DISA public affairs and read on 16 September 2026 where the Department of the Navy CIO's online magazine republished it on 2 August 2023: a follow-on production agreement awarded 28 July 2023 for DISA's zero trust network access and application security architecture. DISA's own distribution of the release on a newswire service, headed 'News provided by Defense Information Systems Agency' and dated 28 July 2023 (https://www.prnewswire.com/news-releases/disa-awards-thunderdome-production-agreement-301888665.html), read on 30 September 2026 (session 13 fetch c006), is the publisher's copy read: the same headline, and a follow-on production agreement awarded that day for its zero trust network access and application security architecture. The magazine page could not be re-read on 30 September 2026: it returned a rejection page (session 13 fetch c007). DISA's release of 6 March 2023 (https://www.doncio.navy.mil/CHIPS/ArticleDetails.aspx?ID=16121) says the prototype proved that commercial technologies, including secure access service edge, software-defined wide area networks and customer edge security stacks, and application security stacks, can improve both security and network performance in an existing enterprise environment. DISA's own Thunderdome page is gone: https://disa.mil/en/About/Thunderdome gave no response and https://www.disa.mil/en/About/Thunderdome returned 404."
+        "note": "DISA release of 28 July 2023, bylined to DISA public affairs and read on 16 September 2026 where the Department of the Navy CIO's online magazine republished it on 2 August 2023: a follow-on production agreement awarded 28 July 2023 for DISA's zero trust network access and application security architecture. DISA's own distribution of the release on a newswire service, headed 'News provided by Defense Information Systems Agency' and dated 28 July 2023 (https://www.prnewswire.com/news-releases/disa-awards-thunderdome-production-agreement-301888665.html), read on 30 September 2026 (session 13 fetch c006), is the publisher's copy read: the same headline, and a follow-on production agreement awarded that day for its zero trust network access and application security architecture. The magazine page could not be re-read on 30 September 2026: it returned a rejection page (session 13 fetch c007). DISA's release of 6 March 2023 (https://www.doncio.navy.mil/CHIPS/ArticleDetails.aspx?ID=16121) says the prototype proved that commercial technologies, including secure access service edge, software-defined wide area networks and customer edge security stacks, and application security stacks, can improve both security and network performance in an existing enterprise environment. DISA's own Thunderdome page is gone: disa.mil/en/About/Thunderdome gave no response and www.disa.mil/en/About/Thunderdome returned 404."
       },
       "authority": {
         "nature": "service",
@@ -4597,7 +4603,7 @@
         "UFC"
       ],
       "expansion": "Unified Facilities Criteria",
-      "oneLine": "Department of Defense criteria for the planning, design, construction, sustainment, restoration and modernization of facilities; UFC 4-010-06 covers the cybersecurity of facility-related control systems.",
+      "oneLine": "{{dow.statutory}} criteria for the planning, design, construction, sustainment, restoration and modernization of facilities; UFC 4-010-06 covers the cybersecurity of facility-related control systems.",
       "entityIds": [
         "dod-zt-ot"
       ],
@@ -5036,7 +5042,7 @@
         "NDAA"
       ],
       "expansion": "National Defense Authorization Act",
-      "oneLine": "The law, passed for each fiscal year, that authorizes appropriations for the Department of Defense and sets defense policies.",
+      "oneLine": "The law, passed for each fiscal year, that authorizes appropriations for the {{dow.statutory}} and sets defense policies.",
       "entityIds": [],
       "verification": {
         "status": "verified",
@@ -5670,7 +5676,7 @@
     "socProfile": [
       {
         "functionId": "GV",
-        "outcome": "Written policy on what AI agents may do autonomously and where a human decides; a named owner for AI use in security operations. Humans in the Lead, in writing.",
+        "outcome": "Written policy on what AI agents may do autonomously and where a human decides; a named owner for AI use in security operations. Humans in Command, in writing.",
         "verification": {
           "status": "authored",
           "verifiedOn": null,
@@ -5836,6 +5842,7 @@
       "themeDark": "Dark",
       "themeSystem": "System",
       "contentVersion": "Content version",
+      "pagesContentVersion": "Framework Maps content version",
       "counts": "Verification counts",
       "madeBy": "Made by",
       "socProfile": "Worked example: a Profile for an AI-enabled security operations center",
@@ -5939,16 +5946,17 @@
       "title": "Lensatic privacy policy",
       "description": "How Lensatic handles data: it runs on your device, makes no network requests, has no account and collects nothing.",
       "paragraphs": [
-        "Lensatic runs entirely on your device. The app and the web page carry all of their content with them. Once open, the web page needs no connection, and a saved copy works offline.",
-        "Lensatic makes no network requests. Once the web page is open it loads no scripts, fonts, images or data from anywhere, and the app does not connect to the internet.",
+        "Framework Maps runs entirely on your device. The iOS app and the web page carry all of their content with them. Once open, the web page needs no connection, and a saved copy works offline.",
+        "Lensatic makes no network requests. Once the web page is open it loads no scripts, fonts, images or data from anywhere, and the iOS app does not connect to the internet.",
         "There is no account and nothing to sign in to.",
-        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web page keeps is your theme choice (system, light or dark), saved in your browser's local storage on your device and never sent anywhere; the app keeps nothing and follows your device's light or dark setting.",
+        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web page keeps is your theme choice (system, light or dark), saved in your browser's local storage on your device and never sent anywhere; the iOS app keeps nothing and follows your device's light or dark setting.",
         "Lensatic holds nothing about you, so there is nothing to retain or delete. Clearing this site's data in your browser removes the saved theme choice.",
         "There are no third-party software development kits (SDKs), no analytics and no advertising.",
-        "In the web page and the app, the only outside links go to the public documents cited in Sources and to the source repository on GitHub; both also link to this policy and the support page. They open in your browser, under those sites' own privacy policies. This page and the support page also link to GitHub.",
+        "In the web page and the iOS app, the only outside links go to the public documents cited in Sources and to the source repository on GitHub; both also link to this policy and the support page. They open in your browser, under those sites' own privacy policies. This page and the support page also link to GitHub.",
           "The Zero Trust page and the Agentic SecOps app on this site store only a theme choice in this browser and link out to their public sources.",
+          "The hub links out only to the source repository on GitHub and to its maker's own site, kensden.github.io; the guides index links to the repository and, like the Zero Trust page, to a companion NotebookLM notebook on Google, which needs a Google account; the Agentic SecOps landing links only to the repository and its documents on GitHub.",
         "The web copy at https://kensden.github.io/lensatic/ is hosted by GitHub Pages. GitHub's documentation for GitHub Pages says it logs and stores the internet protocol (IP) address of each visitor for security purposes (https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection); see also the GitHub Privacy Statement (https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Lensatic itself collects nothing from those visits.",
-        "Questions about this policy: open an issue on the repository's GitHub issues page, https://github.com/KensDen/lensatic/issues. Opening an issue needs a GitHub account, and issues are public. An issue you open stays on GitHub under GitHub's privacy statement; ask in the issue and it will be deleted.",
+        "Questions about this policy: open an issue on the repository's GitHub issues page, https://github.com/KensDen/lensatic/issues. Opening an issue needs a GitHub account, and issues are public. An issue you open stays on GitHub under GitHub's privacy statement; ask in the issue to have it deleted.",
         "The effective date is the date of the content release that built this page, so it moves with each release."
       ]
     },
@@ -5956,11 +5964,12 @@
       "title": "Lensatic support",
       "description": "How to report a content error in Lensatic, how its content is re-verified, and the current content version.",
       "paragraphs": [
-        "Lensatic is a guide to the United States federal cybersecurity frameworks. It sorts them by the question each one answers, says who each one binds, and shows where zero trust and AI land.",
-        "To report a content error, open an issue at https://github.com/KensDen/lensatic/issues. Name the framework or entry, say what is wrong, and cite the primary source: the publisher's own page or document that shows the correct fact.",
+        "Lensatic holds three sections: Framework Maps, a guide to the United States public sector cybersecurity frameworks; Field Guides, with the Zero Trust study guide; and Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI. Framework Maps sorts the frameworks by the question each one answers, says who each one binds, and shows where zero trust and AI land.",
+        "To report a content error in any section, open an issue at https://github.com/KensDen/lensatic/issues. Name the framework, page or entry, say what is wrong, and cite the primary source: the publisher's own page or document that shows the correct fact.",
         "To ask about reusing Lensatic's code or text, open an issue on the same page.",
-        "The iOS app is built from the same content as this site. Questions and problems with the app go to the same issues page. Opening an issue needs a GitHub account, and issues are public.",
-        "Every verified framework, source and solution shows the date its publisher's page was last read, and every other one shows its status instead. A glossary entry shows a status only where its spelling could not be confirmed. An entry with a recheck date is read again when that date comes up, and no content release goes out while a recheck is overdue. The next dated recheck, if one is scheduled, is shown below."
+          "Reuse of Agentic SecOps follows its own notice, playbook/LICENSE.",
+        "The iOS app is built from the same content as Framework Maps. Questions and problems with the app go to the same issues page. Opening an issue needs a GitHub account, and issues are public.",
+        "In Framework Maps, every verified framework, source and solution shows the date its publisher's page was last read, and every other one shows its status instead. A glossary entry shows a status only where its spelling could not be confirmed. An entry with a recheck date is read again when that date comes up, and no content release goes out while a recheck is overdue. The Zero Trust guide records its sources and checks in guides/zero-trust/VERIFICATION.md in the source repository. The next dated recheck, if one is scheduled, is shown below."
       ]
     }
   }

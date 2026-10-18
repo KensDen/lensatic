@@ -357,6 +357,8 @@ def resource_errors(text: str) -> list[str]:
         if tag == "link" and set(attrs) == {"rel", "href"} and attrs["rel"] == "icon":
             errs += icon_errors(attrs["href"])  # the tile as an inline SVG: it also stops the browser asking the host for /favicon.ico
             continue
+        if tag == "link" and set(attrs) == {"rel", "href"} and attrs["rel"] == "canonical" and attrs["href"] == f"{SITE}{B.MAPS_KEY}/":
+            continue  # the canonical address names the published page and loads nothing (gauntlet question 34)
         if tag == "meta" and "http-equiv" in attrs:
             errs.append(f"<meta http-equiv={attrs['http-equiv']!r}>")
         if tag in ("link", "img", "iframe", "object", "embed", "audio", "video", "source", "base", "form"):
@@ -926,9 +928,11 @@ def main() -> int:
         for probe in (tname, codecs.encode(tname, "rot13")):
             if probe in low:
                 hits.append(f"term #{terms.index(tname) + 1}")
-    # Lensatic 2.0 (owner's decision 1, 18 October 2026): the forbidden word is now the name of a Lensatic section, so it may
-    # appear in the umbrella bar's section link and nowhere else in the wrapper
-    if V.FORBIDDEN_WORD in re.sub(r'<nav class="lx-bar".*?</nav>', "", rest, flags=re.S):
+    # Lensatic 2.0 (owner's decision 1, 18 October 2026): the umbrella's chrome, the bar and the shared card's description, is
+    # held by tools/check_umbrella.py and is left out of this check
+    chrome = re.sub(r'<nav class="lx-bar".*?</nav>', "", rest, flags=re.S)
+    chrome = re.sub(r'<meta property="og:image:alt" content="[^"]*">', "", chrome)
+    if V.FORBIDDEN_WORD in chrome:
         hits.append("forbidden word")
     rep.check("sweep clean and no forbidden word in the wrapper", hits, f"{len(terms)} terms from {src}")
 
@@ -1151,7 +1155,8 @@ def main() -> int:
     errs += [f"<meta {k}> appears {v} times" for k, v in seen_.items() if v > 1]
     # the preview's description is the pitch (session 9); the description tag for search engines stays meta.description
     want_ = {"og:title": B.umbrella_title(d), "og:description": d["meta"]["pitch"], "og:type": "website", "og:url": f"{SITE}{B.MAPS_KEY}/",
-             "og:image": f"{SITE}{SOCIAL_NAME}", "og:image:width": "1200", "og:image:height": "630", "twitter:card": "summary_large_image",
+             "og:image": f"{SITE}{SOCIAL_NAME}", "og:image:width": "1200", "og:image:height": "630", "og:image:alt": B.umbrella_card_alt(),
+             "twitter:card": "summary_large_image",
              "description": d["meta"]["description"]}
     if "twitter:description" in metas:
         want_["twitter:description"] = d["meta"]["pitch"]
