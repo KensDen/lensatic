@@ -72,7 +72,7 @@
  *  20. Deck fonts: the deck PDF embeds only IBM Plex faces, read from its own font dictionaries with
  *      build_exec_summary's font guard, pdffonts as a cross-check (both modes; the PDF ships).
  * Fatal (Round M):
- *  21. The header badge: the app's header pill (the span just before the theme toggle) reads registry.json's
+ *  21. The header badge: the app's header pill (the last span of the title row; v5.3.0 moved the theme toggle to the Lensatic bar) reads registry.json's
  *      current_version exactly, once in the JSX and once in the built Playbook/index.html (both modes). A release
  *      updates the version and the pill together, so the badge cannot go stale.
  * PUBLIC EDITION MODE: a `.public-edition` marker file at the tree root switches on public mode, which
@@ -113,11 +113,12 @@ for (const rel of FILES) {
     !valid ? 'invalid UTF-8' : hits.join(',') || '');
 }
 
-/* ---- 6. prose-voice dash (warning-only) ---- */
+/* ---- 6. no em or en dash (fatal since v5.3.0, gauntlet Q24: the house voice uses a comma, colon, full stop, or a spaced
+ * hyphen for a range; the characters and their HTML entities are counted) ---- */
 for (const rel of FILES) {
   const txt = fs.readFileSync(path.join(SUITE, rel), 'utf-8');
-  const n = (txt.match(/ – /g) || []).length;
-  if (n) warns.push(`${((r) => (/^(\.\.([\\/]|$)|[\\/]|[A-Za-z]:)/.test(r) ? rel : r.split(path.sep).join('/')))(path.relative(SUITE, path.resolve(SUITE, rel)))}: ${n} spaced en dash(es) - house prose voice is the em dash`);
+  const n = (txt.match(/[\u2013\u2014]|&[mn]dash;|&#821[12];/g) || []).length;
+  check(`no em or en dash: ${((r) => (/^(\.\.([\\/]|$)|[\\/]|[A-Za-z]:)/.test(r) ? rel : r.split(path.sep).join('/')))(path.relative(SUITE, path.resolve(SUITE, rel)))}`, n === 0, n ? `${n} found` : '');
 }
 
 /* ---- parse the Resource Index ---- */
@@ -157,8 +158,8 @@ const collate = (name) => name
   .replace(/0DIN/g, 'ODIN')
   .replace(/\b\d\b/g, (d) => DIGITWORD[d])
   .toLowerCase();
-const surname = (name) => name.split(' — ')[0].trim().split(/\s+/).pop().toLowerCase();
-const FLAT = ['The Offense–Defense Balance', 'Threat Intelligence & Industry Reports',
+const surname = (name) => name.split(': ')[0].trim().split(/\s+/).pop().toLowerCase();  // v5.3.0: names read "Publisher: Title"
+const FLAT = ['The Offense-Defense Balance', 'Threat Intelligence & Industry Reports',
   'Zero Trust & Agentic Insider Risk', 'Regulatory & Compliance',
   'Human-Centric AI Adoption', 'Research & Reference',
   'Community & Collective Resources'];
@@ -381,11 +382,11 @@ const win = (h, w) => h.ctx.slice(Math.max(0, h.index - w), h.index + h.text.len
   gauntletWarn.push(...TU.warnSummary('P04 UK spellings', TU.resolveHits('P04', TU.findHits('P04', UNITS, re), REG)));
 }
 /* P10: a percentage, multiplier or large count in a tab body block or a card that carries no source link and names no
- * source; a named source is a Resource Index publisher (the part of an entry's name before its em dash), an action source
+ * source; a named source is a Resource Index publisher (the part of an entry's name before its first colon), an action source
  * label's publisher, a Research Library paper, or a name in registry.json's "unsourced.named_sources" */
 {
   const pubs = new Set(REG.unsourced.named_sources);
-  for (const g of MODEL.content.resources.groups) for (const it of g.items) { const p = it.name.split(' \u2014 ')[0].replace(/\s*\([^)]*\)\s*/g, ' ').trim(); if (p.length >= 2) pubs.add(p); }
+  for (const g of MODEL.content.resources.groups) for (const it of g.items) { const p = it.name.split(': ')[0].replace(/\s*\([^)]*\)\s*/g, ' ').trim(); if (p.length >= 2) pubs.add(p); }
   for (const s of Object.keys(MODEL.actionSourceLinks)) pubs.add(s.split(' · ')[0].trim());
   for (const p of (MODEL.content.academic && MODEL.content.academic.papers) || []) if (p.name) pubs.add(p.name.split(':')[0].trim());
   const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -614,8 +615,8 @@ const win = (h, w) => h.ctx.slice(Math.max(0, h.index - w), h.index + h.text.len
 }
 
 /* ---- 21. the header badge states the current version (Round M), fatal, both modes ----
- * The pill is found by its place: the span whose style ends with marginLeft "auto", just before the theme toggle
- * button, in the JSX and in the built payload. Each must occur exactly once and read registry.json's
+ * The pill is found by its place: the span whose style ends with marginLeft "auto", closing the header's title row
+ * (v5.3.0: the theme toggle that followed it is the Lensatic bar's now), in the JSX and in the built payload. Each must occur exactly once and read registry.json's
  * current_version.version, which must itself look like a version ("v" and dotted numbers). */
 {
   let ok = false, detail = '';
@@ -623,8 +624,8 @@ const win = (h, w) => h.ctx.slice(Math.max(0, h.index - w), h.index + h.text.len
     const want = JSON.parse(fs.readFileSync(path.join(SUITE, 'Validation', 'registry.json'), 'utf-8')).current_version.version;
     const jsx = fs.readFileSync(path.join(SUITE, 'Playbook', 'agentic-secops-teaming.jsx'), 'utf-8');
     const built = fs.readFileSync(path.join(SUITE, 'Playbook', 'index.html'), 'utf-8');
-    const inJsx = [...jsx.matchAll(/marginLeft: "auto" \}\}>([^<]*)<\/span>\s*<button onClick=\{toggleTheme\}/g)].map((m) => m[1]);
-    const inHtml = [...built.matchAll(/marginLeft: "auto" \} \}, "([^"]*)"\),\s*React\.createElement\("button", \{ onClick: toggleTheme/g)].map((m) => m[1]);
+    const inJsx = [...jsx.matchAll(/marginLeft: "auto" \}\}>([^<]*)<\/span>\s*<\/div>/g)].map((m) => m[1]);
+    const inHtml = [...built.matchAll(/marginLeft: "auto" \} \}, "([^"]*)"\)\),/g)].map((m) => m[1]);
     ok = /^v\d+(?:\.\d+)*$/.test(want) && inJsx.length === 1 && inHtml.length === 1 && inJsx[0] === want && inHtml[0] === want;
     detail = `current version ${want}; the badge reads ${inJsx.join(', ') || '(not found)'} in the JSX, ${inHtml.join(', ') || '(not found)'} in index.html`;
   } catch (e) { detail = 'unreadable: ' + String(e.message || e).slice(0, 120); }

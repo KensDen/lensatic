@@ -134,7 +134,8 @@ private struct Draft {
             NavRow(lead: Run(g(store.sectionNumber(s), .label, .mono)), title: Run(c(store.sectionTitle(s), .label)),
                    target: .section(s, anchor: nil), identifier: "section-\(s.rawValue)")
         }
-        return Page(title: content.meta.name, blocks: [Block(.rows(rows))])
+        // the start screen carries the map's own name, ui.labels.mapName (content 1.2.11: Framework Maps), as the web header does
+        return Page(title: L("mapName"), blocks: [Block(.rows(rows))])
     }
 
     // MARK: sections
@@ -162,7 +163,7 @@ private struct Draft {
         // the separator without its trailing space, after the check date on the version line
         let joint = L("metaSeparator").replacingOccurrences(of: #"\s+$"#, with: "", options: .regularExpression)
         var out: [Block] = [
-            Block(.hero(name: Run(c(meta.name, .label)), lede: Run(c(meta.description))), anchor: "intro"),
+            Block(.hero(name: Run(l("mapName")), lede: Run(c(meta.description))), anchor: "intro"),
             Block(.controls([
                 Control(label: Run(l("heroPrimary")), target: .anchor("doors"), prominent: true, identifier: "hero-primary"),
                 Control(label: Run(l("heroSecondary")), target: .section(.stack, anchor: nil), identifier: "hero-secondary"),

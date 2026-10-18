@@ -10,25 +10,7 @@
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   try {
-    /* ---------- theme: system, paper, dial ---------- */
-    var themeBtn = $('#theme-toggle');
-    var THEMES = ['system', 'light', 'dark'];
-    function applyTheme(th, store) {
-      root.setAttribute('data-theme', th);
-      var value = themeBtn.getAttribute('data-' + th);
-      $('.theme-v', themeBtn).textContent = value;
-      themeBtn.setAttribute('aria-label', themeBtn.getAttribute('data-label') + ': ' + value);
-      if (store) { try { localStorage.setItem('lensatic-theme', th); } catch (e) { /* storage unavailable */ } }
-    }
-    if (themeBtn) {
-      var startTheme = root.getAttribute('data-theme');
-      applyTheme(THEMES.indexOf(startTheme) < 0 ? 'system' : startTheme, false);
-      themeBtn.hidden = false;
-      themeBtn.addEventListener('click', function () {
-        var cur = root.getAttribute('data-theme');
-        applyTheme(THEMES[(THEMES.indexOf(cur) + 1) % THEMES.length], true);
-      });
-    }
+    /* the theme toggle is the umbrella bar's (hub/theme-bar.js, Lensatic 2.0.2) */
 
     /* ---------- matrix: one view at a time, collapsed cells, column scrolling ---------- */
     var views = { dow: $('#matrix-dow'), cisa: $('#matrix-cisa') };

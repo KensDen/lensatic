@@ -1,18 +1,18 @@
 #!/usr/bin/env node
-/* battery.cjs — Agentic SecOps full validation battery (orchestrator).
+/* battery.cjs: Agentic SecOps full validation battery (orchestrator).
  *   node Validation/battery.cjs
  *
  * Layers (each degrades gracefully if tooling is absent):
- *   1. sync_check.cjs        — structural / counts / zero-external / byte-sync
- *   2. deck + documents      — PPTX slide count (unzip), PDF page counts
+ *   1. sync_check.cjs: structural / counts / zero-external / byte-sync
+ *   2. deck + documents: PPTX slide count (unzip), PDF page counts
  *                              (python3+pypdf, else pdfinfo, else best-effort),
  *                              study-guide Part 8 mirror = 243 links,
  *                              Part 8 sub-group labels = the app's (P06),
  *                              executive summary HTML zero external loads,
  *                              landing page zero external loads,
  *                              README consistency tripwires
- *   3. render_check.cjs      — headless browser battery (SKIPPED if no Chrome)
- *   4. anchor_check.cjs      — deep-link anchor + gated-figure DOM-presence
+ *   3. render_check.cjs: headless browser battery (SKIPPED if no Chrome)
+ *   4. anchor_check.cjs: deep-link anchor + gated-figure DOM-presence
  *                              resolution, the sixth layer (SKIPPED if no Chrome)
  * PUBLIC EDITION MODE: a `.public-edition` marker file at the tree root switches on public mode, which
  * skips checks for files that exist only in the private working repo. Without the marker every check
@@ -206,7 +206,7 @@ const pdfPages = (p) => {
 }
 
 /* ---- consolidated table ---- */
-console.log('\n================ FULL BATTERY — CONSOLIDATED ================');
+console.log('\n================ FULL BATTERY: CONSOLIDATED ================');
 for (const [layer, name, status, detail] of rows) {
   const mark = status === 'PASS' ? '\u2713' : status === 'SKIPPED' ? '\u25cb' : '\u2717';
   console.log(`  ${mark} [${layer.padEnd(6)}] ${name.padEnd(46)} ${status}${detail ? '  ' + detail : ''}`);

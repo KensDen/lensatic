@@ -66,37 +66,37 @@
 <div class="poster">
   <header class="rev" style="animation-delay:.02s">
     <h1>Zero Trust for <span class="a">Operational Technology</span></h1>
-    <div class="subtitle">CISA (2026): stop trusting the network &mdash; design as if the adversary is already inside the OT environment</div>
+    <div class="subtitle">CISA (2026): stop trusting the network. Design as if the adversary is already inside the OT environment</div>
   </header>
 
   <div class="layout">
     <div class="stack rev" style="animation-delay:.08s">
-      <div class="zlabel">Enterprise / Business &mdash; where intrusions begin</div>
-      <div class="band it"><div class="bt">Enterprise IT <span class="lv">&middot; Purdue L5&ndash;L4</span></div><div class="bd">Email, business apps, internet-facing edge. Initial access lands here &mdash; phishing, vulnerable edge devices, and PRC pre-positioning (Volt Typhoon).</div></div>
+      <div class="zlabel">Enterprise / Business: where intrusions begin</div>
+      <div class="band it"><div class="bt">Enterprise IT <span class="lv">&middot; Purdue L5 - L4</span></div><div class="bd">Email, business apps, internet-facing edge. Initial access lands here: phishing, vulnerable edge devices, and PRC pre-positioning (Volt Typhoon).</div></div>
 
-      <div class="boundary"><div class="bt">&#9940; Level 3.5 &mdash; IT/OT DMZ + data diode &middot; THE HARD LINE</div><div class="bd">One-way data out of OT, no path in. Enforced deterministically at the environment layer &mdash; never by trusting a model or a credential.</div></div>
+      <div class="boundary"><div class="bt">&#9940; Level 3.5: IT/OT DMZ + data diode &middot; THE HARD LINE</div><div class="bd">One-way data out of OT, no path in. Enforced deterministically at the environment layer, never by trusting a model or a credential.</div></div>
 
-      <div class="zlabel">OT / Control network &mdash; safety &amp; availability lead</div>
-      <div class="band ot"><div class="bt">Operations &amp; Supervisory <span class="lv">&middot; L3</span></div><div class="bd">SCADA servers, historians, site operations &mdash; monitoring and control aggregation.</div></div>
-      <div class="band ot"><div class="bt">Control / HMI <span class="lv">&middot; L2</span></div><div class="bd">Human-machine interfaces and engineering workstations &mdash; where setpoints are changed.</div></div>
-      <div class="band ot"><div class="bt">Controllers <span class="lv">&middot; L1</span></div><div class="bd">PLCs and RTUs executing the control logic &mdash; the layer manipulated in CISA advisory AA26-097A.</div></div>
-      <div class="band l0"><div class="bt">Process &amp; Safety <span class="lv">&middot; L0 + SIS</span></div><div class="bd">Sensors, actuators, and the Safety Instrumented System. Failure here is physical and irreversible &mdash; a flood, a blackout, a contaminant strike.</div></div>
+      <div class="zlabel">OT / Control network: safety &amp; availability lead</div>
+      <div class="band ot"><div class="bt">Operations &amp; Supervisory <span class="lv">&middot; L3</span></div><div class="bd">SCADA servers, historians, site operations: monitoring and control aggregation.</div></div>
+      <div class="band ot"><div class="bt">Control / HMI <span class="lv">&middot; L2</span></div><div class="bd">Human-machine interfaces and engineering workstations, where setpoints are changed.</div></div>
+      <div class="band ot"><div class="bt">Controllers <span class="lv">&middot; L1</span></div><div class="bd">PLCs and RTUs executing the control logic: the layer manipulated in CISA advisory AA26-097A.</div></div>
+      <div class="band l0"><div class="bt">Process &amp; Safety <span class="lv">&middot; L0 + SIS</span></div><div class="bd">Sensors, actuators, and the Safety Instrumented System. Failure here is physical and irreversible: a flood, a blackout, a contaminant strike.</div></div>
     </div>
 
     <div class="panel rev" style="animation-delay:.14s">
       <div class="pt">&#8635; Zero Trust applied to OT</div>
       <div class="chip"><div class="n">1</div><div><div class="ct">Assume breach</div><div class="cd">Design controls as if an adversary already has a foothold in the OT network.</div></div></div>
-      <div class="chip"><div class="n">2</div><div><div class="ct">Identity &amp; context, not location</div><div class="cd">Validate every access request on identity, context, and risk &mdash; not on where it sits in the network.</div></div></div>
-      <div class="chip"><div class="n">3</div><div><div class="ct">Dynamic segmentation</div><div class="cd">Treat segmentation as an enforceable, evolving policy &mdash; not a one-time architectural decision.</div></div></div>
+      <div class="chip"><div class="n">2</div><div><div class="ct">Identity &amp; context, not location</div><div class="cd">Validate every access request on identity, context, and risk, not on where it sits in the network.</div></div></div>
+      <div class="chip"><div class="n">3</div><div><div class="ct">Dynamic segmentation</div><div class="cd">Treat segmentation as an enforceable, evolving policy, not a one-time architectural decision.</div></div></div>
       <div class="chip"><div class="n">4</div><div><div class="ct">Continuous evaluation</div><div class="cd">Verify continuously and re-authorize; never trust-once-and-forget.</div></div></div>
-      <div class="chip"><div class="n">5</div><div><div class="ct">AI agents stay read-only</div><div class="cd">Agents observe, correlate, and advise &mdash; never in the safety loop, never actively scanning a fragile PLC.</div></div></div>
-      <div class="note"><b>Honest caveat:</b> CISA states blanket IT-style zero trust on OT is &ldquo;neither reasonable nor feasible.&rdquo; Safety and availability lead &mdash; the Purdue boundary, passive monitoring, and bounded autonomy still hold.</div>
+      <div class="chip"><div class="n">5</div><div><div class="ct">AI agents stay read-only</div><div class="cd">Agents observe, correlate, and advise, never in the safety loop, never actively scanning a fragile PLC.</div></div></div>
+      <div class="note"><b>Honest caveat:</b> CISA states blanket IT-style zero trust on OT is &ldquo;neither reasonable nor feasible.&rdquo; Safety and availability lead: the Purdue boundary, passive monitoring, and bounded autonomy still hold.</div>
     </div>
   </div>
 
   <div class="footer rev" style="animation-delay:.2s">
-    <div class="l"><b>Federal guidance that takes the same posture as this playbook</b> &mdash; assume-breach, identity-first, blast-radius bounded &mdash; now applied to physical infrastructure. CI Fortify (2026) adds the resilience half: isolation and recovery for a communications-degraded crisis.
-      <div class="src">Source: CISA, with the Departments of War, Energy and State, the FBI and NIST &mdash; &ldquo;Adapting Zero Trust Principles to Operational Technology&rdquo; (Apr 2026); CISA &ldquo;CI Fortify&rdquo; (May 2026); advisory AA26-097A (Apr 2026). Conceptual reference &mdash; not engineering or authorization guidance.</div>
+    <div class="l"><b>Federal guidance that takes the same posture as this playbook</b>: assume-breach, identity-first, blast-radius bounded, now applied to physical infrastructure. CI Fortify (2026) adds the resilience half: isolation and recovery for a communications-degraded crisis.
+      <div class="src">Source: CISA, with the Departments of War, Energy and State, the FBI and NIST, &ldquo;Adapting Zero Trust Principles to Operational Technology&rdquo; (Apr 2026); CISA &ldquo;CI Fortify&rdquo; (May 2026); advisory AA26-097A (Apr 2026). Conceptual reference, not engineering or authorization guidance.</div>
     <div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
     <div class="r"><span class="badge">AGENTIC SECOPS</span></div>
   </div>

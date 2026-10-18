@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.10",
+    "contentVersion": "1.2.11",
     "builtOn": "2026-10-18",
     "sources": [
       "csf20",
@@ -165,6 +165,11 @@
         "version": "1.2.10",
         "date": "2026-10-18",
         "summary": "The map describes the public sector cybersecurity frameworks. Support and the privacy policy speak for all three sections and name the iOS app. The AI column says Humans in Command. Two glossary lines take the statutory-name token, five checked dates follow their notes, the {{dow}} note gets a recheck date, and addresses recorded as gone show as text. One build credit wording."
+      },
+      {
+        "version": "1.2.11",
+        "date": "2026-10-18",
+        "summary": "The map's own header and title say Framework Maps, under the eyebrow Lensatic · Framework Maps, and the privacy policy names the one theme key, lensatic-theme, that every page with the umbrella bar shares."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -5841,6 +5846,8 @@
       "themeLight": "Light",
       "themeDark": "Dark",
       "themeSystem": "System",
+      "mapName": "Framework Maps",
+      "mapEyebrow": "Lensatic · Framework Maps",
       "contentVersion": "Content version",
       "pagesContentVersion": "Framework Maps content version",
       "counts": "Verification counts",
@@ -5949,11 +5956,11 @@
         "Framework Maps runs entirely on your device. The iOS app and the web page carry all of their content with them. Once open, the web page needs no connection, and a saved copy works offline.",
         "Lensatic makes no network requests. Once the web page is open it loads no scripts, fonts, images or data from anywhere, and the iOS app does not connect to the internet.",
         "There is no account and nothing to sign in to.",
-        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web page keeps is your theme choice (system, light or dark), saved in your browser's local storage on your device and never sent anywhere; the iOS app keeps nothing and follows your device's light or dark setting.",
+        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web pages keep is your theme choice (system, light or dark), saved in your browser's local storage under the one key lensatic-theme, on your device and never sent anywhere; the iOS app keeps nothing and follows your device's light or dark setting.",
         "Lensatic holds nothing about you, so there is nothing to retain or delete. Clearing this site's data in your browser removes the saved theme choice.",
         "There are no third-party software development kits (SDKs), no analytics and no advertising.",
         "In the web page and the iOS app, the only outside links go to the public documents cited in Sources and to the source repository on GitHub; both also link to this policy and the support page. They open in your browser, under those sites' own privacy policies. This page and the support page also link to GitHub.",
-          "The Zero Trust page and the Agentic SecOps app on this site store only a theme choice in this browser and link out to their public sources.",
+          "The Zero Trust page and the Agentic SecOps app share that one theme choice with the other Lensatic pages. A choice either of them saved earlier under its own key (ztfg-theme or playbook-theme) moves to lensatic-theme once, and the old key is removed. Both link out to their public sources.",
           "The hub links out only to the source repository on GitHub and to its maker's own site, kensden.github.io; the guides index links to the repository and, like the Zero Trust page, to a companion NotebookLM notebook on Google, which needs a Google account; the Agentic SecOps landing links only to the repository and its documents on GitHub.",
         "The web copy at https://kensden.github.io/lensatic/ is hosted by GitHub Pages. GitHub's documentation for GitHub Pages says it logs and stores the internet protocol (IP) address of each visitor for security purposes (https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection); see also the GitHub Privacy Statement (https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Lensatic itself collects nothing from those visits.",
         "Questions about this policy: open an issue on the repository's GitHub issues page, https://github.com/KensDen/lensatic/issues. Opening an issue needs a GitHub account, and issues are public. An issue you open stays on GitHub under GitHub's privacy statement; ask in the issue to have it deleted.",

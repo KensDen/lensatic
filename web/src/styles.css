@@ -137,7 +137,7 @@ small, .small { font-size: 0.875rem; color: var(--fg-2); }
   color: var(--fg); text-decoration: none; font-weight: 700;
 }
 .btn.icon { width: 44px; padding: 0; }
-.btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.btn.primary { background: var(--sec-maps); color: var(--on-sec-maps); border-color: var(--sec-maps); }  /* Lensatic 2.0.2: the section's accent */
 .btn.secondary { background: transparent; color: var(--accent); border-color: var(--accent); }
 .btn.primary:hover, .btn.secondary:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .totop.off { visibility: hidden; }
@@ -157,6 +157,8 @@ main p, main li { max-width: 44em; }
 .hero { padding: 3.5rem 0 0.5rem; }
 .tile { display: grid; place-items: center; width: 72px; height: 72px; margin-bottom: 1.375rem; border-radius: 16px; background: var(--tile-bg); color: var(--tile-fg); box-shadow: inset 0 0 0 1px var(--line); }
 .tile .mark { width: 50px; height: 50px; }
+/* content 1.2.11: the eyebrow over the map's own name, as on the other Lensatic pages */
+.hero .eyebrow { margin: 0 0 0.75rem; font-family: var(--mono); font-weight: 700; font-size: 0.8125rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--sec-maps); }
 .hero h1 { font-size: 2.875rem; line-height: 1.08; }
 .lede { font-size: 1.1875rem; color: var(--fg-2); margin: 0 0 1.75rem; max-width: 40em; }
 .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0 0 1.375rem; }
