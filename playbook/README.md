@@ -1,6 +1,6 @@
 # Agentic SecOps
 
-A field reference for red, blue, and purple teaming in the age of agentic AI: 87 sourced actions, 243 indexed resources, 88 glossary terms, and 16 diagrams. Every external claim links to its source.
+A tradecraft playbook for red, blue and purple teaming in the age of Agentic AI: 87 sourced actions, 243 indexed resources, 88 glossary terms, and 16 diagrams. Every external claim links to its source.
 
 **Open it:** https://kensden.github.io/lensatic/playbook/
 
@@ -19,6 +19,7 @@ A field reference for red, blue, and purple teaming in the age of agentic AI: 87
 
 ## Version history
 
+- v5.2.2, 18 October 2026: DoW in prose and a Federal & DoW tab, generic role names, Agentic AI capitalized, one build credit, the deck re-exported with the app's address, the counter in menu order, phone layout fixes, and current sources for NIS2, GPT-Red and Apache Caldera.
 - v5.2.1, 18 October 2026: concept brief carries the new name.
 - v5.2, 18 Oct 2026: joins Lensatic as its Playbook section, renamed Agentic SecOps.
 - v5.1, 27 Sep 2026: public edition, all rights reserved. New content and study guide self-checks. Fixes through 14 Oct 2026 added Zero Trust for AI sources and talks, links to the Zero Trust guide, and glossary and emblem fixes.

@@ -8,7 +8,7 @@
  *
  * Verifies in a real browser (file://):
  *   - app mounts; all 35 tabs route by hash, each showing the "NN / 35" counter at its own position (the ids
- *     are read from the built page's sections array, so the list cannot go stale)
+ *     are read from the built page's menu, its navGroups array, so the list cannot go stale; v5.2.2 counts in menu order)
  *   - Action Plan chips compute All-87 / Now-40 / Next-37 / Later-10 live
  *   - CSV export = header + 87 rows; Markdown export = 87 bullets
  *   - search returns results; ArrowDown/Enter selects and navigates
@@ -71,13 +71,14 @@ async function fallbackChrome(puppeteer) {
   return null;
 }
 
-/* the live tab ids in counter order, read from the built page's own sections array (the "NN / 35" counter is a
- * tab's position there). Hundred-and-ninth pass: the hand list it replaces carried six ids no tab has (dualuse,
- * aiessentials, usecase, classified, tradecraft, hunting), whose hashes left the route where it was. */
+/* the live tab ids in counter order, read from the built page's own menu (v5.2.2, gauntlet Q3: the "NN / 35"
+ * counter is a tab's position in navGroups, the order the menu shows, not in the sections array). Hundred-and-ninth
+ * pass: the hand list it replaces carried six ids no tab has (dualuse, aiessentials, usecase, classified,
+ * tradecraft, hunting), whose hashes left the route where it was. */
 const TAB_COUNT = 35;
 const TABS = (() => {
-  const m = fs.existsSync(HTML) ? fs.readFileSync(HTML, 'utf-8').match(/const sections = \[([\s\S]*?)\n\s*\];/) : null;
-  return m ? [...m[1].matchAll(/^\s*\{ id: "([a-z]+)",/gm)].map((x) => x[1]) : [];
+  const m = fs.existsSync(HTML) ? fs.readFileSync(HTML, 'utf-8').match(/const navGroups = \[([\s\S]*?)\n\s*\];/) : null;
+  return m ? [...m[1].matchAll(/ids: \[([^\]]*)\]/g)].flatMap((x) => [...x[1].matchAll(/"([a-z]+)"/g)].map((y) => y[1])) : [];
 })();
 
 (async () => {

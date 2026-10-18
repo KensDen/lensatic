@@ -32,7 +32,7 @@
   {"id": "C01", "fact": "the Department of War's designation and the D.C. Circuit's ruling (Round H, D003): one dated, neutral sentence at every site", "sites": "RES:3:13, ES:S13, TAB:federal:B9, TAB:federal:B10",
    "detect": "designat\\w*\\s+(?:Anthropic|the vendor)\\s+(?:as\\s+)?a\\s+supply[- ]chain risk|D\\.C\\. Circuit[^.]{0,60}(?:Anthropic|vendor)",
    "canonical": ["[Oo]n March 3, 2026 the Department of War designated (?:Anthropic|the vendor) a supply chain risk, and on September 25, 2026 the D\\.C\\. Circuit denied (?:Anthropic's|the vendor's) petitions for review\\."]},
-  {"id": "C02", "fact": "the Federal & DoD tab is named in full (Round H, N16 and N17)", "detect": "\\bFederal tabs?\\b|\\(see Federal\\)"},
+  {"id": "C02", "fact": "the Federal & DoW tab (Federal & DoD before v5.2.2) is named in full (Round H, N16 and N17)", "detect": "\\bFederal tabs?\\b|\\(see Federal\\)"},
   {"id": "C03", "fact": "the Frontier AI & Government tab is named in full (Round H, N18)", "detect": "\\bFrontier tabs?\\b|\\(see Frontier\\)"},
   {"id": "C04", "fact": "the Tools & Tech Stack tab is named in full (Round H, N19)", "detect": "\\bTools tabs?\\b|\\(see Tools\\)"},
   {"id": "C05", "fact": "the Infrastructure & Compute tab is named in full (Round H, N20)", "detect": "\\bInfrastructure tabs?\\b|\\(see Infrastructure\\)"},
@@ -123,16 +123,22 @@
  "license": {
   "_about": "Round J. The LICENSE pin (the sha256 of Public/LICENSE, which ships as LICENSE byte for byte; Round N retired the ship-date token with the notice's dated paragraph), the license-term patterns (case-insensitive), the allowances and the short notice. statics_check (15 to 17) and the export gate's LICENSE_TERMS group both read this entry, so the two scan with the same patterns and the same allowances. Each allowance names its files (private-tree names) and its exact text, and must be present exactly as pinned; a hit is allowed only inside that text. Each pattern carries a character class and each allowed text a JSON unicode escape, so that neither matches itself when the gate scans this file.",
   "sha256": "27caf988f624d46ccd5df23c4faa996cd12aab4b7c59dd2db74432772cde1119",
-  "patterns": ["BY-NC-S[A]", "Non-?Commerc[i]al", "Creative\\s*Common[s]", "\\bCC[ -]B[Y]\\b"],
+  "patterns": ["BY-NC-S[A]", "Non-?Commerc[i]al", "Creative\\s*Common[s]", "\\bCC[ -]B[Y]\\b", "\\bC[C]0\\b", "public[ -]domai[n]", "Apache[- ]2\\.[0]|Apache Licen[sc][e]", "\\bMI[T][- ]licen[sc]e", "\\b(?:A|L)?G[P]L(?:-?v?[23](?:\\.0)?)?\\b|GNU (?:Affero |Lesser )?General Publi[c]", "\\bBS[D][- ][023]-Clause\\b|\\bBS[D] licen[sc]e", "\\bMP[L][- ]2\\.0\\b|Mozilla Public Licen[sc][e]"],
   "allow": [
    {"id": "J-B1", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "AI FOR security stays with CDM. CC\u0020BY-SA 4.0.", "reason": "approved third-party mention: the AI Defense Matrix (Zeltser & Yu) entry states the matrix's own terms"},
    {"id": "J-B2", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "(arXiv:2511.00739v1, Nov 2025; CC\u0020BY 4.0)", "reason": "approved third-party mention: the Georgia Tech and Intel paper's own terms"},
-   {"id": "J-B3", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "(v1.4, March 2026; CC\u0020BY 4.0)", "reason": "approved third-party mention: the SANS guidelines' own terms"}
+   {"id": "J-B3", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "(v1.4, March 2026; CC\u0020BY 4.0)", "reason": "approved third-party mention: the SANS guidelines' own terms"},
+   {"id": "J-B4", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "Public\u0020domain (CC\u0030).", "reason": "approved third-party mention (gauntlet Q58, Oct 18, 2026): the Juliet Test Suite entry states the suite's own terms"},
+   {"id": "J-B5", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "Independent, Apache\u002d2.0 skills library", "reason": "approved third-party mention (gauntlet Q58, Oct 18, 2026): the community skills library entry states the library's own terms"},
+   {"id": "J-B6", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "NIST's public\u002ddomain ground-truth corpus", "reason": "approved third-party mention (gauntlet Q58, Oct 18, 2026): the NIST SARD entry states the dataset's own status"},
+   {"id": "J-B7", "files": ["Playbook/index.html"], "count": 4, "text": "This source code is licensed under the MIT\u0020license found in the", "reason": "the vendored React, ReactDOM and Scheduler builds keep their own license headers (gauntlet Q58 widened the patterns, Oct 18, 2026); THIRD_PARTY_NOTICES.md names the license"},
+   {"id": "J-B8", "files": ["Playbook/index.html"], "text": "scheduler npm packages, MIT\u002dlicensed)", "reason": "the vendoring banner above the React builds names their license (gauntlet Q58, Oct 18, 2026)"},
+   {"id": "J-B9", "files": ["Public/THIRD_PARTY_NOTICES.md"], "text": "Licensed under the MIT\u0020License; see", "reason": "the third-party notice for React names its license (gauntlet Q58, Oct 18, 2026)"}
   ],
-  "notice": "© 2026 Ken Connell. All rights reserved. Built with Claude and Claude Code."
+  "notice": "© 2026 Ken Connell. All rights reserved. Built with Claude and Claude Code, reviewed by a human who owns the mistakes."
  },
  "current_version": {
   "_about": "Round M. The release version the app's header badge (the pill before the theme toggle) states. statics_check 21 fails unless the pill reads exactly this in the JSX and in Playbook/index.html, so a release updates this entry and the pill together.",
-  "version": "v5.2.1"
+  "version": "v5.2.2"
  }
 }
