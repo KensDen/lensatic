@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agentic Purple Teaming — Value Stream Map</title>
+<style>
+  :root{
+    --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
+    --border:rgba(160,200,255,0.11); --border2:rgba(160,200,255,0.17);
+    --text:#EAF4FF; --muted:#8FA3C2; --dim:#6B7E9C; --accent:#45C4F4;
+    --trad:#3B82F6; --agentic:#10B981; --wait:#F59E0B; --bad:#EF4444; --good:#10B981;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
+    background-image:
+      radial-gradient(1100px 600px at 14% -5%, color-mix(in srgb, var(--wait) 5%, transparent), transparent 60%),
+      radial-gradient(1000px 600px at 88% 0%, color-mix(in srgb, var(--agentic) 6%, transparent), transparent 55%),
+      linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:auto,auto,46px 46px,46px 46px;}
+  .poster{max-width:1480px; margin:0 auto}
+  .rev{opacity:0; transform:translateY(10px); animation:up .6s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes up{to{opacity:1; transform:none}}
+  header{padding-bottom:16px; margin-bottom:20px; border-bottom:1px solid var(--border2)}
+  h1{font-size:clamp(22px,3vw,36px); font-weight:700; letter-spacing:.04em; text-transform:uppercase; line-height:1.05}
+  h1 .a{color:var(--accent)}
+  .subtitle{color:var(--muted); font-size:13px; margin-top:8px}
+
+  .lane{border-radius:8px; border:1px solid var(--border); padding:13px 14px 14px; margin-bottom:14px; position:relative}
+  .lane.trad{background:linear-gradient(180deg,color-mix(in srgb, var(--trad) 5%, transparent),var(--surface)); border-left:4px solid var(--trad)}
+  .lane.agentic{background:linear-gradient(180deg,color-mix(in srgb, var(--agentic) 5%, transparent),var(--surface)); border-left:4px solid var(--agentic)}
+  .lanehead{display:flex; align-items:baseline; justify-content:space-between; gap:14px; margin-bottom:11px; flex-wrap:wrap}
+  .lanehead .nm{font-size:13.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase}
+  .lane.trad .nm{color:var(--trad)} .lane.agentic .nm{color:var(--agentic)}
+  .lanehead .tot{font-size:11px; font-weight:700; padding:4px 11px; border-radius:5px; letter-spacing:.03em}
+  .tot.red{color:var(--bad); border:1px solid color-mix(in srgb, var(--bad) 50%, transparent); background:color-mix(in srgb, var(--bad) 8%, transparent)}
+  .tot.green{color:var(--good); border:1px solid color-mix(in srgb, var(--good) 50%, transparent); background:color-mix(in srgb, var(--good) 8%, transparent)}
+
+  .flow{display:flex; align-items:stretch; gap:0; overflow-x:auto; padding-bottom:4px}
+  .step{flex:1 1 0; min-width:118px; background:var(--surface2); border:1px solid var(--border2); border-radius:6px; padding:9px 9px 8px; display:flex; flex-direction:column; transition:transform .15s ease}
+  .step:hover{transform:translateY(-2px)}
+  .step .s{font-size:9px; font-weight:700; color:var(--dim); letter-spacing:.04em}
+  .step .h{font-size:10.5px; font-weight:700; color:var(--text); margin-top:3px; line-height:1.22; flex:1}
+  .step .tm{font-size:10px; font-weight:700; margin-top:7px; letter-spacing:.02em}
+  .step.work .tm{color:var(--muted)}
+  .step.fast{border-color:color-mix(in srgb, var(--good) 40%, transparent)} .step.fast .tm{color:var(--good)}
+  .step.wait{border-color:color-mix(in srgb, var(--wait) 50%, transparent); background:color-mix(in srgb, var(--wait) 7%, transparent)} .step.wait .tm{color:var(--wait)}
+  .step.wait .tag{font-size:8px; font-weight:700; color:var(--wait); letter-spacing:.1em; text-transform:uppercase; margin-top:4px}
+  .arrow{flex:0 0 22px; display:flex; align-items:center; justify-content:center; color:var(--dim); font-size:13px}
+  .lane.agentic .arrow{color:var(--agentic)}
+
+  .caption{margin-top:6px; padding:12px 16px; background:var(--surface); border:1px solid var(--border2); border-radius:7px; font-size:12px; color:var(--text); line-height:1.55; text-align:center}
+  .caption b{color:var(--wait)}
+
+  footer{margin-top:18px; padding-top:14px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  footer .l{font-size:10px; color:var(--dim); line-height:1.55; max-width:70%} footer .l b{color:var(--muted)}
+  footer .r .badge{display:inline-block; border:1px solid var(--border2); border-radius:4px; padding:3px 8px; color:var(--accent); font-weight:700; letter-spacing:.1em; font-size:10px}
+
+  @media (max-width:760px){
+    .flow{flex-direction:column} .arrow{transform:rotate(90deg); height:18px}
+    .step{min-width:0}
+  }
+  @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}.flow{overflow:visible}}
+  .copy{margin-top:5px}
+</style>
+</head>
+<body>
+<div class="poster">
+  <header class="rev" style="animation-delay:.02s">
+    <h1>Value Stream Map <span class="a">— Lead Time per New TTP</span></h1>
+    <div class="subtitle">Agentic purple teaming vs. the traditional manual cycle — same work, the wait states removed</div>
+  </header>
+
+  <!-- TRADITIONAL -->
+  <div class="lane trad rev" style="animation-delay:.08s">
+    <div class="lanehead"><span class="nm">Traditional Manual Cycle</span><span class="tot red">Total lead time: ~3 to 6 weeks</span></div>
+    <div class="flow">
+      <div class="step work"><span class="s">1 · Intel</span><span class="h">Intel Triage</span><span class="tm">2–4 days</span></div>
+      <div class="arrow">→</div>
+      <div class="step wait"><span class="s">2 · Schedule</span><span class="h">Schedule Red-Team Test</span><span class="tm">1–2 weeks</span><span class="tag">wait</span></div>
+      <div class="arrow">→</div>
+      <div class="step work"><span class="s">3 · Red</span><span class="h">Manual Emulation</span><span class="tm">1–3 days</span></div>
+      <div class="arrow">→</div>
+      <div class="step wait"><span class="s">4 · Blue</span><span class="h">Manual Detection Check</span><span class="tm">2–4 days</span><span class="tag">wait</span></div>
+      <div class="arrow">→</div>
+      <div class="step work"><span class="s">5 · Engineer</span><span class="h">Write &amp; Test Rule</span><span class="tm">3–5 days</span></div>
+      <div class="arrow">→</div>
+      <div class="step wait"><span class="s">6 · Approve</span><span class="h">Change-Approval Queue</span><span class="tm">3–7 days</span><span class="tag">wait</span></div>
+      <div class="arrow">→</div>
+      <div class="step work"><span class="s">7 · Deploy</span><span class="h">Deploy</span><span class="tm">1 day</span></div>
+    </div>
+  </div>
+
+  <!-- AGENTIC -->
+  <div class="lane agentic rev" style="animation-delay:.16s">
+    <div class="lanehead"><span class="nm">Agentic Continuous Cycle</span><span class="tot green">Total lead time: ~hours to 1 day</span></div>
+    <div class="flow">
+      <div class="step fast"><span class="s">1 · Intel</span><span class="h">Intel Auto-Ingested</span><span class="tm">minutes</span></div>
+      <div class="arrow">→</div>
+      <div class="step fast"><span class="s">2 · Red</span><span class="h">Agent Emulates in Sandbox</span><span class="tm">minutes</span></div>
+      <div class="arrow">→</div>
+      <div class="step fast"><span class="s">3 · Blue</span><span class="h">Auto Detection Check</span><span class="tm">seconds</span></div>
+      <div class="arrow">→</div>
+      <div class="step fast"><span class="s">4 · Analyze</span><span class="h">Copilot Root-Cause</span><span class="tm">minutes</span></div>
+      <div class="arrow">→</div>
+      <div class="step fast"><span class="s">5 · Engineer</span><span class="h">Agent Writes &amp; Tests Rule</span><span class="tm">minutes</span></div>
+      <div class="arrow">→</div>
+      <div class="step wait"><span class="s">6 · Approve</span><span class="h">Human Approval Gate</span><span class="tm">minutes–hours</span><span class="tag">judgment</span></div>
+      <div class="arrow">→</div>
+      <div class="step fast"><span class="s">7 · Promote</span><span class="h">Auto-Promote</span><span class="tm">seconds</span></div>
+    </div>
+  </div>
+
+  <div class="caption rev" style="animation-delay:.24s">The gains come from eliminating <b>wait states</b>, not rushing the work. The one remaining wait — <b>human approval</b> — is exactly where judgment belongs.</div>
+
+  <footer class="rev" style="animation-delay:.30s">
+    <div class="l"><b>Read it as waste-elimination:</b> the agentic cycle keeps every step of real work and deletes the queues between them. Times are indicative, to show the order-of-magnitude shift.<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="r"><span class="badge">AGENTIC SECOPS</span></div>
+  </footer>
+</div>
+</body>
+</html>

@@ -1,25 +1,26 @@
-/* Lensatic: the instrument, lighter and calmer. Paper (light) and dial (dark). IBM Plex Sans for text and IBM Plex
-   Mono for the instrument's labels, embedded by the build; no images, no network.
+/* Lensatic: the instrument, lighter and calmer. Paper (light) and dial (dark), on the Lensatic field system's values
+   (Lensatic 2.0, hub/lensatic.css and hub/DESIGN.md; tools/check_umbrella.py holds these tokens to the shared file).
+   IBM Plex Sans for text and IBM Plex Mono for the instrument's labels, embedded by the build; no images, no network.
    The page is complete without script: prefers-color-scheme picks the theme, native details disclose,
    both matrix views are static tables. Rules under .js only apply when the behavior script runs.
    Every colour token is six-digit hex except --fade and --shadow; the iOS build reads this block by name. */
 :root {
-  --bg: #F6F2E8;
-  --bg-2: #FFFDF7;
-  --fg: #1F1B12;
-  --fg-2: #5A5242;
-  --line: #E2DACA;
-  --line-strong: #C9BFA8;
-  --accent: #4A5D23;
+  --bg: #F3F4F1;
+  --bg-2: #FFFFFF;
+  --fg: #0B1220;
+  --fg-2: #4A5568;
+  --line: #D9DCD4;
+  --line-strong: #A9AEA3;
+  --accent: #075985;
   --accent-fg: #FFFFFF;
-  --link: #3D5A1A;
-  --focus: #2F5D0A;
-  --seam: #FFFDF7;
-  --bad: #8A2D1F;
-  --chip-bg: #F6F2E8;
+  --link: #075985;
+  --focus: #075985;
+  --seam: #FFFFFF;
+  --bad: #B91C1C;
+  --chip-bg: #F3F4F1;
   --tile-bg: #0E100D;
   --tile-fg: #9BE15D;
-  --fade: rgba(31, 27, 18, 0.18);
+  --fade: rgba(11, 18, 32, 0.18);
   --shadow: none;
   --radius: 8px;
   --card-radius: 12px;
@@ -32,43 +33,43 @@
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0E100D;
-    --bg-2: #161A13;
-    --fg: #E8ECDF;
-    --fg-2: #A8B09A;
-    --line: #252B20;
-    --line-strong: #3A4430;
-    --accent: #9BE15D;
-    --accent-fg: #0E100D;
-    --link: #A9E873;
-    --focus: #D4FF8A;
-    --seam: #161A13;
-    --bad: #FF9B85;
-    --chip-bg: #0E100D;
+    --bg: #040817;
+    --bg-2: #0A1128;
+    --fg: #EAF4FF;
+    --fg-2: #8FA3C2;
+    --line: #1A2645;
+    --line-strong: #2B3B62;
+    --accent: #45C4F4;
+    --accent-fg: #04111C;
+    --link: #73DEF6;
+    --focus: #73DEF6;
+    --seam: #0A1128;
+    --bad: #EF4444;
+    --chip-bg: #040817;
     --tile-bg: #161A13;
     --tile-fg: #9BE15D;
-    --fade: rgba(155, 225, 93, 0.18);
+    --fade: rgba(69, 196, 244, 0.18);
     --shadow: none;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0E100D;
-  --bg-2: #161A13;
-  --fg: #E8ECDF;
-  --fg-2: #A8B09A;
-  --line: #252B20;
-  --line-strong: #3A4430;
-  --accent: #9BE15D;
-  --accent-fg: #0E100D;
-  --link: #A9E873;
-  --focus: #D4FF8A;
-  --seam: #161A13;
-  --bad: #FF9B85;
-  --chip-bg: #0E100D;
+  --bg: #040817;
+  --bg-2: #0A1128;
+  --fg: #EAF4FF;
+  --fg-2: #8FA3C2;
+  --line: #1A2645;
+  --line-strong: #2B3B62;
+  --accent: #45C4F4;
+  --accent-fg: #04111C;
+  --link: #73DEF6;
+  --focus: #73DEF6;
+  --seam: #0A1128;
+  --bad: #EF4444;
+  --chip-bg: #040817;
   --tile-bg: #161A13;
   --tile-fg: #9BE15D;
-  --fade: rgba(155, 225, 93, 0.18);
+  --fade: rgba(69, 196, 244, 0.18);
   --shadow: none;
   color-scheme: dark;
 }
@@ -102,6 +103,8 @@ small, .small { font-size: 0.875rem; color: var(--fg-2); }
 /* header: a solid bar with a hairline; the inner row aligns to a container a little wider than the reading column */
 .top { position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
 .top-in { display: flex; align-items: center; gap: 0.5rem; max-width: 70rem; height: var(--nav-h); margin: 0 auto; padding: 0 var(--gutter); }
+/* the umbrella bar (Lensatic 2.0, hub/lensatic.css) lines up with the app's own header */
+.lx-bar-in { max-width: 70rem; padding: 0 var(--gutter); }
 .brand { display: flex; align-items: center; gap: 0.5rem; color: var(--accent); flex: 0 0 auto; min-width: 0; min-height: 44px; margin-right: 0.75rem; text-decoration: none; }
 .mark { display: block; flex: 0 0 auto; }
 .wordmark { font-weight: 700; font-size: 1.0625rem; color: var(--fg); }

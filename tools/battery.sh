@@ -15,8 +15,10 @@ if [ -f web/lensatic.html ]; then
 else
   echo "FAIL  web/lensatic.html missing; run tools/build_web.py"; RED=1
 fi
-# the iOS app (Session 8, section 4.5): static checks everywhere; project generation, build and tests where Xcode works
-python3 tools/check_ios.py || RED=1
+# the iOS app (Session 8, section 4.5): static checks everywhere; project generation, build and tests where Xcode works.
+# LENSATIC_NO_XCODE=1 runs the static checks only, for a machine where Xcode is installed but cannot run unattended (for
+# example while its first-launch setup waits for an administrator); the stage then prints its SKIP line.
+python3 tools/check_ios.py ${LENSATIC_NO_XCODE:+--no-xcode} || RED=1
 # the App Store listing (Session 9, section 4.2): the fields and their limits, the settled wording, the listing rules,
 # the copy sheet and the screenshot list
 python3 tools/check_listing.py || RED=1

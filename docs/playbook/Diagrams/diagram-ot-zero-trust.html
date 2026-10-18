@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zero Trust for Operational Technology</title>
+<style>
+  :root{
+    --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
+    --border:rgba(160,200,255,0.11); --border2:rgba(160,200,255,0.17);
+    --text:#EAF4FF; --muted:#8FA3C2; --dim:#6B7E9C; --accent:#45C4F4;
+    --intel:#ff8c42; --red:#EF4444; --blue:#3B82F6; --purple:#B273B5; --green:#10B981; --gold:#F59E0B;
+    --tint-accent:#ABE4FA; --tint-purple:#DCC0DE; --tint-blue:#93C5FD; --tint-gold:#FCD34D; --tint-red:#FCA5A5; --tint-intel:#FDBA74; --tint-green:#6EE7B7;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
+    background-image:
+      radial-gradient(1000px 600px at 50% 28%, color-mix(in srgb, var(--blue) 7%, transparent), transparent 60%),
+      linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:auto,46px 46px,46px 46px;}
+  .poster{max-width:1180px; margin:0 auto}
+  .rev{opacity:0; transform:translateY(10px); animation:up .6s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes up{to{opacity:1; transform:none}}
+  header{padding-bottom:16px; margin-bottom:22px; border-bottom:1px solid var(--border2); text-align:center}
+  h1{font-size:clamp(22px,3vw,36px); font-weight:700; letter-spacing:.04em; text-transform:uppercase; line-height:1.1}
+  h1 .a{color:var(--blue)}
+  .subtitle{color:var(--muted); font-size:13px; margin-top:8px}
+
+  .layout{display:grid; grid-template-columns:1.35fr 1fr; gap:16px; align-items:start}
+  .stack{display:flex; flex-direction:column; gap:8px}
+  .zlabel{font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); font-weight:700; margin:2px 0 1px}
+  .band{background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--border2); border-radius:7px; padding:9px 12px; transition:transform .15s ease}
+  .band:hover{transform:translateX(3px)}
+  .band .bt{font-size:11.5px; font-weight:700; display:flex; gap:8px; align-items:baseline}
+  .band .lv{font-size:9px; color:var(--dim); letter-spacing:.08em}
+  .band .bd{font-size:9.5px; color:var(--muted); line-height:1.45; margin-top:3px}
+  .it{border-left-color:var(--blue)} .it .bt{color:var(--tint-blue)}
+  .ot{border-left-color:var(--green)} .ot .bt{color:var(--tint-green)}
+  .l0{border-left-color:var(--gold)} .l0 .bt{color:var(--tint-gold)}
+  .boundary{background:linear-gradient(90deg, color-mix(in srgb, var(--red) 15%, transparent), color-mix(in srgb, var(--intel) 10%, transparent)); border:1px dashed var(--red); border-radius:7px; padding:10px 12px; text-align:center}
+  .boundary .bt{font-size:11.5px; font-weight:700; color:var(--tint-red); letter-spacing:.03em}
+  .boundary .bd{font-size:9.5px; color:var(--tint-red); margin-top:3px; line-height:1.45}
+
+  .panel{background:var(--surface2); border:1px solid var(--border2); border-radius:9px; padding:14px 15px}
+  .panel .pt{font-size:11px; font-weight:700; color:var(--accent); letter-spacing:.1em; text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:8px}
+  .chip{display:flex; gap:9px; margin-bottom:11px}
+  .chip .n{width:21px;height:21px;border-radius:6px;background:var(--purple);color:var(--bg);font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .chip .ct{font-size:10.5px;font-weight:700;color:var(--text);line-height:1.25}
+  .chip .cd{font-size:9px;color:var(--muted);line-height:1.4;margin-top:2px}
+  .note{margin-top:4px; font-size:9px; color:var(--intel); border-top:1px dashed var(--border2); padding-top:10px; line-height:1.5}
+  .note b{color:var(--tint-intel)}
+
+  .footer{margin-top:20px; padding-top:14px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  .footer .l{font-size:10px; color:var(--dim); line-height:1.55; max-width:72%} .footer .l b{color:var(--muted)}
+  .footer .src{font-size:8.5px;color:var(--dim);margin-top:5px; line-height:1.5}
+  .footer .r .badge{display:inline-block; border:1px solid var(--border2); border-radius:4px; padding:3px 8px; color:var(--accent); font-weight:700; letter-spacing:.1em; font-size:10px}
+
+  @media (max-width:820px){ .layout{grid-template-columns:1fr} }
+  @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
+  .copy{font-size:8.5px;color:var(--dim);margin-top:5px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="poster">
+  <header class="rev" style="animation-delay:.02s">
+    <h1>Zero Trust for <span class="a">Operational Technology</span></h1>
+    <div class="subtitle">CISA (2026): stop trusting the network &mdash; design as if the adversary is already inside the OT environment</div>
+  </header>
+
+  <div class="layout">
+    <div class="stack rev" style="animation-delay:.08s">
+      <div class="zlabel">Enterprise / Business &mdash; where intrusions begin</div>
+      <div class="band it"><div class="bt">Enterprise IT <span class="lv">&middot; Purdue L5&ndash;L4</span></div><div class="bd">Email, business apps, internet-facing edge. Initial access lands here &mdash; phishing, vulnerable edge devices, and PRC pre-positioning (Volt Typhoon).</div></div>
+
+      <div class="boundary"><div class="bt">&#9940; Level 3.5 &mdash; IT/OT DMZ + data diode &middot; THE HARD LINE</div><div class="bd">One-way data out of OT, no path in. Enforced deterministically at the environment layer &mdash; never by trusting a model or a credential.</div></div>
+
+      <div class="zlabel">OT / Control network &mdash; safety &amp; availability lead</div>
+      <div class="band ot"><div class="bt">Operations &amp; Supervisory <span class="lv">&middot; L3</span></div><div class="bd">SCADA servers, historians, site operations &mdash; monitoring and control aggregation.</div></div>
+      <div class="band ot"><div class="bt">Control / HMI <span class="lv">&middot; L2</span></div><div class="bd">Human-machine interfaces and engineering workstations &mdash; where setpoints are changed.</div></div>
+      <div class="band ot"><div class="bt">Controllers <span class="lv">&middot; L1</span></div><div class="bd">PLCs and RTUs executing the control logic &mdash; the layer manipulated in CISA advisory AA26-097A.</div></div>
+      <div class="band l0"><div class="bt">Process &amp; Safety <span class="lv">&middot; L0 + SIS</span></div><div class="bd">Sensors, actuators, and the Safety Instrumented System. Failure here is physical and irreversible &mdash; a flood, a blackout, a contaminant strike.</div></div>
+    </div>
+
+    <div class="panel rev" style="animation-delay:.14s">
+      <div class="pt">&#8635; Zero Trust applied to OT</div>
+      <div class="chip"><div class="n">1</div><div><div class="ct">Assume breach</div><div class="cd">Design controls as if an adversary already has a foothold in the OT network.</div></div></div>
+      <div class="chip"><div class="n">2</div><div><div class="ct">Identity &amp; context, not location</div><div class="cd">Validate every access request on identity, context, and risk &mdash; not on where it sits in the network.</div></div></div>
+      <div class="chip"><div class="n">3</div><div><div class="ct">Dynamic segmentation</div><div class="cd">Treat segmentation as an enforceable, evolving policy &mdash; not a one-time architectural decision.</div></div></div>
+      <div class="chip"><div class="n">4</div><div><div class="ct">Continuous evaluation</div><div class="cd">Verify continuously and re-authorize; never trust-once-and-forget.</div></div></div>
+      <div class="chip"><div class="n">5</div><div><div class="ct">AI agents stay read-only</div><div class="cd">Agents observe, correlate, and advise &mdash; never in the safety loop, never actively scanning a fragile PLC.</div></div></div>
+      <div class="note"><b>Honest caveat:</b> CISA states blanket IT-style zero trust on OT is &ldquo;neither reasonable nor feasible.&rdquo; Safety and availability lead &mdash; the Purdue boundary, passive monitoring, and bounded autonomy still hold.</div>
+    </div>
+  </div>
+
+  <div class="footer rev" style="animation-delay:.2s">
+    <div class="l"><b>Federal guidance endorsing the posture this playbook takes</b> &mdash; assume-breach, identity-first, blast-radius bounded &mdash; now applied to physical infrastructure. CI Fortify (2026) adds the resilience half: isolation and recovery for a communications-degraded crisis.
+      <div class="src">Source: CISA, with the Departments of War, Energy and State, the FBI and NIST &mdash; &ldquo;Adapting Zero Trust Principles to Operational Technology&rdquo; (Apr 2026); CISA &ldquo;CI Fortify&rdquo; (May 2026); advisory AA26-097A (Apr 2026). Conceptual reference &mdash; not engineering or authorization guidance.</div>
+    <div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="r"><span class="badge">AGENTIC SECOPS</span></div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Same Horsepower, Two Outcomes</title>
+<style>
+  :root{
+    --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
+    --border:rgba(160,200,255,0.11); --border2:rgba(160,200,255,0.17);
+    --text:#EAF4FF; --muted:#8FA3C2; --dim:#6B7E9C; --accent:#45C4F4;
+    --intel:#ff8c42; --red:#EF4444; --blue:#3B82F6; --purple:#B273B5; --green:#10B981; --gold:#F59E0B;
+    --tint-accent:#ABE4FA; --tint-purple:#DCC0DE; --tint-blue:#93C5FD; --tint-gold:#FCD34D; --tint-red:#FCA5A5; --tint-intel:#FDBA74; --tint-green:#6EE7B7;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
+    background-image:
+      radial-gradient(900px 560px at 50% 40%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 62%),
+      linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:auto,46px 46px,46px 46px;}
+  .poster{max-width:1180px; margin:0 auto}
+  .rev{opacity:0; transform:translateY(10px); animation:up .6s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes up{to{opacity:1; transform:none}}
+  header{padding-bottom:16px; margin-bottom:22px; border-bottom:1px solid var(--border2); text-align:center}
+  h1{font-size:clamp(22px,3vw,36px); font-weight:700; letter-spacing:.04em; text-transform:uppercase; line-height:1.1}
+  h1 .a{color:var(--accent)}
+  .subtitle{color:var(--muted); font-size:13px; margin-top:8px}
+
+  .three{display:grid; grid-template-columns:1fr 300px 1fr; gap:16px; align-items:center}
+  .face{background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:15px 16px}
+  .face.good{border-top:3px solid var(--green)}
+  .face.bad{border-top:3px solid var(--red)}
+  .face .ft{font-size:13px; font-weight:700; letter-spacing:.02em; margin-bottom:11px; display:flex; align-items:center; gap:8px}
+  .good .ft{color:var(--tint-green)} .bad .ft{color:var(--tint-red)}
+  .face .row{display:flex; gap:9px; font-size:10px; color:var(--muted); line-height:1.45; margin-bottom:9px}
+  .face .row .mk{flex-shrink:0; font-weight:700}
+  .good .row .mk{color:var(--green)} .bad .row .mk{color:var(--red)}
+  .face .row b{color:var(--text); font-weight:700}
+
+  .center{text-align:center}
+  .center svg{width:100%; max-width:300px; height:auto; display:block; margin:0 auto; filter:drop-shadow(0 0 26px color-mix(in srgb, var(--accent) 40%, transparent))}
+  .center .same{font-size:10px; color:var(--dim); letter-spacing:.1em; text-transform:uppercase; margin-top:8px}
+
+  .reins{margin-top:16px; background:var(--surface2); border:1px solid color-mix(in srgb, var(--accent) 45%, transparent); border-radius:10px; padding:14px 16px; text-align:center}
+  .reins .big{font-size:14px; font-weight:700; color:var(--tint-accent); letter-spacing:.02em}
+  .reins .sub{font-size:10.5px; color:var(--muted); margin-top:6px; line-height:1.5}
+  .reins .sub b{color:var(--accent)}
+
+  .footer{margin-top:18px; padding-top:14px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  .footer .l{font-size:10px; color:var(--dim); line-height:1.55; max-width:74%} .footer .l b{color:var(--muted)}
+  .footer .r .badge{display:inline-block; border:1px solid var(--border2); border-radius:4px; padding:3px 8px; color:var(--accent); font-weight:700; letter-spacing:.1em; font-size:10px}
+
+  @media (max-width:880px){ .three{grid-template-columns:1fr} .center{order:-1} }
+  @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
+  .copy{margin-top:5px}
+</style>
+</head>
+<body>
+<div class="poster">
+  <header class="rev" style="animation-delay:.02s">
+    <h1>Same Horsepower, <span class="a">Two Outcomes</span></h1>
+    <div class="subtitle">The dual-use reality of agentic AI in the SOC &mdash; the same capability, pointed two ways</div>
+  </header>
+
+  <div class="three">
+    <div class="face good rev" style="animation-delay:.1s">
+      <div class="ft">&#9989; The best hire your SOC ever made</div>
+      <div class="row"><span class="mk">+</span><div><b>Onboarded in seconds</b>, works every hour of every day, never burns out.</div></div>
+      <div class="row"><span class="mk">+</span><div><b>Reads every log</b> and correlates across the whole estate at once.</div></div>
+      <div class="row"><span class="mk">+</span><div><b>Writes and tunes detections</b>, clearing the alert queue at machine speed.</div></div>
+      <div class="row"><span class="mk">+</span><div><b>Emulates the adversary</b> continuously, closing coverage gaps every cycle.</div></div>
+    </div>
+
+    <div class="center rev" style="animation-delay:.06s">
+      <svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="apttitle">
+        <title id="apttitle">APT_UNICORN agentic AI emblem</title>
+        <defs>
+          <linearGradient id="gFace" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#182238"/><stop offset="1" stop-color="#0d1424"/>
+          </linearGradient>
+          <linearGradient id="gFaceLight" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#2b4082"/><stop offset="1" stop-color="#182545"/>
+          </linearGradient>
+          <linearGradient id="gMane" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" style="stop-color:var(--accent)"/><stop offset="1" stop-color="#3B82F6"/>
+          </linearGradient>
+          <linearGradient id="gManeDeep" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#067496"/><stop offset="1" stop-color="#2a5fd0"/>
+          </linearGradient>
+          <linearGradient id="gHorn" x1="0" y1="1" x2="0.6" y2="0">
+            <stop offset="0" stop-color="#0C5973"/><stop offset="0.55" style="stop-color:var(--accent)"/><stop offset="1" style="stop-color:var(--tint-accent)"/>
+          </linearGradient>
+        </defs>
+
+        <!-- crest ring -->
+        <circle cx="160" cy="166" r="148" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="2"/>
+        <circle cx="160" cy="166" r="140" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
+        <g stroke="rgba(255,255,255,0.14)" stroke-width="2">
+          <line x1="160" y1="14" x2="160" y2="26"/><line x1="160" y1="306" x2="160" y2="318"/>
+          <line x1="8" y1="166" x2="20" y2="166"/><line x1="300" y1="166" x2="312" y2="166"/>
+        </g>
+
+        <!-- neck + head silhouette base -->
+        <polygon points="60,190 96,196 128,208 170,244 252,240 232,120 196,100 168,92 128,96 92,120 52,178"
+                 fill="url(#gFace)" stroke="rgba(255,255,255,0.14)" stroke-width="1.5" stroke-linejoin="round"/>
+
+        <!-- facet planes -->
+        <polygon points="92,120 128,96 128,152 104,158" fill="url(#gFaceLight)" opacity="0.85"/>
+        <polygon points="52,178 92,120 104,158 78,182" fill="#131c34" opacity="0.9"/>
+        <polygon points="128,96 168,92 150,148 128,152" fill="#1c2b52" opacity="0.9"/>
+        <polygon points="104,158 128,152 150,148 148,196 128,208 96,196 78,182" fill="#0f1730" opacity="0.85"/>
+        <polygon points="150,148 168,92 196,100 202,170 148,196" fill="url(#gFaceLight)" opacity="0.7"/>
+        <polygon points="148,196 202,170 232,232 170,244" fill="#101a36" opacity="0.9"/>
+        <polygon points="202,170 196,100 232,120 240,196 232,232" fill="#182648" opacity="0.9"/>
+
+        <!-- ear -->
+        <polygon points="176,96 196,58 206,102" fill="url(#gManeDeep)" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+
+        <!-- mane shards -->
+        <polygon points="204,104 262,72 240,128" fill="url(#gMane)" opacity="0.95"/>
+        <polygon points="226,128 292,112 256,166" fill="url(#gManeDeep)" opacity="0.95"/>
+        <polygon points="244,164 302,180 262,206" fill="url(#gMane)" opacity="0.8"/>
+        <polygon points="252,204 286,226 258,240" fill="url(#gManeDeep)" opacity="0.7"/>
+
+        <!-- horn -->
+        <polygon points="146,100 170,94 112,12" fill="url(#gHorn)"/>
+        <circle cx="112" cy="12" r="3.5" style="fill:var(--tint-accent)"/>
+        <circle cx="112" cy="12" r="8" fill="none" style="stroke:var(--accent)" stroke-width="1" opacity="0.4"/>
+        <g style="stroke:var(--bg)" stroke-width="2.5" opacity="0.55">
+          <line x1="138" y1="76" x2="158" y2="70"/>
+          <line x1="130" y1="56" x2="147" y2="51"/>
+          <line x1="122" y1="37" x2="136" y2="33"/>
+        </g>
+
+        <!-- eye + circuit trace -->
+        <circle cx="120" cy="150" r="7" style="fill:var(--accent)"/>
+        <circle cx="120" cy="150" r="11" fill="none" style="stroke:var(--accent)" stroke-width="1" opacity="0.45"/>
+        <g style="stroke:var(--accent)" stroke-width="1.5" fill="none" opacity="0.75">
+          <polyline points="131,150 152,168 152,204 176,222"/>
+          <polyline points="131,150 168,150 188,166"/>
+        </g>
+        <g style="fill:var(--accent)">
+          <circle cx="176" cy="222" r="3"/><circle cx="188" cy="166" r="3"/><circle cx="152" cy="186" r="2.5"/>
+        </g>
+
+        <!-- muzzle detail -->
+        <polygon points="52,178 78,182 68,190 60,190" fill="#1c2b52"/>
+        <line x1="62" y1="186" x2="74" y2="184" stroke="#3B82F6" stroke-width="1.5" opacity="0.6"/>
+      </svg>
+      <div class="same">Same horn &middot; same horsepower</div>
+    </div>
+
+    <div class="face bad rev" style="animation-delay:.14s">
+      <div class="ft">&#9888; The most dangerous insider you ever onboarded</div>
+      <div class="row"><span class="mk">&minus;</span><div><b>Maps your environment</b> as fast as it learns it &mdash; the same speed, inverted.</div></div>
+      <div class="row"><span class="mk">&minus;</span><div><b>Over-permissioned</b>, it becomes an agentic insider with broad reach.</div></div>
+      <div class="row"><span class="mk">&minus;</span><div><b>Prompt-injected or tool-abused</b> (MITRE ATLAS), it turns on its owner.</div></div>
+      <div class="row"><span class="mk">&minus;</span><div><b>Exfiltrates at machine speed</b> &mdash; walking data out before a human notices.</div></div>
+    </div>
+  </div>
+
+  <div class="reins rev" style="animation-delay:.2s">
+    <div class="big">The only variable is who holds the reins.</div>
+    <div class="sub">Governance <b>is</b> the reins &mdash; per-agent identity, least privilege, deterministic containment, human-in-command, and a bounded blast radius. The horsepower is a given; the direction is a choice.</div>
+  </div>
+
+  <div class="footer rev" style="animation-delay:.26s">
+    <div class="l"><b>APT_UNICORN is an illustrative framing device</b>, not a tracked threat actor &mdash; the point is that defensive and offensive agentic AI are the same technology, and only governance decides which one you have.<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="r"><span class="badge">AGENTIC SECOPS</span></div>
+  </div>
+</div>
+</body>
+</html>

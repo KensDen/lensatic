@@ -16,12 +16,15 @@ Layout (Session 4): a headless Chrome, Chromium or Edge measures the collapsed D
 column buttons, arrow keys and back to top at 375, takes back to top (Session 18) and the header name (Session 19)
 from About to scrollY 0 at 375 and 1280 with scripting on and off, reads the visible text with scripting disabled,
 and reads the print rendering.
-Pages (Session 6): docs/index.html is web/lensatic.html byte for byte; docs/ matches a fresh --pages build
-(index, privacy, support, the social card, an empty .nojekyll); the privacy and support pages carry no script and
-pass the same resource, em-dash, placeholder and sweep rules as the app, show the effective date, content version and
-every paragraph from content, and spell abbreviations out at first use; no email address appears anywhere in docs/;
-every external link in the app sits inside Sources, as the privacy policy says, except the policy, support and source
-repository links.
+Pages (Session 6; Lensatic 2.0 moved the map to docs/maps/): docs/maps/index.html is web/lensatic.html byte for byte;
+the map's part of docs/ matches a fresh --pages build (maps/index.html, privacy, support, the social card, an empty
+.nojekyll), and every other file in docs/ is the umbrella's (the hub, the guides index, the shared stylesheet, the
+sitemap, and the published copies under guides/ and playbook/, which tools/check_umbrella.py holds to their sources);
+the privacy and support pages carry no script and pass the same resource, em-dash, placeholder and sweep rules as the
+app, show the effective date, content version and every paragraph from content, and spell abbreviations out at first
+use; no email address appears in the map's pages or the umbrella's own pages (the moved sections keep their own
+content and checks); every external link in the app sits inside Sources, as the privacy policy says, except the policy,
+support and source repository links and the umbrella bar's links to Lensatic's own sections.
 The new look (Session 7): the only url( in any page is an embedded @font-face source, a data: URI that decodes to one
 of the four pinned faces; the tab icon is an SVG data URI with no reference in it; the colour tokens meet the contrast
 floors; labels carry no expansion and describe their abbreviations (the label set is read from build_web.py); every
@@ -62,7 +65,20 @@ ROOT = Path(__file__).resolve().parent.parent
 STACK = ROOT / "content" / "stack.json"
 HTML = ROOT / "web" / "lensatic.html"
 DOCS = ROOT / "docs"
-DOC_FILES = ("index.html", "privacy.html", "support.html", "social-card.png", ".nojekyll")
+DOC_FILES = ("maps/index.html", "privacy.html", "support.html", "social-card.png", ".nojekyll")
+# Lensatic 2.0: the rest of docs/ belongs to the umbrella (tools/build_hub.py writes it, tools/check_umbrella.py checks it)
+UMBRELLA_FILES = ("index.html", "guides/index.html", "sitemap.xml", "shared/lensatic.css")
+UMBRELLA_DIRS = ("guides/", "playbook/", "shared/")      # published copies; the moved sections keep their own checks
+SECTION_COPIES = ("guides/zero-trust/", "playbook/")
+
+
+def map_owned(rel: str) -> bool:
+    """A docs/ path that the map's build writes."""
+    return rel in DOC_FILES
+
+
+def umbrella_owned(rel: str) -> bool:
+    return rel in UMBRELLA_FILES or rel.startswith(UMBRELLA_DIRS)
 IMAGE_SUFFIXES = {".png", ".jpg", ".jpeg", ".gif", ".webp", ".avif", ".svg", ".ico", ".bmp"}
 SOCIAL_SRC = ROOT / "web" / "src" / "social-card.png"
 SITE = "https://kensden.github.io/lensatic/"
@@ -863,15 +879,16 @@ def main() -> int:
             errs.append(f"docs/{f} missing; run tools/build_web.py --pages")
         elif (DOCS / f).read_bytes() != fresh[f]:
             errs.append(f"docs/{f} is stale; rerun tools/build_web.py --pages")
-    extra = sorted(q.relative_to(DOCS).as_posix() for q in DOCS.rglob("*")
-                   if q.is_file() and q.relative_to(DOCS).as_posix() not in DOC_FILES) if DOCS.is_dir() else []
-    errs += [f"docs/{q} is not built by --pages" for q in extra]
+    extra = sorted(q.relative_to(DOCS).as_posix() for q in DOCS.rglob("*") if q.is_file() and q.name != ".DS_Store"
+                   and not map_owned(q.relative_to(DOCS).as_posix()) and not umbrella_owned(q.relative_to(DOCS).as_posix())) if DOCS.is_dir() else []
+    errs += [f"docs/{q} is built neither by --pages nor by the umbrella" for q in extra]
     if (DOCS / ".nojekyll").is_file() and (DOCS / ".nojekyll").stat().st_size:
         errs.append("docs/.nojekyll is not empty")
-    rep.check("docs/ matches a fresh --pages build: index, privacy, support, the social card, an empty .nojekyll, nothing else", errs)
-    ih = hashlib.sha256((DOCS / "index.html").read_bytes()).hexdigest() if (DOCS / "index.html").is_file() else "missing"
+    rep.check("docs/ matches a fresh --pages build: maps/index.html, privacy, support, the social card, an empty .nojekyll; "
+              "every other file is the umbrella's", errs)
+    ih = hashlib.sha256((DOCS / "maps" / "index.html").read_bytes()).hexdigest() if (DOCS / "maps" / "index.html").is_file() else "missing"
     wh = hashlib.sha256(html).hexdigest()
-    rep.check("docs/index.html is web/lensatic.html byte for byte (SHA-256)", [] if ih == wh else [f"{ih[:12]} != {wh[:12]}"], wh[:12])
+    rep.check("docs/maps/index.html is web/lensatic.html byte for byte (SHA-256)", [] if ih == wh else [f"{ih[:12]} != {wh[:12]}"], wh[:12])
 
     head, embedded, tail = split(html)
     h1, h2 = hashlib.sha256(embedded).hexdigest(), hashlib.sha256(STACK.read_bytes()).hexdigest()
@@ -908,7 +925,9 @@ def main() -> int:
         for probe in (tname, codecs.encode(tname, "rot13")):
             if probe in low:
                 hits.append(f"term #{terms.index(tname) + 1}")
-    if V.FORBIDDEN_WORD in rest:
+    # Lensatic 2.0 (owner's decision 1, 18 October 2026): the forbidden word is now the name of a Lensatic section, so it may
+    # appear in the umbrella bar's section link and nowhere else in the wrapper
+    if V.FORBIDDEN_WORD in re.sub(r'<nav class="lx-bar".*?</nav>', "", rest, flags=re.S):
         hits.append("forbidden word")
     rep.check("sweep clean and no forbidden word in the wrapper", hits, f"{len(terms)} terms from {src}")
 
@@ -1106,9 +1125,10 @@ def main() -> int:
               "the plain pages add the link back to the app", errs)
 
     errs = []
-    imgs = sorted(q.relative_to(DOCS).as_posix() for q in DOCS.rglob("*") if q.is_file() and q.suffix.lower() in IMAGE_SUFFIXES) if DOCS.is_dir() else []
+    imgs = sorted(q.relative_to(DOCS).as_posix() for q in DOCS.rglob("*") if q.is_file() and q.suffix.lower() in IMAGE_SUFFIXES
+                  and not q.relative_to(DOCS).as_posix().startswith(UMBRELLA_DIRS)) if DOCS.is_dir() else []
     if imgs != ["social-card.png"]:
-        errs.append(f"docs/ holds the images {imgs}, expected exactly social-card.png")
+        errs.append(f"the map's part of docs/ holds the images {imgs}, expected exactly social-card.png")
     card = DOCS / "social-card.png"
     size_ = "missing"
     if not card.is_file() or not SOCIAL_SRC.is_file() or card.read_bytes() != SOCIAL_SRC.read_bytes():
@@ -1127,7 +1147,7 @@ def main() -> int:
             seen_[k] = seen_.get(k, 0) + 1
     errs += [f"<meta {k}> appears {v} times" for k, v in seen_.items() if v > 1]
     # the preview's description is the pitch (session 9); the description tag for search engines stays meta.description
-    want_ = {"og:title": d["meta"]["name"], "og:description": d["meta"]["pitch"], "og:type": "website", "og:url": SITE,
+    want_ = {"og:title": B.umbrella_title(d), "og:description": d["meta"]["pitch"], "og:type": "website", "og:url": f"{SITE}{B.MAPS_KEY}/",
              "og:image": f"{SITE}social-card.png", "og:image:width": "1200", "og:image:height": "630", "twitter:card": "summary_large_image",
              "description": d["meta"]["description"]}
     if "twitter:description" in metas:
@@ -1138,7 +1158,7 @@ def main() -> int:
     for k in ("og:url", "og:image"):
         if not (metas.get(k) or "").startswith("https://kensden.github.io/lensatic/"):
             errs.append(f"{k} is not an absolute https address on kensden.github.io/lensatic/")
-    rep.check("social card: docs/ holds exactly one image, social-card.png, byte for byte the committed source, 1200 x 630; og:url and "
+    rep.check("social card: the map's part of docs/ holds exactly one image, social-card.png, byte for byte the committed source, 1200 x 630; og:url and "
               "og:image are absolute https addresses on the published site; the preview tags come from content (og:description the pitch, "
               "the description tag meta.description)", errs, size_)
 
@@ -1178,7 +1198,7 @@ def main() -> int:
 
     errs = []
     for f in sorted(DOCS.rglob("*")) if DOCS.is_dir() else []:
-        if f.is_file():
+        if f.is_file() and not f.relative_to(DOCS).as_posix().startswith(SECTION_COPIES):
             raw = f.read_bytes().decode("utf-8", "replace")
             views = [raw, htmllib.unescape(raw), urllib.parse.unquote(htmllib.unescape(raw))]
             blocks = re.findall(r'<script type="application/json"[^>]*>(.*?)</script>', raw, re.S)
@@ -1189,15 +1209,16 @@ def main() -> int:
                     errs.append(f"docs/{f.relative_to(DOCS)}: an embedded JSON block does not parse")
             for m in {m.group(0) for v in views for m in EMAIL_RE.finditer(v)}:
                 errs.append(f"docs/{f.relative_to(DOCS)}: {m}")
-    rep.check("no email address anywhere in docs/ (raw, entity-decoded, percent-decoded, and every embedded JSON string)", errs, f"{len([f for f in DOCS.rglob('*') if f.is_file()]) if DOCS.is_dir() else 0} files")
+    rep.check("no email address in docs/ outside the moved sections' published copies (raw, entity-decoded, percent-decoded, and every embedded JSON string)", errs, f"{len([f for f in DOCS.rglob('*') if f.is_file()]) if DOCS.is_dir() else 0} files")
 
     # the privacy policy says the only outside links go to the public documents cited in Sources and to the source repository,
     # and that the app also links to the policy and the support page: those three addresses are the only exceptions
     errs = []
     atree = parse(rest)
+    site_links = set(B.umbrella_links("../"))   # the umbrella bar: Lensatic's own sections, on the same site
     for node_ in walk_nodes(atree.root):
         href = node_.attrs.get("href", "") if node_.tag == "a" else ""
-        if href and not href.startswith("#") and href not in POLICY_LINKS:
+        if href and not href.startswith("#") and href not in POLICY_LINKS and href not in site_links:
             anc, inside = node_.parent, False
             while anc is not None:
                 if anc.attrs.get("id") == "view-sources":
@@ -1206,7 +1227,8 @@ def main() -> int:
                 anc = anc.parent
             if not inside:
                 errs.append(f"external link outside Sources: {href[:60]}")
-    rep.check("every external link in the app sits inside Sources, except the policy, support and source repository links (the privacy policy's claim)", errs)
+    rep.check("every external link in the app sits inside Sources, except the policy, support and source repository links (the privacy policy's claim) "
+              "and the umbrella bar's links to Lensatic's own sections", errs)
 
     # id skeleton: Node script when available, Python fallback otherwise
     items, counts = expected_items(d)
@@ -1388,7 +1410,7 @@ def main() -> int:
         if marked != WELL_KNOWN:
             errs_wk.append(f"glossary entries marked wellKnown are {marked}, expected {WELL_KNOWN}")
         built_pages = {"web/lensatic.html": full}
-        built_pages.update({f"docs/{f}": (DOCS / f).read_text(encoding="utf-8") for f in ("index.html", "privacy.html", "support.html")
+        built_pages.update({f"docs/{f}": (DOCS / f).read_text(encoding="utf-8") for f in ("maps/index.html", "privacy.html", "support.html")
                             if (DOCS / f).is_file()})
         for expansion in WELL_KNOWN.values():
             for o, c in (("(", ")"), ("[", "]")):
