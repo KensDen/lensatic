@@ -11,10 +11,10 @@ A Zero Trust study guide and one-page quick references for anyone leading or lea
 | | |
 |---|---|
 | [Web page](index.html) | The study guide, the three Quick References and the grouped Sources list on one phone-first page, in light and dark themes, with a track switcher at the top. |
-| [Study guide (PDF)](20261018_ZT_Study_Guide_v2.8.1.pdf) | The printable guide, core and all three tracks: US Letter, 26 pages, with page numbers. |
-| [Quick Reference: DoW (PDF)](20261018_ZT_Quick_Reference_DoW_v2.8.1.pdf) | The DoW job aid on one US Letter page. |
-| [Quick Reference: Federal civilian (PDF)](20261018_ZT_Quick_Reference_Federal_Civilian_v2.8.1.pdf) | The federal civilian job aid on one US Letter page. |
-| [Quick Reference: Private sector (PDF)](20261018_ZT_Quick_Reference_Private_Sector_v2.8.1.pdf) | The private-sector job aid on one US Letter page. |
+| [Study guide (PDF)](20261018_ZT_Study_Guide_v2.8.2.pdf) | The printable guide, core and all three tracks: US Letter, 26 pages, with page numbers. |
+| [Quick Reference: DoW (PDF)](20261018_ZT_Quick_Reference_DoW_v2.8.2.pdf) | The DoW job aid on one US Letter page. |
+| [Quick Reference: Federal civilian (PDF)](20261018_ZT_Quick_Reference_Federal_Civilian_v2.8.2.pdf) | The federal civilian job aid on one US Letter page. |
+| [Quick Reference: Private sector (PDF)](20261018_ZT_Quick_Reference_Private_Sector_v2.8.2.pdf) | The private-sector job aid on one US Letter page. |
 | [Verification record](VERIFICATION.md) | What was checked, against which primary source and page, and what was corrected, for v1.0, v2.0 and v2.2. |
 | [License](LICENSE) | The all-rights-reserved notice. |
 
@@ -34,7 +34,7 @@ Zero Trust is copyright 2026 Ken Connell, all rights reserved ([LICENSE](LICENSE
 
 GitHub's Terms of Service (section D.5) let other GitHub users view and fork a public repository on GitHub, as GitHub's features allow; that is not permission to use the work anywhere else.
 
-Versions 1.0 (27 September 2026) and 2.0 (30 September 2026) were released under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license (CC BY-NC-SA 4.0). That grant still applies to copies of those versions. It does not apply to anything added or changed since. On 30 September 2026 the repository's earlier history was replaced with a single fresh commit holding version 2.0, so version 1.0 is no longer part of its history.
+Versions 1.0 (27 September 2026) and 2.0 (30 September 2026) were released under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license (CC BY-NC-SA 4.0). That grant still applies to copies of those versions. It does not apply to anything added or changed since. On 30 September 2026 the history of the guide's original repository was replaced with a single fresh commit holding version 2.0, so version 1.0 is no longer part of its history.
 
 Third-party material keeps its own terms. Third-party names are trademarks of their respective owners. US government sources are public works, cited and linked here, not reproduced. The page and PDFs embed IBM Plex Sans and IBM Plex Mono (Copyright IBM Corp.) under the SIL Open Font License 1.1, whose full text is in the page's stylesheet.
 
