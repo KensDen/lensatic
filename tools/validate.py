@@ -39,7 +39,7 @@ README = ROOT / "README.md"
 SWEEP_FILE_CONTENT = CONTENT / "_sweep.txt"
 SWEEP_FILE_TOOLS = ROOT / "tools" / "sweep.txt"
 SWEEP_SOURCE = ROOT / "tools" / "sweep_source.json"
-SWEEP_SCOPES = ["content", "web", "ios", "critique", "docs", "store", "hub", "README.md", "LICENSE"]
+SWEEP_SCOPES = ["content", "web", "ios", "critique", "docs", "hub", "README.md", "LICENSE"]  # ios/ includes the App Store listing, ios/store/
 # Lensatic 2.0 (owner's decisions 1 and 4, 18 October 2026): the Zero Trust guide and the Agentic SecOps playbook moved in
 # with their own builds and checks. Their trees (guides/zero-trust/, playbook/) are outside the scopes above, and their
 # published copies under docs/ are left out of this sweep too: their text is theirs, held by their own checks, and the
@@ -654,7 +654,7 @@ def main() -> int:
                 for probe, t in probes:
                     if probe in line:
                         errs.append(f"{rel}:{ln}: contains sweep term #{terms.index(t) + 1}" + ("" if probe == t else " (rot13 form)"))
-    rep.check("sweep list clean across content/, web/, ios/, critique/, docs/ (bar the moved sections' copies), store/, hub/, README.md, LICENSE", errs,
+    rep.check("sweep list clean across content/, web/, ios/, critique/, docs/ (bar the moved sections' copies), hub/, README.md, LICENSE", errs,
               f"{scanned} files, {len(terms)} terms, loaded from {source_desc}")
 
     # 10. em dash
