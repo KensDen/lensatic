@@ -167,8 +167,8 @@
 .lx-foot-in { max-width: var(--maxw); margin: 0 auto; padding: var(--s-5) var(--s-4); display: flex; flex-wrap: wrap; align-items: center;
   justify-content: space-between; gap: var(--s-2) var(--s-5); }
 .lx-version { margin: 0; font-family: var(--mono); font-size: 0.875rem; }
-.lx-foot ul { display: flex; flex-wrap: wrap; gap: 0 var(--s-4); margin: 0; padding: 0; list-style: none; }
-.lx-foot a { display: inline-flex; align-items: center; min-height: 44px; color: var(--link); }
+.lx-foot ul, .lx-foot-in ul { display: flex; flex-wrap: wrap; gap: 0 var(--s-4); margin: 0; padding: 0; list-style: none; }
+.lx-foot a, .lx-foot-in a { display: inline-flex; align-items: center; min-height: 44px; color: var(--link); }
 
 @media (max-width: 40rem) {
   .lx-bar-in { column-gap: var(--s-4); }

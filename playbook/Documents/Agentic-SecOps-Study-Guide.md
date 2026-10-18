@@ -1,4 +1,4 @@
-# Agentic SecOps Tradecraft — Red / Blue / Purple Team Study Guide
+# Agentic SecOps: Red / Blue / Purple Team Study Guide
 
 © 2026 Ken Connell. All rights reserved.
 
@@ -47,7 +47,7 @@ Keep the glossary handy as you read. The self-check at the end is grouped by Par
 
 ## About this edition
 
-**October 1, 2026 addendum (public edition).** This guide tracks the Agentic SecOps Tradecraft Playbook, a living reference that changes in dated passes. This public edition is an independent personal project: it keeps the guide's substance and sources and leaves out the working change log behind them. The guide and the app stay in lockstep, and the app's counts are: 87 actions (40 Now / 37 Next / 10 Later), 243 sources / 13 groups, 88 glossary terms, 34 tools.
+**October 1, 2026 addendum (public edition).** This guide tracks the Agentic SecOps playbook, a living reference that changes in dated passes. This public edition is an independent personal project: it keeps the guide's substance and sources and leaves out the working change log behind them. The guide and the app stay in lockstep, and the app's counts are: 87 actions (40 Now / 37 Next / 10 Later), 243 sources / 13 groups, 88 glossary terms, 34 tools.
 
 -----
 
@@ -841,7 +841,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Google DeepMind — AI Control Roadmap (v0.1)](https://deepmind.google/blog/securing-the-future-of-ai-agents/)
 - [Google DeepMind — Three Layers of Agentic Security](https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/securing-the-future-of-ai-agents/three-layers-of-agent-security.pdf)
 - [IETF — RFC 8693 (OAuth 2.0 Token Exchange)](https://datatracker.ietf.org/doc/html/rfc8693)
-- [Ken Connell — Zero Trust Field Guide (Sep 2026)](https://kensden.github.io/zero-trust-field-guide/)
+- [Ken Connell — Lensatic Field Guides: Zero Trust (Sep 2026)](https://kensden.github.io/lensatic/guides/zero-trust/)
 - [Microsoft — Announcing Zero Trust for AI](https://www.microsoft.com/en-us/security/blog/2026/03/19/new-tools-and-guidance-announcing-zero-trust-for-ai/)
 - [Microsoft — Defense in Depth for Autonomous Agents](https://www.microsoft.com/en-us/security/blog/2026/05/14/defense-in-depth-autonomous-ai-agents/)
 - [NSA — Zero Trust Implementation Guidelines (ZIGs, 2026)](https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4496862/nsa-launches-zero-trust-implementation-guidelines-resource-webpage/)
