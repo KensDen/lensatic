@@ -1,12 +1,13 @@
 {
- "about": "The umbrella's shared data: the section names, addresses and one-line descriptions, the hub's tagline, the guides list and the version line. tools/build_hub.py builds the hub and the guides index from it, and tools/build_web.py draws the map's umbrella bar from it. The Zero Trust guide's build and the Agentic SecOps landing and app carry the same bar, and tools/check_umbrella.py holds every page to this file. Counts are never typed here: build_hub.py reads them from content/stack.json, the guides list and the Agentic SecOps sources.",
+ "about": "The umbrella's shared data: the section names, addresses and one-line descriptions, the hub's tagline, the guides list, the version line and the order of the hub's About blocks (aboutBlocks: meta.about fields in content/stack.json; nameStory is the Framework Maps name panel, its heading and the compass photo, rendered from the same content). tools/build_hub.py builds the hub and the guides index from it, and tools/build_web.py draws the map's umbrella bar from it. The Zero Trust guide's build and the Agentic SecOps landing and app carry the same bar, and tools/check_umbrella.py holds every page to this file. Counts are never typed here: build_hub.py reads them from content/stack.json, the guides list and the Agentic SecOps sources.",
  "name": "Lensatic",
  "site": "https://kensden.github.io/lensatic/",
  "repo": "https://github.com/KensDen/lensatic",
- "version": "2.0",
+ "version": "2.0.1",
  "date": "2026-10-18",
  "dateText": "18 October 2026",
  "aboutLabel": "About",
+ "aboutBlocks": ["notAffiliated", "offline", "licensing", "nameStory"],
  "sections": [
   {
    "key": "maps",
