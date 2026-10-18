@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SecOps AI Maturity Model — The Ladder</title>
+<style>
+  :root{
+    --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
+    --border:rgba(160,200,255,0.11); --border2:rgba(160,200,255,0.17);
+    --text:#EAF4FF; --muted:#8FA3C2; --dim:#6B7E9C;
+    --accent:#45C4F4;
+    --l1:#4a9a4a; --l2:#b8a52d; --l3:#e0772e; --l4:#EF4444;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--mono);
+    line-height:1.45; padding:28px 20px 40px;
+    background-image:
+      radial-gradient(1100px 600px at 12% -5%, color-mix(in srgb, var(--l1) 7%, transparent), transparent 60%),
+      radial-gradient(1100px 600px at 90% 0%, color-mix(in srgb, var(--l4) 6%, transparent), transparent 55%),
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:auto,auto,46px 46px,46px 46px;
+  }
+  .poster{max-width:1480px; margin:0 auto}
+  .rev{opacity:0; transform:translateY(10px); animation:up .6s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes up{to{opacity:1; transform:none}}
+
+  header{padding-bottom:18px; margin-bottom:24px; border-bottom:1px solid var(--border2)}
+  h1{font-size:clamp(26px,3.4vw,42px); font-weight:700; letter-spacing:.05em; text-transform:uppercase; line-height:1.05}
+  h1 .a{color:var(--accent)}
+  .subtitle{color:var(--muted); font-size:13px; margin-top:8px}
+  .lead{color:var(--dim); font-size:11px; margin-top:6px; max-width:920px; line-height:1.6}
+
+  /* axis + ladder */
+  .stage{display:grid; grid-template-columns:38px 1fr; gap:14px; align-items:stretch}
+  .yaxis{position:relative; border-right:1px dashed var(--border2)}
+  .yaxis .lab{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) rotate(-90deg);
+    white-space:nowrap; font-size:10px; font-weight:700; letter-spacing:.22em; text-transform:uppercase; color:var(--accent);
+  }
+  .yaxis .up{position:absolute; top:6px; left:50%; transform:translateX(-50%); color:var(--accent); font-size:13px}
+  .yaxis .dn{position:absolute; bottom:6px; left:50%; transform:translateX(-50%); color:var(--dim); font-size:10px; writing-mode:vertical-rl}
+
+  .ladder{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; align-items:end}
+  .step{display:flex; flex-direction:column}
+  .step.s1{padding-top:96px} .step.s2{padding-top:64px} .step.s3{padding-top:32px} .step.s4{padding-top:0}
+
+  .riser{height:6px; border-radius:3px 3px 0 0; margin-bottom:-1px}
+  .s1 .riser{background:var(--l1)} .s2 .riser{background:var(--l2)} .s3 .riser{background:var(--l3)} .s4 .riser{background:var(--l4)}
+
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:6px; padding:13px 14px 14px;
+    flex:1; display:flex; flex-direction:column; position:relative; transition:transform .15s ease, border-color .15s ease;
+  }
+  .s1 .card{border-top:2px solid var(--l1)} .s2 .card{border-top:2px solid var(--l2)}
+  .s3 .card{border-top:2px solid var(--l3)} .s4 .card{border-top:2px solid var(--l4)}
+  .card:hover{transform:translateY(-3px); border-color:var(--border2)}
+
+  .lvl{display:flex; align-items:center; gap:9px; margin-bottom:8px}
+  .lvl .num{
+    font-size:13px; font-weight:700; width:26px; height:26px; border-radius:6px;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--bg);
+  }
+  .s1 .num{background:var(--l1)} .s2 .num{background:var(--l2)} .s3 .num{background:var(--l3)} .s4 .num{background:var(--l4)}
+  .lvl .name{font-size:13.5px; font-weight:700; letter-spacing:.02em; line-height:1.1}
+  .s1 .name{color:var(--l1)} .s2 .name{color:var(--l2)} .s3 .name{color:var(--l3)} .s4 .name{color:var(--l4)}
+
+  .desc{font-size:10.5px; color:var(--muted); line-height:1.5; margin-bottom:10px}
+  .exhead{font-size:8.5px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--dim); margin-bottom:5px}
+  .ex{list-style:none; margin-bottom:11px}
+  .ex li{font-size:9.5px; color:var(--muted); line-height:1.4; padding-left:12px; position:relative; margin-bottom:4px}
+  .ex li::before{content:"▸"; position:absolute; left:0; color:var(--dim)}
+  .sig{margin-top:auto; font-size:9.5px; color:var(--text); line-height:1.48; padding:8px 9px; background:var(--surface2); border-radius:5px; border-left:2px solid var(--border2)}
+  .sig .k{font-size:8px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); display:block; margin-bottom:3px}
+
+  .marker{
+    display:inline-block; margin-top:9px; font-size:8.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    padding:3px 8px; border-radius:4px;
+  }
+  .marker.here{background:color-mix(in srgb, var(--l1) 16%, transparent); color:var(--l1); border:1px solid color-mix(in srgb, var(--l1) 50%, transparent)}
+  .marker.target{background:color-mix(in srgb, var(--l4) 14%, transparent); color:var(--l4); border:1px solid color-mix(in srgb, var(--l4) 50%, transparent)}
+
+  /* balance shift strip */
+  .balance{margin-top:26px; padding-top:18px; border-top:1px solid var(--border2)}
+  .colhead{font-size:10.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); margin-bottom:12px}
+  .bgrid{display:grid; grid-template-columns:120px 1fr; gap:10px 14px; align-items:center}
+  .brow-label{font-size:10px; font-weight:700; color:var(--text); text-transform:uppercase; letter-spacing:.04em}
+  .track{display:grid; grid-template-columns:repeat(4,1fr); gap:8px}
+  .seg{font-size:9.5px; color:var(--muted); padding:7px 9px; background:var(--surface); border:1px solid var(--border); border-radius:5px; line-height:1.35}
+  .seg b{color:var(--text); font-weight:700}
+  .gradbar{grid-column:1/-1; height:7px; border-radius:4px; margin:2px 0 4px;
+    background:linear-gradient(90deg,var(--l1),var(--l2),var(--l3),var(--l4))}
+  .gradlabels{grid-column:1/-1; display:flex; justify-content:space-between; font-size:9px; color:var(--dim); letter-spacing:.04em}
+  .dims{display:flex; flex-wrap:wrap; gap:7px; margin-bottom:10px}
+  .dim-chip{font-size:9.5px; color:var(--text); padding:5px 10px; background:var(--surface); border:1px solid var(--border2); border-radius:14px; letter-spacing:.02em}
+  .dims-note{font-size:9.5px; color:var(--muted); line-height:1.5; max-width:1100px}
+
+  footer{margin-top:24px; padding-top:14px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  footer .l{font-size:10px; color:var(--dim); line-height:1.55; max-width:66%}
+  footer .l b{color:var(--muted)}
+  footer .r{font-size:10px; color:var(--dim); text-align:right}
+  footer .r .badge{display:inline-block; border:1px solid var(--border2); border-radius:4px; padding:3px 8px; color:var(--accent); font-weight:700; letter-spacing:.1em}
+
+  @media (max-width:980px){
+    .ladder{grid-template-columns:1fr; align-items:stretch}
+    .step{padding-top:0 !important}
+    .bgrid{grid-template-columns:1fr} .brow-label{margin-top:6px}
+    .track{grid-template-columns:repeat(2,1fr)}
+    .yaxis{display:none} .stage{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}.card:hover{transform:none}}
+  .copy{margin-top:5px}
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <header class="rev" style="animation-delay:.02s">
+    <h1>SecOps AI <span class="a">Maturity Model</span></h1>
+    <div class="subtitle">The ladder from manual operations to autonomous, adaptive SecOps</div>
+    <div class="lead">Four levels of increasing autonomy. The human role shifts from doer to reviewer to governor; AI moves from assistant to autonomous operator. You don't skip rungs — the continuous purple loop is the engine that climbs them.</div>
+  </header>
+
+  <div class="stage rev" style="animation-delay:.08s">
+    <div class="yaxis">
+      <span class="up">▲</span>
+      <span class="lab">Autonomy &amp; capability</span>
+      <span class="dn">human oversight</span>
+    </div>
+
+    <div class="ladder">
+      <!-- L1 -->
+      <div class="step s1">
+        <div class="riser"></div>
+        <div class="card">
+          <div class="lvl"><span class="num">1</span><span class="name">AI-Assisted</span></div>
+          <div class="desc">Humans do the work; AI gives recommendations and generates content on request.</div>
+          <div class="exhead">In practice</div>
+          <ul class="ex">
+            <li>Claude / ChatGPT for detection rules or IR playbooks</li>
+            <li>Security Copilot for report drafting</li>
+            <li>Natural-language → KQL query generation</li>
+            <li>LLM-assisted phishing-lure analysis</li>
+          </ul>
+          <div class="sig"><span class="k">How you recognize it</span>AI is a research assistant; the workflow stays human-driven. Most Tier-1 SOC/CTOC analysts operate here today.</div>
+          <span class="marker here">◆ Most analysts are here today</span>
+        </div>
+      </div>
+
+      <!-- L2 -->
+      <div class="step s2">
+        <div class="riser"></div>
+        <div class="card">
+          <div class="lvl"><span class="num">2</span><span class="name">AI-Augmented</span></div>
+          <div class="desc">AI handles defined subtasks autonomously inside human-supervised workflows.</div>
+          <div class="exhead">In practice</div>
+          <ul class="ex">
+            <li>SOAR playbooks calling AI APIs for enrichment</li>
+            <li>AI triage scoring in the SIEM alert queue</li>
+            <li>Automated threat-intel summarization</li>
+            <li>AI-suggested detections in the eng pipeline</li>
+          </ul>
+          <div class="sig"><span class="k">How you recognize it</span>AI is embedded in the toolchain; analysts spend less time on low-value tasks; clear human review gates exist.</div>
+        </div>
+      </div>
+
+      <!-- L3 -->
+      <div class="step s3">
+        <div class="riser"></div>
+        <div class="card">
+          <div class="lvl"><span class="num">3</span><span class="name">Agentic Pipelines</span></div>
+          <div class="desc">Multi-step agents own end-to-end workflows with human oversight at key decision points.</div>
+          <div class="exhead">In practice</div>
+          <ul class="ex">
+            <li>Triage agent: alert → enrich → verdict → ticket</li>
+            <li>Hunt agent: hypothesis → query → interpret → branch</li>
+            <li>Red agent: recon → exploit chain → report</li>
+            <li>Purple loop: sim → detect → gap → rule-gen</li>
+          </ul>
+          <div class="sig"><span class="k">How you recognize it</span>Agents handle full case workflows; humans review, approve, and escalate. All agent runs are logged and auditable.</div>
+        </div>
+      </div>
+
+      <!-- L4 -->
+      <div class="step s4">
+        <div class="riser"></div>
+        <div class="card">
+          <div class="lvl"><span class="num">4</span><span class="name">Autonomous SecOps</span></div>
+          <div class="desc">Agents run continuously, self-direct on the threat landscape, and improve controls automatically. Humans set policy and review exceptions.</div>
+          <div class="exhead">In practice</div>
+          <ul class="ex">
+            <li>Continuous purple loop, 24/7 vs. production</li>
+            <li>Self-improving detection: generate → test → promote</li>
+            <li>Hunt focus reallocated from CTI actor activity and AI Incident Database (AIID) trends</li>
+            <li>Autonomous IR for low-risk classes, fully audited</li>
+          </ul>
+          <div class="sig"><span class="k">How you recognize it</span>Posture improves passively; coverage trends up without manual sprints; the human role is governance, policy, and edge cases.</div>
+          <span class="marker target">◆ Target state</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- balance shift -->
+  <div class="balance rev" style="animation-delay:.18s">
+    <div class="colhead">What shifts as you climb</div>
+    <div class="bgrid">
+      <div class="gradbar"></div>
+      <div class="gradlabels"><span>Level 1</span><span>Level 2</span><span>Level 3</span><span>Level 4</span></div>
+
+      <div class="brow-label">Human role</div>
+      <div class="track">
+        <div class="seg"><b>Operator</b> — runs every step</div>
+        <div class="seg"><b>Supervisor</b> — reviews subtasks</div>
+        <div class="seg"><b>Approver</b> — gates decisions</div>
+        <div class="seg"><b>Governor</b> — sets policy, handles edge cases</div>
+      </div>
+
+      <div class="brow-label">AI role</div>
+      <div class="track">
+        <div class="seg"><b>Assistant</b> — answers on request</div>
+        <div class="seg"><b>Subtask handler</b> — enriches &amp; scores</div>
+        <div class="seg"><b>Workflow owner</b> — end-to-end cases</div>
+        <div class="seg"><b>Autonomous operator</b> — self-directs &amp; improves</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- enterprise frame: Accenture + CMU SEI -->
+  <div class="balance rev" style="animation-delay:.21s">
+    <div class="colhead">Nests inside the enterprise frame — Accenture + CMU SEI (Jun 2026)</div>
+    <div class="dims">
+      <span class="dim-chip">Organizational strategy</span>
+      <span class="dim-chip">Workforce &amp; culture</span>
+      <span class="dim-chip">Workflow re-engineering</span>
+      <span class="dim-chip">Risk &amp; governance</span>
+      <span class="dim-chip">Data</span>
+      <span class="dim-chip">Engineering</span>
+      <span class="dim-chip">Operations</span>
+      <span class="dim-chip">Technology ecosystem</span>
+    </div>
+    <div class="dims-note">The research-validated <b>AI Adoption Maturity Model</b> (Accenture + Carnegie Mellon SEI) assesses these eight dimensions toward two goals — organizational change and AI lifecycle engineering — with an assessment tool for baselining. This SecOps ladder is the security-specific climb inside that enterprise frame.</div>
+  </div>
+
+  <footer class="rev" style="animation-delay:.24s">
+    <div class="l"><b>Source:</b> the Agentic SecOps playbook's own Maturity Model. Benchmark progress against external references — Anthropic's three-tier Zero Trust framework (<b>Foundation → Enterprise → Advanced</b>), the SANS 5-stage AI Security Maturity Model, and the Accenture + CMU SEI AI Adoption Maturity Model (above). The Roadmap tab sequences the climb gate-by-gate.<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="r"><span class="badge">AGENTIC SECOPS</span><br><br>Red / Blue / Purple Playbook</div>
+  </footer>
+
+</div>
+</body>
+</html>

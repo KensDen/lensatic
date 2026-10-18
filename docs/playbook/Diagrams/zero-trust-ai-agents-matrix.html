@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zero Trust for AI Agents — Capability Matrix</title>
+<style>
+  :root{
+    --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
+    --border:rgba(160,200,255,0.11); --border2:rgba(160,200,255,0.17);
+    --text:#EAF4FF; --muted:#8FA3C2; --dim:#6B7E9C;
+    --accent:#45C4F4;
+    --foundation:#3B82F6; --enterprise:#10B981; --advanced:#F59E0B; --threat:#EF4444;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--mono);
+    line-height:1.45; padding:28px 20px 40px;
+    background-image:
+      radial-gradient(1200px 600px at 18% -5%, color-mix(in srgb, var(--foundation) 7%, transparent), transparent 60%),
+      radial-gradient(1100px 600px at 85% 0%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 55%),
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:auto,auto,46px 46px,46px 46px;
+    background-position:center,center,center,center;
+  }
+  .poster{max-width:1480px; margin:0 auto}
+  /* staggered reveal */
+  .rev{opacity:0; transform:translateY(10px); animation:up .6s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes up{to{opacity:1; transform:none}}
+
+  /* ---------- header ---------- */
+  header{
+    display:flex; align-items:flex-start; justify-content:space-between; gap:24px;
+    padding-bottom:18px; margin-bottom:22px; border-bottom:1px solid var(--border2);
+    flex-wrap:wrap;
+  }
+  .title-wrap{min-width:280px}
+  h1{
+    font-size:clamp(26px,3.4vw,44px); font-weight:700; letter-spacing:.06em;
+    line-height:1.04; text-transform:uppercase;
+  }
+  h1 .zt{color:var(--text)} h1 .ai{color:var(--accent)}
+  .subtitle{color:var(--muted); font-size:13px; margin-top:8px; letter-spacing:.02em}
+  .tagline-wrap{text-align:right; min-width:240px}
+  .tagline{
+    font-size:clamp(15px,1.6vw,20px); font-style:italic; font-weight:700; color:var(--accent);
+    letter-spacing:.01em;
+  }
+  .source{color:var(--dim); font-size:10.5px; margin-top:7px; letter-spacing:.02em; line-height:1.5}
+  .source b{color:var(--muted); font-weight:700}
+
+  /* ---------- three-rail layout ---------- */
+  .rails{display:grid; grid-template-columns:248px 1fr 252px; gap:18px; align-items:start}
+  .colhead{
+    font-size:10.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:11px; padding-bottom:6px; border-bottom:1px solid var(--border2);
+  }
+  .colhead.red{color:var(--threat)}
+
+  /* principle cards */
+  .pcard{
+    background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--accent);
+    border-radius:5px; padding:10px 12px; margin-bottom:9px;
+  }
+  .pcard .h{font-size:12.5px; font-weight:700; color:var(--text); letter-spacing:.01em}
+  .pcard .b{font-size:10.5px; color:var(--muted); margin-top:4px; line-height:1.5}
+  .pcard.test{border-left-color:var(--advanced); background:linear-gradient(180deg,color-mix(in srgb, var(--advanced) 5%, transparent),var(--surface))}
+  .pcard.test .h{color:var(--advanced)}
+
+  .whynow{margin-top:16px}
+  .stat{display:flex; gap:11px; align-items:baseline; padding:8px 2px; border-bottom:1px dashed var(--border2)}
+  .stat:last-child{border-bottom:none}
+  .stat .n{font-size:17px; font-weight:700; color:var(--foundation); white-space:nowrap; min-width:92px}
+  .stat .d{font-size:10px; color:var(--muted); line-height:1.45}
+
+  /* ---------- matrix ---------- */
+  .matrix-meta{font-size:10.5px; color:var(--dim); margin-bottom:11px; letter-spacing:.02em}
+  .matrix{display:grid; grid-template-columns:128px 1fr 1fr 1fr; gap:6px}
+  .mh{
+    padding:9px 10px 8px; border-radius:5px; background:var(--surface2);
+    border-top:2px solid var(--border2);
+  }
+  .mh .t{font-size:12px; font-weight:700; letter-spacing:.06em; text-transform:uppercase}
+  .mh .s{font-size:9px; color:var(--dim); margin-top:3px; line-height:1.4; font-style:italic}
+  .mh.corner{background:transparent; border-top:none; display:flex; align-items:flex-end}
+  .mh.corner span{font-size:9.5px; color:var(--dim); font-weight:700; letter-spacing:.12em; text-transform:uppercase}
+  .mh.f{border-top-color:var(--foundation)} .mh.f .t{color:var(--foundation)}
+  .mh.e{border-top-color:var(--enterprise)} .mh.e .t{color:var(--enterprise)}
+  .mh.a{border-top-color:var(--advanced)} .mh.a .t{color:var(--advanced)}
+
+  .dom{
+    display:flex; align-items:center; gap:7px; padding:9px 8px;
+    background:var(--surface); border:1px solid var(--border); border-radius:5px;
+    font-size:10.5px; font-weight:700; color:var(--text); line-height:1.25;
+  }
+  .dom .ico{font-size:13px; flex-shrink:0}
+  .cell{
+    padding:9px 10px; background:var(--surface); border:1px solid var(--border); border-radius:5px;
+    font-size:10px; color:var(--muted); line-height:1.46; transition:transform .15s ease, border-color .15s ease, background .15s ease;
+    border-left-width:2px;
+  }
+  .cell.f{border-left-color:color-mix(in srgb, var(--foundation) 55%, transparent)}
+  .cell.e{border-left-color:color-mix(in srgb, var(--enterprise) 55%, transparent)}
+  .cell.a{border-left-color:color-mix(in srgb, var(--advanced) 50%, transparent)}
+  .cell:hover{transform:translateY(-2px); background:var(--surface3); border-color:var(--border2)}
+  .cell b{color:var(--text); font-weight:700}
+  .matrix-note{
+    grid-column:1/-1; margin-top:4px; font-size:10px; color:var(--dim); font-style:italic;
+    padding:7px 10px; border:1px dashed var(--border2); border-radius:5px; text-align:center;
+  }
+  .matrix-note b{color:var(--enterprise); font-style:normal}
+
+  /* threats */
+  .tcard{
+    background:var(--surface); border:1px solid var(--border); border-left:3px solid var(--threat);
+    border-radius:5px; padding:9px 11px; margin-bottom:9px;
+  }
+  .tcard .h{font-size:11.5px; font-weight:700; color:var(--text); display:flex; gap:7px; align-items:baseline}
+  .tcard .h .num{color:var(--threat); font-size:11px}
+  .tcard .b{font-size:9.5px; color:var(--muted); margin-top:4px; line-height:1.48}
+  .rising{
+    margin-top:13px; padding:10px 12px; border:1px solid var(--enterprise); border-radius:5px;
+    background:linear-gradient(180deg,color-mix(in srgb, var(--enterprise) 7%, transparent),transparent);
+    font-size:10px; color:var(--muted); line-height:1.5;
+  }
+  .rising b{color:var(--enterprise)}
+
+  /* ---------- workflow ---------- */
+  .workflow{margin-top:24px; padding-top:18px; border-top:1px solid var(--border2)}
+  .wf-grid{display:grid; grid-template-columns:repeat(8,1fr); gap:8px}
+  .phase{background:var(--surface); border:1px solid var(--border); border-radius:5px; padding:10px 10px 11px; position:relative; overflow:hidden}
+  .phase::before{content:""; position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,var(--accent),transparent)}
+  .phase .n{font-size:10px; font-weight:700; color:var(--accent); letter-spacing:.04em}
+  .phase .h{font-size:11px; font-weight:700; color:var(--text); margin-top:3px; line-height:1.2}
+  .phase .b{font-size:9px; color:var(--dim); margin-top:5px; line-height:1.45}
+  .soar{
+    margin-top:12px; display:flex; gap:12px; align-items:flex-start;
+    background:var(--surface2); border:1px solid var(--border); border-left:3px solid var(--foundation);
+    border-radius:5px; padding:11px 14px;
+  }
+  .soar .lbl{font-size:11px; font-weight:700; color:var(--foundation); letter-spacing:.08em; text-transform:uppercase; white-space:nowrap; padding-top:1px}
+  .soar .tx{font-size:10px; color:var(--muted); line-height:1.5}
+  .soar .tx b{color:var(--text)}
+
+  footer{margin-top:22px; padding-top:14px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  footer .l{font-size:10px; color:var(--dim); line-height:1.55; max-width:62%}
+  footer .l b{color:var(--muted)}
+  footer .r{font-size:10px; color:var(--dim); text-align:right; letter-spacing:.04em}
+  footer .r .badge{display:inline-block; border:1px solid var(--border2); border-radius:4px; padding:3px 8px; color:var(--accent); font-weight:700; letter-spacing:.1em}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:1080px){
+    .rails{grid-template-columns:1fr}
+    .wf-grid{grid-template-columns:repeat(4,1fr)}
+  }
+  @media (max-width:680px){
+    .matrix{grid-template-columns:1fr}
+    .matrix .mh.corner{display:none}
+    .mh{display:flex; align-items:center; gap:8px}
+    .mh .s{margin-top:0}
+    .dom{margin-top:8px}
+    .wf-grid{grid-template-columns:repeat(2,1fr)}
+    .tagline-wrap{text-align:left}
+    header{flex-direction:column}
+  }
+  @media print{
+    body{background:#fff; color:#000; padding:0}
+    .cell:hover{transform:none}
+    .rev{opacity:1; transform:none; animation:none}
+  }
+  .copy{margin-top:5px}
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <header class="rev" style="animation-delay:.02s">
+    <div class="title-wrap">
+      <h1><span class="zt">Zero Trust</span> <span class="ai">for AI Agents</span></h1>
+      <div class="subtitle">A security framework for deploying autonomous AI agents in the enterprise</div>
+    </div>
+    <div class="tagline-wrap">
+      <div class="tagline">"Trust nothing. Verify everything. Assume breach."</div>
+      <div class="source"><b>Framework:</b> Anthropic — <i>Zero Trust for AI Agents</i> (eBook, 2026)<br>Visualization for the Agentic SecOps playbook · controls paraphrased from the eBook</div>
+    </div>
+  </header>
+
+  <div class="rails">
+
+    <!-- ============ LEFT: PRINCIPLES ============ -->
+    <aside class="rev" style="animation-delay:.08s">
+      <div class="colhead">Principles</div>
+
+      <div class="pcard">
+        <div class="h">Never trust, always verify</div>
+        <div class="b">Every access request is authenticated &amp; authorized regardless of origin — a request from inside the network gets the same scrutiny as one from outside.</div>
+      </div>
+      <div class="pcard">
+        <div class="h">Assume breach</div>
+        <div class="b">Design while expecting compromise. Segment by identity and use fine-grained controls so compromising one system doesn't grant access to others.</div>
+      </div>
+      <div class="pcard">
+        <div class="h">Least privilege → least agency</div>
+        <div class="b">OWASP's "least agency" extends least privilege to agents: constrain not just what an agent can access, but what each tool can do, how often, and where.</div>
+      </div>
+      <div class="pcard test">
+        <div class="h">Design test: "impossible, not tedious"</div>
+        <div class="b">Friction-only controls — rate limits, extra hops, non-standard ports, SMS MFA — degrade against agentic attackers with unlimited patience and near-zero per-attempt cost. Prefer a control that removes a capability over one that throttles it.</div>
+      </div>
+
+      <div class="whynow">
+        <div class="colhead">Why now</div>
+        <div class="stat"><span class="n">months&nbsp;→&nbsp;hours</span><span class="d">Frontier AI compresses the vulnerability-to-exploit timeline, at a marginal cost measured in dollars.</span></div>
+        <div class="stat"><span class="n">250 docs</span><span class="d">Enough malicious documents to backdoor LLMs from 600M to 13B parameters — surviving safety training.</span></div>
+        <div class="stat"><span class="n">50% → &lt;2%</span><span class="d">Indirect-injection success after Microsoft's spotlighting clearly delimits untrusted content.</span></div>
+        <div class="stat"><span class="n">95%</span><span class="d">Jailbreak attempts blocked by constitutional classifiers, with minimal over-refusal.</span></div>
+      </div>
+    </aside>
+
+    <!-- ============ CENTER: CAPABILITY MATRIX ============ -->
+    <main class="rev" style="animation-delay:.14s">
+      <div class="colhead">Capability Matrix — 3 Tiers × 7 Domains</div>
+      <div class="matrix-meta">Each tier builds on the one before it — advancing means strengthening controls, not replacing them. "Skip one capability and attackers exploit the gap."</div>
+      <div class="matrix">
+        <!-- header row -->
+        <div class="mh corner"><span>Control&nbsp;domain</span></div>
+        <div class="mh f"><div class="t">Foundation</div><div class="s">minimum viable — the floor has been raised</div></div>
+        <div class="mh e"><div class="t">Enterprise</div><div class="s">target maturity for most organizations</div></div>
+        <div class="mh a"><div class="t">Advanced</div><div class="s">high-stakes / regulated / national security</div></div>
+
+        <!-- 1 identity -->
+        <div class="dom"><span class="ico">🔑</span>Identity &amp; authentication</div>
+        <div class="cell f"><b>Per-agent cryptographic IDs</b> + short-lived IdP tokens (OAuth 2.0, minutes-expiry). No static API keys.</div>
+        <div class="cell e"><b>X.509 certificates</b> with full lifecycle (rotation/revocation); mutual TLS + certificate pinning.</div>
+        <div class="cell a"><b>Hardware-backed identity</b> (HSM/TPM) with remote attestation; hardware-bound credentials.</div>
+
+        <!-- 2 access -->
+        <div class="dom"><span class="ico">🛂</span>Access control &amp; privilege</div>
+        <div class="cell f"><b>RBAC, deny-by-default</b>; static least-privilege roles per agent function.</div>
+        <div class="cell e"><b>ABAC</b> with context-aware policies; dynamic privilege adjustment per task.</div>
+        <div class="cell a"><b>Continuous authorization</b>; JIT/JEA access with automatic expiration.</div>
+
+        <!-- 3 observability -->
+        <div class="dom"><span class="ico">📋</span>Observability &amp; auditing</div>
+        <div class="cell f"><b>Comprehensive action logs</b> (timestamps, context); request IDs linking actions to triggers.</div>
+        <div class="cell e"><b>Immutable audit trails</b> with integrity verification; distributed tracing (OpenTelemetry).</div>
+        <div class="cell a"><b>Real-time SIEM streaming</b> + correlation; full input→output provenance chains.</div>
+
+        <!-- 4 behavioral -->
+        <div class="dom"><span class="ico">📈</span>Behavioral monitoring &amp; response</div>
+        <div class="cell f"><b>Manual baselines</b>; threshold alerts routed through automated first-pass triage.</div>
+        <div class="cell e"><b>Learned baselines</b> + statistical anomaly detection; automatic containment &amp; revocation.</div>
+        <div class="cell a"><b>ML behavioral analysis</b> + drift detection; orchestrated SOAR response playbooks.</div>
+
+        <!-- 5 input/output -->
+        <div class="dom"><span class="ico">🧪</span>Input &amp; output controls</div>
+        <div class="cell f"><b>Input validation</b> + length limits; output filtering for PII/credential patterns.</div>
+        <div class="cell e"><b>Attack-pattern filtering</b>; semantic analysis of outputs before delivery.</div>
+        <div class="cell a"><b>Constitutional classifiers</b> + spotlighting; human-in-the-loop for high-risk actions.</div>
+
+        <!-- 6 integrity -->
+        <div class="dom"><span class="ico">🛠️</span>Integrity &amp; recovery</div>
+        <div class="cell f"><b>Version-controlled configs</b>; documented, tested rollback procedures.</div>
+        <div class="cell e"><b>Signed configurations</b> + deployment verification; automated rollback with health checks.</div>
+        <div class="cell a"><b>Immutable infrastructure</b> + attestation; self-healing with auto-remediation.</div>
+
+        <!-- 7 governance -->
+        <div class="dom"><span class="ico">⚖️</span>AI governance</div>
+        <div class="cell f"><b>Documented AUP &amp; IR policies</b>; address Shadow AI (LLM use without IT approval).</div>
+        <div class="cell e"><b>Formal governance framework</b> with cross-functional stakeholder oversight.</div>
+        <div class="cell a"><b>Continuous enforcement</b> with automated compliance checking in deployment pipelines.</div>
+
+        <div class="matrix-note">Identity comes first — without verifiable identity you can't enforce access, keep meaningful audit trails, or attribute actions. The <b>Foundation floor has risen</b>: static API keys and SMS MFA no longer qualify, even at the entry tier.</div>
+      </div>
+    </main>
+
+    <!-- ============ RIGHT: THREATS ============ -->
+    <aside class="rev" style="animation-delay:.20s">
+      <div class="colhead red">Agentic Threats (OWASP)</div>
+
+      <div class="tcard">
+        <div class="h"><span class="num">1</span>Prompt injection</div>
+        <div class="b">Direct &amp; indirect. LLMs cannot reliably separate informational context from actionable instructions; the user never sees the indirect payload.</div>
+      </div>
+      <div class="tcard">
+        <div class="h"><span class="num">2</span>Tool &amp; resource misuse</div>
+        <div class="b">MCP tool poisoning, rug-pull tool swaps, tool-chaining exfiltration through trusted binaries, and resource-exhaustion loops.</div>
+      </div>
+      <div class="tcard">
+        <div class="h"><span class="num">3</span>Identity &amp; privilege abuse</div>
+        <div class="b">Unscoped privilege inheritance, confused-deputy relays, and memory-based privilege retention across session boundaries.</div>
+      </div>
+      <div class="tcard">
+        <div class="h"><span class="num">4</span>Supply chain &amp; dependencies</div>
+        <div class="b">Poisoned model weights, malicious MCP servers (~100 found in the wild), and runtime dependency-confusion attacks.</div>
+      </div>
+      <div class="tcard">
+        <div class="h"><span class="num">5</span>Memory &amp; context poisoning</div>
+        <div class="b">RAG / vector-DB poisoning, shared-context attacks in multi-tenant setups, and gradual long-term memory drift.</div>
+      </div>
+
+      <div class="rising"><b>The floor keeps rising.</b> Expect today's Advanced tier to become Enterprise standard as the space evolves — and Enterprise to become Foundation. Architect for breach from day one.</div>
+    </aside>
+  </div>
+
+  <!-- ============ WORKFLOW ============ -->
+  <div class="workflow rev" style="animation-delay:.26s">
+    <div class="colhead">Implementation Workflow — 8 Phases</div>
+    <div class="wf-grid">
+      <div class="phase"><div class="n">01</div><div class="h">Identify requirements</div><div class="b">Align security, legal, compliance &amp; business on regulatory and operational goals.</div></div>
+      <div class="phase"><div class="n">02</div><div class="h">Manage supply chain</div><div class="b">AI-BOM, OpenSSF Scorecard, cryptographic signing, vendor assessments.</div></div>
+      <div class="phase"><div class="n">03</div><div class="h">Define agent boundaries</div><div class="b">Unique ID, approved/prohibited actions, least agency, blast radius.</div></div>
+      <div class="phase"><div class="n">04</div><div class="h">Defend prompt injection</div><div class="b">Input isolation, constitutional classifiers, limit the attack surface.</div></div>
+      <div class="phase"><div class="n">05</div><div class="h">Secure tool access</div><div class="b">Allow-listing, parameter validation, sandboxing, approval escalation.</div></div>
+      <div class="phase"><div class="n">06</div><div class="h">Protect credentials</div><div class="b">Short-lived, hardware-bound, per-agent, JIT — never embedded in code.</div></div>
+      <div class="phase"><div class="n">07</div><div class="h">Safeguard memory</div><div class="b">Session isolation, integrity checks at retrieval, retention TTLs.</div></div>
+      <div class="phase"><div class="n">08</div><div class="h">Measure what matters</div><div class="b">Dwell time, coverage, explainability — detect a rogue agent within an hour.</div></div>
+    </div>
+
+    <div class="soar">
+      <div class="lbl">Agentic&nbsp;SOAR</div>
+      <div class="tx">Run defensive operations at the speed autonomous threats demand. <b>Put a model at the front of the alert queue</b> for first-pass triage; automate the bookkeeping — evidence, enrichment, correlation, write-ups — and keep humans on the containment, disclosure, and customer-comms <b>decisions</b>. Map detection coverage to MITRE ATT&amp;CK (prioritize lateral movement &amp; credential access), and rehearse a tabletop for five simultaneous incidents, not one.</div>
+    </div>
+  </div>
+
+  <footer class="rev" style="animation-delay:.30s">
+    <div class="l"><b>Source &amp; accuracy:</b> framework, tiers, domains, threats and phases are from Anthropic's <i>Zero Trust for AI Agents</i> eBook (2026); cell text is paraphrased. Note: Anthropic's short blog summary labels the tiers "Foundation / Advanced / Optimized," but the eBook body — the authoritative implementation tables shown here — uses <b>Foundation / Enterprise / Advanced</b>. This is an original visualization, not Anthropic's official graphic.<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="r"><span class="badge">AGENTIC SECOPS</span><br><br>Red / Blue / Purple Playbook</div>
+  </footer>
+
+</div>
+</body>
+</html>

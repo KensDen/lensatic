@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Security Framework Crosswalk</title>
+<style>
+  :root{
+    --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
+    --border:rgba(160,200,255,0.11); --border2:rgba(160,200,255,0.17);
+    --text:#EAF4FF; --muted:#8FA3C2; --dim:#6B7E9C;
+    --accent:#45C4F4;
+    --nist:#3B82F6; --iso:#45C4F4; --owasp:#ff8c42; --csa:#F07FC0; --cis:#F59E0B;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+  body{
+    background:var(--bg); color:var(--text); font-family:var(--mono);
+    line-height:1.45; padding:28px 20px 40px;
+    background-image:
+      radial-gradient(1100px 600px at 15% -5%, color-mix(in srgb, var(--nist) 6%, transparent), transparent 60%),
+      radial-gradient(1000px 600px at 88% 0%, color-mix(in srgb, var(--csa) 6%, transparent), transparent 55%),
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:auto,auto,46px 46px,46px 46px;
+  }
+  .poster{max-width:1480px; margin:0 auto}
+  .rev{opacity:0; transform:translateY(10px); animation:up .6s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes up{to{opacity:1; transform:none}}
+
+  header{padding-bottom:18px; margin-bottom:22px; border-bottom:1px solid var(--border2)}
+  h1{font-size:clamp(25px,3.3vw,40px); font-weight:700; letter-spacing:.05em; text-transform:uppercase; line-height:1.05}
+  h1 .a{color:var(--accent)}
+  .subtitle{color:var(--muted); font-size:13px; margin-top:8px}
+  .lead{color:var(--dim); font-size:11px; margin-top:6px; max-width:940px; line-height:1.6}
+
+  .colhead{font-size:10.5px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); margin:0 0 12px}
+
+  /* ---------- layer stack ---------- */
+  .layers{margin-bottom:26px}
+  .layer{
+    display:grid; grid-template-columns:172px 1fr; gap:14px; align-items:center;
+    background:var(--surface); border:1px solid var(--border); border-radius:6px;
+    padding:11px 14px; margin-bottom:8px; position:relative;
+  }
+  .layer .ln{font-size:12.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase}
+  .layer .ls{font-size:9px; color:var(--dim); margin-top:3px; line-height:1.4}
+  .layer.l-gov{border-left:3px solid var(--iso)} .layer.l-gov .ln{color:var(--iso)}
+  .layer.l-thr{border-left:3px solid var(--owasp)} .layer.l-thr .ln{color:var(--owasp)}
+  .layer.l-ctl{border-left:3px solid var(--csa)} .layer.l-ctl .ln{color:var(--csa)}
+  .layer.l-ops{border-left:3px solid var(--cis)} .layer.l-ops .ln{color:var(--cis)}
+  .chips{display:flex; flex-wrap:wrap; gap:6px}
+  .chip{font-size:9.5px; font-weight:700; padding:4px 9px; border-radius:4px; border:1px solid var(--border2); background:var(--surface2); letter-spacing:.02em}
+  .chip.nist{color:var(--nist); border-color:color-mix(in srgb, var(--nist) 40%, transparent)}
+  .chip.iso{color:var(--iso); border-color:color-mix(in srgb, var(--iso) 40%, transparent)}
+  .chip.owasp{color:var(--owasp); border-color:color-mix(in srgb, var(--owasp) 40%, transparent)}
+  .chip.csa{color:var(--csa); border-color:color-mix(in srgb, var(--csa) 40%, transparent)}
+  .chip.cis{color:var(--cis); border-color:color-mix(in srgb, var(--cis) 40%, transparent)}
+  .chip.atlas{color:var(--muted)}
+  .flow{text-align:center; color:var(--dim); font-size:13px; margin:-3px 0 5px}
+
+  /* ---------- reference matrix ---------- */
+  .matrix{display:grid; grid-template-columns:150px 110px 1.4fr 1.1fr; gap:6px}
+  .mh{font-size:9px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--dim); padding:6px 9px}
+  .fw{display:flex; flex-direction:column; gap:2px; padding:11px 11px; background:var(--surface2); border-radius:5px; border-left:3px solid var(--border2)}
+  .fw .nm{font-size:12px; font-weight:700; line-height:1.15}
+  .fw .mt{font-size:9px; color:var(--dim)}
+  .fw.nist{border-left-color:var(--nist)} .fw.nist .nm{color:var(--nist)}
+  .fw.iso{border-left-color:var(--iso)} .fw.iso .nm{color:var(--iso)}
+  .fw.owasp{border-left-color:var(--owasp)} .fw.owasp .nm{color:var(--owasp)}
+  .fw.csa{border-left-color:var(--csa)} .fw.csa .nm{color:var(--csa)}
+  .fw.cis{border-left-color:var(--cis)} .fw.cis .nm{color:var(--cis)}
+  .cell{padding:11px 11px; background:var(--surface); border:1px solid var(--border); border-radius:5px; font-size:9.5px; color:var(--muted); line-height:1.5}
+  .cell b{color:var(--text); font-weight:700}
+  .roleb{display:inline-block; font-size:8.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; padding:2px 7px; border-radius:3px; margin-bottom:5px}
+  .roleb.gov{background:color-mix(in srgb, var(--iso) 12%, transparent); color:var(--iso)}
+  .roleb.thr{background:color-mix(in srgb, var(--owasp) 12%, transparent); color:var(--owasp)}
+  .roleb.ctl{background:color-mix(in srgb, var(--csa) 12%, transparent); color:var(--csa)}
+  .roleb.ops{background:color-mix(in srgb, var(--cis) 12%, transparent); color:var(--cis)}
+
+  /* ---------- mappings ---------- */
+  .maps{margin-top:24px; padding-top:18px; border-top:1px solid var(--border2)}
+  .mapgrid{display:grid; grid-template-columns:repeat(2,1fr); gap:9px}
+  .mapc{background:var(--surface); border:1px solid var(--border); border-radius:5px; padding:10px 12px; font-size:10px; color:var(--muted); line-height:1.5}
+  .mapc b{color:var(--text)} .mapc .x{color:var(--accent); font-weight:700}
+
+  footer{margin-top:24px; padding-top:14px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+  footer .l{font-size:10px; color:var(--dim); line-height:1.55; max-width:66%}
+  footer .l b{color:var(--muted)}
+  footer .r{font-size:10px; color:var(--dim); text-align:right}
+  footer .r .badge{display:inline-block; border:1px solid var(--border2); border-radius:4px; padding:3px 8px; color:var(--accent); font-weight:700; letter-spacing:.1em}
+
+  @media (max-width:980px){
+    .layer{grid-template-columns:1fr; gap:8px}
+    .matrix{grid-template-columns:1fr}
+    .matrix .mh{display:none}
+    .fw{margin-top:8px}
+    .mapgrid{grid-template-columns:1fr}
+  }
+  @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
+  .copy{margin-top:5px}
+</style>
+</head>
+<body>
+<div class="poster">
+
+  <header class="rev" style="animation-delay:.02s">
+    <h1>AI Security <span class="a">Framework Crosswalk</span></h1>
+    <div class="subtitle">How the major frameworks fit together — govern, model the threats, select controls, harden &amp; operate</div>
+    <div class="lead">These frameworks aren't competitors; they're layers. Governance standards sit on top, threat models tell you what to defend, control catalogs say what to implement, and hardening baselines make it real. Most pair explicitly with one another.</div>
+  </header>
+
+  <!-- LAYER STACK -->
+  <div class="layers rev" style="animation-delay:.08s">
+    <div class="colhead">How they layer</div>
+
+    <div class="layer l-gov">
+      <div><div class="ln">① Govern</div><div class="ls">Org-level accountability &amp; risk management</div></div>
+      <div class="chips">
+        <span class="chip iso">ISO/IEC 42001 (AI management system)</span>
+        <span class="chip nist">NIST AI RMF — Govern function</span>
+      </div>
+    </div>
+    <div class="flow">▾</div>
+    <div class="layer l-thr">
+      <div><div class="ln">② Model the threats</div><div class="ls">Enumerate what can go wrong</div></div>
+      <div class="chips">
+        <span class="chip owasp">OWASP LLM Top 10 + Agentic (ASI)</span>
+        <span class="chip atlas">MITRE ATLAS (adversary techniques)</span>
+        <span class="chip csa">CSA MAESTRO (7-layer method)</span>
+      </div>
+    </div>
+    <div class="flow">▾</div>
+    <div class="layer l-ctl">
+      <div><div class="ln">③ Select controls</div><div class="ls">Choose &amp; specify auditable safeguards</div></div>
+      <div class="chips">
+        <span class="chip csa">CSA AI Controls Matrix (243 controls; 247 in v1.1)</span>
+        <span class="chip nist">NIST 800-53 / CSF 2.0</span>
+        <span class="chip iso">ISO 42001 Annex controls</span>
+      </div>
+    </div>
+    <div class="flow">▾</div>
+    <div class="layer l-ops">
+      <div><div class="ln">④ Harden &amp; operate</div><div class="ls">Implement the basics well; enforce Zero Trust</div></div>
+      <div class="chips">
+        <span class="chip cis">CIS Controls v8.1 + Benchmarks</span>
+        <span class="chip nist">NIST SP 800-207 (Zero Trust)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- REFERENCE MATRIX -->
+  <div class="rev" style="animation-delay:.16s">
+    <div class="colhead">Reference matrix</div>
+    <div class="matrix">
+      <div class="mh">Framework</div><div class="mh">Maintainer</div><div class="mh">What it gives you</div><div class="mh">Connects with</div>
+
+      <div class="fw nist"><span class="nm">NIST AI RMF</span><span class="mt">+ AI 100-2, CSF 2.0, 800-207</span></div>
+      <div class="cell">NIST</div>
+      <div class="cell"><span class="roleb gov">Govern</span><b>Govern / Map / Measure / Manage</b> risk functions, an adversarial-ML taxonomy (AI 100-2), and the U.S. federal control spine.</div>
+      <div class="cell">Governance peer to <b>ISO 42001</b>; <b>AICM</b> maps to it; <b>CIS</b> maps to its CSF.</div>
+
+      <div class="fw iso"><span class="nm">ISO/IEC 42001</span><span class="mt">ISO/IEC · certifiable</span></div>
+      <div class="cell">ISO/IEC</div>
+      <div class="cell"><span class="roleb gov">Govern</span>The <b>AI management system</b> standard — the "ISO 27001 for AI." A certifiable, organization-wide governance backbone.</div>
+      <div class="cell">Pairs with <b>NIST AI RMF</b>; <b>AICM</b> maps to it. (Anthropic reports it was among the first AI firms certified.)</div>
+
+      <div class="fw owasp"><span class="nm">OWASP GenAI</span><span class="mt">LLM Top 10 + ASI</span></div>
+      <div class="cell">OWASP</div>
+      <div class="cell"><span class="roleb thr">Threats</span>The shared threat <b>vocabulary</b>: LLM Top 10 (app-level) + Agentic Security Initiative (ASI Top 10). Also AI-BOM, and coined "least agency."</div>
+      <div class="cell">Pairs with <b>ATLAS</b> techniques; its multi-agent guide is <b>built on MAESTRO</b>.</div>
+
+      <div class="fw csa"><span class="nm">CSA MAESTRO</span><span class="mt">Cloud Security Alliance</span></div>
+      <div class="cell">CSA</div>
+      <div class="cell"><span class="roleb thr">Threats</span><span class="roleb ctl">Controls</span><b>7-layer threat-modeling</b> method for agents, plus the <b>AI Controls Matrix</b> (243 controls / 18 domains; 247 in v1.1) and a STAR-for-AI path.</div>
+      <div class="cell"><b>AICM</b> maps to ISO 42001 + NIST AI RMF + BSI AIC4; feeds the <b>OWASP</b> multi-agent guide.</div>
+
+      <div class="fw cis"><span class="nm">CIS Controls</span><span class="mt">+ CIS Benchmarks</span></div>
+      <div class="cell">CIS</div>
+      <div class="cell"><span class="roleb ops">Operate</span>The prioritized <b>hardening baseline</b>: 18 Critical Security Controls (v8.1) and CIS Benchmarks for config hardening — the operational floor under every AI control.</div>
+      <div class="cell">Maps to <b>NIST CSF</b>; underpins the Zero Trust controls in the other layers.</div>
+    </div>
+  </div>
+
+  <!-- KEY MAPPINGS -->
+  <div class="maps rev" style="animation-delay:.24s">
+    <div class="colhead">Key mappings to remember</div>
+    <div class="mapgrid">
+      <div class="mapc">CSA <b>AI Controls Matrix</b> <span class="x">→</span> ISO 42001 + NIST AI RMF + BSI AIC4</div>
+      <div class="mapc">OWASP <b>multi-agent threat-modeling guide</b> <span class="x">←</span> built on CSA MAESTRO</div>
+      <div class="mapc"><b>CIS Controls</b> <span class="x">→</span> NIST CSF 2.0 (and most major frameworks)</div>
+      <div class="mapc"><b>NIST SP 800-207</b> Zero Trust <span class="x">→</span> underpins Anthropic's Zero Trust for AI Agents</div>
+    </div>
+  </div>
+
+  <footer class="rev" style="animation-delay:.30s">
+    <div class="l"><b>Source &amp; accuracy:</b> roles and relationships are drawn from the playbook's Frameworks tab and study guide. This is a conceptual crosswalk — it shows each framework's layer and documented pairings, <b>not</b> a control-by-control mapping. Confirm specific control mappings against each source before citing formally.<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="r"><span class="badge">AGENTIC SECOPS</span><br><br>Red / Blue / Purple Playbook</div>
+  </footer>
+
+</div>
+</body>
+</html>

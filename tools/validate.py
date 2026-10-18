@@ -39,7 +39,12 @@ README = ROOT / "README.md"
 SWEEP_FILE_CONTENT = CONTENT / "_sweep.txt"
 SWEEP_FILE_TOOLS = ROOT / "tools" / "sweep.txt"
 SWEEP_SOURCE = ROOT / "tools" / "sweep_source.json"
-SWEEP_SCOPES = ["content", "web", "ios", "critique", "docs", "store", "README.md", "LICENSE"]
+SWEEP_SCOPES = ["content", "web", "ios", "critique", "docs", "store", "hub", "README.md", "LICENSE"]
+# Lensatic 2.0 (owner's decisions 1 and 4, 18 October 2026): the Zero Trust guide and the Agentic SecOps playbook moved in
+# with their own builds and checks. Their trees (guides/zero-trust/, playbook/) are outside the scopes above, and their
+# published copies under docs/ are left out of this sweep too: their text is theirs, held by their own checks, and the
+# owner's private sweep list runs across everything in tools/check_umbrella.py.
+SWEEP_SKIP = ("docs/guides/zero-trust/", "docs/playbook/")
 # The two license files, each pinned by its SHA-256. LICENSE is the all-rights-reserved notice for Lensatic's own code
 # and text, in the words the owner ruled on 27 Sep 2026 (session 7B), with that date filled in; it is in force from
 # content 0.7.0 and is authored text, so it passes every check README.md passes. web/src/fonts/OFL.txt is IBM's own
@@ -634,7 +639,7 @@ def main() -> int:
     scanned = 0
     for scope in SWEEP_SCOPES:
         for p in iter_text_files(ROOT / scope):
-            if p.resolve() in exempt:
+            if p.resolve() in exempt or p.relative_to(ROOT).as_posix().startswith(SWEEP_SKIP):
                 continue
             text = read_text(p)
             if text is None:
@@ -649,7 +654,7 @@ def main() -> int:
                 for probe, t in probes:
                     if probe in line:
                         errs.append(f"{rel}:{ln}: contains sweep term #{terms.index(t) + 1}" + ("" if probe == t else " (rot13 form)"))
-    rep.check("sweep list clean across content/, web/, ios/, critique/, docs/, store/, README.md, LICENSE", errs,
+    rep.check("sweep list clean across content/, web/, ios/, critique/, docs/ (bar the moved sections' copies), store/, hub/, README.md, LICENSE", errs,
               f"{scanned} files, {len(terms)} terms, loaded from {source_desc}")
 
     # 10. em dash
@@ -678,7 +683,9 @@ def main() -> int:
     errs = []
     lower_hits = []
     process_hits = []
-    for p in list(iter_text_files(CONTENT)) + list(iter_text_files(CRITIQUE)) + [README, LICENSE_CODE, LICENSE_FONTS]:
+    # Lensatic 2.0 (owner's decision 1, 18 October 2026): the forbidden word is now the name of a Lensatic section, which the
+    # README's top section must name, so README.md left this check; content/, critique/, LICENSE and the font licence stay
+    for p in list(iter_text_files(CONTENT)) + list(iter_text_files(CRITIQUE)) + [LICENSE_CODE, LICENSE_FONTS]:
         if not p.exists():
             continue
         text = read_text(p)
@@ -693,7 +700,7 @@ def main() -> int:
                 for w in PROCESS_WORDS:
                     if w in line.lower():
                         process_hits.append(f"{p.relative_to(ROOT)}:{ln}: {w!r}")
-    rep.check("no occurrence of the forbidden word in content/, critique/, README.md, LICENSE or web/src/fonts/OFL.txt", errs)
+    rep.check("no occurrence of the forbidden word in content/, critique/, LICENSE or web/src/fonts/OFL.txt", errs)
     if lower_hits:
         rep.info(f"lower-case generic use of the word (allowed) at: {', '.join(lower_hits)}")
     rep.check("no planning vocabulary in content/ or LICENSE", process_hits)
