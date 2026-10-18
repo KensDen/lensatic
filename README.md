@@ -17,6 +17,15 @@ A field reference for red, blue, and purple teaming in the age of agentic AI: 87
 | [Diagrams](https://kensden.github.io/agentic-secops-playbook/#diagrams) | Sixteen standalone posters, fourteen of them also embedded in the app. |
 | [Validation](Validation/) | The battery that keeps everything above in lockstep. |
 
+## Version history
+
+- v5.1, 27 Sep 2026: public edition, all rights reserved. New content and study guide self-checks. Fixes through 14 Oct 2026 added Zero Trust for AI sources and talks, links to the Zero Trust Field Guide, and glossary and emblem fixes.
+- v5.0, 25 Sep 2026: first public edition. The playbook, deck, study guide and executive summary, rebuilt for publication.
+- v4.0, 4 Aug 2026: implementation steps for 78 of the 85 recommended actions, each linked to its sources. The Reference Index grows to 210 entries.
+- v3.0, 16 Jul 2026: visual redesign, with dark and light themes and all 16 diagrams retinted.
+- v2.0, 15 Jul 2026: a full content cycle after a deep quality review. 85 recommended actions, 195 indexed entries, 16 diagrams.
+- v1.0, 2 Jul 2026: first edition.
+
 ## Go deeper
 
 [Zero Trust Field Guide](https://kensden.github.io/zero-trust-field-guide/) is my companion study guide: an eight-week plan with a shared Zero Trust core (NIST SP 800-207 and the CISA Zero Trust Maturity Model), then DoW, federal civilian and private-sector tracks, with one-page quick references. Public sources only; it links back here for the agentic view.
