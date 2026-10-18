@@ -23,7 +23,7 @@ A compass for cyber frameworks
 ## Promotional Text (`promotionalText`)
 
 ```text
-Federal cyber frameworks are thick woods. Lensatic Cyber is the compass: find where you stand, see which framework applies, and take a bearing on your next waypoint. 🧭
+Public sector cyber frameworks are thick woods. Lensatic is the compass: find where you stand, see which framework applies, and take a bearing on your next waypoint. 🧭
 ```
 
 168 characters (limit 170)

@@ -46,7 +46,7 @@ DOCS = ROOT / "docs"
 
 # what each moved section publishes: everything its pages link to, nothing from its build or validation trees
 ZT_FILES = ("index.html", "icon.svg", "icon-512.png", "apple-touch-icon.png", "favicon-32.png", "social-card.png")
-ZT_PDF = re.compile(r"^\d{8}_ZT_(Study_Guide|Quick_Reference_[A-Za-z_]+)_v\d+\.\d+\.pdf$")
+ZT_PDF = re.compile(r"^\d{8}_ZT_(Study_Guide|Quick_Reference_[A-Za-z_]+)_v\d+\.\d+(?:\.\d+)?\.pdf$")
 PLAYBOOK_FILES = ("index.html", "social-card.png", "Playbook/index.html")
 PLAYBOOK_DIRS = ("Documents", "Deck", "Diagrams")
 
