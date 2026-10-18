@@ -31,7 +31,7 @@
 3. **Memory & context isolation**: memory, hooks, and retrieved context are attack surface that persists across sessions.
 4. **Human-in-the-loop**: gate consequential actions on human judgment.
 5. **Output validation & guardrails**: verify before acting; enforcement hot-updateable, not static.
-6. **Monitoring & observability**: log agent reasoning and actions, and expose them, visible reasoning is what earns trust.
+6. **Monitoring & observability**: log agent reasoning and actions, and expose them. Visible reasoning is what earns trust.
 7. **Multi-agent trust boundaries**: treat inter-agent messages as untrusted; contain cascading failures.
 8. **Data protection**: data is the new perimeter; propagate identity, don't over-share.
 9. **Authorization lives outside the model**: the user, the agent and the delegated scope go to a PDP on every tool call (CoSAI, Zero Trust for AI Systems).
