@@ -2,6 +2,8 @@
 
 # Zero Trust
 
+Public edition v2.8.3, 18 October 2026.
+
 A Zero Trust study guide and one-page quick references for anyone leading or learning Zero Trust: a shared core, then DoW, federal civilian and private-sector tracks.
 
 **Open it:** https://kensden.github.io/lensatic/guides/zero-trust/
@@ -11,10 +13,10 @@ A Zero Trust study guide and one-page quick references for anyone leading or lea
 | | |
 |---|---|
 | [Web page](index.html) | The study guide, the three Quick References and the grouped Sources list on one phone-first page, in light and dark themes, with a track switcher at the top. |
-| [Study guide (PDF)](20261018_ZT_Study_Guide_v2.8.2.pdf) | The printable guide, core and all three tracks: US Letter, 26 pages, with page numbers. |
-| [Quick Reference: DoW (PDF)](20261018_ZT_Quick_Reference_DoW_v2.8.2.pdf) | The DoW job aid on one US Letter page. |
-| [Quick Reference: Federal civilian (PDF)](20261018_ZT_Quick_Reference_Federal_Civilian_v2.8.2.pdf) | The federal civilian job aid on one US Letter page. |
-| [Quick Reference: Private sector (PDF)](20261018_ZT_Quick_Reference_Private_Sector_v2.8.2.pdf) | The private-sector job aid on one US Letter page. |
+| [Study guide (PDF)](20261018_ZT_Study_Guide_v2.8.3.pdf) | The printable guide, core and all three tracks: US Letter, 26 pages, with page numbers. |
+| [Quick Reference: DoW (PDF)](20261018_ZT_Quick_Reference_DoW_v2.8.3.pdf) | The DoW job aid on one US Letter page. |
+| [Quick Reference: Federal civilian (PDF)](20261018_ZT_Quick_Reference_Federal_Civilian_v2.8.3.pdf) | The federal civilian job aid on one US Letter page. |
+| [Quick Reference: Private sector (PDF)](20261018_ZT_Quick_Reference_Private_Sector_v2.8.3.pdf) | The private-sector job aid on one US Letter page. |
 | [Verification record](VERIFICATION.md) | What was checked, against which primary source and page, and what was corrected, for v1.0, v2.0 and v2.2. |
 | [License](LICENSE) | The all-rights-reserved notice. |
 
@@ -40,4 +42,4 @@ Third-party material keeps its own terms. Third-party names are trademarks of th
 
 A personal project: views are my own and do not represent any employer or government organization.
 
-Built by Ken Connell with Claude and Claude Code.
+Built with Claude and Claude Code, reviewed by a human who owns the mistakes.
