@@ -138,7 +138,7 @@
   "notice": "© 2026 Ken Connell. All rights reserved. Built with Claude and Claude Code, reviewed by a human who owns the mistakes."
  },
  "current_version": {
-  "_about": "Round M. The release version the app's header badge (the pill before the theme toggle) states. statics_check 21 fails unless the pill reads exactly this in the JSX and in Playbook/index.html, so a release updates this entry and the pill together.",
+  "_about": "Round M. The release version the app's header badge (the pill that ends the title row) states. statics_check 21 fails unless the pill reads exactly this in the JSX and in Playbook/index.html, so a release updates this entry and the pill together.",
   "version": "v5.3.0"
  }
 }

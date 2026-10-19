@@ -33,7 +33,7 @@ Public sector cyber frameworks are thick woods. Lensatic is the compass: find wh
 ```text
 The public sector cyber framework landscape is thick woods: overlapping rules, shifting requirements, and a dozen trails that all look alike. Lensatic Cyber is the compass that shows where you stand and which way to head next. 🧭
 
-Lensatic Cyber is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.
+Framework Maps is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.
 
 Framework Maps is a guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.
 

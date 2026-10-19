@@ -6,6 +6,8 @@ Writes, from sources inside this repository only:
   docs/guides/index.html     the guides index: one tile per guide (Zero Trust is the first)
   docs/shared/lensatic.css   hub/lensatic.css byte for byte, the field system's one shared file
   docs/sitemap.xml           the hub, the map, the guides index, the Zero Trust guide, the Playbook landing and app
+  docs/404.html              the page GitHub Pages serves for a missing address under /lensatic/: the bar, a line and a link
+                             to the hub, every link absolute because it is served at any depth (gauntlet question 33)
   docs/guides/zero-trust/    the Zero Trust guide's published files, copied from guides/zero-trust/ byte for byte
   docs/playbook/             the Agentic SecOps landing, app, documents, deck, diagrams and card, copied from playbook/
 
@@ -130,17 +132,19 @@ def bar(s: dict, root: str, active: str | None, brand_mark: bool = True) -> str:
     return bw.umbrella_bar(s, root, active, brand_mark)
 
 
-def footer(s: dict, d: dict, root: str, licence: str | None = None) -> str:
+def footer(s: dict, d: dict, root: str, licence: str | None = None, fonts: bool = False) -> str:
     """The shared footer: the version line, the policy, support and source links, and (Lensatic 2.0.2, gauntlet question 33)
     one rights line, "Copyright 2026 Ken Connell. All rights reserved.", linked to the root LICENSE, or to a section's
-    own notice where it has one (the Zero Trust guide passes its LICENSE)."""
+    own notice where it has one (the Zero Trust guide passes its LICENSE). With fonts, the rights line is followed by the
+    typefaces' licence, for a page that names it nowhere else (the guides index, gauntlet question 30)."""
     L = d["ui"]["labels"]
     lic = licence or f'{s["repo"]}/blob/main/LICENSE'
     return ('<footer class="lx-foot"><div class="lx-foot-in">'
             f'<p class="lx-version">{esc(s["name"])} {esc(s["version"])}, {esc(s["dateText"])}</p>'
             f'<ul><li><a href="{root}privacy.html">{esc(L["pagesPrivacy"])}</a></li><li><a href="{root}support.html">{esc(L["pagesSupport"])}</a></li>'
             f'<li><a href="{esc(s["repo"])}">{esc(L["sourceCode"])}</a></li></ul></div>'
-            f'<div class="lx-foot-in"><p class="lx-copy">{esc(s["rights"])} <a href="{esc(lic)}">{esc(s["rightsLink"])}</a>.</p></div></footer>')
+            f'<div class="lx-foot-in"><p class="lx-copy">{esc(s["rights"])} <a href="{esc(lic)}">{esc(s["rightsLink"])}</a>.</p>'
+            + (f'<p class="lx-copy">{esc(s["labels"]["fontsLine"])}.</p>' if fonts else "") + '</div></footer>')
 
 
 def styles() -> str:
@@ -273,8 +277,27 @@ def guides_page(s: dict, d: dict) -> str:
     listing = (f'<section class="lx-wrap lx-section" aria-labelledby="guides-h"><h2 id="guides-h" class="lx-vh">{esc(sec["name"])}</h2>'
                f'<ul class="lx-tiles">{"".join(tiles)}</ul></section>\n')
     body = (f'<body class="lx-page lx-guides">\n<a class="lx-skip" href="#main">{r.label("skip")}</a>\n{bar(s, "../", "guides")}\n<main id="main">\n'
-            f'{fu.section(top)}{fu.section(listing)}</main>\n{footer(s, d, "../")}\n</body>\n</html>\n')
+            f'{fu.section(top)}{fu.section(listing)}</main>\n{footer(s, d, "../", fonts=True)}\n</body>\n</html>\n')
     return head(s, f'{s["name"]} · {sec["name"]}', sec["line"], s["site"] + sec["path"], card_alt(s)) + body
+
+
+def not_found_page(s: dict, d: dict) -> str:
+    """docs/404.html: GitHub Pages serves it for any missing address under the site, at that address, so every link and
+    the bar's root are absolute. Not in the sitemap, and marked noindex."""
+    r = bw.Renderer(d, "")
+    nf, root = s["notFound"], s["site"]
+    title = f'{s["name"]} · {nf["title"]}'
+    head_html = ("<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n"
+                 "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n"
+                 "<meta name=\"color-scheme\" content=\"light dark\">\n<meta name=\"referrer\" content=\"no-referrer\">\n"
+                 f"<meta name=\"robots\" content=\"noindex\">\n<link rel=\"icon\" href=\"{bw.favicon()}\">\n<title>{esc(title)}</title>\n"
+                 f"{bw.theme_head()}\n<style>\n{styles()}\n</style>\n</head>\n")
+    top = (f'<header class="lx-wrap lx-head">{tile("lx-mark lx-tile")}<p class="lx-eyebrow">{esc(nf["eyebrow"])}</p>'
+           f'<h1>{esc(nf["title"])}</h1><p class="lx-standfirst">{esc(nf["line"])}</p>'
+           f'<p class="lx-actions"><a class="lx-btn lx-primary" href="{esc(root)}">{esc(nf["back"])}</a></p></header>\n')
+    body = (f'<body class="lx-page">\n<a class="lx-skip" href="#main">{r.label("skip")}</a>\n{bar(s, root, None)}\n<main id="main">\n'
+            f'{top}</main>\n{footer(s, d, root)}\n</body>\n</html>\n')
+    return head_html + body
 
 
 def sitemap(s: dict) -> str:
@@ -305,7 +328,7 @@ def published() -> dict[str, Path]:
 def build(docs: Path) -> list[str]:
     s, d = site(), stack()
     written = {"index.html": hub_page(s, d).encode("utf-8"), "guides/index.html": guides_page(s, d).encode("utf-8"),
-               "sitemap.xml": sitemap(s).encode("utf-8")}
+               "sitemap.xml": sitemap(s).encode("utf-8"), "404.html": not_found_page(s, d).encode("utf-8")}
     for rel, src in published().items():
         if not src.is_file():
             sys.exit(f"build_hub: {src.relative_to(ROOT)} is missing")

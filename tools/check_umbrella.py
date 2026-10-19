@@ -43,10 +43,11 @@ DOCS = ROOT / "docs"
 TMP = ROOT / ".tmp"
 DASH = re.compile("[" + chr(0x2013) + chr(0x2014) + "]")
 UMBRELLA_WRITTEN = ["hub/lensatic.css", "hub/site.json", "hub/DESIGN.md", "tools/build_hub.py", "tools/apply_chrome.py",
-                    "tools/check_umbrella.py", "docs/index.html", "docs/guides/index.html", "docs/shared/lensatic.css", "docs/sitemap.xml"]
+                    "tools/check_umbrella.py", "docs/index.html", "docs/guides/index.html", "docs/shared/lensatic.css", "docs/sitemap.xml",
+                    "docs/404.html"]
 SHARED = ("bg", "bg-2", "fg", "fg-2", "line", "line-strong", "accent", "accent-fg", "link", "focus", "bad", "tile-bg", "tile-fg")
 NO_REMOTE = ["docs/index.html", "docs/guides/index.html", "docs/maps/index.html", "docs/privacy.html", "docs/support.html",
-             "docs/guides/zero-trust/index.html"]
+             "docs/guides/zero-trust/index.html", "docs/404.html"]
 
 
 def block(css: str, selector: str) -> dict[str, str]:
@@ -150,6 +151,7 @@ def main() -> int:
     head = bw.theme_head()
     for rel, page in (("docs/index.html", (DOCS / "index.html").read_text(encoding="utf-8")),
                       ("docs/guides/index.html", (DOCS / "guides" / "index.html").read_text(encoding="utf-8")),
+                      ("docs/404.html", (DOCS / "404.html").read_text(encoding="utf-8")),
                       ("web/lensatic.html", wrapper), ("guides/zero-trust/index.html", zt),
                       ("playbook/index.html", (ROOT / "playbook" / "index.html").read_text(encoding="utf-8")),
                       ("playbook/Playbook/index.html", (ROOT / "playbook" / "Playbook" / "index.html").read_text(encoding="utf-8"))):
@@ -229,7 +231,7 @@ def main() -> int:
         text = p.read_text(encoding="utf-8")
         for m in re.finditer(r"url\(\s*['\"]?(?:https?:)?//|@import\s", text):
             errs.append(f"{rel}: {text[m.start():m.start() + 40]!r}")
-    rep.check("loads: the hub, the guides index, the map, privacy, support and the Zero Trust guide load nothing from another origin", errs,
+    rep.check("loads: the hub, the guides index, the map, privacy, support, the Zero Trust guide and the 404 page load nothing from another origin", errs,
               f"{len(NO_REMOTE)} pages")
 
     # ---- dashes

@@ -2,7 +2,7 @@
 # Lensatic battery: runs the validator and the repo-level checks. Exit 0 = green.
 set -uo pipefail
 cd "$(dirname "$0")/.."
-# temporary files stay inside the repo (Session rules in README.md): Python and Node honor TMPDIR, and .tmp/ is gitignored
+# temporary files stay inside the repo (Session rules in CONTRIBUTING.md): Python and Node honor TMPDIR, and .tmp/ is gitignored
 mkdir -p .tmp
 export TMPDIR="$(pwd)/.tmp/"
 export PYTHONDONTWRITEBYTECODE=1
@@ -51,7 +51,7 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   else
     echo "PASS  no sweep-term file is tracked"
   fi
-  # containment (Session rules in README.md): git status shows only repo paths, nothing stray, and the tools name no path outside the repo
+  # containment (Session rules in CONTRIBUTING.md): git status shows only repo paths, nothing stray, and the tools name no path outside the repo
   STRAY="$(git status --porcelain --untracked-files=all | grep '^??' | grep -v '^?? handoffs/' || true)"
   CHANGED="$(git status --porcelain | grep -vc '^??' || true)"
   if [ -n "$STRAY" ]; then
