@@ -97,7 +97,7 @@
   {"check": "P08", "label": "OWASP NHI Top 10 (NHI1)", "words": ["nhi1"], "reason": "the first item of the linked list"},
   {"check": "P08", "label": "CSA · NIST Gödel-Proof Note, Jun 2026", "words": ["note"], "reason": "the genre of the linked page (a CSA research note), not a quoted title"},
   {"check": "P03", "file": "Documents/Adversary-Emulation-Concept-Brief.docx", "phrase": "Discussion draft, June 2026", "reason": "the brief's own status line, set by its author"},
-  {"check": "P04", "phrase": "“design”, “run”, “analyse”, “understand”", "reason": "I-D002 A: the record's own loop stage names (AISI's Engineering Playbook), quoted"},
+  {"check": "P04", "phrase": "\"design\", \"run\", \"analyse\", \"understand\"", "reason": "I-D002 A: the record's own loop stage names (AISI's Engineering Playbook), quoted"},
   {"check": "P04", "phrase": "Oxford Programme for Cyber and Technology Policy", "reason": "I-D003 A: a proper name (OxCTP, at the Blavatnik School of Government, University of Oxford), per the report's front matter, checked Sep 27, 2026"},
   {"check": "P11", "regex": "[Tt]he first joint Five Eyes guidance in this index", "reason": "I-D008: scoped to this index; no authoring agency's release states the priority (checked Sep 27, 2026)"},
   {"check": "P11", "phrase": "the first vendor-published, practitioner-grade answer this tab has found", "reason": "I-D009 A: scoped to what this tab has found"},
@@ -123,7 +123,7 @@
  "license": {
   "_about": "Round J. The LICENSE pin (the sha256 of Public/LICENSE, which ships as LICENSE byte for byte; Round N retired the ship-date token with the notice's dated paragraph), the license-term patterns (case-insensitive), the allowances and the short notice. statics_check (15 to 17) and the export gate's LICENSE_TERMS group both read this entry, so the two scan with the same patterns and the same allowances. Each allowance names its files (private-tree names) and its exact text, and must be present exactly as pinned; a hit is allowed only inside that text. Each pattern carries a character class and each allowed text a JSON unicode escape, so that neither matches itself when the gate scans this file.",
   "sha256": "27caf988f624d46ccd5df23c4faa996cd12aab4b7c59dd2db74432772cde1119",
-  "patterns": ["BY-NC-S[A]", "Non-?Commerc[i]al", "Creative\\s*Common[s]", "\\bCC[ -]B[Y]\\b", "\\bC[C]0\\b", "public[ -]domai[n]", "Apache[- ]2\\.[0]|Apache Licen[sc][e]", "\\bMI[T][- ]licen[sc]e", "\\b(?:A|L)?G[P]L(?:-?v?[23](?:\\.0)?)?\\b|GNU (?:Affero |Lesser )?General Publi[c]", "\\bBS[D][- ][023]-Clause\\b|\\bBS[D] licen[sc]e", "\\bMP[L][- ]2\\.0\\b|Mozilla Public Licen[sc][e]"],
+  "patterns": ["BY-NC-S[A]", "Non-?Commerc[i]al", "Creative\\s*Common[s]", "\\bCC[ -]B[Y]\\b", "\\bC[C]0\\b", "public[ -]domai[n]", "Apache[- ]2\\.[0]|Apache Licen[sc][e]", "\\bMI[T][- ]licen[sc]e", "\\b(?:A|L)?G[P]L(?:-?v?[23](?:\\.0)?)?\\b|GNU (?:Affero |Lesser )?General Publi[c]", "\\bBS[D][- ][023]-Clause\\b|\\bBS[D] licen[sc]e", "\\bMP[L][- ]2\\.0\\b|Mozilla Public Licen[sc][e]", "open[- ]source \\((?:MI[T]|Apache[- ]2\\.[0]|BS[D]|A?G[P]L(?:v?[23])?|MP[L](?: ?2\\.0)?)\\)"],
   "allow": [
    {"id": "J-B1", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "AI FOR security stays with CDM. CC\u0020BY-SA 4.0.", "reason": "approved third-party mention: the AI Defense Matrix (Zeltser & Yu) entry states the matrix's own terms"},
    {"id": "J-B2", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "(arXiv:2511.00739v1, Nov 2025; CC\u0020BY 4.0)", "reason": "approved third-party mention: the Georgia Tech and Intel paper's own terms"},
@@ -133,12 +133,13 @@
    {"id": "J-B6", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "NIST's public\u002ddomain ground-truth corpus", "reason": "approved third-party mention (gauntlet Q58, Oct 18, 2026): the NIST SARD entry states the dataset's own status"},
    {"id": "J-B7", "files": ["Playbook/index.html"], "count": 4, "text": "This source code is licensed under the MIT\u0020license found in the", "reason": "the vendored React, ReactDOM and Scheduler builds keep their own license headers (gauntlet Q58 widened the patterns, Oct 18, 2026); THIRD_PARTY_NOTICES.md names the license"},
    {"id": "J-B8", "files": ["Playbook/index.html"], "text": "scheduler npm packages, MIT\u002dlicensed)", "reason": "the vendoring banner above the React builds names their license (gauntlet Q58, Oct 18, 2026)"},
-   {"id": "J-B9", "files": ["Public/THIRD_PARTY_NOTICES.md"], "text": "Licensed under the MIT\u0020License; see", "reason": "the third-party notice for React names its license (gauntlet Q58, Oct 18, 2026)"}
+   {"id": "J-B9", "files": ["Public/THIRD_PARTY_NOTICES.md"], "text": "Licensed under the MIT\u0020License; see", "reason": "the third-party notice for React names its license (gauntlet Q58, Oct 18, 2026)"},
+    {"id": "J-B10", "files": ["Playbook/agentic-secops-teaming.jsx", "Playbook/index.html"], "text": "21-plus open-source (MI\u0054) technical papers", "reason": "approved third-party mention (final gauntlet decisions Q28, Oct 18, 2026): the Government of Alberta entry states the papers' own terms"}
   ],
   "notice": "© 2026 Ken Connell. All rights reserved. Built with Claude and Claude Code, reviewed by a human who owns the mistakes."
  },
  "current_version": {
   "_about": "Round M. The release version the app's header badge (the pill that ends the title row) states. statics_check 21 fails unless the pill reads exactly this in the JSX and in Playbook/index.html, so a release updates this entry and the pill together.",
-  "version": "v5.3.0"
+  "version": "v5.4.0"
  }
 }
