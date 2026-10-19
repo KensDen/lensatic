@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.13",
+    "contentVersion": "1.2.14",
     "builtOn": "2026-10-18",
     "sources": [
       "csf20",
@@ -180,6 +180,11 @@
         "version": "1.2.13",
         "date": "2026-10-18",
         "summary": "About names the map Framework Maps, and its name story is headed Why 'Lensatic'. The wayfinder line, the privacy policy's network sentence and description, and the Support description name Framework Maps where they mean the map. Support links the two repository paths it names and says in the paragraph on reporting an error that an issue needs a GitHub account. The privacy policy names Ken Connell's own site. Three as-of dates in the CMMC and NIST SP 800-171 notes move to 30 September 2026, as their records say. The verification notes no longer carry internal run identifiers."
+      },
+      {
+        "version": "1.2.14",
+        "date": "2026-10-18",
+        "summary": "Support names the third section as the playbook section, Agentic SecOps."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -5981,7 +5986,7 @@
       "title": "Lensatic support",
       "description": "How to report a content error in any Lensatic section, how Framework Maps content is re-verified, and its current content version.",
       "paragraphs": [
-        "Lensatic holds three sections: Framework Maps, a guide to the United States public sector cybersecurity frameworks; Field Guides, with the Zero Trust study guide; and Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI. Framework Maps sorts the frameworks by the question each one answers, says who each one binds, and shows where zero trust and AI land.",
+        "Lensatic holds three sections: Framework Maps, a guide to the United States public sector cybersecurity frameworks; Field Guides, with the Zero Trust study guide; and the playbook section, Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI. Framework Maps sorts the frameworks by the question each one answers, says who each one binds, and shows where zero trust and AI land.",
         "To report a content error in any section, open an issue at https://github.com/KensDen/lensatic/issues. Name the framework, page or entry, say what is wrong, and cite the primary source: the publisher's own page or document that shows the correct fact. Opening an issue needs a GitHub account, and issues are public.",
         "To ask about reusing Lensatic's code or text, open an issue on the same page.",
           "Reuse of Agentic SecOps follows its own notice, playbook/LICENSE.",
