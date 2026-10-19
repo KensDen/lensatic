@@ -177,7 +177,7 @@ const pdfPages = (p) => {
     add('docs', 'README canonical 31/31 consistent', ok38 && !readme.includes('36 is authoritative') && !readme.includes('37 is authoritative') && !readme.includes('38 is authoritative') && !readme.includes('32 is authoritative') ? 'PASS' : 'FAIL');
     add('docs', 'README deck-count headers read 31', readme.includes('CANONICAL DECK COUNT: 31 SLIDES') && readme.includes('SLIDE INVENTORY (31)') ? 'PASS' : 'FAIL');
     add('docs', 'README carries 243 (no stale 119-162 stat)',
-      readme.includes('87/243/88') && !readme.includes('63/119/64') && !readme.includes('63/122/64') && !readme.includes('63/123/64') && !readme.includes('63/124/64') && !readme.includes('63/125/64') && !readme.includes('64/128/66') && !readme.includes('65/131/66') && !readme.includes('66/132/66') && !readme.includes('68/136/67') && !readme.includes('69/138/67') && !readme.includes('71/141/67') && !readme.includes('74/151/67') && !readme.includes('77/154/72') ? 'PASS' : 'FAIL');
+      readme.includes('87/243/89') && !readme.includes('87/243/88') && !readme.includes('63/119/64') && !readme.includes('63/122/64') && !readme.includes('63/123/64') && !readme.includes('63/124/64') && !readme.includes('63/125/64') && !readme.includes('64/128/66') && !readme.includes('65/131/66') && !readme.includes('66/132/66') && !readme.includes('68/136/67') && !readme.includes('69/138/67') && !readme.includes('71/141/67') && !readme.includes('74/151/67') && !readme.includes('77/154/72') ? 'PASS' : 'FAIL');
   }
 }
 

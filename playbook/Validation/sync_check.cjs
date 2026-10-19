@@ -6,7 +6,7 @@
  * Checks:
  *   1. JSX nav parity (content tabs <-> nav entries, both 35)
  *   2. Canonical counts: 87 actions (40/37/10), 243 resources / 13 groups,
- *      88 glossary terms / 5 groups, 34 tools / 6 categories
+ *      89 glossary terms / 5 groups, 34 tools / 6 categories
  *   3. index.html zero external loads (script src / link href / remote img /
  *      @import / remote url() / fetch(http)
  *   4. All 16 diagram posters: zero external loads, balanced <html> tags;
@@ -107,7 +107,7 @@ const fluencyStart = jsx.search(/^  fluency: \{/m);
 const fluencyEnd = jsx.indexOf('\n  learningpath: {', fluencyStart);
 const fluencyBlock = jsx.slice(fluencyStart, fluencyEnd > 0 ? fluencyEnd : fluencyStart + 60000);
 const terms = (fluencyBlock.match(/\{\s*term:\s*"/g) || []).length;
-check('glossary 88 terms', terms === 88, `terms=${terms}`);
+check('glossary 89 terms', terms === 89, `terms=${terms}`);
 
 const toolsStart = jsx.search(/^  tools: \{/m);
 const toolsEnd = jsx.indexOf('\n  risks: {', toolsStart);

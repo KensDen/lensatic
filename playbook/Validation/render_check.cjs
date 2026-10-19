@@ -12,6 +12,8 @@
  *   - Action Plan chips compute All-87 / Now-40 / Next-37 / Later-10 live
  *   - CSV export = header + 87 rows; Markdown export = 87 bullets
  *   - search returns results; ArrowDown/Enter selects and navigates
+ *   - Back to the bare address shows the first tab; every callout renders; Resource Index ids are unique and no
+ *     search result is a case sub-label (final gauntlet decisions, 18 Oct 2026)
  *   - every tab renders each of its body headings exactly once (P14, Round I)
  *   - every embedded poster fits its frame at 1280 px, after a resize to 390 px and after the resize back,
  *     with no reload, and the frames hold still (Round M)
@@ -188,6 +190,57 @@ const TABS = (() => {
     return { ok: results > 0 && selected === 1 && input.value === '', results, selected, hash: location.hash };
   });
   check('search + keyboard nav', kb.ok, JSON.stringify(kb));
+
+  /* final gauntlet decisions (18 Oct 2026). Q7: Back to the bare address shows the first tab. Q4: every tab whose content
+   * model has a callout renders its label (the Maturity Model's was missing). Q34: with every Resource Index group and
+   * appendix open, no element id repeats, and no search result is a case sub-label. Details name tabs and counts only. */
+  const back = await page.evaluate(async () => {
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    const counter = () => (document.body.innerText.match(/(\d{2}) \/ \d{2}/) || [])[1] || '';
+    history.replaceState(null, '', location.pathname); window.dispatchEvent(new HashChangeEvent('hashchange')); await sleep(250);
+    const start = counter();
+    const chip = document.querySelector('[data-tab="roadmap"]'); if (!chip) return { ok: false, why: 'no roadmap chip' };
+    chip.click(); await sleep(300); const mid = counter();
+    history.back(); for (let t = 0; t < 50 && counter() !== '01'; t++) await sleep(20);
+    return { ok: start === '01' && mid !== '01' && counter() === '01' && !location.hash, start, mid, after: counter() };
+  });
+  check('Back to the bare address shows the first tab', back.ok, JSON.stringify(back));
+  const callouts = (() => { try { const M = require('./text_units.cjs').loadModel(SUITE); return Object.entries(M.content).filter(([, v]) => v && v.callout && v.callout.label).map(([id, v]) => [id, String(v.callout.label)]); } catch (e) { return null; } })();
+  if (!callouts) check('every callout renders its label', false, 'content model unreadable');
+  else {
+    const missing = await page.evaluate(async (list) => {
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms)); const miss = [];
+      for (const [id, label] of list) {
+        location.hash = '#' + id; await sleep(150);
+        const txt = (document.getElementById('root') || document.body).textContent.toLowerCase();
+        if (!txt.includes(label.toLowerCase())) miss.push(id);
+      }
+      return miss;
+    }, callouts);
+    check(`every callout renders its label (${callouts.length} tabs)`, missing.length === 0, missing.length ? `missing on ${missing.join(', ')}` : '');
+  }
+  const ids = await page.evaluate(async () => {
+    const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+    location.hash = '#resources'; await sleep(250);
+    const all = [...document.querySelectorAll('#root button')].find((b) => /expand all|open all/i.test(b.textContent));
+    if (all) { all.click(); await sleep(250); }
+    for (const b of [...document.querySelectorAll('#root button')].filter((b) => /^\s*▶?\s*Appendix/i.test(b.textContent))) {
+      const arrow = b.querySelector('span'); if (arrow && /rotate\(90deg\)/.test(arrow.getAttribute('style') || '')) continue;  // already open
+      b.click(); await sleep(40);
+    }
+    await sleep(200);
+    const seen = {}; let dups = 0;
+    for (const el of document.querySelectorAll('#root [id]')) { if (seen[el.id]) dups++; seen[el.id] = 1; }
+    const input = document.querySelector('input[aria-label="Search the playbook"]'); let subs = -1;
+    if (input) {
+      const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+      input.focus(); setter.call(input, 'what happened'); input.dispatchEvent(new Event('input', { bubbles: true })); await sleep(350);
+      subs = [...document.querySelectorAll('div[style*="absolute"] button')].filter((b) => b.querySelectorAll('span')[1] && /^what happened$/i.test(b.querySelectorAll('span')[1].textContent.trim())).length;
+      setter.call(input, ''); input.dispatchEvent(new Event('input', { bubbles: true })); await sleep(100);
+    }
+    return { ok: !!all && dups === 0 && subs === 0, opened: !!all, ids: Object.keys(seen).length, dups, subs };
+  });
+  check('Resource Index ids unique with every group open; no case sub-label in search', ids.ok, JSON.stringify(ids));
 
   /* ---- P14 (Round I): every tab renders each of its body headings exactly once. The headings come from the JSX's
    * content model (text_units.cjs), a divider without its box-drawing rules; each must be the whole text of exactly one

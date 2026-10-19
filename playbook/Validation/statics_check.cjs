@@ -489,7 +489,8 @@ const win = (h, w) => h.ctx.slice(Math.max(0, h.index - w), h.index + h.text.len
     if (open.length > 3) gauntletDetail.push('  license terms:', ...open.map((o) => `      open: ${o}`));
   }
   /* 17. the short notice, exactly: the landing page's first footer paragraph, the summary's credit paragraph, the app
-   * footer (the JSX, without the final period) and the deck's closing slide (slide38.xml, two paragraphs) */
+   * footer (the JSX) and the deck's closing slide (slide38.xml, two paragraphs). The landing and app footers are read
+   * without their tags, so "All rights reserved" may link the LICENSE there (final gauntlet decisions, question 17) */
   {
     const N = L.notice || '';
     const one = (t, re) => { const ms = [...t.matchAll(re)]; return ms.length === 1 ? ms[0][1] : null; };
@@ -500,9 +501,9 @@ const win = (h, w) => h.ctx.slice(Math.max(0, h.index - w), h.index + h.text.len
       ? TU.pdfText(SUITE, TU.DECK_REL).split('\f').filter((p) => p.trim()).pop().split('\n').map((l) => ({ text: l.trim() })).filter((u) => u.text)
       : TU.ooxmlUnits(SUITE, TU.DECK_REL, /^ppt\/slides\/slide38\.xml$/, 'a:p', 'a:t', true);
     const sites = [
-      ['the landing footer', one(landing, /<footer>\s*<p>([^<]*)<\/p>/g) === N],
+      ['the landing footer', (one(landing, /<footer>\s*<p>([\s\S]*?)<\/p>/g) || '').replace(/<[^>]+>/g, '') === N],
       ['the summary credit', one(summary, /<p class="credit">([^<]*)<\/p>/g) === N],
-      ['the app footer', jsx.split(`>${N.replace(/\.$/, '')}</span>`).length === 2],
+      ['the app footer', (() => { const ms = [...jsx.matchAll(/>(\u00a9 2026 Ken Connell\. (?:<a [^>]*>)?All rights reserved(?:<\/a>)?\.[^<]*)<\/span>/g)]; return ms.length === 1 && ms[0][1].replace(/<[^>]+>/g, '') === N; })()],
       ['the deck closing slide', deck.some((u, i) => i + 1 < deck.length && `${u.text} ${deck[i + 1].text}` === N)],
     ];
     const bad = sites.filter((s) => !s[1]).map((s) => s[0]);
