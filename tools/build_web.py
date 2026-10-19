@@ -474,7 +474,7 @@ def theme_head() -> str:
 
 def umbrella_bar(s: dict, root: str, active: str | None, brand_mark: bool = True) -> str:
     """The top bar every Lensatic page shares: the mark, Lensatic, the three section links, About and the theme toggle
-    (Lensatic 2.0.2: one toggle, the same icon in the same place on every page, hidden until its script runs). On the map
+    (Lensatic 2.0.2: one toggle, the same icon at the end of the bar, which lines up with each page's column, hidden until its script runs). On the map
     the app's own header follows at once with the mark, so the bar's brand is the name alone."""
     mark = (f'<span class="lx-tile" aria-hidden="true">{mark_svg(20, "lx-compass")}</span>') if brand_mark else ""
     links = []
@@ -957,7 +957,7 @@ class Renderer:
         meta = self.d["meta"]
         badges = "".join(f'<span class="status {k}">{self.t(self.ui["status"][k])} {n}</span>' for k, n in counts.items())
         # the wayfinder line opens About, after the name and the content version (session 15)
-        body = (f'<div id="about-body"><p class="about-name"><strong>{esc(meta["name"])}</strong> <span class="small">{self.label("contentVersion")} {esc(meta["contentVersion"])}</span></p>'
+        body = (f'<div id="about-body"><p class="about-name"><strong>{self.label("mapName")}</strong> <span class="small">{self.label("contentVersion")} {esc(meta["contentVersion"])}</span></p>'
                 f'<p>{self.t(meta["wayfinder"])}</p>'
                 f'<p>{self.t(meta["about"]["notAffiliated"])}</p>'
                 f'<p class="small" id="dow-note">{self.label("dowNote")}</p>'
@@ -1159,6 +1159,17 @@ def recheck_dates(node) -> list[str]:
     return out
 
 
+# repository paths the plain pages name in words, linked to the file on GitHub so the words stay as written (gauntlet
+# question 14, 18 October 2026)
+REPO_PATHS = ("playbook/LICENSE", "guides/zero-trust/VERIFICATION.md")
+
+
+def repo_paths(html_text: str) -> str:
+    for path in REPO_PATHS:
+        html_text = re.sub(rf"(?<![/\w]){re.escape(path)}(?![\w/])", f'<a class="url" href="{REPO}/blob/main/{path}" rel="noreferrer">{path}</a>', html_text)
+    return html_text
+
+
 def L_has(d: dict, key: str) -> bool:
     return key in d.get("ui", {}).get("labels", {})
 
@@ -1170,7 +1181,7 @@ def build_page(d: dict, key: str, author: str = "") -> bytes:
     body = [f'<h1>{r.t(page["title"])}</h1>']
     if key == "privacy":
         body.append(f'<p class="small">{r.label("pagesEffective")}: <time datetime="{esc(meta["builtOn"])}">{fmt_date(meta["builtOn"])}</time></p>')
-    body += [f"<p>{r.tl(s)}</p>" for s in page["paragraphs"]]
+    body += [f"<p>{repo_paths(r.tl(s))}</p>" for s in page["paragraphs"]]
     if key == "support":
         body.append(f'<p>{r.t(meta["about"]["notAffiliated"])}</p>')
         rows = [(r.label("pagesContentVersion") if L_has(d, "pagesContentVersion") else r.label("contentVersion"), esc(meta["contentVersion"]))]

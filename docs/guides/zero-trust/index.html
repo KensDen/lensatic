@@ -171,8 +171,9 @@
   color: var(--tile-fg); flex: none; }
 .lx-tile svg { width: 20px; height: 20px; }
 .lx-sections { display: flex; flex-wrap: wrap; align-items: stretch; column-gap: var(--s-4); margin: 0; padding: 0; list-style: none; }
+.lx-sections li { margin: 0; }
 .lx-sections a { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg-2); font-size: 0.9375rem;
-  text-decoration: none; border-bottom: 2px solid transparent; }
+  text-decoration: none; border-bottom: 2px solid transparent; box-sizing: border-box; }
 .lx-bar .lx-sections a:hover { color: var(--fg); }
 .lx-bar .lx-sections a[aria-current="page"] { color: var(--fg); font-weight: 700; }
 .lx-sections a[data-sec="maps"][aria-current="page"] { border-bottom-color: var(--sec-maps); }

@@ -73,7 +73,7 @@ map gives up its green accent for it, and the green moves to Field Guides.
 
 **Section accents mark, they never carry meaning alone.** Framework Maps is teal (`#2DD4BF` / `#0F766E`), Field Guides the compass green
 from the old Lensatic accent (`#9BE15D` / `#4A5D23`), and Playbook the playbook's own purple for red, blue and purple teaming (`#B273B5` /
-`#5E2868`). They appear only on eyebrows, tile rules, the active section link and (since 2.0.2) each section's primary button, and every
+`#5E2868`). They appear only on eyebrows, tile rules, the active section link, the hub's hero-line rules, the cards' band rule and (since 2.0.2) each section's primary button, and every
 one of those also says the section's name in words. The purple is the playbook's plum, the one violet its identity guard allows.
 
 **Danger stays the playbook's red.** `#EF4444` on dark. On light the playbook's `#DC2626` measures 4.37 on the light ground and 4.02 on
@@ -83,7 +83,7 @@ the second surface, so light danger is `#B91C1C`, the same red one step darker.
 slashed-zero compass from the Zero Trust guide (`guides/zero-trust/icon.svg`), which stays that guide's icon. Playbook: the APT_UNICORN
 emblem (`hub/marks/apt-unicorn-emblem.webp`, the landing's own file). Marks are only resized, never redrawn. Since 2.0.2 the emblem
 sits in the same dark rounded-square tile as the compass (`--tile-bg`, the mark at about 71% of the tile), so the three marks read as
-one set: the compass and the emblem in the tile, and the slashed zero, whose own art is drawn on that tile. The compass stays the
+one set: the compass and the emblem in the tile, and the slashed zero, on its own navy square. The compass stays the
 parent brand on the hub header, the favicon and the hub card, and its tile keeps the map's colours (`--tile-bg`, `--tile-fg`).
 
 **Type.** IBM Plex Sans for text; IBM Plex Mono for eyebrows, version lines, counts and code. The hub and guides index embed the
@@ -99,7 +99,7 @@ compass.
 
 **How the sections take it.** Every rule in the shared file is scoped to an `lx-` class, so it can sit beside any page's stylesheet.
 The map copies the values into its own token block (the convention `build_web.py` and `gen_ios_colors.py` read) and inlines the file
-for the bar. The Zero Trust guide inlines it and aliases its own token names (`--surface` is `--bg-2`, `--text` is `--fg`, and so on).
+for the bar. The section tokens come from the inlined shared file. The Zero Trust guide inlines it and aliases its own token names (`--surface` is `--bg-2`, `--text` is `--fg`, and so on).
 The Agentic SecOps landing inlines it; the app inlines it before its own stylesheet and keeps its layout and components, with its
 light-theme colours moved to these values (its dark theme was already this theme's seed).
 

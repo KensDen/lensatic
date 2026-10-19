@@ -2,7 +2,7 @@
 
 Public sector cyber frameworks are thick woods. Lensatic is the compass.
 
-Framework Maps, Lensatic's first section, is a small guide to the United States public sector cybersecurity frameworks. It is for anyone handed a framework, a maturity model, or a zero trust deadline and asked where it fits: federal civilian agencies, Department of War (DoW) components, defense contractors, and anyone else borrowing the United States federal models. It is the map legend: it says what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land. The stack is sorted by the question each framework answers, from outcomes and communication (the National Institute of Standards and Technology (NIST) Cybersecurity Framework (CSF) 2.0) through definition (NIST Special Publication (SP) 800-207), target state and maturity (the zero trust models), controls (NIST SP 800-53 and the overlays that point into it) and verification (the assessment regimes), with an AI column alongside. A matrix of zero trust pillars against CSF 2.0 functions sits at the center of the model. Lensatic is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain. The name comes from the lensatic compass, the Army's field compass for taking a bearing; Lensatic helps you take a bearing on the framework stack.
+Framework Maps, Lensatic's first section, is a small guide to the United States public sector cybersecurity frameworks. It is for anyone handed a framework, a maturity model, or a zero trust deadline and asked where it fits: federal civilian agencies, Department of War (DoW) components, defense contractors, and anyone else borrowing the United States federal models. It is the map legend: it says what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land. The stack is sorted by the question each framework answers, from outcomes and communication (the National Institute of Standards and Technology (NIST) Cybersecurity Framework (CSF) 2.0) through definition (NIST Special Publication (SP) 800-207), target state and maturity (the zero trust models), controls (NIST SP 800-53 and the overlays that point into it) and verification (the assessment regimes), with an AI column alongside. A matrix of zero trust pillars against CSF 2.0 functions sits at the center of the model. Framework Maps is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain. The name comes from the lensatic compass, the Army's field compass for taking a bearing; Lensatic helps you take a bearing on the framework stack.
 
 Lensatic 2.0.2 holds three sections, each with its own build, checks and README in its own tree:
 
@@ -12,7 +12,7 @@ Lensatic 2.0.2 holds three sections, each with its own build, checks and README 
 
 The hub at https://kensden.github.io/lensatic/ links all three (privacy policy: https://kensden.github.io/lensatic/privacy.html, support: https://kensden.github.io/lensatic/support.html).
 
-Framework Maps content version: 1.2.12.
+Framework Maps content version: 1.2.13.
 
 No account, no data collected by Lensatic. The privacy policy notes what GitHub Pages logs about visits to the hosted copy.
 
@@ -44,13 +44,13 @@ Versions of this repository published before this notice was added on 27 Septemb
 
 Zero Trust, in `guides/zero-trust/`, and Agentic SecOps, in `playbook/`, carry their own notices, [`guides/zero-trust/LICENSE`](guides/zero-trust/LICENSE) and [`playbook/LICENSE`](playbook/LICENSE), and LICENSE marks each work. For Zero Trust it records, in its own words: "Versions 1.0 (27 September 2026) and 2.0 (30 September 2026) were released under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license (CC BY-NC-SA 4.0). That grant still applies to copies of those versions. It does not apply to anything added or changed since."
 
-Most of the frameworks Lensatic describes are United States government publications. Works prepared by United States government officers and employees as part of their official duties are in the public domain in the United States. The app cites these publications and links to them, and the notice above covers only Lensatic's own code and text.
+Most of the frameworks Lensatic describes are United States government publications. Works prepared by United States government officers and employees as part of their official duties are in the public domain in the United States. Framework Maps and its iOS app cite these publications and link to them, and the notice above covers only Lensatic's own code and text.
 
 IBM Corp. holds the copyright in the typefaces the built pages embed, IBM Plex Sans and IBM Plex Mono, which are licensed under the SIL Open Font License, Version 1.1 ([`web/src/fonts/OFL.txt`](web/src/fonts/OFL.txt)). That license, not the notice above, governs them.
 
-The iOS app in `ios/` is covered by the same all-rights-reserved notice as the rest of Framework Maps. Its fonts are IBM's own TrueType files for the same IBM Plex faces, unmodified, under the same license, with IBM's license beside them ([`ios/Lensatic/Resources/Fonts/OFL.txt`](ios/Lensatic/Resources/Fonts/OFL.txt)); the Lensatic name and icon identify this project and, like the rest of it, are not licensed for any other use.
+The iOS app in `ios/` is covered by the same all-rights-reserved notice as the rest of Framework Maps. Its fonts are IBM's own TrueType files for the same IBM Plex faces, unmodified, under the same license, with IBM's license beside them ([`ios/Lensatic/Resources/Fonts/OFL.txt`](ios/Lensatic/Resources/Fonts/OFL.txt)); the Lensatic icon identifies this project and, like the rest of it, is not licensed for any other use.
 
-Where a cited work is protected, its title, names and any short quotation remain its owner's, and the work itself is described, not reproduced. Nothing from the AI Defense Matrix, which its authors publish under CC BY-SA 4.0, is reproduced. The app cites it, describes it in its own words, and credits its authors and license.
+Where a cited work is protected, its title, names and any short quotation remain its owner's, and the work itself is described, not reproduced. Nothing from the AI Defense Matrix, which its authors publish under CC BY-SA 4.0, is reproduced. Framework Maps cites it, describes it in its own words, and credits its authors and license.
 
 ## Running the battery
 
@@ -78,13 +78,7 @@ Since Lensatic 2.0 the battery also runs `tools/check_umbrella.py` (the hub, the
 
 The font license, `web/src/fonts/OFL.txt`, is a verbatim legal text, so it is exempt from the em-dash and planning-vocabulary checks and from nothing else. `LICENSE` is Lensatic's own notice and has no exemption. `tools/check_web.py` checks the built page and the site, as described under the web wrapper below.
 
-## Session rules
-
-These apply to every working session on this repository, by a person or an agent.
-
-1. Every file created, edited, deleted or moved stays inside this repository. No exceptions, including configuration and tooling that appears shared. The battery keeps its temporary files in `.tmp/`, which is gitignored.
-2. Do not read, edit or restore any file under another project's directory, and do not start, stop or restart any process defined outside this repository. If a tool here appears to depend on a file outside it, stop and report rather than fixing it.
-3. Any preview or dev server started for this repository must be defined by it, bound to localhost, and stopped before the session ends; report the port and the stop.
+Every working session on this repository, by a person or an agent, follows the session rules in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## JSON first
 
@@ -98,7 +92,7 @@ Public frameworks and public sources only. Every framework and source entry carr
 
     python3 tools/build_web.py --author "Your Name" --pages
 
-`tools/build_web.py` renders every trailhead, layer, framework, source, solution, helper answer, function, and all matrix cells in both pillar views into `web/lensatic.html` at build time, so the page is complete when scripts do not run (mail and file previews, locked-down desktops). The builder also renders the glossary as its own section and spells out each abbreviation where it first appears in every section, linked to its glossary entry, except AI, which every reader knows: it is never spelled out, and is linked to its glossary entry only in the AI column. The behavior script under `web/src/` only enhances what is already there: one matrix view at a time, cells collapsed to their first sentence, column scrolling, a glossary popover on those links, the theme toggle and a link back to the top. Below 1200 pixels the header navigation becomes a labeled section menu that names the section in view, and below 768 pixels each matrix cell carries its pillar name. The print stylesheet opens every disclosure with CSS, prints the department's matrix view with each cell's capability numbers and first sentence, leaves out the front door's two buttons, and keeps every other section complete. The content file is also embedded byte for byte as the provenance of the render. The built file is never hand-edited.
+`tools/build_web.py` renders every trailhead, layer, framework, source, solution, helper answer, function, and all matrix cells in both pillar views into `web/lensatic.html` at build time, so the page is complete when scripts do not run (mail and file previews, locked-down desktops). The builder also renders the glossary as its own section and spells out each abbreviation where it first appears in every section, linked to its glossary entry, except AI, which every reader knows: it is never spelled out, and is linked to its glossary entry only in the AI column. The behavior script under `web/src/` only enhances what is already there: one matrix view at a time, cells collapsed to their first sentence, column scrolling, a glossary popover on those links and a link back to the top; the theme toggle is the umbrella bar's (hub/theme-bar.js). Below 1200 pixels the header navigation becomes a labeled section menu that names the section in view, and below 768 pixels each matrix cell carries its pillar name. The print stylesheet opens every disclosure with CSS, prints the department's matrix view with each cell's capability numbers and first sentence, leaves out the front door's two buttons, and keeps every other section complete. The content file is also embedded byte for byte as the provenance of the render. The built file is never hand-edited.
 
 With `--pages` the builder also writes the map's part of the project site under `docs/` for GitHub Pages: `docs/maps/index.html` (the built page byte for byte), `docs/privacy.html` and `docs/support.html` (plain pages with no script, their text from `content/stack.json`, on the app's theme tokens), `docs/social-card-v2.png` (the card, from `web/src/social-card.png`) and an empty `docs/.nojekyll`. `python3 tools/build_hub.py` writes the rest: the hub (`docs/index.html`), the guides index, the shared stylesheet, the sitemap and the published copies of `guides/zero-trust/` and `playbook/`. `python3 tools/apply_chrome.py` refreshes the umbrella bar and the shared stylesheet in the two hand-edited Agentic SecOps pages.
 

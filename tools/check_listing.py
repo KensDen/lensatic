@@ -61,7 +61,7 @@ SUBTITLE = "A compass for cyber frameworks"
 TAGLINE = "Public sector cyber frameworks are thick woods. Lensatic is the compass."
 PITCH = ("Public sector cyber frameworks are thick woods. Lensatic is the compass: find where you stand, see which framework "
          "applies, and take a bearing on your next waypoint.")
-WAYFINDER = ("Lensatic is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how "
+WAYFINDER = ("Framework Maps is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how "
              "the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber "
              "assurance terrain.")
 COMPASS = "\U0001F9ED"

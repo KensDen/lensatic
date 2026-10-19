@@ -19,7 +19,7 @@ and reads the print rendering.
 Pages (Session 6; Lensatic 2.0 moved the map to docs/maps/): docs/maps/index.html is web/lensatic.html byte for byte;
 the map's part of docs/ matches a fresh --pages build (maps/index.html, privacy, support, the social card, an empty
 .nojekyll), and every other file in docs/ is the umbrella's (the hub, the guides index, the shared stylesheet, the
-sitemap, and the published copies under guides/ and playbook/, which tools/check_umbrella.py holds to their sources);
+sitemap, the 404 page, and the published copies under guides/ and playbook/, which tools/check_umbrella.py holds to their sources);
 the privacy and support pages carry no script and pass the same resource, em-dash, placeholder and sweep rules as the
 app, show the effective date, content version and every paragraph from content, and spell abbreviations out at first
 use; no email address appears in the map's pages or the umbrella's own pages (the moved sections keep their own
@@ -68,7 +68,7 @@ DOCS = ROOT / "docs"
 SOCIAL_NAME = "social-card-v2.png"  # the card's published name, as tools/build_web.py sets it (SOCIAL_NAME there)
 DOC_FILES = ("maps/index.html", "privacy.html", "support.html", SOCIAL_NAME, ".nojekyll")
 # Lensatic 2.0: the rest of docs/ belongs to the umbrella (tools/build_hub.py writes it, tools/check_umbrella.py checks it)
-UMBRELLA_FILES = ("index.html", "guides/index.html", "sitemap.xml", "shared/lensatic.css")
+UMBRELLA_FILES = ("index.html", "guides/index.html", "sitemap.xml", "shared/lensatic.css", "404.html")  # 404.html since the final gauntlet, question 33
 UMBRELLA_DIRS = ("guides/", "playbook/", "shared/")      # published copies; the moved sections keep their own checks
 SECTION_COPIES = ("guides/zero-trust/", "playbook/")
 
@@ -142,7 +142,7 @@ EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-
 BUILD = ROOT / "tools" / "build_web.py"
 DOM_CHECK = ROOT / "tools" / "dom_check.mjs"
 LAYOUT = ROOT / "tools" / "layout_check.mjs"
-TMP = ROOT / ".tmp"  # every temporary file stays inside the repo (Session rules in README.md)
+TMP = ROOT / ".tmp"  # every temporary file stays inside the repo (Session rules in CONTRIBUTING.md)
 # the built page must stay under 1 MB (1,048,576 bytes); session 13 raised the limit from 900 KB (921,600 bytes)
 PAGE_LIMIT = 1024 * 1024
 # each printout, with script and without, is at most 20 pages; session 15 raised the cap from under 20

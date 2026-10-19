@@ -353,7 +353,7 @@ def read_local_list(p: Path) -> tuple[list[str], str]:
 def read_local_source(p: Path) -> tuple[list[str], str]:
     """tools/sweep_source.json names a local document and the patterns that pull the sweep terms (every capture
     group, split on commas) and the forbidden word (the first capture group) from it. An optional exclude list names
-    words the owner has ruled out of the sweep (the first, 27 Sep 2026, so About can explain the name); each must be
+    words the owner has ruled out of the sweep; each must be
     one of the words the patterns pull, so a typo cannot pass silently."""
     spec = json.loads(p.read_text(encoding="utf-8"))
     doc = ROOT / spec["document"]

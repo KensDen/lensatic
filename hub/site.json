@@ -66,7 +66,14 @@
   "pdfStudyGuide": "Study guide (PDF)",
   "pdfDoW": "Quick Reference: DoW (PDF)",
   "pdfFederalCivilian": "Quick Reference: Federal civilian (PDF)",
-  "pdfPrivateSector": "Quick Reference: Private sector (PDF)"
+  "pdfPrivateSector": "Quick Reference: Private sector (PDF)",
+  "fontsLine": "Fonts: IBM Plex, SIL Open Font License 1.1"
+ },
+ "notFound": {
+  "title": "Page not found",
+  "eyebrow": "Lensatic",
+  "line": "Nothing is published at this address. A page or file from an earlier edition may have moved or been renamed.",
+  "back": "Open the Lensatic hub"
  },
  "cards": {
   "hub": {
