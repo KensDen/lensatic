@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.14",
-    "builtOn": "2026-10-18",
+    "contentVersion": "1.2.15",
+    "builtOn": "2026-10-20",
     "sources": [
       "csf20",
       "sp800-207",
@@ -185,6 +185,11 @@
         "version": "1.2.14",
         "date": "2026-10-18",
         "summary": "Support names the third section as the playbook section, Agentic SecOps."
+      },
+      {
+        "version": "1.2.15",
+        "date": "2026-10-20",
+        "summary": "Zero Trust for Operational Technology Activities and Outcomes names its publisher {{dow}} CIO, as its cover reads. One verification note reads more clearly."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -724,7 +729,7 @@
       "shortName": "ZT for OT",
       "oneLiner": "The zero trust baseline for operational technology adapts the {{dow}} activities to operational technology and control systems: 105 activities, 84 at Target Level and 21 at Advanced, under the same seven pillars.",
       "answersQuestion": "What does Target Level zero trust ask of control systems and other operational technology?",
-      "publisher": "DoD CIO",
+      "publisher": "{{dow}} CIO",
       "title": "Zero Trust for Operational Technology Activities and Outcomes",
       "edition": "Version OT.1.3 (as of 25 September 2025)",
       "date": "2025-11-18",
@@ -883,7 +888,7 @@
           "note": "The release names JFHQ-DODIN as the command that assesses DoDIN networks; a DCSA budget justification on comptroller.war.gov shows DCSA also runs CORAs of cleared contractors with SIPRNet connections; the FY2027 justification of April 2026 (https://comptroller.war.gov/Portals/45/Documents/defbudget/FY2027/budget_justification/pdfs/01_Operation_and_Maintenance/O_M_VOL_1_PART_1/DCSA_OP-5.pdf), read on 17 September 2026, says DCSA performs them for contractors with approved SIPRNet information systems."
         }
       },
-      "note": "The program launched on 1 March 2024 after a nine-month pilot. The command that launched CORA was later designated a subordinate unified command under section 1502 of the FY2025 NDAA and renamed the DoD Cyber Defense Command (DCDC) by the Secretary. The release does not connect CORA to zero trust; the stack places it at layer 5 because it is the department's operational readiness assessment of its networks, renamed from the Command Cyber Readiness Inspection. The verbs at this layer differ: the {{dow}} CIO's zero trust portfolio office conducted one purple team test of a solution against the zero trust activities and sponsored a second, and its execution roadmap names validating that solutions meet the activities as the aim of assessment; CORA assesses the cyber readiness of {{dow}} networks for the commanders and directors of their areas of operation. Wording settled by the ruling of Lensatic's owner on 17 September 2026: Lensatic calls CORA a readiness assessment, not an inspection, because the launch release says the program moved from an inspection compliance mindset to an operational readiness mindset (https://www.dcdc.mil/News-Information/DCDC-News/Article-Display/Article/3689211/jfhq-dodin-to-officially-launch-its-new-cyber-operational-readiness-assessment/)."
+      "note": "The program launched on 1 March 2024 after a nine-month pilot. The command that launched CORA was later designated a subordinate unified command under section 1502 of the FY2025 NDAA and renamed the DoD Cyber Defense Command (DCDC) by the Secretary. The release does not connect CORA to zero trust; the stack places it at layer 5 because it is the department's operational readiness assessment of its networks, renamed from the Command Cyber Readiness Inspection. The verbs at this layer differ: the {{dow}} CIO's zero trust portfolio office conducted one purple team test of a solution against the zero trust activities and sponsored a second, and its execution roadmap names validating that solutions meet the activities as the aim of assessment; CORA assesses the cyber readiness of {{dow}} networks for the commanders and directors of their areas of operation. Wording settled by the owner's ruling of 17 September 2026: Framework Maps calls CORA a readiness assessment, not an inspection, because the launch release says the program moved from an inspection compliance mindset to an operational readiness mindset (https://www.dcdc.mil/News-Information/DCDC-News/Article-Display/Article/3689211/jfhq-dodin-to-officially-launch-its-new-cyber-operational-readiness-assessment/)."
     },
     {
       "id": "rmf-ato",
