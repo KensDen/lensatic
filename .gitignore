@@ -27,5 +27,6 @@ content/_sweep.txt
 tools/sweep.txt
 tools/sweep_source.json
 
-# node packages for the Agentic SecOps battery (npm install in playbook/): never committed
+# node packages for the Agentic SecOps battery (npm install in playbook/) and the layout guard (npm install at the root):
+# never committed
 node_modules/

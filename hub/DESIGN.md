@@ -1,6 +1,6 @@
 # The Lensatic field system
 
-Lensatic 2.0.2, 18 October 2026 (first written for 2.0 the same day). The design system for the hub, the section landings, the Zero Trust guide page, the map's tokens and
+Lensatic 2.0.3, 25 October 2026 (first written for 2.0 on 18 October). The design system for the hub, the section landings, the Zero Trust guide page, the map's tokens and
 the Agentic SecOps landing, and the umbrella bar on the map and the Agentic SecOps app. `hub/lensatic.css` is the one shared file;
 `docs/shared/lensatic.css` is its published copy. Every page inlines it (or, for the map, carries the same values in the
 tokens at the top of `web/src/styles.css`), so no page loads it over the network. `tools/check_umbrella.py` holds the map's and
@@ -134,3 +134,11 @@ contrast are in the tables above.
 
 **The rights line (2.0.2, gauntlet question 33).** The hub and the guides index footers end with "Copyright 2026 Ken Connell. All rights
 reserved.", the last words linked to the root `LICENSE`. The Zero Trust guide carries the same line linked to its own notice.
+
+## Lensatic 2.0.3
+
+**Closing blocks span the column (25 October 2026, the layout sweep).** A page's closing paragraph, its footer lines, the copyright
+line and the badge run the full width of the page's main column, on the left edge of the cards above, with `text-wrap: pretty`; no
+closing block keeps a narrower max-width. In the shared footer the version line grows into its row and each copyright line takes a
+row of its own; a footer's link list may sit at the row's end. Under 520px a legend box, an aside or a callout beside the cards
+spans the column like the cards. `tools/layout_guard.mjs` holds every published page to this in the battery.

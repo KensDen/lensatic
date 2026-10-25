@@ -82,6 +82,9 @@
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
   @media (max-width:640px){ .flowrail .t{font-size:12px} .band .blab{font-size:12px} .c .n{font-size:12px} .c .d{font-size:12px} .c .badge{font-size:12px} .looptag{font-size:12px} footer .l{font-size:12px} footer .r .badge{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>

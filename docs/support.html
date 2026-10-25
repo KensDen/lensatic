@@ -122,7 +122,9 @@ h1 { text-wrap: balance; }
 .kv dt { color: var(--fg-2); }
 .kv dd { margin: 0; }
 .foot { margin-top: 3rem; border-top: 1px solid var(--line); font-size: 0.875rem; color: var(--fg-2); }
-.foot-in { max-width: calc(44em + 2 * var(--gutter)); margin: 0 auto; padding: 1.5rem var(--gutter) 2.5rem; }
+/* 44rem, not 44em: the footer's smaller type would make its em narrower than the reading column's (layout sweep,
+   24 October 2026); main's 44em is 44rem, as body is 1rem */
+.foot-in { max-width: calc(44rem + 2 * var(--gutter)); margin: 0 auto; padding: 1.5rem var(--gutter) 2.5rem; }
 .foot p { margin: 0 0 0.375rem; }
 .foot-lic abbr { color: var(--fg); }
 .foot-nav { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }

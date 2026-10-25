@@ -39,6 +39,14 @@ if [ -d playbook/node_modules ]; then
 else
   echo "FAIL  playbook/node_modules is missing: run npm install in playbook/ before the battery (see playbook/README.md)"; RED=1
 fi
+# the layout guard (Lensatic 2.0.3, 25 October 2026): every published page's closing area, and its legend boxes under
+# 520px, line up with the page's column at 375, 390 and 1440 wide, in light and dark; it needs playwright-core (npm install
+# --no-package-lock --ignore-scripts at the repository root) and drives the same Chrome
+if [ -d node_modules/playwright-core ]; then
+  node tools/layout_guard.mjs || RED=1
+else
+  echo "FAIL  node_modules/playwright-core is missing: run npm install --no-package-lock --ignore-scripts at the repository root"; RED=1
+fi
 # handoffs/ is local working history and must never be tracked (amendment, 9 Sep 2026)
 if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   if [ -n "$(git ls-files handoffs)" ]; then

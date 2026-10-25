@@ -135,6 +135,9 @@
   @media (max-width:640px){ .blab{font-size:12px} .blab .sub{font-size:12px} .c .n{font-size:12px} .c .d{font-size:12px} .c .eg{font-size:12px} /* badges */
   .pep{font-size:12px} .num{font-size:12px} .pipeline .t{font-size:12px} .pipeline .d{font-size:12px} .plab{font-size:12px} .enclave-note{font-size:12px} .flownote{font-size:12px} .strip .t{font-size:12px} .leg .n{font-size:12px} .leg .d{font-size:12px} .fed .d{font-size:12px} .xcut .t{font-size:12px} .xcut .items{font-size:12px} /* legend + footer */
   .legend{font-size:12px} .dotreq{font-size:12px} .dotret{font-size:12px} footer .align{font-size:12px} .brand{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>

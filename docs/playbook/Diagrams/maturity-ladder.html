@@ -128,6 +128,10 @@
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}.card:hover{transform:none}}
   .copy{margin-top:5px}
   @media (max-width:640px){ .lead{font-size:12px} .yaxis .lab{font-size:12px} .yaxis .dn{font-size:12px} .desc{font-size:12px} .exhead{font-size:12px} .ex li{font-size:12px} .sig{font-size:12px} .sig .k{font-size:12px} .marker{font-size:12px} .colhead{font-size:12px} .brow-label{font-size:12px} .seg{font-size:12px} .gradlabels{font-size:12px} .dim-chip{font-size:12px} .dims-note{font-size:12px} footer .l{font-size:12px} footer .r{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
+  .dims-note{max-width:none}
 </style>
 </head>
 <body>

@@ -4,7 +4,7 @@ Public sector cyber frameworks are thick woods. Lensatic is the compass.
 
 Framework Maps, Lensatic's first section, is a small guide to the United States public sector cybersecurity frameworks. It is for anyone handed a framework, a maturity model, or a zero trust deadline and asked where it fits: federal civilian agencies, Department of War (DoW) components, defense contractors, and anyone else borrowing the United States federal models. It is the map legend: it says what each framework is for, how the frameworks relate, who each one binds, and where zero trust and AI land. The stack is sorted by the question each framework answers, from outcomes and communication (the National Institute of Standards and Technology (NIST) Cybersecurity Framework (CSF) 2.0) through definition (NIST Special Publication (SP) 800-207), target state and maturity (the zero trust models), controls (NIST SP 800-53 and the overlays that point into it) and verification (the assessment regimes), with an AI column alongside. A matrix of zero trust pillars against CSF 2.0 functions sits at the center of the model. Framework Maps is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain. The name comes from the lensatic compass, the Army's field compass for taking a bearing; Lensatic helps you take a bearing on the framework stack.
 
-Lensatic 2.0.2 holds three sections, each with its own build, checks and README in its own tree:
+Lensatic 2.0.3 holds three sections, each with its own build, checks and README in its own tree:
 
 - **Framework Maps**, https://kensden.github.io/lensatic/maps/: the map described above, built from `content/stack.json` by `tools/`, with the iOS app in `ios/`.
 - **Field Guides**, https://kensden.github.io/lensatic/guides/: guided study routes. The first is [Zero Trust](https://kensden.github.io/lensatic/guides/zero-trust/), in `guides/zero-trust/`.
@@ -30,6 +30,7 @@ Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework pu
 
 ## Version history
 
+- 2.0.3, 25 October 2026: every closing block lines up. On every page the closing paragraph, the footer lines, the copyright line and the badge run the full width of the page's column, on the cards' left edge, and under 520px the legend boxes span it like the cards. A new battery check, the layout guard (`tools/layout_guard.mjs`, playwright-core driving the system Chrome), holds every published page to that at 375, 390 and 1440 wide, in light and dark.
 - 2.0.2, 18 October 2026: one theme toggle in the umbrella bar for every page, Framework Maps under its own name, section-tinted buttons, the APT_UNICORN emblem in its tile, and a rights line in the hub and guides index footers.
 - 2.0.1, 18 October 2026: the hub tells where the name comes from; the notices allow personal study.
 - 2.0, 18 October 2026: Framework Maps, Field Guides and Playbook under one roof.
@@ -61,6 +62,8 @@ Before the first run, create the local sweep list. The sweep terms and the forbi
 The battery needs Python 3.11 or newer, Node 22 or newer, and a Chrome, Chromium or Edge browser. Set `LENSATIC_CHROME` if the browser is not in a standard place. The map's checks install nothing, and nothing leaves the repository.
 
 Since Lensatic 2.0 the battery also runs `tools/check_umbrella.py` (the hub, the guides index, the published copies of the moved sections and the field system) and the Agentic SecOps battery in `playbook/`, which needs that section's dev dependencies: run `npm install` in `playbook/` once (see `playbook/README.md`). `LENSATIC_PRIVATE_SWEEP` may name the owner's private sweep list for the umbrella's sweep, which is skipped without it. `LENSATIC_NO_XCODE=1` runs the iOS stage's static checks only, for a machine where Xcode cannot run unattended.
+
+Since Lensatic 2.0.3 it also runs the layout guard, `tools/layout_guard.mjs`: it loads every published page under `docs/` at 375, 390 and 1440 wide, in light and dark, and fails when a block of text in the page's closing area (its footer, copyright and closing lines, and a summary note after cards), or a legend box under 520px, is more than 2px narrower than the page's main column or offset from it, when a closing line wraps without `text-wrap: pretty` or ends on one word, when a page scrolls sideways, or when it cannot classify a page, which it names. It needs `playwright-core`, the only package at the root: run `npm install --no-package-lock --ignore-scripts` once in the repository root. It drives the same Chrome and downloads no browser.
 
 `tools/validate.py` checks the content:
 

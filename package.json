@@ -1,0 +1,9 @@
+{
+  "name": "lensatic-tools",
+  "private": true,
+  "description": "Lensatic's battery tools that need a package: the layout guard (tools/layout_guard.mjs) drives the system Chrome with playwright-core. npm install --no-package-lock --ignore-scripts",
+  "license": "SEE LICENSE IN LICENSE",
+  "devDependencies": {
+    "playwright-core": "1.64.0"
+  }
+}

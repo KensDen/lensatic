@@ -246,8 +246,10 @@
 .lx-foot { margin-top: var(--s-7); border-top: 1px solid var(--line); background: var(--bg-2); font-size: 0.9375rem; color: var(--fg-2); }
 .lx-foot-in { max-width: var(--maxw); margin: 0 auto; padding: var(--s-5) var(--s-4); display: flex; flex-wrap: wrap; align-items: center;
   justify-content: space-between; gap: var(--s-2) var(--s-5); }
-.lx-version { margin: 0; font-family: var(--mono); font-size: 0.875rem; }
-.lx-copy { margin: 0; }
+/* the version line grows into the free space on its row, alone on its row under the links' width; each copyright or
+   fonts line takes a whole row, so every line of text spans the column (layout sweep, 24 October 2026) */
+.lx-version { margin: 0; font-family: var(--mono); font-size: 0.875rem; flex: 1 1 auto; }
+.lx-copy { margin: 0; flex: 1 1 100%; }
 .lx-foot ul, .lx-foot-in ul { display: flex; flex-wrap: wrap; gap: 0 var(--s-4); margin: 0; padding: 0; list-style: none; }
 .lx-foot a, .lx-foot-in a { display: inline-flex; align-items: center; min-height: 44px; color: var(--link); }
 
@@ -420,7 +422,7 @@ main p, main li { max-width: 44em; }
 .sec-num { font-family: var(--mono); font-weight: 700; font-size: 0.8125rem; letter-spacing: 0.1em; color: var(--accent); }
 .section-intro { color: var(--fg-2); }
 .note { font-size: 0.9375rem; color: var(--fg-2); }
-.after-grid { margin-top: 1rem; }
+.after-grid { margin-top: 1rem; max-width: none; }  /* the note after a card grid spans the cards (layout sweep, 24 October 2026) */
 
 /* the front door */
 .hero { padding: 3.5rem 0 0.5rem; }

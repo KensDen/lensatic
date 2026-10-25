@@ -3851,7 +3851,7 @@ export default function App() {
             <img src={EMBLEM_SRC} alt="APT_UNICORN emblem" style={{ width: 20, height: 20, objectFit: "contain", display: "block" }} />
           </span>
           <span style={{ fontSize: 15, fontWeight: 700, color: palette.text, letterSpacing: "-0.01em", whiteSpace: "nowrap" }}>Agentic SecOps</span>
-          <span style={{ fontSize: 11, fontWeight: 700, color: palette.brand, border: `1px solid color-mix(in srgb, ${palette.brand} 33%, transparent)`, background: `color-mix(in srgb, ${palette.brand} 7%, transparent)`, padding: "1px 7px", borderRadius: 8, letterSpacing: "0.1em", marginLeft: "auto" }}>v5.4.3</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: palette.brand, border: `1px solid color-mix(in srgb, ${palette.brand} 33%, transparent)`, background: `color-mix(in srgb, ${palette.brand} 7%, transparent)`, padding: "1px 7px", borderRadius: 8, letterSpacing: "0.1em", marginLeft: "auto" }}>v5.4.4</span>
         </div>
         {/* below 680px the header keeps the title, the badge, the chips and the progress row; the subtitle and the eyebrow wait for wider screens */}
         <style>{`@media (max-width:679.98px){.pb-head-sub,.pb-head-eyebrow{display:none}}`}</style>
@@ -4057,6 +4057,9 @@ export default function App() {
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
   @media (max-width:640px){ .face .row{font-size:12px} .center .same{font-size:12px} .reins .sub{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -4318,6 +4321,9 @@ export default function App() {
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
   @media (max-width:640px){ .kick{font-size:12px} .layer .id .l{font-size:12px} .layer .body .d{font-size:12px} .cross .txt{font-size:12px} .cross .l6{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -4433,6 +4439,9 @@ export default function App() {
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
   @media (max-width:640px){ .kick{font-size:12px} .sec{font-size:12px} .lab .s{font-size:12px} .axis .n{font-size:12px} .rule{font-size:12px} .rule .tag{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -4563,6 +4572,9 @@ export default function App() {
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{font-size:8.5px;color:var(--dim);margin-top:5px;line-height:1.5}
   @media (max-width:640px){ .op .od{font-size:12px} .fan{font-size:12px} .ag .tk{font-size:12px} .ag .does{font-size:12px} .ag .def{font-size:12px} .flip .ft{font-size:12px} .footer .l{font-size:12px} .footer .src{font-size:12px} .footer .r .badge{font-size:12px} .copy{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -4683,6 +4695,9 @@ export default function App() {
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{font-size:8.5px;color:var(--dim);margin-top:5px;line-height:1.5}
   @media (max-width:640px){ .zlabel{font-size:12px} .band .bt{font-size:12px} .band .lv{font-size:12px} .band .bd{font-size:12px} .boundary .bt{font-size:12px} .boundary .bd{font-size:12px} .panel .pt{font-size:12px} .chip .n{font-size:12px} .chip .ct{font-size:12px} .chip .cd{font-size:12px} .note{font-size:12px} .footer .l{font-size:12px} .footer .src{font-size:12px} .footer .r .badge{font-size:12px} .copy{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -4813,6 +4828,9 @@ export default function App() {
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
   @media (max-width:640px){ .kick{font-size:12px} .box{font-size:12px} .foot-note{font-size:12px} .mid .t{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -4939,6 +4957,9 @@ export default function App() {
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
   @media (max-width:640px){ .col .idx{font-size:12px} .col .handles{font-size:12px} .col .def{font-size:12px} .col li{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -5172,6 +5193,10 @@ export default function App() {
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}.card:hover{transform:none}}
   .copy{margin-top:5px}
   @media (max-width:640px){ .lead{font-size:12px} .yaxis .lab{font-size:12px} .yaxis .dn{font-size:12px} .desc{font-size:12px} .exhead{font-size:12px} .ex li{font-size:12px} .sig{font-size:12px} .sig .k{font-size:12px} .marker{font-size:12px} .colhead{font-size:12px} .brow-label{font-size:12px} .seg{font-size:12px} .gradlabels{font-size:12px} .dim-chip{font-size:12px} .dims-note{font-size:12px} footer .l{font-size:12px} footer .r{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
+  .dims-note{max-width:none}
 </style>
 </head>
 <body>
@@ -5471,6 +5496,9 @@ export default function App() {
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
   @media (max-width:640px){ .flowrail .t{font-size:12px} .band .blab{font-size:12px} .c .n{font-size:12px} .c .d{font-size:12px} .c .badge{font-size:12px} .looptag{font-size:12px} footer .l{font-size:12px} footer .r .badge{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -5683,6 +5711,9 @@ export default function App() {
   @media (max-width:640px){ .blab{font-size:12px} .blab .sub{font-size:12px} .c .n{font-size:12px} .c .d{font-size:12px} .c .eg{font-size:12px} /* badges */
   .pep{font-size:12px} .num{font-size:12px} .pipeline .t{font-size:12px} .pipeline .d{font-size:12px} .plab{font-size:12px} .enclave-note{font-size:12px} .flownote{font-size:12px} .strip .t{font-size:12px} .leg .n{font-size:12px} .leg .d{font-size:12px} .fed .d{font-size:12px} .xcut .t{font-size:12px} .xcut .items{font-size:12px} /* legend + footer */
   .legend{font-size:12px} .dotreq{font-size:12px} .dotret{font-size:12px} footer .align{font-size:12px} .brand{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -5906,6 +5937,10 @@ export default function App() {
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
   @media (max-width:640px){ .node .d{font-size:12px} .hub .hs{font-size:12px} .legbox .t{font-size:12px} .legbox .r{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
+  @media (max-width:520px){ .legbox{flex:1 1 auto} }
 </style>
 </head>
 <body>
@@ -6036,6 +6071,9 @@ export default function App() {
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}.flow{overflow:visible}}
   .copy{margin-top:5px}
   @media (max-width:640px){ .lanehead .tot{font-size:12px} .step .s{font-size:12px} .step .h{font-size:12px} .step .tm{font-size:12px} .step.wait .tag{font-size:12px} footer .l{font-size:12px} footer .r .badge{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -6317,6 +6355,9 @@ export default function App() {
   .copy{margin-top:5px}
   @media (max-width:640px){ .source{font-size:12px} .colhead{font-size:12px} .pcard .b{font-size:12px} .stat .d{font-size:12px} /* ---------- matrix ---------- */
   .matrix-meta{font-size:12px} .mh .s{font-size:12px} .mh.corner span{font-size:12px} .dom{font-size:12px} .cell{font-size:12px} .matrix-note{font-size:12px} .tcard .h{font-size:12px} .tcard .h .num{font-size:12px} .tcard .b{font-size:12px} .rising{font-size:12px} .phase .n{font-size:12px} .phase .h{font-size:12px} .phase .b{font-size:12px} .soar .lbl{font-size:12px} .soar .tx{font-size:12px} footer .l{font-size:12px} footer .r{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -6600,6 +6641,9 @@ export default function App() {
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
   @media (max-width:640px){ .lead{font-size:12px} .colhead{font-size:12px} .layer .ls{font-size:12px} .chip{font-size:12px} .mh{font-size:12px} .fw .mt{font-size:12px} .cell{font-size:12px} .roleb{font-size:12px} .mapc{font-size:12px} footer .l{font-size:12px} footer .r{font-size:12px} }
+  /* layout sweep (v5.4.4): the closing paragraph with its source and copyright lines, and the badge, run the poster's full
+     width on one left edge */
+  :is(footer, .footer) > :is(.l, .r, .align){flex:1 1 100%; max-width:none; text-align:left; text-wrap:pretty}
 </style>
 </head>
 <body>
@@ -7096,17 +7140,19 @@ export default function App() {
 
       </div>
 
-      {/* Footer */}
-      <div style={{ borderTop: `1px solid ${palette.border}`, padding: "9px 28px", background: palette.surface, display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap", columnGap: 10, rowGap: 3, textAlign: "center" }}>
-        <span style={{ fontSize: 12, color: palette.muted, letterSpacing: "0.1em" }}>AGENTIC SECOPS · REFERENCE · ALL CLAIMS LINKED TO SOURCES · REFRESHED OCT 1, 2026</span>
-        <span style={{ fontSize: 11, color: palette.muted, letterSpacing: "0.03em" }}>© 2026 Ken Connell. <a href="https://github.com/KensDen/lensatic/blob/main/playbook/LICENSE" target="_blank" rel="noopener noreferrer" style={{ color: "inherit" }}>All rights reserved</a>. Built with Claude and Claude Code, reviewed by a human who owns the mistakes.</span>
-        <span style={{ flexBasis: "100%", display: "flex", justifyContent: "center", flexWrap: "wrap", columnGap: 16, fontSize: 12 }}>
+      {/* Footer: its lines run the content column's full width, on the cards' left edge (layout sweep, v5.4.4) */}
+      <footer style={{ borderTop: `1px solid ${palette.border}`, background: palette.surface }}>
+      <div style={{ boxSizing: "border-box", maxWidth: 920, width: "100%", margin: "0 auto", padding: "9px 28px", display: "flex", alignItems: "center", flexWrap: "wrap", columnGap: 10, rowGap: 3, textAlign: "left", textWrap: "pretty" }}>
+        <span style={{ flexBasis: "100%", fontSize: 12, color: palette.muted, letterSpacing: "0.1em" }}>AGENTIC SECOPS · REFERENCE · ALL CLAIMS LINKED TO SOURCES · REFRESHED OCT 1, 2026</span>
+        <span style={{ flexBasis: "100%", fontSize: 11, color: palette.muted, letterSpacing: "0.03em" }}>© 2026 Ken Connell. <a href="https://github.com/KensDen/lensatic/blob/main/playbook/LICENSE" target="_blank" rel="noopener noreferrer" style={{ color: "inherit" }}>All rights reserved</a>. Built with Claude and Claude Code, reviewed by a human who owns the mistakes.</span>
+        <span style={{ flexBasis: "100%", display: "flex", justifyContent: "flex-start", flexWrap: "wrap", columnGap: 16, fontSize: 12 }}>
           {[["Privacy policy", "../../privacy.html"], ["Support", "../../support.html"], ["Source code", "https://github.com/KensDen/lensatic"]].map(([label, href]) => (
             <a key={href} href={href} style={{ color: palette.muted, display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 44, minWidth: 44 }}>{label}</a>
           ))}
         </span>
         <span style={{ flexBasis: "100%", fontSize: 11, color: palette.muted, letterSpacing: "0.03em", lineHeight: 1.6, marginTop: 4, paddingTop: 6, borderTop: `1px solid color-mix(in srgb, ${palette.border} 60%, transparent)` }}>Third-party product, tool, and framework names referenced in this playbook are trademarks of their respective owners. A personal project: views are my own and do not represent any employer, client, or vendor.</span>
       </div>
+      </footer>
     </div>
   );
 }
