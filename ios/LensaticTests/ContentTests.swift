@@ -433,7 +433,7 @@ final class ContentTests: XCTestCase {
         let nsa = try XCTUnwrap(pages[.route(.entity("nsa-zt"))])
         let cite = try XCTUnwrap(nsa.blocks.first { $0.anchor == "cite" })
         guard case .text(let run, _) = cite.kind else { return XCTFail("nsa-zt: no citation line") }
-        XCTAssertTrue(run.source.contains("NSA, eight cybersecurity information sheets (2021 to 2024) and four implementation guidelines (2026), 28 May 2026."),
+        XCTAssertTrue(run.source.contains("NSA, nine cybersecurity information sheets (2021 to 2026) and four implementation guidelines (2026), 28 May 2026."),
                       run.source)
         XCTAssertTrue(try documentLines("nsa-zt").contains { $0.hasPrefix("Zero Trust Implementation Guideline Primer, initial release, 14 Jan 2026.") })
     }
