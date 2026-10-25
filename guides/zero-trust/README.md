@@ -32,7 +32,7 @@ I reviewed every change, and I own the result, mistakes included.
 
 ## License
 
-Zero Trust is copyright 2026 Ken Connell, all rights reserved ([LICENSE](LICENSE)). The repository is published so the work can be read and used for personal study. No license is granted to copy, modify, distribute or otherwise use its text or files, in whole or in part, except as the law allows without a license or with Ken Connell's prior written permission. To ask about reuse, open an issue at https://github.com/KensDen/lensatic/issues.
+Zero Trust is copyright 2026 Ken Connell, all rights reserved ([LICENSE](LICENSE)). The repository is published so the work can be read, reviewed and used for personal study. No license is granted to copy, modify, distribute or otherwise use its text or files, in whole or in part, except as the law allows without a license or with Ken Connell's prior written permission. To ask about reuse, open an issue at https://github.com/KensDen/lensatic/issues.
 
 GitHub's Terms of Service (section D.5) let other GitHub users view and fork a public repository on GitHub, as GitHub's features allow; that is not permission to use the work anywhere else.
 

@@ -218,6 +218,10 @@
 .lx-tile-card.maps a.lx-btn.lx-primary, .lx-page.lx-maps a.lx-btn.lx-primary { background: var(--sec-maps); border-color: var(--sec-maps); color: var(--on-sec-maps); }
 .lx-tile-card.guides a.lx-btn.lx-primary, .lx-page.lx-guides a.lx-btn.lx-primary { background: var(--sec-guides); border-color: var(--sec-guides); color: var(--on-sec-guides); }
 .lx-tile-card.playbook a.lx-btn.lx-primary, .lx-page.lx-playbook a.lx-btn.lx-primary { background: var(--sec-playbook); border-color: var(--sec-playbook); color: var(--on-sec-playbook); }
+/* a section's other buttons take its accent as an outline, as the map's do (QC rulings, 24 October 2026) */
+.lx-page.lx-maps a.lx-btn:not(.lx-primary) { border-color: var(--sec-maps); color: var(--sec-maps); }
+.lx-page.lx-guides a.lx-btn:not(.lx-primary) { border-color: var(--sec-guides); color: var(--sec-guides); }
+.lx-page.lx-playbook a.lx-btn:not(.lx-primary) { border-color: var(--sec-playbook); color: var(--sec-playbook); }
 
 /* sections of a page */
 .lx-section { padding-top: var(--s-6); padding-bottom: var(--s-6); border-top: 1px solid var(--line); }
@@ -273,7 +277,6 @@
   .lx-playbook .diagrams { columns: 2; column-gap: var(--s-6); margin: 0; padding: 0; list-style: none; }
   .lx-playbook .diagrams li { break-inside: avoid; }
   .lx-playbook .diagrams a { display: inline-flex; align-items: center; min-height: 44px; }
-  .lx-playbook .built p { margin: 0; color: var(--fg-2); }
   body.lx-page > footer { margin-top: var(--s-7); border-top: 1px solid var(--line); background: var(--bg-2); color: var(--fg-2); font-size: 0.9375rem; }
   body.lx-page > footer > p { max-width: var(--maxw); margin: 0 auto; padding: var(--s-4) var(--s-4) 0; }
   @media (max-width: 40rem) { .lx-playbook .diagrams { columns: 1; } }
@@ -348,10 +351,6 @@
         <li><a href="Diagrams/maturity-ladder.html">SecOps AI Maturity Model: The Ladder</a></li>
         <li><a href="Diagrams/zero-trust-ai-agents-matrix.html">Zero Trust for AI Agents: Capability Matrix</a></li>
     </ul>
-  </section>
-  <section class="lx-wrap lx-section built">
-    <h2>How it was built</h2>
-    <p>Built with Claude and Claude Code, reviewed by a human who owns the mistakes.</p>
   </section>
 </main>
 <footer>

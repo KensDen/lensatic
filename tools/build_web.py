@@ -937,7 +937,7 @@ class Renderer:
             badge = f' {self.status_badge(v)}' if v and v["status"] != "verified" else ""
             rows.append(f'<div class="gl-entry" id="gl-{e["slug"]}"><dt><span class="gl-term">{esc(e["term"])}</span></dt>'
                         f'<dd>{exp}{self.t(g["oneLine"])}{see}{badge}</dd></div>')
-        body = (f'<p class="section-intro">{self.label("glossaryIntro")}</p>\n<dl class="glossary" id="glossary-list">\n'
+        body = (f'<p class="section-intro">{self.label("glossaryIntro")} <a href="../playbook/">{self.label("glossaryCrossLink")}</a></p>\n<dl class="glossary" id="glossary-list">\n'
                 + "\n".join(rows) + "\n</dl>")
         return self.section("glossary", body)
 

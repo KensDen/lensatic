@@ -32,7 +32,7 @@ door is closed in the static render and its card shows its title, first sentence
 exactly its five parts; the footer carries the three addresses; docs/ holds exactly one image, the social card, byte
 for byte, and the link-preview tags point at the published site; the intro texts that moved render exactly once.
 Licensing (Session 7B): the footer's licence line, the About paragraph and the support page's sentence on reuse are
-the all-rights-reserved wording ruled for content 0.7.0.
+the all-rights-reserved wording ruled for content 0.7.0, with the personal-study sentence of content 1.2.17 (QC rulings, Q7).
 Link previews (Session 9): og:description is meta.pitch; the description tag stays meta.description.
 Session 11 (Q20, Q21, Q36): every in-page link lands on an element; layer tags name a layer by its number, or the AI
 column by its name, and link to it; links to entries, capability-name lists and entry titles are labels (the classes are
@@ -97,7 +97,8 @@ LICENCE_FOOTER = "All rights reserved · Fonts OFL"
 LICENCE_ABOUT = ("Most of the frameworks Lensatic describes are United States government publications. Works prepared by United States "
                  "government officers and employees as part of their official duties are in the public domain in the United States. "
                  "Lensatic's own code and text are copyright 2026 Ken Connell, all rights reserved; to ask about reusing them, open an "
-                 "issue on the source repository. IBM Corp. holds the copyright in the typefaces, IBM Plex Sans and IBM Plex Mono, which "
+                 "issue on the source repository. The work is published so it can be read, reviewed and used for personal study. "
+                 "IBM Corp. holds the copyright in the typefaces, IBM Plex Sans and IBM Plex Mono, which "
                  "are licensed under the SIL Open Font License (OFL), version 1.1. Where a cited work is protected, its title, names and "
                  "any short quotation remain its owner's, and the work itself is described, not reproduced.")
 LICENCE_SUPPORT = "To ask about reusing Lensatic's code or text, open an issue on the same page."
@@ -119,8 +120,8 @@ PRINT_KEEP = re.compile(r"(?m)^\s*dl\.kv\s*>\s*dd\s*\{[^}]*\bbreak-inside:\s*avo
 CITE_RULINGS = (
     ("Class Deviation 2024-O0013, Revision 1: Safeguarding Covered Defense Information and Cyber Incident Reporting", "Revision 1", "2024-05-22", None),
     ("Zero Trust PfMO Newsletter", "November 2024", "2024-11", None),
-    ("NSA Zero Trust Guidance", "Eight cybersecurity information sheets (2021 to 2024) and four implementation guidelines (2026)", "2026-05-28",
-     "eight cybersecurity information sheets (2021 to 2024) and four implementation guidelines (2026)"),
+    ("NSA Zero Trust Guidance", "Nine cybersecurity information sheets (2021 to 2026) and four implementation guidelines (2026)", "2026-05-28",
+     "nine cybersecurity information sheets (2021 to 2026) and four implementation guidelines (2026)"),
     ("The AI Defense Matrix", "None printed (copyright 2026)", "2026", "none printed (copyright 2026)"),
     ("Cyber Operational Readiness Assessment (CORA) program", "Program; no printed edition", "2024-02-28", "program; no printed edition"),
     ("DISA awards Thunderdome production agreement", "Production agreement awarded 28 July 2023; no printed edition", "2023-08-02",
@@ -1275,7 +1276,7 @@ def main() -> int:
     if not any(n_.attrs.get("id") == "dow-note" for n_ in walk_nodes(ftree.ids["about-body"][0])) if "about-body" in ftree.ids else True:
         errs.append("the department's note is not in About")
     if d["meta"]["about"].get("licensing") != LICENCE_ABOUT:
-        errs.append("meta.about.licensing is not the all-rights-reserved paragraph ruled for content 0.7.0")
+        errs.append("meta.about.licensing is not the all-rights-reserved paragraph ruled for content 0.7.0 (with the personal-study sentence of content 1.2.17)")
     rep.check("static render: rendered text of every door, layer, framework, source, solution, helper, function, SOC row and cell in both views; "
               "the intro texts that moved render exactly once, in place; About carries the all-rights-reserved licensing paragraph", errs,
               f"{len(items)} elements, {n} texts: {count_line}")

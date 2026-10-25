@@ -157,6 +157,10 @@ HUB_CSS = """.lx-hero-lines { margin: var(--s-5) 0 0; padding: 0; list-style: no
 .lx-hero-lines li.maps { border-left-color: var(--sec-maps); }
 .lx-hero-lines li.guides { border-left-color: var(--sec-guides); }
 .lx-hero-lines li.playbook { border-left-color: var(--sec-playbook); }
+.lx-start { margin: var(--s-4) 0 0; }
+.lx-page .lx-start a.lx-btn { background: var(--sec-maps); border-color: var(--sec-maps); color: var(--on-sec-maps); }  /* the start leads into Framework Maps (QC rulings, Q22) */
+.lx-404 { min-height: 100vh; display: flex; flex-direction: column; }  /* the footer meets the bottom of a short screen (QC rulings, Q18) */
+.lx-404 > main { flex: 1 0 auto; }
 .lx-guide-meta { display: grid; gap: var(--s-2); margin: 0; }
 .lx-guide-meta dt { font-family: var(--mono); font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-2); }
 .lx-guide-meta dd { margin: 0 0 var(--s-2); }
@@ -233,7 +237,8 @@ def hub_page(s: dict, d: dict) -> str:
     eyebrow = " · ".join(x["name"].replace(" ", " ") for x in s["sections"])
     hero = (f'<header class="lx-hero"><div class="lx-wrap lx-head">{tile("lx-mark lx-tile")}'
             f'<p class="lx-eyebrow">{esc(eyebrow)}</p><h1>{esc(s["name"])}</h1>'
-            f'<p class="lx-standfirst">{esc(d["meta"]["tagline"])}</p>{byline(s)}<ul class="lx-hero-lines">{hero_lines}</ul></div></header>\n')
+            f'<p class="lx-standfirst">{esc(d["meta"]["tagline"])}</p>{byline(s)}<ul class="lx-hero-lines">{hero_lines}</ul>'
+            f'<p class="lx-actions lx-start"><a class="lx-btn" href="maps/#view-doors">{r.label("heroPrimary")}</a></p></div></header>\n')
     sections = (f'<section class="lx-wrap lx-section" aria-labelledby="sections-h"><h2 id="sections-h" class="lx-vh">{esc(kicker)}</h2>'
                 f'<ul class="lx-tiles">{"".join(tiles)}</ul></section>\n')
     about_html = (f'<section class="lx-wrap lx-section lx-about" id="about" aria-labelledby="about-h"><h2 id="about-h">{esc(s["aboutLabel"])}</h2>'
@@ -297,14 +302,27 @@ def not_found_page(s: dict, d: dict) -> str:
     top = (f'<header class="lx-wrap lx-head">{tile("lx-mark lx-tile")}<p class="lx-eyebrow">{esc(nf["eyebrow"])}</p>'
            f'<h1>{esc(nf["title"])}</h1><p class="lx-standfirst">{esc(nf["line"])}</p>'
            f'<p class="lx-actions"><a class="lx-btn lx-primary" href="{esc(root)}">{esc(nf["back"])}</a></p></header>\n')
-    body = (f'<body class="lx-page">\n<a class="lx-skip" href="#main">{r.label("skip")}</a>\n{bar(s, root, None)}\n<main id="main">\n'
+    body = (f'<body class="lx-page lx-404">\n<a class="lx-skip" href="#main">{r.label("skip")}</a>\n{bar(s, root, None)}\n<main id="main">\n'
             f'{top}</main>\n{footer(s, d, root)}\n</body>\n</html>\n')
     return head_html + body
 
 
-def sitemap(s: dict) -> str:
+MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
+
+
+def playbook_date() -> str:
+    """The Agentic SecOps release date: the first line of playbook/README.md's version history ("- v5.4.2, 24 October 2026: ...")."""
+    m = re.search(r"^- v[\d.]+, (\d{1,2}) (\w+) (\d{4}):", (PLAYBOOK / "README.md").read_text(encoding="utf-8"), re.M)
+    return f"{m.group(3)}-{MONTHS.index(m.group(2)) + 1:02d}-{int(m.group(1)):02d}"
+
+
+def sitemap(s: dict, d: dict) -> str:
+    """Each page's own date (QC rulings, Q20): the content's builtOn for the map and the plain pages, the playbook's release
+    date for its landing and app, the site date for the rest."""
     pages = SITEMAP_PAGES
-    rows = "".join(f'  <url><loc>{s["site"]}{p}</loc><lastmod>{s["date"]}</lastmod></url>\n' for p in pages)
+    own = {"maps/": d["meta"]["builtOn"], "privacy.html": d["meta"]["builtOn"], "support.html": d["meta"]["builtOn"],
+           "playbook/": playbook_date(), "playbook/Playbook/": playbook_date()}
+    rows = "".join(f'  <url><loc>{s["site"]}{p}</loc><lastmod>{own.get(p, s["date"])}</lastmod></url>\n' for p in pages)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{rows}</urlset>\n'
 
 
@@ -330,7 +348,7 @@ def published() -> dict[str, Path]:
 def build(docs: Path) -> list[str]:
     s, d = site(), stack()
     written = {"index.html": hub_page(s, d).encode("utf-8"), "guides/index.html": guides_page(s, d).encode("utf-8"),
-               "sitemap.xml": sitemap(s).encode("utf-8"), "404.html": not_found_page(s, d).encode("utf-8")}
+               "sitemap.xml": sitemap(s, d).encode("utf-8"), "404.html": not_found_page(s, d).encode("utf-8")}
     for rel, src in published().items():
         if not src.is_file():
             sys.exit(f"build_hub: {src.relative_to(ROOT)} is missing")

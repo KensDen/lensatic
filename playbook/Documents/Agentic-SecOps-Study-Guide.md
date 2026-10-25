@@ -523,7 +523,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [OWASP: AI Exchange (324-page PDF)](https://owaspai.org/OWASP-AI-Exchange.pdf)
 - [OWASP: AI Exchange Threat Advisor](https://owaspai.org/docs/ai_security_overview/)
 - [OWASP: AI Exchange Threat Model & Decision Tree](https://owaspai.org/images/threattree.png)
-- [OWASP: AI Security Verification Standard (AISVS) 1.0](https://github.com/OWASP/AISVS)
+- [OWASP: AI Security Verification Standard (AISVS) 1.01](https://github.com/OWASP/AISVS)
 - [OWASP: GenAI Security Project (hub)](https://genai.owasp.org)
 - [OWASP: LLM Top 10 (2025)](https://genai.owasp.org/llm-top-10/)
 - [OWASP: LLM Top 10 (2026)](https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/)
@@ -549,7 +549,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [AI Incident Database (AIID)](https://incidentdatabase.ai)
 - [Anthropic-Cybersecurity-Skills (community; NOT Anthropic)](https://github.com/mukul975/Anthropic-Cybersecurity-Skills)
 - [Mapping AI](https://mapping-ai.org/about)
-- [MIT: AI Incident Tracker (validated Jun 2026)](https://airisk.mit.edu/ai-incident-tracker)
+- [MIT: AI Incident Tracker (Jun 2026 update)](https://airisk.mit.edu/ai-incident-tracker)
 - [MIT: AI Risk Repository](https://airisk.mit.edu)
 - [Responsible AI Collaborative](https://raicollab.org)
 
@@ -578,13 +578,13 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 
 - [CDSE: Insider Threat & CI Toolkits (DCSA)](https://www.cdse.edu/Training/Toolkits/Insider-Threat-Toolkit/)
 - [DCSA: Adjudication and Vetting Services (AVS)](https://www.dcsa.mil/Trust-Decision-Adjudications/About-Adjudication-and-Vetting-Services-AVS/)
-- [DCSA: Counterintelligence & Insider Threat (DITMAC)](https://www.dcsa.mil/CI-Insider-Threat/)
+- [DCSA: Counterintelligence & Insider Threat (DITMAC)](https://www.dcsa.mil/Counterintelligence/)
 - [NITTF: National Insider Threat Policy & Minimum Standards](https://archive.dni.gov/index.php/ncsc-how-we-work/ncsc-nittf)
 
 *Federal AI Guidance & Partnerships*
 
 - [Anthropic: DoD / CDAO Partnership](https://www.anthropic.com/news/anthropic-and-the-department-of-defense-to-advance-responsible-ai-in-defense-operations)
-- [ASD ACSC: Opportunities for AI in Cyber Defence (May 2026)](https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/opportunities-for-ai-in-cyber-defence)
+- [ASD ACSC: Opportunities for AI in Cyber Defence (May 2026)](https://www.cyber.gov.au/publication/opportunities-for-ai-in-cyber-defence)
 - [CISA: Adapting Zero Trust Principles to Operational Technology (Apr 2026)](https://www.cisa.gov/resources-tools/resources/adapting-zero-trust-principles-operational-technology)
 - [CISA: BOD 26-04 Implementation Guidance: Forensic Triage (Jun 2026)](https://www.cisa.gov/news-events/directives/bod-26-04-implementation-guidance-prioritizing-security-updates-based-risk)
 - [CISA: BOD 26-04: Prioritizing Security Updates Based on Risk (Jun 2026)](https://www.cisa.gov/news-events/news/cisa-issues-new-directive-improving-how-federal-agencies-prioritize-mitigation-cyber-vulnerabilities)
@@ -625,11 +625,11 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Germany: DE-AISI (KI-Sicherheitsinstitut, Jun 2026)](https://www.heise.de/news/Bundesregierung-will-KI-Sicherheitsinstitut-gruenden-11326247.html)
 - [NIST: Gödel Proof: Continuous Monitor-and-Update for AI (Jun 2026)](https://www.nist.gov/news-events/news/2026/06/nist-mathematical-proof-supports-transition-continuous-monitor-and-update)
 - [RAND: Advancing U.S.-UK Cooperation to Secure Frontier AI (2026)](https://www.rand.org/pubs/research_reports/RRA4764-1.html)
-- [Small Wars Journal: Ubiquitous Technical Surveillance & Signature Reduction](https://smallwarsjournal.com/2026/02/13/ubiquitous-technical-surveillance/)
+- [Small Wars Journal: Ubiquitous Technical Surveillance and the Renewal of Irregular Warfare](https://smallwarsjournal.com/2026/02/13/ubiquitous-technical-surveillance/)
 
 **5. Human-Centric AI Adoption**
 
-- [Microsoft: Towards Humanist Superintelligence](https://mustafa-suleyman.ai/a-humanist-future)
+- [Microsoft: Towards Humanist Superintelligence](https://www.microsoft.ai/news/towards-humanist-superintelligence/)
 - [Stanford HAI: Human-Centered AI](https://hai.stanford.edu/)
 
 **6. The Offense-Defense Balance**
@@ -678,11 +678,11 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Adam Krivka & Ondrej Vlcek (AISLE): AI Found 12 Zero-Days in OpenSSL ([un]prompted 2026)](https://www.youtube.com/watch?v=IjL2qN1KDe8)
 - [Andrew Bullen (Stripe): Breaking the Lethal Trifecta ([un]prompted 2026)](https://www.youtube.com/watch?v=cNE7P5FkqR8)
 - [Anton Chuvakin: Stop Building a 2003 SOC with AI (Part 1, Jun 2026)](https://medium.com/anton-on-security/stop-building-a-2003-soc-with-ai-a-modern-people-process-framework-part-1-7220513c9de1)
-- [Aurora: Automated Cyberattack Emulation from CTI (classical planning + LLM)](https://arxiv.org/pdf/2407.16928)
+- [Wang et al.: From Sands to Mansions: Towards Automated Cyberattack Emulation with Classical Planning and Large Language Models (Aurora)](https://arxiv.org/pdf/2407.16928)
 - [Avishai Efrat & Roey Ben Chaim (Zenity): Total Recon ([un]prompted 2026)](https://www.youtube.com/watch?v=N0DukgZSREo)
 - [Binary Defense: NightBeacon CMD: The Glass-Box SOC Workbench (webinar)](https://binarydefense.com/webinars/nightbeacon-cmd-the-glass-box-soc-workbench-that-keeps-humans-in-command)
 - [Caroline Wong (The AI Cybersecurity Handbook): When You Turn On AI, Who Owns the New Signals? (Jul 2026)](https://www.theaicyberhandbook.com/when-you-turn-on-ai-who-owns-the-new-signals/)
-- [CSA: State of AI Cybersecurity 2026 (survey)](https://cloudsecurityalliance.org/blog/2026/04/02/the-state-of-ai-cybersecurity-2026-unveiling-insights-from-over-1-500-security-leaders)
+- [Darktrace: State of AI Cybersecurity 2026 (survey, via CSA)](https://cloudsecurityalliance.org/blog/2026/04/02/the-state-of-ai-cybersecurity-2026-unveiling-insights-from-over-1-500-security-leaders)
 - [CSO Online: AI Red Teaming Comes of Age (2026)](https://www.csoonline.com/article/4181930/ai-red-teaming-comes-of-age.html)
 - [IBM X-Force (Patrick Fussell): The Front of the Cyber Kill Chain Just Moved (Jun 2026)](https://www.ibm.com/think/x-force/The-front-of-the-cyber-kill-chain-just-moved)
 - [Joshua Saxe: The Hard Part Isn't Building the Agent ([un]prompted 2026)](https://www.youtube.com/watch?v=rO2yA52U_i4)
@@ -720,7 +720,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Hackett & Garraghan (Mindgard / Lancaster): Behind the Refusal: Determining Guardrail Activation via Behavioral Monitoring (Jul 2026)](https://arxiv.org/abs/2607.02121)
 - [MIT: AI Agent Index (2025)](https://aiagentindex.mit.edu/)
 - [Narajala & Narayan: Securing Agentic AI (ATFAA+SHIELD)](https://arxiv.org/abs/2504.19956)
-- [Singer et al. (CMU + Anthropic): Autonomous Multi-Host Attacks](https://arxiv.org/abs/2501.16466)
+- [Singer et al. (CMU + Anthropic): Incalmo: An Autonomous LLM-assisted System for Red Teaming Multi-Host Networks](https://arxiv.org/abs/2501.16466)
 - [Stanford HAI: AI Index 2026](https://hai.stanford.edu/ai-index)
 - [Vassilev (NIST): Robust AI Security & Alignment: A Sisyphean Endeavor?](https://arxiv.org/abs/2512.10100)
 - [Wikipedia: Adversarial Machine Learning](https://en.wikipedia.org/wiki/Adversarial_machine_learning)
@@ -792,13 +792,13 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 *Microsoft*
 
 - [Microsoft: Codename MDASH Brings Agentic AI Security Scanning to US Government (Sep 2026)](https://www.microsoft.com/en-us/microsoft-cloud/blog/us-government/2026/09/08/codename-mdash-brings-agentic-ai-security-scanning-to-us-government/)
-- [Microsoft: MAI-Cyber-1-Flash & Project Perception (Jul 2026)](https://microsoft.ai/news/introducing-mai-cyber-1-flash-inside-mdash/)
+- [Microsoft: MAI-Cyber-1-Flash & Project Perception (Aug 2026)](https://microsoft.ai/news/introducing-mai-cyber-1-flash-inside-mdash/)
 - [Microsoft: MDASH Agentic Security](https://www.microsoft.com/en-us/security/blog/2026/05/12/defense-at-ai-speed-microsofts-new-multi-model-agentic-security-system-tops-leading-industry-benchmark/)
 - [Microsoft: See What Happened: AI Investigation Playbook (Jun 2026)](https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/bade/documents/products-and-services/en-us/security/See-What-Happened-AI-Investigation-Playbook.pdf)
 
 *OpenAI*
 
-- [OpenAI: Prompt Injection: A Frontier Challenge](https://openai.com/index/prompt-injections/)
+- [OpenAI: Understanding Prompt Injections: A Frontier Security Challenge](https://openai.com/index/prompt-injections/)
 - [OpenAI: Trusted Access for Cyber (GPT-5.5 / GPT-5.5-Cyber, May 2026)](https://openai.com/index/gpt-5-5-with-trusted-access-for-cyber/)
 
 *Palo Alto Networks*
@@ -828,7 +828,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Cisco: Zero Trust for Agentic AI (white paper)](https://www.cisco.com/c/en/us/solutions/collateral/artificial-intelligence/security/zero-trust-agentic-ai-wp.html)
 - [CoSAI: Zero Trust for AI Systems (v1.0, Sep 2026)](https://github.com/cosai-oasis/ws2-defenders/blob/main/zero-trust/Zero-Trust-for-AI-Systems.pdf)
 - [Google DeepMind: AI Control Roadmap (v0.1)](https://deepmind.google/blog/securing-the-future-of-ai-agents/)
-- [Google DeepMind: Three Layers of Agentic Security](https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/securing-the-future-of-ai-agents/three-layers-of-agent-security.pdf)
+- [Google DeepMind: Three Layers of Agent Security](https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/securing-the-future-of-ai-agents/three-layers-of-agent-security.pdf)
 - [IETF: RFC 8693 (OAuth 2.0 Token Exchange)](https://datatracker.ietf.org/doc/html/rfc8693)
 - [Ken Connell: Lensatic Field Guides: Zero Trust (Sep 2026)](https://kensden.github.io/lensatic/guides/zero-trust/)
 - [Microsoft: Announcing Zero Trust for AI](https://www.microsoft.com/en-us/security/blog/2026/03/19/new-tools-and-guidance-announcing-zero-trust-for-ai/)

@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Three Jobs, Kept Distinct</title>
+<meta property="og:title" content="Three Jobs, Kept Distinct">
+<meta property="og:description" content="How work splits in an AI-ready SOC">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-three-jobs.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -12,6 +21,10 @@
     --intel:#ff8c42; --red:#EF4444; --blue:#3B82F6; --purple:#B273B5; --green:#10B981; --gold:#F59E0B;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; color-scheme:light;} :root:not([data-theme="dark"]) .col .def{color:#334155}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; color-scheme:light;} :root[data-theme="light"] .col .def{color:#334155}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
@@ -53,6 +66,7 @@
   @media (max-width:820px){ .cols{grid-template-columns:1fr} .col .def{min-height:0} }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .col .idx{font-size:12px} .col .handles{font-size:12px} .col .def{font-size:12px} .col li{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
 </style>
 </head>
 <body>

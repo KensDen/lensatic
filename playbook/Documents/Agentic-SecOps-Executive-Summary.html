@@ -16,6 +16,8 @@
 <meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
 <meta name="twitter:card" content="summary_large_image">
 <style>
+  /* v5.4.2: line breaks; no line ends on one word */
+  body{text-wrap:pretty} h1,h2,h3,.titles p{text-wrap:balance}
   /* Fonts: IBM Plex Sans 400/700 and IBM Plex Mono 400/700, copied unchanged from the
      Playbook/index.html shell (static latin-subset woff2 from @fontsource/ibm-plex-sans@5.3.0
      and @fontsource/ibm-plex-mono@5.3.0). IBM Plex Sans is Copyright 2019 IBM Corp. and IBM Plex
@@ -180,7 +182,7 @@
     </aside>
   <section>
     <h2>The Opportunity</h2>
-    <p>Threat actors now operate at machine speed. In September 2025, by Anthropic's account, a state-sponsored group ran the first documented large-scale cyber-espionage campaign executed largely by AI (the GTG-1002 case), automating 80&#160;-&#8288;&#160;90% of tactical operations across roughly 30 global targets at a tempo no human team could match. Armis's 2026 cyberwarfare report says mean-time-to-compromise is collapsing from hours toward seconds. Agentic AI, systems that plan, act, observe, and adapt autonomously, is the lever that compresses the loop between attack simulation and defensive improvement from weeks to hours, turning point-in-time assessments into a continuous, self-improving security posture. The throughline is simple: you cannot out-react agent-speed offense with human-speed defense.</p>
+    <p>Threat actors now operate at machine speed. In September 2025, by <a href="https://www.anthropic.com/news/disrupting-AI-espionage">Anthropic's account</a>, a state-sponsored group ran the first documented large-scale cyber-espionage campaign executed largely by AI (the GTG-1002 case), automating 80&#160;-&#8288;&#160;90% of tactical operations across roughly 30 global targets at a tempo no human team could match. <a href="https://www.armis.com/blog/nation-state-attacks-hit-machine-speed-key-takeaways-of-the-2026-armis-cyberwarfare-report-and-what-it-means-for-security-teams/">Armis's 2026 cyberwarfare report</a> says mean-time-to-compromise is collapsing from hours toward seconds. Agentic AI, systems that plan, act, observe, and adapt autonomously, is the lever that compresses the loop between attack simulation and defensive improvement from weeks to hours, turning point-in-time assessments into a continuous, self-improving security posture. The throughline is simple: you cannot out-react agent-speed offense with human-speed defense.</p>
   </section>
   <section>
     <h2>The Core Idea: A Continuous Purple Loop</h2>
@@ -256,7 +258,7 @@
   </section>
   <section>
     <h2>Agentic Insider Risk: Treat Agents as Non-Human Insiders</h2>
-    <p class="lead">An agent with broad data access, cross-system reach, and machine-speed autonomy is functionally a privileged insider: potentially the most dangerous insider threat an organization has faced if left ungoverned (80% of organizations have already seen risky agent behavior, per McKinsey 2025). Borrow the human-risk playbook that experts like former DIA officer Shawnee Delaney built for human insiders (the full employment lifecycle): provision deliberately, behaviorally baseline, watch for drift, decommission promptly. Apply Zero Trust (NIST SP 800-207):</p>
+    <p class="lead">An agent with broad data access, cross-system reach, and machine-speed autonomy is functionally a privileged insider: potentially the most dangerous insider threat an organization has faced if left ungoverned (80% of organizations have already seen risky agent behavior, per <a href="https://www.mckinsey.com/capabilities/risk-and-resilience/our-insights/deploying-agentic-ai-with-safety-and-security-a-playbook-for-technology-leaders">McKinsey 2025</a>). Borrow the human-risk playbook that experts like former DIA officer Shawnee Delaney built for human insiders (the full employment lifecycle): provision deliberately, behaviorally baseline, watch for drift, decommission promptly. Apply Zero Trust (NIST SP 800-207):</p>
     <div class="grid cards">
       <div class="card">
         <p class="card-title">Verify Explicitly</p>
@@ -297,7 +299,7 @@
   </section>
   <section>
     <h2>OT, ICS &amp; SCADA: Where AI Meets Physical Infrastructure</h2>
-    <p>Organizations that build and operate physical infrastructure (water, power, pipelines, utilities, facilities) carry a large operational-technology (OT) footprint, including industrial control systems (ICS) such as SCADA, and OT inverts IT's priorities: safety and availability come first, because the failure mode is physical (a damaged pump, a power loss), not a data breach. The OT standards stack (NIST SP 800-82, ISA/IEC 62443 zones-and-conduits, the Purdue Model) and the federal authorization lane both differ: DoW categorizes facility-related control systems as Platform IT (PIT) under UFC 4-010-06, and critical-infrastructure operators carry their own control-system authorization mandates on top of that baseline. The agentic implications raise the bar: human-in-command is non-negotiable. Agents stay read-only and advisory by default, never in the loop of a safety system, monitoring passively (never active scanning that could disrupt a fragile PLC). The IT/OT boundary (Purdue Level 3.5, data diodes where warranted) is the hardest authorization boundary of all, because here the bounded blast radius is physical infrastructure. The threat is real and present: MITRE ATT&amp;CK for ICS catalogs the techniques, and actors like Volt Typhoon, a PRC state-sponsored group, have been assessed by CISA as pre-positioning in U.S. critical infrastructure for potential disruptive effect. (OT authorization specifics: confirm with your authorizing official (AO) and control-system engineers.)</p>
+    <p>Organizations that build and operate physical infrastructure (water, power, pipelines, utilities, facilities) carry a large operational-technology (OT) footprint, including industrial control systems (ICS) such as SCADA, and OT inverts IT's priorities: safety and availability come first, because the failure mode is physical (a damaged pump, a power loss), not a data breach. The OT standards stack (NIST SP 800-82, ISA/IEC 62443 zones-and-conduits, the Purdue Model) and the federal authorization lane both differ: DoW categorizes facility-related control systems as Platform IT (PIT) under UFC 4-010-06, and critical-infrastructure operators carry their own control-system authorization mandates on top of that baseline. The agentic implications raise the bar: Human in Command is non-negotiable. Agents stay read-only and advisory by default, never in the loop of a safety system, monitoring passively (never active scanning that could disrupt a fragile PLC). The IT/OT boundary (Purdue Level 3.5, data diodes where warranted) is the hardest authorization boundary of all, because here the bounded blast radius is physical infrastructure. The threat is real and present: MITRE ATT&amp;CK for ICS catalogs the techniques, and actors like Volt Typhoon, a PRC state-sponsored group, have been assessed by CISA as pre-positioning in U.S. critical infrastructure for potential disruptive effect. (OT authorization specifics: confirm with your authorizing official (AO) and control-system engineers.)</p>
   </section>
   <section>
     <h2>The Government &amp; Frontier Picture</h2>
@@ -305,7 +307,7 @@
   </section>
   <section>
     <h2>Anchored in the Field's Leading Work</h2>
-    <p>This approach aligns with where the major players are converging: Anthropic (Frontier Red Team, the GTG-1002 disclosure, and the year-long ATT&amp;CK mapping of AI-enabled threats: 67.3% of 832 malicious accounts studied used AI for malware, with attacks shifting deeper into the post-compromise lifecycle); Microsoft (MDASH agentic vulnerability discovery, Zero Trust for AI, MAI's Humanist Superintelligence); Google (DeepMind's CaMeL injection defense, the agent-focused SAIF 2.0 framework, and the Agentic AI Threat Defense platform); Mandiant (Google Cloud) and Palo Alto Unit 42 (frontline incident-response data, M-Trends 2026 and the 750+-incident Global IR Report); Wiz (Google Cloud's AI-SPM and AI-APP); AWS (the AI Security Framework and Bedrock Guardrails, GovCloud-available); OpenAI (prompt injection as a frontier challenge with layered agent controls); plus MITRE ATT&amp;CK/ATLAS (including ATT&amp;CK for ICS on the OT side), the OWASP GenAI project and AI Exchange, the SANS AI Security Maturity Model (the companion to Rob T. Lee's Secure AI Blueprint), the Cloud Security Alliance (the AI Controls Matrix, the MAESTRO agentic threat model, and STAR for AI assurance), NIST, the Alan Turing Institute / CETaS, the EU AI Act / NIS2 regime, Recorded Future's CTI model, and the academic literature (Stanford HAI, Carnegie Mellon CyLab, MIT, ATFAA/SHIELD, AgentPoison, and the cross-lab "Attacker Moves Second" study).</p>
+    <p>This approach aligns with where the major players are converging: Anthropic (Frontier Red Team, the GTG-1002 disclosure, and the year-long <a href="https://www.anthropic.com/news/AI-enabled-cyber-threats-mitre-attack">ATT&amp;CK mapping of AI-enabled threats</a>: 67.3% of 832 malicious accounts studied used AI for malware, with attacks shifting deeper into the post-compromise lifecycle); Microsoft (MDASH agentic vulnerability discovery, Zero Trust for AI, MAI's Humanist Superintelligence); Google (DeepMind's CaMeL injection defense, the agent-focused SAIF 2.0 framework, and the Agentic AI Threat Defense platform); Mandiant (Google Cloud) and Palo Alto Unit 42 (frontline incident-response data, M-Trends 2026 and the 750+-incident Global IR Report); Wiz (Google Cloud's AI-SPM and AI-APP); AWS (the AI Security Framework and Bedrock Guardrails, GovCloud-available); OpenAI (prompt injection as a frontier challenge with layered agent controls); plus MITRE ATT&amp;CK/ATLAS (including ATT&amp;CK for ICS on the OT side), the OWASP GenAI project and AI Exchange, the SANS AI Security Maturity Model (the companion to Rob T. Lee's Secure AI Blueprint), the Cloud Security Alliance (the AI Controls Matrix, the MAESTRO agentic threat model, and STAR for AI assurance), NIST, the Alan Turing Institute / CETaS, the EU AI Act / NIS2 regime, Recorded Future's CTI model, and the academic literature (Stanford HAI, Carnegie Mellon CyLab, MIT, ATFAA/SHIELD, AgentPoison, and the cross-lab "Attacker Moves Second" study).</p>
   </section>
   <section>
     <h2>Evidence in Action: Why This Isn't Theoretical</h2>
@@ -313,19 +315,19 @@
     <div class="grid evidence">
       <div class="card">
         <p class="card-title">GTG-1002: AI-orchestrated espionage</p>
-        <p class="card-body">A state-linked actor ran a large-scale intrusion with an agent performing up to ~80&#160;-&#8288;&#160;90% of the work autonomously. Proves machine-speed agentic attacks are here now.</p>
+        <p class="card-body">A state-linked actor ran a <a href="https://www.anthropic.com/news/disrupting-AI-espionage">large-scale intrusion</a> with an agent performing up to ~80&#160;-&#8288;&#160;90% of the work autonomously. Proves machine-speed agentic attacks are here now.</p>
       </div>
       <div class="card">
         <p class="card-title">Mexican government breach: the APT_UNICORN persona, made real</p>
-        <p class="card-body">A single operator used Claude Code and GPT-4.1 to breach nine Mexican agencies (Dec 2025&#160;-&#8288;&#160;Feb 2026), Claude Code generating ~75% of remote commands and the AI turning raw data into next-target plans. Basic hygiene gaps let it in. (As reported by Gambit Security.)</p>
+        <p class="card-body">A single operator used Claude Code and GPT-4.1 to breach nine Mexican agencies (Dec 2025&#160;-&#8288;&#160;Feb 2026), Claude Code generating ~75% of remote commands and the AI turning raw data into next-target plans. Basic hygiene gaps let it in. (As reported by <a href="https://gambit.security/ai-assisted-breach-of-mexicos-government-infrastructure">Gambit Security</a>.)</p>
       </div>
       <div class="card">
         <p class="card-title">A year of AI-enabled threats</p>
-        <p class="card-body">Anthropic's ATT&amp;CK-mapped review found 67.3% of 832 malicious accounts used AI for malware, shifting toward post-compromise techniques, and that orchestration, not raw model skill, is the differentiator.</p>
+        <p class="card-body">Anthropic's <a href="https://www.anthropic.com/news/AI-enabled-cyber-threats-mitre-attack">ATT&amp;CK-mapped review</a> found 67.3% of 832 malicious accounts used AI for malware, shifting toward post-compromise techniques, and that orchestration, not raw model skill, is the differentiator.</p>
       </div>
       <div class="card">
         <p class="card-title">MDASH: autonomous discovery</p>
-        <p class="card-body">Microsoft's agentic research found real vulnerabilities, including 16 new flaws in the Windows networking and authentication stack, at scale: proof the defensive upside is as real as the threat.</p>
+        <p class="card-body">Microsoft's <a href="https://www.microsoft.com/en-us/security/blog/2026/05/12/defense-at-ai-speed-microsofts-new-multi-model-agentic-security-system-tops-leading-industry-benchmark/">agentic research</a> found real vulnerabilities, including 16 new flaws in the Windows networking and authentication stack, at scale: proof the defensive upside is as real as the threat.</p>
       </div>
       <div class="card">
         <p class="card-title">PNNL critical-infrastructure emulation</p>

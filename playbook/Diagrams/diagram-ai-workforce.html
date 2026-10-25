@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>One Operator, a Cast of Agents</title>
+<meta property="og:title" content="One Operator, a Cast of Agents">
+<meta property="og:description" content="Model the single operator's AI &quot;workforce&quot; as discrete agent-roles, then map each to a technique and a control">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-ai-workforce.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -13,6 +22,10 @@
     --tint-accent:#ABE4FA; --tint-purple:#DCC0DE; --tint-blue:#93C5FD; --tint-gold:#FCD34D; --tint-red:#FCA5A5; --tint-intel:#FDBA74; --tint-green:#6EE7B7;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
@@ -63,6 +76,7 @@
   @media (max-width:820px){ .grid{grid-template-columns:1fr} .ag .does{min-height:0} }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{font-size:8.5px;color:var(--dim);margin-top:5px;line-height:1.5}
+  @media (max-width:640px){ .op .od{font-size:12px} .fan{font-size:12px} .ag .tk{font-size:12px} .ag .does{font-size:12px} .ag .def{font-size:12px} .flip .ft{font-size:12px} .footer .l{font-size:12px} .footer .src{font-size:12px} .footer .r .badge{font-size:12px} .copy{font-size:12px} }
 </style>
 </head>
 <body>
@@ -81,7 +95,7 @@
 
   <div class="grid">
     <div class="ag c-blue rev" style="animation-delay:.14s"><div class="hd"><span class="rn">Recon / OSINT</span><span class="tk">Reconnaissance &middot; TA0043</span></div><div class="does">Automated target profiling, infrastructure mapping, and data-leak harvesting.</div><div class="def"><b>Defend:</b> attack-surface monitoring; rate-limit and deny mass enumeration.</div></div>
-    <div class="ag c-intel rev" style="animation-delay:.18s"><div class="hd"><span class="rn">Social engineering</span><span class="tk">Phishing &middot; T1566</span></div><div class="does">Tailored lures, deepfake pretext, and multilingual phishing at scale.</div><div class="def"><b>Defend:</b> inbound + deepfake anomaly detection; phishing-resistant auth.</div></div>
+    <div class="ag c-intel rev" style="animation-delay:.18s"><div class="hd"><span class="rn">Social engineering</span><span class="tk">Initial Access &middot; TA0001</span></div><div class="does">Tailored lures, deepfake pretext, and multilingual phishing at scale.</div><div class="def"><b>Defend:</b> inbound + deepfake anomaly detection; phishing-resistant auth.</div></div>
     <div class="ag c-red rev" style="animation-delay:.22s"><div class="hd"><span class="rn">Malware dev</span><span class="tk">Resource Dev &middot; TA0042</span></div><div class="does">Generate, debug, and obfuscate payloads to evade signatures.</div><div class="def"><b>Defend:</b> behavioral EDR + sandbox detonation; no signature-only reliance.</div></div>
     <div class="ag c-purple rev" style="animation-delay:.26s"><div class="hd"><span class="rn">Infrastructure / C2</span><span class="tk">Command &amp; Control &middot; TA0011</span></div><div class="does">Spin up proxies, bulletproof hosting, and resilient C2.</div><div class="def"><b>Defend:</b> egress / beaconing analytics; egress allow-listing; DNS controls.</div></div>
     <div class="ag c-gold rev" style="animation-delay:.3s"><div class="hd"><span class="rn">Fraud / extortion</span><span class="tk">Impact &middot; TA0040</span></div><div class="does">Negotiate, run money-mule logistics, and pressure victims.</div><div class="def"><b>Defend:</b> BEC + anomalous-payment analytics; transaction holds.</div></div>
@@ -95,7 +109,7 @@
 
   <div class="footer rev" style="animation-delay:.46s">
     <div class="l"><b>The defender's reframe:</b> you don't need a control for "AI". You need a control for each function the workforce performs. Decompose, map to ATT&amp;CK, and answer each role.
-      <div class="src">ATT&amp;CK IDs are indicative, mapped at the tactic level except Phishing (T1566), a technique. Conceptual reference for an illustrative single-operator threat (APT_UNICORN).</div>
+      <div class="src">ATT&amp;CK IDs are indicative and mapped at the tactic level; this role's phishing is technique T1566, under Initial Access (TA0001). Conceptual reference for an illustrative single-operator threat (APT_UNICORN).</div>
     <div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
     <div class="r"><span class="badge">AGENTIC SECOPS</span></div>
   </div>

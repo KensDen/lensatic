@@ -10,7 +10,7 @@
  "dateText": "18 October 2026",
  "byline": {"text": "By Ken Connell", "name": "Ken Connell", "href": "https://kensden.github.io/"},
  "aboutLabel": "About",
- "aboutBlocks": ["notAffiliated", "offline", "licensing", "nameStory"],
+ "aboutBlocks": ["notAffiliated", "offline", "licensing", "builtWith", "nameStory"],
  "sections": [
   {
    "key": "maps",

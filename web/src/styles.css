@@ -107,7 +107,6 @@ small, .small { font-size: 0.875rem; color: var(--fg-2); }
 .top { position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
 .top-in { display: flex; align-items: center; gap: 0.5rem; max-width: 70rem; height: var(--nav-h); margin: 0 auto; padding: 0 var(--gutter); }
 /* the umbrella bar (Lensatic 2.0, hub/lensatic.css) lines up with the app's own header */
-.lx-bar-in { max-width: 70rem; padding: 0 var(--gutter); }
 .brand { display: flex; align-items: center; gap: 0.5rem; color: var(--accent); flex: 0 0 auto; min-width: 0; min-height: 44px; margin-right: 0.75rem; text-decoration: none; }
 .mark { display: block; flex: 0 0 auto; }
 .wordmark { font-weight: 700; font-size: 1.0625rem; color: var(--fg); }
@@ -186,6 +185,9 @@ main p, main li { max-width: 44em; }
 .steps li { margin: 0.5rem 0; }
 .steps li::marker { font-family: var(--mono); color: var(--fg-2); }
 a.layer-tag { text-decoration: none; }
+/* a linked layer tag is a 44px target with the same pill drawn inside it (QC rulings, Q15) */
+a.layer-tag { position: relative; display: inline-flex; align-items: center; min-height: 44px; vertical-align: middle; border-color: transparent; background: none; }
+a.layer-tag::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1.5em; transform: translateY(-50%); border: 1px solid var(--line-strong); border-radius: 4px; pointer-events: none; }
 .layer-tag { display: inline-block; font-family: var(--mono); font-size: 0.71875rem; font-weight: 700; line-height: 1.5; padding: 0 0.3125rem; border: 1px solid var(--line-strong); border-radius: 4px; color: var(--accent); margin-right: 0.15rem; vertical-align: 1px; white-space: nowrap; }
 .landing { margin-top: 0.75rem; padding: 0.625rem 0.875rem; border-left: 3px solid var(--accent); background: var(--bg); border-radius: 0 var(--radius) var(--radius) 0; }
 .landing h3 { margin: 0 0 0.25rem; font-size: 0.9375rem; }
@@ -324,6 +326,7 @@ a.layer-tag { text-decoration: none; }
 .ent > summary::after { grid-column: 2; grid-row: 1; }
 .ent > summary .cite { grid-column: 1 / -1; grid-row: 3; color: var(--fg-2); font-size: 0.875rem; min-width: 0; }
 .ent .body { margin: 0 1.25rem 1rem; padding-top: 0.75rem; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
+.ent[open] > .body { padding-bottom: 3.5rem; }  /* room below an opened card for the corner button (QC rulings, R-10) */
 dl.kv dd a.url { display: inline-block; padding: 0.7rem 0; }
 small a, .small a, .steps small a { white-space: nowrap; }
 small a.url, .small a.url, a.url { white-space: normal; overflow-wrap: anywhere; }

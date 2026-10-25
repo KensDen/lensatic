@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.16",
+    "contentVersion": "1.2.17",
     "builtOn": "2026-10-24",
     "sources": [
       "csf20",
@@ -164,7 +164,7 @@
       {
         "version": "1.2.10",
         "date": "2026-10-18",
-        "summary": "The map describes the public sector cybersecurity frameworks. Support and the privacy policy speak for all three sections and name the iOS app. The AI column says Humans in Command. Two glossary lines take the statutory-name token, five checked dates follow their notes, the {{dow}} note gets a recheck date, and addresses recorded as gone show as text. One build credit wording."
+        "summary": "The map describes the public sector cybersecurity frameworks. Support and the privacy policy speak for all three sections and name the iOS app. The AI column says Human in Command. Two glossary lines take the statutory-name token, five checked dates follow their notes, the {{dow}} note gets a recheck date, and addresses recorded as gone show as text. One build credit wording."
       },
       {
         "version": "1.2.11",
@@ -195,6 +195,11 @@
         "version": "1.2.16",
         "date": "2026-10-24",
         "summary": "Five links in the verification notes go to the new addresses of their pages on the US Code and House Armed Services Committee sites. One note spells canceled the US way."
+      },
+      {
+        "version": "1.2.17",
+        "date": "2026-10-24",
+        "summary": "NSA's zero trust information sheet on operational technology of 8 October 2026 joins its entry, and the AI Defense Matrix names its authors. The DoD Zero Trust Overlays link goes to the archived copy, SP 800-53A notes Release 5.2.0, the AI RMF records its recheck, About says the work may be read, reviewed and used for personal study, the AI column says Human in Command, and the glossary links the playbook section's glossary."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -204,7 +209,7 @@
     "about": {
       "notAffiliated": "Not affiliated with NIST, CISA, NSA, {{dow.current}}, OMB, or any framework publisher.",
       "offline": "No account. No data collected.",
-      "licensing": "Most of the frameworks Lensatic describes are United States government publications. Works prepared by United States government officers and employees as part of their official duties are in the public domain in the United States. Lensatic's own code and text are copyright 2026 Ken Connell, all rights reserved; to ask about reusing them, open an issue on the source repository. IBM Corp. holds the copyright in the typefaces, IBM Plex Sans and IBM Plex Mono, which are licensed under the SIL Open Font License (OFL), version 1.1. Where a cited work is protected, its title, names and any short quotation remain its owner's, and the work itself is described, not reproduced.",
+      "licensing": "Most of the frameworks Lensatic describes are United States government publications. Works prepared by United States government officers and employees as part of their official duties are in the public domain in the United States. Lensatic's own code and text are copyright 2026 Ken Connell, all rights reserved; to ask about reusing them, open an issue on the source repository. The work is published so it can be read, reviewed and used for personal study. IBM Corp. holds the copyright in the typefaces, IBM Plex Sans and IBM Plex Mono, which are licensed under the SIL Open Font License (OFL), version 1.1. Where a cited work is protected, its title, names and any short quotation remain its owner's, and the work itself is described, not reproduced.",
       "builtWith": "Built with Claude and Claude Code, reviewed by a human who owns the mistakes.",
       "nameStory": [
         "A lensatic compass is the Army's field compass. You sight a landmark through its lens, read the bearing off the dial, and move out knowing which way you're headed. Lensatic does the same for the framework stack: find where you stand, see which framework applies, and take a bearing on what comes next.",
@@ -556,14 +561,14 @@
       "answersQuestion": "In what order do we build each pillar, and what does each phase of the work look like?",
       "publisher": "NSA",
       "title": "NSA Zero Trust Guidance: Zero Trust Cybersecurity Information Sheets; Zero Trust Implementation Guidelines",
-      "edition": "Eight cybersecurity information sheets (2021 to 2024) and four implementation guidelines (2026)",
+      "edition": "Nine cybersecurity information sheets (2021 to 2026) and four implementation guidelines (2026)",
       "date": "2026-05-28",
       "url": "https://www.nsa.gov/Cybersecurity/ZIG/",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-09",
         "method": "primary-fetch",
-        "note": "NSA's zero trust hub page and its information-sheet listing were read on 9 September 2026; the hub launched 28 May 2026 per NSA's release of that date. All eight information sheets are listed with dates from 25 February 2021 to 10 July 2024. The implementation guidelines (primer, discovery phase, phases one and two) were announced by NSA on 14 and 30 January 2026. The label ZIG belongs to the 2026 implementation guideline series, not to the pillar information sheets."
+        "note": "NSA's zero trust hub page and its information-sheet listing were read on 9 September 2026; the hub launched 28 May 2026 per NSA's release of that date. All eight information sheets then on it are listed with dates from 25 February 2021 to 10 July 2024 (a ninth, of 8 October 2026, was added on 24 October 2026 from NSA's press release; see its document entry). The implementation guidelines (primer, discovery phase, phases one and two) were announced by NSA on 14 and 30 January 2026. The label ZIG belongs to the 2026 implementation guideline series, not to the pillar information sheets."
       },
       "authority": {
         "nature": "guidance",
@@ -724,6 +729,18 @@
             "method": "none",
             "note": "Title and release date from NSA's press release and hub page, read on 9 September 2026; the PDF at this URL was not fetched. URL tried: https://media.defense.gov/2026/Jan/30/2003868302/-1/-1/0/CTR_ZIG_PHASE_TWO.PDF"
           }
+        },
+        {
+          "title": "Hardening {{dow.current}} ({{dow}}) Critical Operational Technology (OT) Environments with Zero Trust (ZT) Principles",
+          "edition": "Cybersecurity Information Sheet",
+          "date": "2026-10-08",
+          "url": "https://media.defense.gov/2026/Oct/08/2004013274/-1/-1/0/CSI_HARDENING_OT_WITH_ZT.PDF",
+          "verification": {
+            "status": "unverified",
+            "verifiedOn": null,
+            "method": "none",
+            "note": "Title and date confirmed in NSA's press release of 8 October 2026, read on 24 October 2026 (https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4621936/nsa-releases-zero-trust-guidance-for-protecting-operational-technology-systems/); the PDF at this URL answers, but its text was not read."
+          }
         }
       ]
     },
@@ -834,7 +851,7 @@
       "title": "Zero Trust Overlays",
       "edition": "Version not confirmed on a publisher page",
       "date": "2024-06",
-      "url": "https://dodcio.defense.gov/Portals/0/Documents/Library/ZeroTrustOverlays.pdf",
+      "url": "https://web.archive.org/web/20250527093843/https://dodcio.defense.gov/Portals/0/Documents/Library/ZeroTrustOverlays.pdf",
       "verification": {
         "status": "unverified",
         "verifiedOn": null,
@@ -859,7 +876,7 @@
           "note": "Asserted from the strategy's direction to all components and the overlays' announced purpose; not read from a publisher copy."
         }
       },
-      "note": "Launched 29 May 2024 per the department's November 2024 zero trust newsletter and announced publicly on 4 June 2024, and missing from the CIO library since about September 2025; nothing on the publisher's site rescinds or replaces it. From a non-publisher archived copy, not from the verified fields: that copy printed Version 1.1, June 2024, and states that SP 800-53 Revision 5 controls are mapped to the activities and outcomes defined for each zero trust capability."
+      "note": "Launched 29 May 2024 per the department's November 2024 zero trust newsletter and announced publicly on 4 June 2024, and missing from the CIO library since about September 2025; nothing on the publisher's site rescinds or replaces it. From a non-publisher archived copy, not from the verified fields: that copy printed Version 1.1, June 2024, and states that SP 800-53 Revision 5 controls are mapped to the activities and outcomes defined for each zero trust capability. The link goes to an archived copy (Wayback Machine, 27 May 2025), as the Zero Trust guide's does; the official addresses return 404."
     },
     {
       "id": "cora",
@@ -938,7 +955,7 @@
             "method": "primary-fetch",
             "note": "Fetched; January 2022, Revision 5."
           },
-          "note": "The assessment procedures an assessor runs against SP 800-53 controls."
+          "note": "The assessment procedures an assessor runs against SP 800-53 controls. Release 5.2.0 (27 August 2025) added three procedures, SA-15(13), SA-24 and SI-02(07), per the CSRC record read on 24 October 2026."
         },
         {
           "title": "Risk Management Framework for DoD Systems",
@@ -987,7 +1004,8 @@
         "status": "verified",
         "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
-        "note": "NIST AI 100-1 PDF and the NIST landing page fetched: title as printed, January 2023 on the cover, released 26 January 2023 per the page; four functions Govern, Map, Measure, Manage."
+        "note": "NIST AI 100-1 PDF and the NIST landing page fetched: title as printed, January 2023 on the cover, released 26 January 2023 per the page; four functions Govern, Map, Measure, Manage. Rechecked 24 October 2026: NIST's page still says the 1.0 text is being revised as part of the White House AI Action Plan, and no draft is published.",
+        "recheckAfter": "2027-01-24"
       },
       "authority": {
         "nature": "guidance",
@@ -1047,7 +1065,7 @@
       "shortName": "AI Defense Matrix",
       "oneLiner": "The AI Defense Matrix lays the six CSF 2.0 functions across eight AI-specific asset classes, from models and training data to agent identities, the same two-axis move the zero trust matrix makes.",
       "answersQuestion": "Which defenses does each part of an AI system need, function by function?",
-      "publisher": "aidefensematrix.com",
+      "publisher": "Lenny Zeltser and Sounil Yu",
       "title": "The AI Defense Matrix",
       "edition": "None printed (copyright 2026)",
       "date": "2026",
@@ -5706,7 +5724,7 @@
     "socProfile": [
       {
         "functionId": "GV",
-        "outcome": "Written policy on what AI agents may do autonomously and where a human decides; a named owner for AI use in security operations. Humans in Command, in writing.",
+        "outcome": "Written policy on what AI agents may do autonomously and where a human decides; a named owner for AI use in security operations. Human in Command, in writing.",
         "verification": {
           "status": "authored",
           "verifiedOn": null,
@@ -5940,7 +5958,8 @@
       "aboutPhotoAlt": "My lensatic compass, open, with the sighting wire raised.",
       "footerNav": "Policies and source",
       "sourceCode": "Source code",
-      "releasedOn": "released"
+      "releasedOn": "released",
+      "glossaryCrossLink": "The playbook section keeps its own glossary of AI security terms, in its AI Fluency tab."
     },
     "binds": {
       "federal-civilian": "Federal civilian agencies",
@@ -5985,8 +6004,8 @@
         "Lensatic holds nothing about you, so there is nothing to retain or delete. Clearing this site's data in your browser removes the saved theme choice.",
         "There are no third-party software development kits (SDKs), no analytics and no advertising.",
         "In the web page and the iOS app, the only outside links go to the public documents cited in Sources and to the source repository on GitHub; both also link to this policy and the support page. They open in your browser, under those sites' own privacy policies. This page and the support page also link to GitHub.",
-          "The Zero Trust page and the Agentic SecOps app share that one theme choice with the other Lensatic pages. A choice either of them saved earlier under its own key (ztfg-theme or playbook-theme) moves to lensatic-theme once, and the old key is removed. Both link out to their public sources.",
-          "The hub links out only to the source repository on GitHub and to Ken Connell's own site, kensden.github.io; the guides index links to the repository and, like the Zero Trust page, to a companion NotebookLM notebook on Google, which needs a Google account; the Agentic SecOps landing links only to the repository and its documents on GitHub.",
+        "The Zero Trust page and the Agentic SecOps app share that one theme choice with the other Lensatic pages. A choice either of them saved earlier under its own key (ztfg-theme or playbook-theme) moves to lensatic-theme once, and the old key is removed. Both link out to their public sources.",
+        "The hub links out only to the source repository on GitHub and to Ken Connell's own site, kensden.github.io; the guides index links to the repository and, like the Zero Trust page, to a companion NotebookLM notebook on Google, which needs a Google account; the Agentic SecOps landing links only to the repository and its documents on GitHub.",
         "The web copy at https://kensden.github.io/lensatic/ is hosted by GitHub Pages. GitHub's documentation for GitHub Pages says it logs and stores the internet protocol (IP) address of each visitor for security purposes (https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection); see also the GitHub Privacy Statement (https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Lensatic itself collects nothing from those visits.",
         "Questions about this policy: open an issue on the repository's GitHub issues page, https://github.com/KensDen/lensatic/issues. Opening an issue needs a GitHub account, and issues are public. An issue you open stays on GitHub under GitHub's privacy statement; ask in the issue to have it deleted.",
         "The effective date is the date of the content release that built this page, so it moves with each release."
@@ -5999,7 +6018,7 @@
         "Lensatic holds three sections: Framework Maps, a guide to the United States public sector cybersecurity frameworks; Field Guides, with the Zero Trust study guide; and the playbook section, Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI. Framework Maps sorts the frameworks by the question each one answers, says who each one binds, and shows where zero trust and AI land.",
         "To report a content error in any section, open an issue at https://github.com/KensDen/lensatic/issues. Name the framework, page or entry, say what is wrong, and cite the primary source: the publisher's own page or document that shows the correct fact. Opening an issue needs a GitHub account, and issues are public.",
         "To ask about reusing Lensatic's code or text, open an issue on the same page.",
-          "Reuse of Agentic SecOps follows its own notice, playbook/LICENSE.",
+        "Reuse of Agentic SecOps follows its own notice, playbook/LICENSE.",
         "The iOS app is built from the same content as Framework Maps. Questions and problems with the app go to the same issues page.",
         "In Framework Maps, every verified framework, source and solution shows the date its publisher's page was last read, and every other one shows its status instead. A glossary entry shows a status only where its spelling could not be confirmed. An entry with a recheck date is read again when that date comes up, and no content release goes out while a recheck is overdue. The Zero Trust guide records its sources and checks in guides/zero-trust/VERIFICATION.md in the source repository. The next dated recheck, if one is scheduled, is shown below."
       ]

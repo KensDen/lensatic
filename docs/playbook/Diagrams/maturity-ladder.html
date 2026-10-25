@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SecOps AI Maturity Model: The Ladder</title>
+<meta property="og:title" content="SecOps AI Maturity Model: The Ladder">
+<meta property="og:description" content="The ladder from manual operations to autonomous, adaptive SecOps">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/maturity-ladder.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -13,6 +22,10 @@
     --l1:#4a9a4a; --l2:#b8a52d; --l3:#e0772e; --l4:#EF4444;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --l1:#3F7F3F; --l2:#8A7A12; --l3:#B45309; --l4:#B91C1C; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --l1:#3F7F3F; --l2:#8A7A12; --l3:#B45309; --l4:#B91C1C; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{
@@ -114,6 +127,7 @@
   }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}.card:hover{transform:none}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .lead{font-size:12px} .yaxis .lab{font-size:12px} .yaxis .dn{font-size:12px} .desc{font-size:12px} .exhead{font-size:12px} .ex li{font-size:12px} .sig{font-size:12px} .sig .k{font-size:12px} .marker{font-size:12px} .colhead{font-size:12px} .brow-label{font-size:12px} .seg{font-size:12px} .gradlabels{font-size:12px} .dim-chip{font-size:12px} .dims-note{font-size:12px} footer .l{font-size:12px} footer .r{font-size:12px} }
 </style>
 </head>
 <body>

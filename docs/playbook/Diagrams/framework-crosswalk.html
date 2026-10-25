@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Security Framework Crosswalk</title>
+<meta property="og:title" content="AI Security Framework Crosswalk">
+<meta property="og:description" content="How the major frameworks fit together: govern, model the threats, select controls, harden &amp; operate">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/framework-crosswalk.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -13,6 +22,10 @@
     --nist:#3B82F6; --iso:#45C4F4; --owasp:#ff8c42; --csa:#F07FC0; --cis:#F59E0B;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --nist:#1D4ED8; --iso:#075985; --owasp:#C2410C; --csa:#BE185D; --cis:#A16207; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --nist:#1D4ED8; --iso:#075985; --owasp:#C2410C; --csa:#BE185D; --cis:#A16207; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{
@@ -95,11 +108,14 @@
     .layer{grid-template-columns:1fr; gap:8px}
     .matrix{grid-template-columns:1fr}
     .matrix .mh{display:none}
+    .matrix > .cell::before{display:block; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); margin-bottom:4px}
+    .matrix > .cell:nth-child(4n+2)::before{content:"Maintainer"} .matrix > .cell:nth-child(4n+3)::before{content:"What it gives you"} .matrix > .cell:nth-child(4n+4)::before{content:"Connects with"}
     .fw{margin-top:8px}
     .mapgrid{grid-template-columns:1fr}
   }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .lead{font-size:12px} .colhead{font-size:12px} .layer .ls{font-size:12px} .chip{font-size:12px} .mh{font-size:12px} .fw .mt{font-size:12px} .cell{font-size:12px} .roleb{font-size:12px} .mapc{font-size:12px} footer .l{font-size:12px} footer .r{font-size:12px} }
 </style>
 </head>
 <body>

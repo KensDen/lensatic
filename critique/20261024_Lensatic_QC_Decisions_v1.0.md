@@ -1,5 +1,58 @@
 # Lensatic QC Decisions, 24 October 2026 (v1.0)
 
+## Ken's rulings, 24 October 2026, and how they were applied
+
+Rulings: option A (Recommended) on Q1 to Q29 and the recommended handling on every Q30 item. Notes: Q1 is one Agentic SecOps patch,
+v5.4.2, posters and their twins together, under the playbook's own release rules; Q2 ships P-01 to P-08, rechecks P-09 to P-25 one by
+one in a browser against the live source and ships only the confirmed ones; Q4, Q7, Q10, Q12, Q13 and Q14 are content releases as each
+question says, and the Zero Trust guide's items wait for its next edition unless the question says otherwise; Q6 is the licence asset
+and the v2.8.3 build v1.2. No feature changes beyond what the questions name. Applied on branch `qc/lensatic-20261024` on top of `374bcdb`.
+
+- **Agentic SecOps v5.4.2 (Q1, Q3, Q4, Q5, Q17, Q23, Q26, Q27; Q30 R-04, R-22, R-27):** the DCSA and Australian links; 44px chips,
+  buttons, search box (16px) and footer links; the search placeholder; the strip under the bar in the playbook purple; text-wrap in the
+  app; the 16 posters and 14 twins follow the light theme (the app passes its theme into each frame), keep phone text at 12px or more,
+  balance their lines and carry preview tags; the matrix overlap, the MAESTRO label, the crosswalk's phone labels, the matrix's phone
+  tier labels, the spectrum's scoring note, the workforce mapping and the at-a-glance subtitle (tabs and sections); Human in Command;
+  the Gödel result, linked; the executive summary's statistics linked and its PDF rebuilt (7 pages); the vendor labels and the Anthropic
+  disclosure; privacy, support and source links in the app's footer; reading-path buttons, a coverage-code key with glossary links, and
+  the glossary's link to Framework Maps; the landing's credit once and its secondary button in purple; the Resource Index order warning;
+  README version line, registry and badge. The footer's REFRESHED stamp stays October 1, 2026: the battery ties it to the study guide's
+  latest addendum, and this patch adds none, as v5.4.0 and v5.4.1 did not.
+- **Q2:** shipped P-01 to P-08 and the confirmed P-10, P-11, P-12, P-14 to P-22. Dropped after the browser recheck: P-09 (the live
+  article reports a brief from former officials urging a rehearing, not Anthropic's own petition or its date), P-13 (the full title is
+  not on the live source), P-23 (refuted: the page still names Adjudication and Vetting Services), P-24 (refuted: the PDF cover prints
+  Version 1.0, 4 September 2026), P-25 (refuted: the guide was first published in September 2026).
+- **Framework Maps content 1.2.17 (Q4, Q7, Q10, Q11, Q12, Q13, Q14; Q30 R-04):** the AI column and its changelog line say Human in
+  Command; About (on the map and the hub) adds "The work is published so it can be read, reviewed and used for personal study."; NSA's
+  information sheet of 8 October 2026 joins the NSA entry (nine sheets; unverified status, title and date from NSA's press release);
+  the AI Defense Matrix's publisher is Lenny Zeltser and Sounil Yu; the AI RMF records its recheck with a recheck date of 24 January 2027
+  (its note already said the 1.0 text is being revised, so F-03 was only half right); SP 800-53A notes Release 5.2.0; the Overlays entry
+  links the archived copy; the glossary links the playbook section. The pinned edition and licensing texts in `tools/check_web.py` follow.
+- **Hub and chrome (Q5, Q15, Q16, Q17, Q18, Q20, Q22; Q30 R-10):** the credit line in the hub's About; a "Find your trailhead" link (the
+  map's own label) in the map's accent; secondary buttons take their section's outline; one bar width (the map's override removed);
+  the map's layer tags are 44px targets; opened cards get room for the corner button; the 404's footer meets the bottom of a short
+  screen; the sitemap gives each page its own date.
+- **Zero Trust guide, v2.8.3 build v1.2 (Q6, Q15, Q16, Q17):** "read, reviewed and used for personal study" in its LICENSE and README
+  (new assets), the shared bar width, the section outline on the Quick Reference buttons, 44px host links; same edition, text and PDFs;
+  its gate passes. Waiting for the guide's next edition: the NSA sheet in its OT material (Q10), SP 1800-35's subtitle (Q13) and the
+  security abbreviations (R-17).
+
+Applied differently, and why:
+- R-27: the coverage chart gets a key that spells out the code families and links the seven glossary terms that exist; 11 of the 23 tags
+  have no glossary term, and adding terms would change the glossary count.
+- R-04: the map's link goes to the playbook section's landing; a deep link into the app's AI Fluency tab carries the app folder's
+  capitalised name, which the wrapper's forbidden-word check refuses.
+- Q4: phrases that keep people in charge ("keep humans in command", "keep the human in command") stay as verbs; every use that names
+  the principle now reads Human in Command; hyphenated forms stay only before a noun.
+- Q26: two of the executive summary's statistics stay unlinked: the system card's 17.8% (no readable source found) and one on a line
+  that holds a private-list term, which was not opened.
+- Residual one-word last lines: Framework Maps keeps 30 to 38 in the matrix's narrow scroll cells, the Zero Trust guide 5 to 21 in table
+  cells; elsewhere what remains is a three-word title split two and one, or a two-word table head in a narrow column.
+
+Checks: battery green (105 PASS; the playbook battery ALL GREEN, no warnings); every link added on the branch answers 200 in a browser;
+no overflow, clipped text, console or CSP error at 375, 390 and 1440 in either theme; tap targets 44px or more except citation links
+in running text (Q15); private sweep 380 lines in 26 tracked files, every one known; `handoffs/` out of scope (Q21).
+
 Questions for Ken from the QC round on branch `qc/lensatic-20261024`. Finding IDs refer to `20261024_Lensatic_QC_Ledger_v1.0.md`.
 Each question marks one option "(Recommended)". Nothing here has been changed. No answer changes content counts, frameworks or
 features unless the question says so.

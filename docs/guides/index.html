@@ -222,6 +222,10 @@
 .lx-tile-card.maps a.lx-btn.lx-primary, .lx-page.lx-maps a.lx-btn.lx-primary { background: var(--sec-maps); border-color: var(--sec-maps); color: var(--on-sec-maps); }
 .lx-tile-card.guides a.lx-btn.lx-primary, .lx-page.lx-guides a.lx-btn.lx-primary { background: var(--sec-guides); border-color: var(--sec-guides); color: var(--on-sec-guides); }
 .lx-tile-card.playbook a.lx-btn.lx-primary, .lx-page.lx-playbook a.lx-btn.lx-primary { background: var(--sec-playbook); border-color: var(--sec-playbook); color: var(--on-sec-playbook); }
+/* a section's other buttons take its accent as an outline, as the map's do (QC rulings, 24 October 2026) */
+.lx-page.lx-maps a.lx-btn:not(.lx-primary) { border-color: var(--sec-maps); color: var(--sec-maps); }
+.lx-page.lx-guides a.lx-btn:not(.lx-primary) { border-color: var(--sec-guides); color: var(--sec-guides); }
+.lx-page.lx-playbook a.lx-btn:not(.lx-primary) { border-color: var(--sec-playbook); color: var(--sec-playbook); }
 
 /* sections of a page */
 .lx-section { padding-top: var(--s-6); padding-bottom: var(--s-6); border-top: 1px solid var(--line); }
@@ -259,6 +263,10 @@
 .lx-hero-lines li.maps { border-left-color: var(--sec-maps); }
 .lx-hero-lines li.guides { border-left-color: var(--sec-guides); }
 .lx-hero-lines li.playbook { border-left-color: var(--sec-playbook); }
+.lx-start { margin: var(--s-4) 0 0; }
+.lx-page .lx-start a.lx-btn { background: var(--sec-maps); border-color: var(--sec-maps); color: var(--on-sec-maps); }  /* the start leads into Framework Maps (QC rulings, Q22) */
+.lx-404 { min-height: 100vh; display: flex; flex-direction: column; }  /* the footer meets the bottom of a short screen (QC rulings, Q18) */
+.lx-404 > main { flex: 1 0 auto; }
 .lx-guide-meta { display: grid; gap: var(--s-2); margin: 0; }
 .lx-guide-meta dt { font-family: var(--mono); font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-2); }
 .lx-guide-meta dd { margin: 0 0 var(--s-2); }

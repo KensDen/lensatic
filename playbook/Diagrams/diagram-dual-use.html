@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Same Horsepower, Two Outcomes</title>
+<meta property="og:title" content="Same Horsepower, Two Outcomes">
+<meta property="og:description" content="The dual-use reality of Agentic AI in the SOC: the same capability, pointed two ways">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-dual-use.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -13,6 +22,10 @@
     --tint-accent:#ABE4FA; --tint-purple:#DCC0DE; --tint-blue:#93C5FD; --tint-gold:#FCD34D; --tint-red:#FCA5A5; --tint-intel:#FDBA74; --tint-green:#6EE7B7;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
@@ -55,6 +68,7 @@
   @media (max-width:880px){ .three{grid-template-columns:1fr} .center{order:-1} }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .face .row{font-size:12px} .center .same{font-size:12px} .reins .sub{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
 </style>
 </head>
 <body>
@@ -163,7 +177,7 @@
 
   <div class="reins rev" style="animation-delay:.2s">
     <div class="big">The only variable is who holds the reins.</div>
-    <div class="sub">Governance <b>is</b> the reins: per-agent identity, least privilege, deterministic containment, human-in-command, and a bounded blast radius. The horsepower is a given; the direction is a choice.</div>
+    <div class="sub">Governance <b>is</b> the reins: per-agent identity, least privilege, deterministic containment, Human in Command, and a bounded blast radius. The horsepower is a given; the direction is a choice.</div>
   </div>
 
   <div class="footer rev" style="animation-delay:.26s">

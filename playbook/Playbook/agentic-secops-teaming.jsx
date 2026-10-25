@@ -103,6 +103,13 @@ const content = {
       {
         heading: "Start Here: Reading Paths",
         text: `You don't have to read front-to-back: start with the path that fits you. New to agentic security: Overview → Fundamentals → AI Threat Modeling → Red Team / Blue Team / Purple Team. Briefing a leader (≈10 minutes): the Executive Brief above → Maturity Model → Roadmap → Metrics & ROI → Case Studies. Building it (technical): Reference Architecture → Infrastructure & Compute → Network & Security Controls → Agent Containment → AI Threat Modeling. Governance & authorization (federal): Governance → Compliance → Federal & DoW → Procurement & Vendor Risk. Threat, CI & detection: AI Threat Landscape → CTI for Agentic SecOps → Agentic Insider Risk → Agent Incident Response. Each name above is a tab in the navigation.`,
+        paths: [
+          { label: "New to agentic security", steps: ["overview", "foundations", "threatmodel", "red", "blue", "purple"] },
+          { label: "Briefing a leader (the Executive Brief is at the top of this tab)", steps: ["maturity", "roadmap", "metrics", "cases"] },
+          { label: "Building it (technical)", steps: ["architecture", "infra", "netsec", "containment", "threatmodel"] },
+          { label: "Governance & authorization (federal)", steps: ["governance", "compliance", "federal", "vendor"] },
+          { label: "Threat, CI & detection", steps: ["threats", "cti", "insiders", "agentir"] },
+        ],
       },
       {
         heading: "The Core Goal",
@@ -146,7 +153,7 @@ const content = {
     body: [
       {
         heading: "The Operating Philosophy",
-        text: `The strongest agentic programs are built on a clear stance: AI exists to amplify human judgment, not to replace it. This reframes the familiar "human in the loop", where a person rubber-stamps machine output, into "human in command," where people set direction, own the consequential decisions, and use AI to extend their reach. The distinction matters enormously in SecOps, where approval fatigue can quietly turn "human oversight" into an accountability fiction.`,
+        text: `The strongest agentic programs are built on a clear stance: AI exists to amplify human judgment, not to replace it. This reframes the familiar "human in the loop", where a person rubber-stamps machine output, into "Human in Command," where people set direction, own the consequential decisions, and use AI to extend their reach. The distinction matters enormously in SecOps, where approval fatigue can quietly turn "human oversight" into an accountability fiction.`,
       },
       {
         heading: "Microsoft MAI: Humanist Superintelligence",
@@ -156,8 +163,8 @@ const content = {
         heading: "Maturity Compounds AI",
       },
       {
-        heading: "Human-in-the-Loop vs. Human-in-Command",
-        text: `Human-in-the-loop means a human approves individual actions: valuable, but it degrades under volume (Anthropic reported in August 2026 that users approve 97% of Claude Code permission prompts; see Agent Containment) and doesn't scale to multi-agent systems. Human-in-command means humans own strategy, policy, scope, and exception handling, while agents execute the repeatable work inside those boundaries. The first is a checkbox in a workflow; the second is an operating model. This playbook is built around the second. A useful way to divide the work: automation handles the certain, AI handles the variable, and people handle the novel, with analysts also deciding what gets codified for AI to apply next. The multiplier is codified expertise applied at scale, not AI replacing the expert (Resource Index: Stephen Tate, infosecuriosity).`,
+        heading: "Human-in-the-Loop vs. Human in Command",
+        text: `Human-in-the-loop means a human approves individual actions: valuable, but it degrades under volume (Anthropic reported in August 2026 that users approve 97% of Claude Code permission prompts; see Agent Containment) and doesn't scale to multi-agent systems. Human in Command means humans own strategy, policy, scope, and exception handling, while agents execute the repeatable work inside those boundaries. The first is a checkbox in a workflow; the second is an operating model. This playbook is built around the second. A useful way to divide the work: automation handles the certain, AI handles the variable, and people handle the novel, with analysts also deciding what gets codified for AI to apply next. The multiplier is codified expertise applied at scale, not AI replacing the expert (Resource Index: Stephen Tate, infosecuriosity).`,
       },
       {
         heading: "Why This Is the Right Frame for the Role",
@@ -177,7 +184,7 @@ const content = {
       },
       {
         heading: "Decision Memory: Why Humans in the Loop Are How You Earn Autonomy",
-        text: `Here is the deeper reason human-in-command is not just a safety checkpoint: it is how an organization builds the decision memory that makes autonomy survivable later. An agent can triage an alert in seconds, but the moment it asks the only question that matters: has this pattern been seen before, how did we handle it, and why, it meets silence, because the reasoning behind every past triage, suppression, and closure evaporated the instant the incident closed. Humans bridged that gap with hallway conversations and institutional memory; agents have no hallways. The fix is to capture decision traces: inputs weighed, precedent cited, what was ruled out, who decided, and join them to the entity graph as a context graph, so precedent becomes queryable at triage time. Crucially, that memory compounds whether the human or the agent makes the call, as long as the workflow layer captures the inputs, the rationale, and the outcome. So the on-ramp is not a switch flipped from human-operated to autonomous; it is running human-in-the-loop now, with trace emission turned on, so that the day you turn up autonomy the precedent is already there. Credit: the rules-versus-decision-traces framing is Jaya Gupta and Ashu Garg; the security-operations translation is Mike Palitto.`,
+        text: `Here is the deeper reason Human in Command is not just a safety checkpoint: it is how an organization builds the decision memory that makes autonomy survivable later. An agent can triage an alert in seconds, but the moment it asks the only question that matters: has this pattern been seen before, how did we handle it, and why, it meets silence, because the reasoning behind every past triage, suppression, and closure evaporated the instant the incident closed. Humans bridged that gap with hallway conversations and institutional memory; agents have no hallways. The fix is to capture decision traces: inputs weighed, precedent cited, what was ruled out, who decided, and join them to the entity graph as a context graph, so precedent becomes queryable at triage time. Crucially, that memory compounds whether the human or the agent makes the call, as long as the workflow layer captures the inputs, the rationale, and the outcome. So the on-ramp is not a switch flipped from human-operated to autonomous; it is running human-in-the-loop now, with trace emission turned on, so that the day you turn up autonomy the precedent is already there. Credit: the rules-versus-decision-traces framing is Jaya Gupta and Ashu Garg; the security-operations translation is Mike Palitto.`,
       },
       {
         heading: "Agency vs. Autonomy: The Four-Scope Map",
@@ -875,7 +882,7 @@ const content = {
     },
     actions: [
       { phase: "Now", text: "Make egress filtering the priority control: default-deny outbound with DNS/destination allowlisting so a compromised agent cannot reach attacker infrastructure.", source: "Playbook", owner: "Engineering", fw: ["AI RMF · MANAGE","ATLAS · Exfiltration","SP 800-207"], impl: { summary: "Default-deny egress is the control that holds when the model layer fails, but the record shows an approved-domain path can still be abused, so allowlist governance is the real work.", steps: ["Default-deny outbound and allowlist by destination, following the record's own posture: the containment retrospective runs its agent sandbox with network denied by default and names egress controls as the defense that holds when model-layer protections fail.", "Treat destination allowlisting as necessary but not sufficient: the same record documents an exfiltration that rode an approved domain the proxy waved through, so the allowlist needs per-agent scoping and identity or content checks, not a bare domain match.", "Govern the allowlist as a controlled surface with an owner, a change gate, and proxy logging of every allowed and blocked flow, since an over-broad approved-domain entry is the exact failure mode the record demonstrates; for agents already running, build the first allowlist from a log-only observation window, then enforce with a time-boxed break-glass path and an alert on every deny.", "Anchor the posture in zero trust: SP 800-207's tenet that trust is never implicit from network location makes outbound reach a per-session policy decision rather than a property of sitting inside the perimeter.", "Map the control to the objective it blunts: MITRE ATLAS's Exfiltration column is what default-deny egress is contesting, so the allowlist and its break-glass path are tuned to that goal rather than to generic outbound convenience."], refs: ["Anthropic: Containing Claude (engineering)", "NIST: SP 800-207 (Zero Trust Architecture)", "MITRE: ATLAS"] }, },
-      { phase: "Next", text: "Front agents with an AI firewall / LLM gateway to inspect prompts and responses for injection and exfiltration.", source: "Playbook", owner: "Engineering", fw: ["LLM01 · Prompt Injection","LLM05 · Output Handling","AI RMF · MANAGE"], impl: { summary: "Front the agent with a guardrail layer that inspects both directions, using the risks the record actually names and adding the exfiltration check it does not.", steps: ["Inspect inputs and outputs both, which is the record's own recommendation: thorough checking and filtering of all inputs to and outputs from the model, against content guidelines set for your use case and audience.", "Scope the injection defense to the risks the guardrail record asserts it detects and prevents: prompt injection, insecure code, and risky tool interactions, orchestrated across its guard models, with the firewall described as agnostic to the agentic framework.", "Add exfiltration inspection as the suite's requirement rather than the record's: the guardrail suite names injection, insecure code, and risky tool interactions but does not assert data-exfiltration detection, so egress content checks and destination controls are a separate layer you specify.", "Carry the record's own hedge into the design: it states there is no one-size-fits-all guardrail detection that prevents all risks, and recommends combining its system-level tools with other guardrails, which is why the gateway is one layer rather than the control.", "Consider a managed equivalent where the estate is already there: the managed-service record in canon offers prompt-attack detection, sensitive-data redaction, and contextual grounding as model-agnostic safeguards, with its published blocking rate stated as the vendor's own figure.", "Benchmark the layer instead of trusting it, using the open evaluation suite the record ships: its prompt-injection tests measure whether a system recognizes which part of an input is untrusted and how resilient it is to text and image injection techniques.", "Treat injection as an open frontier problem, the framing the third canon record uses, and pair the gateway with least-privilege tool scoping so a bypass does not become an action.", "Operate the gateway as a detection source and decide its fail mode: forward every block, flag, and redaction event with the agent identity to the SIEM, alert on repeated injection attempts against one agent, and write down fail closed for agents that can act and a defined degraded mode for read-only assistants."], refs: ["Meta: Purple Llama (Llama Guard 4, LlamaFirewall, CyberSecEval 4)", "AWS: Amazon Bedrock Guardrails", "OpenAI: Prompt Injection: A Frontier Challenge"] }, },
+      { phase: "Next", text: "Front agents with an AI firewall / LLM gateway to inspect prompts and responses for injection and exfiltration.", source: "Playbook", owner: "Engineering", fw: ["LLM01 · Prompt Injection","LLM05 · Output Handling","AI RMF · MANAGE"], impl: { summary: "Front the agent with a guardrail layer that inspects both directions, using the risks the record actually names and adding the exfiltration check it does not.", steps: ["Inspect inputs and outputs both, which is the record's own recommendation: thorough checking and filtering of all inputs to and outputs from the model, against content guidelines set for your use case and audience.", "Scope the injection defense to the risks the guardrail record asserts it detects and prevents: prompt injection, insecure code, and risky tool interactions, orchestrated across its guard models, with the firewall described as agnostic to the agentic framework.", "Add exfiltration inspection as the suite's requirement rather than the record's: the guardrail suite names injection, insecure code, and risky tool interactions but does not assert data-exfiltration detection, so egress content checks and destination controls are a separate layer you specify.", "Carry the record's own hedge into the design: it states there is no one-size-fits-all guardrail detection that prevents all risks, and recommends combining its system-level tools with other guardrails, which is why the gateway is one layer rather than the control.", "Consider a managed equivalent where the estate is already there: the managed-service record in canon offers prompt-attack detection, sensitive-data redaction, and contextual grounding as model-agnostic safeguards, with its published blocking rate stated as the vendor's own figure.", "Benchmark the layer instead of trusting it, using the open evaluation suite the record ships: its prompt-injection tests measure whether a system recognizes which part of an input is untrusted and how resilient it is to text and image injection techniques.", "Treat injection as an open frontier problem, the framing the third canon record uses, and pair the gateway with least-privilege tool scoping so a bypass does not become an action.", "Operate the gateway as a detection source and decide its fail mode: forward every block, flag, and redaction event with the agent identity to the SIEM, alert on repeated injection attempts against one agent, and write down fail closed for agents that can act and a defined degraded mode for read-only assistants."], refs: ["Meta: Purple Llama (Llama Guard 4, LlamaFirewall, CyberSecEval 4)", "AWS: Amazon Bedrock Guardrails", "OpenAI: Understanding Prompt Injections: A Frontier Security Challenge"] }, },
       { phase: "Next", text: "Microsegment agent workloads behind private endpoints to contain lateral movement and blast radius.", source: "Playbook", owner: "Engineering", fw: ["SP 800-207","AI RMF · MANAGE"], impl: { summary: "Segment as an architecture choice, with the zero-trust tenets, not the network diagram, deciding what the segments mean.", steps: ["Choose the approach deliberately: micro-segmentation is one of the record's three zero-trust architecture approaches rather than one of its seven tenets, so adopt it as a design decision and say what it is buying, blast-radius containment for agent workloads.", "Put each agent workload class in its own segment behind private endpoints, and set the boundary from what the workload must reach: the tenets grant access per session and per resource, never to a zone by virtue of sitting inside it.", "Secure the traffic regardless of where it sits, since the record removes network location as a source of trust; internal agent-to-service calls get the same authentication and protection as anything crossing the perimeter.", "Front each segment with an enforcement point so segmentation and authorization are the same decision, and keep the record's exception in view: some infrastructure components must remain reachable rather than hidden.", "Re-evaluate segments on a cycle, treating the estate as the record does: no asset inherently trusted, posture continuously assessed, and access re-decided as workloads and their reach change."], refs: ["NIST: SP 800-207 (Zero Trust Architecture)"] } },
     ],
   },
@@ -910,7 +917,7 @@ const content = {
         text: `OT threats are tracked in their own knowledge base, MITRE ATT&CK for ICS, which catalogs adversary techniques against control systems, paired with MITRE ATLAS for the AI-specific layer. The marquee cases show why the stakes are physical: TRITON/TRISIS specifically targeted a plant's Safety Instrumented System, the last-resort safety layer; PIPEDREAM (developed by the actor CHERNOVITE) is a modular ICS attack framework able to execute a large share of known ICS techniques across multiple vendor devices; and Volt Typhoon, a PRC state-sponsored actor, has been assessed by CISA as pre-positioning inside US critical infrastructure, using living-off-the-land techniques to stay stealthy, to enable disruptive or destructive attacks on OT in a future conflict. For a critical-infrastructure operator, this means the adversary is not hypothetical and not purely after information: the goal may be the ability to disrupt the physical mission. That reality is the strongest possible argument for the playbook's assume-breach, continuous-monitoring, and bounded-autonomy stance, applied to the OT environment. A live example: at RAITE 2026 (see Case Studies), a red team combined physical access with a purpose-built ICS exploit to subvert security cameras, disable a water pump, and simulate a contaminant strike on a water tank, exactly the IT-meets-physical attack this discipline exists to stop.`,
       },
       {
-        heading: "Agentic AI in OT: Human-in-Command Is Non-Negotiable",
+        heading: "Agentic AI in OT: Human in Command Is Non-Negotiable",
         text: `The playbook's human-in-command principle is important everywhere; in OT it is a hard line. An agent that can actuate a physical process (open a gate, change a setpoint, trip a breaker) can cause irreversible physical harm, so the default posture is that agents are read-only and advisory in OT: they observe, correlate, enrich, and recommend, while humans retain every actuation decision. AI must never be placed in the control loop of a Safety Instrumented System or be allowed to override a safety function. Where AI genuinely helps in OT, it does so non-intrusively: passive, protocol-aware anomaly detection on a network tap (never active scanning that could disrupt a fragile PLC), baselining normal process and traffic patterns, triaging alerts, accelerating retrospective incident analysis, and threat-informed defense mapped to ATT&CK for ICS, an approach some now call agentic threat-informed defense for operational control. The agent earns trust the way every other control system does: by demonstrating safe, bounded behavior under oversight before its scope is ever widened.`,
       },
       {
@@ -924,7 +931,7 @@ const content = {
       text: `In OT, safety and availability lead, not confidentiality. Keep agents read-only and advisory by default; never put AI in the loop of a safety system; monitor passively, never scan actively. Treat the IT/OT boundary (Purdue 3.5, data diodes where warranted) as a hard authorization boundary enforced deterministically: the blast radius here is physical. Authorize control systems as PIT under UFC 4-010-06 (and your agency's implementing bulletin), with an AO who understands the engineering. (Informational, not engineering or authorization guidance: confirm with your AO and control-system engineers.)`,
     },
     actions: [
-      { phase: "Now", text: "Make human-in-command a hard line for any agent that can actuate a physical process: no autonomous actuation in OT.", source: "Playbook", owner: "GRC", fw: ["AI RMF · GOVERN","LLM06 · Excessive Agency"], impl: { summary: "Hold the human-in-command line for actuation, on joint guidance that limits and cautions: the absolute prohibition is this suite's hardening of it.", steps: ["Start from the joint guidance's own position: it advises limiting active control of OT infrastructure by AI without a human in the loop, to account for safety concerns and latency limitations, and urges caution with active AI systems directly influencing control because problems can escalate before operators become aware of them.", "Note what the suite is adding: this action states a hard line of no autonomous actuation, while the guidance limits and cautions rather than prohibiting outright. The guidance is advisory, describing principles owners and operators can follow, and the authoring agencies encourage rather than direct. The absolute rule is the suite's choice, taken deliberately for physical-process risk.", "Where AI does touch control logic, apply the guidance's named mechanism: safety thresholds, alternative sensor output, or state changes that add human-in-the-loop intervention points, so oversight is engineered into the loop rather than left to operator vigilance.", "For advisory rather than actuating systems, route recommendations through the existing change-management process, which is how the guidance describes implementing human-in-the-loop decision-making for more passive AI.", "Require the failsafe path the guidance calls for: mechanisms that revert to traditional automation or to manual for any AI-enabled system process, with new AI failure states written into existing functional-safety and incident-response procedures.", "Cap the autonomy formally using the scoping framework in canon, whose prescribed-agency scope is defined as requiring explicit human approval for actions of consequence: that is the ceiling an actuation-capable agent sits under, with the scoping framework itself advisory rather than binding.", "Harden the access rule with the joint agentic guidance in canon, which holds that agents should not receive broad or unrestricted access to critical systems, and keep the guidance's own anchor in view: humans are ultimately responsible for functional safety."], refs: ["CISA: Principles for the Secure Integration of AI in OT (2025)", "AWS: Agentic AI Security Scoping Matrix (Nov 2025)", "Five Eyes: Careful Adoption of Agentic AI Services (May 2026)"] }, },
+      { phase: "Now", text: "Make Human in Command a hard line for any agent that can actuate a physical process: no autonomous actuation in OT.", source: "Playbook", owner: "GRC", fw: ["AI RMF · GOVERN","LLM06 · Excessive Agency"], impl: { summary: "Hold the human-in-command line for actuation, on joint guidance that limits and cautions: the absolute prohibition is this suite's hardening of it.", steps: ["Start from the joint guidance's own position: it advises limiting active control of OT infrastructure by AI without a human in the loop, to account for safety concerns and latency limitations, and urges caution with active AI systems directly influencing control because problems can escalate before operators become aware of them.", "Note what the suite is adding: this action states a hard line of no autonomous actuation, while the guidance limits and cautions rather than prohibiting outright. The guidance is advisory, describing principles owners and operators can follow, and the authoring agencies encourage rather than direct. The absolute rule is the suite's choice, taken deliberately for physical-process risk.", "Where AI does touch control logic, apply the guidance's named mechanism: safety thresholds, alternative sensor output, or state changes that add human-in-the-loop intervention points, so oversight is engineered into the loop rather than left to operator vigilance.", "For advisory rather than actuating systems, route recommendations through the existing change-management process, which is how the guidance describes implementing human-in-the-loop decision-making for more passive AI.", "Require the failsafe path the guidance calls for: mechanisms that revert to traditional automation or to manual for any AI-enabled system process, with new AI failure states written into existing functional-safety and incident-response procedures.", "Cap the autonomy formally using the scoping framework in canon, whose prescribed-agency scope is defined as requiring explicit human approval for actions of consequence: that is the ceiling an actuation-capable agent sits under, with the scoping framework itself advisory rather than binding.", "Harden the access rule with the joint agentic guidance in canon, which holds that agents should not receive broad or unrestricted access to critical systems, and keep the guidance's own anchor in view: humans are ultimately responsible for functional safety."], refs: ["CISA: Principles for the Secure Integration of AI in OT (2025)", "AWS: Agentic AI Security Scoping Matrix (Nov 2025)", "Five Eyes: Careful Adoption of Agentic AI Services (May 2026)"] }, },
       { phase: "Now", text: "Enforce the IT/OT boundary (Purdue Level 3.5 DMZ) as the most consequential authorization boundary: no unmediated agent crossings.", source: "IEC 62443 / Purdue", owner: "Engineering", fw: ["SP 800-207","AI RMF · MANAGE"], impl: { summary: "Make the IT/OT boundary the enforcement point for agent traffic; the mediation mechanics are the suite's, the push-based and DMZ language is the guidance's.", steps: ["Inventory every path by which an agent could reach OT, including read paths, and record which system initiates each connection: this crossing inventory is the suite's own mechanic and is the precondition for mediating anything.", "Prefer push-based data flow, which the joint guidance explicitly encourages: data pushed out of the OT network for AI systems to use, without persistent access into the OT network. An agent that never holds a session into OT cannot cross the boundary at all.", "Where a connection is unavoidable, route it through the mediation layer the guidance names: it expects new connection paths such as remote access to be approved and to work through the existing demilitarized zone or jump-host infrastructure, and to be verified against existing device-management policy.", "Note the framing difference: this action calls the boundary Purdue Level 3.5, a convention from the industrial-control literature rather than from the joint guidance, whose own Purdue table runs Level 0 through Level 3 and then Levels 4 and 5 without a 3.5 designation. The layer is the same; the label is the suite's.", "Forbid unmediated agent sessions below the boundary as a written rule with a named approver, and treat any direct agent-to-controller path as an exception requiring the failsafe and rollback story before it is granted.", "Anchor the boundary in zero-trust terms so it is a policy decision rather than a topology assumption: the architecture standard in canon holds that trust is never implicit from network location, which is what makes the crossing an authorization event rather than a routing detail.", "Monitor the boundary as a detection surface, with the guidance's logging expectation that AI decisions are trackable and the logged AI identity is distinct from typical machine or user identifiers.", "Have the red team prove the boundary offensively, but only off the plant: run agent-mediated crossing attempts against a replica built on virtualized controllers or hardware in the loop, map the emulation to MITRE ATT&CK for ICS, and never emulate against live OT, since the joint guidance lists AI red teaming among its oversight mechanisms and starts testing on infrastructure designed for it."], refs: ["CISA: Principles for the Secure Integration of AI in OT (2025)", "NIST: SP 800-207 (Zero Trust Architecture)"] }, },
     ],
   },
@@ -1231,8 +1238,8 @@ const content = {
       { phase: "Next", text: "Hunt for persona-fabrication indicators post-hire: resumes suspiciously aligned to posting language, AI-polished communications inconsistent with live performance, identity-document photo reuse. Route those HR-observable indicators through the insider-threat program under a documented legal basis with HR and privacy sign-off, aimed at behavior rather than individuals, and have the SOC hunt the signals it can query: remote-management or KVM-over-IP tooling on the issued laptop, sign-ins from geographies inconsistent with the claimed location, and concurrent sessions across personas.", source: "Microsoft Threat Intelligence · AI as Tradecraft, Mar 2026", owner: "SOC", fw: ["AI RMF · MEASURE"], impl: { summary: "Carry the hunt past the offer, treating fraudulent employment as the insider-risk scenario the record advises.", steps: ["Frame the hunt as the record does: treat fraudulent employment and access misuse as an insider-risk scenario, watching for misuse of legitimate credentials, abnormal access patterns, and sustained low-and-slow activity.", "Re-check the photos held for current staff, on identity documents and internal profiles, against each other and against past applicants, since the record reports the same AI-generated photo reused across multiple personas and names open-source image analysis such as FaceForensics++ for gauging AI-generated content.", "Compare resumes on file with the postings they answered, since the record reports AI-assisted resumes tailored to specific job descriptions; close alignment is a lead to verify, not a finding on its own.", "Look for a gap between written and live work: the record reports AI used to draft professional replies, translate messages, and meet day-to-day performance expectations, so written polish that live meetings do not match is a lead.", "Route leads to a named owner with GRC, HR and legal involved before any employment action, and feed confirmed tells back into the Now-phase hiring gate."], refs: ["Microsoft: AI as Tradecraft (2026)"] } },
       { phase: "Next", text: "Run the full NHI lifecycle on every agent: owner of record and expiry at provisioning, automatic rotation, and offboarding sweeps for residual grants and orphaned identities.", source: "OWASP NHI Top 10 (NHI1)", owner: "Engineering", fw: ["OWASP NHI Top 10","AI RMF · MANAGE"], impl: { summary: "Run the list's offboarding and recertification loop against agent identities, and treat an ownerless agent as the finding.", steps: ["Recertify on a set cadence exactly as the record frames it: confirm each identity is still in use, actively needed, and has a valid owner, then decommission what fails the test and assign an owner to anything found without one.", "Wire agent identities into the human offboarding process: when a person departs, review every identity associated with them, decommission what is no longer required, and otherwise transfer ownership and rotate every credential that person could reach.", "Hunt the three failure modes the record names: stale or dormant identities left behind by decommissioned services, orphaned identities whose owner departed with no successor, and the partially offboarded case where an administrator or developer, often not the actual owner, was exposed to the credentials and left without them being revoked.", "Automate the sweep by integrating HR systems with identity and access management tooling, so departures trigger the review rather than depending on someone remembering to run it.", "Audit active identities regularly to monitor ongoing usage and block misuse, pair that with automated rotation so credentials cannot quietly become long-lived between recertifications, and prove the sweep works with a check of the suite's own: seed canary identities (an ownerless agent, a key a departed administrator could still use) and time how long each survives."], refs: ["OWASP: Non-Human Identities (NHI) Top 10"] } },
       { phase: "Next", text: "Treat agent memory, retrieved context, hooks, and local config as attack surface (OWASP ASI06): enforce provenance on what enters persistent state, separate trust tiers so untrusted content cannot reach high-trust layers, and add visibility into what persists across sessions. The MemoryTrap pattern turned a routine dependency install into cross-session compromise.", source: "OWASP ASI06 · Memory & Context Poisoning", owner: "Engineering", fw: ["OWASP Agentic Top 10","LLM01 · Prompt Injection"], impl: { summary: "Gate the write path into persistent state, scope it per principal, and verify it on read: the controls the cheat sheet actually names.", steps: ["Gate the write path before anything persists: validate and sanitize data before it is stored in agent memory, and audit content for sensitive data at that point rather than trusting a later redaction pass.", "Scope memory per principal: isolate it between users and sessions so one caller's context cannot surface in another's, which is the separation the posture argument asks for stated as an actual control.", "Bound memory in age and size, setting expiration and size limits so a poisoned entry cannot persist indefinitely or crowd out the legitimate context around it.", "Verify on read, not only on write: apply cryptographic integrity checks to long-term memory so a tampered entry is detected when it is retrieved rather than silently shaping the next plan.", "Extend the same scrutiny to the surfaces the commentary names alongside memory, hooks and local configuration, on its stated reasoning that a one-time action can shape behavior across sessions, projects, and even reboots.", "Make persistent state reviewable, as the suite's own addition: inventory what each agent persists across sessions (memory entries, hooks, local configuration), expose it to review, and keep a rollback path, so a poisoned entry that slipped past the write gate can still be found and rolled back."], refs: ["OWASP: AI Agent Security Cheat Sheet", "OWASP: Memory Is a Feature, and an Attack Surface (ASI06, May 2026)"] } },
-{ phase: "Next", text: "Apply signature-reduction / managed-attribution doctrine to sanctioned offensive agents in a UTS environment: manage observability, do not assume anonymity.", source: "Playbook", owner: "Red", fw: ["AI RMF · GOVERN"], impl: { summary: "Treat sanctioned offensive agents as observable by default and engineer the signature deliberately; the doctrine is the record's, the mechanics are the suite's.", steps: ["Adopt the operating assumption the record describes: surveillance that is persistent, pervasive, and increasingly automated across all domains, which its author notes the Central Intelligence Agency and its partner have labeled an existential threat, a characterization the record attributes rather than independently establishes.", "Inventory the signature your agents actually emit across the vector families the record names, online, electronic, visual-physical, financial, and travel, recognizing that for a software agent the online and electronic vectors carry nearly all of it: source addresses, request timing, client fingerprints, account and payment trails behind tooling.", "Build the signature inventory and the egress design as the suite's own mechanics. The record frames signature reduction as the counteroffensive to this condition and says it integrates distinct but complementary disciplines across physical and digital domains, but it names no concrete techniques, so the specific controls below are this playbook's, not the record's.", "Route agent traffic through managed-attribution infrastructure with capabilities of the kind the tooling record asserts: fully isolated cloud-based browsing where activity executes remotely, egress through in-region nodes with selectable connection type, and customizable browser, device, language, and geolocation settings.", "Keep attribution to the analyst even while attribution to the organization is suppressed: the same record asserts every action is attributed to an analyst and recorded with audit trails, which is what separates managed attribution from unaccountable anonymity.", "Gate each engagement: named approver, defined scope and duration, and a signature review before and after, so observability is managed as a decision rather than assumed away.", "Deconflict before egress, using the kill switch and deconfliction channel set up in the Red Team tab's continuous-emulation action: register each sanctioned agent's egress identifiers (source ranges, a header or user-agent marker, an operating window) with the SOC, so an agent with a reduced signature can still be told from an adversary and stopped."], refs: ["Small Wars Journal: Ubiquitous Technical Surveillance & Signature Reduction", "Authentic8: Silo for Research (Managed Attribution)"] }, },
-      { phase: "Later", text: "Use pattern-of-life baselining (the tradecraft mirror of UEBA) to flag agents deviating from normal behavior.", source: "Playbook", owner: "SOC", fw: ["AI RMF · MEASURE"], impl: { summary: "Extend the per-agent baselines the Agent Incident Response tab sets up at Now into full pattern-of-life profiles and alert on deviation, a suite-authored control, since the doctrine record carries no baselining method.", steps: ["Baseline per agent rather than per fleet: normal hours and cadence, the tools it calls and in what order, the data and systems it reaches, its typical volumes, and its usual egress destinations, fed from the sources that carry them: the tool-call audit log of the agent runtime or gateway, the identity provider's sign-in and token-issuance logs for the agent's identity, and the egress logs of the firewall or proxy.", "Own the method honestly: the surveillance-doctrine record in canon supplies the operating condition this action borrows its language from, but contains no pattern-of-life analysis and no baselining technique, so the feature set, thresholds, and alerting design here are entirely the suite's.", "Alert on deviation from the agent's own baseline rather than on a global rule, since an agent's ordinary behavior is narrow enough that its deviations are informative in a way a human user's rarely are.", "Route alerts to a named owner with a defined response, and treat a baseline that never fires as a tuning problem to investigate rather than evidence of good behavior.", "Keep the program aimed at behavior, not persons: the insider-threat standards body in canon was established under Executive Order 13587 under the joint leadership of the Attorney General and the Director of National Intelligence, and its mission is deterring, detecting, and mitigating insider threats, with its awareness guidance directed at recognizing and reporting anomalous activity to enable early intervention.", "Govern agents as non-human identities, so a behavioral baseline sits alongside identity and access controls rather than substituting for either. The zero-trust vendor paper carried in canon is the adjacent reference for that framing: it treats each agent as a non-human identity and lists behavioral baselining against expected patterns of agent activity among its real-time controls.", "Re-baseline on change: a new tool, a widened data scope, or a model upgrade invalidates the profile, and a stale baseline produces confident silence."], refs: ["Small Wars Journal: Ubiquitous Technical Surveillance & Signature Reduction", "NITTF: National Insider Threat Policy & Minimum Standards", "Cisco: Zero Trust for Agentic AI (white paper)"] }, },
+{ phase: "Next", text: "Apply signature-reduction / managed-attribution doctrine to sanctioned offensive agents in a UTS environment: manage observability, do not assume anonymity.", source: "Playbook", owner: "Red", fw: ["AI RMF · GOVERN"], impl: { summary: "Treat sanctioned offensive agents as observable by default and engineer the signature deliberately; the doctrine is the record's, the mechanics are the suite's.", steps: ["Adopt the operating assumption the record describes: surveillance that is persistent, pervasive, and increasingly automated across all domains, which its author notes the Central Intelligence Agency and its partner have labeled an existential threat, a characterization the record attributes rather than independently establishes.", "Inventory the signature your agents actually emit across the vector families the record names, online, electronic, visual-physical, financial, and travel, recognizing that for a software agent the online and electronic vectors carry nearly all of it: source addresses, request timing, client fingerprints, account and payment trails behind tooling.", "Build the signature inventory and the egress design as the suite's own mechanics. The record frames signature reduction as the counteroffensive to this condition and says it integrates distinct but complementary disciplines across physical and digital domains, but it names no concrete techniques, so the specific controls below are this playbook's, not the record's.", "Route agent traffic through managed-attribution infrastructure with capabilities of the kind the tooling record asserts: fully isolated cloud-based browsing where activity executes remotely, egress through in-region nodes with selectable connection type, and customizable browser, device, language, and geolocation settings.", "Keep attribution to the analyst even while attribution to the organization is suppressed: the same record asserts every action is attributed to an analyst and recorded with audit trails, which is what separates managed attribution from unaccountable anonymity.", "Gate each engagement: named approver, defined scope and duration, and a signature review before and after, so observability is managed as a decision rather than assumed away.", "Deconflict before egress, using the kill switch and deconfliction channel set up in the Red Team tab's continuous-emulation action: register each sanctioned agent's egress identifiers (source ranges, a header or user-agent marker, an operating window) with the SOC, so an agent with a reduced signature can still be told from an adversary and stopped."], refs: ["Small Wars Journal: Ubiquitous Technical Surveillance and the Renewal of Irregular Warfare", "Authentic8: Silo for Research (Managed Attribution)"] }, },
+      { phase: "Later", text: "Use pattern-of-life baselining (the tradecraft mirror of UEBA) to flag agents deviating from normal behavior.", source: "Playbook", owner: "SOC", fw: ["AI RMF · MEASURE"], impl: { summary: "Extend the per-agent baselines the Agent Incident Response tab sets up at Now into full pattern-of-life profiles and alert on deviation, a suite-authored control, since the doctrine record carries no baselining method.", steps: ["Baseline per agent rather than per fleet: normal hours and cadence, the tools it calls and in what order, the data and systems it reaches, its typical volumes, and its usual egress destinations, fed from the sources that carry them: the tool-call audit log of the agent runtime or gateway, the identity provider's sign-in and token-issuance logs for the agent's identity, and the egress logs of the firewall or proxy.", "Own the method honestly: the surveillance-doctrine record in canon supplies the operating condition this action borrows its language from, but contains no pattern-of-life analysis and no baselining technique, so the feature set, thresholds, and alerting design here are entirely the suite's.", "Alert on deviation from the agent's own baseline rather than on a global rule, since an agent's ordinary behavior is narrow enough that its deviations are informative in a way a human user's rarely are.", "Route alerts to a named owner with a defined response, and treat a baseline that never fires as a tuning problem to investigate rather than evidence of good behavior.", "Keep the program aimed at behavior, not persons: the insider-threat standards body in canon was established under Executive Order 13587 under the joint leadership of the Attorney General and the Director of National Intelligence, and its mission is deterring, detecting, and mitigating insider threats, with its awareness guidance directed at recognizing and reporting anomalous activity to enable early intervention.", "Govern agents as non-human identities, so a behavioral baseline sits alongside identity and access controls rather than substituting for either. The zero-trust vendor paper carried in canon is the adjacent reference for that framing: it treats each agent as a non-human identity and lists behavioral baselining against expected patterns of agent activity among its real-time controls.", "Re-baseline on change: a new tool, a widened data scope, or a model upgrade invalidates the profile, and a stale baseline produces confident silence."], refs: ["Small Wars Journal: Ubiquitous Technical Surveillance and the Renewal of Irregular Warfare", "NITTF: National Insider Threat Policy & Minimum Standards", "Cisco: Zero Trust for Agentic AI (white paper)"] }, },
     ],
     title: "Agentic Insider Risk",
     subtitle: "Treat autonomous agents as non-human insiders: with the access, and the risk, to match",
@@ -1698,7 +1705,7 @@ const content = {
       },
       {
         heading: "Human in Command, Agents on Point",
-        text: `Hunting is judgment-heavy, so it's a clear case for human-in-command rather than full autonomy. The productive division of labor: agents do the tireless work, running hypotheses, correlating across data sources, assembling timelines, while human hunters set the hypotheses worth pursuing, interpret ambiguous findings, and make the call on what's actually adversarial versus benign-but-weird. This keeps analyst judgment sharp (countering skill atrophy) while multiplying each hunter's reach across far more ground than they could cover alone.`,
+        text: `Hunting is judgment-heavy, so it's a clear case for Human in Command rather than full autonomy. The productive division of labor: agents do the tireless work, running hypotheses, correlating across data sources, assembling timelines, while human hunters set the hypotheses worth pursuing, interpret ambiguous findings, and make the call on what's actually adversarial versus benign-but-weird. This keeps analyst judgment sharp (countering skill atrophy) while multiplying each hunter's reach across far more ground than they could cover alone.`,
       },
       {
         heading: "Hunt Hypotheses at Machine Scale: Generated Wide, Gated Hard",
@@ -2199,7 +2206,7 @@ const content = {
         items: [
           { name: "What happened", use: "A red-team agent probed each application from the outside the way an attacker would and mapped how a vulnerability might be exploited; a blue-team agent then assessed defenses against an international security standard and wrote a remediation plan pointing to the exact files to fix. Every app was checked against roughly 95 security controls per pass, with additional agents checking code quality: all built on the Claude Agent SDK." },
           { name: "Why it matters", use: "External, primary-source validation of this playbook's core thesis: the red/blue/purple agent loop is not theoretical. A peer government deployed it at scale and treated adversarial evaluation as continuous, not episodic." },
-          { name: "Human in command", use: "Before any patch shipped it was reviewed and approved by engineers at Alberta's Ministry of Technology and Innovation: the same human-in-command discipline this playbook requires. The agents proposed; people approved." },
+          { name: "Human in Command", use: "Before any patch shipped it was reviewed and approved by engineers at Alberta's Ministry of Technology and Innovation: the same human-in-command discipline this playbook requires. The agents proposed; people approved." },
           { name: "The lesson", use: "The defensive answer to agent-speed offense is agent-speed defense under human control, and building it in the open, so other teams can replicate rather than reinvent. The full method is published as the open-source Velocity White Papers." },
         ],
       },
@@ -2249,7 +2256,7 @@ const content = {
         items: [
           { name: "What happened", use: "500+ high-severity vulnerabilities surfaced and validated in widely used open-source code with Opus 4.6; released as a defender product in limited preview, since followed by Anthropic's Claude Security (public beta)" },
           { name: "Why it matters", use: "Reasoning-based discovery finds the subtle, context-dependent flaws rule-based static analysis misses, at machine scale" },
-          { name: "Playbook link", use: "Concrete instance of the Tools & Tech Stack defensive agents and the Frontier Red Team program; human-in-command by design" },
+          { name: "Playbook link", use: "Concrete instance of the Tools & Tech Stack defensive agents and the Frontier Red Team program; Human in Command by design" },
           { name: "The lesson", use: "Defenders who move fast can find and patch the same bugs attackers would, if AI is put to work on defense first" },
         ],
       },
@@ -2279,7 +2286,7 @@ const content = {
           { name: "Scenario 1: Beating a computer-vision detector", use: "Tasked with defeating a competitor's AI person-detection model, the team built a custom suite of video-stream manipulation attacks on-site and won 5 of 7: video looping (replaying benign footage to hide live activity), gradual feed degradation until detection silently failed, and a steganographic payload hidden in the stream that forced a mission-kill, all built fast by people, not pulled from a product" },
           { name: "Scenario 2: A GenAI 'Model Downgrade' via a poisoned MCP package", use: "Against a Blue Team with deep observability into its LLM application, the team concealed malicious code inside a benign-looking MCP package: defenders saw the tool run but stayed blind to a malicious model swap underneath it, then watched the team re-adapt the MCP code to a different LLM provider within minutes. A multi-stage enterprise-AI attack, not a simple prompt injection" },
           { name: "Scenario 3: A 360° physical + cyber + ICS attack", use: "With DIU and MITRE observers watching, the team blended physical tradecraft (ghillie suit, smokescreens, picked locks) with a Wi-Fi foothold and a purpose-built ICS exploit to subvert security cameras, disable a water pump, and deliver a simulated contaminant strike on a water tank, leaving a self-destructing microcontroller implant for persistence" },
-          { name: "Why it matters / playbook link", use: "One federal exercise validates several playbook themes at once: human-in-command, MCP/agentic-supply-chain risk and the observability blind spot (Scenario 2 → Agent Containment's monitoring gap), and combined physical-plus-cyber attacks on OT/ICS water systems (Scenario 3 → the OT, ICS & SCADA tab, mirroring the PNNL water-treatment case)" },
+          { name: "Why it matters / playbook link", use: "One federal exercise validates several playbook themes at once: Human in Command, MCP/agentic-supply-chain risk and the observability blind spot (Scenario 2 → Agent Containment's monitoring gap), and combined physical-plus-cyber attacks on OT/ICS water systems (Scenario 3 → the OT, ICS & SCADA tab, mirroring the PNNL water-treatment case)" },
           { name: "The lesson", use: "A capable adversary attacks on several fronts at once: physical access, cyber footholds, and AI manipulation woven into one coordinated operation, so the defense has to be just as integrated. The team's bottom line: mission-ready AI security comes from rigorous, human-led adversarial testing" },
         ],
       },
@@ -2437,7 +2444,7 @@ const content = {
         description: "The honest counter-case the skeptics get right: deployed carelessly, Agentic AI makes security worse, not better. This playbook does not claim a lights-out SOC, that agents replace analysts, or that the technology is mature everywhere. Model-only defenses are still bypassed roughly half the time within ten attempts, per the International AI Safety Report's November 2025 key update; agents are confidently and fluently wrong; and naive automation amplifies those errors at machine speed while analyst skills atrophy. The biggest risk in the whole program is believing the demo and over-delegating before the foundations, guardrails, and evaluation are in place.",
         mitigations: [
           "Foundations first: sequence AI onto solid triage, tuning, and data quality; never automate a broken process",
-          "Human-in-command with real escalation thresholds: oversight that cannot quietly become a rubber stamp",
+          "Human in Command with real escalation thresholds: oversight that cannot quietly become a rubber stamp",
           "Bound blast radius with deterministic containment, not model promises (model-only defenses are bypassed ~50% of the time within ten attempts)",
           "Continuously evaluate the agents (regression suites, drift, verdict quality): an unmeasured agent is an untrusted one",
           "Treat capability claims as indicative and start supervised; expand autonomy only as evidence earns it",
@@ -2603,6 +2610,7 @@ const content = {
 
   fluency: {
     title: "AI Fluency: Key Terms",
+    introLink: { before: " For the public sector framework abbreviations, see ", label: "the Framework Maps glossary", url: "https://kensden.github.io/lensatic/maps/#view-glossary", after: "." },
     subtitle: "A working glossary of the AI security and threat-intelligence vocabulary used in this playbook",
     color: palette.purple,
     intro: "Shared language keeps a cross-functional program aligned. These are the terms that recur across the tabs, grouped for quick reference: agentic foundations, the attack surface, defense and governance, the cyber threat intelligence vocabulary (including CCIRs and PIRs), and federal and DoW terms.",
@@ -2616,7 +2624,7 @@ const content = {
           { term: "Agentic AI", def: "AI that pursues a goal autonomously: it plans, calls tools, observes results, and re-plans, rather than producing a single response. The basis of autonomous red/blue/purple teaming." },
           { term: "Agentic Memory", def: "Persistent state an agent carries across steps or sessions; a stealthy attack surface (see memory poisoning / AgentPoison)." },
           { term: "Autonomy Spectrum", def: "The range from guided assistant to end-to-end agent. Autonomy is earned through eval evidence, and every notch up the dial pairs with tighter circuit breakers." },
-          { term: "Human-in-the-Loop vs. Human-in-Command", def: "In-the-loop = a person approves individual actions (degrades under approval fatigue). In-command = people own strategy, policy, and exceptions while agents do the repeatable work." },
+          { term: "Human-in-the-Loop vs. Human in Command", def: "In-the-loop = a person approves individual actions (degrades under approval fatigue). In-command = people own strategy, policy, and exceptions while agents do the repeatable work." },
           { term: "LLM (Large Language Model)", def: "A model trained on vast text that generates and reasons over language; the engine inside most current security agents." },
           { term: "MCP (Model Context Protocol)", def: "An open standard for connecting agents to tools and data sources. Convenient, and itself part of the agentic supply-chain attack surface." },
           { term: "Orchestration / Scaffolding", def: "The architecture that chains an agent's steps and decisions. Anthropic's research identifies this, not raw model skill, as the durable differentiator of high-risk actors." },
@@ -2898,7 +2906,7 @@ const content = {
           { sub: "OWASP", name: "OWASP: AI Exchange (324-page PDF)", url: "https://owaspai.org/OWASP-AI-Exchange.pdf", desc: "OWASP's self-described go-to comprehensive AI security guide; the four-category 'essentials' model, now the foundation for its AI Security Essentials overview under the SANS/OWASP alignment.", tier: "spine" },
           { sub: "OWASP", name: "OWASP: AI Exchange Threat Advisor", url: "https://owaspai.org/docs/ai_security_overview/", desc: "Interactive AI threat-modeling assistant from the OWASP AI Exchange: describe a system and it runs a tailored interview to surface applicable threats and guide risk assessment and mitigation, drawing on the Exchange's 300-plus pages and decision tree. A fast first-pass Agentic-AI threat model. Access note: the advisor runs on NotebookLM and requires Google sign-in. The link points at the Exchange overview page that describes and launches it.", tier: "appendix" },
           { sub: "OWASP", name: "OWASP: AI Exchange Threat Model & Decision Tree", url: "https://owaspai.org/images/threattree.png", desc: "The OWASP AI Exchange's structured threat-model decision tree: a six-branch walk across model-behavior, training-data, model-theft, and input-data risks, mapping each decision point to threats, controls, and notes. The reference flow behind the Threat Advisor and a clean scaffold for modeling agentic systems by hand.", tier: "appendix" },
-          { sub: "OWASP", name: "OWASP: AI Security Verification Standard (AISVS) 1.0", url: "https://github.com/OWASP/AISVS", desc: "Community-driven catalog of testable security requirements for AI-enabled systems: 12 requirement categories, from training-data integrity and model supply chain through orchestration/agentic and MCP security to adversarial robustness and monitoring, across three assurance levels; the AI counterpart to OWASP's Application Security Verification Standard. The verification layer of the OWASP AI stack: where the Top 10s enumerate risk, AISVS specifies what to test to prove a control works. Led by Jim Manico (founder) with Otto Sulin, Rico Komenda, and Russ Memisyazici.", tier: "appendix" },
+          { sub: "OWASP", name: "OWASP: AI Security Verification Standard (AISVS) 1.01", url: "https://github.com/OWASP/AISVS", desc: "Community-driven catalog of testable security requirements for AI-enabled systems: 12 requirement categories, from training-data integrity and model supply chain through orchestration/agentic and MCP security to adversarial robustness and monitoring, across three assurance levels; the AI counterpart to OWASP's Application Security Verification Standard. The verification layer of the OWASP AI stack: where the Top 10s enumerate risk, AISVS specifies what to test to prove a control works. Led by Jim Manico (founder) with Otto Sulin, Rico Komenda, and Russ Memisyazici.", tier: "appendix" },
           { sub: "OWASP", name: "OWASP: GenAI Security Project (hub)", url: "https://genai.owasp.org", desc: "The top community hub for GenAI security: LLM Top 10, Agentic Top 10, red-teaming and security solutions guidance.", tier: "spine" },
           { sub: "OWASP", name: "OWASP: LLM Top 10 (2025)", url: "https://genai.owasp.org/llm-top-10/", desc: "The ten critical LLM-application risks in their 2025 numbering, which the playbook's framework tags keep; the 2026 edition re-ranks them.", tier: "spine" },
           { sub: "OWASP", name: "OWASP: LLM Top 10 (2026)", url: "https://genai.owasp.org/resource/owasp-genai-llm-top-10-2026/", desc: "The 2026 edition: the same ten risks re-ranked, eight changed ordinal, none added or dropped, with System Prompt Leakage re-scoped as Hidden Context Exposure. It draws the boundary this suite works either side of: this list owns the model as a component, the Agentic Top 10 owns it once it becomes an actor. Framework tags here remain 2025-numbered.", tier: "spine" },
@@ -2910,7 +2918,7 @@ const content = {
           { sub: "Other Frameworks, Matrices & Models", name: "CIS: CIS Controls v8.1 AI Companion Guides (AI/LLM, Agents, MCP)", url: "https://www.cisecurity.org/insights/blog/applying-controls-real-world-ai-environments", desc: "Three companion guides (Apr 2026, with Astrix and Cequence) that extend the CIS Critical Security Controls to AI: securing models/LLMs, autonomous agents (planning, tool-use, excessive agency), and the MCP protocol layer, reinterpreting existing Safeguards rather than inventing a new framework.", tier: "spine" },
           { sub: "Other Frameworks, Matrices & Models", name: "ENISA: Multilayer Framework for Good Cybersecurity Practices for AI (FAICP)", url: "https://www.enisa.europa.eu/publications/multilayer-framework-for-good-cybersecurity-practices-for-ai", desc: "The EU cybersecurity agency's layered framework for securing AI across its lifecycle: a base ICT/infrastructure layer, an AI-specific layer for machine-learning-unique properties, and a sector-specific layer. The European counterpart to the NIST and OWASP material here.", tier: "spine" },
           { sub: "Other Frameworks, Matrices & Models", name: "GAIA Top 10 (Mandiant): Good AI Assessment", url: "https://cloud.google.com/blog/topics/threat-intelligence/securing-ai-pipeline", desc: "Mandiant's Good AI Assessment (GAIA) Top 10: a risk-based framework from frontline offensive-security engagements, paired with the Secure Development of Generative AI Applications report. Field lessons from that report: secure the whole SDLC not just the prompt, sign conversation context with HMAC, drop user-supplied system messages, keep appsec basics, and build an AI early-warning system.", tier: "appendix" },
-          { sub: "Other Frameworks, Matrices & Models", name: "Google: SAIF (Secure AI Framework)", url: "https://saif.google", desc: "Enterprise AI security framework, now headlined by SAIF 2.0: Secure Agents, extending SAIF to autonomous-agent security (\"building powerful agents users can trust\"), with the SAIF Map, 15 cataloged risks with mapped controls, and the risk self-assessment, now joined by a newer Agent Risk Self-Assessment (saif.google/agent-risk-self-assessment). Implementation-side detail lives in the OCISO paper (cf. Google: Implementing SAIF Controls in Google Cloud).", tier: "spine" },
+          { sub: "Other Frameworks, Matrices & Models", name: "Google: SAIF (Secure AI Framework)", url: "https://saif.google", desc: "Enterprise AI security framework with an AI agent security section, the SAIF Map, 15 cataloged risks with mapped controls, and the risk self-assessment, now joined by a newer Agent Risk Self-Assessment (saif.google/agent-risk-self-assessment). Implementation-side detail lives in the OCISO paper (cf. Google: Implementing SAIF Controls in Google Cloud).", tier: "spine" },
           { sub: "Other Frameworks, Matrices & Models", name: "Microsoft: Threat Modeling AI/ML Systems", url: "https://learn.microsoft.com/en-us/security/engineering/threat-modeling-aiml", desc: "Extends STRIDE and the SDL to AI/ML-specific threats: poisoning, model stealing, adversarial perturbation, inversion.", tier: "spine" },
           { sub: "Other Frameworks, Matrices & Models", name: "MITRE: ATLAS", url: "https://atlas.mitre.org", desc: "Adversarial-ML extension to ATT&CK.", tier: "spine" },
           { sub: "Other Frameworks, Matrices & Models", name: "SANS: AI Security Maturity Model (2026)", url: "https://www.sans.org/mlp/2026-ai-security-maturity-model-ebook", desc: "5-stage Protect/Utilize/Govern model with Agentic-AI guidance; mapped to NIST, EU AI Act, ISO 42001, OWASP.", tier: "spine" },
@@ -2923,7 +2931,7 @@ const content = {
           { name: "AI Incident Database (AIID)", url: "https://incidentdatabase.ai", desc: "Real-world AI harm catalog.", tier: "spine" },
           { name: "Anthropic-Cybersecurity-Skills (community; NOT Anthropic)", url: "https://github.com/mukul975/Anthropic-Cybersecurity-Skills", desc: "Independent, Apache-2.0 skills library for security agents by Mahipal Jangra (@mukul975): 800+ agentskills.io-format skills across 30+ domains, mapped to ATT&CK, ATLAS, D3FEND, NIST CSF 2.0, NIST AI RMF and MITRE F3. Widely misattributed to Anthropic by its name and branding; the repo itself states it is unaffiliated. Cited as the worked case for third-party skill-pack provenance risk: treat as untrusted code, pin the audited commit, diff updates. COMMUNITY tier.", tier: "spine" },
           { name: "Mapping AI", url: "https://mapping-ai.org/about", desc: "Open-source map of the U.S. AI policy landscape: the people and organizations shaping AI governance, what they believe, and how they connect.", tier: "spine" },
-          { name: "MIT: AI Incident Tracker (validated Jun 2026)", url: "https://airisk.mit.edu/ai-incident-tracker", desc: "The MIT AI Risk Initiative's operational companion to the AI Risk Repository: an LLM pipeline classifies 1,600 real-world reports from the AI Incident Database across five taxonomies, Harm Severity (10 harm types), EU AI Act risk tier, Causal, Domain, and Subdomain, turning raw incident reports into queryable trend data already cited by the 2026 World Disasters Report and Time. The tracker's June 30, 2026 update post, AI Incident Tracker June 2026 Update, is the methodological headline: a pilot validation set a human-human expert baseline (itself only 0.31 QWK on Harm Severity, expert disagreement is real), scored eight models against consensus labels, and after targeted prompt refinement Claude Opus 4.6 matched or exceeded the human baseline on all five taxonomies on the pilot sample, with a held-out review set planned as the tracker scales. Read it twice: once as an incident-trend resource, and once as a worked example of validating an LLM-as-analyst pipeline against expert baselines before trusting it, the same ground-truth-and-scoring discipline this playbook's evaluation thread advocates.", tier: "appendix" },
+          { name: "MIT: AI Incident Tracker (Jun 2026 update)", url: "https://airisk.mit.edu/ai-incident-tracker", desc: "The MIT AI Risk Initiative's operational companion to the AI Risk Repository: an LLM pipeline classifies 1,600 real-world reports from the AI Incident Database across five taxonomies, Harm Severity (10 harm types), EU AI Act risk tier, Causal, Domain, and Subdomain, turning raw incident reports into queryable trend data already cited by the 2026 World Disasters Report and Time. The tracker's June 30, 2026 update post, AI Incident Tracker June 2026 Update, is the methodological headline: a pilot validation set a human-human expert baseline (itself only 0.31 QWK on Harm Severity, expert disagreement is real), scored eight models against consensus labels, and after targeted prompt refinement Claude Opus 4.6 matched or exceeded the human baseline on all five taxonomies on the pilot sample, with a held-out review set planned as the tracker scales. Read it twice: once as an incident-trend resource, and once as a worked example of validating an LLM-as-analyst pipeline against expert baselines before trusting it, the same ground-truth-and-scoring discipline this playbook's evaluation thread advocates.", tier: "appendix" },
           { name: "MIT: AI Risk Repository", url: "https://airisk.mit.edu", desc: "1,700+ risks; plus a 272-expert 'Priority Risks' Delphi study ranking severity, the most-vulnerable sectors (incl. National Security), and a responsibility gap.", tier: "spine" },
           { name: "Responsible AI Collaborative", url: "https://raicollab.org", desc: "Non-profit behind the AI Incident Database.", tier: "spine" },
         ],
@@ -2936,17 +2944,17 @@ const content = {
           { sub: "Standards & Authorization", name: "FedRAMP: Program & Marketplace", url: "https://www.fedramp.gov/", desc: "Standardized authorization for cloud services; IL2 by reciprocity to FedRAMP Moderate.", tier: "appendix" },
           { sub: "Standards & Authorization", name: "NIST: SP 800-171 (Protecting CUI)", url: "https://csrc.nist.gov/pubs/sp/800/171/r3/final", desc: "Controls for Controlled Unclassified Information in non-federal systems.", tier: "spine" },
           { sub: "Standards & Authorization", name: "NIST: SP 800-37 (Risk Management Framework)", url: "https://csrc.nist.gov/pubs/sp/800/37/r2/final", desc: "The RMF lifecycle underpinning FISMA authorization and ATO/cATO.", tier: "spine" },
-          { sub: "NIST", name: "NIST NCCoE: Software and AI Agent Identity and Authorization (Concept Paper, Feb 2026)", url: "https://csrc.nist.gov/pubs/other/2026/02/05/accelerating-the-adoption-of-software-and-ai-agent/ipd", desc: "NCCoE concept paper (February 5, 2026; Booth, Fisher, Galluzzo and Roberts) scoping a possible demonstration of identity standards for software and AI agents: identifying agents as distinct from people, OAuth 2.0 and policy-based authorization, delegation from user to agent, and logging. Candidate standards named: MCP, OAuth 2.0 and 2.1, OpenID Connect, SPIFFE/SPIRE, SCIM and NGAC. Comments closed April 2, 2026; the project page showed it reviewing them as of September 23, 2026. The paper asks questions rather than prescribing a design.", tier: "appendix" },
+          { sub: "NIST", name: "NIST NCCoE: Software and AI Agent Identity and Authorization (Concept Paper, Feb 2026)", url: "https://csrc.nist.gov/pubs/other/2026/02/05/accelerating-the-adoption-of-software-and-ai-agent/ipd", desc: "NCCoE concept paper (February 5, 2026; Booth, Fisher, Galluzzo and Roberts) scoping a possible demonstration of identity standards for software and AI agents: identifying agents as distinct from people, OAuth 2.0 and policy-based authorization, delegation from user to agent, and logging. Candidate standards named: MCP, OAuth 2.0 and 2.1, OpenID Connect, SPIFFE/SPIRE, SCIM and NGAC. Comments closed April 2, 2026; on September 29, 2026 NIST published a summary of the comments on the project's resource hub. The paper asks questions rather than prescribing a design.", tier: "appendix" },
           { sub: "NIST", name: "NIST: IR 8547: Transition to Post-Quantum Cryptography Standards (draft)", url: "https://csrc.nist.gov/pubs/ir/8547/ipd", desc: "NIST's transition roadmap (initial public draft, November 2024): how quantum-vulnerable algorithms get deprecated and replaced across federal systems, anchored to NSM-10's 2035 primary target with per-algorithm disallow dates. The scheduling layer over the FIPS trio; draft status carried deliberately: watch for the final.", tier: "spine" },
           { sub: "NIST", name: "NIST: Post-Quantum Cryptography Standards (FIPS 203/204/205, Aug 2024)", url: "https://csrc.nist.gov/pubs/fips/203/final", desc: "The August 13, 2024 trio that ended the wait for quantum-safe primitives: FIPS 203 (ML-KEM, module-lattice key encapsulation), FIPS 204 (ML-DSA, module-lattice signatures), and FIPS 205 (SLH-DSA, stateless hash-based signatures). Framed for the agentic estate: long-lived agent identities, channel crypto, and signed audit trails are exactly the surfaces a harvest-now-decrypt-later adversary records today to break later. Migration is a when, not a whether. Anchor is the FIPS 203 record; 204 and 205 are linked from it.", tier: "spine" },
           { sub: "NSA", name: "NSA: CNSA 2.0 (Commercial National Security Algorithm Suite)", url: "https://www.nsa.gov/Cybersecurity/Post-Quantum-Cybersecurity-Resources/", desc: "NSA's quantum-resistant algorithm suite for National Security Systems: the algorithm selections NSA announced in September 2022, required for NSS by the updated CNSS Policy 15 (2025) and detailed in the CNSA 2.0 FAQ, built on the NIST post-quantum standards, with phased, category-specific adoption deadlines set out in the FAQ (software and firmware signing first). Where commercial estates get options, national-security systems get a mandate: the NSS half of this suite's PQC treatment.", tier: "spine" },
           { sub: "NSA", name: "NSA: MCP Security Design Considerations for AI-Driven Automation (May 2026)", url: "https://www.nsa.gov/Press-Room/Press-Releases-Statements/Press-Release-View/Article/4496698/nsa-releases-security-design-considerations-for-ai-driven-automation-leveraging/", desc: "NSA AI Security Center cybersecurity information sheet (May 20, 2026) on Model Context Protocol deployments. It treats MCP's gaps as design problems: the protocol does not bind a session to an identity, authorization is optional, and bearer tokens have no defined lifecycle. Its recommendations include: prefer maintained MCP projects, design for trust boundaries, validate tool parameters, treat dynamic tool discovery with caution, constrain and sandbox tool execution, sign and verify messages, filter and monitor outputs, log every invocation, track and patch MCP vulnerabilities, and scan for exposed MCP servers.", tier: "spine" },
           { sub: "Counterintelligence & Insider Threat", name: "CDSE: Insider Threat & CI Toolkits (DCSA)", url: "https://www.cdse.edu/Training/Toolkits/Insider-Threat-Toolkit/", desc: "DCSA's Center for Development of Security Excellence: free insider-threat and counterintelligence toolkits, job aids, and potential-risk-indicator guides, the human-side practices to adapt to the agent (non-human-identity) context.", tier: "appendix" },
           { sub: "Counterintelligence & Insider Threat", name: "DCSA: Adjudication and Vetting Services (AVS)", url: "https://www.dcsa.mil/Trust-Decision-Adjudications/About-Adjudication-and-Vetting-Services-AVS/", desc: "The sole authority for security-clearance eligibility of non-IC DoW personnel (formerly the DoD CAF, later DCSA's Consolidated Adjudication Services, which AVS absorbed in 2024); applies the SEAD-4 (Security Executive Agent Directive 4) adjudicative guidelines and pairs an eligibility decision with Continuous Vetting: the human model behind continuous agent monitoring.", tier: "spine" },
-          { sub: "Counterintelligence & Insider Threat", name: "DCSA: Counterintelligence & Insider Threat (DITMAC)", url: "https://www.dcsa.mil/CI-Insider-Threat/", desc: "The federal government's lead for counterintelligence, insider threat (via the DoD Insider Threat Management and Analysis Center), personnel vetting, and Trusted Workforce 2.0 / Continuous Vetting: the model behind continuous behavioral monitoring of agents.", tier: "appendix" },
+          { sub: "Counterintelligence & Insider Threat", name: "DCSA: Counterintelligence & Insider Threat (DITMAC)", url: "https://www.dcsa.mil/Counterintelligence/", desc: "The federal government's lead for counterintelligence, insider threat (via the DoD Insider Threat Management and Analysis Center), personnel vetting, and Trusted Workforce 2.0 / Continuous Vetting: the model behind continuous behavioral monitoring of agents.", tier: "appendix" },
           { sub: "Counterintelligence & Insider Threat", name: "NITTF: National Insider Threat Policy & Minimum Standards", url: "https://archive.dni.gov/index.php/ncsc-how-we-work/ncsc-nittf", desc: "ODNI/NCSC hub (an archived page, no longer updated) for the task force established by E.O. 13587 (October 2011) under joint leadership of the Attorney General and the Director of National Intelligence; the president directed agencies with access to classified information to establish insider-threat detection and prevention programs and the NITTF to assist them, then issued the National Insider Threat Policy and the Minimum Standards by presidential memorandum in November 2012. Its stated primary mission is developing a government-wide insider-threat program for deterring, detecting, and mitigating insider threats, taking into account risk levels and the distinct needs, missions, and systems of individual agencies; the page also carries the program guide, the maturity framework, and hub-operations training.", tier: "appendix" },
           { sub: "Federal AI Guidance & Partnerships", name: "Anthropic: DoD / CDAO Partnership", url: "https://www.anthropic.com/news/anthropic-and-the-department-of-defense-to-advance-responsible-ai-in-defense-operations", desc: "CDAO prototype agreement (July 14, 2025; $200M ceiling) for frontier AI in national-security missions; Claude Gov + accredited Claude for Enterprise. On March 3, 2026 the Department of War designated Anthropic a supply chain risk, and on September 25, 2026 the D.C. Circuit denied Anthropic's petitions for review.", tier: "spine" },
-          { sub: "Federal AI Guidance & Partnerships", name: "ASD ACSC: Opportunities for AI in Cyber Defence (May 2026)", url: "https://www.cyber.gov.au/business-government/secure-design/artificial-intelligence/opportunities-for-ai-in-cyber-defence", desc: "Five Eyes guidance (Australian Signals Directorate / ACSC) on using AI to strengthen cyber defense: maps AI use to the ISM security functions, gives principles for secure adoption, and supplies vendor questions for defenders, the defensive-opportunity counterpart to the Five Eyes 'Careful Adoption' risk guidance. Use cases span AI-assisted asset discovery, risk-based patch prioritization, and vulnerability-chain analysis.", tier: "appendix" },
+          { sub: "Federal AI Guidance & Partnerships", name: "ASD ACSC: Opportunities for AI in Cyber Defence (May 2026)", url: "https://www.cyber.gov.au/publication/opportunities-for-ai-in-cyber-defence", desc: "Joint guidance from the Australian Signals Directorate's ACSC, co-sealed by the Canadian, New Zealand and UK cyber security centers, on using AI to strengthen cyber defense: maps AI use to the ISM security functions, gives principles for secure adoption, and supplies vendor questions for defenders, the defensive-opportunity counterpart to the Five Eyes 'Careful Adoption' risk guidance. Use cases span AI-assisted asset discovery, risk-based patch prioritization, and vulnerability-chain analysis.", tier: "appendix" },
           { sub: "Federal AI Guidance & Partnerships", name: "CISA: Adapting Zero Trust Principles to Operational Technology (Apr 2026)", url: "https://www.cisa.gov/resources-tools/resources/adapting-zero-trust-principles-operational-technology", desc: "Joint guide (April 29, 2026) from CISA, the Department of War, and the Department of Energy, with the Department of State, the FBI, and NIST credited as participating agencies, on applying zero trust principles to operational technology within its legacy, operational, and safety constraints: asset visibility, supply-chain risk management, and identity and access management on an assume-breach footing that puts uninterrupted operations, safety, and reliability first, aligned to the NIST CSF 2.0 functions.", tier: "spine" },
           { sub: "Federal AI Guidance & Partnerships", name: "CISA: BOD 26-04 Implementation Guidance: Forensic Triage (Jun 2026)", url: "https://www.cisa.gov/news-events/directives/bod-26-04-implementation-guidance-prioritizing-security-updates-based-risk", desc: "Companion guidance published alongside the directive and updated on a rolling basis: baseline forensic-triage steps for prompt vulnerability response, scoping, evidence preservation and collection, critical patching and stabilization, containment and control, triage analysis, escalation decision, with a who/what/where/when evidentiary standard, a written triage report as the agency record, and the escalate-to-IR-or-stand-down fork. KEV entries may carry CVE-specific triage steps that take precedence.", tier: "spine" },
           { sub: "Federal AI Guidance & Partnerships", name: "CISA: BOD 26-04: Prioritizing Security Updates Based on Risk (Jun 2026)", url: "https://www.cisa.gov/news-events/news/cisa-issues-new-directive-improving-how-federal-agencies-prioritize-mitigation-cyber-vulnerabilities", desc: "Binding Operational Directive ordering FCEB agencies to triage vulnerabilities across four criteria: asset exposure, KEV status, exploit automatability, post-exploitation impact, with a three-day class plus forensic triage for the worst, fixed-day classes of 3, 14, and 60 days in between, and fix on system upgrade for the lowest; supersedes the prior remediation directives. Explicitly motivated by AI-accelerated discovery and exploitation. FCEB-binding, DoW bellwether.", tier: "spine" },
@@ -2964,7 +2972,7 @@ const content = {
           { sub: "Anthropic", name: "Anthropic + NNSA: Nuclear Safeguards", url: "https://www.anthropic.com/research/nuclear-safeguards-for-ai", desc: "Nuclear-risk classifier, 96% accurate in preliminary testing, live on Claude traffic.", tier: "spine" },
           { sub: "Anthropic", name: "Anthropic + PNNL: Critical Infrastructure", url: "https://www.anthropic.com/research/critical-infrastructure-defense", desc: "AI adversary emulation against a CISA water-treatment sim: 3 hrs vs. weeks.", tier: "spine" },
           { sub: "Anthropic", name: "Anthropic: AI models on realistic cyber ranges (Jan 2026)", url: "https://www.anthropic.com/research/cyber-toolkits-update", desc: "Anthropic's January 16, 2026 update on its cyber-range evaluations, work begun with Carnegie Mellon's CyLab and continued with Incalmo: the vendor reports that current Claude models can now complete multistage attacks on simulated networks of dozens of hosts with nothing beyond standard open-source tools.", tier: "spine" },
-          { sub: "Anthropic", name: "Anthropic: Auto Mode Is Now the Default in Claude Code (Aug 2026)", url: "https://claude.com/blog/auto-mode-default-in-claude-code", desc: "Anthropic's claude.com post (August 7, 2026): auto mode becomes the default for Pro, Max and Team plans, on Anthropic's data that manual review turns habitual. Users approve 97% of permission prompts (Anthropic, August 2026), yet reject 39% of plans presented for approval. Anthropic's earlier engineering posts (March and May 2026) gave 93%; this August 2026 post gives no measurement period or population.", tier: "spine" },
+          { sub: "Anthropic", name: "Anthropic: Auto Mode Is Now the Default in Claude Code (Aug 2026)", url: "https://claude.com/blog/auto-mode-default-in-claude-code", desc: "Anthropic's claude.com post (August 7, 2026): auto mode becomes the default for Pro, Max and Team plans, on Anthropic's data that manual review turns habitual. An update of October 22, 2026 says it rolls out as the default for new sessions in most Claude apps on those plans, and that Enterprise admins get an email before it becomes the default for their organizations. Users approve 97% of permission prompts (Anthropic, August 2026), yet reject 39% of plans presented for approval. Anthropic's earlier engineering posts (March and May 2026) gave 93%; this August 2026 post gives no measurement period or population.", tier: "spine" },
           { sub: "Anthropic", name: "Anthropic: Claude Code Security (defenders)", url: "https://www.anthropic.com/news/claude-code-security", desc: "Agentic vuln scanner; 500+ validated high-severity vulns found in production open-source with Opus 4.6, patches for human review.", tier: "spine" },
           { sub: "Anthropic", name: "Anthropic: Containing Claude (engineering)", url: "https://www.anthropic.com/engineering/how-we-contain-claude", desc: "Agent containment retrospective: sandboxes, VMs, egress controls, blast-radius bounding.", tier: "appendix" },
           { sub: "Anthropic", name: "Anthropic: Disrupting AI Espionage (GTG-1002)", url: "https://www.anthropic.com/news/disrupting-AI-espionage", desc: "Anthropic reports the GTG-1002 operation as the first documented large-scale AI-orchestrated cyber-espionage campaign, 80 - 90% autonomous by its estimate.", tier: "spine" },
@@ -2984,13 +2992,13 @@ const content = {
           { sub: "More Labs & Research", name: "Germany: DE-AISI (KI-Sicherheitsinstitut, Jun 2026)", url: "https://www.heise.de/news/Bundesregierung-will-KI-Sicherheitsinstitut-gruenden-11326247.html", desc: "Announced June 8, 2026 after a National Security Council session chaired by Chancellor Merz, headlined by heise as a possible reaction to Claude Mythos. Bundles German federal capacity to analyze frontier-model capabilities and risks (security and safety alike), launches as a virtual institution on BSI and Bundesnetzagentur structures, and aims at exchange with peer institutes (UK AISI et al.) and common international standards.", tier: "spine" },
           { sub: "More Labs & Research", name: "NIST: Gödel Proof: Continuous Monitor-and-Update for AI (Jun 2026)", url: "https://www.nist.gov/news-events/news/2026/06/nist-mathematical-proof-supports-transition-continuous-monitor-and-update", desc: "NIST's announcement of Vassilev's peer-reviewed proof (IEEE S&P): no finite guardrail set is universally robust against adversarial prompts, so the prescribed model is standing red teams, continuous guardrail updates, and operational resilience, with the defensive goal an economic one: make new exploits cost more than attackers' resources.", tier: "spine" },
           { sub: "More Labs & Research", name: "RAND: Advancing U.S.-UK Cooperation to Secure Frontier AI (2026)", url: "https://www.rand.org/pubs/research_reports/RRA4764-1.html", desc: "Interim RAND-Oxford report (June 8, 2026) elevating frontier AI security to strategic-asset level: five clusters (hardened access, secure development and supply chain, monitoring and incident response, personnel security, physical security) plus bilateral recommendations for joint AI threat-intelligence infrastructure, red-team and model-evaluation support, and regular joint AI crisis exercises. Policy-level convergence on the continuous-testing, tabletop-exercised posture this playbook operationalizes.", tier: "spine" },
-          { sub: "More Labs & Research", name: "Small Wars Journal: Ubiquitous Technical Surveillance & Signature Reduction", url: "https://smallwarsjournal.com/2026/02/13/ubiquitous-technical-surveillance/", desc: "Doctrine for operating under pervasive, AI-correlated surveillance (UTS), the CIA-labeled existential condition, and the countervailing signature-reduction and digital-force-protection practices.", tier: "appendix" },
+          { sub: "More Labs & Research", name: "Small Wars Journal: Ubiquitous Technical Surveillance and the Renewal of Irregular Warfare", url: "https://smallwarsjournal.com/2026/02/13/ubiquitous-technical-surveillance/", desc: "Doctrine for operating under pervasive, AI-correlated surveillance (UTS), the CIA-labeled existential condition, and the countervailing signature-reduction and digital-force-protection practices.", tier: "appendix" },
         ],
       },
       {
         group: "Human-Centric AI Adoption",
         items: [
-          { name: "Microsoft: Towards Humanist Superintelligence", url: "https://mustafa-suleyman.ai/a-humanist-future", desc: "Suleyman's MAI vision: controllable, human-centered AI that serves people, not replaces them.", tier: "appendix" },
+          { name: "Microsoft: Towards Humanist Superintelligence", url: "https://www.microsoft.ai/news/towards-humanist-superintelligence/", desc: "Suleyman's MAI vision: controllable, human-centered AI that serves people, not replaces them.", tier: "appendix" },
           { name: "Stanford HAI: Human-Centered AI", url: "https://hai.stanford.edu/", desc: "Stanford's Institute for Human-Centered AI: independent academic grounding for the human-in-command, augmentation-not-replacement thesis.", tier: "spine" },
         ],
       },
@@ -2999,7 +3007,7 @@ const content = {
         items: [
           { name: "Anthropic: Expanding Project Glasswing (Jun 2026)", url: "https://www.anthropic.com/news/expanding-project-glasswing", desc: "Anthropic's June 2, 2026 update: the vendor reports extending Project Glasswing to approximately 150 new organizations based in more than 15 countries.", tier: "spine" },
           { name: "Anthropic: Project Glasswing: An initial update (May 2026)", url: "https://www.anthropic.com/research/glasswing-initial-update", desc: "Anthropic's May 22, 2026 progress report: the vendor reports Mythos Preview found an estimated 6,202 high or critical severity vulnerabilities in open-source projects, and the post links the program's coordinated vulnerability disclosure dashboard.", tier: "spine" },
-          { name: "Cotool: BlueBench (Windows Enterprise Intrusion)", url: "https://www.cotool.ai/research/windows-enterprise-intrusion", desc: "Blue-team model evaluation on REAL intrusion data (not synthetic): 3.9M+ events across 40 log tables from an actual Windows AD attack chain (RDP spray, Mimikatz, WMI lateral movement, DC replication), with every detection rule re-executed against the live dataset so a rule that does not run scores zero. Key finding (Sep 2026 leaderboard, 16 models, 40 scored tasks each): the best guided detection-engineering score (95.8%) runs well above the best open-ended incident-response report score (77.8%), reinforcing that human judgment stays in the loop. The page also notes that run completion does not rule out a refusal, a concrete reminder to evaluate whether a model will actually perform legitimate defensive work, not just whether it is capable. Vendor research (Cotool, with Threat Hunting Labs data); tier accordingly.", tier: "spine" },
+          { name: "Cotool: BlueBench (Windows Enterprise Intrusion)", url: "https://www.cotool.ai/research/windows-enterprise-intrusion", desc: "Blue-team model evaluation on REAL intrusion data (not synthetic): 3.9M+ events across 40 log tables from an actual Windows AD attack chain (RDP spray, Mimikatz, WMI lateral movement, DC replication), with every detection rule re-executed against the live dataset so a rule that does not run scores zero. Key finding (Sep 2026 leaderboard, 24 models, 40 scored tasks each): the best guided detection-engineering score (95.8%) runs well above the best open-ended incident-response report score (83.5%), reinforcing that human judgment stays in the loop. The page also notes that run completion does not rule out a refusal, a concrete reminder to evaluate whether a model will actually perform legitimate defensive work, not just whether it is capable. Vendor research (Cotool, with Threat Hunting Labs data); tier accordingly.", tier: "spine" },
           { name: "CSA: NIST's Gödel Proof: Static Guardrails Are Insufficient (Jun 2026)", url: "https://labs.cloudsecurityalliance.org/research/csa-research-note-nist-continuous-ai-monitoring-godel-proof/", desc: "Enterprise read of the Vassilev result: point-in-time audits systematically underestimate residual risk, so assess the discovery-to-update cadence rather than control presence; re-architect guardrails to hot-updateable gateway layers (input and output); and treat vendors shipping static safety configurations as elevated supply-chain risk. Cites refuse-then-comply fine-tuning at 72% / 57% success against frontier models.", tier: "spine" },
           { name: "CSA: Project Glasswing: Discovery Outpaces Patching", url: "https://labs.cloudsecurityalliance.org/research/csa-research-note-glasswing-ai-vuln-patching-deficit-2026060/", desc: "Research note on the discovery-to-remediation gap: 10,000+ high/critical vulns across partners in month one, ~6% of the findings disclosed to open-source maintainers patched as of May 22, 2026, 28.3% of newly exploited CVEs in Q1 2025 hit within 24h (VulnCheck's figure), NVD under structural strain.", tier: "spine" },
           { name: "CSA: The AI Vulnerability Storm (VulnOps / Mythos-ready)", url: "https://labs.cloudsecurityalliance.org/mythos-ciso/", desc: "Board-level CISO briefing (Apr 2026; Gadi Evron, Rich Mogull, and SANS's Rob T. Lee, with contributing authors including Jen Easterly, Bruce Schneier, Chris Inglis, Rob Joyce, Heather Adkins, Joshua Saxe, Sounil Yu, John Stewart, Katie Moussouris, Dave Lewis, and Maxim Kovalsky, plus the 250 CISOs who redlined it live): AI-driven vulnerability discovery is collapsing the disclosure-to-exploit window faster than current operating models can absorb. It frames 'VulnOps' as a permanent organizational capability and structures action across this week / 45 days / 12 months, reinforcing the reaction-time-collapse thesis.", tier: "spine" },
@@ -3028,16 +3036,15 @@ const content = {
           { sub: "Shawnee Delaney", name: "Shawnee Delaney: Insider Threat at SANS", url: "https://www.sans.org/profiles/shawnee-delaney", desc: "Vaillance Group CEO; SANS resources on defending against AI-powered threats and human risk.", tier: "spine" },
           { sub: "More from the Field", name: "Adam Krivka & Ondrej Vlcek (AISLE): AI Found 12 Zero-Days in OpenSSL ([un]prompted 2026)", url: "https://www.youtube.com/watch?v=IjL2qN1KDe8", desc: "[un]prompted 2026, Day 1 (March 3). AISLE reports that its AI system found the 12 vulnerabilities OpenSSL fixed on January 27, 2026, each validated by its researchers before coordinated disclosure; OpenSSL's advisory credits all 12 to Aisle researchers (one also reported independently): one High, one Moderate and ten Low. Zero-day here means previously unknown, not exploited in the wild. AISLE is listed as a partner of the conference's October 2026 edition.", tier: "spine" },
           { sub: "More from the Field", name: "Andrew Bullen (Stripe): Breaking the Lethal Trifecta ([un]prompted 2026)", url: "https://www.youtube.com/watch?v=cNE7P5FkqR8", desc: "[un]prompted 2026, Day 2 (March 4). Stripe's AI security lead on containing the lethal trifecta in production by assuming prompt injection will happen. One guardrail cuts the egress leg: web search with outside access disabled, third-party SaaS reached only through Stripe's central MCP proxy, and CI checks on agent services' egress settings. A second requires human confirmation for sensitive tools, driven by annotations every tool must carry.", tier: "spine" },
-          { sub: "More from the Field", name: "Anton Chuvakin: Stop Building a 2003 SOC with AI (Part 1, Jun 2026)", url: "https://medium.com/anton-on-security/stop-building-a-2003-soc-with-ai-a-modern-people-process-framework-part-1-7220513c9de1", desc: "Google Cloud Office of the CISO's Chuvakin, writing with Augusto Barros (Prophet Security), opens a people-and-process framework for the agentic SOC with the warning this playbook is built around: bolt AI onto 2003-era processes and you get a somewhat better 2003 SOC, the SOAR story repeated, where a few tasks moved to machines and everything else stayed put. Part 1 deliberately collects the questions before the answers: what humans do in an agentic SOC, which processes vanish outright (triage), what the new validation role looks like, how to run human-in-the-loop without breaking the humans or the machines, how metrics must change, nearly one-for-one the questions the Human in Command and Program & Operating Model tabs exist to answer. The ASO lineage (humans build machines; machines do the work) runs straight through it; answers promised in the sequels.", tier: "spine" },
-          { sub: "More from the Field", name: "Aurora: Automated Cyberattack Emulation from CTI (classical planning + LLM)", url: "https://arxiv.org/pdf/2407.16928", desc: "Generates attack chains guided by CTI reports: raises CTI-mentioned-technique fidelity ~30% over report-agnostic chains, and substitutes available tooling when a named tool is absent while preserving the chain's logic. The emulation-fidelity half of intelligence-driven agentic adversary emulation.", tier: "appendix" },
+          { sub: "More from the Field", name: "Anton Chuvakin: Stop Building a 2003 SOC with AI (Part 1, Jun 2026)", url: "https://medium.com/anton-on-security/stop-building-a-2003-soc-with-ai-a-modern-people-process-framework-part-1-7220513c9de1", desc: "Google Cloud Office of the CISO's Chuvakin, writing with Augusto Barros (Prophet Security), opens a people-and-process framework for the agentic SOC with the warning this playbook is built around: bolt AI onto 2003-era processes and you get a somewhat better 2003 SOC, the SOAR story repeated, where a few tasks moved to machines and everything else stayed put. Part 1 deliberately collects the questions before the answers: what humans do in an agentic SOC, which processes vanish outright (triage), what the new validation role looks like, how to run human-in-the-loop without breaking the humans or the machines, how metrics must change, nearly one-for-one the questions the Human in Command and Program & Operating Model tabs exist to answer. The ASO lineage (humans build machines; machines do the work) runs straight through it. Part 2 (Triage Must Die) and Part 3 (Local Context, Failure Modes and Your Path) have since been published.", tier: "spine" },
           { sub: "More from the Field", name: "Avishai Efrat & Roey Ben Chaim (Zenity): Total Recon ([un]prompted 2026)", url: "https://www.youtube.com/watch?v=N0DukgZSREo", desc: "[un]prompted 2026, Day 2 (March 4), presented by Roey Ben Chaim. Zenity reports finding tens of thousands of publicly reachable AI agents, mostly Microsoft Copilot Studio bots, thousands of them unauthenticated, by fuzzing default URLs and searching backlinks (2,500 open Copilot Studio agents from backlinks alone), and released new agent-recon modules in its open-source PowerPwn toolset for self-assessment. Vendor research with no exact total; Zenity is listed as a partner of the conference's October 2026 edition.", tier: "appendix" },
           { sub: "More from the Field", name: "Binary Defense: NightBeacon CMD: The Glass-Box SOC Workbench (webinar)", url: "https://binarydefense.com/webinars/nightbeacon-cmd-the-glass-box-soc-workbench-that-keeps-humans-in-command", desc: "On-demand webinar making the glass-box case for the agentic SOC: every AI verdict ships with its evidence, reasoning, and steps mapped to MITRE ATT&CK, so analysts stay in command and never have to answer with \"the AI said so.\" Featuring Dave Kennedy, Binary Defense's founder and the workbench's developer, with CTO Jason Vest. Registration-walled (the session sits behind a form) and a product pitch by construction: take the human-in-command, auditable-agent thesis this playbook independently argues, and put the product itself through the Torq 20 questions below.", tier: "spine" },
           { sub: "More from the Field", name: "Caroline Wong (The AI Cybersecurity Handbook): When You Turn On AI, Who Owns the New Signals? (Jul 2026)", url: "https://www.theaicyberhandbook.com/when-you-turn-on-ai-who-owns-the-new-signals/", desc: "A crisp operating-model answer to the question every security leader hits when AI turns on: of the flood of new alerts, logs, and telemetry, what is the SOC's job and what is not. Wong, author of The AI Cybersecurity Handbook, draws the line as cybersecurity owns whether AI can safely act, product owns whether it acts correctly, so prompt injection, credential abuse, over-permissioned tools, and rogue-agent behavior sit with cyber, while hallucinations, answer quality, and workflow accuracy sit with product and AI governance. The piece is built for teams embedding AI security into the org they already have rather than standing up a separate function, and it is unusually concrete: a three-stage maturity model (turn AI on, build with AI, AI does the work), the AI gateway as a single policy-enforcement point in front of every model (authentication, prompt inspection, content filtering, tool control, logging), the two flows it enforces (DLP inbound, vaulted short-lived secrets outbound), five rogue-agent scenarios that are all deviations from an agent's baseline rather than malware, the reality that there is no unified agent-behavior view yet, signals scatter across identity, cloud, SIEM, and gateway logs, and MCP treated as privileged middleware to be scoped one job, one identity, one boundary, one owner. It maps directly onto the Program & Operating Model and agent-incident-response material here, giving the ownership boundary a citable source.", tier: "appendix" },
-          { sub: "More from the Field", name: "CSA: State of AI Cybersecurity 2026 (survey)", url: "https://cloudsecurityalliance.org/blog/2026/04/02/the-state-of-ai-cybersecurity-2026-unveiling-insights-from-over-1-500-security-leaders", desc: "Cloud Security Alliance survey of 1,500+ security leaders; headline finding that the agentic workforce is scaling faster than identity and security frameworks can adapt: external benchmark for the agents-as-NHI and governance themes.", tier: "spine" },
           { sub: "More from the Field", name: "CSO Online: AI Red Teaming Comes of Age (2026)", url: "https://www.csoonline.com/article/4181930/ai-red-teaming-comes-of-age.html", desc: "Brumfield's June 2026 state-of-the-discipline feature: Microsoft's AI red team founder and technical lead, HackerOne, Cisco, and Palo Alto on probabilistic testing, whole-system scope, the expanded threat-persona roster, and the coming convergence of AI and traditional red teaming.", tier: "appendix" },
+          { sub: "More from the Field", name: "Darktrace: State of AI Cybersecurity 2026 (survey, via CSA)", url: "https://cloudsecurityalliance.org/blog/2026/04/02/the-state-of-ai-cybersecurity-2026-unveiling-insights-from-over-1-500-security-leaders", desc: "Darktrace's survey of 1,500+ security leaders, republished on the Cloud Security Alliance blog: 73% say AI-powered threats already significantly affect their organization, and the expansion of generative AI is outpacing the security frameworks meant to govern it. An external benchmark for the agents-as-NHI and governance themes.", tier: "spine" },
           { sub: "More from the Field", name: "IBM X-Force (Patrick Fussell): The Front of the Cyber Kill Chain Just Moved (Jun 2026)", url: "https://www.ibm.com/think/x-force/The-front-of-the-cyber-kill-chain-just-moved", desc: "A precise argument against both AI-security hype and dismissal: the thing frontier AI actually changes is the front of the kill chain, reconnaissance and vulnerability discovery, historically the slow, expensive, human-bound phase, and compressing it from weeks to hours rewrites the economics of every step downstream. It is grounded in real cases: Google's Big Sleep agent finding a previously unknown memory-safety bug in SQLite, which Google described as the first public instance in widely deployed software; DARPA's AIxCC, where cyber-reasoning systems ran roughly 143 hours autonomously against 53 projects and surfaced 54 of 63 synthetic vulnerabilities plus 18 unknown real-world bugs; and Sean Heelan using OpenAI's o3 to surface a Linux-kernel SMB zero-day (CVE-2025-37899) across 100 runs for about $116. For the red-team spine, this is the empirical case that discovery-to-exploitation is collapsing and that sophisticated capability is now a function of API budget rather than headcount.", tier: "spine" },
           { sub: "More from the Field", name: "Joshua Saxe: The Hard Part Isn't Building the Agent ([un]prompted 2026)", url: "https://www.youtube.com/watch?v=rO2yA52U_i4", desc: "[un]prompted 2026, Day 1 (March 3); listed as Meta's AI security technical lead, he said he had just left to co-found a startup. Evaluation is the blocker for autonomous cyber defense: security ground truth is noisy, so grade how an agent works (evidence, reasoning and justification) against a rubric, calibrate an LLM judge on as few as about 100 labeled samples to start, set a deployment bar, and keep monitoring after deployment.", tier: "spine" },
-          { sub: "More from the Field", name: "Matt Maisel (Sondera): Hooking Coding Agents with the Cedar Policy Language ([un]prompted 2026)", url: "https://www.youtube.com/watch?v=m6pzrqFJ6hE", desc: "[un]prompted 2026, Day 1 lightning talk (March 3). Sondera's CTO puts a deterministic reference monitor outside the agent and the model: coding-agent hooks in Claude Code, Gemini CLI and Cursor send each event to a Cedar policy engine that allows, modifies or stops it. Demos blocked a destructive SQL command, a web fetch after the session touched personal data, and a malicious skill. Some facts the policies use come from classifiers; the code is open source.", tier: "spine" },
+          { sub: "More from the Field", name: "Matt Maisel (Sondera): Hooking Coding Agents with the Cedar Policy Language ([un]prompted 2026)", url: "https://www.youtube.com/watch?v=m6pzrqFJ6hE", desc: "[un]prompted 2026, Day 1 talk (March 3). Sondera's CTO puts a deterministic reference monitor outside the agent and the model: coding-agent hooks in Claude Code, Gemini CLI and Cursor send each event to a Cedar policy engine that allows, modifies or stops it. Demos blocked a destructive SQL command, a web fetch after the session touched personal data, and a malicious skill. Some facts the policies use come from classifiers; the code is open source.", tier: "spine" },
           { sub: "More from the Field", name: "Microsoft CTI-REALM: Benchmark for CTI-to-Detection Agents", url: "https://www.microsoft.com/en-us/security/blog/2026/03/20/cti-realm-a-new-benchmark-for-end-to-end-detection-rule-generation-with-ai-agents/", desc: "Checkpoint-scored evaluation of agents translating narrative CTI into Sigma/KQL against real attack telemetry: the model for grading emulation fidelity (did we emulate the actor, or \"generic attacker\"?) rather than trusting it.", tier: "appendix" },
           { sub: "More from the Field", name: "Nicholas Carlini (Anthropic): Black-hat LLMs ([un]prompted 2026)", url: "https://www.youtube.com/watch?v=1sd26pWhfmg", desc: "[un]prompted 2026, Day 1 (March 3, San Francisco). Anthropic research scientist Nicholas Carlini ran Claude Code in a VM with permission prompts skipped and a short CTF-style prompt: current models found zero-days, among them a remotely exploitable heap overflow in the Linux kernel's NFSv4 code, present since 2003, and exploited some of them, including a blind SQL injection in Ghost CMS. His point is that this needs no special scaffolding and was not possible a few months earlier. Anthropic's February 5, 2026 write-up reports more than 500 validated high-severity vulnerabilities.", tier: "spine" },
           { sub: "More from the Field", name: "NOVA & PromptIntel: Adversarial-Prompt Detection & IoPC Feed (Roccia)", url: "https://promptintel.novahunting.ai", desc: "Thomas Roccia's NOVA ecosystem. NOVA is an open-source rule framework for detecting adversarial-prompt patterns (YARA for prompts); PromptIntel is a free community database of adversarial prompts, Indicators of Prompt Compromise (IoPC), with a live feed, API, and attached NOVA rules. dogesec models it as structured CTI on Cyber Threat Exchange.", tier: "spine" },
@@ -3048,6 +3055,7 @@ const content = {
           { sub: "More from the Field", name: "Stephen Tate (infosecuriosity): Most SOCs Are Thinking About AI the Wrong Way (Jun 2026)", url: "https://www.infosecuriosity.co.uk/posts/2026-06-28-Most-SOCs-Are-Thinking-About-AI-the-Wrong-Way/", desc: "Part 1 of a Building the AI-Ready SOC series from a working blue-teamer, and the sharpest short statement of why bolting AI onto existing SOC tasks misses the point: it makes individual tasks faster but leaves the shape of the work untouched, when the real opportunity is scaling the expertise your best analysts already hold across the whole operation. Its most useful contribution is a three-jobs taxonomy worth borrowing: automation handles the certain (known steps, predictable outcomes), AI handles the variable (choosing and running the right investigative steps, then making sense of the results), and people handle the novel (genuinely new attacker behavior, ambiguity, judgment, and deciding what gets captured for AI to use next). Two further points land on this playbook's themes: hand-built detection-tied playbooks break on ambiguity (living-off-the-land activity that only context can resolve) and on volume, so the move is to codify an analyst's line of questioning once and let AI apply it everywhere; and product-embedded AI that sees only its own control, network-only NDR, for example, is a feature, not an investigative capability, because real investigations cross endpoint, network, and identity. Reinforces the human-in-command spine with a clean operating model.", tier: "appendix" },
           { sub: "More from the Field", name: "Sublime Security: Trust, Then Autonomy (Evaluating Security AI)", url: "https://sublime.security/resources/trust-then-autonomy-a-new-framework-for-evaluating-security-ai/", desc: "A procurement-and-operations framework: autonomy sits on a spectrum, is earned incrementally through demonstrated trust, and the right products expose a dial. Evaluate the vendor's evidence before the product's claims.", tier: "spine" },
           { sub: "More from the Field", name: "Torq: 20 Questions for AI SOC Vendors (Apocalypse Manifesto, Jun 2026)", url: "https://torq.io/resources/ai-soc-apocalypse/", desc: "A vendor-evaluation checklist from Torq's AI SOC campaign. The manifesto's 20 questions distill to themes worth asking any agentic SOC vendor: transparent, auditable reasoning; adjustable autonomy; human-on-the-loop control; RBAC and guardrails; immutable audit logs; memory and context handling; native MCP support; provable MTTR impact. Vendor-authored and self-serving by construction: a manifesto built so its author scores perfectly against it; include as a procurement scaffold, not an endorsement or an evaluation. Its footnoted primaries, CrowdStrike's 2026 Global Threat Report and Check Point's VoidLink research, have entries of their own (see Threat Intelligence & Industry Reports). Second citation, same campaign (Grounding the AI SOC: The Context Graph Problem, Jun 2026): the AI SOC's binding failure is grounding, not reasoning, and trustworthy context has four properties, current rather than a snapshot, traceable, decision-capturing rather than merely topological, and isolated. Carries SANS 2025's 73% false-positive-burden figure and IBM 2025's $3.62M-vs-$5.52M breach-cost split; the vendor's entry in the context-graph conversation (cf. the Context Graph cluster above).", tier: "appendix" },
+          { sub: "More from the Field", name: "Wang et al.: From Sands to Mansions: Towards Automated Cyberattack Emulation with Classical Planning and Large Language Models (Aurora)", url: "https://arxiv.org/pdf/2407.16928", desc: "Generates attack chains guided by CTI reports: raises CTI-mentioned-technique fidelity ~30% over report-agnostic chains, and substitutes available tooling when a named tool is absent while preserving the chain's logic. The emulation-fidelity half of intelligence-driven agentic adversary emulation.", tier: "appendix" },
           { sub: "More from the Field", name: "Wes Ring & Josiah Peedikayil (Block): Operation Pale Fire ([un]prompted 2026)", url: "https://www.youtube.com/watch?v=SUa1nta8FGQ", desc: "[un]prompted 2026, Day 2 (March 4). Block reports red-teaming its own open-source agent, goose, end to end: calendar-invite prompt injection failed, a poisoned recipe reached the goose team and ran, and Block's detection and response team caught the payload. The fixes it describes: Unicode stripping, recipe warnings, a command allowlist and an initial prompt-injection detector. Block Engineering's write-up is dated January 15, 2026.", tier: "spine" },
           { sub: "More from the Field", name: "Wiz: Red Agent POV: Autonomous Offensive AI (2026)", url: "https://www.wiz.io/blog/red-agent-pov-series", desc: "Wiz Research series on its autonomous AI pentester, the Red Agent. One month of aggregate data: hundreds of thousands of scans across ~1,000 environments, 17,000+ unique findings, 5,500+ high and critical (validated multi-step chains). The SSRF breakdown shows the agent learning from blocked probes across 96 iterations to turn an unauthenticated SSRF into credential and source-code theft: discovery is cheap, proof is the job, demonstrated.", tier: "appendix" },
         ],
@@ -3064,7 +3072,7 @@ const content = {
       {
         group: "Research & Reference",
         items: [
-          { name: "A CPU-Centric Perspective on Agentic AI (Georgia Tech + Intel)", url: "https://arxiv.org/abs/2511.00739v1", desc: "By Ritik Raj, Hong Wang, and Tushar Krishna (arXiv:2511.00739v1, Nov 2025; CC BY 4.0), the primary research behind the systems framing this suite borrows from. Profiles five representative agentic workloads and finds that tool processing on CPUs can reach up to 90.6% of total agent latency, with throughput bottlenecked by CPU coherence, synchronization, and core over-subscription rather than the model. The security-relevant reframe: the bottleneck and the value sit in the execution stack (orchestration, retrieval, tool calls, guardrail checks), not the model, so that same execution layer is where controls run and where the attack surface concentrates.", tier: "spine" },
+          { name: "A CPU-Centric Perspective on Agentic AI (Georgia Tech + Intel)", url: "https://arxiv.org/abs/2511.00739v1", desc: "By Ritik Raj, Hong Wang, and Tushar Krishna (arXiv:2511.00739v1, Nov 2025; CC BY 4.0), the primary research behind the systems framing this suite borrows from. Profiles five representative agentic workloads and finds that tool processing on CPUs can reach up to 90.6% of total agent latency, with throughput bottlenecked by CPU coherence, synchronization, and core over-subscription rather than the model. The security-relevant reframe: the bottleneck and the value sit in the execution stack (orchestration, retrieval, tool calls, guardrail checks), not the model, so that same execution layer is where controls run and where the attack surface concentrates. Version 3 (April 16, 2026) is retitled \"Towards Understanding, Analyzing, and Optimizing Agentic AI Execution: A CPU-Centric Perspective\", adds two authors and no longer states these figures; this entry cites version 1.", tier: "spine" },
           { name: "Agents of Chaos (Northeastern/Harvard/MIT/Stanford/CMU)", url: "https://arxiv.org/abs/2602.20021", desc: "Live-environment study: agents are vulnerable to conversation/social manipulation, not just exploits.", tier: "spine" },
           { name: "Chen et al.: AgentPoison", url: "https://arxiv.org/abs/2407.12784", desc: "Agent memory / RAG poisoning; >80% success at <0.1% poison rate.", tier: "spine" },
           { name: "Cox & Bunzel: Quantifying Transferred Black-Box Attacks", url: "https://arxiv.org/abs/2511.05102", desc: "Red-team risk math via surrogate/transferability methods.", tier: "spine" },
@@ -3074,7 +3082,7 @@ const content = {
           { name: "Hackett & Garraghan (Mindgard / Lancaster): Behind the Refusal: Determining Guardrail Activation via Behavioral Monitoring (Jul 2026)", url: "https://arxiv.org/abs/2607.02121", desc: "The core contribution is a distinction the jailbreak literature usually blurs: bypassing a guardrail, exploiting gaps in an external classifier, is a different problem from bypassing a model's own learned refusal, and production systems rarely tell an attacker which one blocked them. The paper proposes the first black-box reconnaissance methodology for determining a guardrail's presence and behavioral characteristics assuming zero knowledge of the target: with only 40 prompts it detects guardrail presence with 100% accuracy across 162 lab-built target configurations, ascertains which content categories a guardrail is built to catch, and distinguishes a guardrail block from an LLM refusal on unseen prompts at 98% average F1. For a red team it is a reconnaissance primitive: fingerprint the defense before adapting the attack, and for this playbook it sharpens the threat model by separating the guardrail layer from the alignment layer, two things most tooling conflates.", tier: "spine" },
           { name: "MIT: AI Agent Index (2025)", url: "https://aiagentindex.mit.edu/", desc: "Independent transparency index of 30 deployed AI agents across origins, design, capabilities, ecosystem, and safety. Useful as non-vendor evidence: autonomy spans L1 to L5, only 4 of 13 frontier-autonomy agents disclose any agentic safety evaluations, and nearly all depend on the GPT, Claude, or Gemini families.", tier: "spine" },
           { name: "Narajala & Narayan: Securing Agentic AI (ATFAA+SHIELD)", url: "https://arxiv.org/abs/2504.19956", desc: "The Agentic-AI threat model and mitigation framework.", tier: "spine" },
-          { name: "Singer et al. (CMU + Anthropic): Autonomous Multi-Host Attacks", url: "https://arxiv.org/abs/2501.16466", desc: "LLM-as-strategist over agent hierarchy autonomously replicated an Equifax-modeled breach in emulation.", tier: "spine" },
+          { name: "Singer et al. (CMU + Anthropic): Incalmo: An Autonomous LLM-assisted System for Red Teaming Multi-Host Networks", url: "https://arxiv.org/abs/2501.16466", desc: "LLM-as-strategist over agent hierarchy autonomously replicated an Equifax-modeled breach in emulation.", tier: "spine" },
           { name: "Stanford HAI: AI Index 2026", url: "https://hai.stanford.edu/ai-index", desc: "Security = #1 barrier to scaling Agentic AI (62%); Cybench 15%→93%; transparency declining.", tier: "spine" },
           { name: "Vassilev (NIST): Robust AI Security & Alignment: A Sisyphean Endeavor?", url: "https://arxiv.org/abs/2512.10100", desc: "The proof itself (IEEE Security & Privacy, May/June 2026): formalizes guardrails as a checker function and extends Gödel's incompleteness to show some constraint always exists that any finite guardrail system enforces incorrectly against some adversarial input; finite context windows tighten the bound. The theoretical floor under this playbook's assume-breach and containment stances.", tier: "appendix" },
           { name: "Wikipedia: Adversarial Machine Learning", url: "https://en.wikipedia.org/wiki/Adversarial_machine_learning", desc: "Evasion, poisoning, inversion, extraction taxonomy.", tier: "spine" },
@@ -3086,7 +3094,7 @@ const content = {
         items: [
           { name: "Anthropic: Government of Alberta Cybersecurity Case Study", url: "https://www.anthropic.com/news/alberta-government-claude-cybersecurity", desc: "Primary case study (Jul 2026): red-team and blue-team agents built on the Claude Agent SDK secured a government technical estate, ~50 parallel agents, 466M lines of code in ~20 hours (est. 6.5 years manual), ~95 controls per app, human approval before every patch. The clearest real-world demonstration to date of the red/blue/purple agent loop this suite argues for, on Anthropic's and Alberta's own figures.", tier: "spine" },
           { name: "Anthropic: Zero Trust for AI Agents (eBook)", url: "https://claude.com/blog/zero-trust-for-ai-agents", desc: "Anthropic primary framework (May 2026): three principles (never trust/verify, assume breach, least privilege), seven control domains across three maturity tiers, an eight-phase workflow, and the design test of whether a control makes attack impossible or merely tedious. The architecture-side anchor for agentic zero trust.", tier: "spine" },
-          { name: "CASP: How Boko Haram Uses Frontier AI (Juelich, Jul 2026)", url: "https://casp.ac/reports/ai-enabled-terrorism", desc: "Cambridge Programme on AI Science & Policy field study by Dr. Antonia Juelich: the first case in this index of an active terrorist organization using frontier AI systematically and institutionally, with some safeguards successfully circumvented and use platform-agnostic across major models. The other threat cases here are cyber (GTG-1002, the Gambit breach, Iran AA26-097A); this is the kinetic counterpart. Analytic finding only, no operational specifics: it moves adversarial frontier-AI misuse from projected to documented, raising the stakes for safety architectures designed against organized adversaries rather than isolated users, for safety-team design as a first-class constraint rather than post-launch moderation, and for account-level enforcement, where managed multi-provider account portfolios blunted single-platform refusals and suspensions. HIGH tier: documented academic field study (57 interviews; NYT-covered Jul 2026).", tier: "spine" },
+          { name: "CASP: How Boko Haram Uses Frontier AI (Juelich, Jul 2026)", url: "https://casp.ac/reports/ai-enabled-terrorism", desc: "Cambridge Programme on AI Science & Policy field study by Dr. Antonia Juelich: the first case in this index of an active terrorist organization using frontier AI systematically and institutionally, with some safeguards successfully circumvented and use platform-agnostic across major models. The other threat cases here are cyber (GTG-1002, the Gambit breach, Iran AA26-097A); this is the kinetic counterpart. Analytic finding only, no operational specifics: it moves adversarial frontier-AI misuse from projected to documented, raising the stakes for safety architectures designed against organized adversaries rather than isolated users, for safety-team design as a first-class constraint rather than post-launch moderation, and for account-level enforcement, where managed multi-provider account portfolios blunted single-platform refusals and suspensions. HIGH tier: documented academic field study (27 interviews; NYT-covered Jul 2026).", tier: "spine" },
           { name: "Check Point Research: VoidLink: AI-Authored Malware Framework (Jan 2026)", url: "https://research.checkpoint.com/2026/voidlink-early-ai-generated-malware-framework/", desc: "Check Point Research's two-part VoidLink analysis of what it calls the first evidence-based case of advanced malware authored almost entirely by AI. The Jan 13 deep-dive dissects the framework: a stealthy, cloud-native Linux implant with 37 plugins across seven categories, user-mode and kernel-level rootkits (LD_PRELOAD, LKM, eBPF), and a functional C2 server and dashboard integrated into a single ecosystem; the Jan 20 follow-up (the second primary) proves the authorship. A single actor produced a functional implant in under a week, demonstrated through exposed TRAE development artifacts. No evidence of real-world infections at publication: the significance is the authorship bar, not the victim count. First-party vendor research, framed accordingly; the primary source behind the Torq checklist's VoidLink footnote.", tier: "spine" },
           { name: "CrowdStrike: 2026 Global Threat Report (Feb 2026)", url: "https://www.crowdstrike.com/en-us/global-threat-report/", desc: "CrowdStrike's annual adversary telemetry (Feb 24, 2026), framed as the \"Year of the Evasive Adversary\": average eCrime breakout time down to 29 minutes, 65% faster year over year, fastest observed 27 seconds, an 89% YoY surge in AI-enabled adversary operations, malicious prompts injected into GenAI tools at 90+ organizations, a 42% rise in zero-days exploited before public disclosure, cloud-conscious intrusions up 37% overall (+266% state-nexus), and 280+ named adversaries tracked. Vendor-authored and self-serving by construction: CrowdStrike sells the platform its telemetry argues for; read the trendlines, verify point figures before quoting. Summary press release Feb 24, 2026; the primary source behind the Torq checklist's CrowdStrike footnote.", tier: "spine" },
           { name: "CSA + OWASP: Agentic AI Red Teaming Guide", url: "https://cloudsecurityalliance.org/artifacts/agentic-ai-red-teaming-guide", desc: "The hands-on test manual for autonomous agents (May 2025, 50-plus contributors): twelve agentic threat categories (permission escalation, goal/instruction manipulation, memory poisoning, multi-agent collusion, orchestration flaws, supply-chain risk, and more), each with specific test requirements, attack vectors, example prompts, and defined deliverables. Turns the OWASP Agentic Top 10 into executable engagement plans; the authoritative parent of the requie community guide.", tier: "spine" },
@@ -3124,20 +3132,20 @@ const content = {
           { sub: "AWS", name: "AWS: AI Security Framework", url: "https://aws.amazon.com/blogs/security/the-aws-ai-security-framework-securing-ai-with-the-right-controls-at-the-right-layers-at-the-right-phases/", desc: "Right controls, at the right layers, at the right phases; assess-first, prototype→production→scale. Model-agnostic via Bedrock.", tier: "spine" },
           { sub: "AWS", name: "AWS: Amazon Bedrock Guardrails", url: "https://aws.amazon.com/bedrock/guardrails/", desc: "Model-agnostic safeguards: prompt-attack detection, PII redaction, contextual grounding; AWS reports blocking up to 88% of harmful content; GovCloud-available.", tier: "spine" },
           { sub: "AWS", name: "AWS: Continuum (Jun 2026)", url: "https://aws.amazon.com/blogs/security/introducing-aws-continuum-security-at-machine-speed/", desc: "Machine-speed code-vulnerability loop: discovery, prioritization, validation (builds working exploit examples in a sandbox), and remediation with blast-radius visibility and rollback. Model-agnostic across frontier models; trust graduates from a human-in-the-loop learn mode to an enforce mode; folds in pen-testing and code scanning and adds STRIDE threat modeling. Gated preview.", tier: "appendix" },
-          { sub: "Cisco & Splunk", name: "Cisco: Shields Up: Defending Against AI-Enabled Attacks (2026)", url: "https://www.cisco.com/c/dam/en_us/about/doing_business/trust-center/docs/cisco-defending-against-ai-attacks-guidance.pdf", desc: "Cisco's defense guidance written off the April Mythos hold-back: traces the AI-enabled-attack record from the 2024 Microsoft/OpenAI research through TA547's LLM-generated PowerShell, and models the near-future AI-enabled adversary.", tier: "spine" },
           { sub: "Cisco & Splunk", name: "Cisco: 8 Years of Security Research in 8 Weeks (2026)", url: "https://blogs.cisco.com/news/8-years-of-security-research-in-8-weeks-transforming-cybersecurity-with-ai", desc: "Cisco's report on pairing frontier models (incl. Claude Mythos Preview and GPT-5.5-Cyber) with a human-guided harness to scan 1.8 billion lines across 25+ languages in eight weeks at under 3% false positives: work it pegs at eight years manually. Notably withholds the vulnerability count, underscoring that scan scale and validated quality, not raw tallies, are the metric that matters.", tier: "appendix" },
+          { sub: "Cisco & Splunk", name: "Cisco: Shields Up: Defending Against AI-Enabled Attacks (2026)", url: "https://www.cisco.com/c/dam/en_us/about/doing_business/trust-center/docs/cisco-defending-against-ai-attacks-guidance.pdf", desc: "Cisco's defense guidance written off the April Mythos hold-back: traces the AI-enabled-attack record from the 2024 Microsoft/OpenAI research through TA547's LLM-generated PowerShell, and models the near-future AI-enabled adversary.", tier: "spine" },
           { sub: "Cisco & Splunk", name: "Splunk: Defending in the Post-Mythos Era (Jun 2026)", url: "https://www.splunk.com/en_us/blog/artificial-intelligence/defending-in-the-post-mythos-era.html", desc: "The validation-bottleneck thesis: frontier AI exposes SOC weaknesses rather than replacing the SOC, the constraint moves from finding to validating, and the SOC runs on confidence, not alert volume. Notes Cisco as a launch partner in both Anthropic's Glasswing and OpenAI's Daybreak (GPT-5.5).", tier: "spine" },
           { sub: "Google", name: "Google: AI Threat Defense", url: "https://cloud.google.com/blog/products/identity-security/introducing-google-ai-threat-defense", desc: "Always-on agentic security platform (Gemini + Wiz + Mandiant + CodeMender) to detect, prioritize, and remediate at machine speed.", tier: "spine" },
           { sub: "Google", name: "Google: Implementing SAIF Controls in Google Cloud (Dec 2025)", url: "https://services.google.com/fh/files/misc/ociso_2025_saif_cloud_paper.pdf", desc: "OCISO technical paper mapping every SAIF control across six domains (data, infrastructure, model, application, assurance, governance) to concrete implementations, what is inherited versus what you configure, including the Agent Auth vs. User Auth identity-propagation pattern, Model Armor, and the agent observability triad.", tier: "spine" },
           { sub: "Google", name: "Google: SecOps Agents for AI-Powered Threat Containment (Jun 2026)", url: "https://cloud.google.com/blog/products/identity-security/detecting-and-containing-powered-threats-with-google-security-operations-agents", desc: "Pairs AI Threat Defense's Prepare → Scan/Prioritize → Remediate → Monitor loop with autonomous containment agents for code you don't own or can't patch, citing M-Trends 2026's mean time-to-exploit at an estimated minus seven days.", tier: "spine" },
-          { sub: "Google", name: "Google: Securing the AI Frontier (CodeMender, AI VRP, SAIF 2.0)", url: "https://blog.google/innovation-and-ai/technology/safety-security/ai-security-frontier-strategy-tools/", desc: "CodeMender autonomous patching agent, the AI Vulnerability Reward Program ($430K+ paid), and SAIF 2.0 for agents.", tier: "appendix" },
+          { sub: "Google", name: "Google: Securing the AI Frontier (CodeMender, AI VRP, SAIF 2.0)", url: "https://blog.google/innovation-and-ai/technology/safety-security/ai-security-frontier-strategy-tools/", desc: "CodeMender autonomous patching agent, a dedicated AI Vulnerability Reward Program (Google's reward programs had already paid $430K+ for AI-related issues), and SAIF 2.0 for agents.", tier: "appendix" },
           { sub: "Meta", name: "Meta: Purple Llama (Llama Guard 4, LlamaFirewall, CyberSecEval 4)", url: "https://dev.meta.ai/llama/llama-protections", desc: "Open-source trust-and-safety stack: LlamaFirewall (real-time guardrails for chat models through autonomous agents), Llama Guard 4 and Prompt Guard 2 (multimodal I/O safety plus jailbreak/injection detection), and CyberSecEval 4, now measuring defensive capability via CyberSOCEval (SOC reasoning) and AutoPatchBench (agentic auto-patching), not just insecure-code risk.", tier: "spine" },
           { sub: "Microsoft", name: "Microsoft: Codename MDASH Brings Agentic AI Security Scanning to US Government (Sep 2026)", url: "https://www.microsoft.com/en-us/microsoft-cloud/blog/us-government/2026/09/08/codename-mdash-brings-agentic-ai-security-scanning-to-us-government/", desc: "Microsoft reports that Codename MDASH has deployed to Azure Government as a Microsoft Defender feature working with FedRAMP High-authorized Microsoft Foundry models, with preview access for select US government customers and authorized partners (Sep 8, 2026).", tier: "appendix" },
-          { sub: "Microsoft", name: "Microsoft: MAI-Cyber-1-Flash & Project Perception (Jul 2026)", url: "https://microsoft.ai/news/introducing-mai-cyber-1-flash-inside-mdash/", desc: "Microsoft's first first-party cyber model (announced Jul 27, 2026), introduced inside the MDASH harness and delivered through Perception: Microsoft's agentic security systems, providing teams of agents for security workflows in MDASH that continuously monitor, patch, and close new threat vectors. The citable pattern is difficulty-tiered routing: the lightweight first-party model is designed to handle up to 90% of tasks, reserving the fleet's largest models (GPT-5.4 at announcement) for the 10% of exceptionally hard tasks that truly need them. First-party vendor announcement: framed accordingly.", tier: "appendix" },
+          { sub: "Microsoft", name: "Microsoft: MAI-Cyber-1-Flash & Project Perception (Aug 2026)", url: "https://microsoft.ai/news/introducing-mai-cyber-1-flash-inside-mdash/", desc: "Microsoft's first first-party cyber model (announced August 13, 2026), introduced inside the MDASH harness and delivered through Perception: Microsoft's agentic security systems, providing teams of agents for security workflows in MDASH that continuously monitor, patch, and close new threat vectors. The citable pattern is difficulty-tiered routing: the lightweight first-party model is designed to handle up to 90% of tasks, reserving the fleet's largest models (GPT-5.4 at announcement) for the 10% of exceptionally hard tasks that truly need them. First-party vendor announcement: framed accordingly.", tier: "appendix" },
           { sub: "Microsoft", name: "Microsoft: MDASH Agentic Security", url: "https://www.microsoft.com/en-us/security/blog/2026/05/12/defense-at-ai-speed-microsofts-new-multi-model-agentic-security-system-tops-leading-industry-benchmark/", desc: "100+ agent harness that found 16 new vulnerabilities in the Windows networking and authentication stack; 88.45% CyberGym success rate at launch (May 12, 2026).", tier: "spine" },
           { sub: "Microsoft", name: "Microsoft: See What Happened: AI Investigation Playbook (Jun 2026)", url: "https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/bade/documents/products-and-services/en-us/security/See-What-Happened-AI-Investigation-Playbook.pdf", desc: "Microsoft AeGIS's practitioner playbook for investigating M365 Copilot and Azure AI activity: telemetry enablement, the scope → context → signal workflow, KQL hunting and correlation queries, agent-inventory risk checks (MCP tools, missing user auth), and a Sentinel analytic rule pack.", tier: "spine" },
-          { sub: "OpenAI", name: "OpenAI: Prompt Injection: A Frontier Challenge", url: "https://openai.com/index/prompt-injections/", desc: "OpenAI's framing of agentic prompt injection and its layered product controls.", tier: "spine" },
           { sub: "OpenAI", name: "OpenAI: Trusted Access for Cyber (GPT-5.5 / GPT-5.5-Cyber, May 2026)", url: "https://openai.com/index/gpt-5-5-with-trusted-access-for-cyber/", desc: "OpenAI's identity- and trust-based access framework (TAC) for verified cyber defenders: the OpenAI counterpart to Anthropic's Glasswing, and the first-party anchor for the Daybreak frontier the suite otherwise cites secondhand. Vetted defenders receive reduced classifier-based refusals for authorized workflows (vulnerability identification and triage, malware analysis, binary reverse engineering, detection engineering, patch validation, red teaming), while the framework keeps blocking malicious activity such as credential theft, persistence, malware deployment, and exploitation of third-party systems. GPT-5.5 is the primary model; GPT-5.5-Cyber is the more-permissive variant for a smaller, highly verified set. GPT-5.5 is rated 'High' for cyber capability under OpenAI's Preparedness Framework. Access is gated on identity hygiene: from June 1, 2026, individual TAC members must enable phishing-resistant MFA (enterprises attest at the SSO level), tying frontier-capability access to zero-trust identity. Completes the cross-lab frontier picture (Glasswing/Mythos · Daybreak/GPT-5.5-Cyber) and reinforces the suite's identity-first and safety-constrains-defenders threads.", tier: "spine" },
+          { sub: "OpenAI", name: "OpenAI: Understanding Prompt Injections: A Frontier Security Challenge", url: "https://openai.com/index/prompt-injections/", desc: "OpenAI's framing of agentic prompt injection and its layered product controls.", tier: "spine" },
           { sub: "Palo Alto Networks", name: "Palo Alto Networks: Defender's Guide to the Frontier AI Impact on Cybersecurity (May 2026)", url: "https://www.paloaltonetworks.com/blog/2026/05/defenders-guide-frontier-ai-impact-cybersecurity-may-2026-update/", desc: "Lee Klarich's May 2026 update after testing Claude Mythos, Opus 4.7, and GPT-5.5-Cyber, a four-step program every organization should run now: find and fix vulnerabilities across code and the open-source supply chain; assess and reduce exposure with attack-surface management; ensure best-in-class layered protections because a vulnerability exploit is one step of a multi-step lifecycle, not the end; and run real-time security operations at single-digit MTTD/MTTR, delivered as a platform rather than point solutions. The production proof: PANW's May 'Patch Wednesday' disclosed 26 CVEs (75 issues) across 130+ products, the majority surfaced by frontier-AI scanning, against a typical sub-five-CVE month, with a stated three-to-five-month window to outpace adversaries. The PANW member of the same vendor-operationalizes-the-closed-loop family as AWS Continuum, Cisco, Splunk, and Google AI Threat Defense.", tier: "spine" },
           { sub: "SentinelOne", name: "SentinelOne: The Autonomous SOC, Revisited (Jul 2026)", url: "https://www.sentinelone.com/blog/the-autonomous-soc-revisited-what-18-months-on-the-road-has-taught-us/", desc: "Eighteen months after publishing its Autonomous SOC Maturity Model, SentinelOne returns with field data and an unusually sober verdict: the levels held, but the binding constraint between AI-Assisted Operations and Partial Autonomy is governance, not tooling: rules of engagement, pre-approved policies, audit trails, and a named owner for every AI verdict, defined before automation fires. Two findings earn the entry: Gartner's gap between the 40% of organizations evaluating AI SOC capability and the 18% actually deployed (Feb 2026), and the structural asymmetry the Offense-Defense group names, a defender's trust-building timeline versus an attacker's consequence-free iteration tempo, a gap that compounds. Vendor-reported outcomes (75% faster investigations, 4x more threats handled, 42% fewer false positives) trace to a SentinelOne-sponsored IDC study: treat accordingly. Pairs with the Maturity Model tab as the autonomy-specific external benchmark.", tier: "spine" },
           { sub: "Wiz (Google Cloud)", name: "Wiz (Google Cloud): AI-SPM & State of AI in the Cloud", url: "https://www.wiz.io/academy/ai-security/what-is-ai-security-posture-management-ai-spm", desc: "AI security posture management; ~25% of orgs lack visibility into which AI services run in their environment. Wiz says AI-APP extends AI-SPM across the full AI lifecycle.", tier: "spine" },
@@ -3160,7 +3168,7 @@ const content = {
           { name: "Cisco: Zero Trust for Agentic AI (white paper)", url: "https://www.cisco.com/c/en/us/solutions/collateral/artificial-intelligence/security/zero-trust-agentic-ai-wp.html", desc: "White paper (updated March 23, 2026) extending Zero Trust to AI agents, which it treats as a rapidly growing class of Non-Human Identities that must be discovered, governed, and mapped to accountable owners. Risk concentrates across three dimensions (identity, access, and behavior), and the framework's stated promise is to know every agent, authorize every action, and adapt to risk in real time: inventory agents, MCP servers, and connected tools; apply least-privilege, time-bound access for NHIs; and run runtime guardrails on requests, responses, and tool invocations. Vendor-authored, and its remedy is Cisco's own integrated networking, identity, and security stack.", tier: "spine" },
           { name: "CoSAI: Zero Trust for AI Systems (v1.0, Sep 2026)", url: "https://github.com/cosai-oasis/ws2-defenders/blob/main/zero-trust/Zero-Trust-for-AI-Systems.pdf", desc: "Why authorization can't live inside the model. Places the LLM inside an untrusted \"AI threat boundary,\" treats every tool call as its own authorization event, and gives a three-step maturity path for agent authorization, plus a Zero Trust control matrix for AI systems mapped to the DoD Zero Trust Reference Architecture and the CISA Zero Trust Maturity Model.", tier: "spine" },
           { name: "Google DeepMind: AI Control Roadmap (v0.1)", url: "https://deepmind.google/blog/securing-the-future-of-ai-agents/", desc: "A defense-in-depth framework for operating untrusted, possibly misaligned internal AI agents by treating them as insider threats: a second line of security that holds even if model alignment is imperfect. Introduces TRAIT&R (a rogue-AI tactics-and-techniques taxonomy built on MITRE ATT&CK), two control invariants (reliable detection of misaligned intent or actions; effective prevention and response), and capability-mitigation ladders: four Detection tiers (D1 - D4) and three Prevention/Response tiers (R1 - R3), across 15 tiered mitigations from chain-of-thought monitoring to AI access control, untrusted monitoring, and shutdown infrastructure. GDM reports an internal asynchronous monitor prototype that has analyzed a million coding-agent tasks.", tier: "spine" },
-          { name: "Google DeepMind: Three Layers of Agentic Security", url: "https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/securing-the-future-of-ai-agents/three-layers-of-agent-security.pdf", desc: "The policymaker-facing companion to the AI Control Roadmap, arguing agent security must be addressed at three levels: hardening individual agents, governing multi-agent systems at scale, and empowering cyber defenders to keep their edge as agent capabilities grow. Pairs the internal-controls engineering of the Roadmap with an ecosystem and governance frame.", tier: "appendix" },
+          { name: "Google DeepMind: Three Layers of Agent Security", url: "https://storage.googleapis.com/deepmind-media/DeepMind.com/Blog/securing-the-future-of-ai-agents/three-layers-of-agent-security.pdf", desc: "The policymaker-facing companion to the AI Control Roadmap, arguing agent security must be addressed at three levels: hardening individual agents, governing multi-agent systems at scale, and empowering cyber defenders to keep their edge as agent capabilities grow. Pairs the internal-controls engineering of the Roadmap with an ecosystem and governance frame.", tier: "appendix" },
           { name: "IETF: RFC 8693 (OAuth 2.0 Token Exchange)", url: "https://datatracker.ietf.org/doc/html/rfc8693", desc: "IETF Standards Track specification (January 2020) for swapping one security token for another scoped to a specific downstream resource. CoSAI's Zero Trust for AI Systems cites it for agent token exchange at each hop.", tier: "spine" },
           { name: "Ken Connell: Lensatic Field Guides: Zero Trust (Sep 2026)", url: "https://kensden.github.io/lensatic/guides/zero-trust/", desc: "My companion study guide: an eight-week plan with a shared Zero Trust core (NIST SP 800-207 and the CISA Zero Trust Maturity Model), then DoW, federal civilian and private-sector tracks, with one-page quick references. Public sources only; it links back to this playbook for the agentic view.", tier: "appendix" },
           { name: "Microsoft: Announcing Zero Trust for AI", url: "https://www.microsoft.com/en-us/security/blog/2026/03/19/new-tools-and-guidance-announcing-zero-trust-for-ai/", desc: "Verify explicitly and least-privilege for agents, workloads, and users.", tier: "spine" },
@@ -3287,6 +3295,20 @@ const fitFrame = (e) => {
     const inner = new win.ResizeObserver(queue);
     inner.observe(doc.documentElement);
     observers.push(inner);
+  }
+  // v5.4.2: an embedded poster takes the app's theme, and follows the toggle
+  const syncTheme = () => {
+    try {
+      if (!frame.isConnected || frame.contentDocument !== doc) { stop(); return; }
+      const t = document.documentElement.getAttribute("data-theme");
+      if (t) doc.documentElement.setAttribute("data-theme", t); else doc.documentElement.removeAttribute("data-theme");
+    } catch (err) { stop(); }
+  };
+  syncTheme();
+  if (typeof MutationObserver === "function") {
+    const themeWatch = new MutationObserver(syncTheme);
+    themeWatch.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+    observers.push(themeWatch);
   }
 };
 
@@ -3454,7 +3476,7 @@ export default function App() {
         <span style={{ fontSize: 11, fontWeight: 700, color: palette.muted, letterSpacing: "0.14em" }}>RELATED</span>
         {rel.map((t) => (
           <button key={t.id} onClick={() => go(t.id)}
-            style={{ background: palette.surface, border: `1px solid color-mix(in srgb, ${t.color} 33%, transparent)`, color: t.color, borderRadius: 5, padding: "4px 11px", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.06em", cursor: "pointer", fontFamily: "inherit" }}>{t.label} →</button>
+            style={{ minHeight: 44, display: "inline-flex", alignItems: "center", background: palette.surface, border: `1px solid color-mix(in srgb, ${t.color} 33%, transparent)`, color: t.color, borderRadius: 5, padding: "4px 11px", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.06em", cursor: "pointer", fontFamily: "inherit" }}>{t.label} →</button>
         ))}
       </div>
     );
@@ -3681,7 +3703,7 @@ export default function App() {
             <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginTop: 3 }}>
               {impl.refs.map((rn, rj) => (
                 <button key={rj} onClick={() => go("resources", ridByName(String(rn)))}
-                  style={{ background: "transparent", border: `1px solid color-mix(in srgb, ${palette.accent} 27%, transparent)`, color: palette.accent, borderRadius: 8, padding: "1px 8px", fontSize: 11.5, fontFamily: "inherit", cursor: "pointer" }}>{rn} →</button>
+                  style={{ minHeight: 44, display: "inline-flex", alignItems: "center", background: "transparent", border: `1px solid color-mix(in srgb, ${palette.accent} 27%, transparent)`, color: palette.accent, borderRadius: 8, padding: "1px 8px", fontSize: 11.5, fontFamily: "inherit", cursor: "pointer" }}>{rn} →</button>
               ))}
             </div>
           ) : null}
@@ -3734,6 +3756,20 @@ export default function App() {
                   <div style={{ background: b.accent ? `color-mix(in srgb, ${b.accent} 5%, transparent)` : palette.surface, border: b.accent ? `1px solid color-mix(in srgb, ${b.accent} 33%, transparent)` : `1px solid ${palette.border}`, borderLeft: `3px solid ${b.accent || sec.color}`, borderRadius: 6, padding: "14px 18px" }}>
                     <div id={b.heading ? slug(String(b.heading).slice(0, 96)) : undefined} style={{ fontSize: 12, fontWeight: 700, color: "var(--text-primary)", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 7 }}>{b.heading}</div>
                     <div style={{ fontSize: 15, lineHeight: 1.75, color: palette.text }}>{b.text}</div>
+                    {b.paths && (
+                      <div style={{ display: "grid", gap: 10, marginTop: 12 }}>
+                        {b.paths.map((pth, pi) => (
+                          <div key={pi}>
+                            <div style={{ fontSize: 12, fontWeight: 700, color: palette.muted, letterSpacing: "0.06em", marginBottom: 4 }}>{pth.label}</div>
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                              {pth.steps.map((sid, si) => { const st = sections.find((x) => x.id === sid); return st ? (
+                                <button key={sid} onClick={() => go(sid)} style={{ minHeight: 44, padding: "0 12px", background: "transparent", border: `1px solid color-mix(in srgb, ${st.color} 40%, transparent)`, borderRadius: 6, color: st.color, fontFamily: "inherit", fontSize: 13, cursor: "pointer" }}>{si + 1}. {st.label}</button>
+                              ) : null; })}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     {b.links && (
                       <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 11 }}>
                         {b.links.map((l, li) => (
@@ -3805,7 +3841,7 @@ export default function App() {
     <div style={{ minHeight: "100vh", background: palette.bg, color: palette.text, fontFamily: "var(--font-sans)", display: "flex", flexDirection: "column", WebkitTextSizeAdjust: "100%", textSizeAdjust: "100%" }}>
 
       {/* Brand strip */}
-      <div style={{ height: 3, background: `linear-gradient(90deg, ${palette.accent} 0%, ${palette.accent2} 100%)`, flexShrink: 0 }} />
+      <div style={{ height: 3, background: "var(--sec-playbook)", flexShrink: 0 }} />
 
       {/* Header */}
       <div style={{ position: "relative", zIndex: 0, borderBottom: `1px solid ${palette.border}`, padding: "18px 28px 14px", background: `linear-gradient(135deg, ${palette.surface} 0%, ${palette.surface2} 100%)` }}>
@@ -3815,7 +3851,7 @@ export default function App() {
             <img src={EMBLEM_SRC} alt="APT_UNICORN emblem" style={{ width: 20, height: 20, objectFit: "contain", display: "block" }} />
           </span>
           <span style={{ fontSize: 15, fontWeight: 700, color: palette.text, letterSpacing: "-0.01em", whiteSpace: "nowrap" }}>Agentic SecOps</span>
-          <span style={{ fontSize: 11, fontWeight: 700, color: palette.brand, border: `1px solid color-mix(in srgb, ${palette.brand} 33%, transparent)`, background: `color-mix(in srgb, ${palette.brand} 7%, transparent)`, padding: "1px 7px", borderRadius: 8, letterSpacing: "0.1em", marginLeft: "auto" }}>v5.4.1</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: palette.brand, border: `1px solid color-mix(in srgb, ${palette.brand} 33%, transparent)`, background: `color-mix(in srgb, ${palette.brand} 7%, transparent)`, padding: "1px 7px", borderRadius: 8, letterSpacing: "0.1em", marginLeft: "auto" }}>v5.4.2</span>
         </div>
         {/* below 680px the header keeps the title, the badge, the chips and the progress row; the subtitle and the eyebrow wait for wider screens */}
         <style>{`@media (max-width:679.98px){.pb-head-sub,.pb-head-eyebrow{display:none}}`}</style>
@@ -3840,7 +3876,7 @@ export default function App() {
                   if (!s) return null;
                   return (
                     <button key={s.id} onClick={() => go(s.id)} data-tab={s.id}
-                      className="navchip" style={{ background: active === s.id ? s.dim : "transparent", border: active === s.id ? `1px solid ${s.color}` : `1px solid ${palette.border}`, borderRadius: 4, color: active === s.id ? s.color : palette.muted, padding: "6px 9px", fontSize: 13, fontFamily: "inherit", letterSpacing: "0.04em", cursor: "pointer", whiteSpace: "nowrap", transition: "all 0.15s", fontWeight: active === s.id ? 700 : 400 }}>
+                      className="navchip" style={{ background: active === s.id ? s.dim : "transparent", border: active === s.id ? `1px solid ${s.color}` : `1px solid ${palette.border}`, borderRadius: 4, color: active === s.id ? s.color : palette.muted, padding: "6px 9px", minHeight: 44, fontSize: 13, fontFamily: "inherit", letterSpacing: "0.04em", cursor: "pointer", whiteSpace: "nowrap", transition: "all 0.15s", fontWeight: active === s.id ? 700 : 400 }}>
                       {s.label}
                     </button>
                   );
@@ -3884,9 +3920,9 @@ export default function App() {
               else if (e.key === "ArrowUp") { e.preventDefault(); setSelIdx((i) => (i - 1 + searchResults.length) % searchResults.length); }
               else if (e.key === "Enter") { e.preventDefault(); const r = searchResults[selIdx >= 0 ? selIdx : 0]; if (r) { go(r.tab, r.anchor); setQ(""); setSelIdx(-1); } }
             }}
-            placeholder="Search the playbook: tabs, actions, tools, resources, terms…  ( / )"
+            placeholder="Search the playbook  ( / )"
             aria-label="Search the playbook"
-            style={{ width: "100%", boxSizing: "border-box", background: palette.surface, border: `1px solid ${palette.border}`, borderRadius: 6, color: palette.text, fontFamily: "inherit", fontSize: 13.5, padding: "9px 12px", outline: "none", letterSpacing: "0.02em" }}
+            style={{ width: "100%", boxSizing: "border-box", background: palette.surface, border: `1px solid ${palette.border}`, borderRadius: 6, color: palette.text, fontFamily: "inherit", fontSize: 16, padding: "11px 12px", minHeight: 44, outline: "none", letterSpacing: "0.02em" }}
           />
           {searchResults.length > 0 && (
             <div style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 40, background: palette.bg, border: `1px solid ${palette.border}`, borderRadius: 6, boxShadow: "0 10px 28px rgba(0,0,0,0.55)", overflow: "hidden" }}>
@@ -3956,6 +3992,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Same Horsepower, Two Outcomes</title>
+<meta property="og:title" content="Same Horsepower, Two Outcomes">
+<meta property="og:description" content="The dual-use reality of Agentic AI in the SOC: the same capability, pointed two ways">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-dual-use.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -3965,6 +4010,10 @@ export default function App() {
     --tint-accent:#ABE4FA; --tint-purple:#DCC0DE; --tint-blue:#93C5FD; --tint-gold:#FCD34D; --tint-red:#FCA5A5; --tint-intel:#FDBA74; --tint-green:#6EE7B7;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
@@ -4007,6 +4056,7 @@ export default function App() {
   @media (max-width:880px){ .three{grid-template-columns:1fr} .center{order:-1} }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .face .row{font-size:12px} .center .same{font-size:12px} .reins .sub{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
 </style>
 </head>
 <body>
@@ -4115,7 +4165,7 @@ export default function App() {
 
   <div class="reins rev" style="animation-delay:.2s">
     <div class="big">The only variable is who holds the reins.</div>
-    <div class="sub">Governance <b>is</b> the reins: per-agent identity, least privilege, deterministic containment, human-in-command, and a bounded blast radius. The horsepower is a given; the direction is a choice.</div>
+    <div class="sub">Governance <b>is</b> the reins: per-agent identity, least privilege, deterministic containment, Human in Command, and a bounded blast radius. The horsepower is a given; the direction is a choice.</div>
   </div>
 
   <div class="footer rev" style="animation-delay:.26s">
@@ -4193,6 +4243,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>MAESTRO: Seven-Layer Reference Model for Agentic AI</title>
+<meta property="og:title" content="MAESTRO: Seven-Layer Reference Model for Agentic AI">
+<meta property="og:description" content="Decompose the architecture layer-by-layer, then map threats per layer. Layer 6 is cross-cutting: it spans all layers.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-maestro-layers.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -4201,6 +4260,10 @@ export default function App() {
     --intel:#ff8c42; --red:#EF4444; --blue:#3B82F6; --purple:#B273B5; --green:#10B981; --gold:#F59E0B;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
@@ -4250,10 +4313,11 @@ export default function App() {
     .frame{grid-template-columns:1fr}
     .cross{grid-column:auto; grid-row:auto; min-height:52px; margin-top:2px}
     .cross .txt{writing-mode:horizontal-tb; transform:none}
-    .cross .l6{position:static; margin-left:auto}
+    .cross .l6{position:static; margin-right:10px}
   }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .kick{font-size:12px} .layer .id .l{font-size:12px} .layer .body .d{font-size:12px} .cross .txt{font-size:12px} .cross .l6{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
 </style>
 </head>
 <body>
@@ -4298,6 +4362,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cyber Jailbreak Severity: Scoring a Jailbreak by Impact</title>
+<meta property="og:title" content="Cyber Jailbreak Severity: Scoring a Jailbreak by Impact">
+<meta property="og:description" content="Anthropic / Glasswing partners · a shared severity language for red-team findings">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-cjs-spectrum.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -4306,6 +4379,10 @@ export default function App() {
     --intel:#ff8c42; --red:#EF4444; --blue:#3B82F6; --purple:#B273B5; --green:#10B981; --gold:#F59E0B;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; color-scheme:light;} :root:not([data-theme="dark"]) .lab.b1 .c{color:#4D7C0F}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; color-scheme:light;} :root[data-theme="light"] .lab.b1 .c{color:#4D7C0F}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
@@ -4346,6 +4423,7 @@ export default function App() {
     display:flex; align-items:center; gap:12px; font-size:11.5px}
   .rule .tag{font-size:9px; font-weight:700; letter-spacing:.12em; color:var(--gold); text-transform:uppercase; white-space:nowrap}
   .rule .txt{color:var(--text)} .rule .txt b{color:var(--gold)}
+  .note{margin-top:12px; font-size:12px; color:var(--muted); line-height:1.55} .note b{color:var(--text)}
 
   .footer{margin-top:20px; padding-top:14px; border-top:1px solid var(--border); display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
   .footer .l{font-size:10px; color:var(--dim); line-height:1.55; max-width:70%} .footer .l b{color:var(--muted)}
@@ -4354,6 +4432,7 @@ export default function App() {
   @media (max-width:820px){ .axes{grid-template-columns:repeat(2,1fr)} .labels .s{display:none} }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .kick{font-size:12px} .sec{font-size:12px} .lab .s{font-size:12px} .axis .n{font-size:12px} .rule{font-size:12px} .rule .tag{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
 </style>
 </head>
 <body>
@@ -4392,6 +4471,7 @@ export default function App() {
     <span class="tag">&#9650; Escalation Rule</span>
     <span class="txt">The score is a <b>floor, not a ceiling</b>: it can be escalated, never reduced.</span>
   </div>
+  <p class="note rev" style="animation-delay:.23s"><b>How it scores.</b> Anthropic's early draft (July 2, 2026), written with its Glasswing partners: capability gain counts 0 to 4, breadth 0 to 2, ease of weaponization 0 to 2 and discoverability 0 to 2, so the sum runs 0 to 10. Bands: CJS-0 is 0, CJS-1 is 1 to 3.5, CJS-2 is 4 to 6.5, CJS-3 is 7 to 8.5 and CJS-4 is 9 to 10. A capability gain of 0 ends scoring at CJS-0.</p>
 
   <div class="footer rev" style="animation-delay:.26s">
     <div class="l"><b>A shared vocabulary for ranking findings.</b> Rather than noting that a jailbreak worked, score it: four axes sum into a severity band from informational to critical, so red-team output can be triaged and compared on a common scale.<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
@@ -4410,6 +4490,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>One Operator, a Cast of Agents</title>
+<meta property="og:title" content="One Operator, a Cast of Agents">
+<meta property="og:description" content="Model the single operator's AI &quot;workforce&quot; as discrete agent-roles, then map each to a technique and a control">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-ai-workforce.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -4419,6 +4508,10 @@ export default function App() {
     --tint-accent:#ABE4FA; --tint-purple:#DCC0DE; --tint-blue:#93C5FD; --tint-gold:#FCD34D; --tint-red:#FCA5A5; --tint-intel:#FDBA74; --tint-green:#6EE7B7;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
@@ -4469,6 +4562,7 @@ export default function App() {
   @media (max-width:820px){ .grid{grid-template-columns:1fr} .ag .does{min-height:0} }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{font-size:8.5px;color:var(--dim);margin-top:5px;line-height:1.5}
+  @media (max-width:640px){ .op .od{font-size:12px} .fan{font-size:12px} .ag .tk{font-size:12px} .ag .does{font-size:12px} .ag .def{font-size:12px} .flip .ft{font-size:12px} .footer .l{font-size:12px} .footer .src{font-size:12px} .footer .r .badge{font-size:12px} .copy{font-size:12px} }
 </style>
 </head>
 <body>
@@ -4487,7 +4581,7 @@ export default function App() {
 
   <div class="grid">
     <div class="ag c-blue rev" style="animation-delay:.14s"><div class="hd"><span class="rn">Recon / OSINT</span><span class="tk">Reconnaissance &middot; TA0043</span></div><div class="does">Automated target profiling, infrastructure mapping, and data-leak harvesting.</div><div class="def"><b>Defend:</b> attack-surface monitoring; rate-limit and deny mass enumeration.</div></div>
-    <div class="ag c-intel rev" style="animation-delay:.18s"><div class="hd"><span class="rn">Social engineering</span><span class="tk">Phishing &middot; T1566</span></div><div class="does">Tailored lures, deepfake pretext, and multilingual phishing at scale.</div><div class="def"><b>Defend:</b> inbound + deepfake anomaly detection; phishing-resistant auth.</div></div>
+    <div class="ag c-intel rev" style="animation-delay:.18s"><div class="hd"><span class="rn">Social engineering</span><span class="tk">Initial Access &middot; TA0001</span></div><div class="does">Tailored lures, deepfake pretext, and multilingual phishing at scale.</div><div class="def"><b>Defend:</b> inbound + deepfake anomaly detection; phishing-resistant auth.</div></div>
     <div class="ag c-red rev" style="animation-delay:.22s"><div class="hd"><span class="rn">Malware dev</span><span class="tk">Resource Dev &middot; TA0042</span></div><div class="does">Generate, debug, and obfuscate payloads to evade signatures.</div><div class="def"><b>Defend:</b> behavioral EDR + sandbox detonation; no signature-only reliance.</div></div>
     <div class="ag c-purple rev" style="animation-delay:.26s"><div class="hd"><span class="rn">Infrastructure / C2</span><span class="tk">Command &amp; Control &middot; TA0011</span></div><div class="does">Spin up proxies, bulletproof hosting, and resilient C2.</div><div class="def"><b>Defend:</b> egress / beaconing analytics; egress allow-listing; DNS controls.</div></div>
     <div class="ag c-gold rev" style="animation-delay:.3s"><div class="hd"><span class="rn">Fraud / extortion</span><span class="tk">Impact &middot; TA0040</span></div><div class="does">Negotiate, run money-mule logistics, and pressure victims.</div><div class="def"><b>Defend:</b> BEC + anomalous-payment analytics; transaction holds.</div></div>
@@ -4501,7 +4595,7 @@ export default function App() {
 
   <div class="footer rev" style="animation-delay:.46s">
     <div class="l"><b>The defender's reframe:</b> you don't need a control for "AI". You need a control for each function the workforce performs. Decompose, map to ATT&amp;CK, and answer each role.
-      <div class="src">ATT&amp;CK IDs are indicative, mapped at the tactic level except Phishing (T1566), a technique. Conceptual reference for an illustrative single-operator threat (APT_UNICORN).</div>
+      <div class="src">ATT&amp;CK IDs are indicative and mapped at the tactic level; this role's phishing is technique T1566, under Initial Access (TA0001). Conceptual reference for an illustrative single-operator threat (APT_UNICORN).</div>
     <div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
     <div class="r"><span class="badge">AGENTIC SECOPS</span></div>
   </div>
@@ -4519,6 +4613,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Zero Trust for Operational Technology</title>
+<meta property="og:title" content="Zero Trust for Operational Technology">
+<meta property="og:description" content="CISA (2026): stop trusting the network. Design as if the adversary is already inside the OT environment">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-ot-zero-trust.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -4528,6 +4631,10 @@ export default function App() {
     --tint-accent:#ABE4FA; --tint-purple:#DCC0DE; --tint-blue:#93C5FD; --tint-gold:#FCD34D; --tint-red:#FCA5A5; --tint-intel:#FDBA74; --tint-green:#6EE7B7;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
@@ -4575,6 +4682,7 @@ export default function App() {
   @media (max-width:820px){ .layout{grid-template-columns:1fr} }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{font-size:8.5px;color:var(--dim);margin-top:5px;line-height:1.5}
+  @media (max-width:640px){ .zlabel{font-size:12px} .band .bt{font-size:12px} .band .lv{font-size:12px} .band .bd{font-size:12px} .boundary .bt{font-size:12px} .boundary .bd{font-size:12px} .panel .pt{font-size:12px} .chip .n{font-size:12px} .chip .ct{font-size:12px} .chip .cd{font-size:12px} .note{font-size:12px} .footer .l{font-size:12px} .footer .src{font-size:12px} .footer .r .badge{font-size:12px} .copy{font-size:12px} }
 </style>
 </head>
 <body>
@@ -4631,6 +4739,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Security Org Chart Is Being Redrawn</title>
+<meta property="og:title" content="The Security Org Chart Is Being Redrawn">
+<meta property="og:description" content="The Security Org Chart Is Being Redrawn">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-org-outcomes.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -4640,6 +4757,10 @@ export default function App() {
     --tint-accent:#ABE4FA; --tint-purple:#DCC0DE; --tint-blue:#93C5FD; --tint-gold:#FCD34D; --tint-red:#FCA5A5; --tint-intel:#FDBA74; --tint-green:#6EE7B7;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
@@ -4691,6 +4812,7 @@ export default function App() {
   }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .kick{font-size:12px} .box{font-size:12px} .foot-note{font-size:12px} .mid .t{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
 </style>
 </head>
 <body>
@@ -4754,6 +4876,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Three Jobs, Kept Distinct</title>
+<meta property="og:title" content="Three Jobs, Kept Distinct">
+<meta property="og:description" content="How work splits in an AI-ready SOC">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-three-jobs.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -4762,6 +4893,10 @@ export default function App() {
     --intel:#ff8c42; --red:#EF4444; --blue:#3B82F6; --purple:#B273B5; --green:#10B981; --gold:#F59E0B;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; color-scheme:light;} :root:not([data-theme="dark"]) .col .def{color:#334155}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; color-scheme:light;} :root[data-theme="light"] .col .def{color:#334155}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
@@ -4803,6 +4938,7 @@ export default function App() {
   @media (max-width:820px){ .cols{grid-template-columns:1fr} .col .def{min-height:0} }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .col .idx{font-size:12px} .col .handles{font-size:12px} .col .def{font-size:12px} .col li{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
 </style>
 </head>
 <body>
@@ -4912,6 +5048,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SecOps AI Maturity Model: The Ladder</title>
+<meta property="og:title" content="SecOps AI Maturity Model: The Ladder">
+<meta property="og:description" content="The ladder from manual operations to autonomous, adaptive SecOps">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/maturity-ladder.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -4921,6 +5066,10 @@ export default function App() {
     --l1:#4a9a4a; --l2:#b8a52d; --l3:#e0772e; --l4:#EF4444;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --l1:#3F7F3F; --l2:#8A7A12; --l3:#B45309; --l4:#B91C1C; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --l1:#3F7F3F; --l2:#8A7A12; --l3:#B45309; --l4:#B91C1C; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{
@@ -5022,6 +5171,7 @@ export default function App() {
   }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}.card:hover{transform:none}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .lead{font-size:12px} .yaxis .lab{font-size:12px} .yaxis .dn{font-size:12px} .desc{font-size:12px} .exhead{font-size:12px} .ex li{font-size:12px} .sig{font-size:12px} .sig .k{font-size:12px} .marker{font-size:12px} .colhead{font-size:12px} .brow-label{font-size:12px} .seg{font-size:12px} .gradlabels{font-size:12px} .dim-chip{font-size:12px} .dims-note{font-size:12px} footer .l{font-size:12px} footer .r{font-size:12px} }
 </style>
 </head>
 <body>
@@ -5243,6 +5393,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agentic SecOps: Reference Architecture</title>
+<meta property="og:title" content="Agentic SecOps: Reference Architecture">
+<meta property="og:description" content="Agentic SecOps on the Microsoft security stack, an example on one vendor's stack: five layers, Human in Command at the top, data foundation at the base">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-reference-architecture.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -5252,6 +5411,10 @@ export default function App() {
     --human:#3B82F6; --reason:#45C4F4; --detect:#ff8c42; --govern:#F07FC0; --data:#F59E0B;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --purple:#5E2868; --human:#1D4ED8; --reason:#075985; --detect:#C2410C; --govern:#BE185D; --data:#A16207; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --purple:#5E2868; --human:#1D4ED8; --reason:#075985; --detect:#C2410C; --govern:#BE185D; --data:#A16207; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
@@ -5307,13 +5470,14 @@ export default function App() {
   }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .flowrail .t{font-size:12px} .band .blab{font-size:12px} .c .n{font-size:12px} .c .d{font-size:12px} .c .badge{font-size:12px} .looptag{font-size:12px} footer .l{font-size:12px} footer .r .badge{font-size:12px} }
 </style>
 </head>
 <body>
 <div class="poster">
   <header class="rev" style="animation-delay:.02s">
     <h1>Reference <span class="a">Architecture</span></h1>
-    <div class="subtitle">Agentic SecOps on the Microsoft security stack: five layers, human-in-command at the top, data foundation at the base</div>
+    <div class="subtitle">Agentic SecOps on the Microsoft security stack, an example on one vendor's stack: five layers, Human in Command at the top, data foundation at the base</div>
   </header>
 
   <div class="frame rev" style="animation-delay:.08s">
@@ -5380,7 +5544,7 @@ export default function App() {
 </html>
 `} />
             </div>
-            <p style={{ fontSize: 14, color: palette.muted, lineHeight: 1.65, marginTop: 2, marginBottom: 2 }}>Companion view. The stack above says what sits where; the identity-first enforcement architecture below says how a request is policed end to end: policy decided centrally at the PDP, enforced at every PEP, and updated continuously per the Gödel mandate. A standalone print version lives in Diagrams/.</p>
+            <p style={{ fontSize: 14, color: palette.muted, lineHeight: 1.65, marginTop: 2, marginBottom: 2 }}>Companion view. The stack above says what sits where; the identity-first enforcement architecture below says how a request is policed end to end: policy decided centrally at the PDP, enforced at every PEP, and updated continuously per the Gödel result. A standalone print version lives in Diagrams/.</p>
             <div style={{ border: `1px solid ${palette.border}`, borderRadius: 8, overflow: "hidden", background: palette.bg }}>
               <iframe title="Identity-first enforcement architecture" scrolling="no" style={{ width: "100%", height: 1240, border: 0, display: "block" }} onLoad={fitFrame} srcDoc={`<!DOCTYPE html>
 <html lang="en">
@@ -5388,6 +5552,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Identity-First Enforcement Architecture: Agentic SecOps</title>
+<meta property="og:title" content="Identity-First Enforcement Architecture: Agentic SecOps">
+<meta property="og:description" content="Zero-trust control plane for Agentic AI: policy decided centrally, enforced at every hop, updated continuously. The flow-and-enforcement companion to the Reference Architecture stack view: that poster says what sits where; this one says how a request is policed end to end.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-identity-enforcement.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -5396,6 +5569,10 @@ export default function App() {
     --consume:#3B82F6; --edge:#ff8c42; --orch:#45C4F4; --enclave:#EF4444; --data:#F59E0B; --govern:#F07FC0;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --consume:#1D4ED8; --edge:#C2410C; --orch:#075985; --enclave:#B91C1C; --data:#A16207; --govern:#BE185D; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --consume:#1D4ED8; --edge:#C2410C; --orch:#075985; --enclave:#B91C1C; --data:#A16207; --govern:#BE185D; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px; overflow-x:auto;
@@ -5503,6 +5680,9 @@ export default function App() {
     body{padding:20px 14px 32px}
   }
   .copy{margin-top:5px}
+  @media (max-width:640px){ .blab{font-size:12px} .blab .sub{font-size:12px} .c .n{font-size:12px} .c .d{font-size:12px} .c .eg{font-size:12px} /* badges */
+  .pep{font-size:12px} .num{font-size:12px} .pipeline .t{font-size:12px} .pipeline .d{font-size:12px} .plab{font-size:12px} .enclave-note{font-size:12px} .flownote{font-size:12px} .strip .t{font-size:12px} .leg .n{font-size:12px} .leg .d{font-size:12px} .fed .d{font-size:12px} .xcut .t{font-size:12px} .xcut .items{font-size:12px} /* legend + footer */
+  .legend{font-size:12px} .dotreq{font-size:12px} .dotret{font-size:12px} footer .align{font-size:12px} .brand{font-size:12px} }
 </style>
 </head>
 <body>
@@ -5529,7 +5709,7 @@ export default function App() {
   <!-- CONTINUOUS-UPDATE PIPELINE -->
   <div class="pipeline rev" style="animation-delay:.1s">
     <div class="t">Continuous-Update Pipeline</div>
-    <div class="d"><b>Purple loop finds an evasion → PAP updates policy → PDP decides → hot-push to every PEP.</b> No application redeploys. This is the deployment shape of the Gödel mandate (NIST, Jun 2026): no finite guardrail set is universally robust, so the architecture must assume guardrails change continuously, central authoring, distributed enforcement (CSA gateway prescription).</div>
+    <div class="d"><b>Purple loop finds an evasion → PAP updates policy → PDP decides → hot-push to every PEP.</b> No application redeploys. This is the deployment shape of the <a href="https://www.nist.gov/news-events/news/2026/06/nist-mathematical-proof-supports-transition-continuous-monitor-and-update" target="_blank" rel="noopener" style="color:inherit">Gödel result (Vassilev, NIST, June 2026)</a>: no finite guardrail set is universally robust, so the architecture must assume guardrails change continuously, central authoring, distributed enforcement (CSA gateway prescription).</div>
   </div>
 
   <!-- PLANES -->
@@ -5559,7 +5739,7 @@ export default function App() {
       <div class="stack">
         <div class="c"><span class="num">4</span><div class="n">Orchestrator / Agent</div><div class="d">Planning and tool selection; system-prompt vault; runs under the agent's own NHI.</div></div>
         <div class="c"><div class="n">Agent Memory</div><div class="d">Session-scoped, tenant-isolated, encrypted. The agent acts only under its delegated scope.</div></div>
-        <div class="c"><span class="num">5</span><div class="n">HITL Gate: High-Risk Acts</div><div class="d">Human sign-off where impact warrants it. Human in command: a checkpoint, not a bystander.</div><span class="pep">PEP</span></div>
+        <div class="c"><span class="num">5</span><div class="n">HITL Gate: High-Risk Acts</div><div class="d">Human sign-off where impact warrants it. Human in Command: a checkpoint, not a bystander.</div><span class="pep">PEP</span></div>
       </div>
     </div>
 
@@ -5597,7 +5777,7 @@ export default function App() {
   <!-- FEDERAL OVERLAY -->
   <div class="strip fed rev" style="animation-delay:.25s">
     <div class="t">Federal Overlay</div>
-    <div class="d">The agent enclave maps to your <b>impact-level boundary</b> (IL4/IL5: GCC-High / DoD regions; air-gapped where mission demands). The observability band below feeds <b>cATO evidence taps</b>: continuous monitoring <b>is</b> the authorization, not the binder, the same discovery-to-update cadence the Gödel result mandates.</div>
+    <div class="d">The agent enclave maps to your <b>impact-level boundary</b> (IL4/IL5: GCC-High / DoD regions; air-gapped where mission demands). The observability band below feeds <b>cATO evidence taps</b>: continuous monitoring <b>is</b> the authorization, not the binder, the same discovery-to-update cadence the Gödel result calls for.</div>
   </div>
 
   <!-- CROSS-CUTTING -->
@@ -5645,6 +5825,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Continuous Purple Teaming Loop</title>
+<meta property="og:title" content="The Continuous Purple Teaming Loop">
+<meta property="og:description" content="From threat intel to deployed detection: clockwise, and every TTP re-enters at step 1 (an example on one vendor's stack)">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-purple-loop.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -5654,6 +5843,10 @@ export default function App() {
     --tint-accent:#ABE4FA; --tint-purple:#DCC0DE; --tint-blue:#93C5FD; --tint-gold:#FCD34D; --tint-red:#FCA5A5; --tint-intel:#FDBA74; --tint-green:#6EE7B7;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --intel:#C2410C; --red:#B91C1C; --blue:#1D4ED8; --purple:#5E2868; --green:#047857; --gold:#A16207; --tint-accent:#0C4A6E; --tint-purple:#5E2868; --tint-blue:#1E40AF; --tint-gold:#854D0E; --tint-red:#991B1B; --tint-intel:#9A3412; --tint-green:#065F46; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
@@ -5712,13 +5905,14 @@ export default function App() {
   }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .node .d{font-size:12px} .hub .hs{font-size:12px} .legbox .t{font-size:12px} .legbox .r{font-size:12px} .footer .l{font-size:12px} .footer .r .badge{font-size:12px} }
 </style>
 </head>
 <body>
 <div class="poster">
   <header class="rev" style="animation-delay:.02s">
     <h1>The Continuous <span class="a">Purple Teaming Loop</span></h1>
-    <div class="subtitle">From threat intel to deployed detection: clockwise, and every TTP re-enters at step 1</div>
+    <div class="subtitle">From threat intel to deployed detection: clockwise, and every TTP re-enters at step 1 (an example on one vendor's stack)</div>
   </header>
 
   <div class="ring rev" style="animation-delay:.08s">
@@ -5734,7 +5928,7 @@ export default function App() {
     <div class="node s3 n-blue"><div class="top"><span class="num">3</span><span class="ph">Blue: Detect?</span></div><div class="d">Blue agent checks whether Sentinel / Defender detected it, flagging a coverage gap if nothing fired.</div></div>
     <div class="node s4 n-purple"><div class="top"><span class="num">4</span><span class="ph">Analyze: Root-Cause</span></div><div class="d">Security Copilot root-causes the detection gap and proposes a new analytic rule.</div></div>
     <div class="node s5 n-purple"><div class="top"><span class="num">5</span><span class="ph">Engineer: Build &amp; Test</span></div><div class="d">Detection-engineering agent writes the rule, tests it against the emulation, and stages it for review.</div></div>
-    <div class="node s6 n-green"><div class="top"><span class="num">6</span><span class="ph">Human Gate: Approve</span></div><div class="d">A human analyst reviews and approves before promotion. Human-in-command, not a rubber stamp.</div></div>
+    <div class="node s6 n-green"><div class="top"><span class="num">6</span><span class="ph">Human Gate: Approve</span></div><div class="d">A human analyst reviews and approves before promotion. Human in Command, not a rubber stamp.</div></div>
     <div class="node s7 n-gold"><div class="top"><span class="num">7</span><span class="ph">Promote: Deploy &amp; Monitor</span></div><div class="d">Approved rule ships to production in Sentinel. Coverage updates; Agent 365 logs every agent action.</div></div>
 
     <!-- legend in the open cell -->
@@ -5768,6 +5962,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Agentic Purple Teaming: Value Stream Map</title>
+<meta property="og:title" content="Agentic Purple Teaming: Value Stream Map">
+<meta property="og:description" content="Agentic purple teaming vs. the traditional manual cycle: same work, the wait states removed">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/diagram-value-stream-map.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -5776,6 +5979,10 @@ export default function App() {
     --trad:#3B82F6; --agentic:#10B981; --wait:#F59E0B; --bad:#EF4444; --good:#10B981;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --trad:#1D4ED8; --agentic:#047857; --wait:#A16207; --bad:#B91C1C; --good:#047857; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --trad:#1D4ED8; --agentic:#047857; --wait:#A16207; --bad:#B91C1C; --good:#047857; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{background:var(--bg); color:var(--text); font-family:var(--mono); line-height:1.45; padding:28px 20px 40px;
@@ -5828,6 +6035,7 @@ export default function App() {
   }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}.flow{overflow:visible}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .lanehead .tot{font-size:12px} .step .s{font-size:12px} .step .h{font-size:12px} .step .tm{font-size:12px} .step.wait .tag{font-size:12px} footer .l{font-size:12px} footer .r .badge{font-size:12px} }
 </style>
 </head>
 <body>
@@ -5896,7 +6104,7 @@ export default function App() {
         {/* AI Fluency glossary */}
         {active === "fluency" && (
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-            <p style={{ fontSize: 14, color: palette.muted, lineHeight: 1.65, marginTop: -6, marginBottom: 2 }}>{data.intro}</p>
+            <p style={{ fontSize: 14, color: palette.muted, lineHeight: 1.65, marginTop: -6, marginBottom: 2 }}>{data.intro}{data.introLink && <>{data.introLink.before}<a href={data.introLink.url} target="_blank" rel="noopener noreferrer" style={{ color: palette.accent }}>{data.introLink.label}</a>{data.introLink.after}</>}</p>
             {data.groups.map((g, gi) => (
               <div key={gi}>
                 <div style={{ fontSize: 12, fontWeight: 700, color: data.color, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 9 }}>{g.group}</div>
@@ -5923,6 +6131,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Zero Trust for AI Agents: Capability Matrix</title>
+<meta property="og:title" content="Zero Trust for AI Agents: Capability Matrix">
+<meta property="og:description" content="A security framework for deploying autonomous AI agents in the enterprise">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/zero-trust-ai-agents-matrix.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -5932,6 +6149,10 @@ export default function App() {
     --foundation:#3B82F6; --enterprise:#10B981; --advanced:#F59E0B; --threat:#EF4444;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --foundation:#1D4ED8; --enterprise:#047857; --advanced:#A16207; --threat:#B91C1C; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --foundation:#1D4ED8; --enterprise:#047857; --advanced:#A16207; --threat:#B91C1C; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{
@@ -5992,7 +6213,7 @@ export default function App() {
   .whynow{margin-top:16px}
   .stat{display:flex; gap:11px; align-items:baseline; padding:8px 2px; border-bottom:1px dashed var(--border2)}
   .stat:last-child{border-bottom:none}
-  .stat .n{font-size:17px; font-weight:700; color:var(--foundation); white-space:nowrap; min-width:92px}
+  .stat .n{font-size:17px; font-weight:700; color:var(--foundation); white-space:nowrap; min-width:92px; flex:none}
   .stat .d{font-size:10px; color:var(--muted); line-height:1.45}
 
   /* ---------- matrix ---------- */
@@ -6079,6 +6300,8 @@ export default function App() {
   @media (max-width:680px){
     .matrix{grid-template-columns:1fr}
     .matrix .mh.corner{display:none}
+    .cell::before{display:block; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-bottom:4px}
+    .cell.f::before{content:"Foundation"; color:var(--foundation)} .cell.e::before{content:"Enterprise"; color:var(--enterprise)} .cell.a::before{content:"Advanced"; color:var(--advanced)}
     .mh{display:flex; align-items:center; gap:8px}
     .mh .s{margin-top:0}
     .dom{margin-top:8px}
@@ -6092,6 +6315,8 @@ export default function App() {
     .rev{opacity:1; transform:none; animation:none}
   }
   .copy{margin-top:5px}
+  @media (max-width:640px){ .source{font-size:12px} .colhead{font-size:12px} .pcard .b{font-size:12px} .stat .d{font-size:12px} /* ---------- matrix ---------- */
+  .matrix-meta{font-size:12px} .mh .s{font-size:12px} .mh.corner span{font-size:12px} .dom{font-size:12px} .cell{font-size:12px} .matrix-note{font-size:12px} .tcard .h{font-size:12px} .tcard .h .num{font-size:12px} .tcard .b{font-size:12px} .rising{font-size:12px} .phase .n{font-size:12px} .phase .h{font-size:12px} .phase .b{font-size:12px} .soar .lbl{font-size:12px} .soar .tx{font-size:12px} footer .l{font-size:12px} footer .r{font-size:12px} }
 </style>
 </head>
 <body>
@@ -6263,6 +6488,15 @@ export default function App() {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AI Security Framework Crosswalk</title>
+<meta property="og:title" content="AI Security Framework Crosswalk">
+<meta property="og:description" content="How the major frameworks fit together: govern, model the threats, select controls, harden &amp; operate">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kensden.github.io/lensatic/playbook/Diagrams/framework-crosswalk.html">
+<meta property="og:image" content="https://kensden.github.io/lensatic/playbook/social-card-v2.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Lensatic · Playbook · Agentic SecOps: APT_UNICORN, the playbook's fictional threat persona">
+<meta name="twitter:card" content="summary_large_image">
 <style>
   :root{
     --bg:#040817; --surface:#0A1128; --surface2:#0F1834; --surface3:#152042;
@@ -6272,6 +6506,10 @@ export default function App() {
     --nist:#3B82F6; --iso:#45C4F4; --owasp:#ff8c42; --csa:#F07FC0; --cis:#F59E0B;
     --mono:'IBM Plex Mono',ui-monospace,monospace;
   }
+  /* light theme (v5.4.2): the poster follows the reader's setting; inside the app it follows the app's theme */
+  @media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --nist:#1D4ED8; --iso:#075985; --owasp:#C2410C; --csa:#BE185D; --cis:#A16207; color-scheme:light;}}
+  :root[data-theme="light"]{--bg:#F3F4F1; --surface:#FFFFFF; --surface2:#F7F8F5; --surface3:#ECEEE8; --border:rgba(11,18,32,0.12); --border2:rgba(11,18,32,0.22); --text:#0B1220; --muted:#4A5568; --dim:#5F6B7D; --accent:#075985; --nist:#1D4ED8; --iso:#075985; --owasp:#C2410C; --csa:#BE185D; --cis:#A16207; color-scheme:light;}
+  body{text-wrap:pretty} h1,h2,h3,.subtitle{text-wrap:balance}
   *{margin:0;padding:0;box-sizing:border-box}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
   body{
@@ -6354,11 +6592,14 @@ export default function App() {
     .layer{grid-template-columns:1fr; gap:8px}
     .matrix{grid-template-columns:1fr}
     .matrix .mh{display:none}
+    .matrix > .cell::before{display:block; font-size:12px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); margin-bottom:4px}
+    .matrix > .cell:nth-child(4n+2)::before{content:"Maintainer"} .matrix > .cell:nth-child(4n+3)::before{content:"What it gives you"} .matrix > .cell:nth-child(4n+4)::before{content:"Connects with"}
     .fw{margin-top:8px}
     .mapgrid{grid-template-columns:1fr}
   }
   @media print{body{background:#fff;color:#000;padding:0}.rev{opacity:1;transform:none;animation:none}}
   .copy{margin-top:5px}
+  @media (max-width:640px){ .lead{font-size:12px} .colhead{font-size:12px} .layer .ls{font-size:12px} .chip{font-size:12px} .mh{font-size:12px} .fw .mt{font-size:12px} .cell{font-size:12px} .roleb{font-size:12px} .mapc{font-size:12px} footer .l{font-size:12px} footer .r{font-size:12px} }
 </style>
 </head>
 <body>
@@ -6555,7 +6796,7 @@ export default function App() {
                     <div style={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 7, marginTop: 11 }}>
                       <span style={{ fontSize: 11, fontWeight: 700, color: palette.muted, letterSpacing: "0.14em" }}>ACT ON IT</span>
                       {r.mitTabs.map((t) => { const sx = sections.find((x) => x.id === t); if (!sx) return null; return (
-                        <button key={t} onClick={() => go(t)} style={{ background: palette.surface2, border: `1px solid color-mix(in srgb, ${sx.color} 33%, transparent)`, color: sx.color, borderRadius: 5, padding: "4px 11px", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.06em", cursor: "pointer", fontFamily: "inherit" }}>{sx.label} →</button>
+                        <button key={t} onClick={() => go(t)} style={{ minHeight: 44, display: "inline-flex", alignItems: "center", background: palette.surface2, border: `1px solid color-mix(in srgb, ${sx.color} 33%, transparent)`, color: sx.color, borderRadius: 5, padding: "4px 11px", fontSize: 11.5, fontWeight: 700, letterSpacing: "0.06em", cursor: "pointer", fontFamily: "inherit" }}>{sx.label} →</button>
                       ); })}
                     </div>
                   )}
@@ -6712,6 +6953,14 @@ export default function App() {
                     </div>
                   ))}
                   <div style={{ fontSize: 11, color: palette.muted, marginTop: 8, letterSpacing: "0.03em" }}>Computed live from the framework tags on every action: the crosswalk at a glance.</div>
+                  <div style={{ fontSize: 12, color: palette.muted, marginTop: 8, lineHeight: 1.6 }}>
+                    Codes: LLM, the OWASP Top 10 for LLM Applications (2025 numbering); ASI, the OWASP Top 10 for Agentic Applications; AI RMF, the NIST AI Risk Management Framework; SSDF, the NIST Secure Software Development Framework; SAIF, Google's Secure AI Framework. In the glossary:
+                    <span style={{ display: "flex", flexWrap: "wrap", columnGap: 4 }}>
+                      {[["ATT&CK and ATLAS", "MITRE ATT&CK / ATLAS"], ["RMF", "RMF (Risk Management Framework)"], ["cATO", "ATO / cATO"], ["NHI", "Non-Human Identity (NHI)"], ["SP 800-207", "Zero Trust (NIST SP 800-207)"], ["Excessive Agency", "Excessive Agency"], ["Prompt Injection", "Prompt Injection"]].map(([label, term]) => (
+                        <button key={term} onClick={() => go("fluency", slug(term))} style={{ minHeight: 44, padding: "0 8px", background: "transparent", border: 0, color: palette.accent, fontFamily: "inherit", fontSize: 12, textDecoration: "underline", cursor: "pointer" }}>{label}</button>
+                      ))}
+                    </span>
+                  </div>
                 </div>
               );
             })()}
@@ -6736,7 +6985,7 @@ export default function App() {
                             <div style={{ fontSize: 11.5, color: palette.muted, marginTop: 6, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
                               {r.owner && <span style={{ fontSize: 10.5, fontWeight: 700, color: palette.muted, border: `1px solid ${palette.border}`, borderRadius: 8, padding: "1px 7px", letterSpacing: "0.08em" }}>{r.owner}</span>}
                               <span>{renderSourceLabel(r.source)}</span>
-                              <button onClick={() => go(r.tab)} style={{ background: "transparent", border: `1px solid color-mix(in srgb, ${tabSec.color} 27%, transparent)`, color: tabSec.color, borderRadius: 8, padding: "1px 8px", fontSize: 11, fontFamily: "inherit", cursor: "pointer", letterSpacing: "0.05em" }}>{tabSec.icon} {tabSec.label} →</button>
+                              <button onClick={() => go(r.tab)} style={{ minHeight: 44, display: "inline-flex", alignItems: "center", background: "transparent", border: `1px solid color-mix(in srgb, ${tabSec.color} 27%, transparent)`, color: tabSec.color, borderRadius: 8, padding: "1px 8px", fontSize: 11, fontFamily: "inherit", cursor: "pointer", letterSpacing: "0.05em" }}>{tabSec.icon} {tabSec.label} →</button>
                             </div>
                             {renderImpl(r.impl, phase + ":" + ri + ":" + String(r.text || "").slice(0, 24), tabSec.color)}
                           </div>
@@ -6779,6 +7028,9 @@ export default function App() {
                           {item.sub && (ii === 0 || spineItems[ii - 1].sub !== item.sub) && (
                             <div style={{ fontSize: 11, fontWeight: 700, color: palette.muted, letterSpacing: "0.16em", textTransform: "uppercase", margin: "5px 2px -1px" }}>{item.sub}</div>
                           )}
+                          {item.sub === "Anthropic" && (ii === 0 || spineItems[ii - 1].sub !== item.sub) && (
+                            <div style={{ fontSize: 12, color: palette.muted, margin: "0 2px 1px" }}>Disclosure: Lensatic is built with Claude, an Anthropic product.</div>
+                          )}
                           <div id={item.name ? rid(item) : undefined} style={{ background: palette.bg, border: `1px solid ${palette.border}`, borderRadius: 6, padding: "11px 14px", display: "flex", gap: 12, alignItems: "flex-start" }}>
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{ fontSize: 14, fontWeight: 700, color: palette.text, marginBottom: 3, overflowWrap: "anywhere" }}>{item.name}</div>
@@ -6802,6 +7054,9 @@ export default function App() {
                         <Fragment key={ii}>
                           {item.sub && (ii === 0 || appxItems[ii - 1].sub !== item.sub) && (
                             <div style={{ fontSize: 11, fontWeight: 700, color: palette.muted, letterSpacing: "0.16em", textTransform: "uppercase", margin: "5px 2px -1px" }}>{item.sub}</div>
+                          )}
+                          {item.sub === "Anthropic" && (ii === 0 || appxItems[ii - 1].sub !== item.sub) && (
+                            <div style={{ fontSize: 12, color: palette.muted, margin: "0 2px 1px" }}>Disclosure: Lensatic is built with Claude, an Anthropic product.</div>
                           )}
                           <div id={item.name ? rid(item) : undefined} style={{ background: palette.bg, border: `1px solid ${palette.border}`, borderRadius: 6, padding: "11px 14px", display: "flex", gap: 12, alignItems: "flex-start" }}>
                           <div style={{ flex: 1, minWidth: 0 }}>
@@ -6845,6 +7100,11 @@ export default function App() {
       <div style={{ borderTop: `1px solid ${palette.border}`, padding: "9px 28px", background: palette.surface, display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap", columnGap: 10, rowGap: 3, textAlign: "center" }}>
         <span style={{ fontSize: 12, color: palette.muted, letterSpacing: "0.1em" }}>AGENTIC SECOPS · REFERENCE · ALL CLAIMS LINKED TO SOURCES · REFRESHED OCT 1, 2026</span>
         <span style={{ fontSize: 11, color: palette.muted, letterSpacing: "0.03em" }}>© 2026 Ken Connell. <a href="https://github.com/KensDen/lensatic/blob/main/playbook/LICENSE" target="_blank" rel="noopener noreferrer" style={{ color: "inherit" }}>All rights reserved</a>. Built with Claude and Claude Code, reviewed by a human who owns the mistakes.</span>
+        <span style={{ flexBasis: "100%", display: "flex", justifyContent: "center", flexWrap: "wrap", columnGap: 16, fontSize: 12 }}>
+          {[["Privacy policy", "../../privacy.html"], ["Support", "../../support.html"], ["Source code", "https://github.com/KensDen/lensatic"]].map(([label, href]) => (
+            <a key={href} href={href} style={{ color: palette.muted, display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 44, minWidth: 44 }}>{label}</a>
+          ))}
+        </span>
         <span style={{ flexBasis: "100%", fontSize: 11, color: palette.muted, letterSpacing: "0.03em", lineHeight: 1.6, marginTop: 4, paddingTop: 6, borderTop: `1px solid color-mix(in srgb, ${palette.border} 60%, transparent)` }}>Third-party product, tool, and framework names referenced in this playbook are trademarks of their respective owners. A personal project: views are my own and do not represent any employer, client, or vendor.</span>
       </div>
     </div>

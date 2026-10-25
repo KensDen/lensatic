@@ -232,6 +232,10 @@
 .lx-tile-card.maps a.lx-btn.lx-primary, .lx-page.lx-maps a.lx-btn.lx-primary { background: var(--sec-maps); border-color: var(--sec-maps); color: var(--on-sec-maps); }
 .lx-tile-card.guides a.lx-btn.lx-primary, .lx-page.lx-guides a.lx-btn.lx-primary { background: var(--sec-guides); border-color: var(--sec-guides); color: var(--on-sec-guides); }
 .lx-tile-card.playbook a.lx-btn.lx-primary, .lx-page.lx-playbook a.lx-btn.lx-primary { background: var(--sec-playbook); border-color: var(--sec-playbook); color: var(--on-sec-playbook); }
+/* a section's other buttons take its accent as an outline, as the map's do (QC rulings, 24 October 2026) */
+.lx-page.lx-maps a.lx-btn:not(.lx-primary) { border-color: var(--sec-maps); color: var(--sec-maps); }
+.lx-page.lx-guides a.lx-btn:not(.lx-primary) { border-color: var(--sec-guides); color: var(--sec-guides); }
+.lx-page.lx-playbook a.lx-btn:not(.lx-primary) { border-color: var(--sec-playbook); color: var(--sec-playbook); }
 
 /* sections of a page */
 .lx-section { padding-top: var(--s-6); padding-bottom: var(--s-6); border-top: 1px solid var(--line); }
@@ -274,7 +278,7 @@
   html { background: var(--bg); -webkit-text-size-adjust: 100%; scroll-padding-top: 16px; }
   body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-wrap: break-word; }
   .wrap { max-width: 960px; margin: 0 auto; padding: 40px 24px 56px; }
-  .lx-bar-in, .lx-foot-in { max-width: 960px; padding-left: 24px; padding-right: 24px; }  /* v2.8: the shared bar and footer line up with the page */
+  .lx-foot-in { max-width: 960px; padding-left: 24px; padding-right: 24px; }  /* v2.8: the shared footer lines up with the page; v2.8.3 v1.2: the bar keeps the shared width (Q16) */
   a { color: var(--accent); text-underline-offset: 3px; }
   a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
   .skip { position: absolute; left: -9999px; top: 8px; background: var(--accent); color: var(--on-accent); padding: 8px 12px; border-radius: 6px; z-index: 10; }
@@ -302,7 +306,7 @@
   .actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 0; }
   .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 8px; font-weight: 700; text-decoration: none; border: 1px solid var(--accent); min-height: 44px; }
   .btn.primary { background: var(--sec-guides); border-color: var(--sec-guides); color: var(--on-sec-guides); }  /* Lensatic 2.0.2: the section's green */
-  .btn:not(.primary) { color: var(--accent); background: transparent; }
+  .btn:not(.primary) { color: var(--sec-guides); border-color: var(--sec-guides); background: transparent; }  /* v2.8.3 v1.2: the section's outline (Q17) */
   .btn small { font-family: var(--mono); font-weight: 400; font-size: 12px; opacity: 0.85; }
   .actions .label { flex-basis: 100%; margin: 6px 0 -4px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-2); }
   /* v2.5: with their longer "PDF, one-pager" labels, the three Quick Reference buttons take slightly less side padding
@@ -360,6 +364,7 @@
   .tbl.sources td:first-child { font-weight: 400; }
   .tbl.worksheet td.empty { height: 34px; border-left: 1px solid var(--border); }
   .sources .host { font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+  .sources a.host { display: inline-flex; align-items: center; min-height: 44px; }  /* v2.8.3 v1.2: a 44-pixel target (Q15) */
   .nc { text-transform: none; }
   .nw { white-space: nowrap; }
   .tbl.stack td[data-label*="DoW"]::before, .tbl.stack td[data-label*="DoD"]::before { text-transform: none; }
@@ -396,7 +401,7 @@
   }
   @media (max-width: 639.98px) {
     .wrap { padding: 20px 16px 44px; }
-    .lx-bar-in, .lx-foot-in { padding-left: 16px; padding-right: 16px; }
+    .lx-foot-in { padding-left: 16px; padding-right: 16px; }
     .topbar { margin-bottom: 26px; }
     h1 { font-size: 30px; }
     .lead { font-size: 17px; }
