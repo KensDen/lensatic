@@ -92,7 +92,9 @@ map's four Latin-1 faces; the Agentic SecOps pages keep the faces they already b
 **Chrome.** One top bar (the mark, Lensatic, the three section links, About and the theme toggle), one page header (eyebrow, H1, a
 one-line standfirst), one tile (mark, title, one line, a count line, an Open button) and one footer (the version line, privacy, support,
 the repository and, since 2.0.2, the rights line).
-Every control is at least 44px tall. The radius is 8px for controls and 12px for cards, and spacing runs on a 4px scale. There is no
+Every control is at least 44px tall, and the bar's section links are at least 44px wide (QC, 24 October 2026: About was 38px).
+Headings and the eyebrow balance their lines and running text uses `text-wrap: pretty`, so a line rarely ends on one word; the hub's
+eyebrow keeps each section name whole and breaks only after a dot. The radius is 8px for controls and 12px for cards, and spacing runs on a 4px scale. There is no
 animation beyond the playbook's existing transitions. On the map and the Agentic SecOps app the bar is a slim strip above the app's
 own header, so neither app's tested layout changes; the map's bar shows the name alone because the app's header below it carries the
 compass.

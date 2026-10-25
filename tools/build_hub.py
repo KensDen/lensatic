@@ -229,8 +229,10 @@ def hub_page(s: dict, d: dict) -> str:
                      f'<h3>{esc(x["name"])}</h3><p>{esc(x["line"])}</p><p class="lx-count">{esc(c[x["key"]])}</p>'
                      f'<p class="lx-actions"><a class="lx-btn lx-primary" href="{x["path"]}">{esc(x["open"])}</a></p></li>')
     kicker = " · ".join(x["name"] for x in s["sections"])
+    # the eyebrow breaks only after a dot, so a phone shows whole section names and never a lone dot or name (QC, 24 October 2026)
+    eyebrow = " · ".join(x["name"].replace(" ", " ") for x in s["sections"])
     hero = (f'<header class="lx-hero"><div class="lx-wrap lx-head">{tile("lx-mark lx-tile")}'
-            f'<p class="lx-eyebrow">{esc(kicker)}</p><h1>{esc(s["name"])}</h1>'
+            f'<p class="lx-eyebrow">{esc(eyebrow)}</p><h1>{esc(s["name"])}</h1>'
             f'<p class="lx-standfirst">{esc(d["meta"]["tagline"])}</p>{byline(s)}<ul class="lx-hero-lines">{hero_lines}</ul></div></header>\n')
     sections = (f'<section class="lx-wrap lx-section" aria-labelledby="sections-h"><h2 id="sections-h" class="lx-vh">{esc(kicker)}</h2>'
                 f'<ul class="lx-tiles">{"".join(tiles)}</ul></section>\n')

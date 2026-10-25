@@ -24,6 +24,9 @@ abbr { text-decoration: underline dotted; text-decoration-thickness: 1px; text-u
 main { max-width: calc(44em + 2 * var(--gutter)); margin: 0 auto; padding: 2.5rem var(--gutter) 1rem; }
 h1 { font-size: 2.25rem; line-height: 1.15; margin: 0 0 0.5rem; letter-spacing: -0.01em; }
 p { margin: 0 0 0.9rem; }
+/* line breaks: the heading balances, running text keeps its last word company (QC, 24 October 2026) */
+h1 { text-wrap: balance; }
+:is(p, dd, dt) { text-wrap: pretty; }
 .small { font-family: var(--mono); font-size: 0.78125rem; color: var(--fg-2); }
 .xp { color: var(--fg-2); }
 .kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 0.25rem 1rem; margin: 1.25rem 0; padding: 1rem 1.25rem; background: var(--bg-2); border: 1px solid var(--line); border-radius: 12px; }

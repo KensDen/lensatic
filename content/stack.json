@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.15",
-    "builtOn": "2026-10-20",
+    "contentVersion": "1.2.16",
+    "builtOn": "2026-10-24",
     "sources": [
       "csf20",
       "sp800-207",
@@ -190,6 +190,11 @@
         "version": "1.2.15",
         "date": "2026-10-20",
         "summary": "Zero Trust for Operational Technology Activities and Outcomes names its publisher {{dow}} CIO, as its cover reads. One verification note reads more clearly."
+      },
+      {
+        "version": "1.2.16",
+        "date": "2026-10-24",
+        "summary": "Five links in the verification notes go to the new addresses of their pages on the US Code and House Armed Services Committee sites. One note spells canceled the US way."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -906,7 +911,7 @@
         "status": "verified",
         "verifiedOn": "2026-09-30",
         "method": "primary-fetch",
-        "note": "CSRC pages fetched: SP 800-37 Revision 2, December 2018 (final 20 December 2018), seven steps Prepare through Monitor; SP 800-53A Revision 5, January 2022. The authorization definition is the OMB Circular A-130 definition quoted in the glossary. The CSRMC sentences rest on the CIO announcement of 24 September 2025 (https://dowcio.war.gov/In-the-News/Article/4367432/), read on 30 September 2026, which calls the RMF the previous Risk Management Framework and presents the construct in five phases, and on the construct itself (https://media.defense.gov/2025/Sep/24/2003808112/-1/-1/1/DOD-CIO-CYBER-SECURITY-RISK-MANAGEMENT-CONSTRUCT.PDF), read on 30 September 2026: its five phases, Design, Build, Test, Onboard and Operations, each name the RMF steps they carry, and it prints no date and does not cancel DoD Instruction 8510.01. DoD Instruction 8510.01, read on 30 September 2026, is effective 19 July 2022, reissues and cancels the 2014 instruction, and says nothing of being cancelled; the CIO library (https://dowcio.war.gov/Library/), read on 29 September 2026, still listed Instruction 8510.01 for the RMF. The construct and the instruction returned 403 to a plain read later that day.",
+        "note": "CSRC pages fetched: SP 800-37 Revision 2, December 2018 (final 20 December 2018), seven steps Prepare through Monitor; SP 800-53A Revision 5, January 2022. The authorization definition is the OMB Circular A-130 definition quoted in the glossary. The CSRMC sentences rest on the CIO announcement of 24 September 2025 (https://dowcio.war.gov/In-the-News/Article/4367432/), read on 30 September 2026, which calls the RMF the previous Risk Management Framework and presents the construct in five phases, and on the construct itself (https://media.defense.gov/2025/Sep/24/2003808112/-1/-1/1/DOD-CIO-CYBER-SECURITY-RISK-MANAGEMENT-CONSTRUCT.PDF), read on 30 September 2026: its five phases, Design, Build, Test, Onboard and Operations, each name the RMF steps they carry, and it prints no date and does not cancel DoD Instruction 8510.01. DoD Instruction 8510.01, read on 30 September 2026, is effective 19 July 2022, reissues and cancels the 2014 instruction, and says nothing of being canceled; the CIO library (https://dowcio.war.gov/Library/), read on 29 September 2026, still listed Instruction 8510.01 for the RMF. The construct and the instruction returned 403 to a plain read later that day.",
         "recheckAfter": "2026-12-15"
       },
       "documents": [
@@ -4141,7 +4146,7 @@
         "status": "verified",
         "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
-        "note": "Expansion and meaning read in Executive Order 14347, recorded under orgs.dow on 9 September 2026 (https://www.govinfo.gov/content/pkg/FR-2025-09-10/pdf/2025-17508.pdf); 10 U.S.C. 111 rechecked on 17 September 2026 still reads Department of Defense (https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title10-section111&num=0&edition=prelim). The pending FY2027 bills recorded under orgs.dow were not rechecked."
+        "note": "Expansion and meaning read in Executive Order 14347, recorded under orgs.dow on 9 September 2026 (https://www.govinfo.gov/content/pkg/FR-2025-09-10/pdf/2025-17508.pdf); 10 U.S.C. 111 rechecked on 17 September 2026 still reads Department of Defense (https://uscode.house.gov/us/usc/119-124/t10/s111/). The pending FY2027 bills recorded under orgs.dow were not rechecked."
       }
     },
     {
@@ -5043,7 +5048,7 @@
         "status": "verified",
         "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
-        "note": "Meaning read on 17 September 2026 in the Office of the Law Revision Counsel's FAQ (https://uscode.house.gov/faq.xhtml); the pairing of U.S.C. with United States Code read in DoD Directive 5105.19 (https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dodd/510519p.pdf)."
+        "note": "Meaning read on 17 September 2026 in the Office of the Law Revision Counsel's FAQ (https://uscode.house.gov/faq.html); the pairing of U.S.C. with United States Code read in DoD Directive 5105.19 (https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dodd/510519p.pdf)."
       }
     },
     {
@@ -5073,7 +5078,7 @@
         "status": "verified",
         "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
-        "note": "Expansion and meaning read on 17 September 2026 in the House Armed Services Committee's NDAA history page (https://armedservices.house.gov/ndaa/history-ndaa.htm)."
+        "note": "Expansion and meaning read on 17 September 2026 in the House Armed Services Committee's NDAA history page (https://armedservices.house.gov/ndaa/)."
       }
     },
     {
@@ -5089,7 +5094,7 @@
         "status": "verified",
         "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
-        "note": "Expansion read on 17 September 2026 in the department's FY2027 budget request overview (https://comptroller.war.gov/Portals/45/Documents/defbudget/FY2027/FY2027_Budget_Request_Overview_Book.pdf); meaning read in 31 U.S.C. 1102 (https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title31-section1102&num=0&edition=prelim)."
+        "note": "Expansion read on 17 September 2026 in the department's FY2027 budget request overview (https://comptroller.war.gov/Portals/45/Documents/defbudget/FY2027/FY2027_Budget_Request_Overview_Book.pdf); meaning read in 31 U.S.C. 1102 (https://uscode.house.gov/us/usc/119-124/t31/s1102/)."
       }
     },
     {

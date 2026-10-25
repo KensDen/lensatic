@@ -94,6 +94,9 @@ h1 { font-size: 2.875rem; margin: 0 0 1rem; letter-spacing: -0.01em; }
 h2 { font-size: 1.5rem; margin: 0; }
 h3 { font-size: 1.0625rem; margin: 0 0 0.5rem; }
 p { margin: 0 0 0.75rem; }
+/* line breaks: headings, table heads and short labels balance their lines, running text keeps its last word company (QC, 24 October 2026) */
+:is(h1, h2, h3, h4, th, .caps, .pillar-label) { text-wrap: balance; }
+:is(p, li, dd, dt, td, figcaption, summary, blockquote, .lead) { text-wrap: pretty; }
 small, .small { font-size: 0.875rem; color: var(--fg-2); }
 .vh { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .skip { position: absolute; left: -999px; top: 0; background: var(--accent); color: var(--accent-fg); padding: 0.5rem 0.75rem; z-index: 50; }
@@ -312,11 +315,14 @@ a.layer-tag { text-decoration: none; }
 .ent-list { display: grid; gap: 0.625rem; align-items: start; grid-template-columns: minmax(0, 1fr); }
 .ent { min-width: 0; border: 1px solid var(--line); border-radius: var(--card-radius); background: var(--bg-2); scroll-margin-top: calc(var(--nav-h) + 0.5rem); }
 .ent[open] { border-color: var(--line-strong); }
-.ent > summary { list-style: none; cursor: pointer; padding: 0.875rem 1.25rem; min-height: 44px; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 0.35rem 0.625rem; align-items: center; }
+/* the badges sit on their own row under the title at every width: beside it, a long recheck badge squeezed the title to
+   one word per line on the desktop's card columns (QC, 24 October 2026) */
+.ent > summary { list-style: none; cursor: pointer; padding: 0.875rem 1.25rem; min-height: 44px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.35rem 0.625rem; align-items: center; }
 .ent > summary .ent-title { font-weight: 700; min-width: 0; }
 .ent > summary .short { font-weight: 400; color: var(--fg-2); }
-.ent > summary .badges { display: flex; flex-wrap: wrap; gap: 0.25rem; justify-content: flex-end; }
-.ent > summary .cite { grid-column: 1 / -1; color: var(--fg-2); font-size: 0.875rem; min-width: 0; }
+.ent > summary .badges { display: flex; flex-wrap: wrap; gap: 0.25rem; justify-content: flex-start; grid-column: 1; grid-row: 2; }
+.ent > summary::after { grid-column: 2; grid-row: 1; }
+.ent > summary .cite { grid-column: 1 / -1; grid-row: 3; color: var(--fg-2); font-size: 0.875rem; min-width: 0; }
 .ent .body { margin: 0 1.25rem 1rem; padding-top: 0.75rem; border-top: 1px solid var(--line); overflow-wrap: anywhere; }
 dl.kv dd a.url { display: inline-block; padding: 0.7rem 0; }
 small a, .small a, .steps small a { white-space: nowrap; }
@@ -390,10 +396,6 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
   dl.kv, .status-key dl.kv { grid-template-columns: minmax(0, 1fr); }
   dl.kv dd { margin-bottom: 0.35rem; }
   .gl-entry { grid-template-columns: minmax(0, 1fr); }
-  .ent > summary { grid-template-columns: minmax(0, 1fr) auto; }
-  .ent > summary .badges { grid-column: 1; grid-row: 2; justify-content: flex-start; }
-  .ent > summary::after { grid-column: 2; grid-row: 1; }
-  .ent > summary .cite { grid-row: 3; }
   .status { white-space: normal; }
   /* room below the footer's links for the corner button */
   .foot-in { padding-bottom: 5rem; }

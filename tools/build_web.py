@@ -1197,12 +1197,21 @@ def build_page(d: dict, key: str, author: str = "") -> bytes:
     template = (SRC / "page.html").read_text(encoding="utf-8")
     replacements = {"{{LANG}}": "en", "{{TITLE}}": esc(page["title"]), "{{DESCRIPTION}}": esc(page["description"]),
                     "{{ICON}}": favicon(), "{{STYLES}}": page_css(), "{{MARK}}": mark_svg(), "{{NAME}}": esc(meta["name"]),
-                    "{{BODY}}": main, "{{FOOTER}}": fu.section(r.footer(key))}
+                    "{{SOCIAL}}": page_social_tags(key, page), "{{BODY}}": main, "{{FOOTER}}": fu.section(r.footer(key))}
     for k, v in replacements.items():
         template = template.replace(k, v)
     if "{{" in template:
         sys.exit(f"{key}.html: template placeholder or render token left unreplaced")
     return template.encode("utf-8")
+
+
+def page_social_tags(key: str, page: dict) -> str:
+    """Link-preview tags for a plain page (QC, 24 October 2026): its own title, description and address, as a text card.
+    No image: the hub card's alt text names the third section in the form these pages never use. Like the map's, the tags
+    load nothing in a reader's browser."""
+    tags = [("property", "og:title", page["title"]), ("property", "og:description", page["description"]), ("property", "og:type", "website"),
+            ("property", "og:url", f"{SITE}{key}.html"), ("name", "twitter:card", "summary")]
+    return "\n".join(f'<meta {a}="{k}" content="{esc(v)}">' for a, k, v in tags)
 
 
 def social_tags(d: dict) -> str:

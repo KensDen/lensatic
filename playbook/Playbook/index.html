@@ -145,6 +145,9 @@
 .lx-skip:focus { top: var(--s-2); }
 .lx-wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--s-4); }
 .lx-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* line breaks: headings and the eyebrow balance their lines, running text keeps its last word company (QC, 24 October 2026) */
+.lx-page :is(h1, h2, h3, h4, .lx-eyebrow) { text-wrap: balance; }
+.lx-page :is(p, li, dd, dt, td, th, figcaption, summary, blockquote) { text-wrap: pretty; }
 
 /* the top bar: mark, Lensatic, the three section links, About, and the theme toggle at the end of the bar */
 .lx-bar { background: var(--bg-2); border-bottom: 1px solid var(--line); font-family: var(--sans); }
@@ -158,7 +161,7 @@
 .lx-tile svg { width: 20px; height: 20px; }
 .lx-sections { display: flex; flex-wrap: wrap; align-items: stretch; column-gap: var(--s-4); margin: 0; padding: 0; list-style: none; }
 .lx-sections li { margin: 0; }
-.lx-sections a { display: inline-flex; align-items: center; min-height: 44px; color: var(--fg-2); font-size: 0.9375rem;
+.lx-sections a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; color: var(--fg-2); font-size: 0.9375rem;
   text-decoration: none; border-bottom: 2px solid transparent; box-sizing: border-box; }
 .lx-bar .lx-sections a:hover { color: var(--fg); }
 .lx-bar .lx-sections a[aria-current="page"] { color: var(--fg); font-weight: 700; }
