@@ -4,13 +4,14 @@
 # size and at accessibility-extra-large. Files are <device>_<screen>_<appearance>_<size>.png. Needs Xcode; first builds
 # the app (Debug, which opens a screen by launch argument) into .tmp/DerivedData, incrementally.
 #
-# With --store (session 9, section 5): the App Store screenshots, plain screens with no overlay, frame or caption. On
-# each device, one at a time: the status bar set to 9:41, a full battery, full signal and no carrier name; light
-# appearance; the default text size; eight screens in the store's order (the start screen, the doors from the top, on
-# iPad with the list hidden so the shot is not the start screen again, a door opened to its steps, the stack, the matrix,
-# the AI column, Sources, About at Why the name). Each capture loses its alpha
-# channel (tools/png_opaque.swift, which refuses a file with any pixel that is not opaque) and must then be, by sips,
-# exactly Apple's size for its display (iPhone 6.9-inch 1320 x 2868, iPad 13-inch 2064 x 2752), RGB with no alpha.
+# With --store (session 9, section 5): the App Store screenshots, plain screens with no overlay, frame or caption, on
+# the 6.3-inch iPhone App Store Connect requires (24 October 2026: the newest "iPhone NN Pro" from the 16 on, else the
+# newest plain iPhone from the 17 on) and the largest iPad. On each device, one at a time: the status bar set to 9:41,
+# a full battery, full signal and no carrier name; light appearance; the default text size; eight screens in the store's
+# order (the start screen, the doors from the top, on iPad with the list hidden so the shot is not the start screen
+# again, a door opened to its steps, the stack, the matrix, the AI column, Sources, About at Why the name). Each capture
+# loses its alpha channel (tools/png_opaque.swift, which refuses a file with any pixel that is not opaque) and must then
+# be, by sips, exactly Apple's size for its display (iPhone 6.3-inch 1206 x 2622, iPad 13-inch 2064 x 2752), RGB with no alpha.
 # Files are <nn>_<device>_<screen>.png; ios/store/screenshots.json lists each file's order, device, display, screen, size,
 # SHA-256, and the SHA-256 of its pixels below the status bar (tools/check_listing.py holds no two alike, so a screen
 # taken twice fails). The images stay out of the repository.
@@ -39,16 +40,27 @@ if [ "$STORE" = 1 ]; then
 fi
 
 # the largest iPhone (newest generation, Pro Max before Plus before Pro) and the largest iPad (most inches, newest chip)
-# on the newest iOS runtime, as "udid name"
+# on the newest iOS runtime, as "udid name"; iphone63 is the store's 6.3-inch iPhone (1206 x 2622): the newest
+# "iPhone NN Pro" from the 16 on, else the newest plain "iPhone NN" from the 17 on
 pick() {
   xcrun simctl list devices available -j | python3 -c '
 import json, re, sys
 kind = sys.argv[1]
 devs = json.load(sys.stdin)["devices"]
-prefix = "iPhone" if kind == "iphone" else "iPad"
+prefix = "iPad" if kind == "ipad" else "iPhone"
 rts = sorted((r for r in devs if ".iOS-" in r and any(d["name"].startswith(prefix) for d in devs[r])),
              key=lambda r: [int(x) for x in re.findall(r"\d+", r.split("iOS-")[1])])
 cands = [d for d in devs[rts[-1]] if d["name"].startswith(prefix)]
+if kind == "iphone63":
+    def gen63(n):
+        m = re.fullmatch(r"iPhone (\d+)( Pro)?", n)
+        return (int(m[1]) >= 16, int(m[1]), 1) if m and m[2] else (int(m[1]) >= 17, int(m[1]), 0) if m else (False, 0, 0)
+    cands = [d for d in cands if gen63(d["name"])[0]]
+    if not cands:
+        sys.exit("no 6.3-inch iPhone simulator (iPhone 16 Pro or later, or iPhone 17 or later) on the newest runtime")
+    best = max(cands, key=lambda d: gen63(d["name"]))
+    print(best["udid"], best["name"])
+    sys.exit(0)
 def key(d):
     n = d["name"]
     if kind == "iphone":
@@ -82,7 +94,8 @@ BOOTED=""
 trap 'if [ -n "$BOOTED" ]; then xcrun simctl shutdown "$BOOTED" >/dev/null 2>&1 || true; fi' EXIT
 
 for kind in iphone ipad; do
-  read -r UDID NAME <<< "$(pick $kind)"
+  if [ "$STORE" = 1 ] && [ "$kind" = iphone ]; then read -r UDID NAME <<< "$(pick iphone63)"; else read -r UDID NAME <<< "$(pick $kind)"; fi
+  [ -n "$UDID" ] || exit 1  # pick has said why on stderr
   # one device at a time: none booted and no test process left over before this one boots
   if xcrun simctl list devices booted | grep -qE "iPhone|iPad" || pgrep -x xcodebuild >/dev/null || ps -Ao args | grep -q "[s]imruntime.*testmanagerd"; then
     echo "another simulator or a test process is still running; shut it down first" >&2
@@ -136,7 +149,7 @@ if [ "$STORE" = 1 ]; then
   for f in "$OUT"/*.png; do
     props="$(sips -g pixelWidth -g pixelHeight -g space -g hasAlpha "$f" | awk 'NR > 1 {printf "%s ", $2}')"
     case "$(basename "$f")" in
-      *_iPhone-*) want="1320 2868 RGB no " ;;
+      *_iPhone-*) want="1206 2622 RGB no " ;;
       *_iPad-*) want="2064 2752 RGB no " ;;
       *) want="?" ;;
     esac
@@ -150,7 +163,7 @@ out = Path(sys.argv[1])
 files = sorted(out.glob("*.png"))
 content = {Path(line.split("  ", 1)[1]).name: line.split("  ", 1)[0]
            for line in subprocess.run([sys.argv[2], "--content", *map(str, files)], capture_output=True, text=True, check=True).stdout.splitlines()}
-displays = {"iPhone": ("iPhone 6.9-inch display", 1320, 2868), "iPad": ("iPad 13-inch display", 2064, 2752)}
+displays = {"iPhone": ("iPhone 6.3-inch display", 1206, 2622), "iPad": ("iPad 13-inch display", 2064, 2752)}
 shots = []
 for kind in ("iPhone", "iPad"):
     for f in sorted(out.glob(f"*_{kind}-*.png")):
