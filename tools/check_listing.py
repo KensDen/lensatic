@@ -6,17 +6,17 @@ is its copy sheet, generated from it by this tool; ios/store/screenshots.json li
 tools/ios_shots.sh --store takes and which stay out of the repository.
 
 The checks: every field is present and no other; the length limits (name 30, subtitle 30, promotional text 170,
-keywords 100, description, review notes and what's new 4,000), counted in UTF-16 units, so the compass emoji counts
-as two, the stricter count; the store name, the subtitle and the description's opening paragraph are the settled
-text, and so are the tagline, the pitch and the wayfinder line in content/stack.json; the promotional text and the
+keywords 100, description, review notes and what's new 4,000), counted in UTF-16 units, so a character outside the
+basic plane counts as two, the stricter count; the store name, the subtitle and the description's opening
+paragraph are the settled text, and so are the tagline, the pitch and the wayfinder line in content/stack.json; the promotional text and the
 description equal fresh builds from the content; the keywords are drawn from the settled candidates, separated by
 commas with no space after them, share no word with the name or subtitle and each appear in the content's text, not
 only inside an address; the listing
 rules, checked case-insensitively on the listing's own fields only (the content legitimately says "leadership
 funds"): category Reference, never Education, no training, course, lesson, certification-prep or leadership
 language, no lenses framing and never "multi-lensatic", no promise words, no other app or product named, and the
-maker named only in the copyright line; no emoji outside the promotional text and the description's opening
-paragraph; the three addresses are the site's own pages and their files exist in docs/; the secondary category is none
+maker named only in the copyright line; no emoji in any field (App Store Connect rejected the compass, 24 October
+2026); the three addresses are the site's own pages and their files exist in docs/; the secondary category is none
 and the availability is the United States only, on iPhone and iPad (the owner's decisions of 29 September 2026); the
 version, the devices, the encryption answer and the privacy answer agree with the app; the README's tagline and
 wayfinder lines equal the content fields;
@@ -64,10 +64,9 @@ PITCH = ("Public sector cyber frameworks are thick woods. Lensatic is the compas
 WAYFINDER = ("Framework Maps is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how "
              "the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber "
              "assurance terrain.")
-COMPASS = "\U0001F9ED"
 OPENING = ("The public sector cyber framework landscape is thick woods: overlapping rules, shifting requirements, and a dozen "
            "trails that all look alike. Lensatic Cyber is the compass that shows where you stand and which way to head "
-           f"next. {COMPASS}")
+           "next.")
 WHATS_INSIDE = "What's inside"
 KEYWORD_CANDIDATES = ("zero trust", "NIST", "CSF", "800-53", "800-207", "800-171", "CMMC", "RMF", "FedRAMP", "CISA", "compliance",
                       "cybersecurity", "federal", "framework", "controls", "reference", "governance")
@@ -123,7 +122,8 @@ EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-
 
 # the store screenshots (section 5): eight screens per device, in this order, at Apple's required sizes
 STORE_SCREENS = ("start", "doors", "door-steps", "stack", "matrix", "ai", "sources", "about-name")
-DISPLAYS = {"iPhone": ("iPhone 6.9-inch display", 1320, 2868), "iPad": ("iPad 13-inch display", 2064, 2752)}
+# the iPhone slot App Store Connect requires is the 6.3-inch display (24 October 2026); the list names the 6.3-inch copies
+DISPLAYS = {"iPhone": ("iPhone 6.3-inch display", 1206, 2622), "iPad": ("iPad 13-inch display", 2064, 2752)}
 
 # the copy sheet's headings: App Store Connect's names for the fields, and a note where the value needs one
 HEADINGS = {"name": "Name", "subtitle": "Subtitle", "promotionalText": "Promotional Text", "description": "Description",
@@ -169,12 +169,12 @@ def as_store(s: str) -> str:
 
 
 def promotional(pitch: str) -> str:
-    """The pitch with the store name, a space and the compass. With "Public sector" (18 October 2026) that form runs to 174
-    UTF-16 units, over the limit of 170, so the promotional text then carries the pitch as the content says it ("Lensatic
-    is the compass"), still with the compass; the store name stays in the name, the subtitle and the description. The
-    owner settles the promotional text at the next submission."""
-    s = f"{as_store(pitch)} {COMPASS}"
-    return s if units(s) <= FIELDS["promotionalText"] else f"{pitch} {COMPASS}"
+    """The pitch with the store name, with no emoji (App Store Connect rejected the compass, 24 October 2026). With
+    "Public sector" (18 October 2026) that form runs to 171 UTF-16 units, over the limit of 170, so the promotional text
+    then carries the pitch as the content says it ("Lensatic is the compass"); the store name stays in the name, the
+    subtitle and the description."""
+    s = as_store(pitch)
+    return s if units(s) <= FIELDS["promotionalText"] else pitch
 
 
 def build_promotional(d: dict) -> str:
@@ -201,7 +201,7 @@ def sheet(listing: dict) -> str:
     out = [f"# {listing.get('name', STORE_NAME)}: App Store Connect copy sheet", "",
            "Generated by `python3 tools/check_listing.py --write` from `ios/store/app-store.json`, the listing's source of "
            "truth; the battery checks that this file equals a fresh generation. Each field's text is in its own block, "
-           "ready to copy. Lengths are counted in UTF-16 units, the stricter count, so the compass emoji counts as two.", ""]
+           "ready to copy. Lengths are counted in UTF-16 units, the stricter count.", ""]
     for key in FIELDS:
         value = listing.get(key)
         out.append(f"## {HEADINGS[key]} (`{key}`)")
@@ -278,7 +278,7 @@ def check(rep) -> None:
     if len(paras) < 2 or paras[1] != as_store(WAYFINDER):
         errs.append("the description's second paragraph is not the wayfinder line with the store name")
     if listing.get("promotionalText") != promotional(PITCH):
-        errs.append("the promotional text is not the pitch (with the store name where it fits the limit), a space and the compass")
+        errs.append("the promotional text is not the pitch (with the store name where it fits the limit)")
     if listing.get("promotionalText") != build_promotional(d):
         errs.append("the promotional text is not a fresh build from meta.pitch; run tools/check_listing.py --write")
     if listing.get("description") != build_description(d):
@@ -334,17 +334,12 @@ def check(rep) -> None:
               "leadership language; no lenses framing or multi-lensatic; no promise words; no other product named; the maker "
               "only in the copyright line (case-insensitive, listing fields only)", errs, f"{len(fields)} strings")
 
-    # emoji: only in the promotional text and the description's opening paragraph
+    # emoji: none in any field (App Store Connect rejected the compass in the promotional text and description, 24 October 2026)
     errs = []
     for p, s in fields:
-        if p == "$.promotionalText":
-            continue
-        if p == "$.description":
-            s = "\n\n".join(s.split("\n\n")[1:])
         for m in EMOJI_RE.finditer(s):
-            errs.append(f"{p}: emoji U+{ord(m.group(0)):04X}" + (" (the description, after its opening paragraph)" if p == "$.description" else ""))
-    rep.check("no emoji outside the promotional text and the description's opening paragraph (none in the name, subtitle "
-              "or keywords)", errs)
+            errs.append(f"{p}: emoji U+{ord(m.group(0)):04X}")
+    rep.check("no emoji in any field (App Store Connect rejects them)", errs)
 
     # the addresses, the version and the app's answers
     errs = []
@@ -442,7 +437,7 @@ def check(rep) -> None:
         hashes = [s.get(k) for s in shots]
         errs += [f"two screenshots share the {what} SHA-256 {x[:12]}" for x in sorted({x for x in hashes if x and hashes.count(x) > 1})]
     rep.check("ios/store/screenshots.json: eight screens per device (start, doors, a door's steps, stack, matrix, AI column, "
-              "sources, About at Why the name) at Apple's sizes (iPhone 6.9-inch 1320 x 2868, iPad 13-inch 2064 x 2752), "
+              "sources, About at Why the name) at Apple's sizes (iPhone 6.3-inch 1206 x 2622, iPad 13-inch 2064 x 2752), "
               "each with the SHA-256 of its file and of its pixels below the status bar, no two alike", errs, f"{len(shots)} screenshots")
 
     # the house rules in ios/store/
