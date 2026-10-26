@@ -51,6 +51,14 @@ struct Shell: View {
             }
         }
         .background(Palette.bg)
+        // a slightly darker scrim than the system's behind a sheet (nits v0.3, item 9), so the card recedes as drawn
+        .overlay {
+            if model.sourcesFor != nil {
+                Color.black.opacity(0.3).ignoresSafeArea().allowsHitTesting(false).accessibilityHidden(true)
+                    .transition(.opacity)
+            }
+        }
+        .animation(.easeOut(duration: 0.2), value: model.sourcesFor)
         .sheet(isPresented: Binding(get: { model.sourcesFor != nil }, set: { if !$0 { model.sourcesFor = nil } })) {
             if let id = model.sourcesFor { SourcesSheet(id: id).environment(model).tint(Palette.link) }
         }
