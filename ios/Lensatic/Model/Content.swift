@@ -184,6 +184,17 @@ struct Authority: Decodable, Sendable {
     struct Deadline: Decodable, Sendable {
         let text: String
         let sourceId: String
+        /// The deadline as a date, only where its own source prints one (content 1.2.18): the app's countdown reads it.
+        let due: Due?
+    }
+
+    /// A dated deadline: the day itself, the fiscal year when the source states one (the date is then its last day),
+    /// what is due and a short form of it for one-line places.
+    struct Due: Decodable, Sendable, Hashable {
+        let date: String
+        let fiscalYear: Int?
+        let label: String
+        let short: String
     }
 
     let nature: Nature
@@ -405,6 +416,9 @@ struct Door: Decodable, Sendable {
 
     struct Step: Decodable, Sendable {
         let order: Int
+        /// The step in a few words, and the condition it applies under when it has one (content 1.2.18, the app's path).
+        let title: String
+        let when: String?
         let layerId: String
         let entityIds: [String]
         let text: String
@@ -421,7 +435,10 @@ struct Door: Decodable, Sendable {
 
     let id: ID
     let title: String
+    /// The trailhead's name in Title Case, and the line under it on the welcome screen (content 1.2.18).
+    let shortTitle: String
     let whoYouAre: String
+    let cardLine: String
     let steps: [Step]
     let pillarView: Nullable<PillarView>
     let paragraph: Nullable<String>

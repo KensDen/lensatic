@@ -27,8 +27,10 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>IBMPlexSans-Regular.ttf</string>
+		<string>IBMPlexSans-SemiBold.ttf</string>
 		<string>IBMPlexSans-Bold.ttf</string>
 		<string>IBMPlexMono-Regular.ttf</string>
+		<string>IBMPlexMono-Medium.ttf</string>
 		<string>IBMPlexMono-Bold.ttf</string>
 	</array>
 	<key>UILaunchScreen</key>

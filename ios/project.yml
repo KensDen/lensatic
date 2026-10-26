@@ -50,8 +50,10 @@ targets:
           - UIInterfaceOrientationLandscapeRight
         UIAppFonts:
           - IBMPlexSans-Regular.ttf
+          - IBMPlexSans-SemiBold.ttf
           - IBMPlexSans-Bold.ttf
           - IBMPlexMono-Regular.ttf
+          - IBMPlexMono-Medium.ttf
           - IBMPlexMono-Bold.ttf
         # the maker line in About, as the web build's --author gives it
         LensaticMaker: Ken Connell

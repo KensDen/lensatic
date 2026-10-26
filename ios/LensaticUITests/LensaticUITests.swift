@@ -1,8 +1,10 @@
 import XCTest
 
-/// Walks the app the way a reader does: every section, an accessibility audit on each screen, a door's step to its
-/// framework entry, both matrix views, the three About links (found by label, never tapped: they leave the app), and
-/// Why the name from the start screen. Words come from content/stack.json, which the test bundle carries.
+/// Walks the app the way a reader does (the redesign, R1): the welcome screen, picking a trailhead, checking off a step
+/// and finding it checked after a relaunch, switching trailheads, a step to its card and the card's Sources sheet, then
+/// every section of the map not yet redesigned (under Explore and Library), both matrix views and the three About links
+/// (found by label, never tapped: they leave the app), with an accessibility audit on each screen. Words come from
+/// content/stack.json, which the test bundle carries.
 @MainActor
 final class LensaticUITests: XCTestCase {
     static let content: [String: Any] = {
@@ -11,7 +13,10 @@ final class LensaticUITests: XCTestCase {
         return (try? JSONSerialization.jsonObject(with: Data(contentsOf: url))) as? [String: Any] ?? [:]
     }()
 
-    static let sections = ["doors", "stack", "matrix", "functions", "ai", "helper", "sources", "glossary", "about"]
+    /// The map's sections R1 keeps as they were, by the tab that holds them (the trailheads now live on My Path).
+    static let explore = ["stack", "matrix", "functions", "ai"]
+    static let library = ["helper", "sources", "glossary", "about"]
+    static let sections = explore + library
 
     var ui: [String: Any] { Self.content["ui"] as? [String: Any] ?? [:] }
     func label(_ key: String) -> String { (ui["labels"] as? [String: String])?[key] ?? key }
@@ -19,34 +24,45 @@ final class LensaticUITests: XCTestCase {
     private var launched: XCUIApplication?
     var app: XCUIApplication { launched ?? XCUIApplication() }
 
-    /// Every test starts from a fresh launch, in portrait, on the section list (iPhone) or the list and the front door (iPad).
-    func launch() {
+    /// Every test starts from a fresh launch, in portrait. By default the progress on the device is forgotten and the
+    /// department's trailhead picked, so the tabs show; `door: nil` starts on the welcome screen, and `reset: false`
+    /// keeps what the last launch saved (the relaunch test).
+    func launch(reset: Bool = true, door: String? = "dow", checked: String? = nil) {
         continueAfterFailure = false
         XCUIDevice.shared.orientation = .portrait
         let app = XCUIApplication()
+        var args: [String] = []
+        if reset { args.append("-LensaticResetProgress") }
+        if let door { args += ["-LensaticDoor", door] }
+        if let checked { args += ["-LensaticChecked", checked] }
+        app.launchArguments = args
         app.launch()
         launched = app
     }
 
     func element(_ id: String) -> XCUIElement { app.descendants(matching: .any).matching(identifier: id).firstMatch }
 
-    /// Back to the section list: on iPhone it is the root of the stack; on iPad it stays beside the page.
-    func showList() {
-        let row = element("section-doors")
-        var tries = 0
-        while !row.isHittable && tries < 6 {
-            let back = app.navigationBars.buttons.element(boundBy: 0)
-            guard back.exists else { break }
-            back.tap()
-            tries += 1
-        }
-        XCTAssertTrue(row.waitForExistence(timeout: 5))
+    func tab(for section: String) -> String { Self.explore.contains(section) ? "tab-explore" : "tab-library" }
+
+    /// The tab's first screen: tapping the open tab goes back to it.
+    func showShelf(_ tab: String) {
+        let button = element(tab)
+        XCTAssertTrue(button.waitForExistence(timeout: 5))
+        button.tap()
+        if !button.isSelected { button.tap() }
     }
 
     func open(_ section: String) {
-        showList()
-        element("section-\(section)").tap()
+        showShelf(tab(for: section))
+        let row = element("section-\(section)")
+        if !row.waitForExistence(timeout: 2) { element(tab(for: section)).tap() }
+        XCTAssertTrue(row.waitForExistence(timeout: 5), section)
+        row.tap()
     }
+
+    func value(_ id: String) -> String? { element(id).value as? String }
+
+    var doors: [[String: Any]] { Self.content["doors"] as? [[String: Any]] ?? [] }
 
     /// Runs the audit on what is on screen. With a region (the part of the screen a page or sheet shows), an issue on
     /// an element that is not wholly inside it is deferred to the scroll position where it is: part under a bar, past
@@ -68,6 +84,12 @@ final class LensaticUITests: XCTestCase {
                 print("AUDIT \(screen): inline link, target size, exempt: \(issue.element?.label ?? "")")
                 return true
             }
+            // the tab bar's labels stop growing at the largest standard size and show in the large content viewer at
+            // the accessibility sizes, as the system's own tab bars do (R1); the issue is printed so the report can count it
+            if issue.auditType == .dynamicType, let frame = issue.element?.frame, frame.minY >= self.tabBarTop() - 1 {
+                print("AUDIT \(screen): tab bar label, capped with the large content viewer, exempt: \(issue.element?.label ?? "")")
+                return true
+            }
             if let region, let frame = issue.element?.frame, !region.insetBy(dx: -1, dy: -1).contains(frame),
                !barItems().contains(where: { same($0, frame) }) {
                 deferred += 1
@@ -79,11 +101,24 @@ final class LensaticUITests: XCTestCase {
         if deferred > 0 { print("AUDIT \(screen): \(deferred) deferred (element not wholly in view here)") }
     }
 
-    /// The part of the screen a page shows: its scroll view below the navigation bar above it, within the window.
+    /// A page of the map under its bar and over the tab bar: the audit reads what the page shows between the two.
+    func auditPage(_ screen: String) throws {
+        let page = app.scrollViews["page"].firstMatch
+        try audit(screen, region: page.waitForExistence(timeout: 5) ? visibleRegion(page) : nil)
+    }
+
+    /// The top of the tab bar, or the window's foot when no tab bar shows.
+    func tabBarTop() -> CGFloat {
+        let tab = app.descendants(matching: .any).matching(identifier: "tab-path").firstMatch
+        return tab.exists ? tab.frame.minY - 8 : app.windows.firstMatch.frame.maxY
+    }
+
+    /// The part of the screen a page shows: its scroll view below the navigation bar above it and above the tab bar,
+    /// within the window.
     func visibleRegion(_ page: XCUIElement) -> CGRect {
         let frame = page.frame, window = app.windows.firstMatch.frame
         let bars = app.navigationBars.allElementsBoundByIndex.map(\.frame).filter { $0.maxX > frame.minX && $0.minX < frame.maxX }
-        let top = max(frame.minY, bars.map(\.maxY).max() ?? frame.minY), bottom = min(frame.maxY, window.maxY)
+        let top = max(frame.minY, bars.map(\.maxY).max() ?? frame.minY), bottom = min(frame.maxY, window.maxY, tabBarTop())
         return CGRect(x: frame.minX, y: top, width: frame.width, height: max(0, bottom - top))
     }
 
@@ -107,20 +142,132 @@ final class LensaticUITests: XCTestCase {
         print("SWEEP \(screen): still scrolling after 80 pages")
     }
 
+    // MARK: the redesign
+
+    func testTheWelcomeScreenOffersTheFourTrailheads() throws {
+        launch(door: nil)
+        XCTAssertTrue(element("welcome").waitForExistence(timeout: 10))
+        for door in doors {
+            let id = try XCTUnwrap(door["id"] as? String)
+            let card = element("door-\(id)")
+            XCTAssertTrue(card.exists, id)
+            XCTAssertTrue(card.label.contains(webTokens(door["shortTitle"] as? String ?? "")), "\(id) shows its name")
+        }
+        XCTAssertFalse(element("tab-path").exists, "no tabs before a trailhead is picked")
+        try audit("welcome")
+    }
+
+    /// The round's acceptance test: pick a door, check off a step, relaunch, and the check is still there.
+    func testPickADoorCheckAStepRelaunchAndTheCheckStays() throws {
+        launch(door: nil)
+        let door = element("door-dow")
+        XCTAssertTrue(door.waitForExistence(timeout: 10))
+        door.tap()
+        XCTAssertTrue(element("my-path").waitForExistence(timeout: 5))
+        let check = element("step-check-1")
+        XCTAssertTrue(check.waitForExistence(timeout: 5))
+        XCTAssertEqual(value("step-check-1"), "Not done")
+        check.tap()
+        XCTAssertEqual(value("step-check-1"), "Done")
+        XCTAssertEqual(value("step-check-2"), "Not done")
+        try audit("my path")
+
+        app.terminate()
+        launch(reset: false, door: nil)
+        XCTAssertTrue(element("my-path").waitForExistence(timeout: 10), "the trailhead is remembered: My Path opens, not the welcome")
+        XCTAssertFalse(element("welcome").exists)
+        XCTAssertEqual(value("step-check-1"), "Done", "the check survived the relaunch")
+        XCTAssertEqual(value("step-check-2"), "Not done")
+        // and a second tap takes it back off, which also survives
+        element("step-check-1").tap()
+        app.terminate()
+        launch(reset: false, door: nil)
+        XCTAssertTrue(element("step-check-1").waitForExistence(timeout: 10))
+        XCTAssertEqual(value("step-check-1"), "Not done")
+    }
+
+    func testSwitchingTrailheadsKeepsEachOnesChecks() throws {
+        launch(door: "dow", checked: "1,2")
+        XCTAssertTrue(element("step-check-2").waitForExistence(timeout: 10))
+        XCTAssertEqual(value("step-check-2"), "Done")
+        element("change-door").tap()
+        let civilian = element("door-federal-civilian")
+        XCTAssertTrue(civilian.waitForExistence(timeout: 5))
+        try audit("welcome, changing")
+        civilian.tap()
+        XCTAssertTrue(element("step-check-1").waitForExistence(timeout: 5))
+        XCTAssertEqual(value("step-check-1"), "Not done", "a new trailhead starts with nothing checked")
+        // Library holds the same setting
+        element("tab-library").tap()
+        let row = element("library-change-door")
+        XCTAssertTrue(row.waitForExistence(timeout: 5))
+        row.tap()
+        let dow = element("door-dow")
+        XCTAssertTrue(dow.waitForExistence(timeout: 5))
+        dow.tap()
+        XCTAssertTrue(element("step-check-2").waitForExistence(timeout: 5))
+        XCTAssertEqual(value("step-check-1"), "Done", "switching back finds the checks again")
+        XCTAssertEqual(value("step-check-2"), "Done")
+    }
+
+    func testAStepOpensToItsCardAndTheCardToItsSources() throws {
+        launch(door: "dow", checked: "1,2")
+        let step = element("step-3")
+        XCTAssertTrue(step.waitForExistence(timeout: 10))
+        step.tap()
+        let entry = element("step-3-entity-dod-zt-ot")
+        XCTAssertTrue(entry.waitForExistence(timeout: 5), "the step opens to the entries it names")
+        entry.tap()
+        XCTAssertTrue(element("entity-card-dod-zt-ot").waitForExistence(timeout: 5))
+        XCTAssertFalse(element("tab-path").exists, "a card is a full screen: the tab bar steps aside")
+        try audit("card dod-zt-ot")
+        // the audit steps the text size up and back; the card's foot moves between pinned and inline as it does, so
+        // the row is found again once the layout settles
+        let verified = element("verified-row")
+        XCTAssertTrue(verified.waitForExistence(timeout: 10))
+        verified.tap()
+        let done = element("sources-done")
+        XCTAssertTrue(done.waitForExistence(timeout: 5), "the Verified row opens the Sources sheet")
+        XCTAssertTrue(element("sources-open").exists)
+        // as with the glossary sheet: the region is what the sheet shows (it scrolls when the text grows), and text
+        // detection is left out, since the card behind the sheet shows text VoiceOver does not reach while it is open
+        let sheet = app.scrollViews["sheet"].firstMatch
+        XCTAssertTrue(sheet.exists)
+        // audited at its full height, as the glossary sheet is: drag the sheet up by its top edge first
+        let top = app.windows.firstMatch.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: sheet.frame.midX, dy: sheet.frame.minY + 8))
+        top.press(forDuration: 0.1, thenDragTo: app.windows.firstMatch.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: sheet.frame.midX, dy: 60)))
+        try audit("sources dod-zt-ot", region: visibleRegion(sheet), types: XCUIAccessibilityAuditType.all.subtracting(.elementDetection))
+        done.tap()
+        XCTAssertTrue(element("card-read").waitForExistence(timeout: 5))
+        element("card-read").tap()
+        XCTAssertTrue(element("sources-done").waitForExistence(timeout: 5), "the primary button opens it too")
+        element("sources-done").tap()
+        element("card-back").tap()
+        XCTAssertTrue(element("my-path").waitForExistence(timeout: 5))
+        XCTAssertTrue(element("tab-path").exists)
+    }
+
+    /// The department's own spelling, as the app resolves the token in a trailhead's name.
+    func webTokens(_ s: String) -> String {
+        let dow = (Self.content["orgs"] as? [String: Any])?["dow"] as? [String: Any]
+        return s.replacingOccurrences(of: "{{dow.current}}", with: dow?["current"] as? String ?? "")
+    }
+
+    // MARK: the map's sections, kept as they were
+
     func testEverySectionAndAnAccessibilityAuditOnEachScreen() throws {
         launch()
         continueAfterFailure = true  // one run reports every screen's audit issues, not only the first screen's
-        XCTAssertTrue(element("section-doors").waitForExistence(timeout: 10))
-        // the start screen's bar carries the map's name, ui.labels.mapName, as its title: the list's on iPhone, the sidebar's on iPad
-        let name = (ui["labels"] as? [String: String])?["mapName"] ?? ""
-        XCTAssertFalse(name.isEmpty)
-        XCTAssertTrue(app.navigationBars.staticTexts[name].firstMatch.waitForExistence(timeout: 5), "the start screen shows its title")
-        try audit("section list")
+        XCTAssertTrue(element("tab-explore").waitForExistence(timeout: 10))
+        for shelf in ["tab-explore", "tab-library", "tab-search"] {
+            showShelf(shelf)
+            try audit(shelf)
+        }
         for section in Self.sections {
             open(section)
             let title = (ui["sections"] as? [String: String])?[section] ?? section
             XCTAssertTrue(app.staticTexts[title].waitForExistence(timeout: 5), "\(section) shows its title")
-            try audit(section)
+            try auditPage(section)
         }
     }
 
@@ -129,8 +276,8 @@ final class LensaticUITests: XCTestCase {
     /// passes wherever it is first on screen, so its findings are read by hand. Each section is its own test, from a
     /// fresh launch, so each section's audits start with their own time budget (session 11: in one test, the audit ran
     /// out of time before About). Runs only in the LensaticAuditSweep scheme, which sets LENSATIC_AUDIT_SWEEP:
-    /// xcodebuild -scheme LensaticAuditSweep -only-testing:LensaticUITests/LensaticUITests/testSweep01Doors (one
-    /// -only-testing per section, testSweep01Doors to testSweep09About) ... test
+    /// xcodebuild -scheme LensaticAuditSweep -only-testing:LensaticUITests/LensaticUITests/testSweep02Stack (one
+    /// -only-testing per section, testSweep02Stack to testSweep09About) ... test
     func sweepSection(_ section: String) throws {
         try XCTSkipUnless(ProcessInfo.processInfo.environment["LENSATIC_AUDIT_SWEEP"] == "1", "the sweep runs only when asked")
         launch()
@@ -139,8 +286,8 @@ final class LensaticUITests: XCTestCase {
         try sweep(section)
     }
 
-    // one test per section, numbered in the web's section order (Self.sections), so a run lists them in that order
-    func testSweep01Doors() throws { try sweepSection("doors") }
+    // one test per section, numbered in the web's section order, so a run lists them in that order (the trailheads,
+    // the web's first section, now live on My Path)
     func testSweep02Stack() throws { try sweepSection("stack") }
     func testSweep03Matrix() throws { try sweepSection("matrix") }
     func testSweep04Functions() throws { try sweepSection("functions") }
@@ -149,36 +296,6 @@ final class LensaticUITests: XCTestCase {
     func testSweep07Sources() throws { try sweepSection("sources") }
     func testSweep08Glossary() throws { try sweepSection("glossary") }
     func testSweep09About() throws { try sweepSection("about") }
-
-    func testADoorStepLeadsToItsFrameworkEntry() throws {
-        launch()
-        // the first step, in content order, that names a framework (not a source or a solution)
-        let frameworks = Self.content["frameworks"] as? [[String: Any]] ?? []
-        let frameworkIDs = Set(frameworks.compactMap { $0["id"] as? String })
-        let doors = Self.content["doors"] as? [[String: Any]] ?? []
-        var found: (door: String, entity: String)?
-        for door in doors where found == nil {
-            for step in door["steps"] as? [[String: Any]] ?? [] {
-                if let id = (step["entityIds"] as? [String])?.first(where: frameworkIDs.contains), let d = door["id"] as? String {
-                    found = (d, id)
-                    break
-                }
-            }
-        }
-        let (doorID, entityID) = try XCTUnwrap(found)
-        open("doors")
-        let card = element("door-\(doorID)")
-        XCTAssertTrue(card.waitForExistence(timeout: 5))
-        card.tap()
-        let link = element("entity-link-\(entityID)")
-        XCTAssertTrue(link.waitForExistence(timeout: 5))
-        try audit("door \(doorID)")
-        link.tap()
-        // the entry's screen is titled with its short name (its heading may carry a first-use expansion)
-        let short = try XCTUnwrap(frameworks.first { $0["id"] as? String == entityID }?["shortName"] as? String)
-        XCTAssertTrue(app.navigationBars[short].waitForExistence(timeout: 5), "the entry \(entityID) opens")
-        try audit("entry \(entityID)")
-    }
 
     /// One of each kind of screen the sections open: a layer of the stack, a matrix cell, and a glossary entry.
     func testALayerACellAndAGlossaryEntryPassTheAudit() throws {
@@ -191,17 +308,18 @@ final class LensaticUITests: XCTestCase {
         XCTAssertTrue(row.waitForExistence(timeout: 5))
         row.tap()
         XCTAssertTrue(app.scrollViews["page"].firstMatch.waitForExistence(timeout: 5))
-        try audit("layer \(layer)")
+        try auditPage("layer \(layer)")
 
         open("matrix")
         let cell = element("cell-dow-user-GV")
         XCTAssertTrue(cell.waitForExistence(timeout: 5))
-        cell.tap()
+        // the cell starts near the foot of the page, its lower part under the tab bar: tap its top edge
+        cell.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.1)).tap()
         // the cell's screen is titled with its pillar's name in the view
         let pillars = (Self.content["pillars"] as? [String: Any])?["canonical"] as? [[String: Any]] ?? []
         let user = try XCTUnwrap(pillars.first { $0["id"] as? String == "user" }?["dowName"] as? String)
         XCTAssertTrue(app.navigationBars[user].waitForExistence(timeout: 5), "the cell opens")
-        try audit("matrix cell user GV")
+        try auditPage("matrix cell user GV")
 
         // a glossary term in running text opens its entry in a sheet
         open("stack")
@@ -228,7 +346,7 @@ final class LensaticUITests: XCTestCase {
         cisa.tap()
         XCTAssertTrue(element("pillar-view-cisa").isSelected)
         XCTAssertTrue(element("cell-cisa-governance-GV").waitForExistence(timeout: 5), "CISA's governance capability shows")
-        try audit("matrix, CISA view")
+        try auditPage("matrix, CISA view")
         element("pillar-view-dow").tap()
         XCTAssertTrue(element("cell-dow-user-GV").waitForExistence(timeout: 5))
         XCTAssertFalse(element("cell-cisa-governance-GV").exists)
@@ -242,22 +360,5 @@ final class LensaticUITests: XCTestCase {
             XCTAssertTrue(link.waitForExistence(timeout: 5), id)
             XCTAssertEqual(link.label, label(key))
         }
-    }
-
-    func testWhyTheNameOpensAboutAtItsHeadingWithThePhoto() {
-        launch()
-        open("doors")
-        let why = element("why-name")
-        XCTAssertTrue(why.waitForExistence(timeout: 5))
-        XCTAssertEqual(why.label, label("whyName"))
-        why.tap()
-        let heading = element("about-name")
-        XCTAssertTrue(heading.waitForExistence(timeout: 5))
-        XCTAssertEqual(heading.label, label("whyNameHeading"))
-        XCTAssertTrue(heading.isHittable, "About opens scrolled to the heading")
-        let photo = element("about-photo")
-        XCTAssertTrue(photo.exists)
-        XCTAssertEqual(photo.label, label("aboutPhotoAlt"))
-        XCTAssertEqual(photo.elementType, .image)
     }
 }

@@ -17,17 +17,26 @@ enum Palette {
     static let seam = Color("seam")
     static let bad = Color("bad")
     static let chipBg = Color("chip-bg")
+    // the redesign (R1): the field system's second surface, the mark tile and the section accents (hub/DESIGN.md)
+    static let bg3 = Color("bg-3")
+    static let tileBg = Color("tile-bg")
+    static let tileFg = Color("tile-fg")
+    static let secMaps = Color("sec-maps")
+    static let secGuides = Color("sec-guides")
+    static let secPurple = Color("sec-playbook")
+    static let onSecMaps = Color("on-sec-maps")
 
     /// Every colour set the views read, for the test that each one resolves.
-    static let names = ["bg", "bg-2", "fg", "fg-2", "line", "line-strong", "accent", "accent-fg", "link", "focus", "seam", "bad", "chip-bg"]
+    static let names = ["bg", "bg-2", "fg", "fg-2", "line", "line-strong", "accent", "accent-fg", "link", "focus", "seam", "bad", "chip-bg",
+                        "bg-3", "tile-bg", "tile-fg", "sec-maps", "sec-guides", "sec-playbook", "on-sec-maps"]
 }
 
 /// IBM Plex Sans for text and IBM Plex Mono for the label roles the web gives it. Every face is scaled with Dynamic
 /// Type: each size is relative to a system text style. The names are the PostScript names in IBM's own TrueType files.
 enum Typo {
-    static let sans = "IBMPlexSans", sansBold = "IBMPlexSans-Bold"
-    static let mono = "IBMPlexMono", monoBold = "IBMPlexMono-Bold"
-    static let faces = [sans, sansBold, mono, monoBold]
+    static let sans = "IBMPlexSans", sansSemi = "IBMPlexSans-SmBld", sansBold = "IBMPlexSans-Bold"
+    static let mono = "IBMPlexMono", monoMedium = "IBMPlexMono-Medm", monoBold = "IBMPlexMono-Bold"
+    static let faces = [sans, sansSemi, sansBold, mono, monoMedium, monoBold]
 
     static func font(_ face: String, _ size: CGFloat, _ style: Font.TextStyle) -> Font {
         Font.custom(face, size: size, relativeTo: style)

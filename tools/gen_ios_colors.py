@@ -2,7 +2,9 @@
 """Write the iOS app's colour sets from the web's theme tokens (session 8, section 2.7).
 
 Reads the token blocks at the top of web/src/styles.css, the same blocks the pages build copies: the paper theme
-(:root) gives each colour's light value and the dial theme (:root[data-theme="dark"]) its dark value. A token that is
+(:root) gives each colour's light value and the dial theme (:root[data-theme="dark"]) its dark value. The redesign (R1,
+26 October 2026) also takes, from the field system's shared file hub/lensatic.css and in the same two blocks, the tokens
+the map's stylesheet does not declare: the second surface (--bg-3), the three section accents and their button labels. A token that is
 not six-digit hex in both (the translucent --fade, --shadow, and the sizes and type stacks) is skipped. One .colorset
 per token, named after it, under ios/Lensatic/Resources/Assets.xcassets/Colors/, sRGB; any other colour set there is
 removed. Deterministic: the output depends only on styles.css, so the battery regenerates into .tmp/ and diffs.
@@ -20,6 +22,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 STYLES = ROOT / "web" / "src" / "styles.css"
+SHARED = ROOT / "hub" / "lensatic.css"
 OUT = ROOT / "ios" / "Lensatic" / "Resources" / "Assets.xcassets" / "Colors"
 HEX = re.compile(r"#([0-9A-Fa-f]{6})")
 INFO = {"author": "xcode", "version": 1}
@@ -50,6 +53,11 @@ def dump(obj: dict) -> str:
 def tokens() -> list[tuple[str, str, str]]:
     css = STYLES.read_text(encoding="utf-8")
     light, dark = block(css, ":root"), block(css, ':root[data-theme="dark"]')
+    shared = SHARED.read_text(encoding="utf-8")
+    for name, value in block(shared, ":root").items():  # the map's own value wins where both declare a token
+        light.setdefault(name, value)
+    for name, value in block(shared, ':root[data-theme="dark"]').items():
+        dark.setdefault(name, value)
     out = []
     for name, value in light.items():
         lm, dm = HEX.fullmatch(value.strip()), HEX.fullmatch(dark.get(name, "").strip())

@@ -1,41 +1,90 @@
 import Foundation
 import Observation
 
-/// Where the reader is: the selected section, the screens pushed inside it, the matrix's pillar view and the glossary
-/// entry open over the page. Held in memory only: the app stores nothing, so every launch starts at the sections.
+/// One screen pushed inside a tab: a framework, source or solution as its card (the redesign's Framework card), a
+/// section of the map not yet redesigned, or a screen pushed inside one.
+enum Nav: Hashable, Sendable {
+    case entity(String)
+    case section(Section)
+    case legacy(Route)
+}
+
+extension Route {
+    /// A screen pushed from a page of the map, as the tabs' stacks hold it: an entry opens as its card.
+    var nav: Nav {
+        if case .entity(let id) = self { return .entity(id) }
+        return .legacy(self)
+    }
+}
+
+/// Where the reader is (the redesign, R1): the trailhead and the steps they checked off (kept on the device by
+/// `ProgressStore`), the tab, the screens pushed inside each tab, the matrix's pillar view and the glossary entry open
+/// over a page.
 @Observable @MainActor
 final class AppModel {
     let store: ContentStore
     let builder: PageBuilder
-    var selection: Section?
-    var path: [Route] = []
+    let progress: ProgressStore
+    var tab: AppTab = .path
+    var paths: [AppTab: [Nav]] = [:]
+    /// The welcome screen over the tabs, to pick a different trailhead (Change on My Path, the Library's row).
+    var changingDoor = false
     var matrixView: PillarView = .dow
     /// A heading to scroll to when the next section screen appears (Why the name, a glossary entry).
     var pendingAnchor: String?
     var glossaryEntry: GlossarySheet?
+    /// The Sources sheet over a card, by the card's entity id.
+    var sourcesFor: String?
     @ObservationIgnored private var cache: [PageKey: Page] = [:]
+    @ObservationIgnored private var plans: [Door.ID: PathPlan] = [:]
 
     struct GlossarySheet: Identifiable, Hashable {
         let slug: String
         var id: String { slug }
     }
 
-    init(store: ContentStore) {
+    init(store: ContentStore, progress: ProgressStore = ProgressStore()) {
         self.store = store
+        self.progress = progress
         builder = PageBuilder(store: store)
         #if DEBUG
-        // the screenshot tool (tools/ios_shots.sh) opens a section by launch argument, and optionally a heading in it or a
-        // screen pushed inside it, named by the address its links carry (lensatic:/door/<id>)
-        let args = ProcessInfo.processInfo.arguments
-        if let i = args.firstIndex(of: "-LensaticScreen"), i + 1 < args.count, let s = Section(rawValue: args[i + 1]) {
-            selection = s
-            if let j = args.firstIndex(of: "-LensaticAnchor"), j + 1 < args.count { pendingAnchor = args[j + 1] }
-            if let j = args.firstIndex(of: "-LensaticPush"), j + 1 < args.count, let url = URL(string: args[j + 1]),
-               case .push(let route)? = Target(url: url) {
-                path = [route]
-            }
-        }
+        debugLaunch(ProcessInfo.processInfo.arguments)
         #endif
+    }
+
+    // MARK: the path
+
+    var door: Door? { progress.door.flatMap(door) }
+
+    func door(_ id: Door.ID) -> Door? { store.content.doors.first { $0.id == id } }
+
+    func plan(_ door: Door) -> PathPlan {
+        if let hit = plans[door.id] { return hit }
+        let plan = PathPlan(door: door, entities: store.entities)
+        plans[door.id] = plan
+        return plan
+    }
+
+    /// Picking a trailhead opens My Path at its top; each trailhead keeps its own checks.
+    func choose(_ id: Door.ID) {
+        progress.choose(id)
+        changingDoor = false
+        paths[.path] = []
+        tab = .path
+        if let view = door(id)?.pillarView.value { matrixView = view }
+    }
+
+    // MARK: navigation
+
+    /// Whether the open tab shows a card: the tab bar is hidden then.
+    var cardOnTop: Bool {
+        if case .entity? = paths[tab]?.last { return true }
+        return false
+    }
+
+    func push(_ nav: Nav) {
+        glossaryEntry = nil
+        paths[tab, default: []].append(nav)
     }
 
     func page(_ key: PageKey) -> Page {
@@ -45,18 +94,19 @@ final class AppModel {
         return page
     }
 
-    /// Follow a link or a control. Outside addresses are not handled here: views open them through `openURL`, which
-    /// hands them to the system browser.
+    /// Follow a link or a control from a page of the map. Outside addresses are not handled here: views open them
+    /// through `openURL`, which hands them to the system browser. An entry opens as its card; the trailheads now live
+    /// on My Path.
     func go(_ target: Target) {
         switch target {
+        case .section(.doors, _):
+            glossaryEntry = nil
+            tab = .path
         case .section(let s, let anchor):
             pendingAnchor = anchor
-            path = []
-            glossaryEntry = nil
-            selection = s
+            push(.section(s))
         case .push(let route):
-            glossaryEntry = nil
-            path.append(route)
+            push(route.nav)
         case .glossary(let slug):
             glossaryEntry = GlossarySheet(slug: slug)
         case .anchor, .external:
@@ -70,6 +120,32 @@ final class AppModel {
             matrixView = view
         }
     }
+
+    #if DEBUG
+    /// Launch arguments for the UI tests and the screenshot sheet (Debug builds only): -LensaticResetProgress forgets
+    /// the trailhead and every check; -LensaticDoor <id> picks a trailhead; -LensaticChecked <1,2> checks those steps on
+    /// it; -LensaticEntity <id> opens that card on My Path and -LensaticSources its Sources sheet; -LensaticScreen
+    /// <section> opens a section of the map on the tab that holds it.
+    private func debugLaunch(_ args: [String]) {
+        func value(_ flag: String) -> String? { args.firstIndex(of: flag).flatMap { $0 + 1 < args.count ? args[$0 + 1] : nil } }
+        if args.contains("-LensaticResetProgress") { progress.reset() }
+        if let d = value("-LensaticDoor").flatMap(Door.ID.init(rawValue:)) {
+            progress.choose(d)
+            if let checks = value("-LensaticChecked") {
+                for n in checks.split(separator: ",").compactMap({ Int($0) }) where !progress.isChecked(d, n) { progress.toggle(d, n) }
+            }
+        }
+        if let id = value("-LensaticEntity"), store.entities[id] != nil {
+            paths[.path] = [.entity(id)]
+            if args.contains("-LensaticSources") { sourcesFor = id }
+        }
+        if let s = value("-LensaticScreen").flatMap(Section.init(rawValue:)) {
+            tab = LegacyShelf.tab(for: s)
+            paths[tab] = [.section(s)]
+            pendingAnchor = value("-LensaticAnchor")
+        }
+    }
+    #endif
 }
 
 extension Target {

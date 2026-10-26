@@ -1,92 +1,156 @@
 import SwiftUI
 
-/// The sections in the web's order: on iPhone a list that pushes each section, on iPad the same list as the sidebar
-/// of a split view. Every section is one tap from the list; every entry is reachable within three.
+/// The app (the redesign, R1): the welcome screen until a trailhead is picked, then the four tabs. Change brings the
+/// welcome screen back over the tabs; a glossary entry and an entry's Sources open as sheets.
 struct RootView: View {
     @Environment(AppModel.self) private var model
-    @Environment(\.horizontalSizeClass) private var sizeClass
-    @State private var columns = RootView.startColumns
-
-    /// Both columns; a Debug build started with -LensaticDetailOnly hides the list, for the screenshot tool
-    /// (tools/ios_shots.sh --store)
-    private static var startColumns: NavigationSplitViewVisibility {
-        #if DEBUG
-        if ProcessInfo.processInfo.arguments.contains("-LensaticDetailOnly") { return .detailOnly }
-        #endif
-        return .all
-    }
 
     var body: some View {
         @Bindable var model = model
-        NavigationSplitView(columnVisibility: $columns) {
-            // the window's size class, read here: inside the split view the sidebar column is always compact
-            SectionList(isStartScreen: sizeClass == .compact)
-        } detail: {
-            NavigationStack(path: $model.path) {
-                Group {
-                    if let s = model.selection {
-                        // one identity per section, so a jump between sections starts a fresh page (and its scroll)
-                        PageScreen(key: .section(s, s == .matrix ? model.matrixView : .dow)).id(s)
-                    } else {
-                        Palette.bg.ignoresSafeArea()
-                    }
-                }
-                .navigationDestination(for: Route.self) { route in
-                    PageScreen(key: .route(route))
-                        .onAppear { model.opened(route) }
-                }
+        Group {
+            if model.door == nil {
+                WelcomeView()
+            } else {
+                Shell()
             }
         }
-        .navigationSplitViewStyle(.balanced)
         .tint(Palette.link)
+        .sheet(isPresented: $model.changingDoor) {
+            WelcomeView(isChange: true)
+                .environment(model)
+        }
         .sheet(item: $model.glossaryEntry) { entry in
             GlossarySheetView(slug: entry.slug)
                 .presentationDetents([.large])
                 .presentationDragIndicator(.visible)
                 .tint(Palette.link)
         }
-        .onAppear {
-            // iPad opens with the list beside the front door; iPhone opens on the list
-            if sizeClass == .regular && model.selection == nil { model.selection = .doors }
-        }
-        .onChange(of: model.selection) { model.path = [] }
     }
 }
 
-struct SectionList: View {
+/// The four tabs, each its own navigation stack (the screens pushed in each are kept while the reader is elsewhere),
+/// over the tab bar. Tapping the tab already open goes back to its first screen.
+struct Shell: View {
     @Environment(AppModel.self) private var model
-    /// On iPhone the list is the start screen; on iPad it is the sidebar.
-    var isStartScreen = false
 
     var body: some View {
         @Bindable var model = model
-        let page = model.page(.root)
-        List(selection: $model.selection) {
-            if case .rows(let rows)? = page.blocks.first?.kind {
-                ForEach(Array(zip(model.store.sections, rows)), id: \.0) { section, row in
-                    NavigationLink(value: section) {
-                        HStack(alignment: .firstTextBaseline, spacing: 12) {
-                            if let lead = row.lead {
-                                Text(lead.text).font(Typo.secNum).foregroundStyle(Palette.accent)
-                            }
-                            Text(row.title.text).font(Typo.rowTitle).foregroundStyle(Palette.fg)
-                        }
-                        .padding(.vertical, 6)
-                        .frame(minHeight: 44)
-                    }
-                    .accessibilityLabel(row.title.text)
-                    .accessibilityHint(row.title.described.joined(separator: ", "))
-                    .accessibilityIdentifier(row.identifier)
-                    .listRowBackground(Palette.bg2)
-                }
+        let tab = model.tab
+        VStack(spacing: 0) {
+            NavigationStack(path: Binding(get: { model.paths[tab] ?? [] }, set: { model.paths[tab] = $0 })) {
+                root(tab)
+                    .navigationDestination(for: Nav.self) { destination($0) }
+            }
+            .id(tab)
+            // a card is a full screen of its own, as the mockup draws it: the tab bar steps aside while it is open
+            if !model.cardOnTop {
+                TabBar(selection: Binding(get: { model.tab }, set: { new in
+                if new == model.tab { model.paths[new] = [] }
+                model.tab = new
+            }))
             }
         }
-        .scrollContentBackground(.hidden)
         .background(Palette.bg)
-        .navigationTitle(page.title)
-        // the start screen carries the map's name, ui.labels.mapName, as a large title, set inline: the solid bar (Appearance) covers a
-        // large title drawn below it. As the iPad's sidebar the list keeps its bar's usual title, the same name.
-        .toolbarTitleDisplayMode(isStartScreen ? .inlineLarge : .automatic)
+        .sheet(isPresented: Binding(get: { model.sourcesFor != nil }, set: { if !$0 { model.sourcesFor = nil } })) {
+            if let id = model.sourcesFor { SourcesSheet(id: id).environment(model).tint(Palette.link) }
+        }
+    }
+
+    @ViewBuilder private func root(_ tab: AppTab) -> some View {
+        switch tab {
+        case .path: MyPathView()
+        case .explore: ShelfView(tab: .explore)
+        case .search: SearchPlaceholderView()
+        case .library: ShelfView(tab: .library)
+        }
+    }
+
+    @ViewBuilder private func destination(_ nav: Nav) -> some View {
+        switch nav {
+        case .entity(let id):
+            EntityCardView(id: id)
+        case .section(let s):
+            // one identity per section, so a jump between sections starts a fresh page (and its scroll)
+            PageScreen(key: .section(s, s == .matrix ? model.matrixView : .dow)).id(s)
+        case .legacy(let route):
+            PageScreen(key: .route(route)).onAppear { model.opened(route) }
+        }
+    }
+}
+
+/// Where the sections of the map that R1 does not redesign live until their own screens arrive (R2): the stack, the
+/// matrix, the six functions and the AI column under Explore; the questions, sources, glossary and About under Library.
+enum LegacyShelf {
+    static let explore: [Section] = [.stack, .matrix, .functions, .ai]
+    static let library: [Section] = [.helper, .sources, .glossary, .about]
+
+    static func tab(for s: Section) -> AppTab {
+        if s == .doors { return .path }
+        return explore.contains(s) ? .explore : .library
+    }
+}
+
+/// Explore and Library in R1: a header and the map's sections as list rows, each opening the section as the map shows
+/// it. Library also holds the trailhead setting.
+struct ShelfView: View {
+    @Environment(AppModel.self) private var model
+    let tab: AppTab
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                ScreenHeader(eyebrow: model.store.label("mapName"), title: tab.title)
+                if tab == .library, let door = model.door {
+                    VStack(alignment: .leading, spacing: 8) {
+                        SectionLabel(text: "Your trailhead")
+                        Button { model.changingDoor = true } label: {
+                            ListRow(title: door.shortTitle, subtitle: "Change where you stand", icon: door.id.icon, iconColor: door.id.color)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityIdentifier("library-change-door")
+                    }
+                }
+                VStack(alignment: .leading, spacing: 8) {
+                    SectionLabel(text: tab == .library ? "Reference" : "The map")
+                    ForEach(tab == .library ? LegacyShelf.library : LegacyShelf.explore, id: \.self) { s in
+                        NavigationLink(value: Nav.section(s)) {
+                            ListRow(title: TitleCase.apply(model.store.navTitle(s)), subtitle: model.store.sectionTitle(s))
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityIdentifier("section-\(s.rawValue)")
+                    }
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 12)
+            .padding(.bottom, 24)
+        }
+        .background(Palette.bg)
+        .toolbar(.hidden, for: .navigationBar)
+    }
+}
+
+/// Search in R1: a placeholder until R2 brings one search across frameworks, steps and the glossary.
+struct SearchPlaceholderView: View {
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                ScreenHeader(title: "Search")
+                HStack(spacing: 12) {
+                    Icon(.search, size: 24, color: Palette.fg2)
+                    Text("One search across frameworks, path steps and the glossary arrives in the next update.")
+                        .font(DS.step).foregroundStyle(Palette.fg2)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(16)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .card(radius: 14)
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 12)
+        }
+        .background(Palette.bg)
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 
@@ -100,6 +164,8 @@ struct PageScreen: View {
         PageView(page: page)
             .navigationTitle(page.title)
             .navigationBarTitleDisplayMode(.inline)
+            // the map's pages keep their bar, with its back button and title, under a tab whose first screen hides one
+            .toolbar(.visible, for: .navigationBar)
     }
 }
 

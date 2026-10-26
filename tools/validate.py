@@ -26,6 +26,7 @@ from __future__ import annotations
 import codecs
 import hashlib
 import copy
+import datetime
 import json
 import re
 import sys
@@ -94,6 +95,8 @@ DOW_REQUIRED = ["current", "abbr", "statutory", "basis", "verifiedOn", "renderRu
 STATUSES = ("verified", "authored", "unverified", "conflict")
 URL_RE = re.compile(r"https?://\S+")
 EM_DASH = "\u2014"
+# the words a Title Case name leaves in lower case (content 1.2.18, the app's trailhead names)
+TITLE_SMALL_WORDS = {"a", "an", "and", "as", "at", "by", "for", "in", "of", "on", "or", "the", "to", "with"}
 TOKEN_RE = re.compile(r"\{\{([^{}]*)\}\}")
 # The forbidden word is never written into this repository: FORBIDDEN_WORD is read at run time from the local
 # sweep source, like the sweep terms (see local_sweep_source below).
@@ -514,7 +517,7 @@ def main() -> int:
     rep.info(f"all verification objects: {fmt(total)}")
 
     # 5. authority
-    errs = []
+    errs, dues = [], 0
     for coll, items in (("frameworks", frameworks), ("sources", sources), ("solutions", solutions)):
         for i, it in enumerate(items):
             a = it.get("authority")
@@ -526,7 +529,28 @@ def main() -> int:
             d = a.get("deadline")
             if isinstance(d, dict) and d.get("sourceId") not in entity_ids:
                 errs.append(f"$.{coll}[{i}] ({it.get('id')}): deadline.sourceId {d.get('sourceId')!r} does not resolve")
-    rep.check("every framework, source and solution has an authority object with non-empty binds", errs)
+            # content 1.2.18: a deadline carries a date (due) only where its own source prints it, so the app's countdown
+            # never runs to an invented date: the entry is its own deadline source and its authority record is verified
+            due = d.get("due") if isinstance(d, dict) else None
+            if isinstance(due, dict):
+                p = f"$.{coll}[{i}] ({it.get('id')}): deadline.due"
+                dues += 1
+                if d.get("sourceId") != it.get("id"):
+                    errs.append(f"{p}: only the entry whose own source states the date may carry it (sourceId is {d.get('sourceId')!r})")
+                if (a.get("verification") or {}).get("status") != "verified":
+                    errs.append(f"{p}: the authority record must be verified")
+                try:
+                    datetime.date.fromisoformat(str(due.get("date")))
+                except ValueError:
+                    errs.append(f"{p}: date {due.get('date')!r} is not a calendar date")
+                fy = due.get("fiscalYear")
+                if fy is not None:
+                    if due.get("date") != f"{fy}-09-30":
+                        errs.append(f"{p}: fiscal year {fy} ends on {fy}-09-30, not {due.get('date')}")
+                    if str(fy) not in d.get("text", ""):
+                        errs.append(f"{p}: the deadline text does not name fiscal year {fy}")
+    rep.check("every framework, source and solution has an authority object with non-empty binds; a dated deadline (due) sits on "
+              "its own verified source, and a fiscal year's date is its last day", errs, f"{dues} dated")
 
     # 5b. solutions: implementation vehicles, measured against a model, never listed as frameworks
     errs = []
@@ -635,7 +659,18 @@ def main() -> int:
                     errs.append(f"door {d.get('id')} step {s.get('order')}: entityId {e!r} does not resolve")
         if d.get("id") == "other" and not d.get("paragraph"):
             errs.append("door other: paragraph is required")
-    rep.check("doors: at most seven steps each, every entityId and layerId resolves", errs)
+        # content 1.2.18: the app's short titles. A trailhead's name is in Title Case; a step's title is a short
+        # sentence that differs from every other step title on its trailhead; a condition starts with If
+        for w in re.findall(r"[A-Za-z][\w'-]*", re.sub(r"\{\{[^}]*\}\}", "", d.get("shortTitle", ""))):
+            if w[0].islower() and w not in TITLE_SMALL_WORDS:
+                errs.append(f"door {d.get('id')}: shortTitle word {w!r} is not in Title Case")
+        titles = [s.get("title") for s in steps]
+        if len(set(titles)) != len(titles):
+            errs.append(f"door {d.get('id')}: two steps share a title")
+        for s in steps:
+            if "when" in s and not s["when"].startswith("If "):
+                errs.append(f"door {d.get('id')} step {s.get('order')}: when must start with If")
+    rep.check("doors: at most seven steps each, every entityId and layerId resolves; short titles in Title Case, step titles distinct", errs)
 
     # 9. sweep (plain and rot13 forms)
     terms, source_desc = load_sweep_terms()

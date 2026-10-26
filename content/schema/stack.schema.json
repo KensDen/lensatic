@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:lensatic:stack.schema:1.2.17",
+  "$id": "urn:lensatic:stack.schema:1.2.18",
   "title": "Lensatic content model",
   "description": "Schema for content/stack.json, the single source of truth for Lensatic. Every rendered string lives in that file once. Prose refers to the department only through the tokens {{dow}} and {{dow.<field>}}, which render from orgs.dow.",
   "type": "object",
@@ -691,6 +691,38 @@
             },
             "sourceId": {
               "$ref": "#/$defs/id"
+            },
+            "due": {
+              "description": "The deadline as a date, only where the deadline's own source prints a calendar date or a fiscal year (a fiscal year's date is its last day, 30 September); a relative or suspended deadline has none (content 1.2.18)",
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "date",
+                "label",
+                "short"
+              ],
+              "properties": {
+                "date": {
+                  "$ref": "#/$defs/isoDate"
+                },
+                "fiscalYear": {
+                  "type": "integer",
+                  "minimum": 2000,
+                  "maximum": 2100
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 60,
+                  "pattern": "^\\S(?:.*[^.\\s])?$"
+                },
+                "short": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 24,
+                  "pattern": "^\\S(?:.*[^.\\s])?$"
+                }
+              }
             }
           }
         },
@@ -1280,6 +1312,7 @@
       "additionalProperties": false,
       "required": [
         "order",
+        "title",
         "layerId",
         "entityIds",
         "text",
@@ -1290,6 +1323,20 @@
           "type": "integer",
           "minimum": 1,
           "maximum": 7
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 52,
+          "pattern": "^\\S(?:.*[^.\\s])?$",
+          "description": "The step in a few words, for the app's path (content 1.2.18)"
+        },
+        "when": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60,
+          "pattern": "^\\S(?:.*[^.\\s])?$",
+          "description": "The condition under which the step applies, when it has one (content 1.2.18)"
         },
         "layerId": {
           "$ref": "#/$defs/id"
@@ -1316,7 +1363,9 @@
       "required": [
         "id",
         "title",
+        "shortTitle",
         "whoYouAre",
+        "cardLine",
         "steps",
         "pillarView",
         "paragraph",
@@ -1335,8 +1384,22 @@
           "type": "string",
           "minLength": 1
         },
+        "shortTitle": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^\\S(?:.*[^.\\s])?$",
+          "description": "The trailhead's name in Title Case, for the app (content 1.2.18)"
+        },
         "whoYouAre": {
           "$ref": "#/$defs/prose"
+        },
+        "cardLine": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^\\S(?:.*[^.\\s])?$",
+          "description": "The line under the trailhead's name on the app's welcome screen when no dated deadline lies ahead (content 1.2.18)"
         },
         "steps": {
           "type": "array",

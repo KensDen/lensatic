@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.17",
-    "builtOn": "2026-10-24",
+    "contentVersion": "1.2.18",
+    "builtOn": "2026-10-26",
     "sources": [
       "csf20",
       "sp800-207",
@@ -200,6 +200,11 @@
         "version": "1.2.17",
         "date": "2026-10-24",
         "summary": "NSA's zero trust information sheet on operational technology of 8 October 2026 joins its entry, and the AI Defense Matrix names its authors. The DoD Zero Trust Overlays link goes to the archived copy, SP 800-53A notes Release 5.2.0, the AI RMF records its recheck, About says the work may be read, reviewed and used for personal study, the AI column says Human in Command, and the glossary links the playbook section's glossary."
+      },
+      {
+        "version": "1.2.18",
+        "date": "2026-10-26",
+        "summary": "The two deadlines whose sources print a calendar date now carry that date, so the app can count down to it: Target Level by the end of fiscal year 2027 and the M-22-09 goals by the end of fiscal year 2024. Each trailhead and each of its steps also carries a short title for the app."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -478,7 +483,13 @@
         ],
         "deadline": {
           "text": "Target Level zero trust across the department by the end of fiscal year 2027",
-          "sourceId": "dod-zt-strategy"
+          "sourceId": "dod-zt-strategy",
+          "due": {
+            "date": "2027-09-30",
+            "fiscalYear": 2027,
+            "label": "Target Level zero trust",
+            "short": "Target Level"
+          }
         },
         "note": "Directs {{dow}} components; other organizations may borrow the pillar model but are not bound by it.",
         "verification": {
@@ -1233,7 +1244,13 @@
         ],
         "deadline": {
           "text": "Specific zero trust security goals by the end of fiscal year 2024",
-          "sourceId": "omb-m2209"
+          "sourceId": "omb-m2209",
+          "due": {
+            "date": "2024-09-30",
+            "fiscalYear": 2024,
+            "label": "Zero trust security goals",
+            "short": "Security goals"
+          }
         },
         "note": "Binds the heads of executive departments and agencies under 44 U.S.C. 3502, {{dow}} included; the maturity model organizes the goals, the memo requires them.",
         "verification": {
@@ -3468,12 +3485,15 @@
     {
       "id": "federal-civilian",
       "title": "Federal civilian agency",
+      "shortTitle": "Federal Civilian Agency",
       "whoYouAre": "You run or build systems for a federal civilian agency, and you have been told to do zero trust.",
+      "cardLine": "M-22-09, CISA ZTMM",
       "pillarView": "cisa",
       "paragraph": null,
       "steps": [
         {
           "order": 1,
+          "title": "Start with EO 14028",
           "layerId": "l1",
           "entityIds": [
             "eo14028"
@@ -3491,6 +3511,7 @@
         },
         {
           "order": 2,
+          "title": "Meet the M-22-09 goals",
           "layerId": "l3",
           "entityIds": [
             "omb-m2209",
@@ -3510,6 +3531,7 @@
         },
         {
           "order": 3,
+          "title": "Define zero trust with SP 800-207",
           "layerId": "l2",
           "entityIds": [
             "sp800-207"
@@ -3527,6 +3549,7 @@
         },
         {
           "order": 4,
+          "title": "Place yourself on the CISA maturity model",
           "layerId": "l3",
           "entityIds": [
             "cisa-ztmm"
@@ -3544,6 +3567,7 @@
         },
         {
           "order": 5,
+          "title": "Select controls from SP 800-53 through the RMF",
           "layerId": "l4",
           "entityIds": [
             "sp800-53",
@@ -3563,6 +3587,7 @@
         },
         {
           "order": 6,
+          "title": "Express the target as a CSF 2.0 Profile",
           "layerId": "l1",
           "entityIds": [
             "csf20",
@@ -3582,6 +3607,7 @@
         },
         {
           "order": 7,
+          "title": "Assess, authorize and keep your plan current",
           "layerId": "l5",
           "entityIds": [
             "rmf-ato",
@@ -3620,12 +3646,15 @@
     {
       "id": "dow",
       "title": "{{dow}} component",
+      "shortTitle": "{{dow.current}} Component",
       "whoYouAre": "You are a {{dow}} component, or a program that reports to one, working toward Target Level zero trust.",
+      "cardLine": "DoD ZT Strategy, DoD ZT Roadmap",
       "pillarView": "dow",
       "paragraph": null,
       "steps": [
         {
           "order": 1,
+          "title": "Read the DoD ZT Strategy and roadmap",
           "layerId": "l3",
           "entityIds": [
             "dod-zt-strategy",
@@ -3645,6 +3674,7 @@
         },
         {
           "order": 2,
+          "title": "Map your work to the seven pillars",
           "layerId": "l3",
           "entityIds": [
             "dod-zt-strategy",
@@ -3664,6 +3694,8 @@
         },
         {
           "order": 3,
+          "title": "Add zero trust for operational tech",
+          "when": "If you own control systems",
           "layerId": "l3",
           "entityIds": [
             "dod-zt-ot"
@@ -3681,6 +3713,7 @@
         },
         {
           "order": 4,
+          "title": "Sequence with NSA pillar guidance",
           "layerId": "l3",
           "entityIds": [
             "nsa-zt"
@@ -3698,6 +3731,7 @@
         },
         {
           "order": 5,
+          "title": "Pick controls with the ZT Overlays",
           "layerId": "l4",
           "entityIds": [
             "dod-zt-overlays",
@@ -3717,6 +3751,7 @@
         },
         {
           "order": 6,
+          "title": "Prove Target Level to your authorizing official",
           "layerId": "l5",
           "entityIds": [
             "dod-zt-strategy",
@@ -3738,6 +3773,7 @@
         },
         {
           "order": 7,
+          "title": "Express the target as a CSF 2.0 Profile",
           "layerId": "l1",
           "entityIds": [
             "csf20",
@@ -3778,12 +3814,15 @@
     {
       "id": "defense-contractor",
       "title": "Defense contractor handling controlled unclassified information (CUI)",
+      "shortTitle": "Defense Contractor with CUI",
       "whoYouAre": "You are a contractor or subcontractor that handles controlled unclassified information for a {{dow}} customer. If you hold only federal contract information, the Federal Acquisition Regulation (FAR) basic safeguarding clause, 52.204-21 (52.240-93 in contracts written under the FAR overhaul deviations), sets your 15 requirements; if you hold controlled unclassified information for a civilian agency, that agency's own contract clauses name the requirements; the Everyone else trailhead covers both cases.",
+      "cardLine": "SP 800-171, CMMC",
       "pillarView": null,
       "paragraph": null,
       "steps": [
         {
           "order": 1,
+          "title": "Meet the SP 800-171 requirements",
           "layerId": "l4",
           "entityIds": [
             "sp800-171"
@@ -3801,6 +3840,7 @@
         },
         {
           "order": 2,
+          "title": "Know your CMMC level and SPRS score",
           "layerId": "l5",
           "entityIds": [
             "cmmc20"
@@ -3818,6 +3858,7 @@
         },
         {
           "order": 3,
+          "title": "Define zero trust with SP 800-207",
           "layerId": "l2",
           "entityIds": [
             "sp800-207",
@@ -3837,6 +3878,7 @@
         },
         {
           "order": 4,
+          "title": "Borrow your customer's pillar model",
           "layerId": "l3",
           "entityIds": [
             "dod-zt-strategy",
@@ -3856,6 +3898,7 @@
         },
         {
           "order": 5,
+          "title": "Report where you stand with CSF 2.0",
           "layerId": "l1",
           "entityIds": [
             "csf20"
@@ -3890,7 +3933,9 @@
     {
       "id": "other",
       "title": "Everyone else",
+      "shortTitle": "Everyone Else",
       "whoYouAre": "You are a company, a state or local government, a university, or anyone else with no federal mandate to meet.",
+      "cardLine": "State, local, company, university",
       "pillarView": null,
       "paragraph": "Nothing on this stack binds you by its own force; a government contract can, and the two cases below say how. Use the Cybersecurity Framework (CSF) 2.0 from the National Institute of Standards and Technology (NIST) to say what good looks like, NIST Special Publication (SP) 800-207 to define zero trust, the zero trust maturity model of the Cybersecurity and Infrastructure Security Agency (CISA) to set a target (its four stages are public and written to be borrowed), and SP 800-53, or a smaller catalog such as the Center for Internet Security (CIS) Controls, for controls. If a customer or regulator names a framework, start from that one and work up and down the stack from there. Verification is whoever checks your evidence: an internal audit, a certifier, or a customer assessment; the layer 5 entries here are federal. If you hold federal contract information or controlled unclassified information for a government customer, the two cases below say what applies; if you hold controlled unclassified information under a {{dow}} contract, start at the contractor trailhead.",
       "steps": [],

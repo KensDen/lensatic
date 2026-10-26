@@ -93,7 +93,7 @@ struct ControlButton: View {
     var body: some View {
         Group {
             if case .push(let route) = control.target {
-                NavigationLink(value: route) { label }
+                NavigationLink(value: route.nav) { label }
             } else {
                 Button { act(control.target) } label: { label }
             }
@@ -173,7 +173,7 @@ struct ControlButtonShell<Label: View>: View {
 
     var body: some View {
         if case .push(let route) = target {
-            NavigationLink(value: route, label: label).buttonStyle(.plain)
+            NavigationLink(value: route.nav, label: label).buttonStyle(.plain)
         } else {
             Button(action: { act(target) }, label: label).buttonStyle(.plain)
         }

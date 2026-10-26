@@ -2,9 +2,9 @@
 """Battery checks for the iOS app (session 8, section 4.5).
 
 On every machine: the colour sets and web_texts.json equal fresh generations; nothing under ios/ names a forbidden API
-(web views, networking, stored defaults or scene state, file writes, third-party modules, analytics or crash
+(web views, networking, stored defaults or scene state, file writes but the progress store's one, third-party modules, analytics or crash
 reporting, or anything the privacy manifest would have to declare); the only outside addresses in the Swift sources
-are the policy, support and source links; every font call scales with Dynamic Type; the four TrueType faces and
+are the policy, support and source links; every font call scales with Dynamic Type; the six TrueType faces and
 their OFL.txt are the pinned files and every face is registered; the app carries no copy of content/stack.json or
 web/src/about-photo.jpg and references both by path; the privacy manifest and Info.plist hold exactly their values;
 the icon is the pinned 1024 by 1024 PNG with no alpha; the mark is web/src/mark.svg byte for byte; no em dash, no
@@ -50,12 +50,15 @@ XCODEGEN = ROOT / ".tmp" / "xcodegen" / "bin" / "xcodegen"
 BATTERY_DERIVED = ROOT / ".tmp" / "DerivedData-battery"
 BUILD_TEST_TIMEOUT = 1800  # seconds: a failing test must turn the battery red, never hang it
 
-# IBM's own four TrueType faces, byte for byte from IBM's release archives for @ibm/plex-sans 1.1.0 and @ibm/plex-mono
-# 2.5.0 (session 11: nothing converted, subset or renamed; session 8's conversion is retired), and IBM's licence beside them
+# IBM's own TrueType faces, byte for byte from IBM's release archives for @ibm/plex-sans 1.1.0 and @ibm/plex-mono
+# 2.5.0 (session 11: nothing converted, subset or renamed; session 8's conversion is retired), and IBM's licence beside them.
+# The redesign (R1, 26 October 2026) adds Sans SemiBold and Mono Medium from the same two archives, for its 600 and 500 weights.
 FONT_PINS = {
     "IBMPlexSans-Regular.ttf": "975dcda37d80f038dcd143c22e33ca2d97a0cc5a929aace1c749153b0fe1afa5",
+    "IBMPlexSans-SemiBold.ttf": "a20caf8286023a6a7a85e40b1d2a4ae9fc3e3b1f9eda8f4c542dd4986af67bb1",
     "IBMPlexSans-Bold.ttf": "9e6c74a889a700d707613d24548fe4ffa6bc59559a0689d2cf9e133bdcdafb2f",
     "IBMPlexMono-Regular.ttf": "7c6fbddca4b700be918f5f6183d9bd4464fa427fe435f0b480d77fe2bb8c5a43",
+    "IBMPlexMono-Medium.ttf": "98fbd727aae340b236955879dabed4d991aac9e8e90b3b2a67ce4a59221cc97c",
     "IBMPlexMono-Bold.ttf": "74e5eedcfa4596497d34e19023cabdabd3a8c852b903007a5654a59591a72ffb",
     "OFL.txt": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
 }
@@ -78,6 +81,11 @@ FORBIDDEN = {
     "the active keyboards": r"activeInputModes|UITextInputMode",
 }
 ALLOWED_IMPORTS = {"Foundation", "SwiftUI", "UIKit", "Observation", "CryptoKit", "XCTest"}
+# the redesign (R1, 26 October 2026): the reader's trailhead and checked steps stay on the device in one JSON file. This
+# file alone may name FileManager (for the app's Application Support folder) and write, and only that one file; every
+# other forbidden name stays forbidden in it too
+PROGRESS_STORE = APP / "Model" / "ProgressStore.swift"
+PROGRESS_ALLOWED = ("FileManager", ".write(to:")
 EM_DASH_SUFFIXES = {".swift", ".yml", ".plist", ".xcprivacy", ".json"}
 PRIVACY_VALUES = {"NSPrivacyTracking": False, "NSPrivacyTrackingDomains": [], "NSPrivacyCollectedDataTypes": [], "NSPrivacyAccessedAPITypes": []}
 INFO_VALUES = {
@@ -208,6 +216,8 @@ def check_static(rep) -> None:
         rel = p.relative_to(ROOT)
         for what, pattern in FORBIDDEN.items():
             for m in re.finditer(pattern, code):
+                if p == PROGRESS_STORE and re.sub(r"\s", "", m.group(0)) in PROGRESS_ALLOWED:
+                    continue
                 errs.append(f"{rel}:{code.count(chr(10), 0, m.start()) + 1}: {what} ({m.group(0)})")
         for m in re.finditer(r"^\s*(?:@testable\s+)?import\s+([A-Za-z_][A-Za-z0-9_]*)", code, re.M):
             if m.group(1) not in ALLOWED_IMPORTS and m.group(1) != "Lensatic":
@@ -225,6 +235,27 @@ def check_static(rep) -> None:
     rep.check("no web view, networking, stored defaults or scene state, FileManager, package, analytics or crash reporting, "
               "and no API the privacy manifest would declare, anywhere under ios/; the app's Swift sources name no outside address "
               "but the policy, support and source links", errs, f"{len(swift_sources())} Swift files, {urls} addresses in the app")
+
+    # the redesign (R1): the one file write is the progress store's, atomic, under data protection, in Application Support
+    errs = []
+    code = strip_comments(PROGRESS_STORE.read_text(encoding="utf-8")) if PROGRESS_STORE.exists() else ""
+    writes = list(re.finditer(r"\.write\s*\(\s*to\s*:", code))
+    if not code:
+        errs.append("ios/Lensatic/Model/ProgressStore.swift is missing")
+    if len(writes) != 1:
+        errs.append(f"ProgressStore.swift writes {len(writes)} times, expected once")
+    for m in writes:
+        args = call_args(code, m.start() + code[m.start():].index("("))
+        if ".atomic" not in args or "completeFileProtection" not in args:
+            errs.append("ProgressStore.swift's write is not atomic with complete file protection")
+    for m in re.finditer(r"FileManager\.default\.urls\s*\(\s*for\s*:\s*\.(\w+)", code):
+        if m.group(1) != "applicationSupportDirectory":
+            errs.append(f"ProgressStore.swift reaches the {m.group(1)} folder, not Application Support")
+    if not re.search(r"\.applicationSupportDirectory", code):
+        errs.append("ProgressStore.swift does not keep its file in Application Support")
+    rep.check("progress: the app's one file write is ios/Lensatic/Model/ProgressStore.swift's, once, atomic, under complete file "
+              "protection, in the app's Application Support folder (the reader's trailhead and checked steps; nothing leaves the device)",
+              errs)
 
     # section 3.8: every font scales with Dynamic Type
     errs = []
@@ -260,7 +291,7 @@ def check_static(rep) -> None:
             errs.append(f"{name} is not registered under UIAppFonts")
         if name not in yml:
             errs.append(f"{name} is not listed in ios/project.yml")
-    rep.check("fonts: the four IBM Plex TrueType faces and OFL.txt are the pinned files by SHA-256, and every face is under UIAppFonts",
+    rep.check("fonts: the six IBM Plex TrueType faces and OFL.txt are the pinned files by SHA-256, and every face is under UIAppFonts",
               errs, f"{len(FONT_PINS)} files")
 
     # section 2.5 and 3.6: content and the photo by reference only
