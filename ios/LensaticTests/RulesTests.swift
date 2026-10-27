@@ -26,17 +26,15 @@ final class RulesTests: XCTestCase {
 
     /// Run the rule over one screen of runs and give back what a reader sees in each.
     func render(_ runs: [[Span]], interactive: Bool = false) -> [String] {
-        var page = Page(title: "", blocks: runs.map { spans in
-            interactive ? Block(.rows([NavRow(title: Run(spans), target: .anchor("x"), identifier: "x")])) : Block(.text(Run(spans), .body))
-        })
-        rules.apply(&page)
-        return page.runs.map(\.text)
+        var prose = Prose(runs.map(Run.init), interactive: interactive)
+        rules.apply(&prose)
+        return prose.runs.map(\.text)
     }
 
     func segments(_ spans: [Span]) -> [Segment] {
-        var page = Page(title: "", blocks: [Block(.text(Run(spans), .body))])
-        rules.apply(&page)
-        return page.runs[0].segments
+        var prose = Prose([Run(spans)])
+        rules.apply(&prose)
+        return prose.runs[0].segments
     }
 
     // MARK: tokens and the department
@@ -90,7 +88,7 @@ final class RulesTests: XCTestCase {
 
     func testADescribedLabelIsNeitherExpandedNorLinked() {
         // session 11: an entry's own title at the top of its screen, as inside the web's summary
-        var page = Page(title: "", blocks: [Block(.title(Run(Span("NIST rules", role: .describedLabel)))), Block(.text(Run(Span("NIST says")), .body))])
+        var page = Prose([Run(Span("NIST rules", role: .describedLabel)), Run(Span("NIST says"))])
         rules.apply(&page)
         XCTAssertEqual(page.runs.map(\.text), ["NIST rules", "NIST (National Institute of Standards and Technology) says"])
         XCTAssertFalse(page.runs[0].segments.contains { if case .term = $0 { return true } else { return false } })
@@ -99,9 +97,8 @@ final class RulesTests: XCTestCase {
 
     func testALabelInALinkDescribesThatLink() {
         // session 11 (ED-05): an entry's name in a list of links is a label: never expanded, and the link is described
-        let target = Target.push(.entity("x"))
-        var page = Page(title: "", blocks: [Block(.text(Run([Span("Draws on: "), Span("NIST", role: .label, link: target)]), .small)),
-                                            Block(.text(Run(Span("NIST says")), .body))])
+        let target = Target.nav(.entity("x"))
+        var page = Prose([Run([Span("Draws on: "), Span("NIST", role: .label, link: target)]), Run(Span("NIST says"))])
         rules.apply(&page)
         XCTAssertEqual(page.runs.map(\.text), ["Draws on: NIST", "NIST (National Institute of Standards and Technology) says"])
         XCTAssertEqual(page.runs[0].linkDescribed[target], ["National Institute of Standards and Technology"])
@@ -135,15 +132,15 @@ final class RulesTests: XCTestCase {
         let plain = segments([Span("AI helps; AI hurts.")])
         XCTAssertEqual(plain.map(\.string).joined(), "AI helps; AI hurts.")
         XCTAssertFalse(plain.contains(where: isTerm("AI")), "AI is linked off the AI column")
-        var page = Page(title: "", blocks: [Block(.text(Run(Span("AI helps; AI hurts.")), .body))])
+        var page = Prose([Run(Span("AI helps; AI hurts."))])
         rules.apply(&page, linksWellKnown: true)
         let linked = page.runs[0].segments
         XCTAssertEqual(linked.map(\.string).joined(), "AI helps; AI hurts.")
         guard case .term("AI", "ai", _) = linked[0] else { return XCTFail("AI is not linked at its first use on the AI column") }
         XCTAssertEqual(linked.filter(isTerm("AI")).count, 1, "AI is linked past its first use")
         for aiColumn in [false, true] {
-            var labels = Page(title: "", blocks: [Block(.heading(Run(Span("AI and NIST", role: .label)))),
-                                                  Block(.rows([NavRow(title: Run(Span("AI", role: .label)), target: .anchor("x"), identifier: "x")]))])
+            var labels = Prose([Run(Span("AI and NIST", role: .label))])
+            labels.add(Run(Span("AI", role: .label)), interactive: true)
             rules.apply(&labels, linksWellKnown: aiColumn)
             XCTAssertFalse(labels.runs.flatMap(\.segments).contains(where: isTerm("AI")), "AI is linked in a label")
             XCTAssertTrue(labels.runs[0].segments.contains(where: isTerm("NIST")), "a label's other abbreviation no longer links")
@@ -153,7 +150,7 @@ final class RulesTests: XCTestCase {
     }
 
     func testALabelIsNeverExpandedAndIsNotAFirstUse() {
-        var page = Page(title: "", blocks: [Block(.heading(Run(Span("NIST rules", role: .label)))), Block(.text(Run(Span("NIST says")), .body))])
+        var page = Prose([Run(Span("NIST rules", role: .label)), Run(Span("NIST says"))])
         rules.apply(&page)
         XCTAssertEqual(page.runs.map(\.text), ["NIST rules", "NIST (National Institute of Standards and Technology) says"])
         guard case .term("NIST", "nist", _)? = page.runs[0].segments.first else { return XCTFail("a label's form links to its entry") }
@@ -161,8 +158,7 @@ final class RulesTests: XCTestCase {
     }
 
     func testInsideAControlNothingIsLinkedAndALabelDescribesTheControl() {
-        var page = Page(title: "", blocks: [Block(.rows([NavRow(title: Run(Span("NIST", role: .label)), lines: [Run(Span("NIST says"))],
-                                                                target: .anchor("x"), identifier: "x")]))])
+        var page = Prose([Run(Span("NIST", role: .label)), Run(Span("NIST says"))], interactive: true)
         rules.apply(&page)
         XCTAssertEqual(page.runs.map(\.text), ["NIST", "NIST (National Institute of Standards and Technology) says"])
         XCTAssertFalse(page.runs.flatMap(\.segments).contains { if case .term = $0 { return true } else { return false } })
@@ -275,9 +271,9 @@ final class RulesTests: XCTestCase {
     }
 
     func testLinkTargetsSurviveTheirAddress() throws {
-        let targets: [Target] = [.section(.about, anchor: "about-name"), .section(.stack, anchor: nil), .push(.door("dow")),
-                                 .push(.layer("l2")), .push(.entity("sp800-207")), .push(.cell(.cisa, "visibility", .DE)),
-                                 .glossary("ai"), .anchor("doors"), .external(Site.privacy)]
+        let targets: [Target] = [.nav(.about), .nav(.glossary), .nav(.sources), .nav(.saved), .nav(.guide), .nav(.plays),
+                                 .nav(.layer("l2")), .nav(.entity("sp800-207")), .nav(.cell(.cisa, "visibility", .DE)),
+                                 .nav(.chapter("part-1")), .nav(.play("containment")), .glossary("ai"), .external(Site.privacy)]
         for t in targets { XCTAssertEqual(Target(url: try XCTUnwrap(t.url)), t) }
     }
 }

@@ -103,6 +103,79 @@ TOKEN_RE = re.compile(r"\{\{([^{}]*)\}\}")
 PROCESS_WORDS = ["handoff"]  # planning vocabulary that must not ship in content
 
 
+
+# --------------------------------------------------------------------------- short text (content 1.2.19)
+# The app's card shows shortSummary in IBM Plex Sans 17 pt across 350 pt (a 390 pt phone less its 20 pt margins); the
+# Sources sheet shows shortNote in 14 pt across 326 pt (the sheet, less its 20 pt margins and the note's 12 pt padding). The check lays each text out with the bundled face's own
+# advance widths, breaking where the app can (spaces, and after a hyphen before a letter; never inside a designation such
+# as "SP 800-53" or a date, which the app keeps whole), and holds it to a line count and to no one-word last line.
+PLEX_SANS = ROOT / "ios" / "Lensatic" / "Resources" / "Fonts" / "IBMPlexSans-Regular.ttf"
+SHORT_LAYOUT = {"shortSummary": (17.0, 350.0, 3), "shortNote": (14.0, 326.0, 4)}
+SHORT_NOTE_FROM = 160  # a note longer than this carries a shortNote; a shorter one is shown whole
+MONTHS = "January|February|March|April|May|June|July|August|September|October|November|December"
+NBSP = " "
+
+
+def ttf_advances(path: Path) -> tuple[int, dict[int, int]]:
+    """unitsPerEm and each character's advance width, from the font's head, hhea, hmtx and cmap (format 4) tables."""
+    import struct
+    b = path.read_bytes()
+    n = struct.unpack(">H", b[4:6])[0]
+    tables = {b[12 + 16 * i:16 + 16 * i].decode("latin-1"): struct.unpack(">II", b[20 + 16 * i:28 + 16 * i]) for i in range(n)}
+    upem = struct.unpack(">H", b[tables["head"][0] + 18:tables["head"][0] + 20])[0]
+    metrics = struct.unpack(">H", b[tables["hhea"][0] + 34:tables["hhea"][0] + 36])[0]
+    hmtx = tables["hmtx"][0]
+    widths = [struct.unpack(">H", b[hmtx + 4 * i:hmtx + 4 * i + 2])[0] for i in range(metrics)]
+    cmap = tables["cmap"][0]
+    sub = None
+    for i in range(struct.unpack(">H", b[cmap + 2:cmap + 4])[0]):
+        plat, enc, off = struct.unpack(">HHI", b[cmap + 4 + 8 * i:cmap + 12 + 8 * i])
+        if (plat, enc) in ((3, 1), (0, 3)) and struct.unpack(">H", b[cmap + off:cmap + off + 2])[0] == 4:
+            sub = cmap + off
+            break
+    segs = struct.unpack(">H", b[sub + 6:sub + 8])[0] // 2
+    arr = lambda k: [struct.unpack(">H", b[sub + 14 + 2 * segs * k + (2 if k else 0) + 2 * i:sub + 16 + 2 * segs * k + (2 if k else 0) + 2 * i])[0] for i in range(segs)]
+    ends, starts, deltas, ranges = arr(0), arr(1), arr(2), arr(3)
+    ro_base = sub + 16 + 6 * segs
+    adv: dict[int, int] = {}
+    for i in range(segs):
+        for c in range(starts[i], ends[i] + 1):
+            if c == 0xFFFF:
+                continue
+            if ranges[i] == 0:
+                g = (c + deltas[i]) & 0xFFFF
+            else:
+                at = ro_base + 2 * i + ranges[i] + 2 * (c - starts[i])
+                g = struct.unpack(">H", b[at:at + 2])[0]
+                g = (g + deltas[i]) & 0xFFFF if g else 0
+            adv[c] = widths[min(g, len(widths) - 1)]
+    return upem, adv
+
+
+def keep_whole(s: str) -> str:
+    """What the app keeps on one line: a designation and its number (SP 800-53, EO 14306), and a date (17 July 2026)."""
+    s = re.sub(r"\b([A-Z]{2,}) (?=\d)", lambda m: m.group(1) + NBSP, s)
+    return re.sub(rf"\b(\d{{1,2}}) ({MONTHS}) (\d{{4}})\b", lambda m: NBSP.join(m.groups()), s)
+
+
+def lay_out(text: str, size: float, width: float, font: tuple[int, dict[int, int]]) -> list[str]:
+    """Greedy line breaking as the app wraps: at spaces, and after a hyphen that a letter follows."""
+    upem, adv = font
+    w = lambda t: sum(adv.get(ord(ch), adv.get(ord("n"), 556)) for ch in t) * size / upem
+    pieces = re.findall(r"[^ ]+?-(?=[A-Za-z])|[^ ]+", keep_whole(text))
+    lines: list[str] = []
+    cur = ""
+    for piece in pieces:
+        joint = "" if not cur or cur.endswith("-") else " "
+        if cur and w(cur + joint + piece) > width:
+            lines.append(cur)
+            cur = piece
+        else:
+            cur += joint + piece
+    if cur:
+        lines.append(cur)
+    return lines
+
 # --------------------------------------------------------------------------- report
 class Report:
     def __init__(self) -> None:
@@ -922,6 +995,47 @@ def main() -> int:
             errs.append(f"web/src/about-photo.jpg: {exc}")
     rep.check("about photo: web/src/about-photo.jpg is the pinned file by SHA-256, a whole JPEG that ends at its end-of-image marker, "
               "1200 px on its longest side, with no metadata segment anywhere (no APPn, no COM)", errs, detail)
+
+    # 17. short text (content 1.2.19): every framework, source and solution has a short summary for the app's card, and
+    # every note longer than 160 characters a short note for its Sources sheet. Each keeps the writing rules (no em or en
+    # dash, no emoji, one closing full stop), states no number its long text does not, fits its line count on a phone and
+    # ends on more than one word.
+    errs = []
+    font = ttf_advances(PLEX_SANS)
+    dow = data.get("orgs", {}).get("dow", {})
+    resolve = lambda t: TOKEN_RE.sub(lambda m: str(dow.get((m.group(1).strip().split(".") + ["abbr"])[1], "")), t)
+    worst = {k: 0 for k in SHORT_LAYOUT}
+    for coll in ("frameworks", "sources", "solutions"):
+        for e in data.get(coll, []):
+            where = f"{coll}/{e.get('id')}"
+            note = e.get("note")
+            if note is not None and len(note) > SHORT_NOTE_FROM and "shortNote" not in e:
+                errs.append(f"{where}: a note of {len(note)} characters needs a shortNote")
+            if "shortNote" in e and (note is None or len(note) <= SHORT_NOTE_FROM):
+                errs.append(f"{where}: shortNote where the note is short enough to show whole")
+            for key, long_key in (("shortSummary", "oneLiner"), ("shortNote", "note")):
+                if key not in e:
+                    continue
+                text, long_text = resolve(e[key]), resolve(e.get(long_key) or "")
+                if EM_DASH in text or "–" in text:
+                    errs.append(f"{where}.{key}: em or en dash")
+                if re.search("[\U0001F000-\U0001FAFF☀-➿️]", text):
+                    errs.append(f"{where}.{key}: emoji")
+                if not text.endswith(".") or text.endswith("..") or "  " in text or text != text.strip():
+                    errs.append(f"{where}.{key}: one sentence or two, ending in one full stop, single-spaced")
+                for num in re.findall(r"\d+(?:\.\d+)*", text):
+                    if not re.search(rf"(?<![\d.]){re.escape(num)}(?![\d])", long_text):
+                        errs.append(f"{where}.{key}: the number {num} is not in its {long_key}")
+                size, width, most = SHORT_LAYOUT[key]
+                lines = lay_out(text, size, width, font)
+                worst[key] = max(worst[key], len(lines))
+                if len(lines) > most:
+                    errs.append(f"{where}.{key}: {len(lines)} lines on a phone, at most {most}")
+                if len(lines) > 1 and len(lines[-1].replace(NBSP, " ").split()) < 2:
+                    errs.append(f"{where}.{key}: ends on one word ({lines[-1]!r})")
+    rep.check("short text: a shortSummary on every entry and a shortNote on every long note, each in the writing rules, with no new "
+              "number, within its lines on a phone and with no one-word last line", errs,
+              f"longest: summary {worst['shortSummary']} lines, note {worst['shortNote']} lines")
 
     # 16. no overdue recheck: the support page says no content release goes out while a recheck is overdue. A content
     # release is the last changelog entry, and meta.builtOn must carry its date, so the test runs on the release date.

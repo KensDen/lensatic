@@ -34,6 +34,14 @@ enum DS {
     static let eyebrowSmall = font(Typo.monoMedium, 11, .caption)
     static let tileLabel = font(Typo.sans, 11, .caption)
     static let tab = font(Typo.sans, 11, .caption)
+    static let segment = font(Typo.sansSemi, 14, .subheadline)
+    static let layerTitle = font(Typo.sansSemi, 15, .subheadline)
+    static let layerNames = font(Typo.sans, 12, .caption)
+    static let libraryTitle = font(Typo.sansSemi, 16, .callout)
+    static let searchField = font(Typo.sans, 16, .callout)
+    static let monoText = font(Typo.mono, 14, .subheadline)
+    static let readerBody = font(Typo.sans, 16, .callout)
+    static let readerHeading = font(Typo.sansBold, 18, .headline)
 }
 
 /// A mono caps label in a section colour: the screen's eyebrow (TAKE A BEARING, the trailhead's name, LAYER 3).
@@ -41,6 +49,8 @@ struct Eyebrow: View {
     let text: String
     var color: Color = Palette.secMaps
     var small = false
+    /// Letter-spaced, as most eyebrows are; the stack's layer cards set theirs untracked, as Explore.dc.html does.
+    var tracked = true
     // the mockups' 0.12em and 0.08em letter spacing, scaled with the text so it stays in proportion at every size
     @ScaledMetric(relativeTo: .caption) private var spacing: CGFloat = 1.44
     @ScaledMetric(relativeTo: .caption) private var spacingSmall: CGFloat = 0.88
@@ -48,7 +58,7 @@ struct Eyebrow: View {
     var body: some View {
         Text(text.uppercased())
             .font(small ? DS.eyebrowSmall : DS.eyebrow)
-            .kerning(small ? spacingSmall : spacing)
+            .kerning(tracked ? (small ? spacingSmall : spacing) : 0)
             .foregroundStyle(color)
             .fixedSize(horizontal: false, vertical: true)
     }
@@ -375,6 +385,13 @@ func unbroken(_ date: String) -> String { date.replacingOccurrences(of: " ", wit
 /// designation and its number does not break, so a line never ends on "SP".
 func keepDesignations(_ s: String) -> String {
     s.replacingOccurrences(of: #"\b([A-Z]{2,}) (?=\d)"#, with: "$1\u{00A0}", options: .regularExpression)
+}
+
+/// Short text as the content's layout check lays it out (tools/validate.py, keep_whole): each designation kept whole
+/// with its number, and each date on one line, so the line breaks the check measured are the ones a reader sees.
+func keepWhole(_ s: String) -> String {
+    keepDesignations(s).replacingOccurrences(of: #"\b(\d{1,2}) (January|February|March|April|May|June|July|August|September|October|November|December) (\d{4})\b"#,
+                                             with: "$1\u{00A0}$2\u{00A0}$3", options: .regularExpression)
 }
 
 /// The faint grid on the welcome screen's ground, dark theme only (hub/DESIGN.md: --grid).

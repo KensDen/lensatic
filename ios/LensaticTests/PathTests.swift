@@ -7,6 +7,7 @@ import XCTest
 @MainActor
 final class PathTests: XCTestCase {
     static let store = try! ContentStore.bundled()
+    static let library = try! Library.bundled()
     var store: ContentStore { Self.store }
     let utc: Calendar = {
         var c = Calendar(identifier: .gregorian)
@@ -184,7 +185,7 @@ final class PathTests: XCTestCase {
 
     func testTheModelSwitchesTrailheadAndOpensMyPathAtItsTop() throws {
         let (p, _) = tempStore()
-        let model = AppModel(store: store, progress: p)
+        let model = AppModel(store: store, library: Self.library, progress: p)
         XCTAssertNil(model.door)
         model.choose(.dow)
         XCTAssertEqual(model.door?.id, .dow)
@@ -209,14 +210,18 @@ final class PathTests: XCTestCase {
         XCTAssertNil(ProgressStore(url: url).door, "no file yet")
     }
 
-    func testTheProgressFileIsTheTrailheadAndTheChecksOnly() throws {
+    func testTheProgressFileIsTheTrailheadTheChecksTheSavedItemsAndTheWeeksOnly() throws {
         let (p, url) = tempStore()
         p.choose(.dow)
         p.toggle(.dow, 3)
+        p.toggleSaved(.entity("sp800-207"))
+        p.toggleWeek("core", 1)
         let json = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
-        XCTAssertEqual(Set(json.keys), ["door", "checked"])
+        XCTAssertEqual(Set(json.keys), ["door", "checked", "saved", "weeks"])
         XCTAssertEqual(json["door"] as? String, "dow")
         XCTAssertEqual(json["checked"] as? [String: [Int]], ["dow": [3]])
+        XCTAssertEqual(json["saved"] as? [String], ["entity:sp800-207"])
+        XCTAssertEqual(json["weeks"] as? [String: [Int]], ["core": [1]])
     }
 
     // MARK: Title Case and the card

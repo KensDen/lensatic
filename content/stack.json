@@ -1,7 +1,7 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.18",
+    "contentVersion": "1.2.19",
     "builtOn": "2026-10-26",
     "sources": [
       "csf20",
@@ -205,6 +205,11 @@
         "version": "1.2.18",
         "date": "2026-10-26",
         "summary": "The two deadlines whose sources print a calendar date now carry that date, so the app can count down to it: Target Level by the end of fiscal year 2027 and the M-22-09 goals by the end of fiscal year 2024. Each trailhead and each of its steps also carries a short title for the app. The privacy page says what the iOS app keeps, on the device only: the trailhead picked and the steps checked off."
+      },
+      {
+        "version": "1.2.19",
+        "date": "2026-10-26",
+        "summary": "Every framework, source and solution carries a short summary for the app's card, and every long note a short note for its Sources sheet, each drawn from the entry's own text; the long text stays one tap down. The privacy page says what the iOS app now keeps on the device: the saved items and the guide weeks marked done, beside the trailhead and the checked steps, and its listing in the device's own search."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -394,6 +399,7 @@
       "name": "NIST Cybersecurity Framework 2.0",
       "shortName": "CSF 2.0",
       "oneLiner": "CSF 2.0 gives an organization six functions, Profiles, and Tiers to describe cybersecurity outcomes in language leadership funds against.",
+      "shortSummary": "Six functions, Profiles and Tiers that describe cybersecurity outcomes in language leadership funds against.",
       "answersQuestion": "What does good look like, and how do we say it to the people who fund it?",
       "publisher": "NIST",
       "title": "The NIST Cybersecurity Framework (CSF) 2.0",
@@ -421,7 +427,8 @@
           "note": "Section 1 of the document: the CSF 'may be adopted voluntarily and through governmental policies and mandates'. The federal direction is EO 13800 section 1(c)(ii); that order's section 1(a) defines agency heads as the heads of executive departments and agencies and its section 1(c)(vii) routes National Security Systems to the Secretary of Defense and the Director of National Intelligence."
         }
       },
-      "note": "Tiers characterize the rigor of an organization's cybersecurity risk governance and management practices (section 3.2); CSF 2.0 does not print the CSF 1.1 sentence that Tiers are not maturity levels. The CSF 2.0 Reference Tool is at https://csrc.nist.gov/projects/cybersecurity-framework/filters and the Informative Reference Catalog at https://csrc.nist.gov/projects/olir/informative-reference-catalog. A Community Profile, in the framework's own words, is a baseline of CSF outcomes that is created and published to address shared interests and goals among a number of organizations (section 3.1)."
+      "note": "Tiers characterize the rigor of an organization's cybersecurity risk governance and management practices (section 3.2); CSF 2.0 does not print the CSF 1.1 sentence that Tiers are not maturity levels. The CSF 2.0 Reference Tool is at https://csrc.nist.gov/projects/cybersecurity-framework/filters and the Informative Reference Catalog at https://csrc.nist.gov/projects/olir/informative-reference-catalog. A Community Profile, in the framework's own words, is a baseline of CSF outcomes that is created and published to address shared interests and goals among a number of organizations (section 3.1).",
+      "shortNote": "Tiers describe the rigor of risk governance and management. CSF 2.0 drops the CSF 1.1 line that Tiers are not maturity levels."
     },
     {
       "id": "sp800-207",
@@ -429,6 +436,7 @@
       "name": "NIST SP 800-207",
       "shortName": "SP 800-207",
       "oneLiner": "SP 800-207 defines zero trust architecture: no implicit trust from network location, and every request decided by a policy engine and then allowed or blocked at a policy enforcement point.",
+      "shortSummary": "The definition of zero trust: no implicit trust from network location, and a policy decision on every request.",
       "answersQuestion": "What is zero trust, as an architecture rather than a product or a score?",
       "publisher": "NIST",
       "title": "Zero Trust Architecture",
@@ -463,6 +471,7 @@
       "name": "DoD Zero Trust Strategy and Capabilities",
       "shortName": "DoD ZT Strategy",
       "oneLiner": "The DoD Zero Trust Strategy sets seven pillars, 45 capabilities, and two levels, Target and Advanced, with Target Level zero trust due across the department by the end of fiscal year 2027.",
+      "shortSummary": "Seven pillars, 45 capabilities and two levels. Target Level is due across the department by the end of FY2027.",
       "answersQuestion": "What is the target state for {{dow}} components, and which pillars and capabilities define it?",
       "publisher": "DoD CIO",
       "title": "DoD Zero Trust Strategy",
@@ -527,7 +536,8 @@
           "note": "The issuance that turned the strategy into direction to components and established the zero trust portfolio office in policy (the office itself dates from January 2022). Its printed expiry of 17 July 2026 has passed; on 17 September 2026 the issuance library still listed it without a cancellation or extension, and no instruction had replaced it."
         }
       ],
-      "note": "The implementing directive-type memorandum (DTM) 25-003 carries a printed expiry of 17 July 2026; on 17 September 2026 the issuance library still listed it with that expiry and no cancellation, extension or successor, and no replacement instruction was found, so the FY2027 deadline rests on the strategy and the roadmap. Operational technology has its own activities and outcomes, listed at this layer as a separate entry."
+      "note": "The implementing directive-type memorandum (DTM) 25-003 carries a printed expiry of 17 July 2026; on 17 September 2026 the issuance library still listed it with that expiry and no cancellation, extension or successor, and no replacement instruction was found, so the FY2027 deadline rests on the strategy and the roadmap. Operational technology has its own activities and outcomes, listed at this layer as a separate entry.",
+      "shortNote": "The implementing memo, DTM 25-003, printed an expiry of 17 July 2026 and no successor was found, so the FY2027 deadline rests on the strategy and the roadmap."
     },
     {
       "id": "cisa-ztmm",
@@ -535,6 +545,7 @@
       "name": "CISA Zero Trust Maturity Model",
       "shortName": "CISA ZTMM",
       "oneLiner": "The CISA Zero Trust Maturity Model gives civilian agencies five pillars, three cross-cutting capabilities, and four maturity stages from Traditional to Optimal.",
+      "shortSummary": "Five pillars, three cross-cutting capabilities and four stages from Traditional to Optimal, for civilian agencies.",
       "answersQuestion": "How mature is a civilian agency's zero trust posture, and what does the next stage look like?",
       "publisher": "CISA",
       "title": "Zero Trust Maturity Model",
@@ -561,7 +572,8 @@
           "note": "The document is written for federal civilian agencies under EO 14028 and aligned to OMB M-22-09; it invites other organizations to consider it and does not frame itself as a mandate. Re-read on 30 September 2026: the version 2.0 PDF says on page 4 that the model is 'specifically tailored for federal agencies as required by EO 14028' and that 'all organizations should review and consider adoption', and on page 5 that CISA 'revised the ZTMM to further align with M-22-09's direction for agencies'; M-22-09 (https://www.whitehouse.gov/wp-content/uploads/2022/01/M-22-09.pdf) says on page 4 that agencies 'can reference' the maturity models in its Appendix A and that its goals 'are organized using the zero trust maturity model developed by CISA'."
         }
       },
-      "note": "The stages are Traditional, Initial, Advanced and Optimal. Companion CISA publications on microsegmentation (2025) and operational technology (2026) are not new editions of the model."
+      "note": "The stages are Traditional, Initial, Advanced and Optimal. Companion CISA publications on microsegmentation (2025) and operational technology (2026) are not new editions of the model.",
+      "shortNote": "CISA's later publications on microsegmentation (2025) and operational technology (2026) are companions, not new editions."
     },
     {
       "id": "nsa-zt",
@@ -569,6 +581,7 @@
       "name": "NSA zero trust guidance series",
       "shortName": "NSA ZT guidance",
       "oneLiner": "NSA's zero trust guidance covers each pillar in an information sheet and, since 2026, phases the {{dow}} Target Level activities in implementation guidelines, so a program can sequence its work.",
+      "shortSummary": "An information sheet for each pillar and, since 2026, guidelines that phase the {{dow}} Target Level activities.",
       "answersQuestion": "In what order do we build each pillar, and what does each phase of the work look like?",
       "publisher": "NSA",
       "title": "NSA Zero Trust Guidance: Zero Trust Cybersecurity Information Sheets; Zero Trust Implementation Guidelines",
@@ -596,6 +609,7 @@
         }
       },
       "note": "NSA's guideline hub page states that the 2026 implementation guidelines were developed in accordance with, synchronized with, and approved by the {{dow}} CIO zero trust portfolio office, and NSA's 30 January 2026 release states that phase one covers 36 activities and phase two 41 of the 91 Target Level activities; the discovery phase is not counted here.",
+      "shortNote": "Approved by the {{dow}} CIO zero trust portfolio office. Phase one covers 36 and phase two 41 of the 91 Target Level activities.",
       "documents": [
         {
           "title": "Embracing a Zero Trust Security Model",
@@ -761,6 +775,7 @@
       "name": "Zero Trust for Operational Technology Activities and Outcomes",
       "shortName": "ZT for OT",
       "oneLiner": "The zero trust baseline for operational technology adapts the {{dow}} activities to operational technology and control systems: 105 activities, 84 at Target Level and 21 at Advanced, under the same seven pillars.",
+      "shortSummary": "The {{dow}} activities adapted to operational technology: 105 activities, 84 at Target Level and 21 at Advanced.",
       "answersQuestion": "What does Target Level zero trust ask of control systems and other operational technology?",
       "publisher": "{{dow}} CIO",
       "title": "Zero Trust for Operational Technology Activities and Outcomes",
@@ -787,7 +802,8 @@
           "note": "Scope, the promised separate guidance for weapon systems and defense critical infrastructure, the in-addition-to requirement, the DTM 25-003 citation and the sentence on Advanced activities read in the executive summary and the level definitions of the document on 16 September 2026; paragraph 11.a read in DTM 25-003 (https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dtm/DTM%2025-003.PDF) the same day. None of these printed a {{dow}} operational technology deadline: the document, the DTM and the CIO library (https://dowcio.war.gov/Library/). The Department of the Navy CIO's zero trust program page (https://www.doncio.navy.mil/ContentView.aspx?id=17903, 8 August 2024) sets a Navy goal of target level zero trust including operational technologies by the end of FY 2027; that is a Navy goal, not a date in the {{dow}} guidance. The remarks of the zero trust portfolio office's senior advisor on 9 December 2025 were read on 29 September 2026 in a news report, a secondary source (https://defensescoop.com/2025/12/09/dod-zero-trust-strategy-2-0-expected-early-2026/), which gives Target Level zero trust for operational technology by the end of FY2030 and Advanced by the end of FY2033 and says those dates could change when the next strategy is published. On 30 September 2026 the CIO library still listed the 2022 strategy and this document with no newer version of either, and no publisher document printing those dates was found."
         }
       },
-      "note": "The activities are aligned with the enterprise IT activities so the two can interoperate, and some OT tools may start local and join the enterprise tools later. The document names the Purdue Model, IEC 62443 and UFC 4-010-06 as established reference architectures for classifying OT systems, and lists IEC 62443 as a series of standards for the cybersecurity of OT control systems."
+      "note": "The activities are aligned with the enterprise IT activities so the two can interoperate, and some OT tools may start local and join the enterprise tools later. The document names the Purdue Model, IEC 62443 and UFC 4-010-06 as established reference architectures for classifying OT systems, and lists IEC 62443 as a series of standards for the cybersecurity of OT control systems.",
+      "shortNote": "The OT activities align with the enterprise IT activities so the two can interoperate, and it names IEC 62443 for OT control systems."
     },
     {
       "id": "sp800-53",
@@ -795,6 +811,7 @@
       "name": "NIST SP 800-53",
       "shortName": "SP 800-53",
       "oneLiner": "SP 800-53 is the catalog of security and privacy controls that federal systems select from, and that CSF references and the zero trust overlays both point into.",
+      "shortSummary": "The catalog of security and privacy controls federal systems select from. CSF and the zero trust overlays point into it.",
       "answersQuestion": "Which specific controls implement an outcome or a capability?",
       "publisher": "NIST",
       "title": "Security and Privacy Controls for Information Systems and Organizations",
@@ -823,6 +840,7 @@
         }
       },
       "note": "Release 5.2.0 (August 2025) responds to Executive Order (EO) 14306 on software update and patch reliability: it adds SA-15(13), SA-24 and SI-02(07), revises SI-07(12), and is the release the CSF 2.0 Informative References map to; the 2020 PDF was not reissued.",
+      "shortNote": "Release 5.2.0 (August 2025) responds to EO 14306 on patch reliability, and it is the release the CSF 2.0 references map to.",
       "documents": [
         {
           "title": "Security and Privacy Controls for Information Systems and Organizations",
@@ -857,6 +875,7 @@
       "name": "DoD Zero Trust Overlays",
       "shortName": "DoD ZT Overlays",
       "oneLiner": "The DoD Zero Trust Overlays map each zero trust capability and activity to the SP 800-53 controls that implement it.",
+      "shortSummary": "Maps each zero trust capability and activity to the SP 800-53 controls that implement it.",
       "answersQuestion": "Which SP 800-53 controls implement each {{dow}} zero trust capability?",
       "publisher": "DoD CIO",
       "title": "Zero Trust Overlays",
@@ -887,7 +906,8 @@
           "note": "Asserted from the strategy's direction to all components and the overlays' announced purpose; not read from a publisher copy."
         }
       },
-      "note": "Launched 29 May 2024 per the department's November 2024 zero trust newsletter and announced publicly on 4 June 2024, and missing from the CIO library since about September 2025; nothing on the publisher's site rescinds or replaces it. From a non-publisher archived copy, not from the verified fields: that copy printed Version 1.1, June 2024, and states that SP 800-53 Revision 5 controls are mapped to the activities and outcomes defined for each zero trust capability. The link goes to an archived copy (Wayback Machine, 27 May 2025), as the Zero Trust guide's does; the official addresses return 404."
+      "note": "Launched 29 May 2024 per the department's November 2024 zero trust newsletter and announced publicly on 4 June 2024, and missing from the CIO library since about September 2025; nothing on the publisher's site rescinds or replaces it. From a non-publisher archived copy, not from the verified fields: that copy printed Version 1.1, June 2024, and states that SP 800-53 Revision 5 controls are mapped to the activities and outcomes defined for each zero trust capability. The link goes to an archived copy (Wayback Machine, 27 May 2025), as the Zero Trust guide's does; the official addresses return 404.",
+      "shortNote": "Missing from the CIO library since about September 2025 and never rescinded, so the link goes to an archived copy."
     },
     {
       "id": "cora",
@@ -895,6 +915,7 @@
       "name": "Cyber Operational Readiness Assessment",
       "shortName": "CORA",
       "oneLiner": "CORA is the {{dow}} network readiness assessment that scores risk on high-priority cyber terrain against adversary tactics rather than against a checklist.",
+      "shortSummary": "The {{dow}} network readiness assessment that scores risk on high-priority cyber terrain against adversary tactics.",
       "answersQuestion": "What does the assessor check when the cyber readiness of a {{dow}} network is assessed?",
       "publisher": "JFHQ-DODIN",
       "title": "Cyber Operational Readiness Assessment (CORA) program",
@@ -921,7 +942,8 @@
           "note": "The release names JFHQ-DODIN as the command that assesses DoDIN networks; a DCSA budget justification on comptroller.war.gov shows DCSA also runs CORAs of cleared contractors with SIPRNet connections; the FY2027 justification of April 2026 (https://comptroller.war.gov/Portals/45/Documents/defbudget/FY2027/budget_justification/pdfs/01_Operation_and_Maintenance/O_M_VOL_1_PART_1/DCSA_OP-5.pdf), read on 17 September 2026, says DCSA performs them for contractors with approved SIPRNet information systems."
         }
       },
-      "note": "The program launched on 1 March 2024 after a nine-month pilot. The command that launched CORA was later designated a subordinate unified command under section 1502 of the FY2025 NDAA and renamed the DoD Cyber Defense Command (DCDC) by the Secretary. The release does not connect CORA to zero trust; the stack places it at layer 5 because it is the department's operational readiness assessment of its networks, renamed from the Command Cyber Readiness Inspection. The verbs at this layer differ: the {{dow}} CIO's zero trust portfolio office conducted one purple team test of a solution against the zero trust activities and sponsored a second, and its execution roadmap names validating that solutions meet the activities as the aim of assessment; CORA assesses the cyber readiness of {{dow}} networks for the commanders and directors of their areas of operation. Wording settled by the owner's ruling of 17 September 2026: Framework Maps calls CORA a readiness assessment, not an inspection, because the launch release says the program moved from an inspection compliance mindset to an operational readiness mindset (https://www.dcdc.mil/News-Information/DCDC-News/Article-Display/Article/3689211/jfhq-dodin-to-officially-launch-its-new-cyber-operational-readiness-assessment/)."
+      "note": "The program launched on 1 March 2024 after a nine-month pilot. The command that launched CORA was later designated a subordinate unified command under section 1502 of the FY2025 NDAA and renamed the DoD Cyber Defense Command (DCDC) by the Secretary. The release does not connect CORA to zero trust; the stack places it at layer 5 because it is the department's operational readiness assessment of its networks, renamed from the Command Cyber Readiness Inspection. The verbs at this layer differ: the {{dow}} CIO's zero trust portfolio office conducted one purple team test of a solution against the zero trust activities and sponsored a second, and its execution roadmap names validating that solutions meet the activities as the aim of assessment; CORA assesses the cyber readiness of {{dow}} networks for the commanders and directors of their areas of operation. Wording settled by the owner's ruling of 17 September 2026: Framework Maps calls CORA a readiness assessment, not an inspection, because the launch release says the program moved from an inspection compliance mindset to an operational readiness mindset (https://www.dcdc.mil/News-Information/DCDC-News/Article-Display/Article/3689211/jfhq-dodin-to-officially-launch-its-new-cyber-operational-readiness-assessment/).",
+      "shortNote": "Launched 1 March 2024 and renamed from the Command Cyber Readiness Inspection. Its launch release does not connect it to zero trust."
     },
     {
       "id": "rmf-ato",
@@ -929,6 +951,7 @@
       "name": "RMF and ATO evidence",
       "shortName": "RMF / ATO",
       "oneLiner": "The Risk Management Framework is the seven-step process that produces the evidence an authorizing official uses to grant an authorization to operate.",
+      "shortSummary": "Seven steps that produce the evidence an authorizing official uses to grant an authorization to operate.",
       "answersQuestion": "What evidence does an assessor examine, and who decides the system may operate?",
       "publisher": "NIST",
       "title": "Risk Management Framework for Information Systems and Organizations: A System Life Cycle Approach for Security and Privacy",
@@ -997,7 +1020,8 @@
           "note": "SP 800-37 executive summary: 'Circular A-130 requires agencies to implement the RMF'; use by nongovernmental organizations is voluntary. DoD Instruction 8510.01 (19 July 2022) adopts the NIST RMF for {{dow}} systems (listed under documents)."
         }
       },
-      "note": "The seven steps span two layers: Prepare comes first and serves both; Categorize, Select and Implement sit with the controls layer; Assess, Authorize and Monitor are the verification layer. On 24 September 2025 the {{dow}} CIO announced a Cybersecurity Risk Management Construct (CSRMC) that it presents as the successor to the RMF process; DoD Instruction 8510.01 was still the instruction in the CIO library on 29 September 2026. The construct's five phases are organized around the RMF steps."
+      "note": "The seven steps span two layers: Prepare comes first and serves both; Categorize, Select and Implement sit with the controls layer; Assess, Authorize and Monitor are the verification layer. On 24 September 2025 the {{dow}} CIO announced a Cybersecurity Risk Management Construct (CSRMC) that it presents as the successor to the RMF process; DoD Instruction 8510.01 was still the instruction in the CIO library on 29 September 2026. The construct's five phases are organized around the RMF steps.",
+      "shortNote": "Its seven steps span two layers, and the {{dow}} CIO presents its 2025 CSRMC as the successor to the RMF process."
     },
     {
       "id": "ai-rmf",
@@ -1005,6 +1029,7 @@
       "name": "NIST AI Risk Management Framework 1.0",
       "shortName": "AI RMF",
       "oneLiner": "The AI RMF gives an organization four functions, Govern, Map, Measure, and Manage, to handle the risks of AI systems in outcome language.",
+      "shortSummary": "Four functions, Govern, Map, Measure and Manage, for handling the risks of AI systems in outcome language.",
       "answersQuestion": "What does good look like for AI risk, in the language leadership funds against?",
       "publisher": "NIST",
       "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
@@ -1040,6 +1065,7 @@
       "name": "NIST IR 8596, Cyber AI Profile (draft)",
       "shortName": "Cyber AI Profile",
       "oneLiner": "The Cyber AI Profile is a draft CSF 2.0 Community Profile that crosses the six functions with three focus areas: securing AI system components, conducting AI-enabled cyber defense, and thwarting AI-enabled cyber attacks.",
+      "shortSummary": "A draft CSF 2.0 Community Profile that crosses the six functions with three AI focus areas: secure, defend, thwart.",
       "answersQuestion": "How do the six CSF functions apply when AI is the system being secured, the attacker's tool, or the defender's tool?",
       "publisher": "NIST",
       "title": "Cybersecurity Framework Profile for Artificial Intelligence (Cyber AI Profile): NIST Community Profile",
@@ -1067,7 +1093,8 @@
           "note": "A NIST Community Profile in draft; the record and the document describe it as a Profile for voluntary use and invite comment."
         }
       },
-      "note": "Focus areas as printed in the draft: Securing AI System Components (Secure), Conducting AI-Enabled Cyber Defense (Defend), Thwarting AI-Enabled Cyber Attacks (Thwart). A companion NIST project drafts SP 800-53 control overlays for securing AI systems."
+      "note": "Focus areas as printed in the draft: Securing AI System Components (Secure), Conducting AI-Enabled Cyber Defense (Defend), Thwarting AI-Enabled Cyber Attacks (Thwart). A companion NIST project drafts SP 800-53 control overlays for securing AI systems.",
+      "shortNote": "A companion NIST project drafts SP 800-53 control overlays for securing AI systems."
     },
     {
       "id": "ai-defense-matrix",
@@ -1075,6 +1102,7 @@
       "name": "AI Defense Matrix",
       "shortName": "AI Defense Matrix",
       "oneLiner": "The AI Defense Matrix lays the six CSF 2.0 functions across eight AI-specific asset classes, from models and training data to agent identities, the same two-axis move the zero trust matrix makes.",
+      "shortSummary": "Lays the six CSF 2.0 functions across eight AI asset classes, from models and training data to agent identities.",
       "answersQuestion": "Which defenses does each part of an AI system need, function by function?",
       "publisher": "Lenny Zeltser and Sounil Yu",
       "title": "The AI Defense Matrix",
@@ -1102,6 +1130,7 @@
         }
       },
       "note": "A private work by its two authors, credited in the citation fields, published under a Creative Commons Attribution-ShareAlike 4.0 license and positioned as the security-for-AI companion to the Cyber Defense Matrix. It is the one entry on the stack that is not a government or standards-body work.",
+      "shortNote": "A private work by two authors under a Creative Commons license, and the one entry not from a government or standards body.",
       "authors": [
         "Lenny Zeltser",
         "Sounil Yu"
@@ -1115,6 +1144,7 @@
       "name": "CoSAI Zero Trust for AI Systems",
       "shortName": "CoSAI ZT for AI",
       "oneLiner": "Zero Trust for AI Systems keeps authorization outside the model, beyond what it calls the AI threat boundary: an agent gets a scoped share of its user's rights, and a policy decision point checks each tool call.",
+      "shortSummary": "Keeps authorization outside the model: an agent gets a scoped share of its user's rights, and each tool call is checked.",
       "answersQuestion": "Where must authorization sit when an AI agent acts for a user?",
       "publisher": "Coalition for Secure AI (CoSAI), an OASIS Open Project",
       "title": "Zero Trust for AI Systems",
@@ -1142,6 +1172,7 @@
         }
       },
       "note": "From CoSAI's Workstream 2. A framework in the AI column because it maps zero trust onto the parts of an AI system: policies for each part (Table 1) and controls at maturity tiers (Table 2).",
+      "shortNote": "From CoSAI's Workstream 2. It maps zero trust onto the parts of an AI system, with policies per part and controls at maturity tiers.",
       "license": "Copyright 2026 OASIS Open, all rights reserved, with limited permissions if the notice is kept",
       "attributionRequired": true
     },
@@ -1151,6 +1182,7 @@
       "name": "NIST SP 1353 (initial public draft)",
       "shortName": "SP 1353",
       "oneLiner": "SP 1353 is a draft quick-start guide on using AI tools to do CSF analysis and reporting; it is a how-to, not a framework.",
+      "shortSummary": "A draft quick-start guide on using AI tools for CSF analysis and reporting: it is a how-to, not a framework.",
       "answersQuestion": "How can a team use AI tools in a CSF assessment without handing them the judgment the Profile needs?",
       "publisher": "NIST",
       "title": "NIST Cybersecurity Framework 2.0: Quick-Start Guide for Using Artificial Intelligence (AI) for CSF Analysis and Reporting",
@@ -1165,6 +1197,7 @@
         "recheckAfter": "2026-11-15"
       },
       "note": "Placed in the AI column as a quick-start guide rather than a framework. Its comment period closed on 15 October 2026, and it was still the initial public draft on 18 October 2026.",
+      "shortNote": "A quick-start guide, not a framework. Its comment period closed on 15 October 2026, and it was still the initial public draft on 18 October.",
       "authority": {
         "nature": "guidance",
         "binds": [
@@ -1187,6 +1220,7 @@
       "name": "Executive Order 14028",
       "shortName": "EO 14028",
       "oneLiner": "EO 14028 orders every federal agency head to modernize cybersecurity, including a plan to adopt zero trust architecture.",
+      "shortSummary": "Orders every federal agency head to modernize cybersecurity, including a plan to adopt zero trust architecture.",
       "role": "Root mandate for the federal civilian trailhead.",
       "publisher": "The White House",
       "title": "Improving the Nation's Cybersecurity",
@@ -1224,6 +1258,7 @@
       "name": "OMB Memorandum M-22-09",
       "shortName": "M-22-09",
       "oneLiner": "M-22-09 is the federal zero trust strategy memo: it sets the goals every executive department and agency must meet, organized by the CISA maturity model.",
+      "shortSummary": "The federal zero trust strategy memo: the goals every agency must meet, organized by the CISA maturity model.",
       "role": "Cited by the civilian trailhead for its goals and its deadline.",
       "publisher": "OMB",
       "title": "Moving the U.S. Government Toward Zero Trust Cybersecurity Principles",
@@ -1266,6 +1301,7 @@
       "name": "Executive Order 13800",
       "shortName": "EO 13800",
       "oneLiner": "EO 13800 directs every federal agency head to use the NIST Cybersecurity Framework to manage the agency's cyber risk.",
+      "shortSummary": "Directs every federal agency head to manage the agency's cyber risk with the NIST Cybersecurity Framework.",
       "role": "The order that makes the CSF the federal outcome language; cited by the civilian trailhead's Profile step.",
       "publisher": "The White House",
       "title": "Strengthening the Cybersecurity of Federal Networks and Critical Infrastructure",
@@ -1300,6 +1336,7 @@
       "name": "DoD Zero Trust Execution Roadmap and Capabilities",
       "shortName": "DoD ZT Roadmap",
       "oneLiner": "The execution roadmap sequences the 152 zero trust activities, 91 of them at Target Level, by course of action and fiscal year toward the strategy's deadline.",
+      "shortSummary": "Sequences the 152 zero trust activities, 91 of them at Target Level, by course of action and fiscal year.",
       "role": "Phasing for the {{dow}} trailhead.",
       "publisher": "DoD CIO",
       "title": "Zero Trust Execution Roadmap",
@@ -1362,6 +1399,7 @@
       "name": "NIST SP 800-171",
       "shortName": "SP 800-171",
       "oneLiner": "SP 800-171 lists the security requirements a nonfederal organization must meet to protect the controlled unclassified information it handles for the government.",
+      "shortSummary": "The requirements a nonfederal organization must meet to protect the controlled unclassified information it handles.",
       "role": "Control layer for the defense contractor trailhead.",
       "publisher": "NIST",
       "title": "Protecting Controlled Unclassified Information in Nonfederal Systems and Organizations",
@@ -1389,6 +1427,7 @@
         }
       },
       "note": "NIST withdrew Revision 2 on 14 May 2024 in favor of Revision 3. Class Deviation 2024-O0013 keeps Revision 2 in force for DFARS 252.204-7012 until rescinded, and the CMMC program rule assesses Level 2 against its 110 requirements.",
+      "shortNote": "Revision 3 replaced Revision 2 in May 2024, yet a class deviation keeps Revision 2 in force for DFARS 252.204-7012 and CMMC Level 2.",
       "documents": [
         {
           "title": "Protecting Controlled Unclassified Information in Nonfederal Systems and Organizations",
@@ -1437,6 +1476,7 @@
       "name": "Cybersecurity Maturity Model Certification (CMMC) Program",
       "shortName": "CMMC",
       "oneLiner": "CMMC is the {{dow}} program that verifies, at three levels, that a contractor meets the security requirements for the information it handles, by self-assessment, by an accredited third-party assessor, or by a government assessment.",
+      "shortSummary": "Verifies at three levels that a contractor meets the security requirements for the information it handles.",
       "role": "Certification layer for the defense contractor trailhead.",
       "publisher": "DoD CIO",
       "title": "Cybersecurity Maturity Model Certification (CMMC) Program",
@@ -1468,6 +1508,7 @@
         }
       },
       "note": "Commonly called CMMC 2.0. Level 1 is a self-assessment against the 15 requirements of FAR 52.204-21. Level 2 covers the 110 requirements of SP 800-171 Revision 2 and under the rule is either self-assessed or certified by a C3PAO, as the contract specifies. Level 3 adds 24 requirements from SP 800-172 and under the rule is assessed by the government's DCMA DIBCAC. The department's suspension of 13 July 2026 (listed under documents, with the memoranda and the class deviation that carries it into contracts) limits new CMMC requirements to Level 1 and Level 2 self-assessments, has Level 2 C3PAO and Level 3 DIBCAC requirements removed from active solicitations and, before the next option is exercised or at the next scheduled administrative modification, from existing contracts, and leaves the DFARS 252.204-7012 obligation in place; no task force report had been published by 30 September 2026.",
+      "shortNote": "Since the 13 July 2026 suspension, new CMMC requirements stop at Level 1 and Level 2 self-assessments; DFARS 252.204-7012 still applies.",
       "documents": [
         {
           "title": "Cybersecurity Maturity Model Certification (CMMC) Program",
@@ -1553,6 +1594,7 @@
       "shortName": "SP 1800-35",
       "layerId": "l4",
       "oneLiner": "SP 1800-35 is NIST's practice guide for implementing a zero trust architecture consistent with SP 800-207, built from example implementations and mapped to common standards.",
+      "shortSummary": "NIST's practice guide for building a zero trust architecture consistent with SP 800-207, from example implementations.",
       "role": "Implementation guidance at layer 4 for any trailhead; cited by the mapping helper.",
       "publisher": "NIST",
       "title": "Implementing a Zero Trust Architecture: High-Level Document",
@@ -1587,6 +1629,7 @@
       "shortName": "M-25-21",
       "layerId": "l6",
       "oneLiner": "M-25-21 is the memo that governs how federal agencies use AI, with named accountable officials, use-case inventories, and minimum practices for high-impact uses.",
+      "shortSummary": "Governs how federal agencies use AI: accountable officials, use-case inventories and minimum practices for high-impact uses.",
       "role": "Governance of federal AI use, outside the cybersecurity stack; listed in the AI column and cited by its note.",
       "publisher": "OMB",
       "title": "Accelerating Federal Use of AI through Innovation, Governance, and Public Trust",
@@ -1617,7 +1660,8 @@
           "note": "Addressee line, the 44 U.S.C. 3502(1) definition, the 60-day Chief AI Officer clause, the inventory exemption and the national security system exclusion read from the memo."
         }
       },
-      "note": "Governance outside the cybersecurity stack: it tells agencies how to govern their use of AI, not how to secure it, which is why it is listed with the column as governance rather than as a framework on it."
+      "note": "Governance outside the cybersecurity stack: it tells agencies how to govern their use of AI, not how to secure it, which is why it is listed with the column as governance rather than as a framework on it.",
+      "shortNote": "Governance, not security: it tells agencies how to govern their use of AI, so it sits beside the column rather than on it."
     }
   ],
   "solutions": [
@@ -1627,6 +1671,7 @@
       "name": "DISA Thunderdome",
       "shortName": "Thunderdome",
       "oneLiner": "Thunderdome is the zero trust network access and application security architecture of the Defense Information Systems Agency (DISA), which deploys it to Defense Agencies and Field Activities as it moves them onto one consolidated network.",
+      "shortSummary": "DISA's zero trust network access and application security architecture for the Defense Agencies and Field Activities.",
       "answersQuestion": "What does an enterprise zero trust service deliver, and how was it measured against the model?",
       "publisher": "DISA",
       "title": "DISA awards Thunderdome production agreement",
@@ -1726,6 +1771,7 @@
       "name": "Navy Flank Speed",
       "shortName": "Flank Speed",
       "oneLiner": "Flank Speed is the Navy's unclassified Microsoft 365 cloud environment, whose productivity and messaging services are designated a Department of the Navy enterprise IT service.",
+      "shortSummary": "The Navy's unclassified Microsoft 365 cloud, whose productivity and messaging services are an enterprise IT service.",
       "answersQuestion": "What does a zero trust assessment of an enterprise cloud service report, and against how many of the activities?",
       "publisher": "Department of the Navy CIO",
       "title": "Department of the Navy Enterprise Information Technology Service Designation for Flank Speed and Hyperion Messaging and Collaboration Services",
@@ -6045,8 +6091,8 @@
         "Framework Maps runs entirely on your device. The iOS app and the web page carry all of their content with them. Once open, the web page needs no connection, and a saved copy works offline.",
         "Framework Maps makes no network requests. Once the web page is open it loads no scripts, fonts, images or data from anywhere, and the iOS app does not connect to the internet.",
         "There is no account and nothing to sign in to.",
-        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web pages keep is your theme choice (system, light or dark), saved in your browser's local storage under the one key lensatic-theme, on your device and never sent anywhere; the iOS app keeps two things, on your device only: the trailhead you picked and the steps you checked off, in one file inside the app that is never sent anywhere; it follows your device's light or dark setting.",
-        "Lensatic holds nothing about you. Deleting the iOS app removes your trailhead and checked steps; clearing this site's data in your browser removes the saved theme choice.",
+        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web pages keep is your theme choice (system, light or dark), saved in your browser's local storage under the one key lensatic-theme, on your device and never sent anywhere; the iOS app keeps, on your device only, the trailhead you picked, the steps you checked off, the items you saved and the guide weeks you marked done, in one file inside the app that is never sent anywhere; it lists its frameworks, plays and your trailhead's steps in your device's own search (Spotlight), which also stays on the device; and it follows your device's light or dark setting.",
+        "Lensatic holds nothing about you. Deleting the iOS app removes your trailhead, checked steps, saved items and marked weeks, and its entries in your device's search; clearing this site's data in your browser removes the saved theme choice.",
         "There are no third-party software development kits (SDKs), no analytics and no advertising.",
         "In the web page and the iOS app, the only outside links go to the public documents cited in Sources and to the source repository on GitHub; both also link to this policy and the support page. They open in your browser, under those sites' own privacy policies. This page and the support page also link to GitHub.",
         "The Zero Trust page and the Agentic SecOps app share that one theme choice with the other Lensatic pages. A choice either of them saved earlier under its own key (ztfg-theme or playbook-theme) moves to lensatic-theme once, and the old key is removed. Both link out to their public sources.",

@@ -7,6 +7,7 @@ struct EntityCardView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) private var typeSize
+    @State private var summaryOpen = false
     let id: String
 
     var body: some View {
@@ -31,6 +32,7 @@ struct EntityCardView: View {
                             .accessibilityLabel("Back")
                             .accessibilityIdentifier("card-back")
                         Spacer()
+                        BookmarkButton(item: .entity(e.id))
                         if let url = URL(string: e.url) {
                             ShareLink(item: url, subject: Text(e.name)) { CircleIconLabel(icon: .share) }
                                 .buttonStyle(.plain)
@@ -45,14 +47,24 @@ struct EntityCardView: View {
                             .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Palette.secMaps, lineWidth: 1))
                         VStack(alignment: .leading, spacing: 2) {
                             Eyebrow(text: facts.eyebrow, small: true)
-                            Text(e.name).font(DS.cardTitle).foregroundStyle(Palette.fg)
+                            Text(e.displayName).font(DS.cardTitle).foregroundStyle(Palette.fg)
                                 .accessibilityAddTraits(.isHeader)
                                 .accessibilityIdentifier("card-title")
                         }
                         .fixedSize(horizontal: false, vertical: true)
                     }
-                    Text(e.oneLiner).font(DS.summary).foregroundStyle(Palette.fg).lineSpacing(4)
-                        .fixedSize(horizontal: false, vertical: true)
+                    // the short summary (content 1.2.19), and the whole one-liner one tap down
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text(keepWhole(summaryOpen ? e.oneLiner : e.shortSummary)).font(DS.summary).foregroundStyle(Palette.fg).lineSpacing(4)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .accessibilityIdentifier("card-summary")
+                        Button { summaryOpen.toggle() } label: {
+                            Text(summaryOpen ? "Show Less" : "Read More").font(DS.link).foregroundStyle(Palette.link)
+                                .frame(minHeight: 44).contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityIdentifier("card-summary-more")
+                    }
                     StatTileRow {
                         StatTile(label: model.store.label("binds"), value: facts.binds)
                         StatTile(label: "Due", value: facts.due)
@@ -155,7 +167,7 @@ struct EntityFacts {
         let sep = store.label("metaSeparator")
         let nature = ui.nature[e.authority.nature.rawValue] ?? e.authority.nature.rawValue
         if let layer = e.layerId.flatMap({ store.layers[$0] }) {
-            eyebrow = "\(store.label("layer")) \(layer.order)\(sep)\(layer.name)"
+            eyebrow = layer.isColumn ? layer.name : "\(store.label("layer")) \(layer.order)\(sep)\(layer.name)"
         } else {
             eyebrow = "Source\(sep)\(nature)"
         }
@@ -244,13 +256,14 @@ struct SourcesSheet: View {
                     }
                 }
                 if let note = e.note {
-                    // the caveat's first sentence, and the rest one tap down
-                    let parts = Rules.firstSentence(note)
+                    // the short note (content 1.2.19), and the whole note one tap down; a note short enough has none
+                    let short = e.shortNote
                     VStack(alignment: .leading, spacing: 4) {
                         SectionLabel(text: model.store.label("note"), tracked: false)
-                        Text(noteOpen || parts.rest.isEmpty ? note : parts.first).font(DS.note).foregroundStyle(Palette.fg).lineSpacing(3)
+                        Text(noteOpen || short == nil ? note : keepWhole(short ?? note)).font(DS.note).foregroundStyle(Palette.fg).lineSpacing(3)
                             .fixedSize(horizontal: false, vertical: true)
-                        if !parts.rest.isEmpty {
+                            .accessibilityIdentifier("sources-note")
+                        if short != nil {
                             Button { noteOpen.toggle() } label: {
                                 Text(noteOpen ? "Show Less" : "Read More").font(DS.link).foregroundStyle(Palette.link)
                                     .frame(minHeight: 44).contentShape(Rectangle())

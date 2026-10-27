@@ -26,7 +26,8 @@ struct MyPathView: View {
     private func content(_ door: Door, _ plan: PathPlan) -> some View {
         let checked = model.progress.checked(door.id)
         let next = plan.next(checked)
-        return ScrollView {
+        return ScrollViewReader { proxy in
+        ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 ScreenHeader(eyebrow: door.shortTitle, title: "My Path") {
                     Button { model.changingDoor = true } label: {
@@ -43,12 +44,13 @@ struct MyPathView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         SectionLabel(text: "Your steps")
                         ForEach(plan.steps, id: \.order) { step in
-                            StepRow(step: step, isDone: checked.contains(step.order), isNext: step.order == next?.order,
-                                    layer: model.store.layers[step.layerId]?.order, names: names(step.entityIds),
+                            StepRow(door: door.id, step: step, isDone: checked.contains(step.order), isNext: step.order == next?.order,
+                                    layer: model.store.layerTag(step.layerId), names: names(step.entityIds),
                                     expanded: expanded.contains(step.order),
                                     toggle: { model.progress.toggle(door.id, step.order) },
                                     expand: { toggleExpanded(step.order) },
                                     open: { model.push(.entity($0)) })
+                            .id("step-row-\(step.order)")
                         }
                     }
                 }
@@ -58,6 +60,17 @@ struct MyPathView: View {
             .padding(.bottom, 24)
         }
         .accessibilityIdentifier("my-path")
+        // a step opened from Search, a saved item or iOS search: open it in place and bring it into view
+        .onAppear { focus(proxy) }
+        .onChange(of: model.pathFocus) { focus(proxy) }
+        }
+    }
+
+    private func focus(_ proxy: ScrollViewProxy) {
+        guard let order = model.pathFocus else { return }
+        model.pathFocus = nil
+        expanded.insert(order)
+        DispatchQueue.main.async { proxy.scrollTo("step-row-\(order)", anchor: .top) }
     }
 
     private func names(_ ids: [String]) -> [(id: String, name: String)] {
@@ -88,7 +101,7 @@ struct MyPathView: View {
                     } else if let next {
                         Text("Next step").font(DS.caption).foregroundStyle(Palette.fg2)
                         Text(keepDesignations(next.title)).font(DS.heroStep).foregroundStyle(Palette.fg)
-                        Text("Step \(next.order) of \(progress.total)" + (model.store.layers[next.layerId].map { "\(sep)\(model.store.label("layer")) \($0.order)" } ?? ""))
+                        Text("Step \(next.order) of \(progress.total)" + (model.store.layerTag(next.layerId).map { "\(sep)\($0)" } ?? ""))
                             .font(DS.caption).foregroundStyle(Palette.fg2)
                     } else if progress.isComplete {
                         Text("Path complete").font(DS.caption).foregroundStyle(Palette.fg2)
@@ -142,10 +155,11 @@ struct MyPathView: View {
 /// The next step is called out on the second surface with the section's outline, its layer and what it applies to.
 struct StepRow: View {
     @Environment(AppModel.self) private var model
+    let door: Door.ID
     let step: Door.Step
     let isDone: Bool
     let isNext: Bool
-    let layer: Int?
+    let layer: String?
     let names: [(id: String, name: String)]
     let expanded: Bool
     let toggle: () -> Void
@@ -177,7 +191,7 @@ struct StepRow: View {
                     HStack(spacing: 12) {
                         VStack(alignment: .leading, spacing: 2) {
                             if isNext {
-                                Eyebrow(text: "Next" + model.store.label("metaSeparator") + (layer.map { "\(model.store.label("layer")) \($0)" } ?? ""), small: true)
+                                Eyebrow(text: "Next" + (layer.map { model.store.label("metaSeparator") + $0 } ?? ""), small: true)
                             }
                             Text(keepDesignations(step.title))
                                 .font(isNext ? DS.nextTitle : DS.step)
@@ -210,12 +224,16 @@ struct StepRow: View {
                 VStack(alignment: .leading, spacing: 10) {
                     Text(step.text).font(DS.step).foregroundStyle(Palette.fg).lineSpacing(3)
                         .fixedSize(horizontal: false, vertical: true)
-                    FlowLayout {
-                        ForEach(names, id: \.id) { e in
-                            Button { open(e.id) } label: { Pill(text: e.name) }
-                                .buttonStyle(.plain)
-                                .accessibilityIdentifier("step-\(step.order)-entity-\(e.id)")
+                    HStack(alignment: .top, spacing: 8) {
+                        FlowLayout {
+                            ForEach(names, id: \.id) { e in
+                                Button { open(e.id) } label: { Pill(text: e.name) }
+                                    .buttonStyle(.plain)
+                                    .accessibilityIdentifier("step-\(step.order)-entity-\(e.id)")
+                            }
                         }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        BookmarkButton(item: .step(door, step.order), compact: true)
                     }
                 }
                 .padding(.leading, 36)

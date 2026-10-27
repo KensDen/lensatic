@@ -121,6 +121,11 @@ enum Countdown {
 /// Title Case for names and labels the content writes in sentence case (the nit list's rules 1 and 4): every word
 /// capitalized except short joining words after the first, and a word that already holds a capital (an abbreviation
 /// such as DoW or CUI) left as it is.
+extension Entity {
+    /// The entry's name as a title on screen: in Title Case (nit 1), its own capitals kept.
+    var displayName: String { TitleCase.apply(name) }
+}
+
 enum TitleCase {
     static let small: Set<String> = ["a", "an", "and", "as", "at", "by", "for", "in", "of", "on", "or", "the", "to", "with"]
 

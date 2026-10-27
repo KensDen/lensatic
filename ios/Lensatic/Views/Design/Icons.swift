@@ -5,6 +5,7 @@ import SwiftUI
 enum IconName: String, CaseIterable, Sendable {
     case compass, layers, search, library, shield, shieldCheck, building, briefcase, globe
     case chevronRight, chevronLeft, check, circle, checkCircle, bookmark, share, info, doc
+    case map, star, chip, close
 
     var paths: [String] {
         switch self {
@@ -26,6 +27,10 @@ enum IconName: String, CaseIterable, Sendable {
         case .share: return ["M12 3v12M7 8l5-5 5 5M5 14v6h14v-6"]
         case .info: return [SVGPath.circle(12, 12, 10), "M12 11v6M12 7.5v.5"]
         case .doc: return ["M6 3h9l4 4v14H6z", "M14 3v5h5"]
+        case .map: return ["M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z", "M9 3v15M15 6v15"]
+        case .star: return ["M12 3l3 6 6 1-4.5 4 1 6-5.5-3-5.5 3 1-6L3 10l6-1z"]
+        case .chip: return ["M8 5h8a3 3 0 013 3v8a3 3 0 01-3 3H8a3 3 0 01-3-3V8a3 3 0 013-3z", "M9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"]
+        case .close: return ["M6 6l12 12M18 6L6 18"]
         }
     }
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Battery checks for the iOS app (session 8, section 4.5).
 
-On every machine: the colour sets and web_texts.json equal fresh generations; nothing under ios/ names a forbidden API
+On every machine: the colour sets and the Library's guide.json and plays.json equal fresh generations; nothing under ios/ names a forbidden API
 (web views, networking, stored defaults or scene state, file writes but the progress store's one, third-party modules, analytics or crash
 reporting, or anything the privacy manifest would have to declare); the only outside addresses in the Swift sources
 are the policy, support and source links; every font call scales with Dynamic Type; the six TrueType faces and
@@ -44,7 +44,6 @@ ASSETS = APP / "Resources" / "Assets.xcassets"
 FONTS = APP / "Resources" / "Fonts"
 ICON = ASSETS / "AppIcon.appiconset" / "AppIcon-1024.png"
 MARK = ASSETS / "Mark.imageset" / "mark.svg"
-FIXTURE = IOS / "LensaticTests" / "Fixtures" / "web_texts.json"
 TMP = ROOT / ".tmp" / "ios-check"
 XCODEGEN = ROOT / ".tmp" / "xcodegen" / "bin" / "xcodegen"
 BATTERY_DERIVED = ROOT / ".tmp" / "DerivedData-battery"
@@ -80,7 +79,9 @@ FORBIDDEN = {
     "system boot time": r"systemUptime|mach_absolute_time|kern\.boottime",
     "the active keyboards": r"activeInputModes|UITextInputMode",
 }
-ALLOWED_IMPORTS = {"Foundation", "SwiftUI", "UIKit", "Observation", "CryptoKit", "XCTest"}
+# Core Spotlight (R2) puts the published entries, steps and plays in the on-device iOS search index; UniformTypeIdentifiers
+# names their content type
+ALLOWED_IMPORTS = {"Foundation", "SwiftUI", "UIKit", "Observation", "CryptoKit", "XCTest", "CoreSpotlight", "UniformTypeIdentifiers"}
 # the redesign (R1, 26 October 2026): the reader's trailhead and checked steps stay on the device in one JSON file. This
 # file alone may name FileManager (for the app's Application Support folder) and write, and only that one file; every
 # other forbidden name stays forbidden in it too
@@ -201,13 +202,9 @@ def check_static(rep) -> None:
     errs = [gen.stderr.strip()[:200]] if gen.returncode else tree_diff(ASSETS / "Colors", TMP / "Colors")
     rep.check("iOS colour sets equal a fresh tools/gen_ios_colors.py run from the styles.css tokens", errs,
               f"{len(list((ASSETS / 'Colors').glob('*.colorset')))} colour sets")
-    texts = run([sys.executable, str(ROOT / "tools" / "build_web.py"), "--author", "Ken Connell", "--out", str(TMP / "page.html"),
-                 "--texts", str(TMP / "web_texts.json")])
-    errs = [texts.stderr.strip()[:200]] if texts.returncode else ([] if filecmp.cmp(FIXTURE, TMP / "web_texts.json", shallow=False)
-                                                                  else [f"{FIXTURE.relative_to(ROOT)} is stale; run: python3 tools/build_web.py --author \"Ken Connell\" "
-                                                                        f"--out .tmp/page.html --texts {FIXTURE.relative_to(ROOT)}"])
-    n = len(json.loads(FIXTURE.read_text(encoding="utf-8"))["texts"]) if FIXTURE.exists() else 0
-    rep.check("web_texts.json equals a fresh tools/build_web.py --texts run", errs, f"{n} texts")
+    lib = run([sys.executable, str(ROOT / "tools" / "build_library.py"), "--check"])
+    rep.check("the Library's guide.json and plays.json equal a fresh tools/build_library.py run", [x for x in lib.stdout.splitlines() if x] or
+              ([lib.stderr.strip()[:200]] if lib.returncode else []))
 
     # section 3.7: forbidden names, modules, outside addresses
     errs, urls = [], 0
@@ -417,7 +414,8 @@ def check_xcode(rep) -> None:
         work = TMP / "gen" / ROOT.name  # the same folder name above ios/ as the checkout
         shutil.rmtree(work.parent, ignore_errors=True)
         shutil.copytree(IOS, work / "ios", ignore=shutil.ignore_patterns("Lensatic.xcodeproj", "xcuserdata", "build", ".DS_Store"))
-        for rel in ("content/stack.json", "web/src/about-photo.jpg", "tools/validate.py"):  # what project.yml references outside ios/
+        for rel in ("content/stack.json", "web/src/about-photo.jpg", "tools/validate.py",  # what project.yml references outside ios/
+                    "guides/zero-trust/app/guide.json", "playbook/app/plays.json", "hub/site.json"):
             (work / rel).parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / rel, work / rel)
         g = run([xcodegen, "generate", "--spec", str(work / "ios" / "project.yml"), "--quiet"])

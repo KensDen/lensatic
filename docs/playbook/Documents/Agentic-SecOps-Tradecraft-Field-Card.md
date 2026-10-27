@@ -55,6 +55,7 @@ Companion to the [Agentic SecOps playbook](https://kensden.github.io/lensatic/pl
 - Operate as if under **ubiquitous technical surveillance**: assume correlation, reduce signature, protect the digital force.
 
 ## Strategy & cadence
+- **Maturity**: anchor to the CMU SEI AI Adoption Maturity Model; know where you are before you build.
 - **Action plan**: 87 actions across **Now (40) / Next (37) / Later (10)**. Sequence deliberately; don't boil the ocean.
 - **Metrics**: pair speed with quality, coverage, and cost. Speed alone hides risk.
 

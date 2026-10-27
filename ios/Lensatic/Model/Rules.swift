@@ -311,9 +311,11 @@ struct Rules: Sendable {
     /// first use and never spelled out. A well-known term (AI) is never spelled out and links to its entry only at its
     /// first use in running text on the AI column screen (linksWellKnown; session 17), plain everywhere else, labels
     /// included, as on the web. The department is spelled out name first.
-    func apply(_ page: inout Page, linksWellKnown: Bool = false) {
+    func apply(_ prose: inout Prose, linksWellKnown: Bool = false) {
         var scope = Scope()
-        page.visitRuns { run, interactive in
+        for i in prose.runs.indices {
+            let interactive = prose.interactive[i]
+            var run = prose.runs[i]
             var segments: [Segment] = []
             var described: [String] = []
             var linkDescribed: [Target: [String]] = [:]
@@ -345,6 +347,7 @@ struct Rules: Sendable {
             var once = Set<String>()
             run.described = described.filter { once.insert($0).inserted }
             run.linkDescribed = linkDescribed
+            prose.runs[i] = run
         }
     }
 

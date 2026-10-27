@@ -31,6 +31,14 @@ targets:
         buildPhase: resources
       - path: ../web/src/about-photo.jpg
         buildPhase: resources
+      # the Library (R2): the guide and the plays as tools/build_library.py generates them into each section's own tree,
+      # and the umbrella's names for the sections, all by reference
+      - path: ../guides/zero-trust/app/guide.json
+        buildPhase: resources
+      - path: ../playbook/app/plays.json
+        buildPhase: resources
+      - path: ../hub/site.json
+        buildPhase: resources
     info:
       path: Lensatic/Info.plist
       properties:

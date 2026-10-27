@@ -42,44 +42,6 @@ enum Typo {
         Font.custom(face, size: size, relativeTo: style)
     }
 
-    /// The size and text style behind each paragraph style.
-    static func metrics(_ style: TextStyle) -> (CGFloat, Font.TextStyle) {
-        switch style {
-        case .body, .strong: return (17, .body)
-        case .lede: return (19, .title3)
-        case .small: return (15, .subheadline)
-        case .note: return (15, .subheadline)
-        case .question: return (18, .headline)
-        case .elevator: return (17, .body)
-        }
-    }
-
-    static func font(_ span: SpanStyle, in style: TextStyle) -> Font {
-        let (size, ts) = metrics(style)
-        switch span {
-        case .plain, .url: return font(style == .strong || style == .question ? sansBold : sans, size, ts)
-        case .strong: return font(sansBold, size, ts)
-        case .mono: return font(mono, size - 2, ts)
-        case .monoStrong: return font(monoBold, size - 2, ts)
-        }
-    }
-
-    static let stamp = font(mono, 13, .footnote)
-    static let secNum = font(monoBold, 13, .footnote)
-    static let sectionTitle = font(sansBold, 26, .title2)
-    static let heroName = font(sansBold, 40, .largeTitle)
-    static let title = font(sansBold, 24, .title2)
-    static let titleMono = font(monoBold, 22, .title2)
-    static let heading = font(sansBold, 18, .headline)
-    static let rowTitle = font(sansBold, 17, .headline)
-    static let rowLine = font(sans, 15, .subheadline)
-    static let meta = font(mono, 12, .caption)
-    static let metaBold = font(monoBold, 12, .caption)
-    static let badge = font(mono, 12, .caption)
-    static let chip = font(sans, 15, .subheadline)
-    static let button = font(sansBold, 17, .body)
-    static let navTitle = font(sansBold, 17, .headline)
-
     /// The navigation bar's titles in Plex Sans too, scaled with Dynamic Type by UIKit's font metrics.
     static func uiFont(_ face: String, _ size: CGFloat, _ style: UIFont.TextStyle) -> UIFont {
         let base = UIFont(name: face, size: size) ?? UIFont.preferredFont(forTextStyle: style)

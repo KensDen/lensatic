@@ -379,6 +379,7 @@ This dial is separate from the playbook's four-level Maturity Model, which runs 
 - **Walk**: scheduled, AI-assisted; agents help but humans gate.
 - **Run**: end-to-end automated loop, with human review only where it matters, and every step auditable so you can override, retune, or roll back.
 
+**Benchmark against the field: the CMU SEI AI Adoption Maturity Model (June 2026).** The Carnegie Mellon Software Engineering Institute (the home of CMMI), in collaboration with Accenture, released a research-validated AI Adoption Maturity Model that complements this crawl/walk/run ladder. Where the ladder above is SecOps-specific, the SEI model is the enterprise-wide frame it nests inside: it assesses **eight dimensions** (organizational strategy; workforce & culture; workflow re-engineering; risk & governance; data; engineering; operations; and technology ecosystem) toward two goals (organizational change and AI lifecycle engineering), and ships with an assessment tool for baselining and periodic re-assessment. Use it as the externally validated anchor when you report maturity to leadership. *(Figures and specifics are as published by the SEI at launch: verify before quoting.)*
 
 ### Metrics that matter
 
@@ -457,6 +458,7 @@ Three written walkthroughs to exercise the program. Each is a 60 - 90 minute tab
 |SANS **SEC545**: GenAI and LLM Application Security |Defending the GenAI stack end-to-end: RAG, agents, MLOps, MAESTRO threat modeling (Blue) |5 days / 20 labs |**GIAC AI Platform Security (GAIPS)**|
 |SANS **SEC598**: AI and Security Automation for Red, Blue, and Purple Teams|Automating and operationalizing red/blue/purple with GenAI and agents |6 days / 25 labs |**GIAC AI Security Automation Engineer (GASAE)**|
 |Hack The Box **AI Red Teamer** Job Role Path                                |Hands-on, ML-heavy AI red teaming (adversarial ML, prompt injection, evasion, MCP), built with Google and aligned to SAIF|Self-paced path              |HTB Certified Offensive AI Expert (**COAE**)    |
+|TryHackMe **AI1 / SAL1** |AI1, hands-on AI security: execute attacks and design defenses against live AI systems (LLMs, RAG, model artifacts), aligned to OWASP LLM Top 10. SAL1: entry-level SOC-analyst (Blue) cert in a simulated SOC |Self-paced + practical exam |TryHackMe AI1 / SAL1|
 |Vendor learning paths                                                       |Microsoft Learn (AI red teaming, Security Copilot, Defender/Sentinel)                                                    |Self-paced                   |                                                |
 
 Notes: SEC598's GIAC certification is **GASAE** (AI Security Automation Engineer). If you see SEC598 paired elsewhere with the Offensive AI Analyst (GOAA) cert, that is a mix-up: GOAA belongs to SEC535. The Hack The Box path's credential is the **COAE** (Certified Offensive AI Expert), validated by a multi-day hands-on practical exam and launched in early 2026. SEC535 now maps to the GIAC Offensive AI Analyst (GOAA) certification, part of GIAC's 2026 rollout of AI-focused certifications; SEC536 now maps to the GIAC AI Penetration Tester (GAIPT), in presale as of September 2026 with general purchase opening February 9, 2027. SEC565 maps to the GIAC Red Team Professional (GRTP). On the defensive (Blue) side, SEC545: GenAI and LLM Application Security is the counterpart to the offensive AI courses, mapping to the new GIAC AI Platform Security (GAIPS) certification (open for registration as of September 2026); together with SEC598 (purple/automation) it rounds the cert map out across all three teaming colors. SANS groups all of these under a dedicated AI security focus area (`https://www.sans.org/artificial-intelligence`), which is the best place to confirm current offerings, certs, and prerequisites.
@@ -536,6 +538,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 
 - [AI Defense Matrix (Zeltser & Yu)](https://aidefensematrix.com)
 - [CIS: CIS Controls v8.1 AI Companion Guides (AI/LLM, Agents, MCP)](https://www.cisecurity.org/insights/blog/applying-controls-real-world-ai-environments)
+- [CMU SEI: AI Adoption Maturity Model (Jun 2026)](https://www.sei.cmu.edu/library/ai-adoption-maturity-model/)
 - [ENISA: Multilayer Framework for Good Cybersecurity Practices for AI (FAICP)](https://www.enisa.europa.eu/publications/multilayer-framework-for-good-cybersecurity-practices-for-ai)
 - [GAIA Top 10 (Mandiant): Good AI Assessment](https://cloud.google.com/blog/topics/threat-intelligence/securing-ai-pipeline)
 - [Google: SAIF (Secure AI Framework)](https://saif.google)
@@ -629,6 +632,9 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 
 **5. Human-Centric AI Adoption**
 
+- [Brynjolfsson, Li & Raymond: Generative AI at Work (NBER, Nov 2023)](https://www.nber.org/papers/w31161)
+- [DORA: State of AI-assisted Software Development (Sep 2025)](https://research.google/pubs/dora-2025-state-of-ai-assisted-software-development-report/)
+- [IBM IBV: 2025 CDO Study (Nov 2025)](https://newsroom.ibm.com/2025-11-13-ibm-study-chief-data-officers-redefine-strategies-as-ai-ambitions-outpace-readiness)
 - [Microsoft: Towards Humanist Superintelligence](https://www.microsoft.ai/news/towards-humanist-superintelligence/)
 - [Stanford HAI: Human-Centered AI](https://hai.stanford.edu/)
 
@@ -683,13 +689,18 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Binary Defense: NightBeacon CMD: The Glass-Box SOC Workbench (webinar)](https://binarydefense.com/webinars/nightbeacon-cmd-the-glass-box-soc-workbench-that-keeps-humans-in-command)
 - [Caroline Wong (The AI Cybersecurity Handbook): When You Turn On AI, Who Owns the New Signals? (Jul 2026)](https://www.theaicyberhandbook.com/when-you-turn-on-ai-who-owns-the-new-signals/)
 - [Darktrace: State of AI Cybersecurity 2026 (survey, via CSA)](https://cloudsecurityalliance.org/blog/2026/04/02/the-state-of-ai-cybersecurity-2026-unveiling-insights-from-over-1-500-security-leaders)
+- [FedRAMP: 2025 AI Prioritization Initiative (Aug 2025)](https://www.fedramp.gov/ai/)
+- [Google DeepMind: Introducing CodeMender (Oct 2025)](https://deepmind.google/blog/introducing-codemender-an-ai-agent-for-code-security/)
 - [CSO Online: AI Red Teaming Comes of Age (2026)](https://www.csoonline.com/article/4181930/ai-red-teaming-comes-of-age.html)
 - [IBM X-Force (Patrick Fussell): The Front of the Cyber Kill Chain Just Moved (Jun 2026)](https://www.ibm.com/think/x-force/The-front-of-the-cyber-kill-chain-just-moved)
 - [Joshua Saxe: The Hard Part Isn't Building the Agent ([un]prompted 2026)](https://www.youtube.com/watch?v=rO2yA52U_i4)
 - [Matt Maisel (Sondera): Hooking Coding Agents with the Cedar Policy Language ([un]prompted 2026)](https://www.youtube.com/watch?v=m6pzrqFJ6hE)
 - [Microsoft CTI-REALM: Benchmark for CTI-to-Detection Agents](https://www.microsoft.com/en-us/security/blog/2026/03/20/cti-realm-a-new-benchmark-for-end-to-end-detection-rule-generation-with-ai-agents/)
+- [Microsoft: What Is Microsoft Entra Agent ID? (Learn, Apr 2026)](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id)
 - [Nicholas Carlini (Anthropic): Black-hat LLMs ([un]prompted 2026)](https://www.youtube.com/watch?v=1sd26pWhfmg)
+- [NIST: SP 800-184: Guide for Cybersecurity Event Recovery (Dec 2016)](https://csrc.nist.gov/pubs/sp/800/184/final)
 - [NOVA & PromptIntel: Adversarial-Prompt Detection & IoPC Feed (Roccia)](https://promptintel.novahunting.ai)
+- [Palantir: Apollo Docs (Introduction)](https://palantir.com/docs/apollo/core/introduction/)
 - [Purple Book: From Snapshots to Living Intelligence (Threat Modeling, Jun 2026)](https://www.thepurplebook.club/blog-posts/from-snapshots-to-living-intelligence-ai-driven-threat-modeling-in-the-world-of-cyber-centric-frontier-models)
 - [Rob T. Lee: Sleep. Diet. Exercise. AI. (SANS)](https://robtlee73.substack.com/)
 - [SANS: The AI-Enabled Vulnerability Analysis Loop (SEC543 × Anthropic, Jun 2026)](https://www.sans.org/blog/ai-enabled-source-code-vulnerability-analysis-loop-sec543-and-anthropics-guidance)
@@ -699,6 +710,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Torq: 20 Questions for AI SOC Vendors (Apocalypse Manifesto, Jun 2026)](https://torq.io/resources/ai-soc-apocalypse/)
 - [Wes Ring & Josiah Peedikayil (Block): Operation Pale Fire ([un]prompted 2026)](https://www.youtube.com/watch?v=SUa1nta8FGQ)
 - [Wiz: Red Agent POV: Autonomous Offensive AI (2026)](https://www.wiz.io/blog/red-agent-pov-series)
+- [XBOW: The Road to Top 1 on HackerOne (Jun 2025)](https://xbow.com/blog/top-1-how-xbow-did-it/)
 
 **8. Regulatory & Compliance**
 
@@ -756,6 +768,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Unit 42 (Palo Alto): Threat Research](https://unit42.paloaltonetworks.com/)
 - [Verizon: 2026 Data Breach Investigations Report](https://www.verizon.com/business/resources/reports/dbir/)
 - [VulnCheck: 2025 Q1 Trends in Vulnerability Exploitation (Apr 2025)](https://www.vulncheck.com/blog/exploitation-trends-q1-2025)
+- [WEF: Global Cybersecurity Outlook 2026 (Jan 2026)](https://reports.weforum.org/docs/WEF_Global_Cybersecurity_Outlook_2026.pdf)
 - [Zenity Labs: AI Security Research Out of the Lab and Into the Wild (Jun 2026)](https://labs.zenity.io/post/why-ai-security-research-needs-to-move-out-of-the-lab-and-into-the-wild)
 
 **11. Vendor & Platform Security**

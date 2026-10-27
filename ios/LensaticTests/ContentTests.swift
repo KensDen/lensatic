@@ -13,13 +13,6 @@ enum Repo {
 
 func sha256(_ data: Data) -> String { SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined() }
 
-/// The same normalisation tools/check_web.py applies to its texts: whitespace collapsed, and the department's
-/// spelled-out name read as its abbreviation.
-func webNorm(_ s: String) -> String {
-    s.replacingOccurrences(of: "Department of War (DoW)", with: "DoW").replacingOccurrences(of: "Department of War", with: "DoW")
-        .split(whereSeparator: \.isWhitespace).joined(separator: " ")
-}
-
 final class ContentTests: XCTestCase {
     static let store = try! ContentStore.bundled()
     var store: ContentStore { Self.store }
@@ -122,149 +115,171 @@ final class ContentTests: XCTestCase {
         } }))
     }
 
-    // MARK: the pages
+    // MARK: the map's screens (the first-use rule)
 
-    lazy var pages: [PageKey: Page] = {
-        let b = PageBuilder(store: store)
-        return Dictionary(uniqueKeysWithValues: b.allKeys().map { ($0, b.page($0)) })
-    }()
+    lazy var screens: [(String, Prose)] = MapScreens.all(store)
 
     func testNoTokenSurvivesInAnyRenderedString() {
-        for (key, page) in pages {
-            for s in page.accessibilityLabels + [page.title] + page.runs.map(\.source) {
-                XCTAssertFalse(s.contains("{{"), "\(key): \(s.prefix(80))")
-            }
+        for (key, prose) in screens {
+            for s in prose.accessibilityLabels + prose.runs.map(\.source) { XCTAssertFalse(s.contains("{{"), "\(key): \(s.prefix(80))") }
+        }
+        for e in store.frameworks + store.sources + store.solutions {
+            for s in [e.shortSummary, e.shortNote ?? "", e.oneLiner, e.note ?? ""] { XCTAssertFalse(s.contains("{{"), e.id) }
         }
     }
 
-    func testSectionsAreTheWebsInOrderWithItsTitles() throws {
-        let fixture = try WebFixture.load()
-        XCTAssertEqual(store.sections.map(\.rawValue), fixture.sections)
-        guard case .rows(let rows)? = pages[.root]?.blocks.first?.kind else { return XCTFail("the root list is not a list of rows") }
-        XCTAssertEqual(rows.map(\.title.text), fixture.sections.map { store.content.ui.sections[$0] ?? "" })
-        XCTAssertEqual(rows.map(\.lead?.text), (1...fixture.sections.count).map { String(format: "%02d", $0) })
+    func expansions(_ prose: Prose) -> [String] {
+        prose.runs.flatMap(\.segments).compactMap { if case .expansion(let s, _, _) = $0 { return s } else { return nil } }
     }
 
-    func testEveryLoggedTextIsOnItsPage() {
-        for (key, page) in pages {
-            let body = webNorm(page.runs.map(\.source).joined(separator: " "))
-            for t in page.texts { XCTAssertTrue(body.contains(webNorm(t)), "\(key) logs a text it does not place: \(t.prefix(60))") }
-        }
-    }
-
-    /// Parity with the web: every string the static render places on the page (web_texts.json, written by
-    /// tools/build_web.py --texts) is one the app renders. App-only strings are printed for the report.
-    func testParityWithTheWebPage() throws {
-        let fixture = try WebFixture.load()
-        XCTAssertEqual(fixture.contentVersion, store.content.meta.contentVersion)
-        let web = fixture.texts.map(webNorm)
-        let app = Set(pages.values.flatMap(\.texts).map(webNorm))
-        // a label whose words describe the web page's layout has an app version (ui.labels.<key>App) that describes the
-        // app's screens: the web's text counts as placed when its app version is placed
-        let labels = store.content.ui.labels
-        let versions = labels.keys.filter { labels[$0 + "App"] != nil }.sorted()
-        XCTAssertFalse(versions.isEmpty)
-        for key in versions {
-            XCTAssertTrue(app.contains(webNorm(labels[key + "App"] ?? "")), "ui.labels.\(key)App is placed")
-        }
-        // the web strings the app does not place because an app version stands in for them
-        let byVersion = Set(versions.compactMap { labels[$0] }.map(webNorm)).subtracting(app).intersection(web)
-        let missing = Set(web).subtracting(app).subtracting(byVersion)
-        let appOnly = app.subtracting(web).sorted()
-        print("PARITY web strings \(web.count) (\(Set(web).count) distinct); app strings \(app.count) distinct; missing \(missing.count); "
-              + "web strings placed by an app version \(byVersion.count) (app versions: \(versions.joined(separator: ", "))); app-only \(appOnly.count)")
-        for s in appOnly { print("PARITY app-only: \(s.prefix(160))") }
-        XCTAssertEqual(missing.count, 0, "missing from the app: \(missing.sorted().prefix(5))")
-    }
-
-    // MARK: first use, on two screens with known abbreviations
-
-    func expansions(_ page: Page) -> [String] {
-        page.runs.flatMap(\.segments).compactMap { if case .expansion(let s, _, _) = $0 { return s } else { return nil } }
-    }
-
-    func assertFirstUseOnly(_ key: PageKey, form: String, expansion: String) throws {
-        let page = try XCTUnwrap(pages[key])
-        let text = page.runs.map(\.text).joined(separator: "\n")
-        let source = page.runs.map(\.source).joined(separator: "\n")
-        XCTAssertGreaterThan(source.components(separatedBy: form).count - 1, 1, "\(form) should appear more than once on \(key)")
-        // the first use in running text (labels never take an expansion) is the one spelled out
-        let running = page.runs.filter { $0.spans.contains { $0.role == .running } }.map(\.text).joined(separator: "\n")
+    /// The first running use of a form on a screen is the one spelled out, and only that one.
+    func assertFirstUseOnly(_ name: String, form: String, expansion: String) throws {
+        let prose = try XCTUnwrap(screens.first { $0.0 == name }?.1, name)
+        let source = prose.runs.map(\.source).joined(separator: "\n")
+        XCTAssertGreaterThan(source.components(separatedBy: form).count - 1, 1, "\(form) should appear more than once on \(name)")
+        let running = prose.runs.filter { $0.spans.contains { $0.role == .running } }.map(\.text).joined(separator: "\n")
         let first = try XCTUnwrap(running.range(of: #"(?<![A-Za-z0-9.])\#(form)(?![A-Za-z0-9])"#, options: .regularExpression))
         let after = running[first.upperBound...]
-        XCTAssertTrue(after.hasPrefix(" (\(expansion))") || after.hasPrefix(" [\(expansion)]"), "the first \(form) on \(key) is not the one spelled out")
-        let spelled = text.components(separatedBy: "\(form) (\(expansion))").count + text.components(separatedBy: "\(form) [\(expansion)]").count - 2
-        XCTAssertEqual(spelled, 1, "\(form) is spelled out once on \(key)")
-        XCTAssertEqual(expansions(page).filter { $0.contains(expansion) }.count, 1)
+        XCTAssertTrue(after.hasPrefix(" (\(expansion))") || after.hasPrefix(" [\(expansion)]"), "the first \(form) on \(name) is not the one spelled out")
+        XCTAssertEqual(expansions(prose).filter { $0.contains(expansion) }.count, 1)
     }
 
-    func testFirstUseOnTheQuestionsScreen() throws {
-        try assertFirstUseOnly(.section(.helper, .dow), form: "NIST", expansion: "National Institute of Standards and Technology")
+    func testFirstUseOnTheControlsLayer() throws {
+        try assertFirstUseOnly("layer l4", form: "SP", expansion: "Special Publication")
     }
 
-    func testFirstUseOnTheStackScreen() throws {
-        try assertFirstUseOnly(.section(.stack, .dow), form: "SP", expansion: "Special Publication")
+    func testFirstUseOnTheTargetStateLayer() throws {
+        try assertFirstUseOnly("layer l3", form: "NIST", expansion: "National Institute of Standards and Technology")
     }
 
-    func testTheDepartmentIsSpelledOutNameFirstOncePerScreen() throws {
-        let page = try XCTUnwrap(pages[.section(.doors, .dow)])
-        let text = page.runs.map(\.text).joined(separator: "\n")
-        XCTAssertEqual(text.components(separatedBy: "Department of War (DoW)").count - 1, 1)
+    func testTheDepartmentIsSpelledOutNameFirstAtMostOncePerScreen() {
+        var seen = 0
+        for (key, prose) in screens {
+            let n = prose.runs.map(\.text).joined(separator: "\n").components(separatedBy: "Department of War (DoW)").count - 1
+            XCTAssertLessThanOrEqual(n, 1, key)
+            seen += n
+        }
+        XCTAssertGreaterThan(seen, 0)
     }
 
     func testNoTermIsSpelledOutTwiceOnAnyScreen() {
-        for (key, page) in pages {
-            let exps = expansions(page).filter { $0.hasPrefix(" (") || $0.hasPrefix(" [") }
+        for (key, prose) in screens {
+            let exps = expansions(prose).filter { $0.hasPrefix(" (") || $0.hasPrefix(" [") }
             XCTAssertEqual(exps.count, Set(exps).count, "\(key) spells a term out twice")
         }
     }
-
-    // MARK: well-known terms
 
     func testWellKnownTermsAreNeverSpelledOut() {
         let wellKnown = store.terms.filter(\.wellKnown)
         XCTAssertEqual(wellKnown.map(\.term), ["AI"])
         for t in wellKnown {
             let exp = (t.expansion ?? "").lowercased()
-            for (key, page) in pages {
-                for s in page.accessibilityLabels {
+            for (key, prose) in screens where !key.hasPrefix("glossary") {
+                for s in prose.accessibilityLabels {
                     XCTAssertFalse(s.lowercased().contains("(\(exp))") || s.lowercased().contains("[\(exp)]"), "\(key): \(s.prefix(80))")
                 }
-                // no expansion on any screen is this term's own (another term's expansion may contain its words, as AI RMF's does)
-                let own = expansions(page).map { $0.trimmingCharacters(in: CharacterSet(charactersIn: " ()[]")).lowercased() }
+                let own = expansions(prose).map { $0.trimmingCharacters(in: CharacterSet(charactersIn: " ()[]")).lowercased() }
                 XCTAssertFalse(own.contains { $0 == exp || $0 == exp + "s" }, "\(key) expands \(t.term)")
             }
         }
     }
 
-    /// Session 17: AI links to its glossary entry on one screen only, the AI column, and once there; every other screen,
-    /// glossary entries included, shows it plain.
-    func testAILinksOnceAndOnlyOnTheAIColumnScreen() {
+    /// Session 17: AI links to its glossary entry on one screen only, the AI column, and once there.
+    func testAILinksOnceAndOnlyOnTheAIColumnScreen() throws {
+        let column = try XCTUnwrap(store.content.layers.first(where: \.isColumn))
         var linked: [String] = []
-        for (key, page) in pages {
-            let n = page.runs.flatMap(\.segments).filter { if case .term("AI", _, _) = $0 { return true } else { return false } }.count
+        for (key, prose) in screens {
+            let n = prose.runs.flatMap(\.segments).filter { if case .term("AI", _, _) = $0 { return true } else { return false } }.count
             if n > 0 { linked.append("\(key) \(n)") }
         }
-        XCTAssertEqual(linked, ["\(PageKey.section(.ai, .dow)) 1"])
-    }
-
-    func testFirstUseOfAIOnTheAIColumnScreenLinksToItsEntry() throws {
-        let page = try XCTUnwrap(pages[.section(.ai, .dow)])
-        // the first running text on the screen that uses AI is the column's note
-        let note = try XCTUnwrap(page.runs.first { $0.source == store.content.ai.note })
-        let at = try XCTUnwrap(note.segments.firstIndex { if case .term("AI", "ai", _) = $0 { return true } else { return false } },
-                               "AI is not linked to its glossary entry in the note")
-        // before it, AI appears only inside other glossary terms (AI RMF), never on its own
-        let before = note.segments[..<at].map(\.string).joined()
-        let pattern = try XCTUnwrap(store.rules.pattern)
-        let forms = pattern.matches(in: before, range: NSRange(location: 0, length: (before as NSString).length)).map { (before as NSString).substring(with: $0.range) }
-        XCTAssertFalse(forms.contains("AI"), "an earlier AI in the note is not linked")
+        XCTAssertEqual(linked, ["layer \(column.id) 1"])
         // the glossary keeps its expansion
-        let glossary = try XCTUnwrap(pages[.section(.glossary, .dow)])
+        let glossary = try XCTUnwrap(screens.first { $0.0 == "glossary" }?.1)
         XCTAssertTrue(glossary.runs.contains { $0.source.hasPrefix("artificial intelligence. ") })
     }
 
-    // MARK: the photo, the fonts and the colours
+    /// The AI column is tagged by its name, never as a sixth layer: on its screen, on its entries' cards, in search and
+    /// in the Library's saved list.
+    func testTheAIColumnIsTaggedByItsNameNotAsASixthLayer() throws {
+        let column = try XCTUnwrap(store.content.layers.first(where: \.isColumn))
+        let sixth = "\(store.label("layer")) \(column.order)"
+        let entries = (store.frameworks + store.sources + store.solutions).filter { $0.layerId == column.id }
+        XCTAssertFalse(entries.isEmpty)
+        for e in entries {
+            XCTAssertEqual(store.layerTag(e.layerId), column.name)
+            XCTAssertEqual(EntityFacts(e, store: store).eyebrow, column.name, e.id)
+        }
+        for (key, prose) in screens { XCTAssertFalse(prose.runs.contains { $0.text.contains(sixth) }, "\(key) shows \(sixth)") }
+    }
+
+    /// A glossary entry carries a badge only by exception (session 20): none for a verified spelling, on the glossary and
+    /// in the sheet a term opens; an entry set to any other status shows it in both.
+    func testGlossaryEntriesCarryABadgeOnlyByException() throws {
+        let items = GlossaryScreen(store: store).items
+        XCTAssertEqual(items.count, store.content.glossary.count)
+        for item in items {
+            let term = try XCTUnwrap(store.terms.first { $0.slug == item.slug })
+            let entry = try XCTUnwrap(store.content.glossary.first { $0.term == term.term })
+            XCTAssertEqual(item.status != nil, entry.verification.status != .verified, item.slug)
+            XCTAssertEqual(GlossaryScreen(store: store, only: item.slug).items.map(\.slug), [item.slug])
+        }
+        let verifiedNow = Set(store.content.glossary.filter { $0.verification.status == .verified }.map(\.term))
+        for status in [Verification.Status.unverified, .conflict, .authored] {
+            let data = try mutated { tree in
+                self.first(&tree, "glossary") { g in
+                    var v = g["verification"] as! [String: Any]
+                    v["status"] = status.rawValue
+                    if status == .authored {
+                        v["method"] = "synthesis"
+                        v["verifiedOn"] = NSNull()
+                        v["basisIds"] = [self.store.frameworks[0].id]
+                        v["recheckAfter"] = nil
+                    }
+                    g["verification"] = v
+                }
+            }
+            let mutant = try ContentStore(data: data)
+            let changed = try XCTUnwrap(mutant.content.glossary.first { verifiedNow.contains($0.term) && $0.verification.status != .verified })
+            let slug = try XCTUnwrap(mutant.terms.first { $0.term == changed.term }?.slug)
+            let screen = GlossaryScreen(store: mutant).items
+            XCTAssertEqual(screen.first { $0.slug == slug }?.status?.status, status, status.rawValue)
+            XCTAssertEqual(screen.filter { $0.status != nil }.count, items.filter { $0.status != nil }.count + 1, status.rawValue)
+            XCTAssertEqual(GlossaryScreen(store: mutant, only: slug).items.first?.status?.status, status, status.rawValue)
+        }
+    }
+
+    /// The citation-line rule on the real content, as All sources gives it.
+    func testCitationLinesOnTheRealContent() throws {
+        let nsa = try XCTUnwrap(store.entities["nsa-zt"])
+        XCTAssertTrue(Run(SourcesScreen.cite(nsa)).source.contains(
+            "NSA, nine cybersecurity information sheets (2021 to 2026) and four implementation guidelines (2026), 28 May 2026."))
+        let screen = SourcesScreen(store: store)
+        XCTAssertEqual(screen.groups.flatMap(\.entries).count, store.entities.count)
+    }
+
+    func testAboutCarriesTheStoryTheLicensingTheMakerAndTheVersions() throws {
+        let about = AboutScreen(store: store)
+        let text = about.prose.runs.map(\.source)
+        XCTAssertTrue(text.contains(store.content.meta.about.licensing))
+        XCTAssertEqual(about.story.count, store.content.meta.about.nameStory?.count)
+        XCTAssertTrue(about.version.contains(store.content.meta.contentVersion))
+        XCTAssertTrue(about.version.contains("\(store.label("releasedOn")) \(Rules.formatDate(store.content.meta.builtOn))"))
+        XCTAssertFalse(store.appVersion.isEmpty)
+        XCTAssertTrue(about.version.contains(store.appVersion))
+        XCTAssertEqual(about.madeBy, "\(store.label("madeBy")) \(store.maker)")
+        XCTAssertEqual(about.counts.map(\.count).reduce(0, +), store.counts.values.reduce(0, +))
+    }
+
+    /// The tagline and the pitch are for link previews, the README, the repository and the store listing: no screen
+    /// shows them. The wayfinder line is on About, and no other screen shows it (session 15).
+    func testThePitchLinesStayOffScreenAndTheWayfinderIsOnAbout() {
+        let meta = store.content.meta
+        for (key, prose) in screens {
+            let shown = prose.runs.map(\.source).joined(separator: "\n")
+            for line in [meta.tagline, meta.pitch] { XCTAssertFalse(shown.contains(line), "\(key) shows: \(line)") }
+            XCTAssertEqual(shown.contains(meta.wayfinder), key == "about", key)
+        }
+    }
 
     func testPhotoIsThePinnedFileAt1200By800() throws {
         let data = try Data(contentsOf: XCTUnwrap(Bundle.main.url(forResource: "about-photo", withExtension: "jpg")))
@@ -287,240 +302,5 @@ final class ContentTests: XCTestCase {
                 XCTAssertNotNil(UIColor(named: name, in: .main, compatibleWith: UITraitCollection(userInterfaceStyle: style)), name)
             }
         }
-    }
-
-    func testAboutCarriesTheLicensingParagraphTheMakerAndTheVersions() throws {
-        let page = try XCTUnwrap(pages[.section(.about, .dow)])
-        XCTAssertTrue(page.texts.contains(store.content.meta.about.licensing))
-        let text = page.runs.map(\.source).joined(separator: "\n")
-        XCTAssertTrue(text.contains(store.content.meta.contentVersion))
-        XCTAssertTrue(text.contains(Rules.formatDate(store.content.meta.builtOn)))
-        XCTAssertFalse(store.appVersion.isEmpty)
-        XCTAssertTrue(text.contains(store.appVersion))
-        XCTAssertFalse(store.maker.isEmpty)
-    }
-
-    // MARK: session 11 (Q12, Q20, Q21, Q23, Q36)
-
-    func testAboutLabelsItsDateAsTheReleaseDate() throws {
-        let page = try XCTUnwrap(pages[.section(.about, .dow)])
-        let meta = store.content.meta
-        let want = "\(store.label("contentVersion")) \(meta.contentVersion)\(store.label("metaSeparator"))\(store.label("releasedOn")) \(Rules.formatDate(meta.builtOn))"
-        let line = try XCTUnwrap(page.runs.first { $0.source == want }, "About reads \(want)")
-        // every space in the line is set in the mono face, as the Doors line's (ED-19)
-        XCTAssertTrue(line.spans.filter { $0.text.contains(" ") }.allSatisfy { $0.style == .mono })
-    }
-
-    /// The front door is the name, the description, the two buttons and the version line, in that order: no line above
-    /// the name, and the label that stood there is gone from the content (session 16).
-    func testTheFrontDoorIsTheNameTheDescriptionTheButtonsAndTheVersionLine() throws {
-        let page = try XCTUnwrap(pages[.section(.doors, .dow)])
-        XCTAssertNil(store.content.ui.labels["heroEyebrow"], "ui.labels.heroEyebrow is back in the content")
-        guard page.blocks.count >= 3, case .hero(let name, let lede) = page.blocks[0].kind else { return XCTFail("the doors screen does not open with the hero") }
-        XCTAssertEqual(page.blocks[0].anchor, "intro")
-        XCTAssertEqual(name.source, store.label("mapName"))  // content 1.2.11: the map's own name, Framework Maps
-        XCTAssertEqual(lede.source, store.content.meta.description)
-        guard case .controls(let buttons) = page.blocks[1].kind else { return XCTFail("the two buttons do not follow the hero") }
-        XCTAssertEqual(buttons.map(\.identifier), ["hero-primary", "hero-secondary"])
-        guard case .versionLine = page.blocks[2].kind else { return XCTFail("the version line does not follow the buttons") }
-    }
-
-    func testTheAIColumnIsTaggedByItsNameNotAsASixthLayer() throws {
-        let column = try XCTUnwrap(store.content.layers.first(where: \.isColumn))
-        let entries = (store.frameworks + store.sources + store.solutions).filter { $0.layerId == column.id }
-        XCTAssertFalse(entries.isEmpty)
-        for e in entries {
-            let page = try XCTUnwrap(pages[.route(.entity(e.id))])
-            let tags = page.blocks.compactMap { b -> (Control, Run?)? in if case .tagLine(let c, let r) = b.kind { return (c, r) } else { return nil } }
-            XCTAssertEqual(tags.count, 1)
-            XCTAssertEqual(tags.first?.0.label.text, column.name)
-            XCTAssertNil(tags.first?.1, "\(e.id): the column's name is not repeated")
-        }
-        let sixth = "\(store.label("layer")) \(column.order)"
-        for (key, page) in pages { XCTAssertFalse(page.runs.contains { $0.text == sixth }, "\(key) shows \(sixth)") }
-    }
-
-    func testUnverifiedDocumentsShowTheirVerificationNote() throws {
-        var n = 0
-        for e in store.frameworks + store.sources + store.solutions {
-            let page = try XCTUnwrap(pages[.route(.entity(e.id))])
-            let extras = page.blocks.flatMap { b -> [String] in
-                if case .keyValues(let kvs) = b.kind { return kvs.compactMap { $0.extra?.source } } else { return [] }
-            }
-            for doc in e.documents ?? [] where [.unverified, .conflict].contains(doc.verification.status) {
-                n += 1
-                XCTAssertTrue(extras.contains(doc.verification.note), "\(e.id): \(doc.title.prefix(40))")
-            }
-        }
-        XCTAssertGreaterThan(n, 0)
-    }
-
-    func glossaryItems(_ page: Page?) -> [GlossaryItem] {
-        (page?.blocks ?? []).flatMap { b -> [GlossaryItem] in if case .glossary(let xs) = b.kind { return xs } else { return [] } }
-    }
-
-    /// A glossary entry carries a badge only by exception (session 20): none for a verified spelling, on the glossary
-    /// screen and in the sheet a term opens; an entry that is unverified, in conflict or authored shows its badge in both;
-    /// every entry screen keeps every badge its records give.
-    func testGlossaryEntriesCarryABadgeOnlyByException() throws {
-        let items = glossaryItems(pages[.section(.glossary, .dow)])
-        XCTAssertEqual(items.count, store.content.glossary.count)
-        for (item, entry) in zip(items, store.terms.compactMap { t in store.content.glossary.first { $0.term == t.term } }) {
-            XCTAssertEqual(item.badge != nil, entry.verification.status != .verified, item.anchor)
-        }
-        for t in store.terms {
-            let sheet = glossaryItems(pages[.glossaryEntry(t.slug)])
-            let entry = try XCTUnwrap(store.content.glossary.first { $0.term == t.term })
-            XCTAssertEqual(sheet.count, 1, t.term)
-            XCTAssertEqual(sheet.first?.badge != nil, entry.verification.status != .verified, t.term)
-        }
-        // the first entry, set in a copy of the content to each status but verified, shows its badge, there and in its sheet
-        let verifiedNow = Set(store.content.glossary.filter { $0.verification.status == .verified }.map(\.term))
-        for status in [Verification.Status.unverified, .conflict, .authored] {
-            let data = try mutated { tree in
-                self.first(&tree, "glossary") { g in
-                    var v = g["verification"] as! [String: Any]
-                    v["status"] = status.rawValue
-                    if status == .authored {
-                        v["method"] = "synthesis"
-                        v["verifiedOn"] = NSNull()
-                        v["basisIds"] = [self.store.frameworks[0].id]
-                        v["recheckAfter"] = nil
-                    }
-                    g["verification"] = v
-                }
-            }
-            let mutant = try ContentStore(data: data)
-            let builder = PageBuilder(store: mutant)
-            let changed = try XCTUnwrap(mutant.content.glossary.first { verifiedNow.contains($0.term) && $0.verification.status != .verified })
-            let slug = try XCTUnwrap(mutant.terms.first { $0.term == changed.term }?.slug)
-            let screen = glossaryItems(builder.page(.section(.glossary, .dow)))
-            XCTAssertEqual(screen.first { $0.anchor == "gl-\(slug)" }?.badge?.status, status, status.rawValue)
-            XCTAssertEqual(screen.filter { $0.badge != nil }.count, items.filter { $0.badge != nil }.count + 1, status.rawValue)
-            XCTAssertEqual(glossaryItems(builder.page(.glossaryEntry(slug))).first?.badge?.status, status, status.rawValue)
-        }
-        // every entry screen: its own badge and the Verification row's, a Conflict badge when a record inside is in
-        // conflict, and the badges of its authority note, its validated-against line, its adopter responsibilities and
-        // its documents
-        for e in store.frameworks + store.sources + store.solutions {
-            let shown = try XCTUnwrap(pages[.route(.entity(e.id))]).blocks.flatMap { b -> [Verification.Status] in
-                switch b.kind {
-                case .badges(let xs): return xs.map(\.status)
-                case .keyValues(let kvs): return kvs.flatMap { $0.badges.map(\.status) }
-                default: return []
-                }
-            }
-            var want = [e.verification.status, e.verification.status, e.authority.verification.status]
-            if e.verification.status != .conflict && e.innerVerifications.contains(where: { $0.status == .conflict }) { want.append(.conflict) }
-            if let va = e.validatedAgainst { want.append(va.verification.status) }
-            want += (e.adopterResponsibilities ?? []).map(\.verification.status) + (e.documents ?? []).map(\.verification.status)
-            XCTAssertEqual(shown.map(\.rawValue).sorted(), want.map(\.rawValue).sorted(), e.id)
-        }
-    }
-
-    /// The citation-line rule on the real content (Rules.citeEdition in citeLine and the documents' lines): an edition the
-    /// title carries or that repeats the date is left out, a descriptive one is lowered, as the web page gives them.
-    func testCitationLinesOnTheRealContent() throws {
-        func documentLines(_ id: String) throws -> [String] {
-            let page = try XCTUnwrap(pages[.route(.entity(id))])
-            let docs = try XCTUnwrap(page.blocks.first { $0.anchor == "documents" })
-            guard case .keyValues(let kvs) = docs.kind else { XCTFail("\(id): no documents"); return [] }
-            return kvs.map(\.key.source)
-        }
-        XCTAssertTrue(try documentLines("sp800-171").contains(
-            "Class Deviation 2024-O0013, Revision 1: Safeguarding Covered Defense Information and Cyber Incident Reporting, 22 May 2024."))
-        XCTAssertTrue(try documentLines("flank-speed").contains("Zero Trust PfMO Newsletter, Nov 2024."))
-        let nsa = try XCTUnwrap(pages[.route(.entity("nsa-zt"))])
-        let cite = try XCTUnwrap(nsa.blocks.first { $0.anchor == "cite" })
-        guard case .text(let run, _) = cite.kind else { return XCTFail("nsa-zt: no citation line") }
-        XCTAssertTrue(run.source.contains("NSA, nine cybersecurity information sheets (2021 to 2026) and four implementation guidelines (2026), 28 May 2026."),
-                      run.source)
-        XCTAssertTrue(try documentLines("nsa-zt").contains { $0.hasPrefix("Zero Trust Implementation Guideline Primer, initial release, 14 Jan 2026.") })
-    }
-
-    /// The version line's layout (LinkLine): it wraps like running text, Why the name? never starts a line alone under the
-    /// version link, and no link's 44-point target overlaps the other's, at every width.
-    func testTheVersionLineWrapsWithoutTargetsCoveringEachOther() {
-        let h: CGFloat = 17
-        func pieces(_ version: CGFloat, _ line: CGFloat, _ why: CGFloat) -> [LinkLine.Piece] {
-            [LinkLine.Piece(size: CGSize(width: version, height: h), target: true),
-             LinkLine.Piece(size: CGSize(width: line, height: h)),
-             LinkLine.Piece(size: CGSize(width: why, height: h), target: true, keep: true)]
-        }
-        func arrange(_ p: [LinkLine.Piece], _ width: CGFloat) -> [CGRect] {
-            LinkLine.arrange(p, width: width, spacing: 7, lineSpacing: 2, minimum: 44)
-        }
-        // wide: one line
-        var f = arrange(pieces(172, 257, 101), 800)
-        XCTAssertEqual(Set(f.map(\.minY)), [0])
-        // a phone: the version alone, then the line and Why the name?, one text line below, no gap
-        f = arrange(pieces(172, 257, 101), 400)
-        XCTAssertEqual(f[0].minY, 0)
-        XCTAssertEqual(f[1].minY, h + 2)
-        XCTAssertEqual(f[2].minY, h + 2)
-        // where Why the name? alone would wrap under the version link, the text before it wraps with it
-        f = arrange(pieces(172, 257, 101), 450)
-        XCTAssertEqual(f[1].minY, f[2].minY)
-        XCTAssertGreaterThan(f[1].minY, f[0].minY)
-        // two targets that would stack: the lower line moves down until their boxes meet, no further
-        f = arrange([LinkLine.Piece(size: CGSize(width: 200, height: h), target: true), LinkLine.Piece(size: CGSize(width: 250, height: h), target: true)], 300)
-        XCTAssertEqual(f[1].minY - f[0].minY, 44, accuracy: 0.001)
-        // at every width, and with a line of text that itself wraps, no target's box overlaps the other's
-        for width in stride(from: CGFloat(120), through: 900, by: 5) {
-            for line: CGFloat in [120, 257, 480] {
-                var p = pieces(172, line, 101)
-                if line > width { p[1].size = CGSize(width: width, height: h * (line / width).rounded(.up)) }
-                let g = arrange(p, width)
-                let boxes = [g[0], g[2]].map { CGRect(x: $0.minX, y: $0.midY - 22, width: $0.width, height: 44) }
-                XCTAssertFalse(boxes[0].insetBy(dx: 0, dy: 0.001).intersects(boxes[1]), "width \(width), line \(line)")
-            }
-        }
-    }
-
-    func testLinksToEntriesTakeNoExpansion() {
-        for (key, page) in pages {
-            for seg in page.runs.flatMap(\.segments) {
-                if case .expansion(let s, _, .some(.push(.entity(let id)))) = seg {
-                    XCTFail("\(key): the link to \(id) takes the expansion \(s)")
-                }
-            }
-        }
-    }
-
-    /// The tagline and the pitch are for link previews, the README, the repository and the store listing: no screen
-    /// shows them. The wayfinder line opens About (session 15): the block right after the content version line, before
-    /// the not-affiliated paragraph, and no other screen shows it.
-    func testThePitchLinesStayOffScreenAndTheWayfinderOpensAbout() throws {
-        let meta = store.content.meta
-        let shown = pages.values.flatMap(\.texts).map(webNorm)
-        for line in [meta.tagline, meta.pitch] {
-            XCTAssertFalse(line.isEmpty)
-            XCTAssertFalse(shown.contains { $0.contains(webNorm(line)) }, "a screen shows: \(line)")
-        }
-        let wayfinder = webNorm(meta.wayfinder)
-        XCTAssertFalse(wayfinder.isEmpty)
-        let aboutKey = PageKey.section(.about, .dow)
-        for (key, page) in pages where key != aboutKey {
-            XCTAssertFalse(page.texts.map(webNorm).contains { $0.contains(wayfinder) }, "\(key) shows the wayfinder line")
-        }
-        let blocks = try XCTUnwrap(pages[aboutKey]).blocks
-        let version = try XCTUnwrap(blocks.firstIndex { $0.anchor == "about-version" }, "About has no content version line")
-        func source(_ i: Int) -> String? {
-            guard blocks.indices.contains(i), case .text(let run, _) = blocks[i].kind else { return nil }
-            return webNorm(run.source)
-        }
-        XCTAssertEqual(source(version + 1), wayfinder, "the block after the content version line is not the wayfinder line")
-        XCTAssertEqual(source(version + 2), webNorm(meta.about.notAffiliated), "the not-affiliated paragraph does not follow the wayfinder line")
-    }
-}
-
-struct WebFixture: Decodable {
-    let contentVersion: String
-    let sections: [String]
-    let texts: [String]
-
-    static func load() throws -> WebFixture {
-        let url = try XCTUnwrap(Bundle(for: ContentTests.self).url(forResource: "web_texts", withExtension: "json"))
-        return try JSONDecoder().decode(WebFixture.self, from: Data(contentsOf: url))
     }
 }

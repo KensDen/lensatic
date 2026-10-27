@@ -247,6 +247,8 @@ struct Entity: Sendable {
     let name: String
     let shortName: String
     let oneLiner: String
+    /// The card's summary (content 1.2.19): one or two sentences drawn from the one-liner.
+    let shortSummary: String
     let answersQuestion: String?
     let role: String?
     let publisher: String
@@ -258,6 +260,8 @@ struct Entity: Sendable {
     let authority: Authority
     let documents: [Document]?
     let note: String?
+    /// The Sources sheet's note where the note runs past 160 characters (content 1.2.19); the whole note is one tap down.
+    let shortNote: String?
     let authors: [String]?
     let license: String?
     let attributionRequired: Bool?
@@ -265,14 +269,14 @@ struct Entity: Sendable {
     let adopterResponsibilities: [Responsibility]?
 
     fileprivate enum CodingKeys: String, CodingKey, CaseIterable {
-        case id, layerId, name, shortName, oneLiner, answersQuestion, role, publisher, title, edition, date, url
-        case verification, authority, documents, note, authors, license, attributionRequired, validatedAgainst, adopterResponsibilities
+        case id, layerId, name, shortName, oneLiner, shortSummary, answersQuestion, role, publisher, title, edition, date, url
+        case verification, authority, documents, note, shortNote, authors, license, attributionRequired, validatedAgainst, adopterResponsibilities
     }
 
     /// The fields each kind may carry, and the ones it must.
     private static let allowed: [Kind: Set<CodingKeys>] = {
-        let common: Set<CodingKeys> = [.id, .name, .shortName, .oneLiner, .publisher, .title, .edition, .date, .url, .verification,
-                                       .authority, .documents, .note, .authors, .license, .attributionRequired]
+        let common: Set<CodingKeys> = [.id, .name, .shortName, .oneLiner, .shortSummary, .publisher, .title, .edition, .date, .url, .verification,
+                                       .authority, .documents, .note, .shortNote, .authors, .license, .attributionRequired]
         return [.framework: common.union([.layerId, .answersQuestion]),
                 .source: common.union([.role, .layerId]),
                 .solution: common.union([.layerId, .answersQuestion, .validatedAgainst, .adopterResponsibilities])]
@@ -300,6 +304,7 @@ struct Entity: Sendable {
         name = try c.decode(String.self, forKey: .name)
         shortName = try c.decode(String.self, forKey: .shortName)
         oneLiner = try c.decode(String.self, forKey: .oneLiner)
+        shortSummary = try c.decode(String.self, forKey: .shortSummary)
         answersQuestion = must(.answersQuestion) ? try c.decode(String.self, forKey: .answersQuestion) : nil
         role = must(.role) ? try c.decode(String.self, forKey: .role) : nil
         publisher = try c.decode(String.self, forKey: .publisher)
@@ -311,6 +316,7 @@ struct Entity: Sendable {
         authority = try c.decode(Authority.self, forKey: .authority)
         documents = try c.decodeIfPresent([Document].self, forKey: .documents)
         note = try c.decodeIfPresent(String.self, forKey: .note)
+        shortNote = try c.decodeIfPresent(String.self, forKey: .shortNote)
         authors = try c.decodeIfPresent([String].self, forKey: .authors)
         license = try c.decodeIfPresent(String.self, forKey: .license)
         attributionRequired = try c.decodeIfPresent(Bool.self, forKey: .attributionRequired)

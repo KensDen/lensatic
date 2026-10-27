@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:lensatic:stack.schema:1.2.18",
+  "$id": "urn:lensatic:stack.schema:1.2.19",
   "title": "Lensatic content model",
   "description": "Schema for content/stack.json, the single source of truth for Lensatic. Every rendered string lives in that file once. Prose refers to the department only through the tokens {{dow}} and {{dow.<field>}}, which render from orgs.dow.",
   "type": "object",
@@ -830,6 +830,7 @@
         "name",
         "shortName",
         "oneLiner",
+        "shortSummary",
         "answersQuestion",
         "publisher",
         "title",
@@ -856,6 +857,9 @@
         },
         "oneLiner": {
           "$ref": "#/$defs/prose"
+        },
+        "shortSummary": {
+          "$ref": "#/$defs/shortSummary"
         },
         "answersQuestion": {
           "$ref": "#/$defs/prose"
@@ -895,6 +899,9 @@
         "note": {
           "type": "string"
         },
+        "shortNote": {
+          "$ref": "#/$defs/shortNote"
+        },
         "authors": {
           "description": "Citation field only: the public authors of a public work, never rendered in prose",
           "type": "array",
@@ -923,6 +930,7 @@
         "name",
         "shortName",
         "oneLiner",
+        "shortSummary",
         "role",
         "publisher",
         "title",
@@ -946,6 +954,9 @@
         },
         "oneLiner": {
           "$ref": "#/$defs/prose"
+        },
+        "shortSummary": {
+          "$ref": "#/$defs/shortSummary"
         },
         "role": {
           "description": "what the source does inside the doors",
@@ -985,6 +996,9 @@
         "note": {
           "type": "string"
         },
+        "shortNote": {
+          "$ref": "#/$defs/shortNote"
+        },
         "authors": {
           "description": "Citation field only: the public authors of a public work, never rendered in prose",
           "type": "array",
@@ -1017,6 +1031,7 @@
         "name",
         "shortName",
         "oneLiner",
+        "shortSummary",
         "answersQuestion",
         "publisher",
         "title",
@@ -1046,6 +1061,9 @@
         },
         "oneLiner": {
           "$ref": "#/$defs/prose"
+        },
+        "shortSummary": {
+          "$ref": "#/$defs/shortSummary"
         },
         "answersQuestion": {
           "$ref": "#/$defs/prose"
@@ -1084,6 +1102,9 @@
         },
         "note": {
           "type": "string"
+        },
+        "shortNote": {
+          "$ref": "#/$defs/shortNote"
         },
         "authors": {
           "description": "Citation field only: the public authors of a public work, never rendered in prose",
@@ -1732,6 +1753,18 @@
           }
         }
       }
+    },
+    "shortSummary": {
+      "description": "The app's card summary: one or two sentences drawn from the oneLiner, at most 140 characters; validate.py holds it to the writing rules and to its wrap on a phone",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 140
+    },
+    "shortNote": {
+      "description": "The Sources sheet's note: required when note is longer than 160 characters and absent otherwise (the note is then short enough to show whole); drawn from the note, at most 160 characters",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 160
     }
   }
 }

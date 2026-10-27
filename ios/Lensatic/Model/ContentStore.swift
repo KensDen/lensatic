@@ -71,6 +71,13 @@ final class ContentStore: Sendable {
         return v
     }
 
+    /// A layer's tag: Layer and its number; the AI column, beside the five layers rather than a sixth, is tagged with
+    /// its name (session 11, as on the web).
+    func layerTag(_ id: String?) -> String? {
+        guard let layer = id.flatMap({ layers[$0] }) else { return nil }
+        return layer.isColumn ? layer.name : "\(label("layer")) \(layer.order)"
+    }
+
     func sectionTitle(_ s: Section) -> String { content.ui.sections[s.rawValue] ?? s.rawValue }
     func navTitle(_ s: Section) -> String { content.ui.nav[s.rawValue] ?? s.rawValue }
     func sectionNumber(_ s: Section) -> String { String(format: "%02d", (sections.firstIndex(of: s) ?? 0) + 1) }

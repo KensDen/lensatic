@@ -6,13 +6,15 @@ struct LensaticApp: App {
 
     init() {
         let store: ContentStore
+        let library: Library
         do {
             store = try ContentStore.bundled()
+            library = try Library.bundled()
         } catch {
             // the content ships inside the app and the unit tests decode it on every build, so this cannot happen in a release
-            preconditionFailure("content/stack.json did not decode: \(error)")
+            preconditionFailure("the bundled content did not decode: \(error)")
         }
-        _model = State(initialValue: AppModel(store: store))
+        _model = State(initialValue: AppModel(store: store, library: library))
         Appearance.configure()
     }
 
