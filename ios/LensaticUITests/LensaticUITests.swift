@@ -334,7 +334,7 @@ final class LensaticUITests: XCTestCase {
         element("explore-functions").tap()
         XCTAssertTrue(element("function-GV").waitForExistence(timeout: 5))
         tap("function-GV-pillars", in: "explore")
-        XCTAssertEqual(element("function-GV-pillars").value as? String, "Open")
+        XCTAssertEqual(element("function-GV-pillars").value as? String, "Expanded")
         try auditScreen("explore")
     }
 
@@ -464,15 +464,30 @@ final class LensaticUITests: XCTestCase {
             (["-LensaticNav", "about"], "about-screen"),
             (["-LensaticNav", "changes", "-LensaticChangesViewed", "1.2.16"], "changes-screen"),
         ]
-        for (args, id) in screens {
-            launch(door: "dow", checked: "1,2", ax5 + args)
+        // in the light theme and in the dark (R4), the device's own appearance setting
+        defer { XCUIDevice.shared.appearance = .light }
+        for appearance in [XCUIDevice.Appearance.light, .dark] {
+            XCUIDevice.shared.appearance = appearance
+            let name = appearance == .light ? "light" : "dark"
+            for (args, id) in screens {
+                launch(door: "dow", checked: "1,2", ax5 + args)
+                continueAfterFailure = true
+                print("AUDIT \(id), \(name)")
+                try auditScreen(id)
+            }
+            launch(door: "dow", checked: "1,2", ax5 + ["-LensaticNav", "entity/dod-zt-strategy"])
             continueAfterFailure = true
-            try auditScreen(id)
+            XCTAssertTrue(element("entity-card-dod-zt-strategy").waitForExistence(timeout: 10))
+            try audit("card at AX5, \(name)")
+            // a play with a figure the app draws, and one with a drawn figure, scrolled to it (R4)
+            for (play, figure) in [("blue", "lethal-trifecta"), ("program", "org-chart")] {
+                launch(door: "dow", checked: "1,2", ax5 + ["-LensaticNav", "play/\(play)", "-LensaticScrollTo", "figure-\(figure)"])
+                continueAfterFailure = true
+                XCTAssertTrue(element("figure-\(figure)").waitForExistence(timeout: 10), figure)
+                sleep(1)
+                try auditScreen("play-screen")
+            }
         }
-        launch(door: "dow", checked: "1,2", ax5 + ["-LensaticNav", "entity/dod-zt-strategy"])
-        continueAfterFailure = true
-        XCTAssertTrue(element("entity-card-dod-zt-strategy").waitForExistence(timeout: 10))
-        try audit("card at AX5")
     }
 
     // MARK: R3
@@ -520,7 +535,7 @@ final class LensaticUITests: XCTestCase {
         app.open(URL(string: "lensatic" + "://open/step:dow:3")!)
         XCTAssertTrue(element("my-path").waitForExistence(timeout: 10), "the link opens My Path")
         XCTAssertTrue(element("step-3-entity-dod-zt-ot").waitForExistence(timeout: 5), "with step 3 open")
-        XCTAssertEqual(element("step-3").value as? String, "Open")
+        XCTAssertEqual(element("step-3").value as? String, "Expanded")
         app.open(URL(string: "lensatic" + "://search")!)
         XCTAssertTrue(element("search-field").waitForExistence(timeout: 5), "the search link opens Search")
     }
@@ -541,6 +556,117 @@ final class LensaticUITests: XCTestCase {
         }
     }
 
+    /// Both widgets on the home screen in the light and the dark appearance (R4): VoiceOver reads each as one element,
+    /// the countdown, the next step and the steps done; a screenshot of each appearance is attached for the review sheet.
+    func testTheWidgetsInBothAppearancesReadAsOneElement() throws {
+        launch(door: "dow", checked: "1,2")
+        XCTAssertTrue(element("my-path").waitForExistence(timeout: 10))
+        let small = try addWidget(medium: false)
+        app.activate()
+        _ = try addWidget(medium: true)
+        let home = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        // the widget's own element, inside the home screen's: its label is the glance read aloud
+        let spoken = home.descendants(matching: .any).matching(NSPredicate(format: "label BEGINSWITH 'Lensatic, ' AND label CONTAINS 'Next, step 3 of'"))
+        XCTAssertTrue(spoken.firstMatch.waitForExistence(timeout: 10), "VoiceOver reads the widget as one sentence")
+        XCTAssertTrue(spoken.firstMatch.label.contains("days to") && spoken.firstMatch.label.contains("2 of 7 steps done"), spoken.firstMatch.label)
+        defer { XCUIDevice.shared.appearance = .light }
+        for appearance in [XCUIDevice.Appearance.light, .dark] {
+            XCUIDevice.shared.appearance = appearance
+            sleep(3)  // the home screen redraws the widgets in the new appearance
+            XCTAssertTrue(small.exists)
+            let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+            shot.name = "widgets-\(appearance == .light ? "light" : "dark")"
+            shot.lifetime = .keepAlways
+            add(shot)
+        }
+    }
+
+    /// The order VoiceOver moves through My Path (R4), with each element's label, value and frame, attached as JSON for
+    /// the review sheet's focus walk; every element in it has a label, and the steps read in their order.
+    func testMyPathsVoiceOverOrder() throws {
+        launch(door: "dow", checked: "1,2", ["-LensaticChangesViewed", "1.2.16"])
+        XCTAssertTrue(element("my-path").waitForExistence(timeout: 10))
+        let shot = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        shot.name = "my-path-focus-screen"
+        shot.lifetime = .keepAlways
+        add(shot)
+        let window = app.windows.firstMatch.frame
+        var walk: [[String: Any]] = []
+        let all = app.descendants(matching: .any).allElementsBoundByAccessibilityElement
+        for e in all where e.exists {
+            let f = e.frame
+            guard e.isHittable || e.elementType == .staticText || e.elementType == .image, !f.isEmpty, f.intersects(window),
+                  !e.label.isEmpty, ![.window, .other, .scrollView, .application].contains(e.elementType) || e.label.count > 0 else { continue }
+            if [.window, .application].contains(e.elementType) { continue }
+            walk.append(["label": e.label, "value": (e.value as? String) ?? "", "type": e.elementType.rawValue, "id": e.identifier,
+                         "x": f.minX, "y": f.minY, "w": f.width, "h": f.height])
+        }
+        XCTAssertFalse(walk.isEmpty)
+        let steps = walk.compactMap { ($0["id"] as? String).flatMap { $0.wholeMatch(of: /step-(\d+)/).map { Int($0.1)! } } }
+        XCTAssertEqual(steps, steps.sorted(), "the steps read in their order")
+        let data = try JSONSerialization.data(withJSONObject: walk, options: [.prettyPrinted])
+        let a = XCTAttachment(data: data, uniformTypeIdentifier: "public.json")
+        a.name = "my-path-focus-walk"
+        a.lifetime = .keepAlways
+        add(a)
+    }
+
+    /// VoiceOver on every main screen (R4): every control and image has a label in words, never an identifier, a file
+    /// name or a symbol's name, and no label has an em dash; the labels of each screen are attached for the report.
+    func testEveryScreensControlsHaveSpokenLabels() throws {
+        continueAfterFailure = true
+        let screens: [([String], String)] = [
+            (["-LensaticTab", "path", "-LensaticChangesViewed", "1.2.16"], "my-path"),
+            (["-LensaticTab", "explore"], "explore"),
+            (["-LensaticTab", "explore", "-LensaticExplore", "matrix"], "explore"),
+            (["-LensaticTab", "explore", "-LensaticExplore", "functions"], "explore"),
+            (["-LensaticTab", "search", "-LensaticQuery", "overlays"], "search"),
+            (["-LensaticTab", "library"], "library"),
+            (["-LensaticNav", "layer/l3"], "layer-screen-l3"),
+            (["-LensaticNav", "entity/dod-zt-strategy"], "entity-card-dod-zt-strategy"),
+            (["-LensaticNav", "guide"], "guide-screen"),
+            (["-LensaticNav", "chapter/part-1"], "chapter-screen"),
+            (["-LensaticNav", "plays"], "plays-screen"),
+            (["-LensaticNav", "play/blue", "-LensaticScrollTo", "figure-lethal-trifecta"], "play-screen"),
+            (["-LensaticNav", "play/program", "-LensaticScrollTo", "figure-org-chart"], "play-screen"),
+            (["-LensaticNav", "glossary-list"], "glossary-screen"),
+            (["-LensaticNav", "sources"], "sources-screen"),
+            (["-LensaticNav", "about"], "about-screen"),
+            (["-LensaticNav", "changes", "-LensaticChangesViewed", "1.2.16"], "changes-screen"),
+        ]
+        // LENSATIC_LABELS_ONLY (a quick run while fixing): only the screens whose id is listed
+        let only = ProcessInfo.processInfo.environment["LENSATIC_LABELS_ONLY"].map { Set($0.split(separator: ",").map(String.init)) }
+        let chosen = only.map { o in screens.filter { o.contains($0.1) } } ?? screens
+        var report: [String] = []
+        let raw = try NSRegularExpression(pattern: #"^[a-z0-9]+(-[a-z0-9]+)+$|\.(png|json|swift)\b|^[a-z]+\.[a-z.]+$|_"#)
+        for (args, id) in chosen {
+            launch(door: "dow", checked: "1,2", args)
+            continueAfterFailure = true
+            XCTAssertTrue(element(id).waitForExistence(timeout: 10), id)
+            sleep(1)
+            report.append("== \(args.joined(separator: " "))")
+            // one snapshot of the tree, read at once (a query per element is minutes on a long screen)
+            let kinds: Set<XCUIElement.ElementType> = [.button, .image, .link, .staticText, .switch, .textField, .searchField]
+            func walk(_ e: XCUIElementSnapshot) {
+                if kinds.contains(e.elementType), !e.frame.isEmpty {
+                    let label = e.label
+                    report.append("\(e.elementType.rawValue)\t\(label)\t\((e.value as? String) ?? "")")
+                    if e.elementType != .staticText {
+                        XCTAssertFalse(label.trimmingCharacters(in: .whitespaces).isEmpty, "\(id): a \(e.elementType.rawValue) with no label [\(e.identifier)] at \(e.frame), in \(e.children.count) children")
+                    }
+                    XCTAssertNil(raw.firstMatch(in: label, range: NSRange(label.startIndex..., in: label)), "\(id): \(label)")
+                    XCTAssertFalse(label.contains("\u{2014}"), "\(id): an em dash in \(label)")
+                }
+                e.children.forEach(walk)
+            }
+            walk(try app.snapshot())
+        }
+        let a = XCTAttachment(string: report.joined(separator: "\n"))
+        a.name = "voiceover-labels"
+        a.lifetime = .keepAlways
+        add(a)
+    }
+
     /// Put Lensatic's widget on the home screen through the gallery, and return it (an existing one of that size is
     /// used as it is).
     func addWidget(medium: Bool) throws -> XCUIElement {
@@ -553,7 +679,7 @@ final class LensaticUITests: XCTestCase {
         }
         func placed() -> XCUIElement? {
             // the home screen redraws as it settles, so each candidate is read once and a vanished one is passed over
-            let query = home.descendants(matching: .other).matching(NSPredicate(format: "label == 'Lensatic'"))
+            let query = home.descendants(matching: .other).matching(NSPredicate(format: "label == 'Lensatic' OR label BEGINSWITH 'Lensatic, ' OR label BEGINSWITH 'Lensatic. '"))
             for i in 0..<query.count {
                 let e = query.element(boundBy: i)
                 guard e.exists else { continue }
@@ -620,9 +746,9 @@ final class LensaticUITests: XCTestCase {
         XCTAssertTrue(summary.exists, "the play opens on its summary")
         let outline = element("outline")
         XCTAssertLessThan(summary.frame.minY, outline.frame.minY, "summary first, then the outline")
-        XCTAssertEqual(outline.value as? String, "Hidden")
+        XCTAssertEqual(outline.value as? String, "Collapsed")
         outline.tap()
-        XCTAssertEqual(outline.value as? String, "Shown")
+        XCTAssertEqual(outline.value as? String, "Expanded")
         try auditScreen("play-screen")
         let entry = element("outline-5")
         XCTAssertTrue(entry.waitForExistence(timeout: 5))

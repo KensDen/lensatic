@@ -73,8 +73,9 @@ struct Shell: View {
                     .transition(.opacity)
             }
         }
-        .animation(.easeOut(duration: 0.2), value: model.sourcesFor)
-        .animation(.easeOut(duration: 0.2), value: model.glossaryEntry)
+        // the fade follows Reduce Motion, as every animation in the app does (R4; check_ios holds it)
+        .animation(UIAccessibility.isReduceMotionEnabled ? nil : .easeOut(duration: 0.2), value: model.sourcesFor)
+        .animation(UIAccessibility.isReduceMotionEnabled ? nil : .easeOut(duration: 0.2), value: model.glossaryEntry)
         .sheet(isPresented: Binding(get: { model.sourcesFor != nil }, set: { if !$0 { model.sourcesFor = nil } })) {
             if let id = model.sourcesFor { SourcesSheet(id: id).environment(model).tint(Palette.link).opensLinksInApp(model) }
         }

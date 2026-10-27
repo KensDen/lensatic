@@ -20,8 +20,8 @@
       "file": "02_iPhone-18-Pro_path.png",
       "width": 1206,
       "height": 2622,
-      "sha256": "164b65c927b3d024322a81b715f5bfc2ae0011ab319a43ef67dd60bcd875dc0b",
-      "contentSha256": "558de8a9e45ae44c1900e931db8727514ef6116f451008294a240f0b13b1ad5f"
+      "sha256": "87f09825b59605ef968a1933411aa052317984e7c784ebc9c867e0b3daeaf9ef",
+      "contentSha256": "8651c473d7d45066e8c826e08554bfd44e05492fd6a5d1c328a37464cc4fc7dc"
     },
     {
       "order": 3,
@@ -31,8 +31,8 @@
       "file": "03_iPhone-18-Pro_stack.png",
       "width": 1206,
       "height": 2622,
-      "sha256": "f995a9b5f3b48db04ef5c53c64e80f998852fdd35d2fa9249a4ed52dd3f52c61",
-      "contentSha256": "89a7c1f6808e6aeb27347f9c4cd177e010c4bdfa15ee4fbf5a42f893f7461b41"
+      "sha256": "f8b9daab415dbf9ceadc07fa45683b272459e211cd63435a0b35aeff97015c8d",
+      "contentSha256": "97c3e8d5a65e70741f1439bb2979b82a1b8705ca8e138e323a7636204a03a960"
     },
     {
       "order": 4,
@@ -86,8 +86,8 @@
       "file": "08_iPhone-18-Pro_play.png",
       "width": 1206,
       "height": 2622,
-      "sha256": "cdc1f0edd2d0aee171905347b2035baefb3e191e6234d0a09283039669f2ed0f",
-      "contentSha256": "fca8b45085450c25bfa65678ef0c9301e7c00312b10298c68098216f4b94b08c"
+      "sha256": "4735547598504ffb370cb4ef19cfff262f067e91ef50d4a4e795f0e15fb673e9",
+      "contentSha256": "ccd020df198c04043cfb52031f148ea4198674531a2eed90e81115bd7ddcf438"
     },
     {
       "order": 1,
@@ -108,8 +108,8 @@
       "file": "02_iPad-Pro-13-inch-M5_path.png",
       "width": 2064,
       "height": 2752,
-      "sha256": "20f806b7b2d134a4b30c4c0182505551434a820fecec91bc70af8b6d6e8cf120",
-      "contentSha256": "d64f98428e5706399f39da36c2d3062915556b7896374e0b2f2af10bbe417815"
+      "sha256": "573f20965e3dd62ce456ca0bc01e47c48f88734864fc5c16de216ec59c609c75",
+      "contentSha256": "743268ff72bc75ac29fbabef56425be802f6f2f126927feef7df63b827b5244e"
     },
     {
       "order": 3,
@@ -119,8 +119,8 @@
       "file": "03_iPad-Pro-13-inch-M5_stack.png",
       "width": 2064,
       "height": 2752,
-      "sha256": "3cb8e43745868f7d628d575c8fa900a6a348a5379ecccedb9b861c4ed405059d",
-      "contentSha256": "04d39b15bd4dcc8b128dd08dfdb72ee6ceb2ab4e07f88fede80725887975ca6b"
+      "sha256": "21d20b2a440348a78ad839ccb3726e3e3392a07bc5880d681fe618c2e2e3ba64",
+      "contentSha256": "7ac8381b43ec962b59e512b719ba37ae65fd9ebbb7bbffada500453fe2d8043a"
     },
     {
       "order": 4,

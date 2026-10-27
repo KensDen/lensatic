@@ -75,6 +75,17 @@ struct Glance: Sendable, Equatable {
         self.init(door: door.shortTitle, done: progress.done, total: progress.total, next: next, countdown: countdown)
     }
 
+    /// What VoiceOver reads for the widget (R4), as one element in the order it is drawn: the countdown, the next step
+    /// and how far along the path is; or what to do first.
+    var voiceOver: String {
+        guard let door else { return "Lensatic. Pick a trailhead to start your path." }
+        var parts = ["Lensatic, \(door)"]
+        if let c = countdown { parts.append(c.days == 0 ? "\(c.label) is due today" : "\(c.days) \(c.days == 1 ? "day" : "days") to \(c.label)") }
+        if let next { parts.append("Next, step \(next.order) of \(total): \(next.title)") } else if isComplete { parts.append("Path complete") }
+        if total > 0 { parts.append("\(done) of \(total) steps done") }
+        return parts.joined(separator: ". ") + "."
+    }
+
     /// One sentence for Siri: the next step, and the deadline when one lies ahead.
     var spoken: String {
         guard let door else { return "You have not picked a trailhead yet. Open Lensatic to pick one." }

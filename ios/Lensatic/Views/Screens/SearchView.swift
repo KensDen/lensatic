@@ -18,6 +18,8 @@ struct SearchView: View {
                     // sizes); Return searches rather than starting a new line
                     TextField("Search Lensatic", text: $model.query, prompt: Text("Search Lensatic").foregroundStyle(Palette.fg2), axis: .vertical)
                         .lineLimit(1...3)
+                        // VoiceOver names the field even when it holds a query, which replaces the prompt (R4)
+                        .accessibilityLabel("Search Lensatic")
                         .onChange(of: model.query) {
                             if model.query.contains("\n") {
                                 model.query = model.query.replacingOccurrences(of: "\n", with: "")

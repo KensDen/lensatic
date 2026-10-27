@@ -35,18 +35,20 @@ The public sector cyber framework landscape is thick woods: overlapping rules, s
 
 Framework Maps is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.
 
-Framework Maps is a guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.
+Lensatic Cyber turns that map into a path. Tell it where you stand and it lists the frameworks that apply to you, in order, as steps you check off, and counts down to the next deadline wherever a source dates one. Beside the map sit two companions to read on your phone: Zero Trust in Eight Weeks, a zero trust field guide, and Agentic SecOps, a playbook of 35 plays.
 
-What's inside
-- Start here: the trailheads, one each for federal civilian agencies, Department of War components, defense contractors, and everyone else
-- The stack
-- The matrix
-- The six functions
-- The AI column
-- Questions: which framework, when
-- Sources: every framework and source on the stack, with its publisher, a link to the primary, and its verification status with its date
-- Glossary
-- About
+What's Inside
+- My Path: pick one of four trailheads (Federal Civilian Agency, Department of War Component, Defense Contractor with CUI, or Everyone Else) and get your frameworks in order, as steps you check off
+- Countdown: the days to your next deadline where a source dates one, each date taken from that source
+- What Changed: what each content update changed on the map, newest first, with the steps it affects
+- Explore: the stack in five layers beside the AI column, the matrix of pillars and functions, and the six functions
+- Search: one search across frameworks, path steps, the field guide, the playbook and the glossary, with results in iOS search too
+- Library: the field guide and the playbook as native screens, each chapter and play summary first, with your saved items
+- Sources: every framework with its publisher, edition and date, a link to the primary that opens inside the app, and the date it was last verified
+- Home Screen Widget: your countdown and next step, in small and medium sizes
+- Siri and Shortcuts: ask for your next step, open Search, or open any framework, step or play
+- Share: a clean card of a framework or a step, with its source link
+- Glossary: every abbreviation spelled out, with a plain sentence on what it is
 
 No account. No data collected.
 
@@ -55,7 +57,7 @@ Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework pu
 A lensatic compass is the Army's field compass. You sight a landmark through its lens, read the bearing off the dial, and move out knowing which way you're headed. Lensatic Cyber does the same for the framework stack: find where you stand, see which framework applies, and take a bearing on what comes next.
 ```
 
-1495 characters (limit 4,000)
+2528 characters (limit 4,000)
 
 ## Keywords (`keywords`)
 
@@ -170,10 +172,10 @@ usesNonExemptEncryption: false
 ## App Review Notes (`reviewNotes`)
 
 ```text
-No sign-in is needed: the app has no accounts. It works fully offline and makes no network requests. The app summarizes public documents. The frameworks and sources on its stack are each cited in its Sources section: United States government and standards publications, and one privately published framework released under a Creative Commons license. The app is not affiliated with any agency. Outside links open in Safari's viewer inside the app (SFSafariViewController), which loads the page itself; the app makes no request. The privacy policy is linked in About, beside the support page and the source code. Support is through the public issues page linked from the support page, where the app goes by Lensatic, its name outside the App Store; the app collects no data.
+No sign-in is needed: the app has no accounts. It works fully offline and makes no network requests. The app summarizes public documents. The frameworks and sources on its stack are each cited in its Sources section: United States government and standards publications, and one privately published framework released under a Creative Commons license. The app is not affiliated with any agency. Outside links open in Safari's viewer inside the app (SFSafariViewController), which loads the page itself; the app makes no request. What the app keeps (the trailhead picked, the checked steps, saved items and the day What Changed was last cleared) stays in one file on the device, in an App Group shared with the app's home screen widget; nothing is sent anywhere. Siri and Shortcuts answer from that file on the device. Share hands a card image and the source link to the system share sheet only when the reader taps it. To see the path, pick a trailhead on the first screen; the department's trailhead has a dated deadline for the countdown. The privacy policy is linked in About, beside the support page and the source code. Support is through the public issues page linked from the support page, where the app goes by Lensatic, its name outside the App Store; the app collects no data.
 ```
 
-773 characters (limit 4,000)
+1285 characters (limit 4,000)
 
 ## Version (`version`)
 

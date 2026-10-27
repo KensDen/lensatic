@@ -41,6 +41,14 @@ struct DetailScreen<Trailing: View, Content: View>: View {
         }
         // a screen scrolled under the status bar meets a hard edge in the page colour, never the clock over text
         .hardTopEdge()
+        #if DEBUG
+        .task {
+            if let target = AppModel.debugScrollTo {
+                try? await Task.sleep(for: .milliseconds(600))
+                proxy.scrollTo(target, anchor: .top)
+            }
+        }
+        #endif
         }
         .background(Palette.bg)
         .toolbar(.hidden, for: .navigationBar)
@@ -65,18 +73,24 @@ struct BookmarkButton: View {
     @Environment(AppModel.self) private var model
     let item: SavedItem
     var compact = false
+    // grows with the text as the other round buttons do (R4), from 44 points to at most 60
+    @ScaledMetric(relativeTo: .body) private var side: CGFloat = 44
 
     var body: some View {
         let saved = model.progress.isSaved(item)
+        let d = min(max(side, 44), 60), glyph = 20 * d / 44
         Button { model.progress.toggleSaved(item) } label: {
             ZStack {
                 if saved {
-                    IconShape(paths: IconName.bookmark.paths).fill(Palette.secMaps).frame(width: 20, height: 20)
+                    IconShape(paths: IconName.bookmark.paths).fill(Palette.secMaps).frame(width: glyph, height: glyph)
                 } else {
-                    Icon(.bookmark, size: 20, color: Palette.fg)
+                    IconShape(paths: IconName.bookmark.paths)
+                        .stroke(Palette.fg, style: StrokeStyle(lineWidth: 2 * glyph / 24, lineCap: .round, lineJoin: .round))
+                        .frame(width: glyph, height: glyph)
                 }
             }
-            .frame(width: 44, height: 44)
+            .accessibilityHidden(true)
+            .frame(width: d, height: d)
             .background(compact ? Color.clear : Palette.bg2, in: Circle())
             .overlay(Circle().strokeBorder(compact ? Color.clear : Palette.line, lineWidth: 1))
             .contentShape(Circle())
@@ -86,6 +100,7 @@ struct BookmarkButton: View {
         .accessibilityHint(saved ? "Removes it from Saved in the Library" : "Adds it to Saved in the Library")
         .accessibilityAddTraits(saved ? .isSelected : [])
         .accessibilityIdentifier("bookmark")
+        .accessibilityShowsLargeContentViewer()
     }
 }
 
@@ -98,10 +113,14 @@ struct Segmented<Value: Hashable>: View {
     @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
-        let layout = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 2)) : AnyLayout(HStackLayout(spacing: 0))
+        let stacked = typeSize.isAccessibilitySize
+        let layout = stacked ? AnyLayout(VStackLayout(spacing: 2)) : AnyLayout(HStackLayout(spacing: 0))
         layout {
-            ForEach(options, id: \.0) { value, label in
+            ForEach(Array(options.enumerated()), id: \.element.0) { i, option in
+                let (value, label) = option
                 let on = value == selection
+                // stacked, a hairline between the segments keeps them apart as rows (R4)
+                if stacked, i > 0 { Rectangle().fill(Palette.line).frame(height: 1).padding(.horizontal, 10).accessibilityHidden(true) }
                 Button { selection = value } label: {
                     Text(label)
                         .font(DS.segment)
@@ -109,6 +128,8 @@ struct Segmented<Value: Hashable>: View {
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity, minHeight: 40)
                         .background(on ? Palette.bg3 : Color.clear, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        // the chosen segment's edge, so it stands apart in the dark theme too (R4)
+                        .overlay { if on { RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Palette.fg2, lineWidth: 1) } }
                         .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
@@ -155,8 +176,8 @@ struct ResultRow: View {
                 RoundedRectangle(cornerRadius: 3).fill(bar).frame(width: 6, height: 28).accessibilityHidden(true)
             }
             VStack(alignment: .leading, spacing: 2) {
-                Text(keepWhole(title)).font(DS.layerTitle).foregroundStyle(Palette.fg)
-                if let line, !line.isEmpty { Text(keepWhole(line)).font(DS.caption).foregroundStyle(Palette.fg2) }
+                Text(noOrphan(keepWhole(title))).font(DS.layerTitle).foregroundStyle(Palette.fg)
+                if let line, !line.isEmpty { Text(noOrphan(keepWhole(line))).font(DS.caption).foregroundStyle(Palette.fg2) }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .multilineTextAlignment(.leading)

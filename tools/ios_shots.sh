@@ -106,10 +106,10 @@ open_screen() {
   esac
 }
 
-# the content release, from What Changed's list (content/changes.json); the changes shot clears the list at release 0,
-# so every item shows as new
+# the content release, from What Changed's list (content/changes.json); the changes shot clears the list at the oldest
+# release the list names (R4: a real release, never "0", which the screen would print), so every later item shows as new
 RELEASE="$(python3 -c 'import json; print(json.load(open("content/changes.json"))["contentVersion"])')"
-PREVIOUS=0
+PREVIOUS="$(python3 -c 'import json; print(min((i["release"] for i in json.load(open("content/changes.json"))["items"]), key=lambda v: [int(x) for x in v.split(".")]))')"
 
 # a failed step never leaves booted a simulator this script booted; one it did not boot is never touched
 BOOTED=""

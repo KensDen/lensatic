@@ -24,7 +24,14 @@
 // height, viewport}]}, in play order and then in page order. "after" is the heading of the block in that play's blocks (plays.json)
 // that the figure follows: the nearest text above the figure on the page that is one of those headings, or null when no
 // block heading is above it. A PNG left from an earlier run that no figure names is removed.
-// Usage: node tools/build_figures.mjs
+// Native figures (R4): the six small inline drawings (the autonomy dial, the three faces, the trifecta, the purple loop,
+// the blast radius and the patching deficit) are drawn by the app itself, in its own type and colours, so they read at
+// a phone's width and follow its theme. Each keeps its place in the manifest, marked "native": true, with no PNG.
+//
+// Light (R4): with --light, the same figures are captured in the light theme (the light colour scheme, lensatic-theme
+// set to light) into playbook/app/figures/light/, at the viewport the manifest gives each, and each must come out the
+// size its dark capture is; the manifest is not rewritten. Run the dark pass first.
+// Usage: node tools/build_figures.mjs [--light]
 import { createServer } from 'node:http';
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, unlinkSync, writeFileSync } from 'node:fs';
 import { dirname, extname, join, resolve } from 'node:path';
@@ -40,6 +47,10 @@ const WIDTH = 390, HEIGHT = 900, SCALE = 3, FALLBACK_SCALE = 2;
 const WIDER = [430, 600, 768, 1024];  // the viewports, narrowest first, for a figure that overflows at 390
 const MAX_BYTES = 1.5 * 1024 * 1024;
 const MIN_WIDTH = 120;
+const SCHEME = process.argv.includes('--light') ? 'light' : 'dark';
+const DIR = SCHEME === 'light' ? join(OUT, 'light') : OUT;
+// the figures the app draws itself (Views/NativeFigures.swift)
+const NATIVE = new Set(['autonomy-spectrum', 'three-faces', 'lethal-trifecta', 'purple-loop', 'blast-radius', 'patching-deficit']);
 
 // the figures' ids, by their accessible names; a figure not listed here takes a slug of its name (and is reported)
 const IDS = {
@@ -98,15 +109,15 @@ const browser = await chromium.launch({ executablePath: chrome, headless: true }
 const stop = async () => { await browser.close().catch(() => {}); await new Promise((r) => server.close(r)); };
 const fail = async (msg) => { console.log(`FAIL  build_figures: ${msg}`); await stop(); process.exit(1); };
 
-// a page at a device scale, in the dark theme
+// a page at a device scale, in the theme asked for
 async function openPage(scale, width = WIDTH) {
-  const ctx = await browser.newContext({ viewport: { width, height: HEIGHT }, deviceScaleFactor: scale, colorScheme: 'dark', reducedMotion: 'reduce' });
-  await ctx.addInitScript(() => { try { localStorage.setItem('lensatic-theme', 'dark'); } catch (e) {} });
+  const ctx = await browser.newContext({ viewport: { width, height: HEIGHT }, deviceScaleFactor: scale, colorScheme: SCHEME, reducedMotion: 'reduce' });
+  await ctx.addInitScript((scheme) => { try { localStorage.setItem('lensatic-theme', scheme); } catch (e) {} }, SCHEME);
   const page = await ctx.newPage();
   await page.goto(URL_, { waitUntil: 'load' });
   await page.evaluate(() => document.fonts.ready);
   const theme = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
-  if (theme !== 'dark') await fail(`the page rendered with data-theme ${theme}, not dark`);
+  if (theme !== SCHEME) await fail(`the page rendered with data-theme ${theme}, not ${SCHEME}`);
   return { ctx, page, play: null };
 }
 const pages = new Map();
@@ -254,8 +265,30 @@ async function capture(play, heads, alt, width) {
   return { buf, scale };
 }
 
-mkdirSync(OUT, { recursive: true });
+mkdirSync(DIR, { recursive: true });
 const figures = [], notes = [], seen = new Set();
+if (SCHEME === 'light') {
+  // each figure the manifest has a PNG for, at its viewport, the size of its dark capture
+  const manifest = JSON.parse(readFileSync(join(OUT, 'figures.json'), 'utf8')).figures;
+  for (const m of manifest.filter((x) => !x.native)) {
+    const play = plays.find((p) => p.id === m.play);
+    const heads = play.blocks.map((b) => (b.type === 'heading' ? b.text : b.heading)).filter(Boolean);
+    const { buf, scale } = await capture(play, heads, m.alt, m.viewport);
+    const { width, height } = pngSize(buf);
+    if (Math.abs(width - m.width) > 3 || Math.abs(height - m.height) > Math.max(6, m.height * 0.01))
+      await fail(`${m.id} is ${width} x ${height} in light and ${m.width} x ${m.height} in dark`);
+    writeFileSync(join(DIR, `${m.id}.png`), buf);
+    seen.add(m.id);
+    figures.push({ ...m, width, height, _bytes: buf.length, _scale: scale });
+  }
+  await stop();
+  for (const n of readdirSync(DIR)) if (n.endsWith('.png') && !seen.has(n.slice(0, -4))) { unlinkSync(join(DIR, n)); notes.push(`removed light/${n}, which no figure names`); }
+  let total = 0;
+  for (const f of figures) { total += f._bytes; console.log(`${f.id.padEnd(24)} ${String(f.width).padStart(5)} x ${String(f.height).padEnd(6)} ${(f._bytes / 1024).toFixed(0).padStart(5)} KB  @${f._scale}x`); }
+  for (const n of notes) console.log(`NOTE  ${n}`);
+  console.log(`build_figures --light: ${figures.length} figures, ${(total / 1024 / 1024).toFixed(2)} MB in playbook/app/figures/light/`);
+  process.exit(0);
+}
 for (const play of plays) {
   await showPlay(main, play);
   const heads = play.blocks.map((b) => (b.type === 'heading' ? b.text : b.heading)).filter(Boolean);
@@ -265,6 +298,10 @@ for (const play of plays) {
     if (!id) { id = slugOf(f.alt); notes.push(`${id}: no id listed for "${f.alt}"; named by its slug`); }
     if (seen.has(id)) await fail(`two figures take the id ${id}`);
     seen.add(id);
+    if (NATIVE.has(id)) {
+      figures.push({ id, play: play.id, after: f.after, alt: f.alt, native: true, _order: [playOrder.get(play.id), f.index], _bytes: 0, _scale: 0 });
+      continue;
+    }
     // the narrowest viewport at which the figure is whole
     let viewport = WIDTH;
     if (f.overflow) {
@@ -290,12 +327,13 @@ for (const play of plays) {
 await stop();
 
 figures.sort((a, b) => a._order[0] - b._order[0] || a._order[1] - b._order[1]);
-for (const n of readdirSync(OUT)) if (n.endsWith('.png') && !seen.has(n.slice(0, -4))) { unlinkSync(join(OUT, n)); notes.push(`removed ${n}, which no figure names`); }
-writeFileSync(join(OUT, 'figures.json'), JSON.stringify({ figures: figures.map(({ id, play, after, alt, width, height, viewport }) => ({ id, play, after, alt, width, height, viewport })) }, null, 2) + '\n');
+for (const n of readdirSync(OUT)) if (n.endsWith('.png') && (!seen.has(n.slice(0, -4)) || NATIVE.has(n.slice(0, -4)))) { unlinkSync(join(OUT, n)); notes.push(`removed ${n}, ${NATIVE.has(n.slice(0, -4)) ? "drawn by the app" : "which no figure names"}`); }
+writeFileSync(join(OUT, 'figures.json'), JSON.stringify({ figures: figures.map(({ id, play, after, alt, width, height, viewport, native }) => (native ? { id, play, after, alt, native } : { id, play, after, alt, width, height, viewport })) }, null, 2) + '\n');
 
 let total = 0;
 for (const f of figures) {
   total += f._bytes;
+  if (f.native) { console.log(`${f.id.padEnd(24)} ${f.play.padEnd(13)} native, drawn by the app  after ${JSON.stringify(f.after)}`); continue; }
   console.log(`${f.id.padEnd(24)} ${f.play.padEnd(13)} ${String(f.width).padStart(5)} x ${String(f.height).padEnd(6)} ${(f._bytes / 1024).toFixed(0).padStart(5)} KB  @${f._scale}x  ${String(f.viewport).padStart(4)}px  after ${f.after === null ? 'null' : JSON.stringify(f.after)}`);
 }
 for (const n of notes) console.log(`NOTE  ${n}`);

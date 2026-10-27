@@ -54,6 +54,7 @@
 		74E2A83AE125D63AC514C728 /* figures in Resources */ = {isa = PBXBuildFile; fileRef = 7BBF69048CF28179236928A7 /* figures */; };
 		74E8F3BB44F67D11460CCFAD /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0413BC5E902605EECD09E725 /* IBMPlexSans-Bold.ttf */; };
 		7B9D9FD04E6BECA953EBB355 /* LensaticWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2AFC2099A6C9995FAD92913E /* LensaticWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		824F3F249CC54AA0F86EA994 /* NativeFigures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D88DDFD6635E273236BC30 /* NativeFigures.swift */; };
 		84DB3DF0FA56301BDAB92092 /* IBMPlexSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3A450855B8144AE3A84163A /* IBMPlexSans-Regular.ttf */; };
 		8798CC6E36EE6DCE1B1E5598 /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11C98B9C93EBBCCA91C2D03 /* ContentStore.swift */; };
 		9208D38827D92B2E1457F3C0 /* EngagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED573CC0F20EBA230B54397 /* EngagementTests.swift */; };
@@ -88,6 +89,7 @@
 		F6BD63C02466A2D1E147EDC3 /* Prose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7F9C17846D0F9556797A7 /* Prose.swift */; };
 		F6D3487061B65FCCADDD12D1 /* ContentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D6A804FC537AE3DA034D1C /* ContentTests.swift */; };
 		F7272F9ABDBFFA2E445D0F06 /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0413BC5E902605EECD09E725 /* IBMPlexSans-Bold.ttf */; };
+		F763AC3DF3CDC89870DA423B /* PolishTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A666384B66A4E36F9B67DCD /* PolishTests.swift */; };
 		F80107AFB4B78C8853D89CB7 /* MyPathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34637BAAA56FF1A42E985976 /* MyPathView.swift */; };
 		FB94E0C57E4815AAC49F5F1E /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAC38BECDD52D0BED2CB69B /* Site.swift */; };
 		FFCE07A4AAA80BF4088EFB3E /* ProseText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2FF22A7504796EA3B33C2D /* ProseText.swift */; };
@@ -135,6 +137,7 @@
 		0413BC5E902605EECD09E725 /* IBMPlexSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Bold.ttf"; sourceTree = "<group>"; };
 		08BC6F9E6FF06847804E4DCB /* validate.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = validate.py; sourceTree = "<group>"; };
 		0B18F1B49F6AD91D05A1FF45 /* Figures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Figures.swift; sourceTree = "<group>"; };
+		16D88DDFD6635E273236BC30 /* NativeFigures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeFigures.swift; sourceTree = "<group>"; };
 		1CF4E37E5BB91527957380B9 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
 		1F82538EE4B5C02FBFBD2011 /* Glance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Glance.swift; sourceTree = "<group>"; };
 		1FA5700B2D1EB9AE002F11C1 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -158,6 +161,7 @@
 		50AA4A2FC0243FB1E607BF40 /* MapScreens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapScreens.swift; sourceTree = "<group>"; };
 		510D24B311221345DBAEE1EF /* ProgressStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressStore.swift; sourceTree = "<group>"; };
 		5A133D9432C0AD3D6F8514F8 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
+		5A666384B66A4E36F9B67DCD /* PolishTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolishTests.swift; sourceTree = "<group>"; };
 		5CAC38BECDD52D0BED2CB69B /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		6885F9A245F8EE55B73AB77A /* Scaffold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scaffold.swift; sourceTree = "<group>"; };
 		6AC79C802C8F82191CD532A3 /* LensaticWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensaticWidget.swift; sourceTree = "<group>"; };
@@ -327,6 +331,7 @@
 				3ED573CC0F20EBA230B54397 /* EngagementTests.swift */,
 				EBE14E5AE3026FA7EB435E88 /* LibraryTests.swift */,
 				E9AF5F7E81064E447911EA9C /* PathTests.swift */,
+				5A666384B66A4E36F9B67DCD /* PolishTests.swift */,
 				467187B153D4B96FBD974514 /* RulesTests.swift */,
 			);
 			path = LensaticTests;
@@ -336,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				0B18F1B49F6AD91D05A1FF45 /* Figures.swift */,
+				16D88DDFD6635E273236BC30 /* NativeFigures.swift */,
 				20E5BADC225FFF5190500E3B /* Reader.swift */,
 				AFC96B740B66DD83CDB140CA /* RootView.swift */,
 				C689EE0782BD498A62135E38 /* ShareCard.swift */,
@@ -617,6 +623,7 @@
 				9208D38827D92B2E1457F3C0 /* EngagementTests.swift in Sources */,
 				12A651227FA6924356D0F824 /* LibraryTests.swift in Sources */,
 				5313BEBAC54792CDF97A4A21 /* PathTests.swift in Sources */,
+				F763AC3DF3CDC89870DA423B /* PolishTests.swift in Sources */,
 				DBD855B10BBF18B8E2F40FB9 /* RulesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -649,6 +656,7 @@
 				63272592E529030A7662064B /* LibraryView.swift in Sources */,
 				3020B10CEAE99F6BECBDB90C /* MapScreens.swift in Sources */,
 				F80107AFB4B78C8853D89CB7 /* MyPathView.swift in Sources */,
+				824F3F249CC54AA0F86EA994 /* NativeFigures.swift in Sources */,
 				3BCA1F9A2DDBF6D7CB28F480 /* Nav.swift in Sources */,
 				A6E18D50A6285A1087312135 /* PathPlan.swift in Sources */,
 				21DDA502946BC34BD535C46D /* ProgressStore.swift in Sources */,
@@ -752,7 +760,7 @@
 				"CODE_SIGNING_ALLOWED[sdk=iphonesimulator*]" = NO;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = K57ZDM4BRY;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -878,7 +886,7 @@
 				"CODE_SIGNING_ALLOWED[sdk=iphonesimulator*]" = NO;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = K57ZDM4BRY;
 				ENABLE_NS_ASSERTIONS = NO;

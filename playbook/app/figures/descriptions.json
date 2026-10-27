@@ -1,0 +1,113 @@
+{
+  "about": "Each playbook figure's text for VoiceOver (description) and, for the six the app draws itself, the website's caption shown under it and the drawing's own words in order (parts), each found in the playbook's source. Read by tools/build_library.py.",
+  "figures": {
+    "same-horsepower": {
+      "description": "Two lists compared beneath a unicorn emblem labeled same horn, same horsepower. The best hire your SOC ever made is onboarded in seconds, reads every log, writes and tunes detections, and emulates the adversary. The most dangerous insider you ever onboarded maps your environment, is over-permissioned, gets prompt-injected or tool-abused, and exfiltrates at machine speed. The only variable is who holds the reins, and governance is the reins."
+    },
+    "autonomy-spectrum": {
+      "description": "A dial running from guided through assisted and supervised to autonomous, with its marker at the midpoint. Above it, trust moves the dial toward autonomous.",
+      "caption": "Autonomy is earned: advance the dial only as eval evidence accumulates, with circuit breakers tightening at every notch.",
+      "parts": [
+        "TRUST MOVES THE DIAL →",
+        "GUIDED",
+        "ASSISTED",
+        "SUPERVISED",
+        "AUTONOMOUS"
+      ]
+    },
+    "three-jobs": {
+      "description": "Three stacked cards split the work of an AI-ready SOC into three jobs. Automation handles the certain, such as enrichment, ticketing and blocking known-bad; AI handles the variable, such as investigation path selection, correlation and sensemaking; people handle the novel, such as new attacker behavior and business judgment. The point: the multiplier is codified expertise applied at scale, not AI replacing the expert."
+    },
+    "three-faces": {
+      "description": "One capability, an autonomous cyber agent, branches three ways: the adversary, offense at machine speed; the defender, Agentic SecOps; and sanctioned red, the purple loop.",
+      "caption": "The same capability serves three masters, which is why guardrails, identity, and containment travel with the capability, not the intent.",
+      "parts": [
+        "ONE CAPABILITY",
+        "autonomous cyber agent",
+        "ADVERSARY",
+        "offense at machine speed",
+        "DEFENDER",
+        "Agentic SecOps",
+        "SANCTIONED RED",
+        "the purple loop"
+      ]
+    },
+    "lethal-trifecta": {
+      "description": "Three overlapping circles: private data, untrusted content and external comms. Where all three overlap, the agent is exploitable.",
+      "caption": "The lethal trifecta: an agent holding all three is exfiltratable via prompt injection. Architect every defensive agent to break at least one leg.",
+      "parts": [
+        "PRIVATE DATA",
+        "UNTRUSTED CONTENT",
+        "EXTERNAL COMMS",
+        "EXPLOITABLE"
+      ]
+    },
+    "purple-loop": {
+      "description": "A continuous loop of five steps, run on every TTP and every change: red emulates, blue detects, gap analysis, build detection, then validate and rerun, and back to red.",
+      "caption": "The purple loop: red emulation feeds blue detection, gaps become detections, and the loop reruns on every change.",
+      "parts": [
+        "CONTINUOUS",
+        "EVERY TTP · EVERY CHANGE",
+        "RED EMULATES",
+        "BLUE DETECTS",
+        "GAP ANALYSIS",
+        "BUILD DETECTION",
+        "VALIDATE & RERUN"
+      ]
+    },
+    "maturity-ladder": {
+      "description": "A ladder of four levels of rising autonomy: AI-assisted, AI-augmented, agentic pipelines and autonomous SecOps. Each level gives examples in practice and how to recognize it; most analysts are at level 1 today, and level 4 is the target state. A table shows the human role moving from operator to supervisor, approver and governor as the AI role moves from assistant to autonomous operator."
+    },
+    "org-chart": {
+      "description": "Two org charts compared, today above and future below, each with the CISO over five teams. Today is organized around functions: AppSec, cloud security, SOC, GRC, and identity and access. As agents absorb the routine work, the future is organized around outcomes: security strategy and risk, AI and automation engineering, security operations, engineering enablement, and trust and business resilience."
+    },
+    "reference-architecture": {
+      "description": "A stack of five layers showing an example build on the Microsoft security stack. From the top: the human-in-command layer of analysts, threat hunters and security strategy; the agentic reasoning layer with Security Copilot and teaming agents; the detection and response plane with Sentinel, Defender XDR and threat intelligence feeds; agent governance and identity with Agent 365 and Entra Agent ID; and the data and telemetry foundation."
+    },
+    "identity-enforcement": {
+      "description": "A request flow through layered planes under one identity and policy control plane. A request passes numbered hops from the user through the edge screen, input guardrail, orchestrator, human gate, model, retrieval, tool gateway and egress filter, then returns through the output guardrail. Each enforcement point queries a central policy decision point, which gets continuous policy updates, and every flow must break at least one leg of the lethal trifecta."
+    },
+    "purple-teaming-loop": {
+      "description": "A loop of seven steps that runs clockwise, shown as an example on one vendor's stack. The steps are intel: TTP ingested; red: emulate; blue: detect; analyze: root-cause; engineer: build and test; human gate: approve; and promote: deploy and monitor. Every new TTP re-enters at step 1, so coverage rises with every cycle, and the human gate is reserved for judgment."
+    },
+    "value-stream-map": {
+      "description": "Two seven-step cycles compared by lead time for one new TTP. The traditional manual cycle takes about 3 to 6 weeks, with waits at scheduling the red-team test, the manual detection check and the change-approval queue. The agentic continuous cycle takes hours to 1 day, with most steps in minutes or seconds. The gains come from removing wait states; the one wait left, human approval, is where judgment belongs."
+    },
+    "zero-trust-ot": {
+      "description": "A stack of network levels from enterprise IT at the top to process and safety at the base, split by a hard line at level 3.5: an IT/OT DMZ and data diode allowing one-way data out of OT and no path in. Below it, five zero trust principles for OT: assume breach; identity and context, not location; dynamic segmentation; continuous evaluation; and AI agents stay read-only. The source is CISA guidance."
+    },
+    "maestro-layers": {
+      "description": "A stack of seven layers for threat modeling agentic AI, from the CSA. From the base: foundation models, data operations, agent frameworks, deployment and infrastructure, evaluation and observability, and the agent ecosystem at the top. Layer 6, security and compliance, is drawn as a separate band because it runs through every layer. The model breaks an architecture apart so threats can be mapped layer by layer."
+    },
+    "jailbreak-severity": {
+      "description": "A severity spectrum of five bands, CJS-0 to CJS-4, with impact rising from left to right. Below it, four scoring axes sum into the score: capability gain, breadth of capability gain, ease of weaponization and discoverability. An escalation rule says the score is a floor, not a ceiling: it can be escalated, never reduced. The scale is an early draft from Anthropic, giving red teams a shared severity language."
+    },
+    "cast-of-agents": {
+      "description": "One operator at the top delegates to a cast of six agent roles, each mapped to an ATT&CK tactic and a defense. The roles are recon and OSINT, social engineering, malware development, infrastructure and C2, fraud and extortion, and exfiltration; exfiltration, for example, is met with DLP and egress-volume baselines. Flipped, the same cast over-permissioned inside your org is agentic insider risk."
+    },
+    "blast-radius": {
+      "description": "A graph of five agents joined by lines. The compromised agent, in red, sits inside a ring, and the one line that reaches it is broken, so its reach stops at the ring.",
+      "caption": "Illustrative. A compromised agent (red) stays contained: deterministic controls cap what it can reach, so the blast radius stays a ring, not the whole graph.",
+      "parts": [
+        "Blast radius, bounded"
+      ]
+    },
+    "patching-deficit": {
+      "description": "Two bars drawn to scale. 1,596 vulnerabilities disclosed against 97 patched, 6.1 percent, from Anthropic open-source scanning as of May 22, 2026.",
+      "caption": "With mean time-to-exploit at ≈ minus seven days, the gap between the bars is the live threat surface, which is why containment comes before cleverness.",
+      "parts": [
+        "DISCLOSED",
+        "1,596",
+        "PATCHED",
+        "97 · 6.1%",
+        "Anthropic open-source scanning, as of May 22, 2026: drawn to scale."
+      ]
+    },
+    "zero-trust-matrix": {
+      "description": "A capability matrix of 7 control domains by 3 tiers: foundation, enterprise and advanced, drawn from Anthropic's Zero Trust for AI Agents eBook. Domains include identity and authentication, access control, observability and AI governance; identity, for example, moves from per-agent cryptographic IDs to hardware-backed identity. Around it are four principles, five OWASP agentic threats and an eight-phase implementation workflow."
+    },
+    "framework-crosswalk": {
+      "description": "Four layers of AI security frameworks, stacked: govern, model the threats, select controls, and harden and operate. Examples include ISO/IEC 42001 and the NIST AI RMF to govern, OWASP, MITRE ATLAS and CSA MAESTRO for threats, the CSA AI Controls Matrix for controls, and CIS Controls and NIST SP 800-207 to harden. A reference matrix then compares five frameworks by maintainer, what each gives and what it connects with."
+    }
+  }
+}

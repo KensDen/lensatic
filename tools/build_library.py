@@ -400,10 +400,14 @@ def with_figures(pid: str, blocks: list[dict], figures: list[dict]) -> list[dict
     """A play's blocks with its figures placed: each at the end of the section headed by its manifest's "after" (before
     the next headed block), or after the play's opening block when it has none, in the manifest's order."""
     out = list(blocks)
+    texts = figure_texts()
     for f in (f for f in figures if f["play"] == pid):
-        path = FIGURES / f"{f['id']}.png"
-        if not path.exists() or png_size(path) != (f["width"], f["height"]):
-            sys.exit(f"build_library: {path.relative_to(ROOT)} is missing or not {f['width']} x {f['height']}")
+        for path in [] if f.get("native") else [FIGURES / f"{f['id']}.png", FIGURES / "light" / f"{f['id']}.png"]:
+            if not path.exists():
+                sys.exit(f"build_library: {path.relative_to(ROOT)} is missing")
+            w, h = png_size(path)
+            if (w, h) != (f["width"], f["height"]) and not ("light" in path.parts and abs(w - f["width"]) <= 3 and abs(h - f["height"]) <= max(6, f["height"] // 100)):
+                sys.exit(f"build_library: {path.relative_to(ROOT)} is {w} x {h}, not {f['width']} x {f['height']}")
         if f["after"] is None:
             at = 1
             while at < len(out) and out[at]["type"] == "figure":
@@ -415,8 +419,38 @@ def with_figures(pid: str, blocks: list[dict], figures: list[dict]) -> list[dict
             at = heads[0] + 1
             while at < len(out) and not out[at].get("heading") and not (out[at]["type"] == "heading"):
                 at += 1
-        out.insert(at, {"type": "figure", "figure": f["id"], "alt": f["alt"], "width": f["width"], "height": f["height"]})
+        block = {"type": "figure", "figure": f["id"], "alt": f["alt"], "description": texts[f["id"]]["description"]}
+        if f.get("native"):
+            block |= {"native": True, "caption": texts[f["id"]]["caption"], "parts": texts[f["id"]]["parts"]}
+        else:
+            block |= {"width": f["width"], "height": f["height"]}
+        out.insert(at, block)
     return out
+
+
+def figure_texts() -> dict:
+    """Each figure's VoiceOver description (R4), and the caption under a native one, from figures/descriptions.json:
+    1 to 4 sentences, at most 480 characters, no dash; a native figure has a caption and its drawing's words (parts),
+    each found word for word in the playbook's source, and a drawn one neither."""
+    source = JSX.read_text(encoding="utf-8")
+    texts = json.loads((FIGURES / "descriptions.json").read_text(encoding="utf-8"))["figures"]
+    manifest = {f["id"]: f for f in json.loads((FIGURES / "figures.json").read_text(encoding="utf-8"))["figures"]}
+    if set(texts) != set(manifest):
+        sys.exit(f"build_library: figure descriptions do not match the manifest: {sorted(set(texts) ^ set(manifest))}")
+    for fid, t in texts.items():
+        d = t.get("description", "")
+        sentences = len(re.findall(r"[.!?](?:\s|$)", d))
+        if not 1 <= sentences <= 4 or len(d) > 480 or not d.endswith("."):
+            sys.exit(f"build_library: figure {fid}: a description is 1 to 4 sentences, at most 480 characters, ending with a period")
+        if not (bool(manifest[fid].get("native")) == ("caption" in t) == ("parts" in t)):
+            sys.exit(f"build_library: figure {fid}: a native figure has a caption and parts, and a drawn one neither")
+        for text in [t.get("caption", "")] + t.get("parts", []):
+            if text not in source:
+                sys.exit(f"build_library: figure {fid}: {text!r} is not in the playbook's source")
+        for text in (d, t.get("caption", "")):
+            if "\u2014" in text or "\u2013" in text:
+                sys.exit(f"build_library: figure {fid}: a dash in its text")
+    return texts
 
 
 ACTION_PLAN = "actionplan"

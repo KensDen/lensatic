@@ -305,7 +305,7 @@ struct SourcesSheet: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel("Documents, \(docs.count)")
-            .accessibilityValue(documentsOpen ? "Shown" : "Hidden")
+            .accessibilityValue(documentsOpen ? "Expanded" : "Collapsed")
             .accessibilityIdentifier("sources-documents")
             if documentsOpen {
                 ForEach(Array(docs.enumerated()), id: \.offset) { i, d in

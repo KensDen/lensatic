@@ -18,6 +18,10 @@ struct PathWidget: Widget {
             PathWidgetView(entry: entry)
                 .containerBackground(Palette.bg2, for: .widget)
                 .widgetURL(entry.glance.link)
+                // one element for VoiceOver, read in the order it is drawn (R4)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(entry.glance.voiceOver)
+                .accessibilityHint(entry.glance.next == nil ? "Opens Lensatic" : "Opens this step in Lensatic")
         }
         .configurationDisplayName("Next Step")
         .description("Your next deadline and next step, at a glance. Tap it to jump straight to that step.")
@@ -74,7 +78,8 @@ struct PathProvider: TimelineProvider {
     }
 }
 
-/// The widget's two sizes, in the app's type and colours.
+/// The widget's two sizes, in the app's type and colours, light or dark as the home screen is (R4); in a tinted home
+/// screen the countdown and the eyebrow take the accent.
 struct PathWidgetView: View {
     @Environment(\.widgetFamily) private var family
     let entry: PathEntry
@@ -109,7 +114,7 @@ struct PathWidgetView: View {
             }
             Spacer(minLength: 4)
             if let c = g.countdown {
-                Text("\(c.days)").font(big).foregroundStyle(Palette.fg).minimumScaleFactor(0.6).lineLimit(1)
+                Text("\(c.days)").font(big).foregroundStyle(Palette.fg).minimumScaleFactor(0.6).lineLimit(1).widgetAccentable()
                 Text(c.days == 1 ? "day to \(c.label)" : "days to \(c.label)").font(small).foregroundStyle(Palette.fg2).lineLimit(2)
             } else if family == .systemMedium, g.next != nil, g.total > 0 {
                 // no deadline ahead: the medium widget's right half names the next step, so its left counts the steps
@@ -118,7 +123,7 @@ struct PathWidgetView: View {
             } else if g.door == nil {
                 Text("Pick a trailhead").font(title).foregroundStyle(Palette.fg).lineLimit(3)
             } else if let n = g.next {
-                Text("NEXT · STEP \(n.order) OF \(g.total)").font(eyebrow).foregroundStyle(Palette.secMaps).lineLimit(1).minimumScaleFactor(0.8)
+                Text("NEXT · STEP \(n.order) OF \(g.total)").font(eyebrow).foregroundStyle(Palette.secMaps).lineLimit(1).minimumScaleFactor(0.8).widgetAccentable()
                 Text(n.title).font(title).foregroundStyle(Palette.fg).lineLimit(3).minimumScaleFactor(0.85)
             } else if g.isComplete {
                 Text("\(g.done)/\(g.total)").font(big).foregroundStyle(Palette.fg).minimumScaleFactor(0.6).lineLimit(1)
@@ -139,7 +144,7 @@ struct PathWidgetView: View {
     @ViewBuilder private func trail(_ g: Glance) -> some View {
         VStack(alignment: .leading, spacing: 4) {
             if let n = g.next {
-                Text("NEXT · STEP \(n.order) OF \(g.total)").font(eyebrow).foregroundStyle(Palette.secMaps).lineLimit(1).minimumScaleFactor(0.8)
+                Text("NEXT · STEP \(n.order) OF \(g.total)").font(eyebrow).foregroundStyle(Palette.secMaps).lineLimit(1).minimumScaleFactor(0.8).widgetAccentable()
                 Text(n.title).font(title).foregroundStyle(Palette.fg).lineLimit(3)
             } else if g.isComplete {
                 Text("ALL STEPS DONE").font(eyebrow).foregroundStyle(Palette.secMaps)

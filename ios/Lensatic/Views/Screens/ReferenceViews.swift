@@ -116,14 +116,23 @@ struct SourcesListView: View {
 struct AboutView: View {
     @Environment(AppModel.self) private var model
 
+    /// A heading without its quotation marks, in lower case, to compare two headings.
+    static func plain(_ s: String) -> String {
+        s.filter { !"\"'\u{2018}\u{2019}\u{201C}\u{201D}".contains($0) }.lowercased()
+    }
+
     var body: some View {
         let s = model.screen("about") { AboutScreen(store: model.store) }
         DetailScreen(eyebrow: model.store.navTitle(.about), title: "Why \u{201C}\(s.name)\u{201D}", identifier: "about-screen") {
-            Text(s.version).font(DS.eyebrowSmall).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+            // the release date kept on one line (R4)
+            Text(s.version.replacingOccurrences(of: #"\b(\d{1,2}) ([A-Z][a-z]{2,8}) (\d{4})\b"#, with: "$1\u{00A0}$2\u{00A0}$3", options: .regularExpression)).font(DS.eyebrowSmall).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
                 .accessibilityIdentifier("about-version")
             VStack(alignment: .leading, spacing: 14) {
-                Text(s.storyHeading).font(DS.readerHeading).foregroundStyle(Palette.fg).accessibilityAddTraits(.isHeader)
-                    .accessibilityIdentifier("about-name")
+                // the story's heading is the screen's own title here (Why "Lensatic"), so it is not said twice (R4)
+                if AboutView.plain(s.storyHeading) != AboutView.plain("Why \(s.name)") {
+                    Text(s.storyHeading).font(DS.readerHeading).foregroundStyle(Palette.fg).accessibilityAddTraits(.isHeader)
+                        .accessibilityIdentifier("about-name")
+                }
                 if let image = UIImage(named: "about-photo.jpg") {
                     Image(uiImage: image).resizable().scaledToFit()
                         .clipShape(RoundedRectangle(cornerRadius: 12))

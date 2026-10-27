@@ -250,6 +250,9 @@ final class AppModel {
     }
 
     #if DEBUG
+    /// The view a pushed screen scrolls to when it appears (-LensaticScrollTo), for the screenshots.
+    @MainActor static var debugScrollTo: String?
+
     /// Launch arguments for the UI tests and the screenshot sheet (Debug builds only): -LensaticResetProgress forgets
     /// everything; -LensaticDoor <id> picks a trailhead; -LensaticChecked <1,2> checks those steps on it; -LensaticSaved
     /// <key,key> saves those items; -LensaticWeeks <1,2> marks those weeks done; -LensaticTab <tab> opens a tab;
@@ -291,6 +294,8 @@ final class AppModel {
             let day = changes.items.first { $0.release == v }?.released ?? changes.builtOn
             progress.setChangesViewed(v == "none" ? nil : .init(through: v, on: day.isEmpty ? Changes.today() : day))
         }
+        // -LensaticScrollTo <figure-id> scrolls the screen opened to that figure (the R4 screenshots)
+        AppModel.debugScrollTo = value("-LensaticScrollTo")
         // -LensaticLink <url> follows one of the app's own links, as a tap on the widget does
         if let link = value("-LensaticLink").flatMap(URL.init(string:)) { open(link: link) }
         if let s = value("-LensaticScreen").flatMap(Section.init(rawValue:)) {

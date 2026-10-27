@@ -4,7 +4,7 @@ import UIKit
 
 /// The share card (R3): a clean image of a framework card or a step, drawn from the same content as the screen, with
 /// the source link beside it in the share sheet. The image is made on the device when the reader taps Share and goes
-/// only where they send it.
+/// only where they send it, in the appearance the reader is using (R4: light or dark).
 struct ShareCard: View {
     enum Subject: Hashable, Sendable {
         case entity(String)
@@ -26,6 +26,7 @@ struct ShareCard: View {
     }
 
     let face: Face
+    var scheme: ColorScheme = .dark
     /// The width the image is drawn at, in points; the image is three times that in pixels.
     static let width: CGFloat = 360
 
@@ -54,7 +55,7 @@ struct ShareCard: View {
         .frame(width: ShareCard.width, alignment: .leading)
         .background(Palette.bg2)
         .overlay(alignment: .top) { Rectangle().fill(Palette.secMaps).frame(height: 4) }
-        .environment(\.colorScheme, .dark)
+        .environment(\.colorScheme, scheme)
         .environment(\.dynamicTypeSize, .large)
     }
 
@@ -88,17 +89,17 @@ struct ShareCard: View {
     static func host(_ url: URL) -> String? { url.host().map { $0.hasPrefix("www.") ? String($0.dropFirst(4)) : $0 } }
 
     /// The card as an image, three pixels to the point.
-    @MainActor static func image(_ face: Face) -> UIImage? {
-        let renderer = ImageRenderer(content: ShareCard(face: face))
+    @MainActor static func image(_ face: Face, scheme: ColorScheme = .dark) -> UIImage? {
+        let renderer = ImageRenderer(content: ShareCard(face: face, scheme: scheme))
         renderer.scale = 3
         renderer.proposedSize = ProposedViewSize(width: width, height: nil)
         return renderer.uiImage
     }
 
     /// Share a subject: its card's image and its source link, through the system share sheet over whatever is on top.
-    @MainActor static func share(_ subject: Subject, model: AppModel) {
+    @MainActor static func share(_ subject: Subject, model: AppModel, scheme: ColorScheme) {
         guard let face = face(subject, model: model), let top = Reader.topController() else { return }
-        let image = image(face)
+        let image = image(face, scheme: scheme)
         // each item brings its own preview (the card's title and image), so the share sheet never fetches the source's
         // address to build one: sharing makes no network request
         let meta = LPLinkMetadata()
@@ -123,11 +124,12 @@ struct ShareCard: View {
 /// The share button on a card or a step: a round control, as the bookmark beside it.
 struct ShareButton: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.colorScheme) private var scheme
     let subject: ShareCard.Subject
     var compact = false
 
     var body: some View {
-        Button { ShareCard.share(subject, model: model) } label: {
+        Button { ShareCard.share(subject, model: model, scheme: scheme) } label: {
             if compact {
                 Icon(.share, size: 20, color: Palette.fg).frame(width: 44, height: 44).contentShape(Rectangle())
             } else {

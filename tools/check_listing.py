@@ -40,7 +40,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
-import build_web as B  # noqa: E402  (the section order and the department tokens, as the page renders them)
+import build_web as B  # noqa: E402  (the department tokens, as the page renders them)
 import validate as V  # noqa: E402  (the forbidden word, the report format)
 
 STORE = ROOT / "ios" / "store"  # the App Store listing moved under ios/ in the Lensatic 2.0 cleanup (18 October 2026)
@@ -53,6 +53,8 @@ DOCS = ROOT / "docs"
 INFO = ROOT / "ios" / "Lensatic" / "Info.plist"
 PRIVACY = ROOT / "ios" / "Lensatic" / "Resources" / "PrivacyInfo.xcprivacy"
 PROJECT_YML = ROOT / "ios" / "project.yml"
+SITE_JSON = ROOT / "hub" / "site.json"
+PLAYS = ROOT / "playbook" / "app" / "plays.json"
 
 # the settled wording (the owner's decisions of 27 and 28 September 2026, and of 18 October 2026 for "public sector" in the
 # tagline, the pitch and the description's opening), verbatim. Only the App Store says "Lensatic Cyber"; everywhere else says "Lensatic".
@@ -67,7 +69,7 @@ WAYFINDER = ("Framework Maps is a wayfinder, not a crosswalk. It guides you, sho
 OPENING = ("The public sector cyber framework landscape is thick woods: overlapping rules, shifting requirements, and a dozen "
            "trails that all look alike. Lensatic Cyber is the compass that shows where you stand and which way to head "
            "next.")
-WHATS_INSIDE = "What's inside"
+WHATS_INSIDE = "What's Inside"  # a heading, in Title Case (R4)
 KEYWORD_CANDIDATES = ("zero trust", "NIST", "CSF", "800-53", "800-207", "800-171", "CMMC", "RMF", "FedRAMP", "CISA", "compliance",
                       "cybersecurity", "federal", "framework", "controls", "reference", "governance")
 
@@ -90,10 +92,6 @@ PINNED = {"name": STORE_NAME, "subtitle": SUBTITLE, "copyright": "2026 Ken Conne
 # the review notes carry the support route (session 11, Q22)
 REVIEW_SUPPORT = ("Support is through the public issues page linked from the support page, where the app goes by Lensatic, "
                   "its name outside the App Store; the app collects no data.")
-# two items of What's inside carry a gloss (session 11, Q24); the department renders through its token
-GLOSS = {"doors": ", one each for federal civilian agencies, {{dow.current}} components, defense contractors, and everyone else",
-         "sources": ": every framework and source on the stack, with its publisher, a link to the primary, and its verification "
-                    "status with its date"}
 FAMILY = {"1": "iPhone", "2": "iPad"}  # TARGETED_DEVICE_FAMILY's numbers
 MAKER_SURNAME = "Connell"  # the maker is named in the copyright line only
 NULLABLE = ("secondaryCategory", "whatsNew")  # null: no secondary category, and not used for a first version
@@ -182,16 +180,49 @@ def build_promotional(d: dict) -> str:
     return promotional(d["meta"]["pitch"])
 
 
+WORDS = {2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine", 10: "ten"}
+
+
+def app_facts(d: dict) -> dict:
+    """What the app holds, for the description (build 2, R4): the trailheads' names as the app shows them, the stack's
+    layers and functions, the guide's and the playbook's titles and the playbook's plays, each read from the content,
+    the Library's site file and the generated guide and plays, never typed here."""
+    site = load(SITE_JSON)
+    plays = load(PLAYS)["plays"]
+    doors = [resolve(d, x["shortTitle"]) for x in d["doors"]]
+    shape = site["labels"]["guideShape"]
+    return {"doors": doors, "layers": sum(1 for x in d["layers"] if not x.get("isColumn")), "functions": len(d["functions"]),
+            "guide": f'{site["guides"][0]["name"]} in {shape.title()}',  # the guide's card title (Zero Trust in Eight Weeks)
+            "playbook": site["cards"]["playbook"]["title"], "plays": len(plays)}
+
+
 def build_description(d: dict) -> str:
-    """The settled opening; the wayfinder line; meta.description, introduced by the map's own name (content 1.2.11:
-    "Framework Maps is a guide to ..."); What's inside, the section titles in the page's order; the offline line; the
-    not-affiliated sentence; the first paragraph of Why the name."""
-    meta, titles = d["meta"], d["ui"]["sections"]
-    order = [s for s in B.SECTIONS if s != "glossary" or d.get("glossary")]
-    inside = "\n".join([WHATS_INSIDE] + [f"- {resolve(d, titles[s])}{resolve(d, GLOSS.get(s, ''))}" for s in order])
-    desc = resolve(d, meta["description"])
-    named = f'{d["ui"]["labels"]["mapName"]} is {desc[0].lower()}{desc[1:]}'
-    parts = [OPENING, as_store(resolve(d, meta["wayfinder"])), named, inside,
+    """The settled opening; the wayfinder line; what the app does with the map (build 2, R4); What's inside, the app's
+    own screens and features in Title Case, each with what it does, counts and names from the content; the offline line;
+    the not-affiliated sentence; the first paragraph of Why the name."""
+    meta, f = d["meta"], app_facts(d)
+    n = lambda k: WORDS.get(k, str(k))
+    doors = ", ".join(f["doors"][:-1]) + f", or {f['doors'][-1]}"
+    path = (f"{STORE_NAME} turns that map into a path. Tell it where you stand and it lists the frameworks that apply to you, in "
+            f"order, as steps you check off, and counts down to the next deadline wherever a source dates one. Beside the map sit two companions to read "
+            f"on your phone: {f['guide']}, a zero trust field guide, and {f['playbook']}, a playbook of {f['plays']} plays.")
+    items = [
+        ("My Path", f"pick one of {n(len(f['doors']))} trailheads ({doors}) and get your frameworks in order, as steps you check off"),
+        ("Countdown", "the days to your next deadline where a source dates one, each date taken from that source"),
+        ("What Changed", "what each content update changed on the map, newest first, with the steps it affects"),
+        ("Explore", f"the stack in {n(f['layers'])} layers beside the AI column, the matrix of pillars and functions, and the "
+                    f"{n(f['functions'])} functions"),
+        ("Search", "one search across frameworks, path steps, the field guide, the playbook and the glossary, with results in iOS search too"),
+        ("Library", "the field guide and the playbook as native screens, each chapter and play summary first, with your saved items"),
+        ("Sources", "every framework with its publisher, edition and date, a link to the primary that opens inside the app, and "
+                    "the date it was last verified"),
+        ("Home Screen Widget", "your countdown and next step, in small and medium sizes"),
+        ("Siri and Shortcuts", "ask for your next step, open Search, or open any framework, step or play"),
+        ("Share", "a clean card of a framework or a step, with its source link"),
+        ("Glossary", "every abbreviation spelled out, with a plain sentence on what it is"),
+    ]
+    inside = "\n".join([WHATS_INSIDE] + [f"- {k}: {v}" for k, v in items])
+    parts = [OPENING, as_store(resolve(d, meta["wayfinder"])), path, inside,
              resolve(d, meta["about"]["offline"]), resolve(d, meta["about"]["notAffiliated"]),
              as_store(resolve(d, meta["about"]["nameStory"][0]))]
     return "\n\n".join(parts)

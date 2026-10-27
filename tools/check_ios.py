@@ -115,7 +115,7 @@ INFO_VALUES = {
     "CFBundleURLTypes": [{"CFBundleURLName": "io.github.kensden.lensatic", "CFBundleURLSchemes": ["lensatic"]}],
 }
 PROJECT_SETTINGS = {"PRODUCT_BUNDLE_IDENTIFIER": "io.github.kensden.lensatic", "MARKETING_VERSION": '"1.0"',
-                    "CURRENT_PROJECT_VERSION": '"1"', "TARGETED_DEVICE_FAMILY": '"1,2"', "CODE_SIGN_STYLE": "Automatic"}
+                    "CURRENT_PROJECT_VERSION": '"2"', "TARGETED_DEVICE_FAMILY": '"1,2"', "CODE_SIGN_STYLE": "Automatic"}
 
 
 def sha(p: Path) -> str:
@@ -221,6 +221,17 @@ def check_static(rep) -> None:
     ch = run([sys.executable, str(ROOT / "tools" / "build_changes.py"), "--check"])
     rep.check("What Changed: content/changes.json equals a fresh tools/build_changes.py run over the content's release history",
               [x for x in ch.stdout.splitlines() if x] or ([ch.stderr.strip()[:200]] if ch.returncode else []))
+
+    # R4: Reduce Motion. Every animation the app and the widget start (withAnimation, .animation, a scroll or a sheet
+    # presented animated) names the setting on its own line, so none moves the screen when the reader has turned motion off
+    errs = []
+    for p in swift_sources():
+        if not (p.is_relative_to(APP) or p.is_relative_to(WIDGET)):
+            continue
+        for n, line in enumerate(strip_comments(p.read_text(encoding="utf-8")).splitlines(), 1):
+            if re.search(r"withAnimation\(|\.animation\(|animated:\s*(?!false)", line) and not re.search(r"ReduceMotion|reduceMotion", line):
+                errs.append(f"{p.relative_to(ROOT)}:{n}: an animation that does not follow Reduce Motion")
+    rep.check("Reduce Motion: every animation in the app and the widget follows the setting", errs)
 
     # section 3.7: forbidden names, modules, outside addresses
     errs, urls = [], 0

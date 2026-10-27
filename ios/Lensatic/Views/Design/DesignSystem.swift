@@ -268,13 +268,22 @@ struct PrimaryButtonStyle: ButtonStyle {
 /// A round 44-point control on the surface colour: back, share.
 struct CircleIconLabel: View {
     let icon: IconName
+    // the symbol grows with the text (R4), and the circle with it from 44 points to at most 60; past that, a long press
+    // shows the control in the large content viewer, as the system's bar buttons do
+    @ScaledMetric(relativeTo: .body) private var side: CGFloat = 44
 
     var body: some View {
-        Icon(icon, size: 20, color: Palette.fg)
-            .frame(width: 44, height: 44)
+        let d = min(max(side, 44), 60)
+        let glyph = 20 * d / 44
+        IconShape(paths: icon.paths)
+            .stroke(Palette.fg, style: StrokeStyle(lineWidth: 2 * glyph / 24, lineCap: .round, lineJoin: .round))
+            .frame(width: glyph, height: glyph)
+            .accessibilityHidden(true)
+            .frame(width: d, height: d)
             .background(Palette.bg2, in: Circle())
             .overlay(Circle().strokeBorder(Palette.line, lineWidth: 1))
             .contentShape(Circle())
+            .accessibilityShowsLargeContentViewer()
     }
 }
 
@@ -354,6 +363,15 @@ struct BottomSheet<Content: View>: View {
 private struct SheetHeight: PreferenceKey {
     static let defaultValue: CGFloat = 400
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) { value = max(value, nextValue()) }
+}
+
+/// Short text that never ends on a one-word line (nit 2, R4): its last two words are kept together, when they are short
+/// enough to wrap as one (24 characters or fewer).
+func noOrphan(_ s: String) -> String {
+    guard let last = s.range(of: " ", options: .backwards) else { return s }
+    let start = s[..<last.lowerBound].range(of: " ", options: .backwards)?.upperBound ?? s.startIndex
+    guard s.distance(from: start, to: s.endIndex) <= 24 else { return s }
+    return s.replacingCharacters(in: last, with: "\u{00A0}")
 }
 
 /// A date as one unbreakable run ("9 Sep 2026"), for the lines the app composes: a date never splits across lines.

@@ -61,10 +61,17 @@ final class Library: Sendable {
 struct LibraryBlock: Decodable, Sendable {
     enum Kind: String, Decodable, Sendable { case heading, text, callout, list, cards, table, stats, links, figure }
 
-    /// One of the playbook's diagrams (R3): its PNG in the bundle's figures folder, its accessible name and its size.
+    /// One of the playbook's diagrams (R3): its accessible name, its description for VoiceOver (R4), and either its PNG
+    /// in the bundle's figures folder (dark, and light under light/) with its size, or, for the six small ones the app
+    /// draws itself (R4), the website's caption shown under it.
     struct Figure: Sendable {
         let id: String
         let alt: String
+        let description: String
+        let native: Bool
+        let caption: String?
+        /// A native figure's own words, in drawing order, each from the playbook's source.
+        let parts: [String]
         let width: Int
         let height: Int
     }
@@ -108,7 +115,7 @@ struct LibraryBlock: Decodable, Sendable {
     let links: [Link]
     let figure: Figure?
 
-    private enum CodingKeys: String, CodingKey { case type, heading, lead, text, label, level, ordered, url, columns, rows, items, leads, figure, alt, width, height }
+    private enum CodingKeys: String, CodingKey { case type, heading, lead, text, label, level, ordered, url, columns, rows, items, leads, figure, alt, description, native, caption, parts, width, height }
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -127,15 +134,23 @@ struct LibraryBlock: Decodable, Sendable {
         cards = kind == .cards ? try c.decode([Card].self, forKey: .items) : []
         stats = kind == .stats ? try c.decode([Stat].self, forKey: .items) : []
         links = kind == .links ? try c.decode([Link].self, forKey: .items) : []
-        figure = kind == .figure ? Figure(id: try c.decode(String.self, forKey: .figure), alt: try c.decode(String.self, forKey: .alt),
-                                          width: try c.decode(Int.self, forKey: .width), height: try c.decode(Int.self, forKey: .height)) : nil
+        if kind == .figure {
+            let native = try c.decodeIfPresent(Bool.self, forKey: .native) ?? false
+            figure = Figure(id: try c.decode(String.self, forKey: .figure), alt: try c.decode(String.self, forKey: .alt),
+                            description: try c.decode(String.self, forKey: .description), native: native,
+                            caption: native ? try c.decode(String.self, forKey: .caption) : nil,
+                            parts: native ? try c.decode([String].self, forKey: .parts) : [],
+                            width: native ? 0 : try c.decode(Int.self, forKey: .width), height: native ? 0 : try c.decode(Int.self, forKey: .height))
+        } else {
+            figure = nil
+        }
     }
 
     /// Every word the block shows, for search.
     var searchText: String {
         var out = [heading, lead, text, label].compactMap { $0 } + columns + rows.flatMap(\.cells) + leads + lines
         for c in cards { out += [c.eyebrow, c.title, c.text, c.meta].compactMap { $0 } + (c.leads ?? []) + (c.bullets ?? []) }
-        out += stats.flatMap { [$0.value, $0.label] } + links.map(\.label) + [figure?.alt].compactMap { $0 }
+        out += stats.flatMap { [$0.value, $0.label] } + links.map(\.label) + [figure?.alt, figure?.caption].compactMap { $0 }
         return out.joined(separator: " ")
     }
 }

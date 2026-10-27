@@ -261,7 +261,7 @@ struct FunctionCard: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .accessibilityValue(open ? "Open" : "Closed")
+            .accessibilityValue(open ? "Expanded" : "Collapsed")
             .accessibilityIdentifier("function-\(card.function.id.rawValue)-pillars")
             if open {
                 VStack(alignment: .leading, spacing: 8) {
@@ -375,7 +375,7 @@ struct HelperCard: View {
                 .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .accessibilityValue(open ? "Open" : "Closed")
+            .accessibilityValue(open ? "Expanded" : "Collapsed")
             .accessibilityIdentifier("helper-\(helper.id)")
             if open {
                 ProseText(run: prose[helper.answer], font: DS.step)

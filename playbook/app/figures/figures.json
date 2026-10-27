@@ -14,9 +14,7 @@
       "play": "humancommand",
       "after": "The Numbers Behind the Thesis: The 2026 AI SOC Survey",
       "alt": "The autonomy spectrum",
-      "width": 924,
-      "height": 153,
-      "viewport": 390
+      "native": true
     },
     {
       "id": "three-jobs",
@@ -32,27 +30,21 @@
       "play": "foundations",
       "after": "The Essentials Call to Action",
       "alt": "One capability, three faces",
-      "width": 924,
-      "height": 279,
-      "viewport": 390
+      "native": true
     },
     {
       "id": "lethal-trifecta",
       "play": "blue",
       "after": "Continuous Agent Evaluation: Are the Agents Still Good?",
       "alt": "The lethal trifecta",
-      "width": 924,
-      "height": 396,
-      "viewport": 390
+      "native": true
     },
     {
       "id": "purple-loop",
       "play": "purple",
       "after": "Worked Example: The Vulnerability Storm (Tabletop)",
       "alt": "The continuous purple loop",
-      "width": 924,
-      "height": 411,
-      "viewport": 390
+      "native": true
     },
     {
       "id": "maturity-ladder",
@@ -149,18 +141,14 @@
       "play": "containment",
       "after": "Circuit Breakers: Automatic, Threshold-Triggered Halts",
       "alt": "Schematic of containment bounding a compromised agent blast radius",
-      "width": 600,
-      "height": 363,
-      "viewport": 390
+      "native": true
     },
     {
       "id": "patching-deficit",
       "play": "cscrm",
       "after": "Frameworks & Federal Hooks",
       "alt": "The patching deficit, drawn to scale",
-      "width": 912,
-      "height": 165,
-      "viewport": 390
+      "native": true
     },
     {
       "id": "zero-trust-matrix",

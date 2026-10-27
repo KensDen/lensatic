@@ -172,6 +172,14 @@ struct StepRow: View {
     let isDone: Bool
     let isNext: Bool
     let layer: String?
+
+    /// The row as VoiceOver reads it: the title, and on the next step its layer and the line under the title.
+    private var spokenTitle: String {
+        guard isNext else { return step.title }
+        let place: String = layer.map { ", " + $0 } ?? ""
+        let line: String = step.when ?? names.map(\.name).joined(separator: model.store.label("listSeparator"))
+        return "Next step\(place). \(step.title). \(line)"
+    }
     let names: [(id: String, name: String)]
     let expanded: Bool
     let toggle: () -> Void
@@ -186,7 +194,7 @@ struct StepRow: View {
                         if isDone {
                             DoneMark()
                         } else {
-                            Icon(.circle, size: 24, color: isNext ? Palette.secMaps : Palette.lineStrong)
+                            Icon(.circle, size: 24, color: isNext ? Palette.secMaps : Palette.fg2)  // the check's edge at 3:1 or more in both themes (R4)
                         }
                     }
                     .frame(width: 44, height: 44)
@@ -227,8 +235,9 @@ struct StepRow: View {
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                .accessibilityLabel((isNext ? "Next step. " : "") + step.title)
-                .accessibilityValue(expanded ? "Open" : "Closed")
+                // VoiceOver reads what the row shows: on the next step, its layer and the line under the title too (R4)
+                .accessibilityLabel(spokenTitle)
+                .accessibilityValue(expanded ? "Expanded" : "Collapsed")
                 .accessibilityHint("Shows the step in full")
                 .accessibilityIdentifier("step-\(step.order)")
             }

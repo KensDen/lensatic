@@ -227,7 +227,7 @@ struct WeekRow: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(spacing: 12) {
                 Button(action: toggle) {
-                    Group { if done { DoneMark() } else { Icon(.circle, size: 24, color: current ? Palette.secGuides : Palette.lineStrong) } }
+                    Group { if done { DoneMark() } else { Icon(.circle, size: 24, color: current ? Palette.secGuides : Palette.fg2) } }
                         .frame(width: 44, height: 44).contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
@@ -252,7 +252,7 @@ struct WeekRow: View {
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                .accessibilityValue(open ? "Open" : "Closed")
+                .accessibilityValue(open ? "Expanded" : "Collapsed")
                 .accessibilityIdentifier("week-\(week.week)")
             }
             if open {
@@ -366,7 +366,7 @@ struct SummaryFirst: View {
                 }
                 .buttonStyle(.plain)
                 .accessibilityLabel("Outline, \(outline.count) sections")
-                .accessibilityValue(open ? "Shown" : "Hidden")
+                .accessibilityValue(open ? "Expanded" : "Collapsed")
                 .accessibilityIdentifier("outline")
                 if open {
                     ForEach(Array(outline.enumerated()), id: \.offset) { i, entry in
