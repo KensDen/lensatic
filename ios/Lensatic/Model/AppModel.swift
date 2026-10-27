@@ -1,71 +1,6 @@
 import Foundation
 import Observation
 
-/// One screen pushed inside a tab (the redesign, R2): an entry's card, a layer, a cell of the matrix, the Library's
-/// reference screens, the guide and its chapters, the plays and one play, the saved list.
-enum Nav: Hashable, Sendable {
-    case entity(String)
-    case layer(String)
-    case cell(PillarView, String, FunctionID)
-    case glossary
-    case sources
-    case about
-    case saved
-    case guide
-    case chapter(String)
-    case plays
-    case play(String)
-
-    /// The screen as the parts of an address (Target.url), and back.
-    var pathParts: [String] {
-        switch self {
-        case .entity(let id): return ["entity", id]
-        case .layer(let id): return ["layer", id]
-        case .cell(let v, let p, let f): return ["cell", v.rawValue, p, f.rawValue]
-        case .glossary: return ["glossary-list"]
-        case .sources: return ["sources"]
-        case .about: return ["about"]
-        case .saved: return ["saved"]
-        case .guide: return ["guide"]
-        case .chapter(let id): return ["chapter", id]
-        case .plays: return ["plays"]
-        case .play(let id): return ["play", id]
-        }
-    }
-
-    init?(pathParts parts: [String]) {
-        switch (parts.first, parts.count) {
-        case ("entity", 2): self = .entity(parts[1])
-        case ("layer", 2): self = .layer(parts[1])
-        case ("cell", 4):
-            guard let v = PillarView(rawValue: parts[1]), let f = FunctionID(rawValue: parts[3]) else { return nil }
-            self = .cell(v, parts[2], f)
-        case ("glossary-list", 1): self = .glossary
-        case ("sources", 1): self = .sources
-        case ("about", 1): self = .about
-        case ("saved", 1): self = .saved
-        case ("guide", 1): self = .guide
-        case ("chapter", 2): self = .chapter(parts[1])
-        case ("plays", 1): self = .plays
-        case ("play", 2): self = .play(parts[1])
-        default: return nil
-        }
-    }
-
-    /// The tab a screen lives under when it is opened from elsewhere (iOS search, a saved item, a link).
-    var home: AppTab {
-        switch self {
-        case .entity, .layer, .cell: return .explore
-        case .glossary, .sources, .about, .saved, .guide, .chapter, .plays, .play: return .library
-        }
-    }
-}
-
-/// Explore's three views of the map.
-enum ExploreMode: String, CaseIterable, Hashable, Sendable {
-    case stack, matrix, functions
-}
-
 /// Where the reader is: the trailhead, the checks, the saved items and the guide's weeks (kept on the device by
 /// `ProgressStore`), the tab, the screens pushed inside each tab, Explore's view and the matrix's pillar view, the step
 /// to open on My Path, the glossary entry and the Sources sheet open over a screen.
@@ -73,6 +8,7 @@ enum ExploreMode: String, CaseIterable, Hashable, Sendable {
 final class AppModel {
     let store: ContentStore
     let library: Library
+    let changes: Changes
     let progress: ProgressStore
     var tab: AppTab = .path
     var paths: [AppTab: [Nav]] = [:]
@@ -95,9 +31,10 @@ final class AppModel {
         var id: String { slug }
     }
 
-    init(store: ContentStore, library: Library, progress: ProgressStore = ProgressStore()) {
+    init(store: ContentStore, library: Library, changes: Changes = .empty, progress: ProgressStore = ProgressStore()) {
         self.store = store
         self.library = library
+        self.changes = changes
         self.progress = progress
         if let view = door?.pillarView.value { matrixView = view }
         #if DEBUG
@@ -118,8 +55,12 @@ final class AppModel {
         return plan
     }
 
-    /// Picking a trailhead opens My Path at its top; each trailhead keeps its own checks. iOS search gets its steps.
+    /// Picking a trailhead opens My Path at its top; each trailhead keeps its own checks. iOS search gets its steps. A
+    /// reader's very first pick starts What Changed from this release: what changed before they arrived is not news.
     func choose(_ id: Door.ID) {
+        if progress.door == nil && progress.state.changesViewed == nil {
+            progress.viewChanges(through: changes.contentVersion, on: Changes.today())
+        }
         progress.choose(id)
         changingDoor = false
         paths[.path] = []
@@ -133,6 +74,15 @@ final class AppModel {
         guard let door else { return nil }
         let plan = plan(door)
         return plan.next(progress.checked(door.id))?.layerId ?? plan.steps.last?.layerId
+    }
+
+    // MARK: What Changed
+
+    /// The items newer than the reader's last view, newest first: My Path shows them until the reader clears them.
+    var newChanges: [Changes.Item] { changes.new(since: progress.state.changesViewed, door: door) }
+
+    func clearChanges() {
+        progress.viewChanges(through: changes.contentVersion, on: Changes.today())
     }
 
     // MARK: screens, built once
@@ -200,24 +150,71 @@ final class AppModel {
         }
     }
 
-    /// A tap on an item in iOS search: its identifier is a saved item's key.
-    func openSpotlight(_ identifier: String) {
-        guard let item = SavedItem(key: identifier) else { return }
+    /// A tap on an item in iOS search, the widget or an intent: its identifier is a saved item's key. Returns whether
+    /// it named something in this content.
+    @discardableResult
+    func openSpotlight(_ identifier: String) -> Bool {
+        guard let item = SavedItem(key: identifier), exists(item) else { return false }
         switch item {
-        case .entity(let id) where store.entities[id] != nil: show(.entity(id))
-        case .play(let id) where library.play(id) != nil: show(.play(id))
-        case .step(let door, let order) where self.door(door)?.steps.contains(where: { $0.order == order }) == true: showStep(door, order)
-        default: break
+        case .entity(let id): show(.entity(id))
+        case .play(let id): show(.play(id))
+        case .step(let door, let order): showStep(door, order)
+        }
+        return true
+    }
+
+    func exists(_ item: SavedItem) -> Bool {
+        switch item {
+        case .entity(let id): return store.entities[id] != nil
+        case .play(let id): return library.play(id) != nil
+        case .step(let door, let order): return self.door(door)?.steps.contains(where: { $0.order == order }) == true
         }
     }
 
-    /// Follow a link inside text: a screen pushes, a glossary term opens its entry. Outside addresses are not handled
-    /// here: views open them through `openURL`, which hands them to the system browser.
+    /// Open Search with its field empty, ready to type (Siri and Shortcuts, R3).
+    func openSearch() {
+        glossaryEntry = nil
+        sourcesFor = nil
+        changingDoor = false
+        query = ""
+        paths[.search] = []
+        tab = .search
+    }
+
+    /// The app's own links (R3), from the widget, an intent or another app: lensatic://open/<item key> opens that item,
+    /// lensatic://search opens Search, lensatic://path opens My Path. Anything else is ignored. These links only move
+    /// around the app; nothing is fetched.
+    @discardableResult
+    func open(link url: URL) -> Bool {
+        guard url.scheme == DeepLink.scheme else { return false }
+        switch url.host() {
+        case "open": return openSpotlight(String(url.path().drop { $0 == "/" }))
+        case "search":
+            openSearch()
+            return true
+        case "path":
+            showPath()
+            return true
+        default: return false
+        }
+    }
+
+    /// My Path at its top, with nothing over it.
+    func showPath() {
+        glossaryEntry = nil
+        sourcesFor = nil
+        changingDoor = false
+        tab = .path
+        paths[.path] = []
+    }
+
+    /// Follow a link inside text: a screen pushes, a glossary term opens its entry, an outside address opens in the
+    /// in-app reader (R3).
     func go(_ target: Target) {
         switch target {
         case .nav(let nav): push(nav)
         case .glossary(let slug): glossaryEntry = GlossarySheet(slug: slug)
-        case .external: break
+        case .external(let url): Reader.open(url)
         }
     }
 
@@ -288,6 +285,14 @@ final class AppModel {
             paths[tab] = [nav]
             if case .entity(let id) = nav, args.contains("-LensaticSources") { sourcesFor = id }
         }
+        // -LensaticChangesViewed <release> sets the last view of What Changed to that release; "none" forgets it
+        if let v = value("-LensaticChangesViewed") {
+            // the day of the view is that release's day where the list has it, so the screens stay consistent
+            let day = changes.items.first { $0.release == v }?.released ?? changes.builtOn
+            progress.setChangesViewed(v == "none" ? nil : .init(through: v, on: day.isEmpty ? Changes.today() : day))
+        }
+        // -LensaticLink <url> follows one of the app's own links, as a tap on the widget does
+        if let link = value("-LensaticLink").flatMap(URL.init(string:)) { open(link: link) }
         if let s = value("-LensaticScreen").flatMap(Section.init(rawValue:)) {
             switch s {
             case .doors: tab = .path

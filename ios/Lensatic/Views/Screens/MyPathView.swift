@@ -2,7 +2,9 @@ import SwiftUI
 
 /// My Path (the redesign, R1; MyPath.dc.html): the trailhead's progress ring and either the countdown to the next
 /// dated deadline on the path or, where none lies ahead, the next step; then every step in order, checked off on the
-/// device, the next one called out. A step opens in place to its full text and the entries it names.
+/// device, the next one called out. A step opens in place to its full text and the entries it names. Under the steps,
+/// What Changed (R3, MyPath.dc.html) lists what the content releases changed since the reader last cleared it. A
+/// check-off taps lightly and finishing the path gives the success pattern (the system's haptics, so its setting holds).
 struct MyPathView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.scenePhase) private var phase
@@ -54,12 +56,22 @@ struct MyPathView: View {
                         }
                     }
                 }
+                let changes = model.newChanges
+                if !changes.isEmpty { WhatChanged(items: changes, door: door) }
             }
             .padding(.horizontal, 20)
             .padding(.top, 12)
             .padding(.bottom, 24)
         }
         .accessibilityIdentifier("my-path")
+        .hardTopEdge()
+        .sensoryFeedback(trigger: checked) { old, new in
+            switch PathHaptic.after(old, new, plan: plan) {
+            case .check?: return .impact(weight: .light)
+            case .finish?: return .success
+            case nil: return nil
+            }
+        }
         // a step opened from Search, a saved item or iOS search: open it in place and bring it into view
         .onAppear { focus(proxy) }
         .onChange(of: model.pathFocus) { focus(proxy) }
@@ -233,6 +245,7 @@ struct StepRow: View {
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
+                        ShareButton(subject: .step(door, step.order), compact: true)
                         BookmarkButton(item: .step(door, step.order), compact: true)
                     }
                 }
@@ -242,5 +255,97 @@ struct StepRow: View {
         .padding(.horizontal, 14)
         .padding(.vertical, isNext ? 14 : 2)
         .card(radius: 12, fill: isNext ? Palette.bg3 : Palette.bg2, stroke: isNext ? Palette.secMaps : Palette.line)
+    }
+}
+
+/// What Changed (R3; MyPath.dc.html): the content releases' items newer than the reader's last view, newest first, at
+/// most three here and every one in the Library's list. Each opens its entry's card; Clear marks them all seen.
+struct WhatChanged: View {
+    @Environment(AppModel.self) private var model
+    let items: [Changes.Item]
+    let door: Door
+    static let shown = 3
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(alignment: .firstTextBaseline) {
+                SectionLabel(text: "What changed")
+                Spacer()
+                Button { model.clearChanges() } label: {
+                    Text("Clear").font(DS.link).foregroundStyle(Palette.link).frame(minWidth: 44, minHeight: 44, alignment: .trailing).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .padding(.vertical, -12)
+                .accessibilityLabel("Clear What Changed")
+                .accessibilityHint("Marks these changes as seen")
+                .accessibilityIdentifier("changes-clear")
+            }
+            ForEach(items.prefix(WhatChanged.shown)) { item in ChangeRow(item: item, door: door) }
+            if items.count > WhatChanged.shown {
+                Button { model.push(.changes) } label: { ResultRow(title: "See All Changes", trailing: true) }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("changes-all")
+            }
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("what-changed")
+    }
+}
+
+/// One change: a dot, what changed, and its day with the steps it affects.
+struct ChangeRow: View {
+    @Environment(AppModel.self) private var model
+    let item: Changes.Item
+    let door: Door?
+    var isNew = true
+
+    var body: some View {
+        Button { model.push(.entity(item.entityId)) } label: {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                Circle().fill(isNew ? Palette.accent : Palette.lineStrong).frame(width: 8, height: 8).accessibilityHidden(true)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(keepWhole(item.title)).font(DS.layerTitle).foregroundStyle(Palette.fg)
+                    Text(keepWhole(Changes.line(item, door: door, store: model.store))).font(DS.caption).foregroundStyle(Palette.fg2)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .multilineTextAlignment(.leading)
+                .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 12)
+            .frame(minHeight: 44)
+            .card(radius: 12)
+            .contentShape(RoundedRectangle(cornerRadius: 12))
+        }
+        .buttonStyle(.plain)
+        .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("change-\(item.id)")
+    }
+}
+
+/// Every change the content carries, release by release (Library, Reference), with the reader's last view.
+struct ChangesListView: View {
+    @Environment(AppModel.self) private var model
+
+    var body: some View {
+        let changes = model.changes
+        let fresh = Set(model.newChanges.map(\.id))
+        let sep = model.store.label("metaSeparator")
+        DetailScreen(title: "What Changed", identifier: "changes-screen") {
+            Text(viewed).font(DS.note).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                .accessibilityIdentifier("changes-viewed")
+            ForEach(changes.releases, id: \.release) { r in
+                VStack(alignment: .leading, spacing: 8) {
+                    SectionLabel(text: "Content \(r.release)\(sep)\(Rules.formatDate(r.released))", tracked: false)
+                    ForEach(Changes.newestFirst(r.items)) { item in ChangeRow(item: item, door: model.door, isNew: fresh.contains(item.id)) }
+                }
+            }
+        }
+    }
+
+    private var viewed: String {
+        let lead = "Changes to the map, newest release first. A dot marks what is new since you last cleared the list."
+        guard let v = model.progress.state.changesViewed else { return lead }
+        return lead + "\nLast cleared on \(unbroken(Rules.formatDate(v.on))), at content \(v.through)."
     }
 }

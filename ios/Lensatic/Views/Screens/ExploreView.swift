@@ -24,6 +24,7 @@ struct ExploreView: View {
             .padding(.bottom, 24)
         }
         .background(Palette.bg)
+        .hardTopEdge()
         .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("explore")
     }
@@ -123,11 +124,12 @@ struct LayerCard: View {
         Button { model.push(.layer(layer.id)) } label: {
             VStack(alignment: .leading, spacing: 4) {
                 // untracked mono caps, as the mockup sets them; a non-breaking space keeps each dot with the word after it, so no line ends on a dot
-                Eyebrow(text: ("\(layer.order)\(sep)\(layer.name)" + (onPath ? "\(sep)On your path" : ""))
+                Eyebrow(text: ("\(layer.order)\(sep)\(layer.shortName)" + (onPath ? "\(sep)On your path" : ""))
                             .replacingOccurrences(of: sep, with: " " + sep.trimmingCharacters(in: .whitespaces) + "\u{00A0}"),
                         color: onPath ? Palette.secMaps : Palette.accent, small: true, tracked: false)
-                Text(layer.question).font(DS.layerTitle).foregroundStyle(Palette.fg)
-                Text(keepWhole(names.joined(separator: sep))).font(DS.layerNames).foregroundStyle(Palette.fg2)
+                Text(layer.shortQuestion).font(DS.layerTitle).foregroundStyle(Palette.fg)
+                // each name kept on one line, so a line breaks only between names (nit 2)
+                Text(names.map { $0.replacingOccurrences(of: " ", with: "\u{00A0}") }.joined(separator: sep)).font(DS.layerNames).foregroundStyle(Palette.fg2)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .multilineTextAlignment(.leading)

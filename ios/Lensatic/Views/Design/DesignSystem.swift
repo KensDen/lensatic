@@ -42,6 +42,7 @@ enum DS {
     static let monoText = font(Typo.mono, 14, .subheadline)
     static let readerBody = font(Typo.sans, 16, .callout)
     static let readerHeading = font(Typo.sansBold, 18, .headline)
+    static let readerLead = font(Typo.sansSemi, 16, .callout)
 }
 
 /// A mono caps label in a section colour: the screen's eyebrow (TAKE A BEARING, the trailhead's name, LAYER 3).
@@ -274,29 +275,6 @@ struct CircleIconLabel: View {
             .background(Palette.bg2, in: Circle())
             .overlay(Circle().strokeBorder(Palette.line, lineWidth: 1))
             .contentShape(Circle())
-    }
-}
-
-/// The tabs (the brief's information architecture): My Path, Explore, Search, Library.
-enum AppTab: String, CaseIterable, Hashable, Sendable {
-    case path, explore, search, library
-
-    var title: String {
-        switch self {
-        case .path: return "My Path"
-        case .explore: return "Explore"
-        case .search: return "Search"
-        case .library: return "Library"
-        }
-    }
-
-    var icon: IconName {
-        switch self {
-        case .path: return .compass
-        case .explore: return .layers
-        case .search: return .search
-        case .library: return .library
-        }
     }
 }
 

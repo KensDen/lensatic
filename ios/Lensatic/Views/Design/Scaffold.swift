@@ -12,6 +12,7 @@ struct DetailScreen<Trailing: View, Content: View>: View {
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
+        ScrollViewReader { proxy in
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 HStack(spacing: 12) {
@@ -36,12 +37,21 @@ struct DetailScreen<Trailing: View, Content: View>: View {
             .padding(.bottom, 28)
             .frame(maxWidth: 720, alignment: .leading)
             .frame(maxWidth: .infinity)
+            .environment(\.scrollProxy, proxy)
+        }
+        // a screen scrolled under the status bar meets a hard edge in the page colour, never the clock over text
+        .hardTopEdge()
         }
         .background(Palette.bg)
         .toolbar(.hidden, for: .navigationBar)
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier(identifier)
     }
+}
+
+/// The scroll view a screen's content sits in, so a control inside it can scroll to a place (the outline, R3).
+extension EnvironmentValues {
+    @Entry var scrollProxy: ScrollViewProxy?
 }
 
 extension DetailScreen where Trailing == EmptyView {
@@ -136,6 +146,8 @@ struct ResultRow: View {
     let title: String
     var line: String?
     var bar: Color?
+    /// A chevron at the end, for a row that opens a list.
+    var trailing = false
 
     var body: some View {
         HStack(spacing: 12) {
@@ -149,6 +161,7 @@ struct ResultRow: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .multilineTextAlignment(.leading)
             .fixedSize(horizontal: false, vertical: true)
+            if trailing { Icon(.chevronRight, size: 16, color: Palette.fg2) }
         }
         .padding(.horizontal, 14)
         .padding(.vertical, 12)

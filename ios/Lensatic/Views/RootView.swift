@@ -24,13 +24,26 @@ struct RootView: View {
         .onContinueUserActivity(CSSearchableItemActionType) { activity in
             if let id = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String { model.openSpotlight(id) }
         }
+        .onOpenURL { model.open(link: $0) }
         .task { model.indexForSpotlight() }
+    }
+}
+
+extension View {
+    /// Links inside text follow the app's own targets; an outside address opens in the in-app reader, never the system
+    /// browser (R3).
+    func opensLinksInApp(_ model: AppModel) -> some View {
+        environment(\.openURL, OpenURLAction { url in
+            guard let target = Target(url: url) else { return .discarded }
+            model.go(target)
+            return .handled
+        })
     }
 }
 
 /// The four tabs, each its own navigation stack (the screens pushed in each are kept while the reader is elsewhere),
 /// over the tab bar. Tapping the tab already open goes back to its first screen. Links inside the map's text open in
-/// the app; outside addresses go to the system browser.
+/// the app; outside addresses open in the in-app reader (R3).
 struct Shell: View {
     @Environment(AppModel.self) private var model
 
@@ -52,12 +65,7 @@ struct Shell: View {
             }
         }
         .background(Palette.bg)
-        .environment(\.openURL, OpenURLAction { url in
-            guard let target = Target(url: url) else { return .discarded }
-            if case .external = target { return .systemAction }
-            model.go(target)
-            return .handled
-        })
+        .opensLinksInApp(model)
         // a slightly darker scrim than the system's behind a sheet (nits v0.3, item 9), so the screen recedes as drawn
         .overlay {
             if model.sourcesFor != nil || model.glossaryEntry != nil {
@@ -68,10 +76,10 @@ struct Shell: View {
         .animation(.easeOut(duration: 0.2), value: model.sourcesFor)
         .animation(.easeOut(duration: 0.2), value: model.glossaryEntry)
         .sheet(isPresented: Binding(get: { model.sourcesFor != nil }, set: { if !$0 { model.sourcesFor = nil } })) {
-            if let id = model.sourcesFor { SourcesSheet(id: id).environment(model).tint(Palette.link) }
+            if let id = model.sourcesFor { SourcesSheet(id: id).environment(model).tint(Palette.link).opensLinksInApp(model) }
         }
         .sheet(item: $model.glossaryEntry) { entry in
-            GlossarySheetView(slug: entry.slug).environment(model).tint(Palette.link)
+            GlossarySheetView(slug: entry.slug).environment(model).tint(Palette.link).opensLinksInApp(model)
         }
     }
 
@@ -97,6 +105,7 @@ struct Shell: View {
         case .chapter(let id): ChapterView(id: id)
         case .plays: PlaysView()
         case .play(let id): PlayView(id: id)
+        case .changes: ChangesListView()
         }
     }
 }

@@ -170,10 +170,10 @@ usesNonExemptEncryption: false
 ## App Review Notes (`reviewNotes`)
 
 ```text
-No sign-in is needed: the app has no accounts. It works fully offline and makes no network requests. The app summarizes public documents. The frameworks and sources on its stack are each cited in its Sources section: United States government and standards publications, and one privately published framework released under a Creative Commons license. The app is not affiliated with any agency. Outside links open in the system browser. The privacy policy is linked in About, beside the support page and the source code. Support is through the public issues page linked from the support page, where the app goes by Lensatic, its name outside the App Store; the app collects no data.
+No sign-in is needed: the app has no accounts. It works fully offline and makes no network requests. The app summarizes public documents. The frameworks and sources on its stack are each cited in its Sources section: United States government and standards publications, and one privately published framework released under a Creative Commons license. The app is not affiliated with any agency. Outside links open in Safari's viewer inside the app (SFSafariViewController), which loads the page itself; the app makes no request. The privacy policy is linked in About, beside the support page and the source code. Support is through the public issues page linked from the support page, where the app goes by Lensatic, its name outside the App Store; the app collects no data.
 ```
 
-681 characters (limit 4,000)
+773 characters (limit 4,000)
 
 ## Version (`version`)
 

@@ -1,15 +1,17 @@
 #!/usr/bin/env bash
-# Screenshots of the iOS app for review (session 8, section 4.4): every section, the section list, and About opened at
-# Why the name, on the largest iPhone and the largest iPad simulator available, in light and dark, at the default text
-# size and at accessibility-extra-large. Files are <device>_<screen>_<appearance>_<size>.png. Needs Xcode; first builds
-# the app (Debug, which opens a screen by launch argument) into .tmp/DerivedData, incrementally.
+# Screenshots of the iOS app for review (session 8, section 4.4; the redesign's screens from R3): every screen of the
+# redesign, on the largest iPhone and the largest iPad simulator available, in light and dark, at the default text size
+# and at accessibility-extra-large. Files are <device>_<screen>_<appearance>_<size>.png. Needs Xcode; first builds the
+# app (Debug, which opens a screen by the launch arguments AppModel documents: -LensaticDoor, -LensaticChecked,
+# -LensaticTab, -LensaticExplore, -LensaticNav, -LensaticSources, -LensaticQuery, -LensaticChangesViewed) into
+# .tmp/DerivedData, incrementally.
 #
 # With --store (session 9, section 5): the App Store screenshots, plain screens with no overlay, frame or caption, on
 # the 6.3-inch iPhone App Store Connect requires (24 October 2026: the newest "iPhone NN Pro" from the 16 on, else the
 # newest plain iPhone from the 17 on) and the largest iPad. On each device, one at a time: the status bar set to 9:41,
-# a full battery, full signal and no carrier name; light appearance; the default text size; eight screens in the store's
-# order (the start screen, the doors from the top, on iPad with the list hidden so the shot is not the start screen
-# again, a door opened to its steps, the stack, the matrix, the AI column, Sources, About at Why the name). Each capture
+# a full battery, full signal and no carrier name; dark appearance, the redesign's own (R3; the light theme is R4); the
+# default text size; eight screens in the store's order (the welcome screen, My Path with its countdown, Explore's stack,
+# a Framework card, its Sources sheet, Search, the Library, a play read summary first). Each capture
 # loses its alpha channel (tools/png_opaque.swift, which refuses a file with any pixel that is not opaque) and must then
 # be, by sips, exactly Apple's size for its display (iPhone 6.3-inch 1206 x 2622, iPad 13-inch 2064 x 2752), RGB with no alpha.
 # Files are <nn>_<device>_<screen>.png; ios/store/screenshots.json lists each file's order, device, display, screen, size,
@@ -25,8 +27,8 @@ if [ "$STORE" = 1 ]; then OUT="${1:-handoffs/session9-work/store-shots}"; else O
 DERIVED=.tmp/DerivedData
 APP="$DERIVED/Build/Products/Debug-iphonesimulator/Lensatic.app"
 BUNDLE=io.github.kensden.lensatic
-SCREENS="root doors stack matrix functions ai helper sources glossary about about-name"
-STORE_SCREENS="start doors door-steps stack matrix ai sources about-name"
+SCREENS="start path changes stack matrix functions layer ai card sources search library guide chapter plays play glossary sources-list about"
+STORE_SCREENS="start path stack card sources search library play"
 OPAQUE=.tmp/png_opaque
 mkdir -p "$OUT" .tmp
 export TMPDIR="$(pwd)/.tmp/"
@@ -74,20 +76,40 @@ print(best["udid"], best["name"])
 ' "$1"
 }
 
-# open one screen: the app starts fresh on it (Debug reads -LensaticScreen, -LensaticAnchor, -LensaticPush and
-# -LensaticDetailOnly)
+# open one screen: the app starts fresh on it, the department's trailhead picked with two steps done and What Changed
+# cleared (the changes shot shows it from the release before), so every shot shows the same path
 open_screen() {
   local udid="$1" screen="$2"
+  local path=(-LensaticResetProgress -LensaticDoor dow -LensaticChecked 1,2 -LensaticChangesViewed "$RELEASE")
   xcrun simctl terminate "$udid" "$BUNDLE" >/dev/null 2>&1 || true
   case "$screen" in
-    root|start) xcrun simctl launch "$udid" "$BUNDLE" >/dev/null ;;
-    about-name) xcrun simctl launch "$udid" "$BUNDLE" -LensaticScreen about -LensaticAnchor about-name >/dev/null ;;
-    door-steps) xcrun simctl launch "$udid" "$BUNDLE" -LensaticScreen doors -LensaticPush lensatic:/door/federal-civilian >/dev/null ;;
-    doors) if [ "$STORE" = 1 ] && [ "$kind" = ipad ]; then xcrun simctl launch "$udid" "$BUNDLE" -LensaticScreen doors -LensaticDetailOnly >/dev/null
-           else xcrun simctl launch "$udid" "$BUNDLE" -LensaticScreen doors >/dev/null; fi ;;
-    *) xcrun simctl launch "$udid" "$BUNDLE" -LensaticScreen "$screen" >/dev/null ;;
+    start) xcrun simctl launch "$udid" "$BUNDLE" -LensaticResetProgress >/dev/null ;;
+    path) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" >/dev/null ;;
+    changes) xcrun simctl launch "$udid" "$BUNDLE" -LensaticResetProgress -LensaticDoor dow -LensaticChecked 1,2 \
+               -LensaticChangesViewed "$PREVIOUS" -LensaticNav changes >/dev/null ;;
+    stack) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticTab explore >/dev/null ;;
+    matrix|functions) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticTab explore -LensaticExplore "$screen" >/dev/null ;;
+    layer) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav layer/l3 >/dev/null ;;
+    ai) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav layer/l6 >/dev/null ;;
+    card) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav entity/dod-zt-strategy >/dev/null ;;
+    sources) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav entity/dod-zt-strategy -LensaticSources >/dev/null ;;
+    search) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticTab search -LensaticQuery overlays >/dev/null ;;
+    library) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticTab library >/dev/null ;;
+    guide) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav guide >/dev/null ;;
+    chapter) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav chapter/part-1 >/dev/null ;;
+    plays) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav plays >/dev/null ;;
+    play) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav play/containment >/dev/null ;;
+    glossary) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav glossary-list >/dev/null ;;
+    sources-list) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav sources >/dev/null ;;
+    about) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav about >/dev/null ;;
+    *) echo "unknown screen $screen" >&2; exit 1 ;;
   esac
 }
+
+# the content release, from What Changed's list (content/changes.json); the changes shot clears the list at release 0,
+# so every item shows as new
+RELEASE="$(python3 -c 'import json; print(json.load(open("content/changes.json"))["contentVersion"])')"
+PREVIOUS=0
 
 # a failed step never leaves booted a simulator this script booted; one it did not boot is never touched
 BOOTED=""
@@ -110,13 +132,13 @@ for kind in iphone ipad; do
   if [ "$STORE" = 1 ]; then
     xcrun simctl status_bar "$UDID" override --time 9:41 --dataNetwork wifi --wifiMode active --wifiBars 3 \
       --cellularMode active --cellularBars 4 --operatorName '' --batteryState discharging --batteryLevel 100
-    xcrun simctl ui "$UDID" appearance light
+    xcrun simctl ui "$UDID" appearance dark
     xcrun simctl ui "$UDID" content_size large
     n=0
     for screen in $STORE_SCREENS; do
       n=$((n + 1))
       open_screen "$UDID" "$screen"
-      sleep 6  # the launch, the scroll to a heading and the bar's settling are over well before this
+      sleep 6  # the launch, a sheet's rise and the bar's settling are over well before this
       FILE="$OUT/$(printf '%02d' "$n")_${SLUG}_${screen}.png"
       xcrun simctl io "$UDID" screenshot --type=png "$FILE" >/dev/null 2>&1
       "$OPAQUE" "$FILE"

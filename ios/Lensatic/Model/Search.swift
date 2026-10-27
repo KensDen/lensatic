@@ -78,13 +78,13 @@ struct SearchIndex: Sendable {
             }
         }
         for c in library.guide.chapters {
-            out.append(Item(kind: .guide, id: "chapter:\(c.id)", title: c.title, subtitle: library.site.guideName, aliases: [],
-                            body: c.blocks.map(\.searchText).joined(separator: " "), opens: .nav(.chapter(c.id))))
+            out.append(Item(kind: .guide, id: "chapter:\(c.id)", title: c.displayTitle, subtitle: library.site.guideName, aliases: [c.part].compactMap { $0 },
+                            body: ([c.summary ?? ""] + c.blocks.map(\.searchText)).joined(separator: " "), opens: .nav(.chapter(c.id))))
         }
         for g in library.plays.groups {
             for p in library.plays(in: g) {
                 out.append(Item(kind: .play, id: "play:\(p.id)", title: p.name, subtitle: g.label, aliases: [p.title],
-                                body: ([p.subtitle] + p.blocks.map(\.searchText)).joined(separator: " "), opens: .nav(.play(p.id))))
+                                body: ([p.subtitle, p.summary ?? ""] + p.blocks.map(\.searchText)).joined(separator: " "), opens: .nav(.play(p.id))))
             }
         }
         for t in store.terms {

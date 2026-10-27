@@ -1,0 +1,79 @@
+{
+ "contentVersion": "1.2.20",
+ "builtOn": "2026-10-27",
+ "from": "1.2.0",
+ "items": [
+  {
+   "id": "1.2.18/dod-zt-strategy/deadline",
+   "release": "1.2.18",
+   "released": "2026-10-26",
+   "date": "2026-10-26",
+   "kind": "deadline",
+   "entityId": "dod-zt-strategy",
+   "title": "Target Level zero trust due 30 Sep 2027"
+  },
+  {
+   "id": "1.2.18/omb-m2209/deadline",
+   "release": "1.2.18",
+   "released": "2026-10-26",
+   "date": "2026-10-26",
+   "kind": "deadline",
+   "entityId": "omb-m2209",
+   "title": "Zero trust security goals due 30 Sep 2024"
+  },
+  {
+   "id": "1.2.17/nsa-zt/document",
+   "release": "1.2.17",
+   "released": "2026-10-24",
+   "date": "2026-10-08",
+   "kind": "document",
+   "entityId": "nsa-zt",
+   "title": "NSA zero trust sheet for operational tech"
+  },
+  {
+   "id": "1.2.17/dod-zt-overlays/link",
+   "release": "1.2.17",
+   "released": "2026-10-24",
+   "date": "2026-10-24",
+   "kind": "link",
+   "entityId": "dod-zt-overlays",
+   "title": "DoD ZT Overlays has a new link"
+  },
+  {
+   "id": "1.2.10/dod-zt-ot/recheck",
+   "release": "1.2.10",
+   "released": "2026-10-18",
+   "date": "2026-09-30",
+   "kind": "recheck",
+   "entityId": "dod-zt-ot",
+   "title": "ZT for OT rechecked against its source"
+  },
+  {
+   "id": "1.2.10/rmf-ato/recheck",
+   "release": "1.2.10",
+   "released": "2026-10-18",
+   "date": "2026-09-30",
+   "kind": "recheck",
+   "entityId": "rmf-ato",
+   "title": "RMF / ATO rechecked against its source"
+  },
+  {
+   "id": "1.2.10/sp800-171/recheck",
+   "release": "1.2.10",
+   "released": "2026-10-18",
+   "date": "2026-09-30",
+   "kind": "recheck",
+   "entityId": "sp800-171",
+   "title": "SP 800-171 rechecked against its source"
+  },
+  {
+   "id": "1.2.7/sp1353/recheck",
+   "release": "1.2.7",
+   "released": "2026-10-18",
+   "date": "2026-10-18",
+   "kind": "recheck",
+   "entityId": "sp1353",
+   "title": "SP 1353 rechecked against its source"
+  }
+ ]
+}

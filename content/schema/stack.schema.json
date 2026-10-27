@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:lensatic:stack.schema:1.2.19",
+  "$id": "urn:lensatic:stack.schema:1.2.20",
   "title": "Lensatic content model",
   "description": "Schema for content/stack.json, the single source of truth for Lensatic. Every rendered string lives in that file once. Prose refers to the department only through the tokens {{dow}} and {{dow.<field>}}, which render from orgs.dow.",
   "type": "object",
@@ -750,6 +750,12 @@
           "type": "string",
           "minLength": 1
         },
+        "shortTitle": {
+          "description": "The app's What Changed list: the document's title, short, in sentence case; build_changes.py requires it on a document that a release adds",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 48
+        },
         "edition": {
           "type": "string",
           "minLength": 1
@@ -784,7 +790,9 @@
         "id",
         "order",
         "name",
+        "shortName",
         "question",
+        "shortQuestion",
         "oneLiner",
         "frameworkIds",
         "isColumn"
@@ -802,8 +810,20 @@
           "type": "string",
           "minLength": 1
         },
+        "shortName": {
+          "description": "The app's stack card: the layer's name in a word or two; validate.py holds it to its eyebrow line on a phone",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 16
+        },
         "question": {
           "$ref": "#/$defs/prose"
+        },
+        "shortQuestion": {
+          "description": "The app's stack card: the layer's question, short; validate.py holds it to two lines on a phone",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
         },
         "oneLiner": {
           "$ref": "#/$defs/prose"

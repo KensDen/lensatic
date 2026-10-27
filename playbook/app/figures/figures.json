@@ -1,0 +1,184 @@
+{
+  "figures": [
+    {
+      "id": "same-horsepower",
+      "play": "overview",
+      "after": "The Red / Blue / Purple Frame",
+      "alt": "Same Horsepower, Two Outcomes",
+      "width": 996,
+      "height": 4803,
+      "viewport": 390
+    },
+    {
+      "id": "autonomy-spectrum",
+      "play": "humancommand",
+      "after": "The Numbers Behind the Thesis: The 2026 AI SOC Survey",
+      "alt": "The autonomy spectrum",
+      "width": 924,
+      "height": 153,
+      "viewport": 390
+    },
+    {
+      "id": "three-jobs",
+      "play": "humancommand",
+      "after": "The Numbers Behind the Thesis: The 2026 AI SOC Survey",
+      "alt": "Three jobs: automation, AI, people",
+      "width": 996,
+      "height": 3975,
+      "viewport": 390
+    },
+    {
+      "id": "three-faces",
+      "play": "foundations",
+      "after": "The Essentials Call to Action",
+      "alt": "One capability, three faces",
+      "width": 924,
+      "height": 279,
+      "viewport": 390
+    },
+    {
+      "id": "lethal-trifecta",
+      "play": "blue",
+      "after": "Continuous Agent Evaluation: Are the Agents Still Good?",
+      "alt": "The lethal trifecta",
+      "width": 924,
+      "height": 396,
+      "viewport": 390
+    },
+    {
+      "id": "purple-loop",
+      "play": "purple",
+      "after": "Worked Example: The Vulnerability Storm (Tabletop)",
+      "alt": "The continuous purple loop",
+      "width": 924,
+      "height": 411,
+      "viewport": 390
+    },
+    {
+      "id": "maturity-ladder",
+      "play": "maturity",
+      "after": null,
+      "alt": "SecOps AI maturity ladder",
+      "width": 996,
+      "height": 10392,
+      "viewport": 390
+    },
+    {
+      "id": "org-chart",
+      "play": "program",
+      "after": null,
+      "alt": "Security org chart: today vs future",
+      "width": 996,
+      "height": 4059,
+      "viewport": 390
+    },
+    {
+      "id": "reference-architecture",
+      "play": "architecture",
+      "after": null,
+      "alt": "Agentic SecOps reference architecture",
+      "width": 1116,
+      "height": 4389,
+      "viewport": 430
+    },
+    {
+      "id": "identity-enforcement",
+      "play": "architecture",
+      "after": null,
+      "alt": "Identity-first enforcement architecture",
+      "width": 996,
+      "height": 13863,
+      "viewport": 390
+    },
+    {
+      "id": "purple-teaming-loop",
+      "play": "architecture",
+      "after": "A Worked Proof-of-Concept",
+      "alt": "Continuous purple teaming loop",
+      "width": 996,
+      "height": 4695,
+      "viewport": 390
+    },
+    {
+      "id": "value-stream-map",
+      "play": "architecture",
+      "after": "A Worked Proof-of-Concept",
+      "alt": "Value stream map: lead time per TTP",
+      "width": 996,
+      "height": 6759,
+      "viewport": 390
+    },
+    {
+      "id": "zero-trust-ot",
+      "play": "otics",
+      "after": "The IT/OT Boundary Is the Hard Line",
+      "alt": "Zero Trust for Operational Technology",
+      "width": 996,
+      "height": 6156,
+      "viewport": 390
+    },
+    {
+      "id": "maestro-layers",
+      "play": "threatmodel",
+      "after": "Worked Example: The Repo That Owns Your Machine",
+      "alt": "MAESTRO seven-layer reference model",
+      "width": 996,
+      "height": 3993,
+      "viewport": 390
+    },
+    {
+      "id": "jailbreak-severity",
+      "play": "threatmodel",
+      "after": "Worked Example: The Repo That Owns Your Machine",
+      "alt": "Cyber Jailbreak Severity spectrum",
+      "width": 996,
+      "height": 3666,
+      "viewport": 390
+    },
+    {
+      "id": "cast-of-agents",
+      "play": "threatmodel",
+      "after": "Worked Example: The Repo That Owns Your Machine",
+      "alt": "One Operator, a Cast of Agents",
+      "width": 1116,
+      "height": 5286,
+      "viewport": 430
+    },
+    {
+      "id": "blast-radius",
+      "play": "containment",
+      "after": "Circuit Breakers: Automatic, Threshold-Triggered Halts",
+      "alt": "Schematic of containment bounding a compromised agent blast radius",
+      "width": 600,
+      "height": 363,
+      "viewport": 390
+    },
+    {
+      "id": "patching-deficit",
+      "play": "cscrm",
+      "after": "Frameworks & Federal Hooks",
+      "alt": "The patching deficit, drawn to scale",
+      "width": 912,
+      "height": 165,
+      "viewport": 390
+    },
+    {
+      "id": "zero-trust-matrix",
+      "play": "frameworks",
+      "after": null,
+      "alt": "Zero Trust capability matrix",
+      "width": 664,
+      "height": 13990,
+      "viewport": 390
+    },
+    {
+      "id": "framework-crosswalk",
+      "play": "frameworks",
+      "after": null,
+      "alt": "AI security framework crosswalk",
+      "width": 996,
+      "height": 11448,
+      "viewport": 390
+    }
+  ]
+}

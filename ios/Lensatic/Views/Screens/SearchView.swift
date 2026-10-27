@@ -72,6 +72,7 @@ struct SearchView: View {
         }
         .scrollDismissesKeyboard(.immediately)
         .background(Palette.bg)
+        .hardTopEdge()
         .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("search")
     }

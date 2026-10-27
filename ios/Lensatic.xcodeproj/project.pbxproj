@@ -14,47 +14,82 @@
 		0B86ACFBE445CD67793DF399 /* EntityCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B56237ADCFD54F5C33CA8A45 /* EntityCardView.swift */; };
 		12A651227FA6924356D0F824 /* LibraryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE14E5AE3026FA7EB435E88 /* LibraryTests.swift */; };
 		1383F5836AD63B59FB8940B1 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAC38BECDD52D0BED2CB69B /* Site.swift */; };
+		1A9984C338D7BFA8052AA663 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A2A319259C716BF6A753A1 /* Search.swift */; };
+		1B926B8E62A80E53B42E9229 /* Glance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F82538EE4B5C02FBFBD2011 /* Glance.swift */; };
 		1E06C44F2114CEFE15E5BA3B /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C57FA5A1CF5B6F8D61ECC19 /* DesignSystem.swift */; };
 		1E4BDD66A7863EF69EDEDB59 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12BCD96EE74DC90307AE2CC /* Icons.swift */; };
 		212E4EFBC23C5B745C924CC7 /* LensaticApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C6C16B2C58F0760FF8BFCC /* LensaticApp.swift */; };
 		213BD8385024883FE82D5D36 /* plays.json in Resources */ = {isa = PBXBuildFile; fileRef = 6F137B9D0D24A97DABA5A9DC /* plays.json */; };
 		21DDA502946BC34BD535C46D /* ProgressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D24B311221345DBAEE1EF /* ProgressStore.swift */; };
+		229550E88FBD49DB38316D2F /* Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F96A1B6CB58C582AD8A8C /* Changes.swift */; };
 		22D99D2C5AF1C0B3EA27D61A /* Rules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EB86B058250EC0FBAD1BD /* Rules.swift */; };
 		2344EA901E394A09FF324C8D /* IBMPlexMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6F1DEC354B932B82248B9A2F /* IBMPlexMono-Bold.ttf */; };
+		23926CDBBCCF93217E504D1B /* ProgressStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510D24B311221345DBAEE1EF /* ProgressStore.swift */; };
 		28372787CE847492FC9E2804 /* site.json in Resources */ = {isa = PBXBuildFile; fileRef = 7008906610798F68376DC03C /* site.json */; };
 		3020B10CEAE99F6BECBDB90C /* MapScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AA4A2FC0243FB1E607BF40 /* MapScreens.swift */; };
+		35C005A0C27D2EC5790AE2A1 /* Rules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325EB86B058250EC0FBAD1BD /* Rules.swift */; };
 		38268B9C90EDB1BA89749B56 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A133D9432C0AD3D6F8514F8 /* Library.swift */; };
 		3844D9BA7DA7E36F50893250 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F251D73E0434A7592995685C /* PrivacyInfo.xcprivacy */; };
+		3BCA1F9A2DDBF6D7CB28F480 /* Nav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B002DEED0C78FF1724D47C /* Nav.swift */; };
 		3DBB436CF2D5C96F8000B56B /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8A4130F143CFAF5F0FA7FD /* AppModel.swift */; };
+		46FC883D8DCD0FB612AD3269 /* IBMPlexMono-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7FEBB679449A85C258B1F600 /* IBMPlexMono-Medium.ttf */; };
 		4A771EAA9C7C46CD45F535D9 /* ExploreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2572BC4541C0EC4775E0A02F /* ExploreView.swift */; };
 		4AA01BB6201B9381EE3DCA31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA0BE8AFF5FDED0685B89571 /* Assets.xcassets */; };
 		4C4177430A2F8E64C5E03039 /* IBMPlexMono-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7FEBB679449A85C258B1F600 /* IBMPlexMono-Medium.ttf */; };
 		4CCA7E8EC200B1031C719407 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA5700B2D1EB9AE002F11C1 /* Theme.swift */; };
 		4F2D7F6AC3BCD6564B98AD0F /* IBMPlexSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E10C781DCF8E4FC7BB396BA /* IBMPlexSans-SemiBold.ttf */; };
+		4F7E0FCEB7A28B70F6174A7F /* changes.json in Resources */ = {isa = PBXBuildFile; fileRef = C0585C88A128EED7678C3320 /* changes.json */; };
+		5304FE97CCBA61ED900E9D48 /* ShareCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C689EE0782BD498A62135E38 /* ShareCard.swift */; };
 		5313BEBAC54792CDF97A4A21 /* PathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AF5F7E81064E447911EA9C /* PathTests.swift */; };
+		5D30601E00A0E8B67AD197E8 /* Figures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B18F1B49F6AD91D05A1FF45 /* Figures.swift */; };
 		5F171FE8C194421D9102D8BB /* about-photo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = DDD36A651668F328DED1AE61 /* about-photo.jpg */; };
 		5F4F2E21B2AD276A58D0F05A /* guide.json in Resources */ = {isa = PBXBuildFile; fileRef = 294D7B352EEC047626CD0F56 /* guide.json */; };
 		5F75738B9342B7470DE1E30D /* stack.json in Resources */ = {isa = PBXBuildFile; fileRef = 82124D60B87567A1830B3053 /* stack.json */; };
 		63272592E529030A7662064B /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8126127134E77A969438FF89 /* LibraryView.swift */; };
+		6493CE4F773972305E549647 /* Nav.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B002DEED0C78FF1724D47C /* Nav.swift */; };
 		650861407E9F83F3AE66F5D9 /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF4E37E5BB91527957380B9 /* Content.swift */; };
+		6AE6648C9835184F1A2DE0A5 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A133D9432C0AD3D6F8514F8 /* Library.swift */; };
+		71D866F41FF617F36B2A04EC /* stack.json in Resources */ = {isa = PBXBuildFile; fileRef = 82124D60B87567A1830B3053 /* stack.json */; };
 		73AD49AA4BD4DECAEED41069 /* StrictDecoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529C6C62BAEF721D24C0DEC /* StrictDecoding.swift */; };
+		74E2A83AE125D63AC514C728 /* figures in Resources */ = {isa = PBXBuildFile; fileRef = 7BBF69048CF28179236928A7 /* figures */; };
+		74E8F3BB44F67D11460CCFAD /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0413BC5E902605EECD09E725 /* IBMPlexSans-Bold.ttf */; };
+		7B9D9FD04E6BECA953EBB355 /* LensaticWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 2AFC2099A6C9995FAD92913E /* LensaticWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		84DB3DF0FA56301BDAB92092 /* IBMPlexSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3A450855B8144AE3A84163A /* IBMPlexSans-Regular.ttf */; };
+		8798CC6E36EE6DCE1B1E5598 /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11C98B9C93EBBCCA91C2D03 /* ContentStore.swift */; };
+		9208D38827D92B2E1457F3C0 /* EngagementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ED573CC0F20EBA230B54397 /* EngagementTests.swift */; };
+		9258DC0E6B333B5039591A3A /* LensaticIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EC69255DC40A345E52522B /* LensaticIntents.swift */; };
 		9690C67ED643830FF192DB84 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 32BA4EB3057307C6B64E1DED /* OFL.txt */; };
+		96A43FE8CA85C5DD207FE246 /* LensaticWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC79C802C8F82191CD532A3 /* LensaticWidget.swift */; };
 		9E86C20273991E27F4A5C0BE /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 750C9F3601B22441A4BC806B /* IBMPlexMono-Regular.ttf */; };
+		A52B6D40634893DF2498876C /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF4E37E5BB91527957380B9 /* Content.swift */; };
+		A65E6EE4E85887484D5474B6 /* Glance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F82538EE4B5C02FBFBD2011 /* Glance.swift */; };
+		A6C8CEE751AFEFC48F5CF209 /* Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5BADC225FFF5190500E3B /* Reader.swift */; };
 		A6E18D50A6285A1087312135 /* PathPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B7130AF5BB326132BD41F2 /* PathPlan.swift */; };
+		AE834D0C66EE31BC4E4BF29C /* IBMPlexSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E10C781DCF8E4FC7BB396BA /* IBMPlexSans-SemiBold.ttf */; };
 		C024F5C87C788DE9357329A4 /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11C98B9C93EBBCCA91C2D03 /* ContentStore.swift */; };
+		C02633A9B45A1FC363FE4FBC /* Spotlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41465C9FEF151D644CFC2E2 /* Spotlight.swift */; };
 		C83FEBD152B989DA69C3AE6E /* stack.json in Resources */ = {isa = PBXBuildFile; fileRef = 82124D60B87567A1830B3053 /* stack.json */; };
+		CC3B39040F90E23EEA1EC443 /* StrictDecoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E529C6C62BAEF721D24C0DEC /* StrictDecoding.swift */; };
 		CF5BB6DAEBCAFDA5DC2A008C /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D32274D2153D6E34004C7F /* WelcomeView.swift */; };
+		D20CCD2A41C2CD373680315B /* MapScreens.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AA4A2FC0243FB1E607BF40 /* MapScreens.swift */; };
 		D399B6C155E7224E9C134BA3 /* ReferenceViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA895FEDEAC8133F8089250E /* ReferenceViews.swift */; };
+		D61A40253AE696DF7C081119 /* Icons.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12BCD96EE74DC90307AE2CC /* Icons.swift */; };
 		D88462BA3F4A09ED48A49B33 /* Scaffold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6885F9A245F8EE55B73AB77A /* Scaffold.swift */; };
+		DA4565069167EA0AA7A00671 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA0BE8AFF5FDED0685B89571 /* Assets.xcassets */; };
 		DB7573AAEF18A3285361036C /* IBMPlexSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3A450855B8144AE3A84163A /* IBMPlexSans-Regular.ttf */; };
 		DBD855B10BBF18B8E2F40FB9 /* RulesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467187B153D4B96FBD974514 /* RulesTests.swift */; };
 		DCEC71820FF513D4A4F29601 /* validate.py in Resources */ = {isa = PBXBuildFile; fileRef = 08BC6F9E6FF06847804E4DCB /* validate.py */; };
+		E41B0CB7CA9AD913169F4D74 /* Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B4F96A1B6CB58C582AD8A8C /* Changes.swift */; };
+		E438AC8F4B14562660AF253F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FA5700B2D1EB9AE002F11C1 /* Theme.swift */; };
 		EC91D9AD3AFF3137EA9F9105 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A2A319259C716BF6A753A1 /* Search.swift */; };
 		EECAAB55739ABAA26042D104 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E562EF2E0CE771CDF13819 /* SearchView.swift */; };
 		F0A5239763E3B43766D465A2 /* stack.json in Resources */ = {isa = PBXBuildFile; fileRef = 82124D60B87567A1830B3053 /* stack.json */; };
+		F5D0F7A0DCEFB00CC6ECBBAC /* PathPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B7130AF5BB326132BD41F2 /* PathPlan.swift */; };
+		F6BD63C02466A2D1E147EDC3 /* Prose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88B7F9C17846D0F9556797A7 /* Prose.swift */; };
 		F6D3487061B65FCCADDD12D1 /* ContentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D6A804FC537AE3DA034D1C /* ContentTests.swift */; };
 		F7272F9ABDBFFA2E445D0F06 /* IBMPlexSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0413BC5E902605EECD09E725 /* IBMPlexSans-Bold.ttf */; };
 		F80107AFB4B78C8853D89CB7 /* MyPathView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34637BAAA56FF1A42E985976 /* MyPathView.swift */; };
+		FB94E0C57E4815AAC49F5F1E /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CAC38BECDD52D0BED2CB69B /* Site.swift */; };
 		FFCE07A4AAA80BF4088EFB3E /* ProseText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2FF22A7504796EA3B33C2D /* ProseText.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +101,13 @@
 			remoteGlobalIDString = 1503D966720556975F671893;
 			remoteInfo = Lensatic;
 		};
+		69F52D32598C4D0F77B38F2E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C187B04994C159A5968DE864 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8B33CC99BE918A4A7878C099;
+			remoteInfo = LensaticWidget;
+		};
 		CB9EC0144005537F32191164 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C187B04994C159A5968DE864 /* Project object */;
@@ -75,14 +117,32 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		639A18D448331E8DC271578E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				7B9D9FD04E6BECA953EBB355 /* LensaticWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0413BC5E902605EECD09E725 /* IBMPlexSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-Bold.ttf"; sourceTree = "<group>"; };
 		08BC6F9E6FF06847804E4DCB /* validate.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = validate.py; sourceTree = "<group>"; };
+		0B18F1B49F6AD91D05A1FF45 /* Figures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Figures.swift; sourceTree = "<group>"; };
 		1CF4E37E5BB91527957380B9 /* Content.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Content.swift; sourceTree = "<group>"; };
+		1F82538EE4B5C02FBFBD2011 /* Glance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Glance.swift; sourceTree = "<group>"; };
 		1FA5700B2D1EB9AE002F11C1 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		20C6C16B2C58F0760FF8BFCC /* LensaticApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensaticApp.swift; sourceTree = "<group>"; };
+		20E5BADC225FFF5190500E3B /* Reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reader.swift; sourceTree = "<group>"; };
 		2572BC4541C0EC4775E0A02F /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
 		294D7B352EEC047626CD0F56 /* guide.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = guide.json; sourceTree = "<group>"; };
+		2AFC2099A6C9995FAD92913E /* LensaticWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = LensaticWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C8A4130F143CFAF5F0FA7FD /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		2E10C781DCF8E4FC7BB396BA /* IBMPlexSans-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-SemiBold.ttf"; sourceTree = "<group>"; };
 		325EB86B058250EC0FBAD1BD /* Rules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rules.swift; sourceTree = "<group>"; };
@@ -90,6 +150,8 @@
 		32D32274D2153D6E34004C7F /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		34637BAAA56FF1A42E985976 /* MyPathView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPathView.swift; sourceTree = "<group>"; };
 		35D6A804FC537AE3DA034D1C /* ContentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTests.swift; sourceTree = "<group>"; };
+		3ED573CC0F20EBA230B54397 /* EngagementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EngagementTests.swift; sourceTree = "<group>"; };
+		45E6E21C65CF9D96642D28EE /* Lensatic.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Lensatic.entitlements; sourceTree = "<group>"; };
 		467187B153D4B96FBD974514 /* RulesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesTests.swift; sourceTree = "<group>"; };
 		46A2A319259C716BF6A753A1 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		4A33B7A20DC64CFA87A0B1DA /* LensaticTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LensaticTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,11 +160,16 @@
 		5A133D9432C0AD3D6F8514F8 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
 		5CAC38BECDD52D0BED2CB69B /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		6885F9A245F8EE55B73AB77A /* Scaffold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scaffold.swift; sourceTree = "<group>"; };
+		6AC79C802C8F82191CD532A3 /* LensaticWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensaticWidget.swift; sourceTree = "<group>"; };
+		6B4F96A1B6CB58C582AD8A8C /* Changes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changes.swift; sourceTree = "<group>"; };
 		6F137B9D0D24A97DABA5A9DC /* plays.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = plays.json; sourceTree = "<group>"; };
 		6F1DEC354B932B82248B9A2F /* IBMPlexMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Bold.ttf"; sourceTree = "<group>"; };
 		6F2FF22A7504796EA3B33C2D /* ProseText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProseText.swift; sourceTree = "<group>"; };
 		7008906610798F68376DC03C /* site.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = site.json; sourceTree = "<group>"; };
+		70B002DEED0C78FF1724D47C /* Nav.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Nav.swift; sourceTree = "<group>"; };
 		750C9F3601B22441A4BC806B /* IBMPlexMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Regular.ttf"; sourceTree = "<group>"; };
+		758DCCBD2880C1E8CF727F00 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7BBF69048CF28179236928A7 /* figures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = figures; path = ../playbook/app/figures; sourceTree = SOURCE_ROOT; };
 		7C57FA5A1CF5B6F8D61ECC19 /* DesignSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignSystem.swift; sourceTree = "<group>"; };
 		7FEBB679449A85C258B1F600 /* IBMPlexMono-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexMono-Medium.ttf"; sourceTree = "<group>"; };
 		8126127134E77A969438FF89 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
@@ -111,12 +178,16 @@
 		881DF3DEEE5EACF03934CE80 /* LensaticUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensaticUITests.swift; sourceTree = "<group>"; };
 		88B7F9C17846D0F9556797A7 /* Prose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prose.swift; sourceTree = "<group>"; };
 		977780DF5ADCA390FA53AAD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9B8CE489507CE8479366F526 /* LensaticWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LensaticWidget.entitlements; sourceTree = "<group>"; };
 		AFC96B740B66DD83CDB140CA /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		B41465C9FEF151D644CFC2E2 /* Spotlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spotlight.swift; sourceTree = "<group>"; };
 		B56237ADCFD54F5C33CA8A45 /* EntityCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCardView.swift; sourceTree = "<group>"; };
 		BA0BE8AFF5FDED0685B89571 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C0585C88A128EED7678C3320 /* changes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = changes.json; sourceTree = "<group>"; };
 		C2B7130AF5BB326132BD41F2 /* PathPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathPlan.swift; sourceTree = "<group>"; };
+		C689EE0782BD498A62135E38 /* ShareCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCard.swift; sourceTree = "<group>"; };
 		D12BCD96EE74DC90307AE2CC /* Icons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Icons.swift; sourceTree = "<group>"; };
+		D7EC69255DC40A345E52522B /* LensaticIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensaticIntents.swift; sourceTree = "<group>"; };
 		DA895FEDEAC8133F8089250E /* ReferenceViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferenceViews.swift; sourceTree = "<group>"; };
 		DDD36A651668F328DED1AE61 /* about-photo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "about-photo.jpg"; sourceTree = "<group>"; };
 		E1135D595E4102EDFF4B67E0 /* LensaticUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = LensaticUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,6 +209,16 @@
 			path = LensaticUITests;
 			sourceTree = "<group>";
 		};
+		0E6B53B5237F9FF7F55D4755 /* LensaticWidget */ = {
+			isa = PBXGroup;
+			children = (
+				758DCCBD2880C1E8CF727F00 /* Info.plist */,
+				9B8CE489507CE8479366F526 /* LensaticWidget.entitlements */,
+				6AC79C802C8F82191CD532A3 /* LensaticWidget.swift */,
+			);
+			path = LensaticWidget;
+			sourceTree = "<group>";
+		};
 		21479120F7112FF473757C77 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,17 +236,28 @@
 		4F6AD8F7BB43FA45B5CC9C80 /* content */ = {
 			isa = PBXGroup;
 			children = (
+				C0585C88A128EED7678C3320 /* changes.json */,
 				82124D60B87567A1830B3053 /* stack.json */,
 			);
 			name = content;
 			path = ../content;
 			sourceTree = "<group>";
 		};
+		7FC7D44782161534DB90D312 /* Intents */ = {
+			isa = PBXGroup;
+			children = (
+				D7EC69255DC40A345E52522B /* LensaticIntents.swift */,
+			);
+			path = Intents;
+			sourceTree = "<group>";
+		};
 		83F7F9BA139499745F125040 /* Lensatic */ = {
 			isa = PBXGroup;
 			children = (
 				977780DF5ADCA390FA53AAD9 /* Info.plist */,
+				45E6E21C65CF9D96642D28EE /* Lensatic.entitlements */,
 				20C6C16B2C58F0760FF8BFCC /* LensaticApp.swift */,
+				7FC7D44782161534DB90D312 /* Intents */,
 				E8D1CE45DCEC721DB98A8F26 /* Model */,
 				9FEC0212285CC8E8072ADF06 /* Resources */,
 				CA130E872CC379B808E308A2 /* Views */,
@@ -213,6 +305,7 @@
 		B4D84E5F105931F997B1AB2F = {
 			isa = PBXGroup;
 			children = (
+				7BBF69048CF28179236928A7 /* figures */,
 				AB85EB17C359D409D135F813 /* app */,
 				92C16B7B806AEEA31C850E2E /* app */,
 				4F6AD8F7BB43FA45B5CC9C80 /* content */,
@@ -220,6 +313,7 @@
 				83F7F9BA139499745F125040 /* Lensatic */,
 				C068DE008DA84791FF7EAFD9 /* LensaticTests */,
 				0A7D379B03A8EB4C050A1586 /* LensaticUITests */,
+				0E6B53B5237F9FF7F55D4755 /* LensaticWidget */,
 				E82A21267EA5DA641862C4FE /* src */,
 				9E1623061A49ADFE6A0D86F9 /* tools */,
 				ED6BF8010E2FB589CD87FC7A /* Products */,
@@ -230,6 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				35D6A804FC537AE3DA034D1C /* ContentTests.swift */,
+				3ED573CC0F20EBA230B54397 /* EngagementTests.swift */,
 				EBE14E5AE3026FA7EB435E88 /* LibraryTests.swift */,
 				E9AF5F7E81064E447911EA9C /* PathTests.swift */,
 				467187B153D4B96FBD974514 /* RulesTests.swift */,
@@ -240,7 +335,10 @@
 		CA130E872CC379B808E308A2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				0B18F1B49F6AD91D05A1FF45 /* Figures.swift */,
+				20E5BADC225FFF5190500E3B /* Reader.swift */,
 				AFC96B740B66DD83CDB140CA /* RootView.swift */,
+				C689EE0782BD498A62135E38 /* ShareCard.swift */,
 				1FA5700B2D1EB9AE002F11C1 /* Theme.swift */,
 				F758767743AB12EA814A8A59 /* Design */,
 				EDACE7E298DFFD1437C4330C /* Screens */,
@@ -261,10 +359,13 @@
 			isa = PBXGroup;
 			children = (
 				2C8A4130F143CFAF5F0FA7FD /* AppModel.swift */,
+				6B4F96A1B6CB58C582AD8A8C /* Changes.swift */,
 				1CF4E37E5BB91527957380B9 /* Content.swift */,
 				F11C98B9C93EBBCCA91C2D03 /* ContentStore.swift */,
+				1F82538EE4B5C02FBFBD2011 /* Glance.swift */,
 				5A133D9432C0AD3D6F8514F8 /* Library.swift */,
 				50AA4A2FC0243FB1E607BF40 /* MapScreens.swift */,
+				70B002DEED0C78FF1724D47C /* Nav.swift */,
 				C2B7130AF5BB326132BD41F2 /* PathPlan.swift */,
 				510D24B311221345DBAEE1EF /* ProgressStore.swift */,
 				88B7F9C17846D0F9556797A7 /* Prose.swift */,
@@ -283,6 +384,7 @@
 				EF30DCEDB5382486263C2041 /* Lensatic.app */,
 				4A33B7A20DC64CFA87A0B1DA /* LensaticTests.xctest */,
 				E1135D595E4102EDFF4B67E0 /* LensaticUITests.xctest */,
+				2AFC2099A6C9995FAD92913E /* LensaticWidget.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -330,10 +432,12 @@
 			buildPhases = (
 				200C9357F2E92EF855A8F206 /* Sources */,
 				05474CA5EB509A48D201566C /* Resources */,
+				639A18D448331E8DC271578E /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				225C39C1A7BEE135F32856B8 /* PBXTargetDependency */,
 			);
 			name = Lensatic;
 			packageProductDependencies = (
@@ -360,6 +464,24 @@
 			productName = LensaticTests;
 			productReference = 4A33B7A20DC64CFA87A0B1DA /* LensaticTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		8B33CC99BE918A4A7878C099 /* LensaticWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3FF22B29B7BBF378DA960A56 /* Build configuration list for PBXNativeTarget "LensaticWidget" */;
+			buildPhases = (
+				7B613FC81CA82C14568E18FC /* Sources */,
+				3B65049D16C9C2F6DA9DE98D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LensaticWidget;
+			packageProductDependencies = (
+			);
+			productName = LensaticWidget;
+			productReference = 2AFC2099A6C9995FAD92913E /* LensaticWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 		93AA71A641A23FD69205C17F /* LensaticUITests */ = {
 			isa = PBXNativeTarget;
@@ -397,6 +519,10 @@
 						DevelopmentTeam = K57ZDM4BRY;
 						ProvisioningStyle = Automatic;
 					};
+					8B33CC99BE918A4A7878C099 = {
+						DevelopmentTeam = K57ZDM4BRY;
+						ProvisioningStyle = Automatic;
+					};
 					93AA71A641A23FD69205C17F = {
 						DevelopmentTeam = K57ZDM4BRY;
 						ProvisioningStyle = Automatic;
@@ -419,6 +545,7 @@
 			projectRoot = "";
 			targets = (
 				1503D966720556975F671893 /* Lensatic */,
+				8B33CC99BE918A4A7878C099 /* LensaticWidget */,
 				3B9484B21FE2E1444A283EBA /* LensaticTests */,
 				93AA71A641A23FD69205C17F /* LensaticUITests */,
 			);
@@ -440,10 +567,25 @@
 				9690C67ED643830FF192DB84 /* OFL.txt in Resources */,
 				3844D9BA7DA7E36F50893250 /* PrivacyInfo.xcprivacy in Resources */,
 				5F171FE8C194421D9102D8BB /* about-photo.jpg in Resources */,
+				4F7E0FCEB7A28B70F6174A7F /* changes.json in Resources */,
+				74E2A83AE125D63AC514C728 /* figures in Resources */,
 				5F4F2E21B2AD276A58D0F05A /* guide.json in Resources */,
 				213BD8385024883FE82D5D36 /* plays.json in Resources */,
 				28372787CE847492FC9E2804 /* site.json in Resources */,
 				F0A5239763E3B43766D465A2 /* stack.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3B65049D16C9C2F6DA9DE98D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA4565069167EA0AA7A00671 /* Assets.xcassets in Resources */,
+				46FC883D8DCD0FB612AD3269 /* IBMPlexMono-Medium.ttf in Resources */,
+				74E8F3BB44F67D11460CCFAD /* IBMPlexSans-Bold.ttf in Resources */,
+				84DB3DF0FA56301BDAB92092 /* IBMPlexSans-Regular.ttf in Resources */,
+				AE834D0C66EE31BC4E4BF29C /* IBMPlexSans-SemiBold.ttf in Resources */,
+				71D866F41FF617F36B2A04EC /* stack.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -472,6 +614,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6D3487061B65FCCADDD12D1 /* ContentTests.swift in Sources */,
+				9208D38827D92B2E1457F3C0 /* EngagementTests.swift in Sources */,
 				12A651227FA6924356D0F824 /* LibraryTests.swift in Sources */,
 				5313BEBAC54792CDF97A4A21 /* PathTests.swift in Sources */,
 				DBD855B10BBF18B8E2F40FB9 /* RulesTests.swift in Sources */,
@@ -491,32 +634,64 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DBB436CF2D5C96F8000B56B /* AppModel.swift in Sources */,
+				E41B0CB7CA9AD913169F4D74 /* Changes.swift in Sources */,
 				650861407E9F83F3AE66F5D9 /* Content.swift in Sources */,
 				C024F5C87C788DE9357329A4 /* ContentStore.swift in Sources */,
 				1E06C44F2114CEFE15E5BA3B /* DesignSystem.swift in Sources */,
 				0B86ACFBE445CD67793DF399 /* EntityCardView.swift in Sources */,
 				4A771EAA9C7C46CD45F535D9 /* ExploreView.swift in Sources */,
+				5D30601E00A0E8B67AD197E8 /* Figures.swift in Sources */,
+				A65E6EE4E85887484D5474B6 /* Glance.swift in Sources */,
 				1E4BDD66A7863EF69EDEDB59 /* Icons.swift in Sources */,
 				212E4EFBC23C5B745C924CC7 /* LensaticApp.swift in Sources */,
+				9258DC0E6B333B5039591A3A /* LensaticIntents.swift in Sources */,
 				38268B9C90EDB1BA89749B56 /* Library.swift in Sources */,
 				63272592E529030A7662064B /* LibraryView.swift in Sources */,
 				3020B10CEAE99F6BECBDB90C /* MapScreens.swift in Sources */,
 				F80107AFB4B78C8853D89CB7 /* MyPathView.swift in Sources */,
+				3BCA1F9A2DDBF6D7CB28F480 /* Nav.swift in Sources */,
 				A6E18D50A6285A1087312135 /* PathPlan.swift in Sources */,
 				21DDA502946BC34BD535C46D /* ProgressStore.swift in Sources */,
 				0068CF08B4EB3DEF95B67F3C /* Prose.swift in Sources */,
 				FFCE07A4AAA80BF4088EFB3E /* ProseText.swift in Sources */,
+				A6C8CEE751AFEFC48F5CF209 /* Reader.swift in Sources */,
 				D399B6C155E7224E9C134BA3 /* ReferenceViews.swift in Sources */,
 				0983E3D96F38AF5BB05ED7CA /* RootView.swift in Sources */,
 				22D99D2C5AF1C0B3EA27D61A /* Rules.swift in Sources */,
 				D88462BA3F4A09ED48A49B33 /* Scaffold.swift in Sources */,
 				EC91D9AD3AFF3137EA9F9105 /* Search.swift in Sources */,
 				EECAAB55739ABAA26042D104 /* SearchView.swift in Sources */,
+				5304FE97CCBA61ED900E9D48 /* ShareCard.swift in Sources */,
 				1383F5836AD63B59FB8940B1 /* Site.swift in Sources */,
 				0988803FEDC5A88D6CC3E840 /* Spotlight.swift in Sources */,
 				73AD49AA4BD4DECAEED41069 /* StrictDecoding.swift in Sources */,
 				4CCA7E8EC200B1031C719407 /* Theme.swift in Sources */,
 				CF5BB6DAEBCAFDA5DC2A008C /* WelcomeView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B613FC81CA82C14568E18FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				229550E88FBD49DB38316D2F /* Changes.swift in Sources */,
+				A52B6D40634893DF2498876C /* Content.swift in Sources */,
+				8798CC6E36EE6DCE1B1E5598 /* ContentStore.swift in Sources */,
+				1B926B8E62A80E53B42E9229 /* Glance.swift in Sources */,
+				D61A40253AE696DF7C081119 /* Icons.swift in Sources */,
+				96A43FE8CA85C5DD207FE246 /* LensaticWidget.swift in Sources */,
+				6AE6648C9835184F1A2DE0A5 /* Library.swift in Sources */,
+				D20CCD2A41C2CD373680315B /* MapScreens.swift in Sources */,
+				6493CE4F773972305E549647 /* Nav.swift in Sources */,
+				F5D0F7A0DCEFB00CC6ECBBAC /* PathPlan.swift in Sources */,
+				23926CDBBCCF93217E504D1B /* ProgressStore.swift in Sources */,
+				F6BD63C02466A2D1E147EDC3 /* Prose.swift in Sources */,
+				35C005A0C27D2EC5790AE2A1 /* Rules.swift in Sources */,
+				1A9984C338D7BFA8052AA663 /* Search.swift in Sources */,
+				FB94E0C57E4815AAC49F5F1E /* Site.swift in Sources */,
+				C02633A9B45A1FC363FE4FBC /* Spotlight.swift in Sources */,
+				CC3B39040F90E23EEA1EC443 /* StrictDecoding.swift in Sources */,
+				E438AC8F4B14562660AF253F /* Theme.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,6 +702,11 @@
 			isa = PBXTargetDependency;
 			target = 1503D966720556975F671893 /* Lensatic */;
 			targetProxy = CB9EC0144005537F32191164 /* PBXContainerItemProxy */;
+		};
+		225C39C1A7BEE135F32856B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8B33CC99BE918A4A7878C099 /* LensaticWidget */;
+			targetProxy = 69F52D32598C4D0F77B38F2E /* PBXContainerItemProxy */;
 		};
 		DC83F545E11F0FFDAF1D3DA3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -622,17 +802,40 @@
 			};
 			name = Release;
 		};
+		2ABE0A62A9F18E2ACA025AC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = LensaticWidget/LensaticWidget.entitlements;
+				ENABLE_DEBUG_DYLIB = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LensaticWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*]" = "-Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker $(SRCROOT)/LensaticWidget/LensaticWidget.entitlements";
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.kensden.lensatic.widget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		38AA847960B3E25A51DA1EFC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Lensatic/Lensatic.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_DEBUG_DYLIB = NO;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Lensatic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*]" = "-Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker $(SRCROOT)/Lensatic/Lensatic.entitlements";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.kensden.lensatic;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -700,6 +903,26 @@
 			};
 			name = Release;
 		};
+		84EF5700A38668972EC0FA19 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = LensaticWidget/LensaticWidget.entitlements;
+				ENABLE_DEBUG_DYLIB = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LensaticWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*]" = "-Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker $(SRCROOT)/LensaticWidget/LensaticWidget.entitlements";
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.kensden.lensatic.widget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		8D7B449B9C1B3B4420D8C3CF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -722,13 +945,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Lensatic/Lensatic.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_DEBUG_DYLIB = NO;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Lensatic/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				"OTHER_LDFLAGS[sdk=iphonesimulator*]" = "-Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker $(SRCROOT)/Lensatic/Lensatic.entitlements";
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.kensden.lensatic;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -774,6 +1000,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3FF22B29B7BBF378DA960A56 /* Build configuration list for PBXNativeTarget "LensaticWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2ABE0A62A9F18E2ACA025AC6 /* Debug */,
+				84EF5700A38668972EC0FA19 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		41D7A69F1CB61DC7A20C92A3 /* Build configuration list for PBXNativeTarget "LensaticUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

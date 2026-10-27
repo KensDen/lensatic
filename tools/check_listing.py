@@ -120,8 +120,9 @@ OTHER_PRODUCTS = ("Claude", "GitHub")
 EMOJI_RE = re.compile("[\U0001F000-\U0001FAFF\u2300-\u23ff\u25fd\u25fe\u2600-\u27bf\u2b00-\u2bff\ufe0f\u200d\u20e3]")
 EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
 
-# the store screenshots (section 5): eight screens per device, in this order, at Apple's required sizes
-STORE_SCREENS = ("start", "doors", "door-steps", "stack", "matrix", "ai", "sources", "about-name")
+# the store screenshots (section 5; the redesign's screens from R3): eight screens per device, in this order, at Apple's
+# required sizes
+STORE_SCREENS = ("start", "path", "stack", "card", "sources", "search", "library", "play")
 # the iPhone slot App Store Connect requires is the 6.3-inch display (24 October 2026); the list names the 6.3-inch copies
 DISPLAYS = {"iPhone": ("iPhone 6.3-inch display", 1206, 2622), "iPad": ("iPad 13-inch display", 2064, 2752)}
 
@@ -436,8 +437,8 @@ def check(rep) -> None:
     for k, what in (("sha256", "file"), ("contentSha256", "content")):
         hashes = [s.get(k) for s in shots]
         errs += [f"two screenshots share the {what} SHA-256 {x[:12]}" for x in sorted({x for x in hashes if x and hashes.count(x) > 1})]
-    rep.check("ios/store/screenshots.json: eight screens per device (start, doors, a door's steps, stack, matrix, AI column, "
-              "sources, About at Why the name) at Apple's sizes (iPhone 6.3-inch 1206 x 2622, iPad 13-inch 2064 x 2752), "
+    rep.check("ios/store/screenshots.json: eight screens per device (the welcome, My Path, Explore's stack, a Framework card, "
+              "its Sources sheet, Search, the Library, a play) at Apple's sizes (iPhone 6.3-inch 1206 x 2622, iPad 13-inch 2064 x 2752), "
               "each with the SHA-256 of its file and of its pixels below the status bar, no two alike", errs, f"{len(shots)} screenshots")
 
     # the house rules in ios/store/

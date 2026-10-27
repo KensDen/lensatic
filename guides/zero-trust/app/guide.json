@@ -10,7 +10,7 @@
   },
   {
    "week": 2,
-   "read": "NIST 800-207: skim Section 4 (use cases) and Section 7 (migration). Pick your track using the table above.",
+   "read": "NIST 800-207: skim Section 4 (use cases) and Section 7 (migration). Pick your track with the “Which track are you?” table in How to use this guide.",
    "apply": "Match your environment to the closest Section 4 use case. Then write the first line of your one-breath answer (Fluency 1): what Zero Trust is, in your own words.",
    "check": "Say why \"inside the network\" earns no trust. Name your track and the document that sets your rules."
   },
@@ -123,22 +123,36 @@
   {
    "id": "how-to-use",
    "title": "How to use this guide",
+   "summary": "Pick your track by who sets your Zero Trust rules, then plan on a shared core for Weeks 1 to 4 and one track for Weeks 5 to 8.",
+   "outline": [
+    {
+     "title": "Which track are you?",
+     "block": 9
+    }
+   ],
    "blocks": [
     {
      "type": "text",
-     "text": "Premise. Zero Trust is learned fastest on real systems. If you already do Zero Trust work, that work is the classroom. If you don't yet, pick one system you know well and practice on it every week."
+     "text": "Zero Trust is learned fastest on real systems. If you already do Zero Trust work, that work is the classroom. If you don't yet, pick one system you know well and practice on it every week.",
+     "lead": "Premise."
     },
     {
      "type": "text",
-     "text": "Structure. Weeks 1 to 4 are a core that everyone takes: the definition (NIST SP 800-207) and the shared maturity scale (the CISA Zero Trust Maturity Model). Weeks 5 to 8 are one track, picked by who sets your Zero Trust rules:"
+     "text": "Weeks 1 to 4 are a core that everyone takes: the definition (NIST SP 800-207) and the shared maturity scale (the CISA Zero Trust Maturity Model). Weeks 5 to 8 are one track, picked by who sets your Zero Trust rules:",
+     "lead": "Structure."
     },
     {
      "type": "list",
      "ordered": false,
      "items": [
-      "DoW track. For Department of War (DoW) components and the programs that report to them.",
-      "Federal civilian track. For federal civilian agencies and the teams that build and run their systems.",
-      "Private sector track. For companies, and also state and local governments, universities and anyone else with no federal Zero Trust mandate."
+      "For Department of War (DoW) components and the programs that report to them.",
+      "For federal civilian agencies and the teams that build and run their systems.",
+      "For companies, and also state and local governments, universities and anyone else with no federal Zero Trust mandate."
+     ],
+     "leads": [
+      "DoW track.",
+      "Federal civilian track.",
+      "Private sector track."
      ]
     },
     {
@@ -147,11 +161,13 @@
     },
     {
      "type": "text",
-     "text": "Time. About 3 hours a week in the core, and 3 to 5 in your track. One hour on weekdays, or two longer blocks."
+     "text": "About 3 hours a week in the core, and 3 to 5 in your track. One hour on weekdays, or two longer blocks.",
+     "lead": "Time."
     },
     {
      "type": "text",
-     "text": "What you will be able to do by the end of Week 8."
+     "text": "",
+     "lead": "What you will be able to do by the end of Week 8."
     },
     {
      "type": "list",
@@ -164,11 +180,13 @@
     },
     {
      "type": "text",
-     "text": "Field notes. Keep one text file, one line per session: Learned / Source / Where it bit us. The template is in Part 6. In three months it is your field manual, in your own words."
+     "text": "Keep one text file, one line per session: Learned / Source / Where it bit us. The template is in Part 6. In three months it is your field manual, in your own words.",
+     "lead": "Field notes."
     },
     {
      "type": "text",
-     "text": "Naming. Executive Order 14347 authorizes Department of War (DoW) as a secondary title; the statutory name is still Department of Defense. Published document titles still say \"DoD,\" so this guide uses DoW in prose and DoD in titles and citations."
+     "text": "Executive Order 14347 authorizes Department of War (DoW) as a secondary title; the statutory name is still Department of Defense. Published document titles still say \"DoD,\" so this guide uses DoW in prose and DoD in titles and citations.",
+     "lead": "Naming."
     },
     {
      "type": "heading",
@@ -221,7 +239,21 @@
   },
   {
    "id": "part-1",
-   "title": "Part 1. The core (Weeks 1 to 4)",
+   "part": "Part 1",
+   "title": "The core (Weeks 1 to 4)",
+   "summary": "NIST SP 800-207 for the definition and the CISA maturity model for the shared scale, with a weekly plan and self-checks.",
+   "outline": [
+    {
+     "title": "NIST SP 800-207, Zero Trust Architecture (NIST, August 2020)",
+     "block": 1,
+     "card": 0
+    },
+    {
+     "title": "CISA Zero Trust Maturity Model v2.0 (CISA, April 2023)",
+     "block": 1,
+     "card": 1
+    }
+   ],
    "blocks": [
     {
      "type": "text",
@@ -234,24 +266,40 @@
        "eyebrow": "Core 1",
        "title": "NIST SP 800-207, Zero Trust Architecture (NIST, August 2020)",
        "bullets": [
-        "What it is. The foundational definition. The tenets of Zero Trust, the logical components (policy engine, policy administrator, policy enforcement point), deployment models, and the trust algorithm.",
-        "Why it matters. Everyone borrows its vocabulary: DoW, federal civilian and commercial Zero Trust documents all build on it. When someone says PDP or PEP in a meeting, this is the document most people learned the words from.",
-        "Read. Section 2 (tenets and the Zero Trust view of a network) and Section 3 (logical components, deployment variations, trust algorithm). About 19 pages. In Week 2, skim Section 4 (use cases) and Section 7 (migration).",
-        "Skip for now. Section 5 threats (skim later); the appendices.",
-        "Be able to say. Zero Trust means every access request is decided by a policy engine on identity, device posture and context, enforced at a PEP, with no trust implied by where the request comes from.",
-        "Time. 6 hours. Weeks 1 and 2."
+        "The foundational definition. The tenets of Zero Trust, the logical components (policy engine, policy administrator, policy enforcement point), deployment models, and the trust algorithm.",
+        "Everyone borrows its vocabulary: DoW, federal civilian and commercial Zero Trust documents all build on it. When someone says PDP or PEP in a meeting, this is the document most people learned the words from.",
+        "Section 2 (tenets and the Zero Trust view of a network) and Section 3 (logical components, deployment variations, trust algorithm). About 19 pages. In Week 2, skim Section 4 (use cases) and Section 7 (migration).",
+        "Section 5 threats (skim later); the appendices.",
+        "Zero Trust means every access request is decided by a policy engine on identity, device posture and context, enforced at a PEP, with no trust implied by where the request comes from.",
+        "6 hours. Weeks 1 and 2."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Skip for now.",
+        "Be able to say.",
+        "Time."
        ]
       },
       {
        "eyebrow": "Core 2",
        "title": "CISA Zero Trust Maturity Model v2.0 (CISA, April 2023)",
        "bullets": [
-        "What it is. Five pillars (Identity, Devices, Networks, Applications and Workloads, Data), three cross-cutting capabilities (Visibility and Analytics, Automation and Orchestration, Governance), and four stages (Traditional, Initial, Advanced, Optimal), with a stage description for every function.",
-        "Why it matters. It is the closest thing to a shared maturity scale. CISA wrote it for federal civilian agencies, and OMB M-22-09 organizes its goals by it. It is public, so private-sector teams can borrow its stages as a target.",
-        "Read. The introduction, the stage definitions, and the five pillar chapters in Week 3. The cross-cutting capabilities in Week 4. Read for vocabulary and structure; you do not need the functions memorized.",
-        "Skip for now. Nothing. It is short enough to read whole.",
-        "Be able to say. Five pillars, three cross-cutting capabilities, four stages, and which pillar and stage one of your own controls sits at, and why.",
-        "Time. 6 hours. Weeks 3 and 4."
+        "Five pillars (Identity, Devices, Networks, Applications and Workloads, Data), three cross-cutting capabilities (Visibility and Analytics, Automation and Orchestration, Governance), and four stages (Traditional, Initial, Advanced, Optimal), with a stage description for every function.",
+        "It is the closest thing to a shared maturity scale. CISA wrote it for federal civilian agencies, and OMB M-22-09 organizes its goals by it. It is public, so private-sector teams can borrow its stages as a target.",
+        "The introduction, the stage definitions, and the five pillar chapters in Week 3. The cross-cutting capabilities in Week 4. Read for vocabulary and structure; you do not need the functions memorized.",
+        "Nothing. It is short enough to read whole.",
+        "Five pillars, three cross-cutting capabilities, four stages, and which pillar and stage one of your own controls sits at, and why.",
+        "6 hours. Weeks 3 and 4."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Skip for now.",
+        "Be able to say.",
+        "Time."
        ]
       }
      ]
@@ -281,7 +329,7 @@
       {
        "cells": [
         "Week 2",
-        "NIST 800-207: skim Section 4 (use cases) and Section 7 (migration). Pick your track using the table above.",
+        "NIST 800-207: skim Section 4 (use cases) and Section 7 (migration). Pick your track with the “Which track are you?” table in How to use this guide.",
         "Match your environment to the closest Section 4 use case. Then write the first line of your one-breath answer (Fluency 1): what Zero Trust is, in your own words.",
         "Say why \"inside the network\" earns no trust. Name your track and the document that sets your rules."
        ]
@@ -308,7 +356,23 @@
   },
   {
    "id": "part-2",
-   "title": "Part 2. The tracks (Weeks 5 to 8)",
+   "part": "Part 2",
+   "title": "The tracks (Weeks 5 to 8)",
+   "summary": "Pick one of three tracks, DoW, federal civilian or private sector, each with its own canon, a four-week plan and what to skip.",
+   "outline": [
+    {
+     "title": "DoW track",
+     "block": 1
+    },
+    {
+     "title": "Federal civilian track",
+     "block": 7
+    },
+    {
+     "title": "Private sector track",
+     "block": 13
+    }
+   ],
    "blocks": [
     {
      "type": "text",
@@ -330,48 +394,80 @@
        "eyebrow": "D1",
        "title": "DoD Zero Trust Strategy (DoD CIO, October 2022)",
        "bullets": [
-        "What it is. The Department's mandate: the vision, four strategic goals, the seven pillars, Target Level and Advanced Level, and the FY27 deadline for Target.",
-        "Why it matters. It sets the destination for every DoW component: seven pillars, and a Target Level due by the end of FY27. Every other DoW Zero Trust document points back to it.",
-        "Read. Executive summary and the strategy sections on goals, pillars and the Target and Advanced split. About 20 pages.",
-        "Skip for now. Governance and organizational sections, including the material on the DoD ZT Portfolio Management Office.",
-        "Be able to say. DoW requires Target Level Zero Trust across every component by the end of FY27, and Target is 91 of the 152 activities.",
-        "Time. 2 hours. Week 5."
+        "The Department's mandate: the vision, four strategic goals, the seven pillars, Target Level and Advanced Level, and the FY27 deadline for Target.",
+        "It sets the destination for every DoW component: seven pillars, and a Target Level due by the end of FY27. Every other DoW Zero Trust document points back to it.",
+        "Executive summary and the strategy sections on goals, pillars and the Target and Advanced split. About 20 pages.",
+        "Governance and organizational sections, including the material on the DoD ZT Portfolio Management Office.",
+        "DoW requires Target Level Zero Trust across every component by the end of FY27, and Target is 91 of the 152 activities.",
+        "2 hours. Week 5."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Skip for now.",
+        "Be able to say.",
+        "Time."
        ]
       },
       {
        "eyebrow": "D2",
        "title": "DoD Zero Trust Capabilities and Activities (DoD CIO ZT PfMO, as of 18 March 2025)",
        "bullets": [
-        "What it is. The yardstick. Seven pillars, 45 capabilities, 152 activities, each with outcomes, a level (Target or Advanced), and an end state.",
-        "Get the right file. The current activity list is the hyphenated ZT-CapabilitiesActivities.pdf. An older file at the similar, unhyphenated address served an earlier edition (6 January 2023); that link is now dead. Check the cover date before you trust a copy.",
-        "Why it matters. It is the full catalog behind the Strategy: 45 capabilities and 152 activities, each with published outcomes. Learn its numbering, because every other DoW document uses it.",
-        "Read. One or two pillars a week, in this order: User, Device; Network; Application and Workload, Data; Automation and Orchestration, Visibility and Analytics.",
-        "Skip for now. Nothing. But do not try to memorize outcomes. Memorize the capability names and the Target count per pillar; the outcomes are what your notes are for.",
-        "Be able to say. The capabilities in each pillar from memory, and the Target count per pillar (table in Part 5).",
-        "Time. 6 hours across Weeks 5 to 8."
+        "The yardstick. Seven pillars, 45 capabilities, 152 activities, each with outcomes, a level (Target or Advanced), and an end state.",
+        "The current activity list is the hyphenated ZT-CapabilitiesActivities.pdf. An older file at the similar, unhyphenated address served an earlier edition (6 January 2023); that link is now dead. Check the cover date before you trust a copy.",
+        "It is the full catalog behind the Strategy: 45 capabilities and 152 activities, each with published outcomes. Learn its numbering, because every other DoW document uses it.",
+        "One or two pillars a week, in this order: User, Device; Network; Application and Workload, Data; Automation and Orchestration, Visibility and Analytics.",
+        "Nothing. But do not try to memorize outcomes. Memorize the capability names and the Target count per pillar; the outcomes are what your notes are for.",
+        "The capabilities in each pillar from memory, and the Target count per pillar (table in Part 5).",
+        "6 hours across Weeks 5 to 8."
+       ],
+       "leads": [
+        "What it is.",
+        "Get the right file.",
+        "Why it matters.",
+        "Read.",
+        "Skip for now.",
+        "Be able to say.",
+        "Time."
        ]
       },
       {
        "eyebrow": "D3",
        "title": "NSA Zero Trust Implementation Guidelines: Primer, Discovery Phase, Phase One, Phase Two (NSA Cybersecurity Technical Reports, January 2026)",
        "bullets": [
-        "What it is. NSA's sequencing of the DoW Target activities into phases with dependencies: Discovery (14 activities), Phase One (36), Phase Two (41). Phases Three and Four will cover the Advanced activities; NSA says they \"may be developed at a later date.\" Status checked 30 September 2026.",
-        "Why it matters. It is NSA's practical companion to the activity list, grouped into phases you can read in order.",
-        "Read. Primer, Discovery Phase and Phase One in full. Phase Two: the activity roster and the dependency notes.",
-        "Be able to say. Discovery is the inventories and analyses (users, devices, applications, data, flows, policies); Phase One is the foundational controls on top of them; Phase Two builds out and integrates. Fourteen, thirty-six, forty-one.",
-        "Time. 4 hours. Week 6."
+        "NSA's sequencing of the DoW Target activities into phases with dependencies: Discovery (14 activities), Phase One (36), Phase Two (41). Phases Three and Four will cover the Advanced activities; NSA says they \"may be developed at a later date.\" Status checked 30 September 2026.",
+        "It is NSA's practical companion to the activity list, grouped into phases you can read in order.",
+        "Primer, Discovery Phase and Phase One in full. Phase Two: the activity roster and the dependency notes.",
+        "Discovery is the inventories and analyses (users, devices, applications, data, flows, policies); Phase One is the foundational controls on top of them; Phase Two builds out and integrates. Fourteen, thirty-six, forty-one.",
+        "4 hours. Week 6."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Be able to say.",
+        "Time."
        ]
       },
       {
        "eyebrow": "D4",
        "title": "DoD Zero Trust Reference Architecture v2.0 (DISA and NSA for DoD CIO, July 2022)",
        "bullets": [
-        "What it is. The architecture behind the strategy: principles, pillar target states, capability taxonomy, and the operational and system views. Long and dense.",
-        "Why it matters. It is where \"what good looks like\" is written for each capability. When a system owner asks what Target actually means for their system, the answer is here.",
-        "Read. Section 1 (purpose and strategic goals), the principles, and the User, Device and Network pillar descriptions in Section 2. Glance at the capability taxonomy so you recognize it as the parent of the 45.",
-        "Skip for now. The operational and system views beyond a glance; the appendices.",
-        "Be able to say. One sentence per pillar describing the target state. For example: Network at Target means data flows are mapped, the enterprise is macro-segmented, and critical workloads are micro-segmented on identity, with policy applied programmatically.",
-        "Time. 4 hours. Week 7."
+        "The architecture behind the strategy: principles, pillar target states, capability taxonomy, and the operational and system views. Long and dense.",
+        "It is where \"what good looks like\" is written for each capability. When a system owner asks what Target actually means for their system, the answer is here.",
+        "Section 1 (purpose and strategic goals), the principles, and the User, Device and Network pillar descriptions in Section 2. Glance at the capability taxonomy so you recognize it as the parent of the 45.",
+        "The operational and system views beyond a glance; the appendices.",
+        "One sentence per pillar describing the target state. For example: Network at Target means data flows are mapped, the enterprise is macro-segmented, and critical workloads are micro-segmented on identity, with policy applied programmatically.",
+        "4 hours. Week 7."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Skip for now.",
+        "Be able to say.",
+        "Time."
        ]
       }
      ]
@@ -427,7 +523,8 @@
     {
      "type": "callout",
      "label": "",
-     "text": "Not yet, on this track. Vendor whitepapers and anything titled \"ZT for cloud-native\" until after Week 8. OMB M-22-09 is addressed to every executive department, the Department included, but DoW's program runs on the DoD Strategy and activity list; read M-22-09 later, to see where the two line up."
+     "text": "Vendor whitepapers and anything titled \"ZT for cloud-native\" until after Week 8. OMB M-22-09 is addressed to every executive department, the Department included, but DoW's program runs on the DoD Strategy and activity list; read M-22-09 later, to see where the two line up.",
+     "lead": "Not yet, on this track."
     },
     {
      "type": "heading",
@@ -445,56 +542,92 @@
        "eyebrow": "F1",
        "title": "Executive Order 14028, Improving the Nation's Cybersecurity (White House, May 2021), Section 3",
        "bullets": [
-        "What it is. The root mandate. Section 3 says the federal government must advance toward Zero Trust Architecture, and gave each agency head 60 days to develop a plan to implement it.",
-        "Why it matters. Every federal civilian Zero Trust requirement traces back to it. Later executive orders changed other parts of the cybersecurity agenda; Section 3's Zero Trust direction still stands, as checked 30 September 2026.",
-        "Read. Section 3, Modernizing Federal Government Cybersecurity. About 3 pages.",
-        "Be able to say. EO 14028 directed the move to Zero Trust; M-22-09 set the targets.",
-        "Time. 1 hour. Week 5."
+        "The root mandate. Section 3 says the federal government must advance toward Zero Trust Architecture, and gave each agency head 60 days to develop a plan to implement it.",
+        "Every federal civilian Zero Trust requirement traces back to it. Later executive orders changed other parts of the cybersecurity agenda; Section 3's Zero Trust direction still stands, as checked 30 September 2026.",
+        "Section 3, Modernizing Federal Government Cybersecurity. About 3 pages.",
+        "EO 14028 directed the move to Zero Trust; M-22-09 set the targets.",
+        "1 hour. Week 5."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Be able to say.",
+        "Time."
        ]
       },
       {
        "eyebrow": "F2",
        "title": "OMB Memorandum M-22-09, Moving the U.S. Government Toward Zero Trust Cybersecurity Principles (OMB, January 2022)",
        "bullets": [
-        "What it is. The federal Zero Trust strategy. It sets specific goals for every executive department and agency, due by the end of fiscal year 2024, organized by the five pillars of the CISA maturity model.",
-        "Why it matters. It is the most concrete statement of what federal civilian Zero Trust means: enterprise identities with phishing-resistant MFA, a complete device inventory with detection and response, encrypted DNS and HTTP traffic with a plan to break down perimeters, applications treated as internet-connected and tested, and data protection built on categorization.",
-        "Read. All of it. Read the five pillar goals twice.",
-        "Watch. Its deadline, the end of FY2024, has passed. No rescission was found as of 30 September 2026. Check OMB's memoranda page and the current FISMA guidance for what agencies report now.",
-        "Be able to say. The M-22-09 goal for each of the five pillars, in one sentence each.",
-        "Time. 3 hours. Week 5."
+        "The federal Zero Trust strategy. It sets specific goals for every executive department and agency, due by the end of fiscal year 2024, organized by the five pillars of the CISA maturity model.",
+        "It is the most concrete statement of what federal civilian Zero Trust means: enterprise identities with phishing-resistant MFA, a complete device inventory with detection and response, encrypted DNS and HTTP traffic with a plan to break down perimeters, applications treated as internet-connected and tested, and data protection built on categorization.",
+        "All of it. Read the five pillar goals twice.",
+        "Its deadline, the end of FY2024, has passed. No rescission was found as of 30 September 2026. Check OMB's memoranda page and the current FISMA guidance for what agencies report now.",
+        "The M-22-09 goal for each of the five pillars, in one sentence each.",
+        "3 hours. Week 5."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Watch.",
+        "Be able to say.",
+        "Time."
        ]
       },
       {
        "eyebrow": "F3",
        "title": "OMB Memorandum M-26-14, Ensuring Effective and Efficient Agency Logging and Network Visibility to Defend Against Evolving Cyber Threats (OMB, May 2026)",
        "bullets": [
-        "What it is. The current federal logging memo. It rescinded the earlier logging memo, M-21-31, and aligns its logging requirements with the CISA maturity model.",
-        "Why it matters. Visibility is a cross-cutting capability in the CISA model, and logging is where it becomes a requirement.",
-        "Read. The requirements sections, and how they map to the maturity model.",
-        "Be able to say. Which memo sets federal logging requirements today, and how it connects to the maturity model.",
-        "Time. 2 hours. Week 6."
+        "The current federal logging memo. It rescinded the earlier logging memo, M-21-31, and aligns its logging requirements with the CISA maturity model.",
+        "Visibility is a cross-cutting capability in the CISA model, and logging is where it becomes a requirement.",
+        "The requirements sections, and how they map to the maturity model.",
+        "Which memo sets federal logging requirements today, and how it connects to the maturity model.",
+        "2 hours. Week 6."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Be able to say.",
+        "Time."
        ]
       },
       {
        "eyebrow": "F4",
        "title": "CISA, Microsegmentation in Zero Trust, Part One: Introduction and Planning (CISA, July 2025)",
        "bullets": [
-        "What it is. CISA's guide to moving from perimeter security to microsegmentation, part of its \"Journey to Zero Trust\" series. It lays out a four-phase approach and the planning considerations that go with it. A technical implementation part is planned.",
-        "Why it matters. Networks is the pillar where M-22-09 asked agencies to start breaking down perimeters. This is the how.",
-        "Read. All of it.",
-        "Be able to say. Why microsegmentation limits lateral movement, and the first thing you would plan before segmenting anything.",
-        "Time. 3 hours. Week 7."
+        "CISA's guide to moving from perimeter security to microsegmentation, part of its \"Journey to Zero Trust\" series. It lays out a four-phase approach and the planning considerations that go with it. A technical implementation part is planned.",
+        "Networks is the pillar where M-22-09 asked agencies to start breaking down perimeters. This is the how.",
+        "All of it.",
+        "Why microsegmentation limits lateral movement, and the first thing you would plan before segmenting anything.",
+        "3 hours. Week 7."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Be able to say.",
+        "Time."
        ]
       },
       {
        "eyebrow": "F5",
        "title": "Federal Zero Trust Data Security Guide (Federal CISO Council and CDO Council, October 2024, revised May 2025)",
        "bullets": [
-        "What it is. Practical guidance on defining, securing and managing data through its lifecycle, focused on the Data pillar of the CISA maturity model. The May 2025 revision added a chapter.",
-        "Why it matters. Data is often the pillar programs reach last, and it depends on the categorization M-22-09 asked for.",
-        "Read. The chapters on defining and securing data.",
-        "Be able to say. Why data categorization comes before data protection tools.",
-        "Time. 3 hours. Week 8."
+        "Practical guidance on defining, securing and managing data through its lifecycle, focused on the Data pillar of the CISA maturity model. The May 2025 revision added a chapter.",
+        "Data is often the pillar programs reach last, and it depends on the categorization M-22-09 asked for.",
+        "The chapters on defining and securing data.",
+        "Why data categorization comes before data protection tools.",
+        "3 hours. Week 8."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Be able to say.",
+        "Time."
        ]
       }
      ]
@@ -550,7 +683,8 @@
     {
      "type": "callout",
      "label": "",
-     "text": "Not yet, on this track. The DoW activity list and the NSA implementation guidelines. They are well built, and worth reading after Week 8, but their pillar names and counts differ from the CISA model's and will muddy your terms while you are learning them."
+     "text": "The DoW activity list and the NSA implementation guidelines. They are well built, and worth reading after Week 8, but their pillar names and counts differ from the CISA model's and will muddy your terms while you are learning them.",
+     "lead": "Not yet, on this track."
     },
     {
      "type": "heading",
@@ -563,7 +697,8 @@
     },
     {
      "type": "text",
-     "text": "Start here. No federal Zero Trust mandate binds you, unless a contract or regulator names a framework. In that case, start from the framework they named. Otherwise the pattern is: use the Cybersecurity Framework to say what good looks like, SP 800-207 to define Zero Trust, the CISA maturity model to set a target, and SP 1800-35 to see how others built it."
+     "text": "No federal Zero Trust mandate binds you, unless a contract or regulator names a framework. In that case, start from the framework they named. Otherwise the pattern is: use the Cybersecurity Framework to say what good looks like, SP 800-207 to define Zero Trust, the CISA maturity model to set a target, and SP 1800-35 to see how others built it.",
+     "lead": "Start here."
     },
     {
      "type": "cards",
@@ -572,45 +707,74 @@
        "eyebrow": "P1",
        "title": "The NIST Cybersecurity Framework (CSF) 2.0 (NIST, February 2024)",
        "bullets": [
-        "What it is. A taxonomy of cybersecurity outcomes for any organization, of any size or sector. Six functions: Govern, Identify, Protect, Detect, Respond, Recover.",
-        "Why it matters. It is the language boards and auditors already use. Zero Trust work lands mostly in Protect (identity management, authentication and access control) and Detect, and it is steered by Govern.",
-        "Read. The overview of the six functions, and the Govern and Protect sections of the core.",
-        "Be able to say. The six functions, and which of them a Zero Trust program mostly serves.",
-        "Time. 3 hours. Week 5."
+        "A taxonomy of cybersecurity outcomes for any organization, of any size or sector. Six functions: Govern, Identify, Protect, Detect, Respond, Recover.",
+        "It is the language boards and auditors already use. Zero Trust work lands mostly in Protect (identity management, authentication and access control) and Detect, and it is steered by Govern.",
+        "The overview of the six functions, and the Govern and Protect sections of the core.",
+        "The six functions, and which of them a Zero Trust program mostly serves.",
+        "3 hours. Week 5."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Be able to say.",
+        "Time."
        ]
       },
       {
        "eyebrow": "P2",
        "title": "NIST SP 1800-35, Implementing a Zero Trust Architecture (NIST National Cybersecurity Center of Excellence, June 2025)",
        "bullets": [
-        "What it is. NIST's practice guide: 19 example Zero Trust implementations built with 24 collaborators, with lessons learned and mappings to common security standards.",
-        "Why it matters. It turns the SP 800-207 model into working builds. It is the closest thing to seeing how other organizations actually did it.",
-        "Read. The high-level document, then the example build closest to your own environment.",
-        "Skip for now. The builds unlike your environment.",
-        "Be able to say. How one example build places the PDP and the PEPs, and what it would take to do the same in your environment.",
-        "Time. 4 hours. Week 6."
+        "NIST's practice guide: 19 example Zero Trust implementations built with 24 collaborators, with lessons learned and mappings to common security standards.",
+        "It turns the SP 800-207 model into working builds. It is the closest thing to seeing how other organizations actually did it.",
+        "The high-level document, then the example build closest to your own environment.",
+        "The builds unlike your environment.",
+        "How one example build places the PDP and the PEPs, and what it would take to do the same in your environment.",
+        "4 hours. Week 6."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Skip for now.",
+        "Be able to say.",
+        "Time."
        ]
       },
       {
        "eyebrow": "P3",
        "title": "CISA Zero Trust Maturity Model v2.0, as your target (CISA, April 2023)",
        "bullets": [
-        "What it is. You read it in the core. On this track you use it as a target: pick a stage per pillar and write it down.",
-        "Why it matters. Without a mandate, you need a target you chose on purpose. Borrowing a public one makes it easy to explain.",
-        "Read. Re-read the stage tables for the pillars that matter most to your organization.",
-        "Be able to say. Your target stage per pillar, and why you chose it.",
-        "Time. 2 hours. Week 7."
+        "You read it in the core. On this track you use it as a target: pick a stage per pillar and write it down.",
+        "Without a mandate, you need a target you chose on purpose. Borrowing a public one makes it easy to explain.",
+        "Re-read the stage tables for the pillars that matter most to your organization.",
+        "Your target stage per pillar, and why you chose it.",
+        "2 hours. Week 7."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Be able to say.",
+        "Time."
        ]
       },
       {
        "eyebrow": "P4",
        "title": "CISA, Microsegmentation in Zero Trust, Part One: Introduction and Planning (CISA, July 2025)",
        "bullets": [
-        "What it is. CISA's guide to moving from perimeter security to microsegmentation. It names federal civilian agencies but says any organization can apply it.",
-        "Why it matters. Segmentation is often where private-sector programs spend their first real Zero Trust money.",
-        "Read. All of it.",
-        "Be able to say. Why microsegmentation limits lateral movement, and the first thing you would plan before segmenting anything.",
-        "Time. 3 hours. Week 7 or 8."
+        "CISA's guide to moving from perimeter security to microsegmentation. It names federal civilian agencies but says any organization can apply it.",
+        "Segmentation is often where private-sector programs spend their first real Zero Trust money.",
+        "All of it.",
+        "Why microsegmentation limits lateral movement, and the first thing you would plan before segmenting anything.",
+        "3 hours. Week 7 or 8."
+       ],
+       "leads": [
+        "What it is.",
+        "Why it matters.",
+        "Read.",
+        "Be able to say.",
+        "Time."
        ]
       }
      ]
@@ -618,7 +782,8 @@
     {
      "type": "callout",
      "label": "",
-     "text": "Handling CUI for a DoW contract? Your security requirements come from NIST SP 800-171 and the DoW CMMC program, not from a Zero Trust framework. Zero Trust can help you meet them, but it does not replace them. Read SP 800-171 alongside this track."
+     "text": "Your security requirements come from NIST SP 800-171 and the DoW CMMC program, not from a Zero Trust framework. Zero Trust can help you meet them, but it does not replace them. Read SP 800-171 alongside this track.",
+     "lead": "Handling CUI for a DoW contract?"
     },
     {
      "type": "heading",
@@ -671,13 +836,17 @@
     {
      "type": "callout",
      "label": "",
-     "text": "Not yet, on this track. The DoW activity list and the federal memos. They are written for organizations bound by them, and their deadlines and counts do not apply to you. Vendor maturity models can wait too: learn the public ones first, so you can tell what a vendor's version adds."
+     "text": "The DoW activity list and the federal memos. They are written for organizations bound by them, and their deadlines and counts do not apply to you. Vendor maturity models can wait too: learn the public ones first, so you can tell what a vendor's version adds.",
+     "lead": "Not yet, on this track."
     }
    ]
   },
   {
    "id": "part-3",
-   "title": "Part 3. The eight weeks at a glance",
+   "part": "Part 3",
+   "title": "The eight weeks at a glance",
+   "summary": "The whole plan on one table, core then tracks, week by week. If a week slips, push the plan back and keep the order.",
+   "outline": [],
    "blocks": [
     {
      "type": "table",
@@ -771,7 +940,23 @@
   },
   {
    "id": "part-4",
-   "title": "Part 4. Three fluencies, with drills",
+   "part": "Part 4",
+   "title": "Three fluencies, with drills",
+   "summary": "Three spoken drills: Zero Trust in one breath, the capability walk across frameworks, and telling a security idea from a Zero Trust one.",
+   "outline": [
+    {
+     "title": "Fluency 1. Zero Trust in one breath",
+     "block": 0
+    },
+    {
+     "title": "Fluency 2. The capability walk",
+     "block": 7
+    },
+    {
+     "title": "Fluency 3. Security idea or Zero Trust idea?",
+     "block": 11
+    }
+   ],
    "blocks": [
     {
      "type": "heading",
@@ -804,7 +989,8 @@
     },
     {
      "type": "text",
-     "text": "Drill. Time yourself. Under 45 seconds, with no filler words, and you are there. If a number wobbles, it is in Part 5."
+     "text": "Time yourself. Under 45 seconds, with no filler words, and you are there. If a number wobbles, it is in Part 5.",
+     "lead": "Drill."
     },
     {
      "type": "heading",
@@ -862,7 +1048,8 @@
     },
     {
      "type": "text",
-     "text": "Practice on: device compliance before access; data flow mapping; data loss prevention; the policy decision point; log collection and correlation. Do one per week from Week 3. Write each walk in your field notes; the writing is the drill."
+     "text": "device compliance before access; data flow mapping; data loss prevention; the policy decision point; log collection and correlation. Do one per week from Week 3. Write each walk in your field notes; the writing is the drill.",
+     "lead": "Practice on:"
     },
     {
      "type": "heading",
@@ -871,7 +1058,8 @@
     },
     {
      "type": "text",
-     "text": "The test. A Zero Trust idea is about a per-request access decision, made on identity, device posture and context, enforced and logged, or about the inventory, tag or policy that feeds one. A security idea is about whether a control exists or a practice is followed. Both matter. Only the first is Zero Trust."
+     "text": "A Zero Trust idea is about a per-request access decision, made on identity, device posture and context, enforced and logged, or about the inventory, tag or policy that feeds one. A security idea is about whether a control exists or a practice is followed. Both matter. Only the first is Zero Trust.",
+     "lead": "The test."
     },
     {
      "type": "table",
@@ -934,13 +1122,42 @@
     },
     {
      "type": "text",
-     "text": "Drill. Take any security idea you hear this week and say its Zero Trust version out loud. If you can't, find its pillar in the CISA model and try again."
+     "text": "Take any security idea you hear this week and say its Zero Trust version out loud. If you can't, find its pillar in the CISA model and try again.",
+     "lead": "Drill."
     }
    ]
   },
   {
    "id": "part-5",
-   "title": "Part 5. Numbers and vocabulary to own cold",
+   "part": "Part 5",
+   "title": "Numbers and vocabulary to own cold",
+   "summary": "The counts, terms and dates to know without notes, from the core's tenets and pillars to each track's numbers, with room to annotate.",
+   "outline": [
+    {
+     "title": "Core numbers",
+     "block": 1
+    },
+    {
+     "title": "DoW track numbers",
+     "block": 3
+    },
+    {
+     "title": "Federal civilian track numbers",
+     "block": 10
+    },
+    {
+     "title": "Private sector track numbers",
+     "block": 13
+    },
+    {
+     "title": "Terms",
+     "block": 15
+    },
+    {
+     "title": "Dates",
+     "block": 17
+    }
+   ],
    "blocks": [
     {
      "type": "text",
@@ -955,8 +1172,12 @@
      "type": "list",
      "ordered": false,
      "items": [
-      "NIST SP 800-207: seven tenets; three core components (policy engine, policy administrator, policy enforcement point).",
-      "CISA ZTMM 2.0: five pillars, three cross-cutting capabilities, four stages (Traditional, Initial, Advanced, Optimal)."
+      "seven tenets; three core components (policy engine, policy administrator, policy enforcement point).",
+      "five pillars, three cross-cutting capabilities, four stages (Traditional, Initial, Advanced, Optimal)."
+     ],
+     "leads": [
+      "NIST SP 800-207:",
+      "CISA ZTMM 2.0:"
      ]
     },
     {
@@ -1179,9 +1400,14 @@
      "type": "list",
      "ordered": false,
      "items": [
-      "CSF 2.0: six functions: Govern, Identify, Protect, Detect, Respond, Recover.",
-      "SP 1800-35: 19 example implementations, 24 collaborators.",
-      "CISA ZTMM 2.0: your target, one stage per pillar, chosen on purpose."
+      "six functions: Govern, Identify, Protect, Detect, Respond, Recover.",
+      "19 example implementations, 24 collaborators.",
+      "your target, one stage per pillar, chosen on purpose."
+     ],
+     "leads": [
+      "CSF 2.0:",
+      "SP 1800-35:",
+      "CISA ZTMM 2.0:"
      ]
     },
     {
@@ -1465,7 +1691,10 @@
   },
   {
    "id": "part-6",
-   "title": "Part 6. Field notes",
+   "part": "Part 6",
+   "title": "Field notes",
+   "summary": "Keep one plain text file, one line per session: what you learned, the source, and where it bit us. Keep it public-safe.",
+   "outline": [],
    "blocks": [
     {
      "type": "text",
@@ -1473,7 +1702,8 @@
     },
     {
      "type": "text",
-     "text": "The format: one line per session or reading."
+     "text": "one line per session or reading.",
+     "lead": "The format:"
     },
     {
      "type": "text",
@@ -1481,7 +1711,8 @@
     },
     {
      "type": "text",
-     "text": "Rules."
+     "text": "",
+     "lead": "Rules."
     },
     {
      "type": "list",
@@ -1497,7 +1728,35 @@
   },
   {
    "id": "part-7",
-   "title": "Part 7. After Week 8",
+   "part": "Part 7",
+   "title": "After Week 8",
+   "summary": "What to read and watch after the eight weeks: next steps for everyone and each track, recorded talks, and where sources live.",
+   "outline": [
+    {
+     "title": "Everyone",
+     "block": 0
+    },
+    {
+     "title": "DoW track",
+     "block": 2
+    },
+    {
+     "title": "Federal civilian track",
+     "block": 4
+    },
+    {
+     "title": "Private sector track",
+     "block": 6
+    },
+    {
+     "title": "Talks to watch",
+     "block": 8
+    },
+    {
+     "title": "Where the sources live",
+     "block": 20
+    }
+   ],
    "blocks": [
     {
      "type": "heading",
@@ -1508,10 +1767,16 @@
      "type": "list",
      "ordered": false,
      "items": [
-      "NIST SP 800-207A (September 2023). Zero Trust access control for cloud-native applications, once cloud environments come into scope.",
-      "Zero Trust for AI Systems (Coalition for Secure AI, September 2026). How the same ideas apply when an AI agent acts for a user: the model sits inside its own threat boundary and is never trusted to make authorization decisions, every tool call is authorized outside the model against the user's delegated scope, and the paper gives a three-step maturity path for getting there. For the red, blue and purple team view, see the Agentic SecOps playbook.",
-      "Zero Trust in the Age of AI (my companion notebook). A NotebookLM notebook built on this guide's sources, the 2025 to 2026 guidance on AI agents and recorded talks, including transcripts of five government talks from the 2026 DoW Zero Trust Virtual Learning Exchange. It also has an audio overview, mind map, flashcards and quiz. Opening it needs a Google account. Start with its \"START HERE\" note: notebooklm.link.google/jaUFZqYbnxIe.",
-      "Another track's Week 5. Reading how another sector does Zero Trust is the fastest way to see what is universal and what is local."
+      "Zero Trust access control for cloud-native applications, once cloud environments come into scope.",
+      "How the same ideas apply when an AI agent acts for a user: the model sits inside its own threat boundary and is never trusted to make authorization decisions, every tool call is authorized outside the model against the user's delegated scope, and the paper gives a three-step maturity path for getting there. For the red, blue and purple team view, see the Agentic SecOps playbook.",
+      "A NotebookLM notebook built on this guide's sources, the 2025 to 2026 guidance on AI agents and recorded talks, including transcripts of five government talks from the 2026 DoW Zero Trust Virtual Learning Exchange. It also has an audio overview, mind map, flashcards and quiz. Opening it needs a Google account. Start with its \"START HERE\" note: notebooklm.link.google/jaUFZqYbnxIe.",
+      "Reading how another sector does Zero Trust is the fastest way to see what is universal and what is local."
+     ],
+     "leads": [
+      "NIST SP 800-207A (September 2023).",
+      "Zero Trust for AI Systems (Coalition for Secure AI, September 2026).",
+      "Zero Trust in the Age of AI (my companion notebook).",
+      "Another track's Week 5."
      ]
     },
     {
@@ -1524,10 +1789,17 @@
      "ordered": false,
      "items": [
       "NSA \"Advancing Zero Trust Maturity Throughout the ... Pillar\" series (2023 to 2024). One guide per pillar, and the best practical bridge between the activities and real controls. Read the User, Device and Network guides first.",
-      "NSA ZIG Phases Three and Four, when they publish. The Advanced activities, in the same format as Discovery through Phase Two.",
-      "DoD Zero Trust Overlays (DoD CIO, June 2024). Maps NIST SP 800-53 Rev. 5 controls to the Zero Trust activities. No longer posted on the DoW CIO site; the Sources section links an archived copy.",
-      "Zero Trust for Operational Technology Activities and Outcomes (DoW CIO). The OT counterpart to the activity list, for anyone whose environment includes control systems.",
+      "The Advanced activities, in the same format as Discovery through Phase Two.",
+      "Maps NIST SP 800-53 Rev. 5 controls to the Zero Trust activities. No longer posted on the DoW CIO site; the Sources section links an archived copy.",
+      "The OT counterpart to the activity list, for anyone whose environment includes control systems.",
       "Your component's own Zero Trust guidance, as enterprise efforts (identity, endpoint, network) reach the environments you work in."
+     ],
+     "leads": [
+      "",
+      "NSA ZIG Phases Three and Four, when they publish.",
+      "DoD Zero Trust Overlays (DoD CIO, June 2024).",
+      "Zero Trust for Operational Technology Activities and Outcomes (DoW CIO).",
+      ""
      ]
     },
     {
@@ -1539,8 +1811,12 @@
      "type": "list",
      "ordered": false,
      "items": [
-      "CISA Microsegmentation, the technical guide, when it publishes. CISA has announced a follow-on technical implementation guide.",
-      "The DoW activity list and NSA guidelines. A finer-grained model of the same areas. Worth reading once your own terms are solid."
+      "CISA has announced a follow-on technical implementation guide.",
+      "A finer-grained model of the same areas. Worth reading once your own terms are solid."
+     ],
+     "leads": [
+      "CISA Microsegmentation, the technical guide, when it publishes.",
+      "The DoW activity list and NSA guidelines."
      ]
     },
     {
@@ -1645,13 +1921,22 @@
      "type": "list",
      "ordered": false,
      "items": [
-      "NIST CSRC (csrc.nist.gov): SP 800-207, 800-207A, 1800-35, CSF 2.0 and SP 800-171.",
-      "CISA (cisa.gov): ZTMM 2.0 and the microsegmentation guidance.",
-      "OMB (whitehouse.gov): M-22-09 and M-26-14.",
-      "Federal Register (federalregister.gov): EO 14028 and EO 14347.",
-      "DoW CIO library (dowcio.war.gov, Library): the Strategy, Reference Architecture, Capabilities and Activities, and the OT activities.",
-      "NSA (nsa.gov, media.defense.gov): the ZIG series and the pillar guides.",
-      "Talks: WarU Media (media.waru.edu) for the 2026 DoW Zero Trust Virtual Learning Exchange; YouTube for the rest."
+      "SP 800-207, 800-207A, 1800-35, CSF 2.0 and SP 800-171.",
+      "ZTMM 2.0 and the microsegmentation guidance.",
+      "M-22-09 and M-26-14.",
+      "EO 14028 and EO 14347.",
+      "the Strategy, Reference Architecture, Capabilities and Activities, and the OT activities.",
+      "the ZIG series and the pillar guides.",
+      "WarU Media (media.waru.edu) for the 2026 DoW Zero Trust Virtual Learning Exchange; YouTube for the rest."
+     ],
+     "leads": [
+      "NIST CSRC (csrc.nist.gov):",
+      "CISA (cisa.gov):",
+      "OMB (whitehouse.gov):",
+      "Federal Register (federalregister.gov):",
+      "DoW CIO library (dowcio.war.gov, Library):",
+      "NSA (nsa.gov, media.defense.gov):",
+      "Talks:"
      ]
     }
    ]
@@ -1659,6 +1944,41 @@
   {
    "id": "qr-dow",
    "title": "Zero Trust Quick Reference: DoW",
+   "summary": "The DoW roadmap on one page: 7 pillars, 45 capabilities and 152 activities, with 91 Target activities due by the end of FY27.",
+   "outline": [
+    {
+     "title": "The numbers",
+     "block": 1
+    },
+    {
+     "title": "The roadmap in one breath",
+     "block": 3
+    },
+    {
+     "title": "Pillars and capabilities (capabilities / Target / Advanced)",
+     "block": 5
+    },
+    {
+     "title": "DoW to CISA map",
+     "block": 8
+    },
+    {
+     "title": "Security idea or Zero Trust idea?",
+     "block": 10
+    },
+    {
+     "title": "Terms",
+     "block": 13
+    },
+    {
+     "title": "Dates",
+     "block": 15
+    },
+    {
+     "title": "Sources",
+     "block": 17
+    }
+   ],
    "blocks": [
     {
      "type": "text",
@@ -1675,9 +1995,16 @@
      "items": [
       "7 pillars, 45 capabilities, 152 activities",
       "91 Target (due by the end of FY27); 61 Advanced (after)",
-      "Target bar: every published Target outcome met",
-      "NSA ZIG: Discovery 14, Phase One 36, Phase Two 41 = the 91 Target activities. Phases Three and Four (the 61 Advanced) are not yet published, as of 30 September 2026.",
-      "CISA ZTMM 2.0: 5 pillars + 3 cross-cutting capabilities; 4 stages: Traditional, Initial, Advanced, Optimal"
+      "every published Target outcome met",
+      "Discovery 14, Phase One 36, Phase Two 41 = the 91 Target activities. Phases Three and Four (the 61 Advanced) are not yet published, as of 30 September 2026.",
+      "5 pillars + 3 cross-cutting capabilities; 4 stages: Traditional, Initial, Advanced, Optimal"
+     ],
+     "leads": [
+      "",
+      "",
+      "Target bar:",
+      "NSA ZIG:",
+      "CISA ZTMM 2.0:"
      ]
     },
     {
@@ -1974,6 +2301,41 @@
   {
    "id": "qr-federal-civilian",
    "title": "Zero Trust Quick Reference: Federal Civilian",
+   "summary": "The federal civilian chain on one page, from EO 14028 to M-22-09 and the CISA maturity model, with goals by pillar, terms and dates.",
+   "outline": [
+    {
+     "title": "The chain",
+     "block": 1
+    },
+    {
+     "title": "Zero Trust in one breath",
+     "block": 6
+    },
+    {
+     "title": "M-22-09 goals by pillar",
+     "block": 8
+    },
+    {
+     "title": "Maturity stages (CISA ZTMM 2.0)",
+     "block": 10
+    },
+    {
+     "title": "Security idea or Zero Trust idea?",
+     "block": 12
+    },
+    {
+     "title": "Terms",
+     "block": 15
+    },
+    {
+     "title": "Dates",
+     "block": 17
+    },
+    {
+     "title": "Sources",
+     "block": 19
+    }
+   ],
    "blocks": [
     {
      "type": "text",
@@ -2073,7 +2435,8 @@
     },
     {
      "type": "text",
-     "text": "Traditional: manual, static, siloed. Initial: starting automation and cross-pillar integration. Advanced: automated, centralized, cross-pillar. Optimal: fully automated, dynamic, continuously optimized."
+     "text": "manual, static, siloed. Initial: starting automation and cross-pillar integration. Advanced: automated, centralized, cross-pillar. Optimal: fully automated, dynamic, continuously optimized.",
+     "lead": "Traditional:"
     },
     {
      "type": "heading",
@@ -2224,6 +2587,45 @@
   {
    "id": "qr-private-sector",
    "title": "Zero Trust Quick Reference: Private Sector",
+   "summary": "No federal mandate, so pick your own target: one page on CSF 2.0, NIST SP 800-207, the CISA maturity model and SP 1800-35.",
+   "outline": [
+    {
+     "title": "The pattern",
+     "block": 2
+    },
+    {
+     "title": "Zero Trust in one breath",
+     "block": 5
+    },
+    {
+     "title": "The seven tenets (NIST SP 800-207, in short)",
+     "block": 7
+    },
+    {
+     "title": "Where Zero Trust lands in CSF 2.0",
+     "block": 9
+    },
+    {
+     "title": "Your target (CISA ZTMM 2.0)",
+     "block": 11
+    },
+    {
+     "title": "Security idea or Zero Trust idea?",
+     "block": 14
+    },
+    {
+     "title": "Handling CUI for a DoW contract?",
+     "block": 17
+    },
+    {
+     "title": "Terms",
+     "block": 19
+    },
+    {
+     "title": "Sources",
+     "block": 21
+    }
+   ],
    "blocks": [
     {
      "type": "text",
@@ -2317,11 +2719,18 @@
      "type": "list",
      "ordered": false,
      "items": [
-      "Govern: the strategy, the target, who owns it.",
-      "Identify: the inventories: users, devices, applications, data, flows.",
-      "Protect: identity management, authentication and access control; data security; platform security.",
-      "Detect: continuous monitoring that feeds access decisions.",
-      "Respond and Recover: containment is easier when access is already segmented and per-request."
+      "the strategy, the target, who owns it.",
+      "the inventories: users, devices, applications, data, flows.",
+      "identity management, authentication and access control; data security; platform security.",
+      "continuous monitoring that feeds access decisions.",
+      "containment is easier when access is already segmented and per-request."
+     ],
+     "leads": [
+      "Govern:",
+      "Identify:",
+      "Protect:",
+      "Detect:",
+      "Respond and Recover:"
      ]
     },
     {
@@ -2486,6 +2895,29 @@
   {
    "id": "sources",
    "title": "Sources",
+   "summary": "Every source the guide cites, grouped into the core, each track and the talks, with its publisher, date and link.",
+   "outline": [
+    {
+     "title": "Core",
+     "block": 0
+    },
+    {
+     "title": "DoW",
+     "block": 2
+    },
+    {
+     "title": "Federal civilian",
+     "block": 4
+    },
+    {
+     "title": "Private sector",
+     "block": 6
+    },
+    {
+     "title": "Talks",
+     "block": 8
+    }
+   ],
    "blocks": [
     {
      "type": "heading",
@@ -2935,6 +3367,8 @@
   {
    "id": "about",
    "title": "About this edition",
+   "summary": "Public edition v2.8.3: what changed in each version, how the guide was built from public sources, and where to ask about reuse.",
+   "outline": [],
    "blocks": [
     {
      "type": "text",

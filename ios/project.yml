@@ -37,8 +37,24 @@ targets:
         buildPhase: resources
       - path: ../playbook/app/plays.json
         buildPhase: resources
+      # the playbook's figures (R3), the folder tools/build_figures.mjs renders into, by reference
+      - path: ../playbook/app/figures
+        type: folder
+        buildPhase: resources
       - path: ../hub/site.json
         buildPhase: resources
+      # What Changed (R3): the list tools/build_changes.py generates from the content history, by reference
+      - path: ../content/changes.json
+        buildPhase: resources
+    dependencies:
+      # the home screen widget (R3), embedded in the app
+      - target: LensaticWidget
+    # the App Group the app shares with its widget (R3): the progress file lives in its container
+    entitlements:
+      path: Lensatic/Lensatic.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.io.github.kensden.lensatic
     info:
       path: Lensatic/Info.plist
       properties:
@@ -65,12 +81,71 @@ targets:
           - IBMPlexMono-Bold.ttf
         # the maker line in About, as the web build's --author gives it
         LensaticMaker: Ken Connell
+        # the app's own links (R3): the widget's taps and the open intents; they move around the app and fetch nothing
+        CFBundleURLTypes:
+          - CFBundleURLName: io.github.kensden.lensatic
+            CFBundleURLSchemes:
+              - lensatic
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: io.github.kensden.lensatic
+        # simulator builds are not bundle-signed (above), so the linker carries the App Group entitlement in the
+        # binary's own section, which is where the simulator reads it; device builds sign it as usual
+        OTHER_LDFLAGS[sdk=iphonesimulator*]: -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker $(SRCROOT)/Lensatic/Lensatic.entitlements
+        # one executable, so the section above is in the binary the simulator reads (no separate debug dylib)
+        ENABLE_DEBUG_DYLIB: NO
         TARGETED_DEVICE_FAMILY: "1,2"
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         GENERATE_INFOPLIST_FILE: NO
+  # the home screen widget (R3, Widget.dc.html): the next deadline and the next step, from the progress file in the App
+  # Group's container and the content bundled with it; the model and the design tokens are the app's own files
+  LensaticWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: LensaticWidget
+      - path: Lensatic/Model
+        excludes:
+          - AppModel.swift
+      - path: Lensatic/Views/Theme.swift
+      - path: Lensatic/Views/Design/Icons.swift
+      - path: Lensatic/Resources/Fonts/IBMPlexSans-Regular.ttf
+        buildPhase: resources
+      - path: Lensatic/Resources/Fonts/IBMPlexSans-SemiBold.ttf
+        buildPhase: resources
+      - path: Lensatic/Resources/Fonts/IBMPlexSans-Bold.ttf
+        buildPhase: resources
+      - path: Lensatic/Resources/Fonts/IBMPlexMono-Medium.ttf
+        buildPhase: resources
+      - path: Lensatic/Resources/Assets.xcassets
+      - path: ../content/stack.json
+        buildPhase: resources
+    entitlements:
+      path: LensaticWidget/LensaticWidget.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.io.github.kensden.lensatic
+    info:
+      path: LensaticWidget/Info.plist
+      properties:
+        CFBundleDisplayName: Lensatic
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+        UIAppFonts:
+          - IBMPlexSans-Regular.ttf
+          - IBMPlexSans-SemiBold.ttf
+          - IBMPlexSans-Bold.ttf
+          - IBMPlexMono-Medium.ttf
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.kensden.lensatic.widget
+        OTHER_LDFLAGS[sdk=iphonesimulator*]: -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker $(SRCROOT)/LensaticWidget/LensaticWidget.entitlements
+        # one executable, so the section above is in the binary the simulator reads (no separate debug dylib)
+        ENABLE_DEBUG_DYLIB: NO
+        GENERATE_INFOPLIST_FILE: NO
+        SKIP_INSTALL: YES
   LensaticTests:
     type: bundle.unit-test
     platform: iOS

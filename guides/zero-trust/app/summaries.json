@@ -1,0 +1,17 @@
+{
+ "chapters": {
+  "how-to-use": "Pick your track by who sets your Zero Trust rules, then plan on a shared core for Weeks 1 to 4 and one track for Weeks 5 to 8.",
+  "part-1": "NIST SP 800-207 for the definition and the CISA maturity model for the shared scale, with a weekly plan and self-checks.",
+  "part-2": "Pick one of three tracks, DoW, federal civilian or private sector, each with its own canon, a four-week plan and what to skip.",
+  "part-3": "The whole plan on one table, core then tracks, week by week. If a week slips, push the plan back and keep the order.",
+  "part-4": "Three spoken drills: Zero Trust in one breath, the capability walk across frameworks, and telling a security idea from a Zero Trust one.",
+  "part-5": "The counts, terms and dates to know without notes, from the core's tenets and pillars to each track's numbers, with room to annotate.",
+  "part-6": "Keep one plain text file, one line per session: what you learned, the source, and where it bit us. Keep it public-safe.",
+  "part-7": "What to read and watch after the eight weeks: next steps for everyone and each track, recorded talks, and where sources live.",
+  "qr-dow": "The DoW roadmap on one page: 7 pillars, 45 capabilities and 152 activities, with 91 Target activities due by the end of FY27.",
+  "qr-federal-civilian": "The federal civilian chain on one page, from EO 14028 to M-22-09 and the CISA maturity model, with goals by pillar, terms and dates.",
+  "qr-private-sector": "No federal mandate, so pick your own target: one page on CSF 2.0, NIST SP 800-207, the CISA maturity model and SP 1800-35.",
+  "sources": "Every source the guide cites, grouped into the core, each track and the talks, with its publisher, date and link.",
+  "about": "Public edition v2.8.3: what changed in each version, how the guide was built from public sources, and where to ask about reuse."
+ }
+}

@@ -176,6 +176,21 @@ def lay_out(text: str, size: float, width: float, font: tuple[int, dict[int, int
         lines.append(cur)
     return lines
 
+# The app's stack (content 1.2.20): each layer card shows "N · SHORT NAME · ON YOUR PATH" in IBM Plex Mono Medium 11 pt
+# caps on one line, and the short question in IBM Plex Sans SemiBold 15 pt on at most two. The five cards share a 252 pt
+# text column at the bottom (350 pt, less the AI column's 64 pt and 10 pt gap and the card's 12 pt padding each side) and
+# narrow by 4 pt a side for each layer above, as the mockup draws the stack.
+PLEX_MONO_MEDIUM = ROOT / "ios" / "Lensatic" / "Resources" / "Fonts" / "IBMPlexMono-Medium.ttf"
+PLEX_SANS_SEMI = ROOT / "ios" / "Lensatic" / "Resources" / "Fonts" / "IBMPlexSans-SemiBold.ttf"
+STACK_TEXT_WIDTH, STACK_STEP, STACK_EYEBROW, STACK_QUESTION = 252.0, 8.0, 11.0, (15.0, 2)
+ON_YOUR_PATH = "On your path"
+
+
+def stack_width(order: int, layers: int) -> float:
+    """The text width of the layer card at this order, the bottom card widest."""
+    return STACK_TEXT_WIDTH - STACK_STEP * (layers - order)
+
+
 # --------------------------------------------------------------------------- report
 class Report:
     def __init__(self) -> None:
@@ -1036,6 +1051,45 @@ def main() -> int:
     rep.check("short text: a shortSummary on every entry and a shortNote on every long note, each in the writing rules, with no new "
               "number, within its lines on a phone and with no one-word last line", errs,
               f"longest: summary {worst['shortSummary']} lines, note {worst['shortNote']} lines")
+
+    # 18. short layer fields (content 1.2.20): every layer has a short name and a short question for the app's stack, so
+    # all five layers fit on one screen at the default text size. On each card the eyebrow (number, short name and the
+    # "on your path" call-out a card can carry) stays on one line and the question on two at most, with no one-word last
+    # line; the question ends in a question mark and neither has a dash or an emoji.
+    errs = []
+    mono, semi = ttf_advances(PLEX_MONO_MEDIUM), ttf_advances(PLEX_SANS_SEMI)
+    sep = str(data.get("ui", {}).get("labels", {}).get("metaSeparator", " · "))
+    stack = [l for l in data.get("layers", []) if not l.get("isColumn")]
+    widest = {"eyebrow": 0.0, "question": 0}
+    for l in data.get("layers", []):
+        where = f"layers/{l.get('id')}"
+        name, question = l.get("shortName", ""), l.get("shortQuestion", "")
+        for key, text in (("shortName", name), ("shortQuestion", question)):
+            if not text:
+                errs.append(f"{where}: no {key}")
+            if EM_DASH in text or "–" in text or re.search("[\U0001F000-\U0001FAFF☀-➿️]", text):
+                errs.append(f"{where}.{key}: a dash or an emoji")
+        if question and not question.endswith("?"):
+            errs.append(f"{where}.shortQuestion: a question ends in a question mark")
+        if l.get("isColumn") or not name or not question:
+            continue
+        width = stack_width(int(l.get("order", 0)), len(stack))
+        eyebrow = f"{l.get('order')}{sep}{name}{sep}{ON_YOUR_PATH}".upper()
+        upem, adv = mono
+        ew = sum(adv.get(ord(ch), 600) for ch in eyebrow) * STACK_EYEBROW / upem
+        widest["eyebrow"] = max(widest["eyebrow"], ew / width)
+        if ew > width:
+            errs.append(f"{where}.shortName: the eyebrow {eyebrow!r} is {ew:.0f} pt, wider than the card's {width:.0f} pt")
+        size, most = STACK_QUESTION
+        lines = lay_out(question, size, width, semi)
+        widest["question"] = max(widest["question"], len(lines))
+        if len(lines) > most:
+            errs.append(f"{where}.shortQuestion: {len(lines)} lines on the stack, at most {most}")
+        if len(lines) > 1 and len(lines[-1].replace(NBSP, " ").split()) < 2:
+            errs.append(f"{where}.shortQuestion: ends on one word ({lines[-1]!r})")
+    rep.check("short layer fields: every layer has a shortName and a shortQuestion; on the app's stack the eyebrow fits one line "
+              "and the question two, with no one-word last line", errs,
+              f"widest eyebrow {widest['eyebrow']:.0%} of its card, longest question {widest['question']} lines")
 
     # 16. no overdue recheck: the support page says no content release goes out while a recheck is overdue. A content
     # release is the last changelog entry, and meta.builtOn must carry its date, so the test runs on the release date.

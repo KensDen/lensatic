@@ -33,11 +33,7 @@ struct EntityCardView: View {
                             .accessibilityIdentifier("card-back")
                         Spacer()
                         BookmarkButton(item: .entity(e.id))
-                        if let url = URL(string: e.url) {
-                            ShareLink(item: url, subject: Text(e.name)) { CircleIconLabel(icon: .share) }
-                                .buttonStyle(.plain)
-                                .accessibilityLabel("Share the source link")
-                        }
+                        ShareButton(subject: .entity(e.id))
                     }
                     // at the accessibility sizes the mark sits above the name, so a long word never breaks
                     (typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12)) : AnyLayout(HStackLayout(spacing: 14))) {
@@ -100,6 +96,7 @@ struct EntityCardView: View {
                 .padding(.bottom, 16)
         }
         .scrollBounceBehavior(.basedOnSize)
+        .hardTopEdge()
         // the Verified row and the one primary button stay at the foot of the screen, as the mockup places them; at
         // the accessibility sizes they end the scrolling content instead, so they never cover half the screen
         .safeAreaInset(edge: .bottom, spacing: 0) {
@@ -215,8 +212,8 @@ struct EntityFacts {
 /// caveat, and the button that opens the source.
 struct SourcesSheet: View {
     @Environment(AppModel.self) private var model
-    @Environment(\.openURL) private var openURL
     @State private var noteOpen = false
+    @State private var documentsOpen = false
     let id: String
 
     var body: some View {
@@ -277,7 +274,7 @@ struct SourcesSheet: View {
                     .card(radius: 12, fill: .clear)
                 }
                 if let url = URL(string: e.url) {
-                    Button { openURL(url) } label: {
+                    Button { Reader.open(url) } label: {
                         HStack(spacing: 8) {
                             Icon(.doc, size: 18, color: Palette.onSecMaps)
                             Text(facts.isPDF ? "Open the PDF" : "Open the Web Page")
@@ -285,11 +282,58 @@ struct SourcesSheet: View {
                     }
                     .buttonStyle(PrimaryButtonStyle(minHeight: 50, font: DS.sheetButton))
                     .accessibilityIdentifier("sources-open")
-                    Text("Opens in your browser.").font(DS.keyLabel).foregroundStyle(Palette.fg2)
+                    Text(model.store.label("opensInReader")).font(DS.keyLabel).foregroundStyle(Palette.fg2)
                         .frame(maxWidth: .infinity)
+                }
+                if let docs = e.documents, !docs.isEmpty { documents(docs) }
+            }
+        }
+    }
+
+    /// The entry's documents (R3), one tap down: each with its edition and date, opening in the reader. Nothing showed
+    /// them since R1 replaced the entry screen with the card.
+    private func documents(_ docs: [Document]) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Button { documentsOpen.toggle() } label: {
+                HStack {
+                    Text("Documents").font(DS.stepStrong).foregroundStyle(Palette.fg)
+                    Text("\(docs.count)").font(DS.sectionLabel).foregroundStyle(Palette.fg2)
+                    Spacer()
+                    Icon(.chevronRight, size: 16, color: Palette.fg2).rotationEffect(.degrees(documentsOpen ? 90 : 0))
+                }
+                .frame(minHeight: 44).contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel("Documents, \(docs.count)")
+            .accessibilityValue(documentsOpen ? "Shown" : "Hidden")
+            .accessibilityIdentifier("sources-documents")
+            if documentsOpen {
+                ForEach(Array(docs.enumerated()), id: \.offset) { i, d in
+                    if i > 0 { Divider().overlay(Palette.line) }
+                    Button { if let url = URL(string: d.url) { Reader.open(url) } } label: {
+                        HStack(spacing: 8) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(keepWhole(d.title)).font(DS.step).foregroundStyle(Palette.link)
+                                .multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
+                            Text("\(d.edition)\(model.store.label("metaSeparator"))\(unbroken(Rules.formatDate(d.date)))").font(DS.caption)
+                                .foregroundStyle(Palette.fg2).multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        Icon(.chevronRight, size: 14, color: Palette.fg2)
+                        }
+                        .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+                        .padding(.vertical, 8)
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityHint("Opens in Safari, inside the app")
+                    .accessibilityIdentifier("sources-document-\(i)")
                 }
             }
         }
+        .padding(.horizontal, 12)
+        .card(radius: 12, fill: .clear)
     }
 
     private func checkLine(_ v: Verification) -> String {

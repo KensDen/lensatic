@@ -4,8 +4,9 @@ import XCTest
 /// a step and finding it checked after a relaunch, switching trailheads, a step to its card and the card's Sources
 /// sheet; Explore to a layer and a framework card, the matrix and the functions; Search to a result; saving and finding
 /// it saved after a relaunch; the Library to the Field Guide and the plays; the reference screens and the three About
-/// links (found by label, never tapped: they leave the app); with an accessibility audit on each screen, and again at
-/// the largest accessibility text size. Words come from content/stack.json, which the test bundle carries.
+/// links (found by label); What Changed showing and clearing, a widget's tap, the share sheet, a play's outline and the
+/// in-app reader (R3); with an accessibility audit on each screen, and again at the largest accessibility text size.
+/// Words come from content/stack.json, which the test bundle carries.
 @MainActor
 final class LensaticUITests: XCTestCase {
     static let content: [String: Any] = {
@@ -134,12 +135,14 @@ final class LensaticUITests: XCTestCase {
         return tab.exists ? tab.frame.minY - 8 : app.windows.firstMatch.frame.maxY
     }
 
-    /// The part of the screen a page shows: its scroll view below the navigation bar above it and above the tab bar,
-    /// within the window.
+    /// The part of the screen a page shows: its scroll view below the navigation bar above it, or below the status bar,
+    /// which the system draws over a page scrolled under it (54 points covers the iPhones with a Dynamic Island), and
+    /// above the tab bar, within the window.
     func visibleRegion(_ page: XCUIElement) -> CGRect {
         let frame = page.frame, window = app.windows.firstMatch.frame
         let bars = app.navigationBars.allElementsBoundByIndex.map(\.frame).filter { $0.maxX > frame.minX && $0.minX < frame.maxX }
-        let top = max(frame.minY, bars.map(\.maxY).max() ?? frame.minY), bottom = min(frame.maxY, window.maxY, tabBarTop())
+        let statusBar = window.minY + 54
+        let top = max(frame.minY, bars.map(\.maxY).max() ?? statusBar, statusBar), bottom = min(frame.maxY, window.maxY, tabBarTop())
         return CGRect(x: frame.minX, y: top, width: frame.width, height: max(0, bottom - top))
     }
 
@@ -282,6 +285,9 @@ final class LensaticUITests: XCTestCase {
         showTab("tab-explore")
         XCTAssertTrue(element("explore").waitForExistence(timeout: 5))
         XCTAssertTrue(element("explore-stack").isSelected)
+        // the short layer fields (R3): all five layers fit on the screen at the default text size, above the tab bar
+        for id in ["layer-l1", "layer-l5"] { XCTAssertTrue(element(id).isHittable, id) }
+        XCTAssertLessThanOrEqual(element("layer-l5").frame.maxY, tabBarTop() + 8, "the fifth layer is on screen")
         try auditScreen("explore")
         tap("layer-l3", in: "explore")
         XCTAssertTrue(element("layer-screen-l3").waitForExistence(timeout: 5))
@@ -456,6 +462,7 @@ final class LensaticUITests: XCTestCase {
             (["-LensaticNav", "glossary-list"], "glossary-screen"),
             (["-LensaticNav", "sources"], "sources-screen"),
             (["-LensaticNav", "about"], "about-screen"),
+            (["-LensaticNav", "changes", "-LensaticChangesViewed", "1.2.16"], "changes-screen"),
         ]
         for (args, id) in screens {
             launch(door: "dow", checked: "1,2", ax5 + args)
@@ -466,6 +473,180 @@ final class LensaticUITests: XCTestCase {
         continueAfterFailure = true
         XCTAssertTrue(element("entity-card-dod-zt-strategy").waitForExistence(timeout: 10))
         try audit("card at AX5")
+    }
+
+    // MARK: R3
+
+    /// What Changed shows on My Path while it has items newer than the last view, opens an item's card, and Clear puts
+    /// it away, which a relaunch remembers; the Library's list keeps every item and the day of the last view.
+    func testWhatChangedShowsUntilCleared() throws {
+        launch(door: "dow", checked: "1,2", ["-LensaticChangesViewed", "1.2.16"])
+        XCTAssertTrue(element("my-path").waitForExistence(timeout: 10))
+        XCTAssertTrue(element("what-changed").waitForExistence(timeout: 5), "newer items show on My Path")
+        try auditScreen("my-path")  // the whole screen at the top
+        let first = app.descendants(matching: .any).matching(NSPredicate(format: "identifier BEGINSWITH 'change-1.2.'")).firstMatch
+        var tries = 0
+        while !first.isHittable || first.frame.maxY > tabBarTop(), tries < 12 { app.scrollViews["my-path"].swipeUp(velocity: .slow); tries += 1 }
+        XCTAssertTrue(first.label.contains("affects step"), "the first item says which step it affects: \(first.label)")
+        sleep(1)  // the scroll settles before the audit reads the screen
+        // the section itself, scrolled into view. After a swipe the audit's contrast reading varies with where the scroll
+        // stops (it has flagged the 17:1 row titles and the 6.8:1 caption above them), so contrast is read where the same
+        // rows sit at rest: the Library's full list, audited below; every other check runs here
+        print("AUDIT what changed: contrast read on the changes screen at rest, not after the swipe")
+        try audit("what changed", region: element("what-changed").frame.intersection(visibleRegion(app.scrollViews["my-path"].firstMatch)),
+                  types: XCUIAccessibilityAuditType.all.subtracting(.contrast))
+        first.tap()
+        XCTAssertTrue(app.descendants(matching: .any).matching(NSPredicate(format: "identifier BEGINSWITH 'entity-card-'")).firstMatch
+            .waitForExistence(timeout: 5), "an item opens its entry's card")
+        element("card-back").tap()
+        tap("changes-clear", in: "my-path")
+        XCTAssertFalse(element("what-changed").waitForExistence(timeout: 2), "Clear puts the section away")
+        app.terminate()
+        launch(reset: false, door: nil)
+        XCTAssertTrue(element("my-path").waitForExistence(timeout: 10))
+        XCTAssertFalse(element("what-changed").waitForExistence(timeout: 2), "and it stays away after a relaunch")
+        showTab("tab-library")
+        tap("library-changes", in: "library")
+        XCTAssertTrue(element("changes-screen").waitForExistence(timeout: 5), "the Library keeps the whole list")
+        XCTAssertTrue(element("changes-viewed").label.contains("Last cleared on"), element("changes-viewed").label)
+        try auditScreen("changes-screen")
+    }
+
+    /// A tap on the widget opens its link, lensatic://open/step:dow:3, which opens that step on My Path (the widget's
+    /// own link is the glance's, a unit test holds them equal).
+    func testAWidgetsTapOpensItsStep() throws {
+        launch(door: "dow", checked: "1,2", ["-LensaticTab", "library"])
+        XCTAssertTrue(element("library").waitForExistence(timeout: 10))
+        app.open(URL(string: "lensatic" + "://open/step:dow:3")!)
+        XCTAssertTrue(element("my-path").waitForExistence(timeout: 10), "the link opens My Path")
+        XCTAssertTrue(element("step-3-entity-dod-zt-ot").waitForExistence(timeout: 5), "with step 3 open")
+        XCTAssertEqual(element("step-3").value as? String, "Open")
+        app.open(URL(string: "lensatic" + "://search")!)
+        XCTAssertTrue(element("search-field").waitForExistence(timeout: 5), "the search link opens Search")
+    }
+
+    /// The widget itself, from the home screen: added through the system's widget gallery, small and then medium, it
+    /// shows the next step and a tap on it opens that step. The gallery is the system's own screen, so a change in it
+    /// skips this test rather than fail it; the link test above holds the tap either way.
+    func testTheWidgetOnTheHomeScreenOpensItsStep() throws {
+        for medium in [false, true] {
+            launch(door: "dow", checked: "1,2")
+            XCTAssertTrue(element("my-path").waitForExistence(timeout: 10))
+            let widget = try addWidget(medium: medium)
+            XCTAssertGreaterThan(widget.frame.width, medium ? 300 : 140, "the \(medium ? "medium" : "small") widget is placed")
+            widget.tap()
+            XCTAssertTrue(app.wait(for: .runningForeground, timeout: 10), "a tap on the widget opens the app")
+            XCTAssertTrue(element("step-3-entity-dod-zt-ot").waitForExistence(timeout: 10), "on the next step, open")
+            app.terminate()
+        }
+    }
+
+    /// Put Lensatic's widget on the home screen through the gallery, and return it (an existing one of that size is
+    /// used as it is).
+    func addWidget(medium: Bool) throws -> XCUIElement {
+        let home = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        XCUIDevice.shared.press(.home)
+        func find(_ q: XCUIElementQuery, _ label: String, _ t: TimeInterval = 5) -> XCUIElement? {
+            // the gallery's button reads " Add Widget", its symbol before the words
+            let e = q.matching(NSPredicate(format: "label ==[c] %@ OR identifier ==[c] %@ OR label ENDSWITH[c] %@", label, label, " " + label)).firstMatch
+            return e.waitForExistence(timeout: t) ? e : nil
+        }
+        func placed() -> XCUIElement? {
+            // the home screen redraws as it settles, so each candidate is read once and a vanished one is passed over
+            let query = home.descendants(matching: .other).matching(NSPredicate(format: "label == 'Lensatic'"))
+            for i in 0..<query.count {
+                let e = query.element(boundBy: i)
+                guard e.exists else { continue }
+                let w = e.frame.width
+                if medium ? w > 300 : (w > 140 && w < 200) { return e }
+            }
+            return nil
+        }
+        _ = home.wait(for: .runningForeground, timeout: 5)
+        if let w = placed() { return w }
+        home.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.7)).press(forDuration: 2.5)
+        guard let edit = find(home.buttons, "Edit") else { throw XCTSkip("the home screen's Edit button was not found") }
+        edit.tap()
+        guard let add = find(home.buttons, "Add Widget") else { throw XCTSkip("Add Widget was not found") }
+        add.tap()
+        let search = home.searchFields["Search Widgets"]
+        guard search.waitForExistence(timeout: 8) else { throw XCTSkip("the widget gallery's search field was not found") }
+        search.tap()
+        search.typeText("Lensatic")
+        guard let result = find(home.cells, "Lensatic", 8) else { throw XCTSkip("Lensatic is not in the widget gallery") }
+        result.tap()
+        let preview = home.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Lensatic'")).firstMatch
+        guard preview.waitForExistence(timeout: 8) else { throw XCTSkip("the gallery's preview was not found") }
+        if medium {
+            preview.swipeLeft()
+            let mediumPreview = home.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Lensatic' AND value CONTAINS 'Medium'")).firstMatch
+            guard mediumPreview.waitForExistence(timeout: 5) else { throw XCTSkip("the gallery's medium size was not found") }
+        }
+        guard let place = find(home.buttons, "Add Widget", 8) else { throw XCTSkip("the gallery's Add Widget button was not found") }
+        place.tap()
+        if let done = find(home.buttons, "Done", 3) { done.tap() }
+        var tries = 0
+        while placed() == nil, tries < 10 { _ = home.buttons.firstMatch.waitForExistence(timeout: 1); tries += 1 }
+        guard let w = placed() else { throw XCTSkip("the placed widget was not found") }
+        return w
+    }
+
+    /// Share on a card and on a step opens the system share sheet with the card's image and the source link.
+    func testTheShareSheetOpensFromACardAndAStep() throws {
+        launch(door: "dow", checked: "1,2", ["-LensaticNav", "entity/dod-zt-ot"])
+        let share = element("share")
+        XCTAssertTrue(share.waitForExistence(timeout: 10))
+        share.tap()
+        let sheet = app.otherElements["ActivityListView"]
+        let close = app.buttons["Close"]
+        XCTAssertTrue(sheet.waitForExistence(timeout: 10) || close.waitForExistence(timeout: 2), "the share sheet opens")
+        if close.exists { close.tap() } else { app.swipeDown() }
+        XCTAssertTrue(element("card-back").waitForExistence(timeout: 10))
+        element("card-back").tap()
+        showTab("tab-path")
+        tap("step-3", in: "my-path")
+        let stepShare = element("share")
+        XCTAssertTrue(stepShare.waitForExistence(timeout: 5), "an opened step can be shared")
+        stepShare.tap()
+        XCTAssertTrue(sheet.waitForExistence(timeout: 10) || close.waitForExistence(timeout: 2), "the share sheet opens for a step")
+        if close.exists { close.tap() } else { app.swipeDown() }
+    }
+
+    /// A play reads summary first; its outline lists its sections and a tap brings one to the top of the screen.
+    func testAPlaysOutlineJumpsToASection() throws {
+        launch(door: "dow", checked: nil, ["-LensaticNav", "play/containment"])
+        XCTAssertTrue(element("play-screen").waitForExistence(timeout: 10))
+        let summary = element("summary")
+        XCTAssertTrue(summary.exists, "the play opens on its summary")
+        let outline = element("outline")
+        XCTAssertLessThan(summary.frame.minY, outline.frame.minY, "summary first, then the outline")
+        XCTAssertEqual(outline.value as? String, "Hidden")
+        outline.tap()
+        XCTAssertEqual(outline.value as? String, "Shown")
+        try auditScreen("play-screen")
+        let entry = element("outline-5")
+        XCTAssertTrue(entry.waitForExistence(timeout: 5))
+        let title = entry.label.split(separator: ",").last.map { $0.trimmingCharacters(in: .whitespaces) } ?? entry.label
+        entry.tap()
+        let heading = app.staticTexts.matching(NSPredicate(format: "label == %@", title)).allElementsBoundByIndex.first { $0.frame.minY > 0 }
+        XCTAssertNotNil(heading, "the section's heading: \(title)")
+        let top = app.windows.firstMatch.frame.minY
+        XCTAssertLessThan(heading?.frame.minY ?? 9999, top + 200, "the section is at the top of the screen")
+    }
+
+    /// The Sources sheet's button opens the source in Safari's viewer inside the app, and its line says so.
+    func testASourceOpensInTheInAppReader() throws {
+        launch(door: "dow", checked: nil, ["-LensaticNav", "entity/sp800-207", "-LensaticSources"])
+        let open = element("sources-open")
+        XCTAssertTrue(open.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts[label("opensInReader")].exists, "the line under the button")
+        open.tap()
+        // Safari's viewer: its Done button (the sheet's own Done has its identifier)
+        let done = app.buttons.matching(NSPredicate(format: "label == 'Done' AND identifier != 'sources-done'")).firstMatch
+        XCTAssertTrue(done.waitForExistence(timeout: 15), "the reader opens over the sheet")
+        XCTAssertEqual(app.state, .runningForeground, "the app stays in front: no system browser")
+        done.tap()
+        XCTAssertTrue(element("sources-done").waitForExistence(timeout: 10), "Done goes back to the sheet")
     }
 
     /// A diagnostic, not a pass condition: one screen read from top to bottom, every issue printed as SWEEP, none

@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Battery checks for the iOS app (session 8, section 4.5).
 
-On every machine: the colour sets and the Library's guide.json and plays.json equal fresh generations; nothing under ios/ names a forbidden API
-(web views, networking, stored defaults or scene state, file writes but the progress store's one, third-party modules, analytics or crash
-reporting, or anything the privacy manifest would have to declare); the only outside addresses in the Swift sources
-are the policy, support and source links; every font call scales with Dynamic Type; the six TrueType faces and
+On every machine: the colour sets, the Library's guide.json and plays.json and What Changed's content/changes.json equal fresh
+generations; nothing under ios/ names a forbidden API (web views, networking, stored defaults or scene state, file writes but the
+progress store's one, third-party modules, analytics or crash reporting, or anything the privacy manifest would have to declare;
+Safari's viewer only in the in-app reader, R3); the only outside addresses in the Swift sources are the policy, support and source
+links; the app and its widget share exactly one App Group, the one the progress store names; every font call scales with Dynamic Type; the six TrueType faces and
 their OFL.txt are the pinned files and every face is registered; the app carries no copy of content/stack.json or
 web/src/about-photo.jpg and references both by path; the privacy manifest and Info.plist hold exactly their values;
 the icon is the pinned 1024 by 1024 PNG with no alpha; the mark is web/src/mark.svg byte for byte; no em dash, no
@@ -69,7 +70,7 @@ POLICY_LINKS = ("https://kensden.github.io/lensatic/privacy.html", "https://kens
 # section 3.7, and section 2.4's promise that the privacy manifest has nothing to declare (file timestamps, disk space,
 # system boot time, the active keyboards, stored defaults): each pattern is matched in code, never in comments
 FORBIDDEN = {
-    "a web view": r"WKWebView|SFSafariViewController",
+    "a web view": r"WKWebView|SFSafariViewController|UIWebView",
     "networking": r"URLSession|NSURLConnection|\bimport\s+Network\b|CFNetwork|nw_connection",
     "stored defaults or scene state": r"UserDefaults|AppStorage|SceneStorage",
     "a file write (FileManager)": r"FileManager|\.write\s*\(\s*to\s*:|createFile|FileHandle",
@@ -81,7 +82,17 @@ FORBIDDEN = {
 }
 # Core Spotlight (R2) puts the published entries, steps and plays in the on-device iOS search index; UniformTypeIdentifiers
 # names their content type
-ALLOWED_IMPORTS = {"Foundation", "SwiftUI", "UIKit", "Observation", "CryptoKit", "XCTest", "CoreSpotlight", "UniformTypeIdentifiers"}
+# R3: SafariServices for the in-app reader (Safari's viewer, its own process), WidgetKit for the home screen widget,
+# AppIntents for Siri and Shortcuts, ImageIO to draw the playbook's tall figures at the screen's size, and LinkPresentation
+# to give the share sheet the card's own preview, so it never fetches a source's address to make one
+ALLOWED_IMPORTS = {"Foundation", "SwiftUI", "UIKit", "Observation", "CryptoKit", "XCTest", "CoreSpotlight", "UniformTypeIdentifiers",
+                   "SafariServices", "WidgetKit", "AppIntents", "ImageIO", "LinkPresentation"}
+# the in-app reader (R3): every outside address opens in Safari's viewer, which loads the page in Safari's own process; the app
+# makes no network call and cannot see the page. This file alone may name SFSafariViewController; WKWebView stays forbidden.
+READER = APP / "Views" / "Reader.swift"
+READER_ALLOWED = ("SFSafariViewController",)
+WIDGET = IOS / "LensaticWidget"
+ENTITLEMENTS = {APP / "Lensatic.entitlements": "the app", WIDGET / "LensaticWidget.entitlements": "the widget"}
 # the redesign (R1, 26 October 2026): the reader's trailhead and checked steps stay on the device in one JSON file. This
 # file alone may name FileManager (for the app's Application Support folder) and write, and only that one file; every
 # other forbidden name stays forbidden in it too
@@ -100,6 +111,8 @@ INFO_VALUES = {
     "UISupportedInterfaceOrientations~ipad": ["UIInterfaceOrientationPortrait", "UIInterfaceOrientationPortraitUpsideDown",
                                               "UIInterfaceOrientationLandscapeLeft", "UIInterfaceOrientationLandscapeRight"],
     "UIAppFonts": [n for n in FONT_PINS if n.endswith(".ttf")],
+    # the app's own links (R3): the widget's taps and the open intents, which only move around the app
+    "CFBundleURLTypes": [{"CFBundleURLName": "io.github.kensden.lensatic", "CFBundleURLSchemes": ["lensatic"]}],
 }
 PROJECT_SETTINGS = {"PRODUCT_BUNDLE_IDENTIFIER": "io.github.kensden.lensatic", "MARKETING_VERSION": '"1.0"',
                     "CURRENT_PROJECT_VERSION": '"1"', "TARGETED_DEVICE_FAMILY": '"1,2"', "CODE_SIGN_STYLE": "Automatic"}
@@ -203,8 +216,11 @@ def check_static(rep) -> None:
     rep.check("iOS colour sets equal a fresh tools/gen_ios_colors.py run from the styles.css tokens", errs,
               f"{len(list((ASSETS / 'Colors').glob('*.colorset')))} colour sets")
     lib = run([sys.executable, str(ROOT / "tools" / "build_library.py"), "--check"])
-    rep.check("the Library's guide.json and plays.json equal a fresh tools/build_library.py run", [x for x in lib.stdout.splitlines() if x] or
-              ([lib.stderr.strip()[:200]] if lib.returncode else []))
+    rep.check("the Library's guide.json and plays.json equal a fresh tools/build_library.py run, and every chapter's and play's summary "
+              "keeps the short-text rules", [x for x in lib.stdout.splitlines() if x] or ([lib.stderr.strip()[:200]] if lib.returncode else []))
+    ch = run([sys.executable, str(ROOT / "tools" / "build_changes.py"), "--check"])
+    rep.check("What Changed: content/changes.json equals a fresh tools/build_changes.py run over the content's release history",
+              [x for x in ch.stdout.splitlines() if x] or ([ch.stderr.strip()[:200]] if ch.returncode else []))
 
     # section 3.7: forbidden names, modules, outside addresses
     errs, urls = [], 0
@@ -215,11 +231,13 @@ def check_static(rep) -> None:
             for m in re.finditer(pattern, code):
                 if p == PROGRESS_STORE and re.sub(r"\s", "", m.group(0)) in PROGRESS_ALLOWED:
                     continue
+                if p == READER and m.group(0) in READER_ALLOWED:
+                    continue
                 errs.append(f"{rel}:{code.count(chr(10), 0, m.start()) + 1}: {what} ({m.group(0)})")
         for m in re.finditer(r"^\s*(?:@testable\s+)?import\s+([A-Za-z_][A-Za-z0-9_]*)", code, re.M):
             if m.group(1) not in ALLOWED_IMPORTS and m.group(1) != "Lensatic":
                 errs.append(f"{rel}: imports {m.group(1)}, which is not one of Apple's frameworks the app uses")
-        if p.is_relative_to(APP):  # the shipped app; the tests' sample addresses never leave the test bundle
+        if p.is_relative_to(APP) or p.is_relative_to(WIDGET):  # the shipped app and widget; the tests' samples never ship
             for m in re.finditer(r"[A-Za-z][A-Za-z0-9+.-]*://[^\s\"'\\)]*", code):
                 urls += 1
                 if m.group(0) not in POLICY_LINKS:
@@ -250,13 +268,25 @@ def check_static(rep) -> None:
             errs.append(f"ProgressStore.swift reaches the {m.group(1)} folder, not Application Support")
     if not re.search(r"\.applicationSupportDirectory", code):
         errs.append("ProgressStore.swift does not keep its file in Application Support")
+    group = re.search(r'appGroup\s*=\s*"([^"]+)"', code)
+    if not group:
+        errs.append("ProgressStore.swift names no App Group")
+    for m in re.finditer(r"containerURL\s*\(\s*forSecurityApplicationGroupIdentifier\s*:\s*(\w+)", code):
+        if m.group(1) != "appGroup":
+            errs.append("ProgressStore.swift opens a group container other than its App Group")
+    for ent, who in ENTITLEMENTS.items():
+        props = plistlib.loads(ent.read_bytes()) if ent.exists() else None
+        want = {"com.apple.security.application-groups": [group.group(1)]} if group else None
+        if props != want:
+            errs.append(f"{ent.relative_to(ROOT)}: {who}'s entitlements are {props}, expected exactly the progress store's App Group")
     rep.check("progress: the app's one file write is ios/Lensatic/Model/ProgressStore.swift's, once, atomic, under complete file "
-              "protection, in the app's Application Support folder (the reader's trailhead and checked steps; nothing leaves the device)",
-              errs)
+              "protection, in the App Group's container that only the app and its widget open (R3; an earlier build's file in the app's "
+              "Application Support folder moves there once); the two targets' entitlements hold that one App Group and nothing else; "
+              "nothing leaves the device", errs, group.group(1) if group else "")
 
     # section 3.8: every font scales with Dynamic Type
     errs = []
-    for p in swift_sources(APP):
+    for p in swift_sources(APP) + swift_sources(WIDGET):
         code = strip_comments(p.read_text(encoding="utf-8"))
         rel = p.relative_to(ROOT)
         if re.search(r"\.system\s*\(\s*size\s*:", code):
@@ -415,9 +445,13 @@ def check_xcode(rep) -> None:
         shutil.rmtree(work.parent, ignore_errors=True)
         shutil.copytree(IOS, work / "ios", ignore=shutil.ignore_patterns("Lensatic.xcodeproj", "xcuserdata", "build", ".DS_Store"))
         for rel in ("content/stack.json", "web/src/about-photo.jpg", "tools/validate.py",  # what project.yml references outside ios/
-                    "guides/zero-trust/app/guide.json", "playbook/app/plays.json", "hub/site.json"):
+                    "guides/zero-trust/app/guide.json", "playbook/app/plays.json", "hub/site.json", "content/changes.json",
+                    "playbook/app/figures"):
             (work / rel).parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(ROOT / rel, work / rel)
+            if (ROOT / rel).is_dir():
+                shutil.copytree(ROOT / rel, work / rel)
+            else:
+                shutil.copy2(ROOT / rel, work / rel)
         g = run([xcodegen, "generate", "--spec", str(work / "ios" / "project.yml"), "--quiet"])
         if g.returncode:
             errs.append(f"xcodegen failed: {(g.stderr or g.stdout).strip()[:200]}")

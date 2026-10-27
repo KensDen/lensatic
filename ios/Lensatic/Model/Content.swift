@@ -206,6 +206,8 @@ struct Authority: Decodable, Sendable {
 
 struct Document: Decodable, Sendable {
     let title: String
+    /// What Changed names a document a release adds by this (content 1.2.20).
+    let shortTitle: String?
     let edition: String
     let date: String
     let url: String
@@ -218,7 +220,11 @@ struct Layer: Decodable, Sendable {
     let id: String
     let order: Int
     let name: String
+    /// The stack's card on Explore (content 1.2.20): a word or two, and the question short enough that all five layers
+    /// fit on one screen (validate.py check 18).
+    let shortName: String
     let question: String
+    let shortQuestion: String
     let oneLiner: String
     let frameworkIds: [String]
     let isColumn: Bool

@@ -52,6 +52,8 @@ struct LibraryView: View {
                         Divider().overlay(Palette.line)
                         ReferenceRow(title: "All Sources", detail: "\(model.store.counts[.verified] ?? 0) verified", nav: .sources, id: "library-sources")
                         Divider().overlay(Palette.line)
+                        ReferenceRow(title: "What Changed", detail: "\(model.changes.items.count) changes", nav: .changes, id: "library-changes")
+                        Divider().overlay(Palette.line)
                         ReferenceRow(title: "Why \u{201C}\(model.store.content.meta.name)\u{201D}", detail: model.store.navTitle(.about), nav: .about, id: "library-about")
                     }
                     .card(radius: 12)
@@ -72,6 +74,7 @@ struct LibraryView: View {
             .padding(.bottom, 24)
         }
         .background(Palette.bg)
+        .hardTopEdge()
         .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("library")
     }
@@ -201,7 +204,7 @@ struct GuideView: View {
             VStack(alignment: .leading, spacing: 8) {
                 SectionLabel(text: "Chapters")
                 ForEach(lib.guide.chapters) { c in
-                    NavigationLink(value: Nav.chapter(c.id)) { ResultRow(title: c.title, bar: Palette.secGuides) }
+                    NavigationLink(value: Nav.chapter(c.id)) { ResultRow(title: c.displayTitle, line: c.part, bar: Palette.secGuides) }
                         .buttonStyle(.plain)
                         .accessibilityIdentifier("chapter-\(c.id)")
                 }
@@ -279,7 +282,10 @@ struct ChapterView: View {
 
     var body: some View {
         if let c = model.library.guide.chapter(id) {
-            DetailScreen(eyebrow: model.library.site.guideName, eyebrowColor: Palette.secGuides, title: c.title, identifier: "chapter-screen") {
+            let sep = model.store.label("metaSeparator")
+            DetailScreen(eyebrow: [model.library.site.guideName, c.part].compactMap { $0 }.joined(separator: sep), eyebrowColor: Palette.secGuides,
+                         title: c.displayTitle, identifier: "chapter-screen") {
+                SummaryFirst(summary: c.summary, outline: c.outline, accent: Palette.secGuides)
                 BlocksView(blocks: c.blocks, accent: Palette.secGuides)
             }
         } else {
@@ -321,13 +327,67 @@ struct PlayView: View {
             DetailScreen(eyebrow: model.library.group(of: id)?.label, eyebrowColor: Palette.secPurple, title: p.name, identifier: "play-screen") {
                 BookmarkButton(item: .play(id))
             } content: {
-                if !p.subtitle.isEmpty {
-                    Text(p.subtitle).font(DS.answer).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
-                }
+                SummaryFirst(summary: p.summary, outline: p.outline, accent: Palette.secPurple)
                 BlocksView(blocks: p.blocks, accent: Palette.secPurple)
             }
         } else {
             Palette.bg
+        }
+    }
+}
+
+// MARK: summary first
+
+/// The top of a chapter or a play (R3): its summary in one to three lines, then its outline, which jumps to a section.
+/// The outline is closed at first, so the summary leads.
+struct SummaryFirst: View {
+    @Environment(\.scrollProxy) private var proxy
+    let summary: String?
+    let outline: [Outline]
+    let accent: Color
+    @State private var open = false
+
+    var body: some View {
+        if let summary {
+            Text(keepWhole(summary)).font(DS.summary).foregroundStyle(Palette.fg).lineSpacing(4)
+                .fixedSize(horizontal: false, vertical: true)
+                .accessibilityIdentifier("summary")
+        }
+        if outline.count > 1 {
+            VStack(alignment: .leading, spacing: 0) {
+                Button { open.toggle() } label: {
+                    HStack {
+                        Text("Outline").font(DS.stepStrong).foregroundStyle(Palette.fg)
+                        Text("\(outline.count) sections").font(DS.caption).foregroundStyle(Palette.fg2)
+                        Spacer()
+                        Icon(.chevronRight, size: 16, color: Palette.fg2).rotationEffect(.degrees(open ? 90 : 0))
+                    }
+                    .frame(minHeight: 44).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Outline, \(outline.count) sections")
+                .accessibilityValue(open ? "Shown" : "Hidden")
+                .accessibilityIdentifier("outline")
+                if open {
+                    ForEach(Array(outline.enumerated()), id: \.offset) { i, entry in
+                        Divider().overlay(Palette.line)
+                        Button {
+                            withAnimation(UIAccessibility.isReduceMotionEnabled ? nil : .easeInOut) { proxy?.scrollTo(entry.anchor, anchor: .top) }
+                        } label: {
+                            Text(keepWhole(entry.title)).font(DS.step).foregroundStyle(Palette.link)
+                                .frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                            .padding(.vertical, 10).frame(minHeight: 44).contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityElement(children: .combine)
+                        .accessibilityHint("Goes to the section")
+                        .accessibilityIdentifier("outline-\(i)")
+                    }
+                }
+            }
+            .padding(.horizontal, 12)
+            .card(radius: 12)
         }
     }
 }
@@ -342,7 +402,8 @@ struct BlocksView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            ForEach(Array(blocks.enumerated()), id: \.offset) { _, b in BlockView(block: b, accent: accent) }
+            // each block carries its place, so the outline can scroll to it
+            ForEach(Array(blocks.enumerated()), id: \.offset) { i, b in BlockView(block: b, accent: accent, index: i).id("block-\(i)") }
         }
     }
 }
@@ -350,6 +411,8 @@ struct BlocksView: View {
 struct BlockView: View {
     let block: LibraryBlock
     let accent: Color
+    /// The block's place in its chapter or play, so its cards carry anchors for the outline.
+    var index = 0
 
     var body: some View {
         switch block.kind {
@@ -362,13 +425,14 @@ struct BlockView: View {
                     Text(h).font(DS.readerHeading).foregroundStyle(Palette.fg).fixedSize(horizontal: false, vertical: true)
                         .accessibilityAddTraits(.isHeader)
                 }
-                Text(keepWhole(block.text ?? "")).font(DS.readerBody).foregroundStyle(Palette.fg).lineSpacing(4)
+                BlockView.led(block.lead, block.text ?? "", font: DS.readerBody, leadFont: DS.readerLead)
+                    .foregroundStyle(Palette.fg).lineSpacing(4)
                     .fixedSize(horizontal: false, vertical: true)
             }
         case .callout:
             VStack(alignment: .leading, spacing: 4) {
                 if let l = block.label, !l.isEmpty { Eyebrow(text: l, color: accent, small: true) }
-                Text(keepWhole(block.text ?? "")).font(DS.answer).foregroundStyle(Palette.fg).lineSpacing(3)
+                BlockView.led(block.lead, block.text ?? "", font: DS.answer, leadFont: DS.readerLead).foregroundStyle(Palette.fg).lineSpacing(3)
                     .fixedSize(horizontal: false, vertical: true)
             }
             .padding(14)
@@ -381,7 +445,8 @@ struct BlockView: View {
                 ForEach(Array(block.lines.enumerated()), id: \.offset) { i, line in
                     HStack(alignment: .firstTextBaseline, spacing: 8) {
                         Text(block.ordered ? "\(i + 1)." : "\u{2022}").font(DS.step).foregroundStyle(accent).accessibilityHidden(true)
-                        Text(keepWhole(line)).font(DS.step).foregroundStyle(Palette.fg).lineSpacing(2).fixedSize(horizontal: false, vertical: true)
+                        BlockView.led(i < block.leads.count ? block.leads[i] : nil, line, font: DS.step, leadFont: DS.stepStrong)
+                            .foregroundStyle(Palette.fg).lineSpacing(2).fixedSize(horizontal: false, vertical: true)
                     }
                 }
             }
@@ -389,7 +454,7 @@ struct BlockView: View {
             VStack(alignment: .leading, spacing: 8) {
                 if let h = block.heading { SectionLabel(text: h) }
                 if let t = block.text { Text(keepWhole(t)).font(DS.step).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true) }
-                ForEach(Array(block.cards.enumerated()), id: \.offset) { _, c in CardBlock(card: c, accent: accent) }
+                ForEach(Array(block.cards.enumerated()), id: \.offset) { j, c in CardBlock(card: c, accent: accent).id("block-\(index)-card-\(j)") }
             }
         case .table:
             VStack(alignment: .leading, spacing: 8) {
@@ -440,11 +505,23 @@ struct BlockView: View {
                     if let url = URL(string: l.url) { OutsideLink(url: url, label: l.label) }
                 }
             }
+        case .figure:
+            if let f = block.figure { FigureView(figure: f) }
         }
     }
 }
 
+extension BlockView {
+    /// Text with its run-in label set bold before it ("What it is. A ..."); the text alone when it has none.
+    static func led(_ lead: String?, _ text: String, font: Font, leadFont: Font) -> Text {
+        guard let lead, !lead.isEmpty else { return Text(keepWhole(text)).font(font) }
+        if text.isEmpty { return Text(keepWhole(lead)).font(leadFont) }
+        return Text(keepWhole(lead)).font(leadFont) + Text(" " + keepWhole(text)).font(font)
+    }
+}
+
 struct CardBlock: View {
+    @Environment(AppModel.self) private var model
     let card: LibraryBlock.Card
     let accent: Color
     @State private var open = false
@@ -459,15 +536,16 @@ struct CardBlock: View {
             }
             if !bullets.isEmpty {
                 // a long list shows its first two points, the rest one tap down, so a card reads as a summary first
-                ForEach(Array((open ? bullets : Array(bullets.prefix(2))).enumerated()), id: \.offset) { _, b in
+                ForEach(Array((open ? bullets : Array(bullets.prefix(2))).enumerated()), id: \.offset) { i, b in
                         HStack(alignment: .firstTextBaseline, spacing: 8) {
                             Text("\u{2022}").font(DS.step).foregroundStyle(accent).accessibilityHidden(true)
-                            Text(keepWhole(b)).font(DS.step).foregroundStyle(Palette.fg).lineSpacing(2).fixedSize(horizontal: false, vertical: true)
+                            BlockView.led(card.leads.flatMap { i < $0.count ? $0[i] : nil }, b, font: DS.step, leadFont: DS.stepStrong)
+                                .foregroundStyle(Palette.fg).lineSpacing(2).fixedSize(horizontal: false, vertical: true)
                         }
                 }
                 if bullets.count > 2 {
                     Button { open.toggle() } label: {
-                        Text(open ? "Show Less" : "Show All \(bullets.count)").font(DS.link).foregroundStyle(Palette.link)
+                        Text(open ? "Show Less" : "Show All \(bullets.count) Points").font(DS.link).foregroundStyle(Palette.link)
                             .frame(minHeight: 44).contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
@@ -477,6 +555,13 @@ struct CardBlock: View {
                 Text(keepWhole(m)).font(DS.caption).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
             }
             if let url = card.url.flatMap(URL.init(string:)) { OutsideLink(url: url) }
+            if let id = card.play, let play = model.library.play(id) {
+                Button { model.push(.play(id)) } label: {
+                    Text("Open \(play.name)").font(DS.link).foregroundStyle(Palette.link).multilineTextAlignment(.leading)
+                        .frame(minHeight: 44, alignment: .leading).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+            }
         }
         .padding(12)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -484,19 +569,20 @@ struct CardBlock: View {
     }
 }
 
-/// An outside address: named by its site, opened in the system browser.
+/// An outside address: named by its site, opened in the in-app reader (R3).
 struct OutsideLink: View {
     let url: URL
     var label: String?
 
     var body: some View {
         let host = url.host().map { $0.hasPrefix("www.") ? String($0.dropFirst(4)) : $0 } ?? url.absoluteString
-        Link(destination: url) {
+        Button { Reader.open(url) } label: {
             Text(label ?? "Open \(host)").font(DS.link).foregroundStyle(Palette.link)
                 .multilineTextAlignment(.leading)
                 .frame(minHeight: 44, alignment: .leading)
                 .contentShape(Rectangle())
         }
-        .accessibilityHint("Opens \(host) in your browser")
+        .buttonStyle(.plain)
+        .accessibilityHint("Opens \(host) in Safari, inside the app")
     }
 }

@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.19",
-    "builtOn": "2026-10-26",
+    "contentVersion": "1.2.20",
+    "builtOn": "2026-10-27",
     "sources": [
       "csf20",
       "sp800-207",
@@ -210,6 +210,11 @@
         "version": "1.2.19",
         "date": "2026-10-26",
         "summary": "Every framework, source and solution carries a short summary for the app's card, and every long note a short note for its Sources sheet, each drawn from the entry's own text; the long text stays one tap down. The privacy page says what the iOS app now keeps on the device: the saved items and the guide weeks marked done, beside the trailhead and the checked steps, and its listing in the device's own search."
+      },
+      {
+        "version": "1.2.20",
+        "date": "2026-10-27",
+        "summary": "Each layer carries a short name and a short question for the app's stack, so all five fit on one screen, and the NSA sheet on operational technology carries a short title for the app's What Changed list. The privacy page says what the iOS app now keeps and where: the day What Changed was last cleared, in a file only the app and its widget can open, and that outside links open in Safari's viewer inside the app."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -320,7 +325,9 @@
       "id": "l1",
       "order": 1,
       "name": "Outcomes and communication",
+      "shortName": "Outcomes",
       "question": "What does good look like, in the language leadership funds against?",
+      "shortQuestion": "What does good look like?",
       "oneLiner": "The layer that states outcomes in the words leadership already uses, so a security program can be discussed, funded, and measured without technical detail.",
       "frameworkIds": [
         "csf20"
@@ -331,7 +338,9 @@
       "id": "l2",
       "order": 2,
       "name": "Definition",
+      "shortName": "Definition",
       "question": "What is zero trust?",
+      "shortQuestion": "What is zero trust?",
       "oneLiner": "The layer the models and the memo all cite for what zero trust means; read it when a vendor or a score tries to redefine the word.",
       "frameworkIds": [
         "sp800-207"
@@ -342,7 +351,9 @@
       "id": "l3",
       "order": 3,
       "name": "Target state and maturity",
+      "shortName": "Target state",
       "question": "How mature are we, and what is the target?",
+      "shortQuestion": "How mature are we, and what is the target?",
       "oneLiner": "The layer that turns the definition into pillars, capabilities, and a maturity ladder with a target to reach.",
       "frameworkIds": [
         "dod-zt-strategy",
@@ -356,7 +367,9 @@
       "id": "l4",
       "order": 4,
       "name": "Controls",
+      "shortName": "Controls",
       "question": "Which controls implement the outcomes?",
+      "shortQuestion": "Which controls implement it?",
       "oneLiner": "The layer where outcomes and capabilities become specific controls an engineer can build and an assessor can test.",
       "frameworkIds": [
         "sp800-53",
@@ -368,7 +381,9 @@
       "id": "l5",
       "order": 5,
       "name": "Verification",
+      "shortName": "Verification",
       "question": "What does the inspector or assessor check?",
+      "shortQuestion": "What does the assessor check?",
       "oneLiner": "The layer where someone outside the team checks the evidence: an inspector, an assessor, or whoever decides that the system may operate; in federal systems that is the authorizing official.",
       "frameworkIds": [
         "cora",
@@ -380,7 +395,9 @@
       "id": "l6",
       "order": 6,
       "name": "AI column",
+      "shortName": "AI column",
       "question": "What do the same questions look like when the system being secured, the attacker's tool, or the defender's tool is AI?",
+      "shortQuestion": "What do the same questions look like with AI?",
       "oneLiner": "A column beside the stack that asks the same questions of AI systems and agents; in the matrix an agent is a non-person entity in the user pillar, and AI as the defender's tool sits in the automation pillar.",
       "frameworkIds": [
         "ai-rmf",
@@ -757,6 +774,7 @@
         },
         {
           "title": "Hardening {{dow.current}} ({{dow}}) Critical Operational Technology (OT) Environments with Zero Trust (ZT) Principles",
+          "shortTitle": "NSA zero trust sheet for operational tech",
           "edition": "Cybersecurity Information Sheet",
           "date": "2026-10-08",
           "url": "https://media.defense.gov/2026/Oct/08/2004013274/-1/-1/0/CSI_HARDENING_OT_WITH_ZT.PDF",
@@ -6050,7 +6068,8 @@
       "footerNav": "Policies and source",
       "sourceCode": "Source code",
       "releasedOn": "released",
-      "glossaryCrossLink": "The playbook section keeps its own glossary of AI security terms, in its AI Fluency tab."
+      "glossaryCrossLink": "The playbook section keeps its own glossary of AI security terms, in its AI Fluency tab.",
+      "opensInReader": "Opens in Safari, inside the app."
     },
     "binds": {
       "federal-civilian": "Federal civilian agencies",
@@ -6089,12 +6108,12 @@
       "description": "How Lensatic handles data: Framework Maps runs on your device and makes no network requests, and no page has an account or collects anything.",
       "paragraphs": [
         "Framework Maps runs entirely on your device. The iOS app and the web page carry all of their content with them. Once open, the web page needs no connection, and a saved copy works offline.",
-        "Framework Maps makes no network requests. Once the web page is open it loads no scripts, fonts, images or data from anywhere, and the iOS app does not connect to the internet.",
+        "Framework Maps makes no network requests. Once the web page is open it loads no scripts, fonts, images or data from anywhere, and the iOS app itself does not connect to the internet: a link you open in it loads in Safari's viewer, as the paragraph on outside links says.",
         "There is no account and nothing to sign in to.",
-        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web pages keep is your theme choice (system, light or dark), saved in your browser's local storage under the one key lensatic-theme, on your device and never sent anywhere; the iOS app keeps, on your device only, the trailhead you picked, the steps you checked off, the items you saved and the guide weeks you marked done, in one file inside the app that is never sent anywhere; it lists its frameworks, plays and your trailhead's steps in your device's own search (Spotlight), which also stays on the device; and it follows your device's light or dark setting.",
-        "Lensatic holds nothing about you. Deleting the iOS app removes your trailhead, checked steps, saved items and marked weeks, and its entries in your device's search; clearing this site's data in your browser removes the saved theme choice.",
+        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web pages keep is your theme choice (system, light or dark), saved in your browser's local storage under the one key lensatic-theme, on your device and never sent anywhere. The iOS app keeps, on your device only, the trailhead you picked, the steps you checked off, the items you saved, the guide weeks you marked done, and the day you last cleared What Changed with the content release it then showed. They sit in one file in a space on the device that only the app and its own home screen widget can open (an App Group), and the file is never sent anywhere. The widget reads it to show your next step and your next deadline; if you ask Siri or Shortcuts for your next step, the app answers from the same file, and Siri's own handling of your request is under Apple's privacy policy. The app lists its frameworks, plays and your trailhead's steps in your device's own search (Spotlight), which also stays on the device, and it follows your device's light or dark setting. A share card you make goes only where you send it from the share sheet.",
+        "Lensatic holds nothing about you. Deleting the iOS app removes your trailhead, checked steps, saved items, marked weeks and the day you last cleared What Changed, its widget, and its entries in your device's search; clearing this site's data in your browser removes the saved theme choice.",
         "There are no third-party software development kits (SDKs), no analytics and no advertising.",
-        "In the web page and the iOS app, the only outside links go to the public documents cited in Sources and to the source repository on GitHub; both also link to this policy and the support page. They open in your browser, under those sites' own privacy policies. This page and the support page also link to GitHub.",
+        "In the web page and the iOS app, the only outside links go to the public documents cited in Sources, in the guide and in the playbook, and to the source repository on GitHub; both also link to this policy and the support page. The web page opens them in your browser. The iOS app opens them in Safari's viewer inside the app (SFSafariViewController): Safari loads the page, and the app cannot see the page or what you do on it. Either way the sites open under their own privacy policies. This page and the support page also link to GitHub.",
         "The Zero Trust page and the Agentic SecOps app share that one theme choice with the other Lensatic pages. A choice either of them saved earlier under its own key (ztfg-theme or playbook-theme) moves to lensatic-theme once, and the old key is removed. Both link out to their public sources.",
         "The hub links out only to the source repository on GitHub and to Ken Connell's own site, kensden.github.io; the guides index links to the repository and, like the Zero Trust page, to a companion NotebookLM notebook on Google, which needs a Google account; the Agentic SecOps landing links only to the repository and its documents on GitHub.",
         "The web copy at https://kensden.github.io/lensatic/ is hosted by GitHub Pages. GitHub's documentation for GitHub Pages says it logs and stores the internet protocol (IP) address of each visitor for security purposes (https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection); see also the GitHub Privacy Statement (https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement). Lensatic itself collects nothing from those visits.",
