@@ -128,8 +128,8 @@ struct LayerCard: View {
                             .replacingOccurrences(of: sep, with: " " + sep.trimmingCharacters(in: .whitespaces) + "\u{00A0}"),
                         color: onPath ? Palette.secMaps : Palette.accent, small: true, tracked: false)
                 Text(layer.shortQuestion).font(DS.layerTitle).foregroundStyle(Palette.fg)
-                // each name kept on one line, so a line breaks only between names (nit 2)
-                Text(names.map { $0.replacingOccurrences(of: " ", with: "\u{00A0}") }.joined(separator: sep)).font(DS.layerNames).foregroundStyle(Palette.fg2)
+                // each name kept on one line, so a line breaks only between names (nit 2), and never after a dot (R5)
+                Text(dotted(names, separator: sep)).font(DS.layerNames).foregroundStyle(Palette.fg2)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .multilineTextAlignment(.leading)

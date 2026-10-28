@@ -1,15 +1,17 @@
 import SwiftUI
 
 /// The welcome screen (the redesign, R1; Main.dc.html): one question and the four trailheads. On first launch it is
-/// the whole app; afterwards Change brings it back over the tabs, with the current trailhead outlined and Cancel.
+/// the whole app; afterwards Change Path brings it back over the tabs, with the current trailhead outlined and Cancel.
 struct WelcomeView: View {
     @Environment(AppModel.self) private var model
     var isChange = false
+    @State private var showStory = false
 
     var body: some View {
         GeometryReader { geo in
             ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
+                // five doors, the question and the footer fit 390 x 844 at the default size with nothing to scroll (R5)
+                VStack(alignment: .leading, spacing: 16) {
                     if isChange {
                         HStack {
                             Spacer()
@@ -20,9 +22,14 @@ struct WelcomeView: View {
                             .accessibilityIdentifier("welcome-cancel")
                         }
                     }
-                    MarkTile()
+                    // the compass opens the story of the name (R5, item 17): no new words on the screen itself
+                    Button { showStory = true } label: { MarkTile() }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Why Lensatic")
+                        .accessibilityHint("Opens the story of the name")
+                        .accessibilityIdentifier("welcome-story")
                     VStack(alignment: .leading, spacing: 8) {
-                        Eyebrow(text: "Take a bearing")
+                        Eyebrow(text: "Choose a trailhead")
                         Text("Which frameworks apply to you?")
                             .font(DS.welcomeTitle).foregroundStyle(Palette.fg)
                             .accessibilityAddTraits(.isHeader)
@@ -30,11 +37,11 @@ struct WelcomeView: View {
                             .font(DS.lede).foregroundStyle(Palette.fg2).lineSpacing(3)
                     }
                     .fixedSize(horizontal: false, vertical: true)
-                    VStack(spacing: 10) {
+                    VStack(spacing: 8) {
                         ForEach(Door.ID.welcomeOrder.compactMap { model.door($0) }, id: \.id) { door in
                             Button { model.choose(door.id) } label: {
                                 ListRow(title: door.shortTitle,
-                                        subtitle: model.plan(door).cardLine(today: Date(), labels: model.store.content.ui.labels),
+                                        subtitle: keepDesignations(model.plan(door).cardLine(today: Date(), labels: model.store.content.ui.labels)),
                                         icon: door.id.icon, iconColor: door.id.color,
                                         highlighted: isChange && model.progress.door == door.id)
                             }
@@ -43,21 +50,28 @@ struct WelcomeView: View {
                             .accessibilityAddTraits(isChange && model.progress.door == door.id ? .isSelected : [])
                         }
                     }
-                    Spacer(minLength: 16)
-                    Text("No account. Nothing leaves your phone.\nYou can change this anytime.")
+                    Spacer(minLength: 8)
+                    Text("No account. Nothing leaves your phone.\nSwitch paths anytime with Change Path in Library.")
                         .font(DS.caption).foregroundStyle(Palette.fg2).lineSpacing(3)
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, isChange ? 8 : 25)
-                .padding(.bottom, 28)
+                .padding(.top, isChange ? 8 : 16)
+                .padding(.bottom, 16)
                 .frame(minHeight: geo.size.height, alignment: .top)
             }
             .scrollBounceBehavior(.basedOnSize)
         }
         .background(GridGround())
         .accessibilityIdentifier("welcome")
+        .sheet(isPresented: $showStory) { StorySheet().environment(model).tint(Palette.link) }
+        .onAppear {
+            #if DEBUG
+            // -LensaticStory opens the sheet at launch, for the tests and screenshots
+            if !isChange && CommandLine.arguments.contains("-LensaticStory") { showStory = true }
+            #endif
+        }
     }
 }
 
@@ -67,14 +81,15 @@ struct MarkTile: View {
         Icon(.compass, size: 38, color: Palette.tileFg, lineWidth: 1.8)
             .frame(width: 64, height: 64)
             .background(Palette.tileBg, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-            .accessibilityHidden(true)
+            .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 }
 
 extension Door.ID {
-    /// The welcome screen's order, the brief's: the department, civilian agencies, contractors, everyone else. The
-    /// content keeps the web's order (civilian agencies first) for the map's own trailheads.
-    static let welcomeOrder: [Door.ID] = [.dow, .federalCivilian, .defenseContractor, .other]
+    /// The welcome screen's order, the brief's: the department, civilian agencies, contractors, then state and local
+    /// governments and industry and academia (R5, where Everyone Else stood). The content keeps the web's order
+    /// (civilian agencies first) for the map's own trailheads.
+    static let welcomeOrder: [Door.ID] = [.dow, .federalCivilian, .defenseContractor, .stateLocal, .industryAcademia]
 
     /// Each trailhead's mark on the welcome screen, as the mockup draws it; the colours only mark, the name says it.
     var icon: IconName {
@@ -82,7 +97,8 @@ extension Door.ID {
         case .dow: return .shield
         case .federalCivilian: return .building
         case .defenseContractor: return .briefcase
-        case .other: return .globe
+        case .stateLocal: return .landmark
+        case .industryAcademia: return .globe
         }
     }
 
@@ -91,7 +107,8 @@ extension Door.ID {
         case .dow: return Palette.secMaps
         case .federalCivilian: return Palette.accent
         case .defenseContractor: return Palette.secGuides
-        case .other: return Palette.secPurple
+        case .stateLocal: return Palette.link
+        case .industryAcademia: return Palette.secPurple
         }
     }
 }

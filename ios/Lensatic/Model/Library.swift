@@ -29,13 +29,14 @@ final class Library: Sendable {
     // MARK: the guide
 
     /// The guide's track for a trailhead: the department's and the civilian agencies' have their own; a contractor and
-    /// everyone else take the private-sector track, as the guide's "Which track are you?" table sends them.
+    /// the other two take the private-sector track, which the guide writes for companies, state and local governments and
+    /// universities.
     func track(for door: Door.ID) -> Guide.Track? {
         let id: String
         switch door {
         case .dow: id = "dow"
         case .federalCivilian: id = "federal-civilian"
-        case .defenseContractor, .other: id = "private-sector"
+        case .defenseContractor, .stateLocal, .industryAcademia: id = "private-sector"
         }
         return guide.tracks.first { $0.id == id } ?? guide.tracks.first
     }
@@ -147,6 +148,14 @@ struct LibraryBlock: Decodable, Sendable {
     }
 
     /// Every word the block shows, for search.
+    /// The block's running text alone: headings, paragraphs, lists and cards, without table cells, links, stats or
+    /// figures (Search's excerpts, R5).
+    var proseText: String {
+        var out = [heading, lead, text, label].compactMap { $0 } + leads + lines
+        for c in cards { out += [c.title, c.text].compactMap { $0 } + (c.leads ?? []) + (c.bullets ?? []) }
+        return out.joined(separator: " ")
+    }
+
     var searchText: String {
         var out = [heading, lead, text, label].compactMap { $0 } + columns + rows.flatMap(\.cells) + leads + lines
         for c in cards { out += [c.eyebrow, c.title, c.text, c.meta].compactMap { $0 } + (c.leads ?? []) + (c.bullets ?? []) }

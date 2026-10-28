@@ -3,7 +3,7 @@ import SwiftUI
 /// The redesign's icons, drawn from the mockups' own SVG paths on a 24-point grid (handoffs, the R1 mockups), so the
 /// app shows the same marks the approved screens show. Each icon is one or more path strings; `SVGPath` reads them.
 enum IconName: String, CaseIterable, Sendable {
-    case compass, layers, search, library, shield, shieldCheck, building, briefcase, globe
+    case compass, layers, search, library, shield, shieldCheck, building, briefcase, globe, landmark
     case chevronRight, chevronLeft, check, circle, checkCircle, bookmark, share, info, doc
     case map, star, chip, close, expand, loop
 
@@ -18,6 +18,7 @@ enum IconName: String, CaseIterable, Sendable {
         case .building: return ["M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6"]
         case .briefcase: return ["M5 7h14a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2z", "M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"]
         case .globe: return [SVGPath.circle(12, 12, 9), "M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"]
+        case .landmark: return ["M3 21h18M4 9h16M12 3l8 4H4z", "M6 9v9M10 9v9M14 9v9M18 9v9M4 18h16"]
         case .chevronRight: return ["M9 6l6 6-6 6"]
         case .chevronLeft: return ["M15 6l-6 6 6 6"]
         case .check: return ["M7 12.5l3 3 7-7"]

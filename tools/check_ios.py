@@ -8,7 +8,8 @@ Safari's viewer only in the in-app reader, R3); the only outside addresses in th
 links; the app and its widget share exactly one App Group, the one the progress store names; every font call scales with Dynamic Type; the six TrueType faces and
 their OFL.txt are the pinned files and every face is registered; the app carries no copy of content/stack.json or
 web/src/about-photo.jpg and references both by path; the privacy manifest and Info.plist hold exactly their values;
-the icon is the pinned 1024 by 1024 PNG with no alpha; the mark is web/src/mark.svg byte for byte; no em dash, no
+the icon is an Icon Composer document whose one layer is web/src/mark.svg's drawing, in Light, Dark and Tinted; the mark is
+web/src/mark.svg byte for byte; no em dash, no
 forbidden word and no email address in the app's text files.
 
 Where Xcode works (xcodebuild -version succeeds): the committed project equals a fresh XcodeGen generation from
@@ -43,7 +44,8 @@ INFO = APP / "Info.plist"
 PRIVACY = APP / "Resources" / "PrivacyInfo.xcprivacy"
 ASSETS = APP / "Resources" / "Assets.xcassets"
 FONTS = APP / "Resources" / "Fonts"
-ICON = ASSETS / "AppIcon.appiconset" / "AppIcon-1024.png"
+# the app icon (R5, item 15): an Icon Composer document, the mark in three looks (Light, Dark, Tinted) with the system glass
+ICON = APP / "Resources" / "AppIcon.icon"
 MARK = ASSETS / "Mark.imageset" / "mark.svg"
 TMP = ROOT / ".tmp" / "ios-check"
 XCODEGEN = ROOT / ".tmp" / "xcodegen" / "bin" / "xcodegen"
@@ -62,8 +64,9 @@ FONT_PINS = {
     "IBMPlexMono-Bold.ttf": "74e5eedcfa4596497d34e19023cabdabd3a8c852b903007a5654a59591a72ffb",
     "OFL.txt": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
 }
-# the glyph render on the dial background, its metadata chunks dropped, pixels unchanged (session 8, section 2.6)
-ICON_SHA256 = "cb9930c2ccad4ecffbb42b7426536725a24a3da693477798006ba78e4a16db41"
+# the icon's three looks (R5): the light tokens' paper and the guides green; today's dark look (the 1024 render the icon was
+# until build 2: its near-black ground and its green); and the one-colour mark iOS tints (white on black)
+ICON_FILLS = {None: ("#F3F4F1", "#4A5D23"), "dark": ("#050503", "#68E741"), "tinted": ("#000000", "#FFFFFF")}
 # the only outside addresses the Swift sources may name (the privacy policy's claim; check_web.py pins the same three)
 POLICY_LINKS = ("https://kensden.github.io/lensatic/privacy.html", "https://kensden.github.io/lensatic/support.html",
                 "https://github.com/KensDen/lensatic")
@@ -115,7 +118,12 @@ INFO_VALUES = {
     "CFBundleURLTypes": [{"CFBundleURLName": "io.github.kensden.lensatic", "CFBundleURLSchemes": ["lensatic"]}],
 }
 PROJECT_SETTINGS = {"PRODUCT_BUNDLE_IDENTIFIER": "io.github.kensden.lensatic", "MARKETING_VERSION": '"1.0"',
-                    "CURRENT_PROJECT_VERSION": '"2"', "TARGETED_DEVICE_FAMILY": '"1,2"', "CODE_SIGN_STYLE": "Automatic"}
+                    "CURRENT_PROJECT_VERSION": '"3"', "TARGETED_DEVICE_FAMILY": '"1,2"', "CODE_SIGN_STYLE": "Automatic",
+                    # Xcode 27's recommended settings (R5, item 13)
+                    "xcodeVersion": '"27.1"', "BuildIndependentTargetsInParallel": "YES", "ENABLE_USER_SCRIPT_SANDBOXING": "YES",
+                    "ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS": "YES", "STRING_CATALOG_GENERATE_SYMBOLS": "YES",
+                    "REGISTER_APP_GROUPS": "YES", "LOCALIZATION_PREFERS_STRING_CATALOGS": "YES", "DEAD_CODE_STRIPPING": "YES",
+                    "GCC_C_LANGUAGE_STANDARD": "gnu17", "CLANG_CXX_LANGUAGE_STANDARD": "gnu++20"}
 
 
 def sha(p: Path) -> str:
@@ -368,31 +376,44 @@ def check_static(rep) -> None:
 
     # section 2.6 and 2.8: the icon and the mark
     errs = []
-    if not ICON.exists():
+    if (ASSETS / "AppIcon.appiconset").exists():
+        errs.append("AppIcon.appiconset is back: the icon is AppIcon.icon alone")
+    if not (ICON / "icon.json").is_file():
         errs.append("the icon is missing")
     else:
-        data = ICON.read_bytes()
-        chunks = png_chunks(data)
-        w, h, depth, ctype = struct.unpack(">IIBB", chunks[0][1][:10])
-        if (w, h) != (1024, 1024):
-            errs.append(f"the icon is {w} x {h}")
-        if ctype not in (0, 2) or any(t == b"tRNS" for t, _ in chunks):
-            errs.append(f"the icon has an alpha channel (colour type {ctype})")
-        if not any(t == b"sRGB" for t, _ in chunks):
-            errs.append("the icon is not tagged sRGB")
-        if sha(ICON) != ICON_SHA256:
-            errs.append(f"the icon's SHA-256 {sha(ICON)[:12]} is not the pinned {ICON_SHA256[:12]}")
-        contents = json.loads((ICON.parent / "Contents.json").read_text(encoding="utf-8"))
-        if [(i.get("filename"), i.get("size"), i.get("platform")) for i in contents.get("images", [])] != [(ICON.name, "1024x1024", "ios")]:
-            errs.append("AppIcon.appiconset does not hold exactly the one 1024 image")
+        doc = json.loads((ICON / "icon.json").read_text(encoding="utf-8"))
+
+        def fills(specs: list) -> dict:
+            out = {}
+            for x in specs or []:
+                m = re.fullmatch(r"srgb:([\d.]+),([\d.]+),([\d.]+),1\.00000", (x.get("value") or {}).get("solid", ""))
+                out[x.get("appearance")] = "#%02X%02X%02X" % tuple(round(float(v) * 255) for v in m.groups()) if m else None
+            return out
+        layers = [ly for g in doc.get("groups", []) for ly in g.get("layers", [])]
+        if doc.get("supported-platforms") != {"squares": ["iOS"]}:
+            errs.append(f"the icon's platforms are {doc.get('supported-platforms')}")
+        if len(layers) != 1 or layers[0].get("image-name") != "compass.svg" or not layers[0].get("glass"):
+            errs.append("the icon is not the one glass layer, compass.svg")
+        else:
+            ground, mark = fills(doc.get("fill-specializations")), fills(layers[0].get("fill-specializations"))
+            for look, (g, m) in ICON_FILLS.items():
+                if ground.get(look) != g or mark.get(look) != m:
+                    errs.append(f"the icon's {look or 'light'} look is {ground.get(look)} under {mark.get(look)}, expected {g} under {m}")
+        svg = (ICON / "Assets" / "compass.svg").read_text(encoding="utf-8") if (ICON / "Assets" / "compass.svg").is_file() else ""
+        want = re.findall(r'<path[^>]*\bd="([^"]+)"', (ROOT / "web" / "src" / "mark.svg").read_text(encoding="utf-8"))
+        if not want or re.findall(r'<path[^>]*\bd="([^"]+)"', svg) != want or "<text" in svg:
+            errs.append("the icon's compass.svg is not web/src/mark.svg's drawing, as paths")
+        extra = sorted(q.name for q in (ICON / "Assets").iterdir() if q.name != "compass.svg") if (ICON / "Assets").is_dir() else []
+        if extra:
+            errs.append(f"the icon holds other assets: {extra}")
     if not MARK.exists() or not filecmp.cmp(MARK, ROOT / "web" / "src" / "mark.svg", shallow=False):
         errs.append("the Mark image set is not web/src/mark.svg byte for byte")
     else:
         props = json.loads((MARK.parent / "Contents.json").read_text(encoding="utf-8")).get("properties", {})
         if props != {"preserves-vector-representation": True, "template-rendering-intent": "template"}:
             errs.append(f"the Mark image set's properties are {props}")
-    rep.check("icon: the pinned 1024 x 1024 sRGB PNG with no alpha, the only image in AppIcon; the mark is web/src/mark.svg, vector, template",
-              errs, ICON_SHA256[:12])
+    rep.check("icon: AppIcon.icon alone, one glass layer drawn from web/src/mark.svg, in Light, Dark and Tinted; the mark is "
+              "web/src/mark.svg, vector, template", errs)
 
     # the house rules in the app's own text files
     errs = []

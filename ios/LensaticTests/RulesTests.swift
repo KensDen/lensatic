@@ -238,7 +238,7 @@ final class RulesTests: XCTestCase {
         let authored = #"{"status":"authored","verifiedOn":null,"method":"synthesis","basisIds":["x"],"note":""}"#
         let list = steps.enumerated().map { #"{"order":\#($0.offset + 1),"title":"Step \#($0.offset + 1)","layerId":"\#($0.element)","entityIds":["x"],"text":"t","verification":\#(authored)}"# }
         let para = paragraph.map { "\"\($0)\"" } ?? "null"
-        let json = #"{"id":"other","title":"T","shortTitle":"T","whoYouAre":"W.","cardLine":"C","steps":[\#(list.joined(separator: ","))],"pillarView":null,"paragraph":\#(para),"verification":\#(authored)}"#
+        let json = #"{"id":"state-local","title":"T","shortTitle":"T","whoYouAre":"W.","cardLine":"C","steps":[\#(list.joined(separator: ","))],"pillarView":null,"paragraph":\#(para),"verification":\#(authored)}"#
         return try Strict.decode(Door.self, from: Data(json.utf8))
     }
 

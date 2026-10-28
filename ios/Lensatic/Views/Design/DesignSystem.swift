@@ -45,7 +45,7 @@ enum DS {
     static let readerLead = font(Typo.sansSemi, 16, .callout)
 }
 
-/// A mono caps label in a section colour: the screen's eyebrow (TAKE A BEARING, the trailhead's name, LAYER 3).
+/// A mono caps label in a section colour: the screen's eyebrow (CHOOSE A TRAILHEAD, the trailhead's name, LAYER 3).
 struct Eyebrow: View {
     let text: String
     var color: Color = Palette.secMaps
@@ -376,6 +376,12 @@ func noOrphan(_ s: String) -> String {
 
 /// A date as one unbreakable run ("9 Sep 2026"), for the lines the app composes: a date never splits across lines.
 func unbroken(_ date: String) -> String { date.replacingOccurrences(of: " ", with: "\u{00A0}") }
+
+/// Parts joined by the content's separator (" · "), each part kept whole and each dot kept with the part after it, so a
+/// line breaks only before a dot and never ends on one (R5, item 23).
+func dotted(_ parts: [String], separator: String) -> String {
+    parts.map(unbroken).joined(separator: " " + separator.trimmingCharacters(in: .whitespaces) + "\u{00A0}")
+}
 
 /// A short title with each designation kept whole ("SP 800-207", "EO 14028", "CSF 2.0"): the space between a capitalized
 /// designation and its number does not break, so a line never ends on "SP".

@@ -272,6 +272,22 @@
 .lx-name-text p:first-child { margin-top: 0; }
 .lx-name-photo { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--card-radius); }
 @media (min-width: 768px) { .lx-name-story { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; } }
+.lx-hero-grid { display: grid; gap: 0 var(--s-6); }
+.lx-hero-photo { margin: var(--s-5) 0 0; max-width: 30rem; }
+.lx-hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 40%; border: 1px solid var(--line); border-radius: var(--card-radius); }
+.lx-hero-photo figcaption { margin-top: var(--s-2); color: var(--fg-2); }
+.lx-hero-photo figcaption span { display: block; text-wrap: balance; }
+@media (min-width: 900px) {
+  .lx-hero-grid { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); grid-template-areas: "text photo" "more photo"; align-items: start; }
+  .lx-hero-text { grid-area: text; } .lx-hero-more { grid-area: more; } .lx-hero-photo { grid-area: photo; margin-top: var(--s-2); }
+  .lx-hero-photo img { aspect-ratio: auto; }
+}
+/* the banner: the photo of the compass on the open map, with Why the name over the map, on a fixed dark scrim so the
+   heading reads the same in both themes (the photo is the same in both) */
+.lx-banner { position: relative; margin: var(--s-6) 0 var(--s-4); border: 1px solid var(--line); border-radius: var(--card-radius); overflow: hidden; background: #040817; }
+.lx-banner img { display: block; width: 100%; height: clamp(15rem, 42vw, 26rem); object-fit: cover; object-position: 50% 68%; }
+.lx-banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4, 8, 23, 0.9) 0%, rgba(4, 8, 23, 0.6) 30%, rgba(4, 8, 23, 0) 55%); }
+.lx-banner .lx-name-head { position: absolute; z-index: 1; top: 0; left: 0; right: 0; margin: 0; padding: var(--s-4) var(--s-5); color: #EAF4FF; font-size: clamp(1.375rem, 3.2vw, 2rem); }
 </style>
 </head>
 <body class="lx-page lx-404">

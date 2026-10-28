@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.20",
-    "builtOn": "2026-10-27",
+    "contentVersion": "1.2.21",
+    "builtOn": "2026-10-28",
     "sources": [
       "csf20",
       "sp800-207",
@@ -215,6 +215,11 @@
         "version": "1.2.20",
         "date": "2026-10-27",
         "summary": "Each layer carries a short name and a short question for the app's stack, so all five fit on one screen, and the NSA sheet on operational technology carries a short title for the app's What Changed list. The privacy page says what the iOS app now keeps and where: the day What Changed was last cleared, in a file only the app and its widget can open, and that outside links open in Safari's viewer inside the app."
+      },
+      {
+        "version": "1.2.21",
+        "date": "2026-10-28",
+        "summary": "The Everyone else trailhead becomes two: State and local government, and Industry and academia. Each borrows the same voluntary federal models from entries already on the map (CSF 2.0, SP 800-207, the CISA maturity model, SP 800-53 or the CIS Controls, the SP 1800-35 practice guide, and the AI RMF for AI systems), and neither has a deadline, since no source on the map binds either. Industry and academia adds a step for the clause a government contract names, and keeps the two contract cases. Nothing else on the stack changes. Why the name tells the compass's story in the maker's own words, beside a new photo of it on a world map. The app's short notes write dates in the app's own style (17 Jul 2026). What Changed in the app now shows what moved in the world by default, with source checks behind a switch, and the privacy page says the app keeps the day the list was last viewed. The glossary adds GPS, which the story names."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -228,7 +233,7 @@
       "builtWith": "Built with Claude and Claude Code, reviewed by a human who owns the mistakes.",
       "nameStory": [
         "A lensatic compass is the Army's field compass. You sight a landmark through its lens, read the bearing off the dial, and move out knowing which way you're headed. Lensatic does the same for the framework stack: find where you stand, see which framework applies, and take a bearing on what comes next.",
-        "I learned land navigation with one in the Army and have kept it for more than 20 years. This one is mine."
+        "I learned land navigation with this compass in the Army and carried it on deployments around the world. GPS did most of the work, but this rode on my gear for the day the tech failed or got jammed. It never needed batteries, and it never lost the signal. More than 20 years later, it still points north. That's the idea behind this app: when the noise gets loud, go back to the fundamentals that hold."
       ]
     },
     "licenses": {
@@ -554,7 +559,7 @@
         }
       ],
       "note": "The implementing directive-type memorandum (DTM) 25-003 carries a printed expiry of 17 July 2026; on 17 September 2026 the issuance library still listed it with that expiry and no cancellation, extension or successor, and no replacement instruction was found, so the FY2027 deadline rests on the strategy and the roadmap. Operational technology has its own activities and outcomes, listed at this layer as a separate entry.",
-      "shortNote": "The implementing memo, DTM 25-003, printed an expiry of 17 July 2026 and no successor was found, so the FY2027 deadline rests on the strategy and the roadmap."
+      "shortNote": "The implementing memo, DTM 25-003, printed an expiry of 17 Jul 2026 and no successor was found, so the FY2027 deadline rests on the strategy and the roadmap."
     },
     {
       "id": "cisa-ztmm",
@@ -961,7 +966,7 @@
         }
       },
       "note": "The program launched on 1 March 2024 after a nine-month pilot. The command that launched CORA was later designated a subordinate unified command under section 1502 of the FY2025 NDAA and renamed the DoD Cyber Defense Command (DCDC) by the Secretary. The release does not connect CORA to zero trust; the stack places it at layer 5 because it is the department's operational readiness assessment of its networks, renamed from the Command Cyber Readiness Inspection. The verbs at this layer differ: the {{dow}} CIO's zero trust portfolio office conducted one purple team test of a solution against the zero trust activities and sponsored a second, and its execution roadmap names validating that solutions meet the activities as the aim of assessment; CORA assesses the cyber readiness of {{dow}} networks for the commanders and directors of their areas of operation. Wording settled by the owner's ruling of 17 September 2026: Framework Maps calls CORA a readiness assessment, not an inspection, because the launch release says the program moved from an inspection compliance mindset to an operational readiness mindset (https://www.dcdc.mil/News-Information/DCDC-News/Article-Display/Article/3689211/jfhq-dodin-to-officially-launch-its-new-cyber-operational-readiness-assessment/).",
-      "shortNote": "Launched 1 March 2024 and renamed from the Command Cyber Readiness Inspection. Its launch release does not connect it to zero trust."
+      "shortNote": "Launched 1 Mar 2024 and renamed from the Command Cyber Readiness Inspection. Its launch release does not connect it to zero trust."
     },
     {
       "id": "rmf-ato",
@@ -1215,7 +1220,7 @@
         "recheckAfter": "2026-11-15"
       },
       "note": "Placed in the AI column as a quick-start guide rather than a framework. Its comment period closed on 15 October 2026, and it was still the initial public draft on 18 October 2026.",
-      "shortNote": "A quick-start guide, not a framework. Its comment period closed on 15 October 2026, and it was still the initial public draft on 18 October.",
+      "shortNote": "A quick-start guide, not a framework. Its comment period closed on 15 Oct 2026, and it was still the initial public draft on 18 October.",
       "authority": {
         "nature": "guidance",
         "binds": [
@@ -1526,7 +1531,7 @@
         }
       },
       "note": "Commonly called CMMC 2.0. Level 1 is a self-assessment against the 15 requirements of FAR 52.204-21. Level 2 covers the 110 requirements of SP 800-171 Revision 2 and under the rule is either self-assessed or certified by a C3PAO, as the contract specifies. Level 3 adds 24 requirements from SP 800-172 and under the rule is assessed by the government's DCMA DIBCAC. The department's suspension of 13 July 2026 (listed under documents, with the memoranda and the class deviation that carries it into contracts) limits new CMMC requirements to Level 1 and Level 2 self-assessments, has Level 2 C3PAO and Level 3 DIBCAC requirements removed from active solicitations and, before the next option is exercised or at the next scheduled administrative modification, from existing contracts, and leaves the DFARS 252.204-7012 obligation in place; no task force report had been published by 30 September 2026.",
-      "shortNote": "Since the 13 July 2026 suspension, new CMMC requirements stop at Level 1 and Level 2 self-assessments; DFARS 252.204-7012 still applies.",
+      "shortNote": "Since the 13 Jul 2026 suspension, new CMMC requirements stop at Level 1 and Level 2 self-assessments; DFARS 252.204-7012 still applies.",
       "documents": [
         {
           "title": "Cybersecurity Maturity Model Certification (CMMC) Program",
@@ -3879,7 +3884,7 @@
       "id": "defense-contractor",
       "title": "Defense contractor handling controlled unclassified information (CUI)",
       "shortTitle": "Defense Contractor with CUI",
-      "whoYouAre": "You are a contractor or subcontractor that handles controlled unclassified information for a {{dow}} customer. If you hold only federal contract information, the Federal Acquisition Regulation (FAR) basic safeguarding clause, 52.204-21 (52.240-93 in contracts written under the FAR overhaul deviations), sets your 15 requirements; if you hold controlled unclassified information for a civilian agency, that agency's own contract clauses name the requirements; the Everyone else trailhead covers both cases.",
+      "whoYouAre": "You are a contractor or subcontractor that handles controlled unclassified information for a {{dow}} customer. If you hold only federal contract information, the Federal Acquisition Regulation (FAR) basic safeguarding clause, 52.204-21 (52.240-93 in contracts written under the FAR overhaul deviations), sets your 15 requirements; if you hold controlled unclassified information for a civilian agency, that agency's own contract clauses name the requirements; the Industry and Academia trailhead covers both cases.",
       "cardLine": "SP 800-171, CMMC",
       "pillarView": null,
       "paragraph": null,
@@ -3995,30 +4000,297 @@
       }
     },
     {
-      "id": "other",
-      "title": "Everyone else",
-      "shortTitle": "Everyone Else",
-      "whoYouAre": "You are a company, a state or local government, a university, or anyone else with no federal mandate to meet.",
-      "cardLine": "State, local, company, university",
-      "pillarView": null,
-      "paragraph": "Nothing on this stack binds you by its own force; a government contract can, and the two cases below say how. Use the Cybersecurity Framework (CSF) 2.0 from the National Institute of Standards and Technology (NIST) to say what good looks like, NIST Special Publication (SP) 800-207 to define zero trust, the zero trust maturity model of the Cybersecurity and Infrastructure Security Agency (CISA) to set a target (its four stages are public and written to be borrowed), and SP 800-53, or a smaller catalog such as the Center for Internet Security (CIS) Controls, for controls. If a customer or regulator names a framework, start from that one and work up and down the stack from there. Verification is whoever checks your evidence: an internal audit, a certifier, or a customer assessment; the layer 5 entries here are federal. If you hold federal contract information or controlled unclassified information for a government customer, the two cases below say what applies; if you hold controlled unclassified information under a {{dow}} contract, start at the contractor trailhead.",
-      "steps": [],
+      "id": "state-local",
+      "title": "State and local government",
+      "shortTitle": "State and Local Government",
+      "whoYouAre": "You run or build systems for a state or local government, and nothing on this stack binds you by its own force. The steps borrow the federal models that are written to be borrowed.",
+      "cardLine": "CSF 2.0, CISA ZTMM",
+      "pillarView": "cisa",
+      "paragraph": null,
+      "steps": [
+        {
+          "order": 1,
+          "title": "Say what good looks like with CSF 2.0",
+          "layerId": "l1",
+          "entityIds": [
+            "csf20"
+          ],
+          "text": "Use the Cybersecurity Framework (CSF) 2.0 from the National Institute of Standards and Technology (NIST) to say what good looks like. It is voluntary for you, and a Current Profile beside a Target Profile puts the gap in the outcome language leadership fund against.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "csf20"
+            ],
+            "note": "Synthesis of the cited entries' direction into one step (R5, 28 October 2026). Voluntary outside the executive branch is the entry's authority note; the two Profiles and the gap between them follow the helper's answer on what to do first."
+          }
+        },
+        {
+          "order": 2,
+          "title": "Define zero trust with SP 800-207",
+          "layerId": "l2",
+          "entityIds": [
+            "sp800-207"
+          ],
+          "text": "Use NIST Special Publication (SP) 800-207 for what zero trust means, so the program is an architecture and not a product list. It was written for federal information systems, and nothing in it binds you.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "sp800-207"
+            ],
+            "note": "Synthesis of the cited entries' direction into one step (R5, 28 October 2026). The entry's authority record: developed under FISMA for federal information systems, and voluntary for nongovernmental organizations."
+          }
+        },
+        {
+          "order": 3,
+          "title": "Set a target on the CISA maturity model",
+          "layerId": "l3",
+          "entityIds": [
+            "cisa-ztmm"
+          ],
+          "text": "Place yourself on the zero trust maturity model from the Cybersecurity and Infrastructure Security Agency (CISA), pillar by pillar across its four stages. It was written for federal civilian agencies, and CISA says all organizations should review and consider adopting it.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "cisa-ztmm"
+            ],
+            "note": "Synthesis of the cited entries' direction into one step (R5, 28 October 2026). The invitation to all organizations is the model's page 4, as the entry's authority record quotes it, re-read on 30 September 2026."
+          }
+        },
+        {
+          "order": 4,
+          "title": "Choose a control catalog",
+          "layerId": "l4",
+          "entityIds": [
+            "sp800-53"
+          ],
+          "text": "Select controls from SP 800-53, which anyone outside the federal government may use voluntarily, or from a smaller catalog such as the Center for Internet Security (CIS) Controls, so the target maps to controls someone can test.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "sp800-53"
+            ],
+            "note": "Synthesis of the cited entries' direction into one step (R5, 28 October 2026). Voluntary use outside the federal government is the entry's authority note. The smaller catalog, the CIS Controls, is the control catalog that the helper's answer on where other frameworks land and the glossary's CIS entry describe, as the Everyone Else trailhead named it."
+          }
+        },
+        {
+          "order": 5,
+          "title": "See a working build in SP 1800-35",
+          "layerId": "l4",
+          "entityIds": [
+            "sp1800-35"
+          ],
+          "text": "Use the NIST practice guide SP 1800-35 to see how the SP 800-207 model becomes a working build, from example implementations mapped to common standards. It binds no one and adds no controls.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "sp1800-35"
+            ],
+            "note": "Synthesis of the cited entries' direction into one step (R5, 28 October 2026). The entry's one-line description and authority note."
+          }
+        },
+        {
+          "order": 6,
+          "title": "Manage AI risk with the AI RMF",
+          "when": "If you build or use AI systems",
+          "layerId": "l6",
+          "entityIds": [
+            "ai-rmf"
+          ],
+          "text": "If you build or use AI systems, add the NIST AI Risk Management Framework (AI RMF), which is voluntary for all organizations; the AI column shows where the rest of the stack meets AI.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "ai-rmf"
+            ],
+            "note": "Synthesis of the cited entries' direction into one step (R5, 28 October 2026). Voluntary for all organizations is the entry's authority record."
+          }
+        }
+      ],
       "verification": {
         "status": "authored",
         "verifiedOn": null,
         "method": "synthesis",
         "basisIds": [
+          "csf20",
+          "sp800-207",
+          "cisa-ztmm",
+          "sp800-53",
+          "sp1800-35",
+          "ai-rmf"
+        ],
+        "note": "Synthesis of who the trailhead is for, from the cited entries' own applicability statements (R5, 28 October 2026): each binds federal agencies or is voluntary, and none names a state or local government. The Everyone Else trailhead, which this one and Industry and Academia replace, said the same."
+      }
+    },
+    {
+      "id": "industry-academia",
+      "title": "Industry and academia",
+      "shortTitle": "Industry and Academia",
+      "whoYouAre": "You are a company, a university or another organization outside government, and nothing on this stack binds you by its own force; a government contract can, and the two cases below say how. If you hold controlled unclassified information under a {{dow}} contract, start at the contractor trailhead.",
+      "cardLine": "CSF 2.0, SP 800-171",
+      "pillarView": "cisa",
+      "paragraph": null,
+      "steps": [
+        {
+          "order": 1,
+          "title": "Say what good looks like with CSF 2.0",
+          "layerId": "l1",
+          "entityIds": [
+            "csf20"
+          ],
+          "text": "Use the Cybersecurity Framework (CSF) 2.0 from the National Institute of Standards and Technology (NIST) to say what good looks like. It is voluntary for you, and a Current Profile beside a Target Profile puts the gap in the outcome language leadership and customers fund against.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "csf20"
+            ],
+            "note": "Synthesis of the cited entries' direction into one step (R5, 28 October 2026). Voluntary outside the executive branch is the entry's authority note; the two Profiles and the gap between them follow the helper's answer on what to do first."
+          }
+        },
+        {
+          "order": 2,
+          "title": "Define zero trust with SP 800-207",
+          "layerId": "l2",
+          "entityIds": [
+            "sp800-207"
+          ],
+          "text": "Use NIST Special Publication (SP) 800-207 for what zero trust means, so the program is an architecture and not a product list. It was written for federal information systems, and nothing in it binds you.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "sp800-207"
+            ],
+            "note": "Synthesis of the cited entries' direction into one step (R5, 28 October 2026). The entry's authority record: developed under FISMA for federal information systems, and voluntary for nongovernmental organizations."
+          }
+        },
+        {
+          "order": 3,
+          "title": "Set a target on the CISA maturity model",
+          "layerId": "l3",
+          "entityIds": [
+            "cisa-ztmm"
+          ],
+          "text": "Place yourself on the zero trust maturity model from the Cybersecurity and Infrastructure Security Agency (CISA), pillar by pillar across its four stages. It was written for federal civilian agencies, and CISA says all organizations should review and consider adopting it.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "cisa-ztmm"
+            ],
+            "note": "Synthesis of the cited entries' direction into one step (R5, 28 October 2026). The invitation to all organizations is the model's page 4, as the entry's authority record quotes it, re-read on 30 September 2026."
+          }
+        },
+        {
+          "order": 4,
+          "title": "Choose a control catalog",
+          "layerId": "l4",
+          "entityIds": [
+            "sp800-53"
+          ],
+          "text": "Select controls from SP 800-53, which anyone outside the federal government may use voluntarily, or from a smaller catalog such as the Center for Internet Security (CIS) Controls, so the target maps to controls someone can test.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "sp800-53"
+            ],
+            "note": "Synthesis of the cited entries' direction into one step (R5, 28 October 2026). Voluntary use outside the federal government is the entry's authority note. The smaller catalog, the CIS Controls, is the control catalog that the helper's answer on where other frameworks land and the glossary's CIS entry describe, as the Everyone Else trailhead named it."
+          }
+        },
+        {
+          "order": 5,
+          "title": "Meet the clause your contract names",
+          "when": "If a government contract hands you its information",
+          "layerId": "l4",
+          "entityIds": [
+            "sp800-171",
+            "cmmc20"
+          ],
+          "text": "If a government contract hands you federal contract information or controlled unclassified information, the contract's clause sets your requirements: the Federal Acquisition Regulation (FAR) basic safeguarding clause for the first, normally a revision of SP 800-171 for the second, and the Cybersecurity Maturity Model Certification (CMMC) only on a {{dow}} contract that carries its clause. The two cases below say which applies.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "sp800-171",
+              "cmmc20"
+            ],
+            "note": "Synthesis of the trailhead's two cases into one step (R5, 28 October 2026): the FAR clause, SP 800-171 and the CMMC condition are each case's own text and verification records, unchanged."
+          }
+        },
+        {
+          "order": 6,
+          "title": "See a working build in SP 1800-35",
+          "layerId": "l4",
+          "entityIds": [
+            "sp1800-35"
+          ],
+          "text": "Use the NIST practice guide SP 1800-35 to see how the SP 800-207 model becomes a working build, from example implementations mapped to common standards. It binds no one and adds no controls.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "sp1800-35"
+            ],
+            "note": "Synthesis of the cited entries' direction into one step (R5, 28 October 2026). The entry's one-line description and authority note."
+          }
+        },
+        {
+          "order": 7,
+          "title": "Manage AI risk with the AI RMF",
+          "when": "If you build or use AI systems",
+          "layerId": "l6",
+          "entityIds": [
+            "ai-rmf"
+          ],
+          "text": "If you build or use AI systems, add the NIST AI Risk Management Framework (AI RMF), which is voluntary for all organizations; the AI column shows where the rest of the stack meets AI.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "ai-rmf"
+            ],
+            "note": "Synthesis of the cited entries' direction into one step (R5, 28 October 2026). Voluntary for all organizations is the entry's authority record."
+          }
+        }
+      ],
+      "verification": {
+        "status": "authored",
+        "verifiedOn": null,
+        "method": "synthesis",
+        "basisIds": [
+          "ai-rmf",
           "cisa-ztmm",
           "cmmc20",
           "cora",
           "csf20",
           "dod-zt-strategy",
           "rmf-ato",
+          "sp1800-35",
           "sp800-171",
           "sp800-207",
           "sp800-53"
         ],
-        "note": "Owner's synthesis of who the trailhead is for, from the cited entries' own applicability statements. The smaller catalog it names, the CIS Controls, is the control catalog that the helper's answer on where other frameworks land and the glossary's CIS entry describe."
+        "note": "Synthesis of who the trailhead is for, from the cited entries' own applicability statements (R5, 28 October 2026), as the Everyone Else trailhead it replaces said it; its two cases are that trailhead's, unchanged."
       },
       "landings": [
         {
@@ -5225,6 +5497,22 @@
       }
     },
     {
+      "term": "GPS",
+      "forms": [
+        "GPS"
+      ],
+      "wellKnown": true,
+      "expansion": "Global Positioning System",
+      "oneLine": "The United States-owned utility that provides positioning, navigation and timing services; the U.S. Space Force operates and maintains it.",
+      "entityIds": [],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-10-28",
+        "method": "primary-fetch",
+        "note": "Expansion and meaning read on 28 October 2026 on the government's GPS site (https://www.gps.gov/), which names the Global Positioning System (GPS) a U.S.-owned utility providing positioning, navigation, and timing services, operated and maintained by the U.S. Space Force."
+      }
+    },
+    {
       "term": "H.R.",
       "forms": [
         "H.R."
@@ -6010,7 +6298,7 @@
       "skip": "Skip to content",
       "sectionsNav": "Sections",
       "backToTop": "Back to top",
-      "audience": "For anyone handed a framework, a maturity model, or a zero trust deadline and asked where it fits: federal civilian agencies, {{dow}} components, defense contractors, and anyone else borrowing the United States federal models. Start at the trailhead that describes you.",
+      "audience": "For anyone handed a framework, a maturity model, or a zero trust deadline and asked where it fits: federal civilian agencies, {{dow}} components, defense contractors, and the state and local governments, companies and universities that borrow the United States federal models. Start at the trailhead that describes you.",
       "pillarView": "Pillar view",
       "expandAll": "Expand all",
       "collapseAll": "Collapse all",
@@ -6064,7 +6352,7 @@
       "footerLicenses": "All rights reserved · Fonts OFL",
       "whyName": "Why 'Lensatic'?",
       "whyNameHeading": "Why 'Lensatic'",
-      "aboutPhotoAlt": "My lensatic compass, open, with the sighting wire raised.",
+      "aboutPhotoAlt": "My lensatic compass, open on a world map, with its lanyard coiled around it.",
       "footerNav": "Policies and source",
       "sourceCode": "Source code",
       "releasedOn": "released",
@@ -6110,8 +6398,8 @@
         "Framework Maps runs entirely on your device. The iOS app and the web page carry all of their content with them. Once open, the web page needs no connection, and a saved copy works offline.",
         "Framework Maps makes no network requests. Once the web page is open it loads no scripts, fonts, images or data from anywhere, and the iOS app itself does not connect to the internet: a link you open in it loads in Safari's viewer, as the paragraph on outside links says.",
         "There is no account and nothing to sign in to.",
-        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web pages keep is your theme choice (system, light or dark), saved in your browser's local storage under the one key lensatic-theme, on your device and never sent anywhere. The iOS app keeps, on your device only, the trailhead you picked, the steps you checked off, the items you saved, the guide weeks you marked done, and the day you last cleared What Changed with the content release it then showed. They sit in one file in a space on the device that only the app and its own home screen widget can open (an App Group), and the file is never sent anywhere. The widget reads it to show your next step and your next deadline; if you ask Siri or Shortcuts for your next step, the app answers from the same file, and Siri's own handling of your request is under Apple's privacy policy. The app lists its frameworks, plays and your trailhead's steps in your device's own search (Spotlight), which also stays on the device, and it follows your device's light or dark setting. A share card you make goes only where you send it from the share sheet.",
-        "Lensatic holds nothing about you. Deleting the iOS app removes your trailhead, checked steps, saved items, marked weeks and the day you last cleared What Changed, its widget, and its entries in your device's search; clearing this site's data in your browser removes the saved theme choice.",
+        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web pages keep is your theme choice (system, light or dark), saved in your browser's local storage under the one key lensatic-theme, on your device and never sent anywhere. The iOS app keeps, on your device only, the trailhead you picked, the steps you checked off, the items you saved, the guide weeks you marked done, and the day you last viewed What Changed with the content release it then showed. They sit in one file in a space on the device that only the app and its own home screen widget can open (an App Group), and the file is never sent anywhere. The widget reads it to show your next step and your next deadline; if you ask Siri or Shortcuts for your next step, the app answers from the same file, and Siri's own handling of your request is under Apple's privacy policy. The app lists its frameworks, plays and your trailhead's steps in your device's own search (Spotlight), which also stays on the device, and it follows your device's light or dark setting. A share card you make goes only where you send it from the share sheet.",
+        "Lensatic holds nothing about you. Deleting the iOS app removes your trailhead, checked steps, saved items, marked weeks and the day you last viewed What Changed, its widget, and its entries in your device's search; clearing this site's data in your browser removes the saved theme choice.",
         "There are no third-party software development kits (SDKs), no analytics and no advertising.",
         "In the web page and the iOS app, the only outside links go to the public documents cited in Sources, in the guide and in the playbook, and to the source repository on GitHub; both also link to this policy and the support page. The web page opens them in your browser. The iOS app opens them in Safari's viewer inside the app (SFSafariViewController): Safari loads the page, and the app cannot see the page or what you do on it. Either way the sites open under their own privacy policies. This page and the support page also link to GitHub.",
         "The Zero Trust page and the Agentic SecOps app share that one theme choice with the other Lensatic pages. A choice either of them saved earlier under its own key (ztfg-theme or playbook-theme) moves to lensatic-theme once, and the old key is removed. Both link out to their public sources.",

@@ -69,6 +69,11 @@ WAYFINDER = ("Framework Maps is a wayfinder, not a crosswalk. It guides you, sho
 OPENING = ("The public sector cyber framework landscape is thick woods: overlapping rules, shifting requirements, and a dozen "
            "trails that all look alike. Lensatic Cyber is the compass that shows where you stand and which way to head "
            "next.")
+# the compass story leads the description (R5, nits v0.5 item 17): two plain sentences in the maker's own words, the
+# second word for word from the content's Why the name; the settled opening follows it
+STORY = ("I learned land navigation with a lensatic compass in the Army, and more than 20 years later it still points north. "
+         "That's the idea behind this app: when the noise gets loud, go back to the fundamentals that hold.")
+STORY_FROM = "That's the idea behind this app: when the noise gets loud, go back to the fundamentals that hold."
 WHATS_INSIDE = "What's Inside"  # a heading, in Title Case (R4)
 KEYWORD_CANDIDATES = ("zero trust", "NIST", "CSF", "800-53", "800-207", "800-171", "CMMC", "RMF", "FedRAMP", "CISA", "compliance",
                       "cybersecurity", "federal", "framework", "controls", "reference", "governance")
@@ -197,9 +202,9 @@ def app_facts(d: dict) -> dict:
 
 
 def build_description(d: dict) -> str:
-    """The settled opening; the wayfinder line; what the app does with the map (build 2, R4); What's inside, the app's
-    own screens and features in Title Case, each with what it does, counts and names from the content; the offline line;
-    the not-affiliated sentence; the first paragraph of Why the name."""
+    """The compass story (R5); the settled opening; the wayfinder line; what the app does with the map (build 2, R4);
+    What's inside, the app's own screens and features in Title Case, each with what it does, counts and names from the
+    content; the offline line; the not-affiliated sentence. The story leads, so the closing Why the name paragraph went."""
     meta, f = d["meta"], app_facts(d)
     n = lambda k: WORDS.get(k, str(k))
     doors = ", ".join(f["doors"][:-1]) + f", or {f['doors'][-1]}"
@@ -209,7 +214,7 @@ def build_description(d: dict) -> str:
     items = [
         ("My Path", f"pick one of {n(len(f['doors']))} trailheads ({doors}) and get your frameworks in order, as steps you check off"),
         ("Countdown", "the days to your next deadline where a source dates one, each date taken from that source"),
-        ("What Changed", "what each content update changed on the map, newest first, with the steps it affects"),
+        ("What Changed", "new documents, links and deadlines in the frameworks, newest first, with each source check a tap away"),
         ("Explore", f"the stack in {n(f['layers'])} layers beside the AI column, the matrix of pillars and functions, and the "
                     f"{n(f['functions'])} functions"),
         ("Search", "one search across frameworks, path steps, the field guide, the playbook and the glossary, with results in iOS search too"),
@@ -222,9 +227,8 @@ def build_description(d: dict) -> str:
         ("Glossary", "every abbreviation spelled out, with a plain sentence on what it is"),
     ]
     inside = "\n".join([WHATS_INSIDE] + [f"- {k}: {v}" for k, v in items])
-    parts = [OPENING, as_store(resolve(d, meta["wayfinder"])), path, inside,
-             resolve(d, meta["about"]["offline"]), resolve(d, meta["about"]["notAffiliated"]),
-             as_store(resolve(d, meta["about"]["nameStory"][0]))]
+    parts = [STORY, OPENING, as_store(resolve(d, meta["wayfinder"])), path, inside,
+             resolve(d, meta["about"]["offline"]), resolve(d, meta["about"]["notAffiliated"])]
     return "\n\n".join(parts)
 
 
@@ -305,17 +309,21 @@ def check(rep) -> None:
         if listing.get(k) != PINNED[k]:
             errs.append(f"{k} is {listing.get(k)!r}, not the settled {PINNED[k]!r}")
     paras = str(listing.get("description", "")).split("\n\n")
-    if paras[0] != OPENING:
-        errs.append("the description's opening paragraph is not the settled text")
-    if len(paras) < 2 or paras[1] != as_store(WAYFINDER):
-        errs.append("the description's second paragraph is not the wayfinder line with the store name")
+    if paras[0] != STORY or len(STORY.split(". ")) != 2:
+        errs.append("the description does not open on the compass story, in two sentences")
+    if STORY_FROM not in (meta.get("about", {}).get("nameStory") or ["", ""])[1] or not STORY.endswith(STORY_FROM):
+        errs.append("the story's second sentence is not Why the name's own words")
+    if len(paras) < 2 or paras[1] != OPENING:
+        errs.append("the description's second paragraph is not the settled opening")
+    if len(paras) < 3 or paras[2] != as_store(WAYFINDER):
+        errs.append("the description's third paragraph is not the wayfinder line with the store name")
     if listing.get("promotionalText") != promotional(PITCH):
         errs.append("the promotional text is not the pitch (with the store name where it fits the limit)")
     if listing.get("promotionalText") != build_promotional(d):
         errs.append("the promotional text is not a fresh build from meta.pitch; run tools/check_listing.py --write")
     if listing.get("description") != build_description(d):
         errs.append("the description is not a fresh build from content/stack.json; run tools/check_listing.py --write")
-    rep.check("the settled text: the store name, the subtitle, the description's opening paragraph, and the tagline, pitch "
+    rep.check("the settled text: the store name, the subtitle, the compass story and the settled opening that lead the description, and the tagline, pitch "
               "and wayfinder in content; the promotional text and the description are fresh builds from the content", errs,
               f"description {len(paras)} paragraphs")
 

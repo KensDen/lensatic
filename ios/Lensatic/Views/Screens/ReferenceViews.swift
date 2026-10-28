@@ -111,6 +111,50 @@ struct SourcesListView: View {
     }
 }
 
+/// The story of the name with the maker's photo (the compass on a world map since R5): About's, and the Welcome
+/// screen's sheet's.
+struct NameStory: View {
+    let screen: AboutScreen
+
+    var body: some View {
+        if let image = UIImage(named: "about-photo.jpg") {
+            Image(uiImage: image).resizable().scaledToFit()
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(Palette.line))
+                .accessibilityLabel(Text(screen.photoAlt))
+                .accessibilityAddTraits(.isImage)
+                .accessibilityIdentifier("about-photo")
+        }
+        ForEach(screen.story, id: \.self) { ProseText(run: screen.prose[$0], font: DS.answer) }
+    }
+}
+
+/// Why "Lensatic" from the Welcome screen (R5, item 17): the compass tile opens the story as a sheet, the photo and the
+/// two paragraphs, without leaving the pick.
+struct StorySheet: View {
+    @Environment(AppModel.self) private var model
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        let s = model.screen("about") { AboutScreen(store: model.store) }
+        BottomSheet {
+            HStack(alignment: .firstTextBaseline) {
+                Text("Why \u{201C}\(s.name)\u{201D}").font(DS.sheetTitle).foregroundStyle(Palette.fg).accessibilityAddTraits(.isHeader)
+                Spacer()
+                Button { dismiss() } label: {
+                    Text("Done").font(DS.link).foregroundStyle(Palette.link).frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("story-done")
+            }
+            NameStory(screen: s)
+        }
+        // the photo and two paragraphs are longer than a phone's half sheet: the story opens at full height
+        .presentationDetents([.large])
+        .accessibilityIdentifier("story-sheet")
+    }
+}
+
 /// Why "Lensatic" (Library, Reference): the name and versions, what the map is, how it was checked, the counts, the
 /// links, and the story of the name with the maker's photo.
 struct AboutView: View {
@@ -124,8 +168,8 @@ struct AboutView: View {
     var body: some View {
         let s = model.screen("about") { AboutScreen(store: model.store) }
         DetailScreen(eyebrow: model.store.navTitle(.about), title: "Why \u{201C}\(s.name)\u{201D}", identifier: "about-screen") {
-            // the release date kept on one line (R4)
-            Text(s.version.replacingOccurrences(of: #"\b(\d{1,2}) ([A-Z][a-z]{2,8}) (\d{4})\b"#, with: "$1\u{00A0}$2\u{00A0}$3", options: .regularExpression)).font(DS.eyebrowSmall).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+            // each part kept whole, the release date with the word before it, and each dot with the part after it (R5)
+            Text(dotted(s.version.components(separatedBy: model.store.label("metaSeparator")), separator: model.store.label("metaSeparator"))).font(DS.eyebrowSmall).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
                 .accessibilityIdentifier("about-version")
             VStack(alignment: .leading, spacing: 14) {
                 // the story's heading is the screen's own title here (Why "Lensatic"), so it is not said twice (R4)
@@ -133,15 +177,7 @@ struct AboutView: View {
                     Text(s.storyHeading).font(DS.readerHeading).foregroundStyle(Palette.fg).accessibilityAddTraits(.isHeader)
                         .accessibilityIdentifier("about-name")
                 }
-                if let image = UIImage(named: "about-photo.jpg") {
-                    Image(uiImage: image).resizable().scaledToFit()
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(Palette.line))
-                        .accessibilityLabel(Text(s.photoAlt))
-                        .accessibilityAddTraits(.isImage)
-                        .accessibilityIdentifier("about-photo")
-                }
-                ForEach(s.story, id: \.self) { ProseText(run: s.prose[$0], font: DS.answer) }
+                NameStory(screen: s)
             }
             ForEach(s.paragraphs, id: \.self) { ProseText(run: s.prose[$0], font: DS.answer) }
             ForEach(s.small, id: \.self) { ProseText(run: s.prose[$0], font: DS.step, color: Palette.fg2) }

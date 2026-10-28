@@ -471,7 +471,7 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
   .lede { font-size: 9pt; margin: 0 0 3pt; }
   .stamp { font-size: 7pt; }
   .name-story { display: block; }
-  .name-photo { width: 1.6in; margin: 0 0 3pt; border: 0; border-radius: 0; }
+  .name-photo { width: 1.05in; margin: 0 0 3pt; border: 0; border-radius: 0; }  /* the portrait photo (R5) prints at the old landscape one's height */
   .view { margin-top: 0; padding: 6pt 0 4pt; }
   .sec-head { padding-bottom: 2pt; margin-bottom: 4pt; border-bottom: 0.5pt solid #999; }
   h2, h3, .matrix-caption, .sec-head { break-after: avoid-page; }
@@ -489,7 +489,7 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
   .door-meta { font-size: 6.5pt; }
   .ent > summary .badges, .ent > summary .cite { display: inline; }
   .steps { padding-left: 1.75em; }
-  .steps li { margin: 1pt 0; }
+  .steps li { margin: 0; }  /* five trailheads (R5) print in the same pages */
   .landing { margin-top: 3pt; padding: 2pt 4pt; }
   .section-x { display: block; }
   .bands { border: 0; border-radius: 0; background: none; }

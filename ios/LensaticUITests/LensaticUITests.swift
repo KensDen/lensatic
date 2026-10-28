@@ -168,7 +168,64 @@ final class LensaticUITests: XCTestCase {
 
     // MARK: the redesign
 
-    func testTheWelcomeScreenOffersTheFourTrailheads() throws {
+    /// R5 (items 11, 12, 16): the five doors, the eyebrow and the footer fit the screen with nothing to scroll, in the light
+    /// and the dark, at the default text size; the footer names Change Path.
+    func testWelcomeFitsWithoutScrolling() throws {
+        defer { XCUIDevice.shared.appearance = .light }
+        for appearance in [XCUIDevice.Appearance.light, .dark] {
+            XCUIDevice.shared.appearance = appearance
+            launch(door: nil)
+            XCTAssertTrue(element("welcome").waitForExistence(timeout: 10))
+            let window = app.windows.firstMatch.frame
+            let footer = app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'Change Path in Library'")).firstMatch
+            XCTAssertTrue(footer.exists, "the footer says where to switch paths")
+            XCTAssertTrue(app.staticTexts["CHOOSE A TRAILHEAD"].exists || app.staticTexts["Choose a trailhead"].exists, "the eyebrow")
+            for id in ["door-dow", "door-federal-civilian", "door-defense-contractor", "door-state-local", "door-industry-academia"] {
+                XCTAssertTrue(element(id).isHittable, "\(id) is on screen")
+                XCTAssertLessThanOrEqual(element(id).frame.maxY, window.maxY, id)
+            }
+            XCTAssertLessThanOrEqual(footer.frame.maxY, window.maxY, "the footer is on screen without a scroll")
+            app.terminate()
+        }
+    }
+
+    /// R5 (item 17): the compass tile opens the story of the name as a sheet, and Done closes it.
+    func testTheCompassOpensTheStory() throws {
+        launch(door: nil)
+        let tile = element("welcome-story")
+        XCTAssertTrue(tile.waitForExistence(timeout: 10))
+        XCTAssertEqual(tile.label, "Why Lensatic")
+        XCTAssertGreaterThanOrEqual(tile.frame.width, 44)
+        XCTAssertGreaterThanOrEqual(tile.frame.height, 44)
+        tile.tap()
+        XCTAssertTrue(element("story-sheet").waitForExistence(timeout: 5))
+        XCTAssertTrue(element("about-photo").exists, "the photo is in the sheet")
+        // as with the other sheets: the region is what the sheet shows (the story scrolls past its foot), and text detection
+        // is left out, since Welcome behind the sheet shows text VoiceOver does not reach while it is open
+        let sheet = app.scrollViews["story-sheet"].firstMatch
+        sleep(1)  // the sheet settles before the audit reads it (mid-animation its text reads as clipped)
+        try audit("story sheet", region: visibleRegion(sheet), types: XCUIAccessibilityAuditType.all.subtracting(.elementDetection))
+        element("story-done").tap()
+        XCTAssertTrue(element("door-dow").waitForExistence(timeout: 5))
+    }
+
+    /// R5 (item 16): each new door opens a path of real steps with the next step in the hero, no countdown.
+    func testTheNewDoorsOpenTheirPaths() throws {
+        for id in ["state-local", "industry-academia"] {
+            launch(door: nil)
+            let door = element("door-\(id)")
+            XCTAssertTrue(door.waitForExistence(timeout: 10))
+            door.tap()
+            XCTAssertTrue(element("my-path").waitForExistence(timeout: 5))
+            XCTAssertTrue(element("step-check-6").waitForExistence(timeout: 5), "\(id): six steps")
+            XCTAssertTrue(element("path-hero").label.contains("Next step"), element("path-hero").label)
+            XCTAssertFalse(element("path-hero").label.contains("days"), "no countdown: \(element("path-hero").label)")
+            try auditScreen("my-path")
+            app.terminate()
+        }
+    }
+
+    func testTheWelcomeScreenOffersTheFiveTrailheads() throws {
         launch(door: nil)
         XCTAssertTrue(element("welcome").waitForExistence(timeout: 10))
         for door in doors {
@@ -492,21 +549,21 @@ final class LensaticUITests: XCTestCase {
 
     // MARK: R3
 
-    /// What Changed shows on My Path while it has items newer than the last view, opens an item's card, and Clear puts
-    /// it away, which a relaunch remembers; the Library's list keeps every item and the day of the last view.
-    func testWhatChangedShowsUntilCleared() throws {
+    /// What Changed (R5, item 19) shows on My Path while it has news newer than the last visit, each item marked New,
+    /// and opens an item's card; the list groups by day with a plain intro, keeps the source checks behind a toggle, and a
+    /// visit puts My Path's section away, which a relaunch remembers. The Library's row then dates the latest news.
+    func testWhatChangedShowsUntilTheListIsVisited() throws {
         launch(door: "dow", checked: "1,2", ["-LensaticChangesViewed", "1.2.16"])
         XCTAssertTrue(element("my-path").waitForExistence(timeout: 10))
-        XCTAssertTrue(element("what-changed").waitForExistence(timeout: 5), "newer items show on My Path")
+        XCTAssertTrue(element("what-changed").waitForExistence(timeout: 5), "newer news shows on My Path")
         try auditScreen("my-path")  // the whole screen at the top
         let first = app.descendants(matching: .any).matching(NSPredicate(format: "identifier BEGINSWITH 'change-1.2.'")).firstMatch
         var tries = 0
         while !first.isHittable || first.frame.maxY > tabBarTop(), tries < 12 { app.scrollViews["my-path"].swipeUp(velocity: .slow); tries += 1 }
-        XCTAssertTrue(first.label.contains("affects step"), "the first item says which step it affects: \(first.label)")
+        XCTAssertTrue(first.label.hasPrefix("New"), "a new item says so: \(first.label)")
+        XCTAssertFalse(first.label.contains("affects") || first.label.contains("Layer"), first.label)
         sleep(1)  // the scroll settles before the audit reads the screen
-        // the section itself, scrolled into view. After a swipe the audit's contrast reading varies with where the scroll
-        // stops (it has flagged the 17:1 row titles and the 6.8:1 caption above them), so contrast is read where the same
-        // rows sit at rest: the Library's full list, audited below; every other check runs here
+        // contrast is read where the same rows sit at rest, on the full list below; every other check runs here
         print("AUDIT what changed: contrast read on the changes screen at rest, not after the swipe")
         try audit("what changed", region: element("what-changed").frame.intersection(visibleRegion(app.scrollViews["my-path"].firstMatch)),
                   types: XCUIAccessibilityAuditType.all.subtracting(.contrast))
@@ -514,17 +571,27 @@ final class LensaticUITests: XCTestCase {
         XCTAssertTrue(app.descendants(matching: .any).matching(NSPredicate(format: "identifier BEGINSWITH 'entity-card-'")).firstMatch
             .waitForExistence(timeout: 5), "an item opens its entry's card")
         element("card-back").tap()
-        tap("changes-clear", in: "my-path")
-        XCTAssertFalse(element("what-changed").waitForExistence(timeout: 2), "Clear puts the section away")
+        tap("changes-all", in: "my-path")
+        XCTAssertTrue(element("changes-screen").waitForExistence(timeout: 5))
+        XCTAssertEqual(element("changes-intro").label, "What moved in the frameworks, newest first.")
+        let checks = app.descendants(matching: .any).matching(NSPredicate(format: "identifier ENDSWITH '/recheck'"))
+        XCTAssertEqual(checks.count, 0, "source checks are off by default")
+        try auditScreen("changes-screen")
+        let toggle = element("changes-checks")
+        XCTAssertEqual(toggle.value as? String, "Off")
+        toggle.tap()
+        XCTAssertEqual(toggle.value as? String, "On")
+        XCTAssertTrue(checks.firstMatch.waitForExistence(timeout: 3), "the toggle shows them")
+        element("back").tap()
+        XCTAssertTrue(element("my-path").waitForExistence(timeout: 5))
+        XCTAssertFalse(element("what-changed").waitForExistence(timeout: 2), "a visit to the list puts the section away")
         app.terminate()
         launch(reset: false, door: nil)
         XCTAssertTrue(element("my-path").waitForExistence(timeout: 10))
         XCTAssertFalse(element("what-changed").waitForExistence(timeout: 2), "and it stays away after a relaunch")
         showTab("tab-library")
-        tap("library-changes", in: "library")
-        XCTAssertTrue(element("changes-screen").waitForExistence(timeout: 5), "the Library keeps the whole list")
-        XCTAssertTrue(element("changes-viewed").label.contains("Last cleared on"), element("changes-viewed").label)
-        try auditScreen("changes-screen")
+        XCTAssertTrue(element("library-changes").waitForExistence(timeout: 5))
+        XCTAssertTrue(element("library-changes").label.contains("Updated"), element("library-changes").label)
     }
 
     /// A tap on the widget opens its link, lensatic://open/step:dow:3, which opens that step on My Path (the widget's

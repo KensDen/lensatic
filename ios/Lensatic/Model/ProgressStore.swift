@@ -65,9 +65,16 @@ final class ProgressStore {
         state = ProgressStore.state(from: url.flatMap { try? Data(contentsOf: $0) })
     }
 
-    /// The saved state, or a fresh one when there is no file or it cannot be read.
+    /// The saved state, or a fresh one when there is no file or it cannot be read. A trailhead the content no longer has
+    /// (Everyone Else, "other", which content 1.2.21 split in two) is let go, so the reader picks again on the welcome
+    /// screen, once; everything else in the file (saved items, weeks, What Changed) stays.
     nonisolated static func state(from data: Data?) -> State {
-        data.flatMap { try? JSONDecoder().decode(State.self, from: $0) } ?? State()
+        var state = data.flatMap { try? JSONDecoder().decode(State.self, from: $0) } ?? State()
+        if let door = state.door, Door.ID(rawValue: door) == nil {
+            state.door = nil
+            state.checked[door] = nil
+        }
+        return state
     }
 
     /// The file the app and the widget share, after moving an earlier build's file into it; the app's own file when the

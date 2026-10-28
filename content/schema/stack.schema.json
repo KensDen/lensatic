@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:lensatic:stack.schema:1.2.20",
+  "$id": "urn:lensatic:stack.schema:1.2.21",
   "title": "Lensatic content model",
   "description": "Schema for content/stack.json, the single source of truth for Lensatic. Every rendered string lives in that file once. Prose refers to the department only through the tokens {{dow}} and {{dow.<field>}}, which render from orgs.dow.",
   "type": "object",
@@ -356,8 +356,8 @@
     },
     "doors": {
       "type": "array",
-      "minItems": 4,
-      "maxItems": 4,
+      "minItems": 5,
+      "maxItems": 5,
       "items": {
         "$ref": "#/$defs/door"
       }
@@ -1418,7 +1418,8 @@
             "federal-civilian",
             "dow",
             "defense-contractor",
-            "other"
+            "state-local",
+            "industry-academia"
           ]
         },
         "title": {
@@ -1447,7 +1448,8 @@
           "maxItems": 7,
           "items": {
             "$ref": "#/$defs/step"
-          }
+          },
+          "minItems": 4
         },
         "pillarView": {
           "enum": [
@@ -1457,7 +1459,7 @@
           ]
         },
         "paragraph": {
-          "description": "used only by the one-paragraph door",
+          "description": "a door's one paragraph in place of steps; no door uses it since content 1.2.21",
           "type": [
             "string",
             "null"

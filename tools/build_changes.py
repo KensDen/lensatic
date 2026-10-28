@@ -4,17 +4,26 @@ content diff and the verification log, never written by hand.
 
 Every content release is a version of content/stack.json in the repository's history (the last commit at each
 contentVersion), and the working tree is the release being built. Each release from FIRST on is compared with the one
-before it, entry by entry (frameworks, sources and solutions), and what a reader would want to know becomes an item:
+before it, entry by entry (frameworks, sources and solutions), and what a reader would want to know becomes an item.
 
-  added      an entry joins the map                        dated the release day
+News, what moved in the world (the R5 rules, item 19):
+  added      an entry joins the map because its publisher    dated the entry's own date (the release day when
+             put it out after the release before             the entry gives only a month or a year)
+  removed    an entry leaves the map (a source replaced or   dated the release day
+             expired)
   document   an entry gains a document                     dated the document's own date; named by its shortTitle
-  deadline   a deadline gains a date, or its date moves     dated the release day
+  deadline   a deadline's date moves, or a deadline the     dated the release day
+             publisher set after the release before appears
   link       an entry's address changes                    dated the release day
+
+Source checks, shown only when the reader asks (the app's Show Source Checks):
   status     an entry's verification status changes        dated the release day
   recheck    an entry, its authority or one of its          dated the newest of the new verifiedOn dates (the
              documents is re-verified on a later day        verification log)
 
-Wording and notes, short text for the app, roles and publishers' spellings are not items. Each item names its entry,
+The app's own additions are not news: an entry the map adds that its publisher put out long before, or a date the map
+records for a deadline its source has stated all along, makes no item. Wording and notes, short text for the app, roles
+and publishers' spellings are not items either. Each item names its entry,
 so the app can say which steps on the reader's path it affects, and its release, so the app can tell what is newer than
 the reader's last view. Items run newest release first. The output is deterministic: it depends only on the history and
 the working tree.
@@ -84,6 +93,7 @@ def verified(e: dict) -> list[str]:
 
 def diff(old: dict, new: dict, short_titles: dict[str, str]) -> list[dict]:
     rel, day = new["meta"]["contentVersion"], new["meta"]["builtOn"]
+    before = old["meta"]["builtOn"]
     a, b = entities(old), entities(new)
     items: list[dict] = []
 
@@ -94,7 +104,9 @@ def diff(old: dict, new: dict, short_titles: dict[str, str]) -> list[dict]:
     for eid, e in b.items():
         short = resolve(e["shortName"], new)
         if eid not in a:
-            item("added", eid, f"{short} joins the map", day)
+            # news only when the publisher put it out after the release before; otherwise the map is catching up
+            if (e.get("date") or "") > before:
+                item("added", eid, f"{short} joins the map", e["date"] if len(e["date"]) == 10 else day)
             continue
         was = a[eid]
         urls = {d["url"] for d in was.get("documents") or []}
@@ -106,7 +118,11 @@ def diff(old: dict, new: dict, short_titles: dict[str, str]) -> list[dict]:
                 item("document", eid, resolve(title, new), d["date"])
         due_a = ((was.get("authority", {}).get("deadline") or {}).get("due") or {})
         due_b = ((e.get("authority", {}).get("deadline") or {}).get("due") or {})
-        if due_b and due_b.get("date") != due_a.get("date"):
+        # a date that moves is news; a first date is news only when the source set it after the release before (the map
+        # recording a deadline its source has stated all along is not a change)
+        moved = due_a.get("date") and due_b.get("date") != due_a.get("date")
+        fresh = not due_a.get("date") and (e.get("date") or "") > before
+        if due_b and (moved or fresh):
             y, m, dd = (int(x) for x in due_b["date"].split("-"))
             month = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")[m - 1]
             item("deadline", eid, f"{due_b['label']} due {dd} {month} {y}", day)

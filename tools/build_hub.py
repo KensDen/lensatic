@@ -44,6 +44,11 @@ HUB = ROOT / "hub"
 SITE_JSON = HUB / "site.json"
 SHARED_CSS = HUB / "lensatic.css"
 EMBLEM = HUB / "marks" / "apt-unicorn-emblem.webp"   # the Agentic SecOps emblem, the landing's own file, resized by CSS only
+# the maker's compass photos (R5, 28 October 2026), sized, in sRGB and with every metadata segment stripped, embedded as
+# data: URIs like every other image here: the compass at an angle on a world map beside the hero's text, and the compass
+# on the open map as the banner Why the name is set over, in About
+HERO_PHOTO = HUB / "photos" / "hero.jpg"
+BANNER_PHOTO = HUB / "photos" / "banner.jpg"
 GUIDES = ROOT / "guides"
 PLAYBOOK = ROOT / "playbook"
 DOCS = ROOT / "docs"
@@ -173,7 +178,23 @@ HUB_CSS = """.lx-hero-lines { margin: var(--s-5) 0 0; padding: 0; list-style: no
 .lx-name-story { display: grid; gap: var(--s-3) var(--s-5); }
 .lx-name-text p:first-child { margin-top: 0; }
 .lx-name-photo { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--card-radius); }
-@media (min-width: 768px) { .lx-name-story { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; } }"""
+@media (min-width: 768px) { .lx-name-story { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; } }
+.lx-hero-grid { display: grid; gap: 0 var(--s-6); }
+.lx-hero-photo { margin: var(--s-5) 0 0; max-width: 30rem; }
+.lx-hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 40%; border: 1px solid var(--line); border-radius: var(--card-radius); }
+.lx-hero-photo figcaption { margin-top: var(--s-2); color: var(--fg-2); }
+.lx-hero-photo figcaption span { display: block; text-wrap: balance; }
+@media (min-width: 900px) {
+  .lx-hero-grid { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); grid-template-areas: "text photo" "more photo"; align-items: start; }
+  .lx-hero-text { grid-area: text; } .lx-hero-more { grid-area: more; } .lx-hero-photo { grid-area: photo; margin-top: var(--s-2); }
+  .lx-hero-photo img { aspect-ratio: auto; }
+}
+/* the banner: the photo of the compass on the open map, with Why the name over the map, on a fixed dark scrim so the
+   heading reads the same in both themes (the photo is the same in both) */
+.lx-banner { position: relative; margin: var(--s-6) 0 var(--s-4); border: 1px solid var(--line); border-radius: var(--card-radius); overflow: hidden; background: #040817; }
+.lx-banner img { display: block; width: 100%; height: clamp(15rem, 42vw, 26rem); object-fit: cover; object-position: 50% 68%; }
+.lx-banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4, 8, 23, 0.9) 0%, rgba(4, 8, 23, 0.6) 30%, rgba(4, 8, 23, 0) 55%); }
+.lx-banner .lx-name-head { position: absolute; z-index: 1; top: 0; left: 0; right: 0; margin: 0; padding: var(--s-4) var(--s-5); color: #EAF4FF; font-size: clamp(1.375rem, 3.2vw, 2rem); }"""
 
 
 def head(s: dict, title: str, description: str, url: str, image_alt: str) -> str:
@@ -197,17 +218,21 @@ def first_use(r: "bw.Renderer"):
     return bw.FirstUse(entries, link=False)
 
 
-def name_story(r: "bw.Renderer", about: dict) -> str:
-    """Where the name comes from, as the Framework Maps About panel tells it: its heading, the maker's compass photo and
-    meta.about.nameStory, from content/stack.json and ui.labels, never restated. The photo is web/src/about-photo.jpg
-    byte for byte, embedded as a data: URI as on the map (part of the page, not a request), with the map's alt text."""
-    data = bw.PHOTO.read_bytes()
+def photo(path: Path, cls: str, alt: str) -> str:
+    """One of the maker's photos, embedded as a data: URI (part of the page, not a request), with its true size."""
+    data = path.read_bytes()
     w, h = bw.jpeg_size(data)
-    photo = (f'<img class="lx-name-photo" src="data:image/jpeg;base64,{base64.b64encode(data).decode("ascii")}" '
-             f'alt="{r.label("aboutPhotoAlt")}" width="{w}" height="{h}">')
+    return f'<img class="{cls}" src="data:image/jpeg;base64,{base64.b64encode(data).decode("ascii")}" alt="{esc(alt)}" width="{w}" height="{h}">'
+
+
+def name_story(r: "bw.Renderer", about: dict, s: dict) -> str:
+    """Where the name comes from, as the Framework Maps About panel tells it: its heading and meta.about.nameStory, from
+    content/stack.json and ui.labels, never restated. Since R5 the heading is set over the banner, the compass on the open
+    map (hub/site.json bannerAlt); the map's About and the app keep the top-down photo beside the same story."""
     story = "".join(f"<p>{r.t(p)}</p>" for p in about["nameStory"])
-    return (f'<h3 class="lx-name-head" id="about-name">{r.label("whyNameHeading")}</h3>'
-            f'<div class="lx-name-story">{photo}<div class="lx-name-text">{story}</div></div>')
+    return (f'<div class="lx-banner">{photo(BANNER_PHOTO, "lx-banner-photo", s["bannerAlt"])}'
+            f'<h3 class="lx-name-head" id="about-name">{r.label("whyNameHeading")}</h3></div>'
+            f'<div class="lx-name-text">{story}</div>')
 
 
 def byline(s: dict) -> str:
@@ -235,14 +260,19 @@ def hub_page(s: dict, d: dict) -> str:
     kicker = " · ".join(x["name"] for x in s["sections"])
     # the eyebrow breaks only after a dot, so a phone shows whole section names and never a lone dot or name (QC, 24 October 2026)
     eyebrow = " · ".join(x["name"].replace(" ", " ") for x in s["sections"])
-    hero = (f'<header class="lx-hero"><div class="lx-wrap lx-head">{tile("lx-mark lx-tile")}'
+    # the compass beside the text (R5): two lines of its story under the photo, from hub/site.json; on a phone it follows
+    # the byline, and the section lines and the start button come after it
+    story = "".join(f"<span>{esc(x)}</span>" for x in s["heroStory"])
+    hero = (f'<header class="lx-hero"><div class="lx-wrap lx-head lx-hero-grid"><div class="lx-hero-text">{tile("lx-mark lx-tile")}'
             f'<p class="lx-eyebrow">{esc(eyebrow)}</p><h1>{esc(s["name"])}</h1>'
-            f'<p class="lx-standfirst">{esc(d["meta"]["tagline"])}</p>{byline(s)}<ul class="lx-hero-lines">{hero_lines}</ul>'
-            f'<p class="lx-actions lx-start"><a class="lx-btn" href="maps/#view-doors">{r.label("heroPrimary")}</a></p></div></header>\n')
+            f'<p class="lx-standfirst">{esc(d["meta"]["tagline"])}</p>{byline(s)}</div>'
+            f'<figure class="lx-hero-photo">{photo(HERO_PHOTO, "lx-hero-img", s["heroPhotoAlt"])}<figcaption>{story}</figcaption></figure>'
+            f'<div class="lx-hero-more"><ul class="lx-hero-lines">{hero_lines}</ul>'
+            f'<p class="lx-actions lx-start"><a class="lx-btn" href="maps/#view-doors">{r.label("heroPrimary")}</a></p></div></div></header>\n')
     sections = (f'<section class="lx-wrap lx-section" aria-labelledby="sections-h"><h2 id="sections-h" class="lx-vh">{esc(kicker)}</h2>'
                 f'<ul class="lx-tiles">{"".join(tiles)}</ul></section>\n')
     about_html = (f'<section class="lx-wrap lx-section lx-about" id="about" aria-labelledby="about-h"><h2 id="about-h">{esc(s["aboutLabel"])}</h2>'
-                  + "".join(name_story(r, about) if k == "nameStory" else f"<p>{r.t(about[k])}</p>" for k in s["aboutBlocks"]) + "</section>\n")
+                  + "".join(name_story(r, about, s) if k == "nameStory" else f"<p>{r.t(about[k])}</p>" for k in s["aboutBlocks"]) + "</section>\n")
     body = (f'<body class="lx-page">\n<a class="lx-skip" href="#main">{r.label("skip")}</a>\n{bar(s, "./", None)}\n<main id="main">\n'
             f'{fu.section(hero)}{fu.section(sections)}{fu.section(about_html)}'
             f'</main>\n{footer(s, d, "./")}\n</body>\n</html>\n')

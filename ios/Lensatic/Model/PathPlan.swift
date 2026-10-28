@@ -75,13 +75,13 @@ struct PathPlan: Sendable {
 
 extension Door.ID {
     /// Whom each trailhead speaks to, in the content's authority vocabulary (authority.binds): the deadlines that are
-    /// this path's own. Everyone Else is bound by nothing on the stack.
+    /// this path's own. State and local governments, industry and academia are bound by nothing on the stack.
     var audience: Set<Authority.Binds> {
         switch self {
         case .federalCivilian: return [.federalCivilian]
         case .dow: return [.dowComponents]
         case .defenseContractor: return [.defenseContractorsCUI, .defenseContractorsFCICUI]
-        case .other: return []
+        case .stateLocal, .industryAcademia: return []
         }
     }
 }

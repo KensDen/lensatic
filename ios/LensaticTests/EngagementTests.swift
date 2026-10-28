@@ -45,52 +45,74 @@ final class EngagementTests: XCTestCase {
         XCTAssertEqual(nsa?.date, "2026-10-08")
     }
 
-    /// Newer than the last view means a later release: never viewed shows every item, viewed through this release shows
-    /// none, and viewed through an older one shows only the releases after it.
-    func testNewItemsAreThoseOfLaterReleases() throws {
-        XCTAssertEqual(changes.new(since: nil).count, changes.items.count)
+    /// The news is what moved in the world (R5, item 19): a document, a link, a moved deadline. The source checks are
+    /// apart, and the map's own additions are not news: the two deadlines content 1.2.18 dated, which their sources have
+    /// stated all along, make no item.
+    func testTheNewsLeavesOutChecksAndTheMapsOwnAdditions() {
+        XCTAssertFalse(changes.news.isEmpty)
+        XCTAssertTrue(changes.news.allSatisfy { !$0.kind.isCheck })
+        XCTAssertFalse(changes.items.contains { $0.kind == .deadline && $0.release == "1.2.18" }, "a date the source always stated is not a change")
+        XCTAssertTrue(changes.items.contains { $0.kind == .recheck }, "the checks are still in the list, behind the toggle")
+    }
+
+    /// Newer than the last visit means a later release, and only news is ever new: never visited shows all the news,
+    /// visited at this release shows none, and visited at an older one shows only the news after it.
+    func testNewItemsAreTheNewsOfLaterReleases() throws {
+        XCTAssertEqual(changes.new(since: nil), changes.news)
         XCTAssertTrue(changes.new(since: .init(through: changes.contentVersion, on: "2026-10-27")).isEmpty)
-        let releases = changes.releases
-        XCTAssertGreaterThan(releases.count, 1)
-        let older = releases[1].release
-        let fresh = changes.new(since: .init(through: older, on: "2026-10-01"))
-        XCTAssertEqual(Set(fresh.map(\.release)), Set(releases[0].items.map(\.release)))
-        XCTAssertEqual(fresh.count, releases[0].items.count)
+        let fresh = changes.new(since: .init(through: "1.2.16", on: "2026-10-01"))
+        XCTAssertFalse(fresh.isEmpty)
+        XCTAssertTrue(fresh.allSatisfy { Changes.version("1.2.16").lexicographicallyPrecedes(Changes.version($0.release)) && !$0.kind.isCheck })
         // 1.2.10 sorts after 1.2.9: versions compare by number, not by text
         XCTAssertTrue(Changes.version("1.2.9").lexicographicallyPrecedes(Changes.version("1.2.10")))
     }
 
-    /// The line under an item says which steps on the reader's path it affects; on My Path the items that touch the
-    /// path come first.
-    func testAnItemSaysWhichStepsItAffects() throws {
+    /// Every row's line is the same three parts: the kind of change, its day, the entry's short name. On My Path the
+    /// news that touches the reader's steps comes first; the full list groups by day, newest first.
+    func testEveryRowSaysTheKindTheDayAndTheEntry() throws {
         let dow = try door(.dow)
+        let sep = store.label("metaSeparator")
         let nsa = try XCTUnwrap(changes.items.first { $0.entityId == "nsa-zt" && $0.kind == .document })
-        let steps = Changes.steps(nsa, on: dow)
-        XCTAssertFalse(steps.isEmpty, "the NSA guidance is on the department's path")
-        let line = Changes.line(nsa, door: dow, store: store)
-        XCTAssertTrue(line.hasPrefix("Published \(Rules.formatDate(nsa.date))"), "a document is dated by its publication: \(line)")
-        XCTAssertTrue(line.hasSuffix(steps.count == 1 ? "affects step \(steps[0])" : "and \(steps.last!)"), line)
-        if let check = changes.items.first(where: { $0.kind == .recheck }) {
-            XCTAssertTrue(Changes.line(check, door: dow, store: store).hasPrefix("Checked "), "a recheck is dated by its check")
+        XCTAssertEqual(Changes.line(nsa, store: store), ["New document", "8 Oct 2026", "NSA ZT guidance"].joined(separator: sep))
+        for item in changes.items {
+            let parts = Changes.line(item, store: store).components(separatedBy: sep)
+            XCTAssertEqual(parts.count, 3, item.id)
+            XCTAssertEqual(parts[1], Rules.formatDate(item.date), item.id)
+            XCTAssertEqual(parts[2], store.entities[item.entityId]?.shortName, item.id)
+            XCTAssertFalse(parts.joined().contains("Layer") || parts.joined().contains("affects"), item.id)
         }
         let ordered = changes.new(since: nil, door: dow)
-        XCTAssertEqual(ordered.count, changes.items.count)
         let on = ordered.filter { !Changes.steps($0, on: dow).isEmpty }, off = ordered.filter { Changes.steps($0, on: dow).isEmpty }
-        XCTAssertEqual(ordered, on + off, "the items on the reader's path first")
-        for group in [on, off] { XCTAssertEqual(group.map(\.date), group.map(\.date).sorted(by: >), "each newest first by its day") }
+        XCTAssertEqual(ordered, on + off, "the news on the reader's path first")
+        let days = Changes.byDay(changes.items).map(\.day)
+        XCTAssertEqual(days, days.sorted(by: >), "grouped by day, newest first")
+        XCTAssertEqual(Set(days).count, days.count, "each day once")
+        XCTAssertEqual(Changes.byDay(changes.items).flatMap(\.items).count, changes.items.count)
     }
 
-    /// A reader's first trailhead starts the list from this release; clearing it keeps the release and the day in the
-    /// progress file, and a relaunch reads them back.
-    func testFirstPickAndClearingAreKeptOnTheDevice() {
+    /// The Library's row counts the new news ("2 New"), or, with none, gives the day of the newest ("Updated 24 Oct").
+    func testTheLibraryLineCountsNewNewsOrDatesTheLatest() {
+        let fresh = changes.new(since: .init(through: "1.2.16", on: "2026-10-01")).count
+        XCTAssertEqual(changes.libraryLine(since: .init(through: "1.2.16", on: "2026-10-01")), "\(fresh) New")
+        let latest = Changes.newestFirst(changes.news).first!.date
+        let c = PathPlan.day(latest)!
+        XCTAssertEqual(changes.libraryLine(since: .init(through: changes.contentVersion, on: "2026-10-28"), today: day(latest)),
+                       "Updated \(c.day!) \(Rules.months[c.month! - 1])")
+        XCTAssertTrue(changes.libraryLine(since: .init(through: changes.contentVersion, on: "2026-10-28"), today: day("2030-01-01"))
+            .hasSuffix(" \(c.year!)"), "another year's day carries its year")
+    }
+
+    /// A reader's first trailhead starts the list from this release; a visit to the list keeps the release and the day in
+    /// the progress file, and a relaunch reads them back.
+    func testFirstPickAndAVisitAreKeptOnTheDevice() {
         let url = tempURL()
         let model = AppModel(store: store, library: library, changes: changes, progress: ProgressStore(url: url))
-        XCTAssertEqual(model.newChanges.count, changes.items.count)
+        XCTAssertEqual(model.newChanges.count, changes.news.count)
         model.choose(.dow)
         XCTAssertTrue(model.newChanges.isEmpty, "what changed before the reader arrived is not news")
         model.progress.setChangesViewed(.init(through: "1.2.16", on: "2026-10-20"))
         XCTAssertFalse(model.newChanges.isEmpty)
-        model.clearChanges()
+        model.markChangesSeen()
         XCTAssertTrue(model.newChanges.isEmpty)
         let again = ProgressStore(url: url)
         XCTAssertEqual(again.state.changesViewed?.through, changes.contentVersion)
@@ -174,7 +196,8 @@ final class EngagementTests: XCTestCase {
         XCTAssertTrue(all.isComplete)
         XCTAssertNil(all.next)
         XCTAssertEqual(all.link, DeepLink.path)
-        XCTAssertTrue(Glance(store: store, state: .init(door: "other"), today: Date()).spoken.contains("no steps"))
+        // the retired Everyone Else trailhead reads as no trailhead: the widget asks for a pick
+        XCTAssertNil(Glance(store: store, state: ProgressStore.state(from: Data(#"{"door":"other"}"#.utf8)), today: Date()).door)
     }
 
     /// The app's own links open what they name and nothing else.

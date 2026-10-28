@@ -52,7 +52,7 @@ struct LibraryView: View {
                         Divider().overlay(Palette.line)
                         ReferenceRow(title: "All Sources", detail: "\(model.store.counts[.verified] ?? 0) verified", nav: .sources, id: "library-sources")
                         Divider().overlay(Palette.line)
-                        ReferenceRow(title: "What Changed", detail: "\(model.changes.items.count) changes", nav: .changes, id: "library-changes")
+                        ReferenceRow(title: "What Changed", detail: model.changes.libraryLine(since: model.progress.state.changesViewed), nav: .changes, id: "library-changes")
                         Divider().overlay(Palette.line)
                         ReferenceRow(title: "Why \u{201C}\(model.store.content.meta.name)\u{201D}", detail: model.store.navTitle(.about), nav: .about, id: "library-about")
                     }

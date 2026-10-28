@@ -9,6 +9,8 @@ struct MyPathView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.scenePhase) private var phase
     @State private var expanded: Set<Int> = []
+    /// The contract cases opened to their whole text (R5: three lines, the rest one tap down).
+    @State private var openCases: Set<String> = []
     @State private var now = Date()
     @Environment(\.dynamicTypeSize) private var typeSize
 
@@ -33,10 +35,9 @@ struct MyPathView: View {
             VStack(alignment: .leading, spacing: 16) {
                 ScreenHeader(eyebrow: door.shortTitle, title: "My Path") {
                     Button { model.changingDoor = true } label: {
-                        Text("Change").font(DS.link).foregroundStyle(Palette.link).frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                        Text("Change Path").font(DS.link).foregroundStyle(Palette.link).frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel("Change trailhead")
                     .accessibilityIdentifier("change-door")
                 }
                 hero(door, plan, checked)
@@ -53,6 +54,13 @@ struct MyPathView: View {
                                     expand: { toggleExpanded(step.order) },
                                     open: { model.push(.entity($0)) })
                             .id("step-row-\(step.order)")
+                        }
+                    }
+                    // Industry and Academia's two contract cases (R5), under the steps
+                    if let landings = door.landings, !landings.isEmpty {
+                        VStack(alignment: .leading, spacing: 8) {
+                            SectionLabel(text: "If a contract applies")
+                            self.landings(landings)
                         }
                     }
                 }
@@ -136,7 +144,8 @@ struct MyPathView: View {
         .accessibilityIdentifier("path-hero")
     }
 
-    /// A trailhead with no ordered steps (Everyone Else): the rest of its paragraph and its two cases.
+    /// A trailhead with no ordered steps (Everyone Else until content 1.2.21; none since): the rest of its paragraph and
+    /// its cases.
     @ViewBuilder private func noPath(_ door: Door) -> some View {
         let rest = Rules.firstSentence(door.paragraph.value ?? "").rest
         VStack(alignment: .leading, spacing: 8) {
@@ -146,19 +155,35 @@ struct MyPathView: View {
                     .fixedSize(horizontal: false, vertical: true)
                     .padding(14).frame(maxWidth: .infinity, alignment: .leading).card(radius: 12)
             }
-            ForEach(door.landings ?? [], id: \.id) { landing in
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(TitleCase.apply(landing.label)).font(DS.nextTitle).foregroundStyle(Palette.fg)
-                    Text(landing.text).font(DS.step).foregroundStyle(Palette.fg2).lineSpacing(2)
-                    FlowLayout {
-                        ForEach(names(landing.entityIds), id: \.id) { e in
-                            Button { model.push(.entity(e.id)) } label: { Pill(text: e.name) }.buttonStyle(.plain)
-                        }
+            landings(door.landings ?? [])
+        }
+    }
+
+    /// A trailhead's labeled cases for readers its steps do not cover, each with the entries it names: three lines of
+    /// its text, and the rest one tap down (the brief's short text, R5).
+    @ViewBuilder private func landings(_ landings: [Door.Landing]) -> some View {
+        ForEach(landings, id: \.id) { landing in
+            VStack(alignment: .leading, spacing: 6) {
+                Text(TitleCase.apply(landing.label)).font(DS.nextTitle).foregroundStyle(Palette.fg)
+                let open = openCases.contains(landing.id)
+                Text(keepWhole(landing.text)).font(DS.step).foregroundStyle(Palette.fg2).lineSpacing(2)
+                    .lineLimit(open ? nil : 3)
+                Button {
+                    if open { openCases.remove(landing.id) } else { openCases.insert(landing.id) }
+                } label: {
+                    Text(open ? "Show Less" : "Read More").font(DS.link).foregroundStyle(Palette.link)
+                        .frame(minHeight: 44).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("case-more-\(landing.id)")
+                FlowLayout {
+                    ForEach(names(landing.entityIds), id: \.id) { e in
+                        Button { model.push(.entity(e.id)) } label: { Pill(text: e.name) }.buttonStyle(.plain)
                     }
                 }
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(14).frame(maxWidth: .infinity, alignment: .leading).card(radius: 12)
             }
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(14).frame(maxWidth: .infinity, alignment: .leading).card(radius: 12)
         }
     }
 }
@@ -267,8 +292,9 @@ struct StepRow: View {
     }
 }
 
-/// What Changed (R3; MyPath.dc.html): the content releases' items newer than the reader's last view, newest first, at
-/// most three here and every one in the Library's list. Each opens its entry's card; Clear marks them all seen.
+/// What Changed (R3; MyPath.dc.html; simplified in R5, item 19): the news newer than the reader's last visit to the
+/// list, at most three, newest first, then the way to the whole list, whose visit marks them seen. Each opens its entry's
+/// card.
 struct WhatChanged: View {
     @Environment(AppModel.self) private var model
     let items: [Changes.Item]
@@ -277,44 +303,32 @@ struct WhatChanged: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            HStack(alignment: .firstTextBaseline) {
-                SectionLabel(text: "What changed")
-                Spacer()
-                Button { model.clearChanges() } label: {
-                    Text("Clear").font(DS.link).foregroundStyle(Palette.link).frame(minWidth: 44, minHeight: 44, alignment: .trailing).contentShape(Rectangle())
-                }
+            SectionLabel(text: "What changed")
+            ForEach(items.prefix(WhatChanged.shown)) { item in ChangeRow(item: item, isNew: true) }
+            Button { model.push(.changes) } label: { ResultRow(title: "See All Changes", trailing: true) }
                 .buttonStyle(.plain)
-                .padding(.vertical, -12)
-                .accessibilityLabel("Clear What Changed")
-                .accessibilityHint("Marks these changes as seen")
-                .accessibilityIdentifier("changes-clear")
-            }
-            ForEach(items.prefix(WhatChanged.shown)) { item in ChangeRow(item: item, door: door) }
-            if items.count > WhatChanged.shown {
-                Button { model.push(.changes) } label: { ResultRow(title: "See All Changes", trailing: true) }
-                    .buttonStyle(.plain)
-                    .accessibilityIdentifier("changes-all")
-            }
+                .accessibilityIdentifier("changes-all")
         }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("what-changed")
     }
 }
 
-/// One change: a dot, what changed, and its day with the steps it affects.
+/// One change: what changed and, on one line for every row, what kind of change, its day and its entry. A change that
+/// came after the reader's last visit carries the accent dot and the word New; a seen one carries neither.
 struct ChangeRow: View {
     @Environment(AppModel.self) private var model
     let item: Changes.Item
-    let door: Door?
-    var isNew = true
+    var isNew = false
 
     var body: some View {
         Button { model.push(.entity(item.entityId)) } label: {
             HStack(alignment: .firstTextBaseline, spacing: 10) {
-                Circle().fill(isNew ? Palette.accent : Palette.lineStrong).frame(width: 8, height: 8).accessibilityHidden(true)
+                if isNew { Circle().fill(Palette.accent).frame(width: 8, height: 8).accessibilityHidden(true) }
                 VStack(alignment: .leading, spacing: 2) {
+                    if isNew { Text("New").font(DS.chip).foregroundStyle(Palette.accent) }
                     Text(keepWhole(item.title)).font(DS.layerTitle).foregroundStyle(Palette.fg)
-                    Text(keepWhole(Changes.line(item, door: door, store: model.store))).font(DS.caption).foregroundStyle(Palette.fg2)
+                    Text(metaLine).font(DS.caption).foregroundStyle(Palette.fg2)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .multilineTextAlignment(.leading)
@@ -330,31 +344,76 @@ struct ChangeRow: View {
         .accessibilityElement(children: .combine)
         .accessibilityIdentifier("change-\(item.id)")
     }
+
+    /// The line, each part kept whole so a break falls between parts, never after the separator (R5, item 23).
+    private var metaLine: String {
+        let sep = model.store.label("metaSeparator")
+        return dotted(Changes.line(item, store: model.store).components(separatedBy: sep), separator: sep)
+    }
 }
 
-/// Every change the content carries, release by release (Library, Reference), with the reader's last view.
+/// Every change the content carries, by the day each is about, newest first (Library, Reference). The news shows; the
+/// source checks join it when the reader turns on Show Source Checks. Leaving the list marks everything in it seen.
 struct ChangesListView: View {
     @Environment(AppModel.self) private var model
+    @State private var showChecks = false
+    /// What was new when the list opened: it keeps its mark while the reader is here.
+    @State private var viewedAtOpen: ProgressStore.State.ChangesViewed??
 
     var body: some View {
         let changes = model.changes
-        let fresh = Set(model.newChanges.map(\.id))
-        let sep = model.store.label("metaSeparator")
+        let viewed = viewedAtOpen ?? model.progress.state.changesViewed
+        let shown = showChecks ? changes.items : changes.news
         DetailScreen(title: "What Changed", identifier: "changes-screen") {
-            Text(viewed).font(DS.note).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
-                .accessibilityIdentifier("changes-viewed")
-            ForEach(changes.releases, id: \.release) { r in
+            Text("What moved in the frameworks, newest first.").font(DS.note).foregroundStyle(Palette.fg2)
+                .fixedSize(horizontal: false, vertical: true)
+                .accessibilityIdentifier("changes-intro")
+            // one control VoiceOver reads as a named switch: the system Toggle exposes its inner switch without a name (R5)
+            Button { showChecks.toggle() } label: {
+                HStack {
+                    Text("Show Source Checks").font(DS.summary).foregroundStyle(Palette.fg)
+                    Spacer()
+                    SwitchGlyph(isOn: showChecks)
+                }
+                .frame(minHeight: 44)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel("Show Source Checks")
+            .accessibilityValue(showChecks ? "On" : "Off")
+            .accessibilityAddTraits(.isToggle)
+            .accessibilityIdentifier("changes-checks")
+            ForEach(Changes.byDay(shown), id: \.day) { group in
                 VStack(alignment: .leading, spacing: 8) {
-                    SectionLabel(text: "Content \(r.release)\(sep)\(Rules.formatDate(r.released))", tracked: false)
-                    ForEach(Changes.newestFirst(r.items)) { item in ChangeRow(item: item, door: model.door, isNew: fresh.contains(item.id)) }
+                    SectionLabel(text: Rules.formatDate(group.day), tracked: false)
+                    ForEach(group.items) { item in ChangeRow(item: item, isNew: !item.kind.isCheck && Changes.isNew(item, since: viewed)) }
                 }
             }
         }
+        .onAppear {
+            if viewedAtOpen == nil { viewedAtOpen = .some(model.progress.state.changesViewed) }
+            #if DEBUG
+            // -LensaticSourceChecks opens the list with the checks shown, for the screenshots
+            if CommandLine.arguments.contains("-LensaticSourceChecks") { showChecks = true }
+            #endif
+        }
+        .onDisappear { model.markChangesSeen() }
     }
+}
 
-    private var viewed: String {
-        let lead = "Changes to the map, newest release first. A dot marks what is new since you last cleared the list."
-        guard let v = model.progress.state.changesViewed else { return lead }
-        return lead + "\nLast cleared on \(unbroken(Rules.formatDate(v.on))), at content \(v.through)."
+/// A switch drawn in the section's colours: the track in the Framework Maps accent when on, the strong line when off.
+/// It does not animate, so Reduce Motion has nothing to hold back.
+struct SwitchGlyph: View {
+    let isOn: Bool
+
+    var body: some View {
+        Capsule()
+            .fill(isOn ? Palette.secMaps : Palette.lineStrong)
+            .frame(width: 51, height: 31)
+            .overlay(alignment: isOn ? .trailing : .leading) {
+                Circle().fill(Palette.bg2).frame(width: 27, height: 27).padding(2).shadow(color: .black.opacity(0.15), radius: 1, y: 1)
+            }
+            .accessibilityHidden(true)
     }
 }

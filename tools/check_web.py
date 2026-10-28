@@ -104,7 +104,10 @@ LICENCE_ABOUT = ("Most of the frameworks Lensatic describes are United States go
 LICENCE_SUPPORT = "To ask about reusing Lensatic's code or text, open an issue on the same page."
 # the owner's ruling of 27 Sep 2026 (session 7D): these terms, and only these, are marked wellKnown in the glossary and
 # never spelled out on any built page; the guard reads this pin, not the content flag, so dropping the flag fails it
-WELL_KNOWN = {"AI": "artificial intelligence"}
+# R5 (28 Oct 2026): GPS joins it, so the maker's own paragraph in Why the name reads word for word (nits v0.5 item 18)
+WELL_KNOWN = {"AI": "artificial intelligence", "GPS": "Global Positioning System"}
+# the well-known terms the AI column uses and links once; GPS is plain everywhere
+WELL_KNOWN_LINKED = ("AI",)
 # the owner's ruling of 6 Oct 2026 (session 17): a well-known term links to its glossary entry in one place only, its first
 # use in the running text of the AI column, and is plain everywhere else, labels included; the guard reads this pin
 WELL_KNOWN_SECTION = "view-ai"
@@ -1075,7 +1078,7 @@ def main() -> int:
                  ("door-meta" if steps else "door-meta sentence", norm(tok_dow(d, meta_)))]
         if got != want_:
             errs.append(f"door {door['id']}: the card reads {got}, expected {want_}")
-    rep.check("doors: all four closed in the static render; each card's summary is its title, the first sentence of whom it is for, and "
+    rep.check(f"doors: all {len(d['doors'])} closed in the static render; each card's summary is its title, the first sentence of whom it is for, and "
               "its step count and the layers the steps touch (or, with no steps, its paragraph's first sentence)", errs)
 
     # session 11 (Q20, Q21, Q36)
@@ -1433,6 +1436,10 @@ def main() -> int:
         n_links = 0
         for term in WELL_KNOWN:
             href_ = f"#gl-{B.slug(term)}"
+            if term not in WELL_KNOWN_LINKED:
+                if any(n_.tag == "a" and n_.attrs.get("href") == href_ for _, node_ in chunks for n_ in walk_nodes(node_)):
+                    errs_wk.append(f"{term} links to its glossary entry; it is plain everywhere")
+                continue
             where_ = [name for name, node_ in chunks for n_ in walk_nodes(node_)
                       if n_.tag == "a" and "gl" in classes_of(n_) and n_.attrs.get("href") == href_]
             n_links += len(where_)
@@ -1445,8 +1452,8 @@ def main() -> int:
                 n_wk += 1
                 if not ok:
                     errs_wk.append(f"{name}: the first use of {term!r} in running text is not a link to its glossary entry")
-        if n_wk != len(WELL_KNOWN):
-            errs_wk.append(f"{WELL_KNOWN_SECTION}: {n_wk} well-known terms used in running text, expected {len(WELL_KNOWN)}")
+        if n_wk != len(WELL_KNOWN_LINKED):
+            errs_wk.append(f"{WELL_KNOWN_SECTION}: {n_wk} well-known terms used in running text, expected {len(WELL_KNOWN_LINKED)}")
         rep.check(f"well-known terms: only {', '.join(WELL_KNOWN)} marked; never spelled out, no parenthetical expansion in any built page; "
                   "linked to the glossary exactly once, at the first use in the AI column's running text, and plain everywhere else", errs_wk,
                   f"{len(built_pages)} pages, {n_links} glossary link{'s' if n_links != 1 else ''}, in {WELL_KNOWN_SECTION}")

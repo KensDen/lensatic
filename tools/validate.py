@@ -82,15 +82,19 @@ FONT_SHA256 = {
     "web/src/fonts/IBMPlexMono-Regular-Latin1.woff2": "e8993d946649b9d01abb1ed06d574b19d8ea3e66b5c3948602db335c44c18e56",
     "web/src/fonts/IBMPlexMono-Bold-Latin1.woff2": "e256c6e8225a8792d0274ac83ead8d668b3c0668f9bd8d36a57a56594ef777e5",
 }
-# the maker's photo beside Why the name in About (session 7D): the owner's photo, resized with sips to 1200 px on its
-# longest side at quality 30 (the highest setting under 150 KB), every metadata segment stripped; pinned by SHA-256
+# the maker's photo beside Why the name in About (session 7D; R5 since 28 October 2026, the compass top down on a world
+# map): the owner's photo, converted to sRGB and resized with sips to 1200 px on its longest side at the highest quality
+# under 150 KB, every metadata segment stripped; pinned by SHA-256
 ABOUT_PHOTO = ROOT / "web" / "src" / "about-photo.jpg"
-ABOUT_PHOTO_SHA256 = "2ebe849baba484d5d3c500a0f83740f3e6385b1afc84a6ff7268a0537b53b83c"
+ABOUT_PHOTO_SHA256 = "2a8f7d6762f59a01aa1109117924ee73d2284ed8ae6559ca546e9c1c5bef2377"
 CRITIQUE = ROOT / "critique"
 BINARY_SUFFIXES = {".png", ".jpg", ".jpeg", ".gif", ".pdf", ".ico", ".icns", ".zip", ".woff", ".woff2", ".ttf"}
 
 FUNCTION_IDS = ["GV", "ID", "PR", "DE", "RS", "RC"]
-DOOR_IDS = ["federal-civilian", "dow", "defense-contractor", "other"]
+# content 1.2.21 (R5, item 16): Everyone Else became State and Local Government and Industry and Academia
+DOOR_IDS = ["federal-civilian", "dow", "defense-contractor", "state-local", "industry-academia"]
+# the fewest ordered steps a trailhead may have: every door is a real path, never padded (R5, item 16)
+MIN_DOOR_STEPS = 4
 DOW_REQUIRED = ["current", "abbr", "statutory", "basis", "verifiedOn", "renderRule", "statusNote"]
 STATUSES = ("verified", "authored", "unverified", "conflict")
 URL_RE = re.compile(r"https?://\S+")
@@ -733,6 +737,8 @@ def main() -> int:
         steps = d.get("steps", [])
         if len(steps) > 7:
             errs.append(f"door {d.get('id')}: {len(steps)} steps, maximum 7")
+        if len(steps) < MIN_DOOR_STEPS:
+            errs.append(f"door {d.get('id')}: {len(steps)} steps, minimum {MIN_DOOR_STEPS}")
         for lnd in d.get("landings") or []:
             for e in lnd.get("entityIds", []):
                 if e not in entity_ids:
@@ -745,8 +751,8 @@ def main() -> int:
             for e in s.get("entityIds", []):
                 if e not in entity_ids:
                     errs.append(f"door {d.get('id')} step {s.get('order')}: entityId {e!r} does not resolve")
-        if d.get("id") == "other" and not d.get("paragraph"):
-            errs.append("door other: paragraph is required")
+        if not steps and not d.get("paragraph"):
+            errs.append(f"door {d.get('id')}: a door with no steps needs its paragraph")
         # content 1.2.18: the app's short titles. A trailhead's name is in Title Case; a step's title is a short
         # sentence that differs from every other step title on its trailhead; a condition starts with If
         for w in re.findall(r"[A-Za-z][\w'-]*", re.sub(r"\{\{[^}]*\}\}", "", d.get("shortTitle", ""))):
@@ -758,7 +764,7 @@ def main() -> int:
         for s in steps:
             if "when" in s and not s["when"].startswith("If "):
                 errs.append(f"door {d.get('id')} step {s.get('order')}: when must start with If")
-    rep.check("doors: at most seven steps each, every entityId and layerId resolves; short titles in Title Case, step titles distinct", errs)
+    rep.check("doors: the five trailheads, four to seven steps each, every entityId and layerId resolves; short titles in Title Case, step titles distinct", errs)
 
     # 9. sweep (plain and rot13 forms)
     terms, source_desc = load_sweep_terms()
@@ -1036,6 +1042,9 @@ def main() -> int:
                     errs.append(f"{where}.{key}: em or en dash")
                 if re.search("[\U0001F000-\U0001FAFF☀-➿️]", text):
                     errs.append(f"{where}.{key}: emoji")
+                # the app's own date style (R5, nits v0.5 item 23): a day's month in three letters, 17 Jul 2026
+                if re.search(r"\b\d{1,2} (January|February|March|April|June|July|August|September|October|November|December) \d{4}\b", text):
+                    errs.append(f"{where}.{key}: a date in full; the app writes 17 Jul 2026")
                 if not text.endswith(".") or text.endswith("..") or "  " in text or text != text.strip():
                     errs.append(f"{where}.{key}: one sentence or two, ending in one full stop, single-spaced")
                 for num in re.findall(r"\d+(?:\.\d+)*", text):
@@ -1048,8 +1057,8 @@ def main() -> int:
                     errs.append(f"{where}.{key}: {len(lines)} lines on a phone, at most {most}")
                 if len(lines) > 1 and len(lines[-1].replace(NBSP, " ").split()) < 2:
                     errs.append(f"{where}.{key}: ends on one word ({lines[-1]!r})")
-    rep.check("short text: a shortSummary on every entry and a shortNote on every long note, each in the writing rules, with no new "
-              "number, within its lines on a phone and with no one-word last line", errs,
+    rep.check("short text: a shortSummary on every entry and a shortNote on every long note, each in the writing rules and the app's "
+              "date style, with no new number, within its lines on a phone and with no one-word last line", errs,
               f"longest: summary {worst['shortSummary']} lines, note {worst['shortNote']} lines")
 
     # 18. short layer fields (content 1.2.20): every layer has a short name and a short question for the app's stack, so

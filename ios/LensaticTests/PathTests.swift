@@ -36,7 +36,9 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(p.progress([1, 2, 9]).done, 2)
         XCTAssertFalse(p.progress([1, 2, 3, 4, 5, 6]).isComplete)
         XCTAssertTrue(p.progress(Set(1...7)).isComplete)
-        let none = try plan(.other)
+        // a trailhead without steps (none ships since content 1.2.21; the model still reads one)
+        let empty = try Strict.decode(Door.self, from: Data(#"{"id":"state-local","title":"T","shortTitle":"T","whoYouAre":"W.","cardLine":"C","steps":[],"pillarView":null,"paragraph":"P.","verification":{"status":"authored","verifiedOn":null,"method":"synthesis","basisIds":["x"],"note":""}}"#.utf8))
+        let none = PathPlan(door: empty, entities: store.entities)
         XCTAssertEqual(none.progress([]), .init(done: 0, total: 0))
         XCTAssertFalse(none.progress([]).isComplete)
         XCTAssertEqual(none.progress([]).fraction, 0)
@@ -111,7 +113,8 @@ final class PathTests: XCTestCase {
         let p = try plan(.defenseContractor)
         XCTAssertTrue(p.steps.contains { $0.entityIds.contains("dod-zt-strategy") })
         XCTAssertTrue(p.deadlines.isEmpty)
-        XCTAssertTrue(try plan(.other).deadlines.isEmpty)
+        XCTAssertTrue(try plan(.stateLocal).deadlines.isEmpty)
+        XCTAssertTrue(try plan(.industryAcademia).deadlines.isEmpty)
     }
 
     func testEveryDateInTheContentIsOnTheEntryWhoseSourceStatesIt() {
@@ -134,7 +137,8 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(try plan(.dow).cardLine(today: today, labels: labels, calendar: utc), "7 steps · Target Level by FY2027")
         XCTAssertEqual(try plan(.federalCivilian).cardLine(today: today, labels: labels, calendar: utc), "7 steps · M-22-09, CISA ZTMM")
         XCTAssertEqual(try plan(.defenseContractor).cardLine(today: today, labels: labels, calendar: utc), "5 steps · SP 800-171, CMMC")
-        XCTAssertEqual(try plan(.other).cardLine(today: today, labels: labels, calendar: utc), "State, local, company, university")
+        XCTAssertEqual(try plan(.stateLocal).cardLine(today: today, labels: labels, calendar: utc), "6 steps · CSF 2.0, CISA ZTMM")
+        XCTAssertEqual(try plan(.industryAcademia).cardLine(today: today, labels: labels, calendar: utc), "7 steps · CSF 2.0, SP 800-171")
         // after Target Level's day the line falls back to the trailhead's own
         XCTAssertEqual(try plan(.dow).cardLine(today: date("2027-10-01"), labels: labels, calendar: utc),
                        "7 steps · DoD ZT Strategy, DoD ZT Roadmap")
@@ -142,7 +146,8 @@ final class PathTests: XCTestCase {
 
     func testTheTrailheadNamesAreInTitleCase() throws {
         XCTAssertEqual(store.content.doors.map(\.shortTitle),
-                       ["Federal Civilian Agency", "Department of War Component", "Defense Contractor with CUI", "Everyone Else"])
+                       ["Federal Civilian Agency", "Department of War Component", "Defense Contractor with CUI",
+                        "State and Local Government", "Industry and Academia"])
         for d in store.content.doors {
             XCTAssertEqual(TitleCase.apply(d.shortTitle), d.shortTitle, d.id.rawValue)
             XCTAssertEqual(Set(d.steps.map(\.title)).count, d.steps.count, "\(d.id.rawValue): step titles are distinct")
@@ -208,6 +213,20 @@ final class PathTests: XCTestCase {
                        .init(door: "dow", checked: ["dow": [2, 1]]))
         let (_, url) = tempStore()
         XCTAssertNil(ProgressStore(url: url).door, "no file yet")
+    }
+
+    /// R5 (item 16): a reader on Everyone Else, which content 1.2.21 split in two, picks again on the welcome screen
+    /// once, and keeps what they saved, their guide weeks and their last view of What Changed.
+    func testTheRetiredTrailheadAsksForAPickAndKeepsEverythingElse() throws {
+        let file = #"{"door":"other","checked":{"dow":[1]},"saved":["entity:csf20","play:x"],"weeks":{"core":[1]},"changesViewed":{"through":"1.2.20","on":"2026-10-27"}}"#
+        let state = ProgressStore.state(from: Data(file.utf8))
+        XCTAssertNil(state.door)
+        XCTAssertEqual(state.checked, ["dow": [1]])
+        XCTAssertEqual(state.saved, ["entity:csf20", "play:x"])
+        XCTAssertEqual(state.weeks, ["core": [1]])
+        XCTAssertEqual(state.changesViewed?.through, "1.2.20")
+        // the app reads the trailhead through Door.ID, so the welcome screen shows (RootView: no door, Welcome)
+        XCTAssertNil(state.door.flatMap(Door.ID.init(rawValue:)))
     }
 
     func testTheProgressFileIsTheTrailheadTheChecksTheSavedItemsAndTheWeeksOnly() throws {

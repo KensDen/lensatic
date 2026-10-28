@@ -171,7 +171,8 @@ final class ContentTests: XCTestCase {
 
     func testWellKnownTermsAreNeverSpelledOut() {
         let wellKnown = store.terms.filter(\.wellKnown)
-        XCTAssertEqual(wellKnown.map(\.term), ["AI"])
+        // GPS since content 1.2.21 (R5), so the maker's paragraph in Why the name reads word for word
+        XCTAssertEqual(wellKnown.map(\.term), ["AI", "GPS"])
         for t in wellKnown {
             let exp = (t.expansion ?? "").lowercased()
             for (key, prose) in screens where !key.hasPrefix("glossary") {
@@ -193,6 +194,8 @@ final class ContentTests: XCTestCase {
             if n > 0 { linked.append("\(key) \(n)") }
         }
         XCTAssertEqual(linked, ["layer \(column.id) 1"])
+        // GPS, the other well-known term, links nowhere
+        XCTAssertFalse(screens.contains { $0.1.runs.flatMap(\.segments).contains { if case .term("GPS", _, _) = $0 { return true } else { return false } } })
         // the glossary keeps its expansion
         let glossary = try XCTUnwrap(screens.first { $0.0 == "glossary" }?.1)
         XCTAssertTrue(glossary.runs.contains { $0.source.hasPrefix("artificial intelligence. ") })
@@ -281,15 +284,16 @@ final class ContentTests: XCTestCase {
         }
     }
 
-    func testPhotoIsThePinnedFileAt1200By800() throws {
+    /// The compass on a world map since R5 (Map_TopDown), 1200 px on its longest side.
+    func testPhotoIsThePinnedFileAt1200OnItsLongestSide() throws {
         let data = try Data(contentsOf: XCTUnwrap(Bundle.main.url(forResource: "about-photo", withExtension: "jpg")))
         let validator = try String(contentsOf: Repo.file("validate", "py"), encoding: .utf8)
         let pin = try XCTUnwrap(validator.firstMatch(of: /ABOUT_PHOTO_SHA256 = "([0-9a-f]{64})"/)?.1)
         XCTAssertEqual(sha256(data), String(pin))
         let image = try XCTUnwrap(UIImage(data: data))
-        XCTAssertEqual(image.size.width * image.scale, 1200)
-        XCTAssertEqual(image.size.height * image.scale, 800)
-        XCTAssertEqual(store.label("aboutPhotoAlt"), "My lensatic compass, open, with the sighting wire raised.")
+        XCTAssertEqual(image.size.width * image.scale, 1166)
+        XCTAssertEqual(image.size.height * image.scale, 1200)
+        XCTAssertEqual(store.label("aboutPhotoAlt"), "My lensatic compass, open on a world map, with its lanyard coiled around it.")
     }
 
     func testEveryFaceIsRegistered() {

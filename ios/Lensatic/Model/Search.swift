@@ -26,17 +26,21 @@ struct SearchIndex: Sendable {
         let aliases: [String]
         /// The rest of the item's words, matched weakly.
         let body: String
+        /// The running text a result's excerpt is drawn from: a chapter's or a play's prose, never its tables, link
+        /// lists or figures, so a source row (an address, an archive note) is never shown as an excerpt (R5, item 23).
+        let prose: String
         let opens: Opens
         /// Every field folded once, when the index is built, so a keystroke only compares.
         let folded: Folded
 
-        init(kind: Kind, id: String, title: String, subtitle: String, aliases: [String], body: String, opens: Opens) {
+        init(kind: Kind, id: String, title: String, subtitle: String, aliases: [String], body: String, prose: String? = nil, opens: Opens) {
             self.kind = kind
             self.id = id
             self.title = title
             self.subtitle = subtitle
             self.aliases = aliases
             self.body = body
+            self.prose = prose ?? body
             self.opens = opens
             folded = Folded(title: SearchIndex.fold(title), aliases: aliases.map(SearchIndex.fold), subtitle: SearchIndex.fold(subtitle),
                             body: SearchIndex.fold(body))
@@ -79,12 +83,14 @@ struct SearchIndex: Sendable {
         }
         for c in library.guide.chapters {
             out.append(Item(kind: .guide, id: "chapter:\(c.id)", title: c.displayTitle, subtitle: library.site.guideName, aliases: [c.part].compactMap { $0 },
-                            body: ([c.summary ?? ""] + c.blocks.map(\.searchText)).joined(separator: " "), opens: .nav(.chapter(c.id))))
+                            body: ([c.summary ?? ""] + c.blocks.map(\.searchText)).joined(separator: " "),
+                            prose: ([c.summary ?? ""] + c.blocks.map(\.proseText)).joined(separator: " "), opens: .nav(.chapter(c.id))))
         }
         for g in library.plays.groups {
             for p in library.plays(in: g) {
                 out.append(Item(kind: .play, id: "play:\(p.id)", title: p.name, subtitle: g.label, aliases: [p.title],
-                                body: ([p.subtitle, p.summary ?? ""] + p.blocks.map(\.searchText)).joined(separator: " "), opens: .nav(.play(p.id))))
+                                body: ([p.subtitle, p.summary ?? ""] + p.blocks.map(\.searchText)).joined(separator: " "),
+                                prose: ([p.subtitle, p.summary ?? ""] + p.blocks.map(\.proseText)).joined(separator: " "), opens: .nav(.play(p.id))))
             }
         }
         for t in store.terms {
@@ -150,13 +156,13 @@ struct SearchIndex: Sendable {
         return total
     }
 
-    /// For a chapter or a play matched in its body rather than its title, the words around the first match, so a
-    /// result says why it is there.
+    /// For a chapter or a play matched in its body rather than its title, the words around the first match in its
+    /// prose, so a result says why it is there; none when the words match only in a table, a link or a figure.
     static func excerpt(_ item: Item, query: String, width: Int = 90) -> String? {
         guard item.kind == .guide || item.kind == .play else { return nil }
         let words = fold(query).split(separator: " ").map(String.init)
         guard let first = words.first, !words.allSatisfy({ item.folded.title.contains($0) }) else { return nil }
-        let body = item.body as NSString
+        let body = item.prose as NSString
         let hit = body.range(of: first, options: [.caseInsensitive, .diacriticInsensitive])
         guard hit.location != NSNotFound else { return nil }
         var start = max(0, hit.location - width / 3), end = min(body.length, hit.location + width)

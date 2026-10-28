@@ -78,10 +78,11 @@ final class AppModel {
 
     // MARK: What Changed
 
-    /// The items newer than the reader's last view, newest first: My Path shows them until the reader clears them.
+    /// The news newer than the reader's last visit to What Changed: My Path shows it until the reader opens the list.
     var newChanges: [Changes.Item] { changes.new(since: progress.state.changesViewed, door: door) }
 
-    func clearChanges() {
+    /// The reader has seen the list: everything in this release is no longer new (kept with the day, on the device).
+    func markChangesSeen() {
         progress.viewChanges(through: changes.contentVersion, on: Changes.today())
     }
 

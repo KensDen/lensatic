@@ -423,7 +423,9 @@ enum PillarView: String, Decodable, Sendable, Hashable, CaseIterable {
 
 struct Door: Decodable, Sendable {
     enum ID: String, Decodable, Sendable {
-        case federalCivilian = "federal-civilian", dow, defenseContractor = "defense-contractor", other
+        case federalCivilian = "federal-civilian", dow, defenseContractor = "defense-contractor"
+        /// Everyone Else until content 1.2.21 (R5), now two trailheads; a progress file that names it re-picks.
+        case stateLocal = "state-local", industryAcademia = "industry-academia"
     }
 
     struct Step: Decodable, Sendable {

@@ -95,12 +95,26 @@ final class LibraryTests: XCTestCase {
     }
 
     func testAChapterOrPlayFoundInItsBodySaysWhy() throws {
-        let hit = try XCTUnwrap(index.search("overlays").first { $0.kind == .guide }?.results.first)
-        let line = try XCTUnwrap(SearchIndex.excerpt(hit, query: "overlays"))
+        // the chapter that mentions the overlays in its prose says so; one that names them only in a table does not (R5)
+        let hits = try XCTUnwrap(index.search("overlays").first { $0.kind == .guide }?.results)
+        let line = try XCTUnwrap(hits.lazy.compactMap { SearchIndex.excerpt($0, query: "overlays") }.first)
         XCTAssertTrue(line.localizedCaseInsensitiveContains("overlays"), line)
         XCTAssertLessThan(line.count, 140)
         let titled = try XCTUnwrap(index.search("containment").first { $0.kind == .play }?.results.first)
         XCTAssertNil(SearchIndex.excerpt(titled, query: "containment"), "a title match needs no excerpt")
+    }
+
+    /// An excerpt comes from a chapter's or a play's prose, never a source table's row (R5, item 23): the guide's
+    /// archived-copy row is found, and says nothing of its address.
+    func testAnExcerptIsNeverASourceRow() throws {
+        let hit = try XCTUnwrap(index.search("wayback").first { $0.kind == .guide }?.results.first, "the row's words are still searched")
+        let line = SearchIndex.excerpt(hit, query: "wayback")
+        XCTAssertFalse(line?.contains("web.archive.org") ?? false, line ?? "")
+        for group in index.search("archive") {
+            for item in group.results {
+                XCTAssertFalse(SearchIndex.excerpt(item, query: "archive")?.contains("web.archive.org") ?? false, item.id)
+            }
+        }
     }
 
     func testEntryNamesShowInTitleCase() {
