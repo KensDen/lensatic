@@ -1,5 +1,7 @@
 """Curly quotes for Lensatic's own text (R6, the owner's ruling of 28 October 2026: curly quotes everywhere on the site and
-in the app). One rule, used by the content check and by tools/build_library.py for the app's guide and plays:
+in the app). One rule, used by the content check, by tools/build_library.py for the app's guide and plays, and by
+curl_html for the site's hand-edited pages (the Zero Trust guide, the Agentic SecOps diagrams and executive summary), which
+tools/check_umbrella.py holds to it on every page under docs/:
 a quote mark at the start of a text or after a space, an opening bracket, a slash or a dash opens (left quote); every
 other one closes, and a straight apostrophe inside or after a word becomes the right single quote, the apostrophe.
 Web addresses are left as they are."""
@@ -37,6 +39,58 @@ def _curl(s: str, before: str) -> str:
         else:
             chars[i] = "‘" if opening else "’"
     return "".join(chars)
+
+
+# an HTML page's prose: text outside these elements, tags, attributes and comments (the site's hand-edited pages)
+NOT_PROSE_TAGS = {"script", "style", "code", "pre", "kbd", "samp", "textarea", "template", "svg"}
+INLINE_TAGS = {"a", "abbr", "b", "bdi", "bdo", "cite", "data", "dfn", "em", "i", "mark", "q", "s", "small", "span",
+               "strong", "sub", "sup", "time", "u", "var", "tspan"}
+SVG_TEXT_TAGS = {"text", "tspan", "title", "desc"}
+TOKEN = re.compile(r"<!--[\s\S]*?-->|<![^>]*>|<[^>]*>|[^<]+")
+TAG = re.compile(r"<(/?)([A-Za-z][A-Za-z0-9-]*)")
+
+
+def curl_html(src: str) -> str:
+    """An HTML page with its prose curled and everything else (tags, attributes, comments, code, scripts, styles) byte
+    for byte. Text inside an SVG is prose only within its text, tspan, title and desc elements. A quote right after an
+    inline tag takes the text before that tag as its context; after any other tag it is at the start of a text."""
+    out, stack, before = [], [], ""
+    for m in TOKEN.finditer(src):
+        tok = m.group(0)
+        t = TAG.match(tok)
+        if tok.startswith("<"):
+            if t:
+                closing, name = t.group(1) == "/", t.group(2).lower()
+                if closing:
+                    if name in stack:
+                        while stack and stack.pop() != name:
+                            pass
+                elif not tok.endswith("/>") and name not in {"br", "hr", "img", "input", "link", "meta", "wbr", "col",
+                                                             "area", "base", "embed", "source", "track"}:
+                    stack.append(name)
+                if name not in INLINE_TAGS:
+                    before = ""
+            out.append(tok)
+            continue
+        skip = any(n in NOT_PROSE_TAGS for n in stack)
+        if skip and "svg" in stack and stack[-1] in SVG_TEXT_TAGS and not any(
+                n in NOT_PROSE_TAGS - {"svg"} for n in stack):
+            skip = False
+        if skip:
+            out.append(tok)
+            continue
+        new = curl(before + tok)[len(before):] if before else curl(tok)
+        out.append(new)
+        if tok.strip():
+            before = tok[-1]
+        elif tok:
+            before = " "
+    return "".join(out)
+
+
+def straight_html(src: str) -> int:
+    """How many straight quote marks the page's prose still holds (outside web addresses)."""
+    return sum(1 for a, b in zip(src, curl_html(src)) if a != b)
 
 
 def curl_tree(node, key: str | None = None):

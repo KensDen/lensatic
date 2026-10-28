@@ -204,7 +204,7 @@
       <div class="subtitle">A security framework for deploying autonomous AI agents in the enterprise</div>
     </div>
     <div class="tagline-wrap">
-      <div class="tagline">"Trust nothing. Verify everything. Assume breach."</div>
+      <div class="tagline">“Trust nothing. Verify everything. Assume breach.”</div>
       <div class="source"><b>Framework:</b> Anthropic, <i>Zero Trust for AI Agents</i> (eBook, 2026)<br>Visualization for the Agentic SecOps playbook · controls paraphrased from the eBook</div>
     </div>
   </header>
@@ -221,14 +221,14 @@
       </div>
       <div class="pcard">
         <div class="h">Assume breach</div>
-        <div class="b">Design while expecting compromise. Segment by identity and use fine-grained controls so compromising one system doesn't grant access to others.</div>
+        <div class="b">Design while expecting compromise. Segment by identity and use fine-grained controls so compromising one system doesn’t grant access to others.</div>
       </div>
       <div class="pcard">
         <div class="h">Least privilege → least agency</div>
-        <div class="b">OWASP's "least agency" extends least privilege to agents: constrain not just what an agent can access, but what each tool can do, how often, and where.</div>
+        <div class="b">OWASP’s “least agency” extends least privilege to agents: constrain not just what an agent can access, but what each tool can do, how often, and where.</div>
       </div>
       <div class="pcard test">
-        <div class="h">Design test: "impossible, not tedious"</div>
+        <div class="h">Design test: “impossible, not tedious”</div>
         <div class="b">Friction-only controls (rate limits, extra hops, non-standard ports, SMS MFA) degrade against agentic attackers with unlimited patience and near-zero per-attempt cost. Prefer a control that removes a capability over one that throttles it.</div>
       </div>
 
@@ -236,7 +236,7 @@
         <div class="colhead">Why now</div>
         <div class="stat"><span class="n">months&nbsp;→&nbsp;hours</span><span class="d">Frontier AI compresses the vulnerability-to-exploit timeline, at a marginal cost measured in dollars.</span></div>
         <div class="stat"><span class="n">250 docs</span><span class="d">Enough malicious documents to backdoor LLMs from 600M to 13B parameters, surviving safety training.</span></div>
-        <div class="stat"><span class="n">50% → &lt;2%</span><span class="d">Indirect-injection success after Microsoft's spotlighting clearly delimits untrusted content.</span></div>
+        <div class="stat"><span class="n">50% → &lt;2%</span><span class="d">Indirect-injection success after Microsoft’s spotlighting clearly delimits untrusted content.</span></div>
         <div class="stat"><span class="n">95%</span><span class="d">Jailbreak attempts blocked by constitutional classifiers, with minimal over-refusal.</span></div>
       </div>
     </aside>
@@ -244,7 +244,7 @@
     <!-- ============ CENTER: CAPABILITY MATRIX ============ -->
     <main class="rev" style="animation-delay:.14s">
       <div class="colhead">Capability Matrix: 3 Tiers × 7 Domains</div>
-      <div class="matrix-meta">Each tier builds on the one before it: advancing means strengthening controls, not replacing them. "Skip one capability and attackers exploit the gap."</div>
+      <div class="matrix-meta">Each tier builds on the one before it: advancing means strengthening controls, not replacing them. “Skip one capability and attackers exploit the gap.”</div>
       <div class="matrix">
         <!-- header row -->
         <div class="mh corner"><span>Control&nbsp;domain</span></div>
@@ -294,7 +294,7 @@
         <div class="cell e"><b>Formal governance framework</b> with cross-functional stakeholder oversight.</div>
         <div class="cell a"><b>Continuous enforcement</b> with automated compliance checking in deployment pipelines.</div>
 
-        <div class="matrix-note">Identity comes first: without verifiable identity you can't enforce access, keep meaningful audit trails, or attribute actions. The <b>Foundation floor has risen</b>: static API keys and SMS MFA no longer qualify, even at the entry tier.</div>
+        <div class="matrix-note">Identity comes first: without verifiable identity you can’t enforce access, keep meaningful audit trails, or attribute actions. The <b>Foundation floor has risen</b>: static API keys and SMS MFA no longer qualify, even at the entry tier.</div>
       </div>
     </main>
 
@@ -323,7 +323,7 @@
         <div class="b">RAG / vector-DB poisoning, shared-context attacks in multi-tenant setups, and gradual long-term memory drift.</div>
       </div>
 
-      <div class="rising"><b>The floor keeps rising.</b> Expect today's Advanced tier to become Enterprise standard as the space evolves, and Enterprise to become Foundation. Architect for breach from day one.</div>
+      <div class="rising"><b>The floor keeps rising.</b> Expect today’s Advanced tier to become Enterprise standard as the space evolves, and Enterprise to become Foundation. Architect for breach from day one.</div>
     </aside>
   </div>
 
@@ -348,7 +348,7 @@
   </div>
 
   <footer class="rev" style="animation-delay:.30s">
-    <div class="l"><b>Source &amp; accuracy:</b> framework, tiers, domains, threats and phases are from Anthropic's <i>Zero Trust for AI Agents</i> eBook (2026); cell text is paraphrased. Note: Anthropic's short blog summary labels the tiers "Foundation / Advanced / Optimized," but the eBook body, the authoritative implementation tables shown here, uses <b>Foundation / Enterprise / Advanced</b>. This is an original visualization, not Anthropic's official graphic.<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
+    <div class="l"><b>Source &amp; accuracy:</b> framework, tiers, domains, threats and phases are from Anthropic’s <i>Zero Trust for AI Agents</i> eBook (2026); cell text is paraphrased. Note: Anthropic’s short blog summary labels the tiers “Foundation / Advanced / Optimized,” but the eBook body, the authoritative implementation tables shown here, uses <b>Foundation / Enterprise / Advanced</b>. This is an original visualization, not Anthropic’s official graphic.<div class="copy">© 2026 Ken Connell. All rights reserved.</div></div>
     <div class="r"><span class="badge">AGENTIC SECOPS</span><br><br>Lensatic · Playbook</div>
   </footer>
 

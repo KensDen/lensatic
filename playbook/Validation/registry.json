@@ -31,7 +31,7 @@
  "claims": [
   {"id": "C01", "fact": "the Department of War's designation and the D.C. Circuit's ruling (Round H, D003): one dated, neutral sentence at every site", "sites": "RES:3:13, ES:S13, TAB:federal:B9, TAB:federal:B10",
    "detect": "designat\\w*\\s+(?:Anthropic|the vendor)\\s+(?:as\\s+)?a\\s+supply[- ]chain risk|D\\.C\\. Circuit[^.]{0,60}(?:Anthropic|vendor)",
-   "canonical": ["[Oo]n March 3, 2026 the Department of War designated (?:Anthropic|the vendor) a supply chain risk, and on September 25, 2026 the D\\.C\\. Circuit denied (?:Anthropic's|the vendor's) petitions for review\\."]},
+   "canonical": ["[Oo]n March 3, 2026 the Department of War designated (?:Anthropic|the vendor) a supply chain risk, and on September 25, 2026 the D\\.C\\. Circuit denied (?:Anthropic['’]s|the vendor['’]s) petitions for review\\."]},
   {"id": "C02", "fact": "the Federal & DoW tab (Federal & DoD before v5.2.2) is named in full (Round H, N16 and N17)", "detect": "\\bFederal tabs?\\b|\\(see Federal\\)"},
   {"id": "C03", "fact": "the Frontier AI & Government tab is named in full (Round H, N18)", "detect": "\\bFrontier tabs?\\b|\\(see Frontier\\)"},
   {"id": "C04", "fact": "the Tools & Tech Stack tab is named in full (Round H, N19)", "detect": "\\bTools tabs?\\b|\\(see Tools\\)"},

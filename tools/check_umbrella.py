@@ -16,6 +16,8 @@ own, and the field system that ties the sections together.
   loads       the hub, the guides index, the map, privacy, support and the Zero Trust guide load nothing from another
               origin (no remote script, stylesheet, image, font, frame or import)
   dashes      no em or en dash in any file the umbrella wrote (hub/, the umbrella's tools, its published pages)
+  quotes      the prose of every HTML page under docs/ uses curly quotes (tools/typography.py), code, attributes,
+              scripts and styles aside
   counts      the hub's Agentic SecOps counts equal the canon playbook/Validation/ripple_check.cjs derives
   sitemap     docs/sitemap.xml lists the hub, the map, the guides index, the Zero Trust guide, the landing and the app
   sweep       with LENSATIC_PRIVATE_SWEEP set to the owner's private list, no term appears in a file the umbrella wrote
@@ -38,6 +40,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 import build_web as bw  # noqa: E402
 import build_hub as bh  # noqa: E402
 import validate as V  # noqa: E402  (the battery's report format)
+import typography  # noqa: E402
 
 DOCS = ROOT / "docs"
 TMP = ROOT / ".tmp"
@@ -243,6 +246,16 @@ def main() -> int:
                 if DASH.search(line):
                     errs.append(f"{rel}:{ln}")
     rep.check("dashes: no em or en dash in any file the umbrella wrote", errs, f"{len(UMBRELLA_WRITTEN)} files")
+
+    # ---- quotes
+    errs = []
+    pages = sorted(DOCS.rglob("*.html"))
+    for p in pages:
+        n = typography.straight_html(p.read_text(encoding="utf-8"))
+        if n:
+            errs.append(f"{p.relative_to(ROOT)}: {n} straight quote mark(s); curl its source with tools/typography.py curl_html")
+    rep.check("quotes: the prose of every page under docs/ uses curly quotes (code, attributes, scripts and styles aside)", errs,
+              f"{len(pages)} pages")
 
     # ---- counts
     errs = []
