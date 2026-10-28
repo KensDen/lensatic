@@ -594,7 +594,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [CISA: CI Fortify: Advice for Isolating Vital Systems (Jul 2026)](https://www.cisa.gov/resources-tools/resources/ci-fortify-advice-isolating-vital-systems)
 - [CISA: Principles for the Secure Integration of AI in OT (2025)](https://www.cisa.gov/news-events/news/new-joint-guide-advances-secure-integration-artificial-intelligence-operational-technology)
 - [Five Eyes: Careful Adoption of Agentic AI Services (May 2026)](https://www.cisa.gov/resources-tools/resources/careful-adoption-agentic-ai-services)
-- [Microsoft: A CISO's Guide to Securing AI (Federal & DIB)](https://techcommunity.microsoft.com/blog/publicsectorblog/a-cisos-guide-to-securing-ai---securing-ai-for-federal-dib-and-dow-entities/4464081)
+- [Microsoft: A CISO’s Guide to Securing AI (Federal & DIB)](https://techcommunity.microsoft.com/blog/publicsectorblog/a-cisos-guide-to-securing-ai---securing-ai-for-federal-dib-and-dow-entities/4464081)
 - [NSA AISC: AI Data Security (May 2025)](https://www.cisa.gov/resources-tools/resources/ai-data-security-best-practices-securing-data-used-train-operate-ai-systems)
 - [NSA AISC: Deploying AI Systems Securely (Apr 2024)](https://www.cisa.gov/news-events/alerts/2024/04/15/joint-guidance-deploying-ai-systems-securely)
 
@@ -614,7 +614,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Anthropic: Introducing Claude Fable 5.1 and Claude Mythos 5.1 (Sep 2026)](https://www.anthropic.com/claude-fable-and-mythos-5-1)
 - [Anthropic: LLM ATT&CK Navigator (2026)](https://www.anthropic.com/research/attack-navigator)
 - [Anthropic: Mapping a Year of AI-Enabled Threats](https://www.anthropic.com/news/AI-enabled-cyber-threats-mitre-attack)
-- [Anthropic: Measuring LLMs' impact on N-day exploits (Jun 2026)](https://www.anthropic.com/research/n-days)
+- [Anthropic: Measuring LLMs’ impact on N-day exploits (Jun 2026)](https://www.anthropic.com/research/n-days)
 - [Anthropic: Mythos Preview & Project Glasswing](https://www.anthropic.com/research/mythos-preview)
 - [Anthropic: Project Glasswing: Securing critical software for the AI era (Apr 2026)](https://www.anthropic.com/glasswing)
 - [Anthropic: Redeploying Fable 5 (Jun 2026)](https://www.anthropic.com/news/redeploying-fable-5)
@@ -643,7 +643,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Anthropic: Expanding Project Glasswing (Jun 2026)](https://www.anthropic.com/news/expanding-project-glasswing)
 - [Anthropic: Project Glasswing: An initial update (May 2026)](https://www.anthropic.com/research/glasswing-initial-update)
 - [Cotool: BlueBench (Windows Enterprise Intrusion)](https://www.cotool.ai/research/windows-enterprise-intrusion)
-- [CSA: NIST's Gödel Proof: Static Guardrails Are Insufficient (Jun 2026)](https://labs.cloudsecurityalliance.org/research/csa-research-note-nist-continuous-ai-monitoring-godel-proof/)
+- [CSA: NIST’s Gödel Proof: Static Guardrails Are Insufficient (Jun 2026)](https://labs.cloudsecurityalliance.org/research/csa-research-note-nist-continuous-ai-monitoring-godel-proof/)
 - [CSA: Project Glasswing: Discovery Outpaces Patching](https://labs.cloudsecurityalliance.org/research/csa-research-note-glasswing-ai-vuln-patching-deficit-2026060/)
 - [CSA: The AI Vulnerability Storm (VulnOps / Mythos-ready)](https://labs.cloudsecurityalliance.org/mythos-ciso/)
 - [CSO Online: When AI Safety Constrains Defenders](https://www.csoonline.com/article/4138149/when-ai-safety-constrains-defenders-more-than-attackers.html)
@@ -659,7 +659,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 
 *Context Graph*
 
-- [Foundation Capital: Context Graphs: AI's Trillion-Dollar Opportunity](https://foundationcapital.com/ideas/context-graphs-ais-trillion-dollar-opportunity)
+- [Foundation Capital: Context Graphs: AI’s Trillion-Dollar Opportunity](https://foundationcapital.com/ideas/context-graphs-ais-trillion-dollar-opportunity)
 - [SOCAutomators (Palitto): The Context Graph: The Missing System of Record for the Agentic SOC](https://socautomators.substack.com/p/deep-dive-the-context-graph-the-missing)
 
 *Disesdi*
@@ -693,7 +693,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Google DeepMind: Introducing CodeMender (Oct 2025)](https://deepmind.google/blog/introducing-codemender-an-ai-agent-for-code-security/)
 - [CSO Online: AI Red Teaming Comes of Age (2026)](https://www.csoonline.com/article/4181930/ai-red-teaming-comes-of-age.html)
 - [IBM X-Force (Patrick Fussell): The Front of the Cyber Kill Chain Just Moved (Jun 2026)](https://www.ibm.com/think/x-force/The-front-of-the-cyber-kill-chain-just-moved)
-- [Joshua Saxe: The Hard Part Isn't Building the Agent ([un]prompted 2026)](https://www.youtube.com/watch?v=rO2yA52U_i4)
+- [Joshua Saxe: The Hard Part Isn’t Building the Agent ([un]prompted 2026)](https://www.youtube.com/watch?v=rO2yA52U_i4)
 - [Matt Maisel (Sondera): Hooking Coding Agents with the Cedar Policy Language ([un]prompted 2026)](https://www.youtube.com/watch?v=m6pzrqFJ6hE)
 - [Microsoft CTI-REALM: Benchmark for CTI-to-Detection Agents](https://www.microsoft.com/en-us/security/blog/2026/03/20/cti-realm-a-new-benchmark-for-end-to-end-detection-rule-generation-with-ai-agents/)
 - [Microsoft: What Is Microsoft Entra Agent ID? (Learn, Apr 2026)](https://learn.microsoft.com/en-us/entra/agent-id/what-is-microsoft-entra-agent-id)
@@ -747,7 +747,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [CrowdStrike: 2026 Global Threat Report (Feb 2026)](https://www.crowdstrike.com/en-us/global-threat-report/)
 - [CSA + OWASP: Agentic AI Red Teaming Guide](https://cloudsecurityalliance.org/artifacts/agentic-ai-red-teaming-guide)
 - [CSA: Evaluating PyRIT for Agentic AI Red Teaming](https://cloudsecurityalliance.org/artifacts/evaluating-pyrit-for-agentic-ai-red-teaming)
-- [Gambit Security: The AI-Assisted Breach of Mexico's Government Infrastructure (Apr 2026)](https://gambit.security/ai-assisted-breach-of-mexicos-government-infrastructure)
+- [Gambit Security: The AI-Assisted Breach of Mexico’s Government Infrastructure (Apr 2026)](https://gambit.security/ai-assisted-breach-of-mexicos-government-infrastructure)
 - [Google GTIG: Adversarial Misuse of Generative AI (Jan 2025)](https://cloud.google.com/blog/topics/threat-intelligence/adversarial-misuse-generative-ai)
 - [Government of Alberta: The Velocity White Papers (open source)](https://github.com/GovAlta/the-velocity-white-papers)
 - [Mandiant: AI Risk & Resilience (special report)](https://cloud.google.com/transform/new-mandiant-report-boost-basics-with-ai-to-counter-adversaries)
@@ -816,7 +816,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 
 *Palo Alto Networks*
 
-- [Palo Alto Networks: Defender's Guide to the Frontier AI Impact on Cybersecurity (May 2026)](https://www.paloaltonetworks.com/blog/2026/05/defenders-guide-frontier-ai-impact-cybersecurity-may-2026-update/)
+- [Palo Alto Networks: Defender’s Guide to the Frontier AI Impact on Cybersecurity (May 2026)](https://www.paloaltonetworks.com/blog/2026/05/defenders-guide-frontier-ai-impact-cybersecurity-may-2026-update/)
 
 *SentinelOne*
 
