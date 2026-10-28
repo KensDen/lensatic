@@ -19,7 +19,7 @@ attributes:
 settings:
   base:
     MARKETING_VERSION: "1.0"
-    CURRENT_PROJECT_VERSION: "3"
+    CURRENT_PROJECT_VERSION: "4"
     # Xcode 27's recommended settings (R5, item 13): user script sandboxing, generated asset and string symbols, App
     # Groups registered from the entitlements, string catalogs preferred, and the C and C++ dialects its templates use
     ENABLE_USER_SCRIPT_SANDBOXING: YES

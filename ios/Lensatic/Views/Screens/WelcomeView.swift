@@ -75,12 +75,24 @@ struct WelcomeView: View {
     }
 }
 
-/// The compass in its dark tile (hub/DESIGN.md: --tile-bg, --tile-fg).
+/// The app icon's compass on the Welcome screen (R6): the site's mark (the Mark image set, web/src/mark.svg), the same
+/// drawing as the icon, at about 71% of the tile as hub/DESIGN.md sets it. Each appearance takes its icon look from the
+/// existing tokens: in light the guides green on the paper surface, as the Light icon; in dark the tile's green on the
+/// tile ground, as the Dark icon. A hairline edge keeps the tile's shape against the ground in both.
 struct MarkTile: View {
+    @Environment(\.colorScheme) private var scheme
+
     var body: some View {
-        Icon(.compass, size: 38, color: Palette.tileFg, lineWidth: 1.8)
+        let dark = scheme == .dark
+        Image("Mark")
+            .resizable()
+            .renderingMode(.template)
+            .scaledToFit()
+            .frame(width: 46, height: 46)
+            .foregroundStyle(dark ? Palette.tileFg : Palette.secGuides)
             .frame(width: 64, height: 64)
-            .background(Palette.tileBg, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .background(dark ? Palette.tileBg : Palette.bg2, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(dark ? Palette.lineStrong : Palette.line, lineWidth: 1))
             .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
     }
 }

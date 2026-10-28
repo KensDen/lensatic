@@ -42,6 +42,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "tools"))
 import build_web as B  # noqa: E402  (the department tokens, as the page renders them)
 import validate as V  # noqa: E402  (the forbidden word, the report format)
+from typography import curl  # noqa: E402  (R6: curly quotes)
 
 STORE = ROOT / "ios" / "store"  # the App Store listing moved under ios/ in the Lensatic 2.0 cleanup (18 October 2026)
 LISTING = STORE / "app-store.json"
@@ -72,9 +73,9 @@ OPENING = ("The public sector cyber framework landscape is thick woods: overlapp
 # the compass story leads the description (R5, nits v0.5 item 17): two plain sentences in the maker's own words, the
 # second word for word from the content's Why the name; the settled opening follows it
 STORY = ("I learned land navigation with a lensatic compass in the Army, and more than 20 years later it still points north. "
-         "That's the idea behind this app: when the noise gets loud, go back to the fundamentals that hold.")
-STORY_FROM = "That's the idea behind this app: when the noise gets loud, go back to the fundamentals that hold."
-WHATS_INSIDE = "What's Inside"  # a heading, in Title Case (R4)
+         "That’s the idea behind this app: when the noise gets loud, go back to the fundamentals that hold.")
+STORY_FROM = "That’s the idea behind this app: when the noise gets loud, go back to the fundamentals that hold."
+WHATS_INSIDE = "What’s Inside"  # a heading, in Title Case (R4)
 KEYWORD_CANDIDATES = ("zero trust", "NIST", "CSF", "800-53", "800-207", "800-171", "CMMC", "RMF", "FedRAMP", "CISA", "compliance",
                       "cybersecurity", "federal", "framework", "controls", "reference", "governance")
 
@@ -229,7 +230,7 @@ def build_description(d: dict) -> str:
     inside = "\n".join([WHATS_INSIDE] + [f"- {k}: {v}" for k, v in items])
     parts = [STORY, OPENING, as_store(resolve(d, meta["wayfinder"])), path, inside,
              resolve(d, meta["about"]["offline"]), resolve(d, meta["about"]["notAffiliated"])]
-    return "\n\n".join(parts)
+    return curl("\n\n".join(parts))  # curly quotes and apostrophes, as on the site and in the app (R6)
 
 
 def sheet(listing: dict) -> str:

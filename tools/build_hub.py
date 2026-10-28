@@ -44,9 +44,10 @@ HUB = ROOT / "hub"
 SITE_JSON = HUB / "site.json"
 SHARED_CSS = HUB / "lensatic.css"
 EMBLEM = HUB / "marks" / "apt-unicorn-emblem.webp"   # the Agentic SecOps emblem, the landing's own file, resized by CSS only
-# the maker's compass photos (R5, 28 October 2026), sized, in sRGB and with every metadata segment stripped, embedded as
-# data: URIs like every other image here: the compass at an angle on a world map beside the hero's text, and the compass
-# on the open map as the banner Why the name is set over, in About
+# the maker's compass photos (R5; the v1.1 set since R6, oriented to map north), cropped around the compass, sized, in sRGB
+# and with every metadata segment stripped, embedded as data: URIs like every other image here: the compass at an angle
+# on a world map beside the hero's text, and the compass on the open map as the banner Why the name is set over, in About.
+# hub/photos/close.jpg, the compass close up, is kept beside them for the social cards and is not published yet
 HERO_PHOTO = HUB / "photos" / "hero.jpg"
 BANNER_PHOTO = HUB / "photos" / "banner.jpg"
 GUIDES = ROOT / "guides"
@@ -138,14 +139,15 @@ def bar(s: dict, root: str, active: str | None, brand_mark: bool = True) -> str:
 
 
 def footer(s: dict, d: dict, root: str, licence: str | None = None, fonts: bool = False) -> str:
-    """The shared footer: the version line, the policy, support and source links, and (Lensatic 2.0.2, gauntlet question 33)
+    """The shared footer: the version line (generated since R6: the app's and the content's versions), the policy,
+    support and source links, and (Lensatic 2.0.2, gauntlet question 33)
     one rights line, "Copyright 2026 Ken Connell. All rights reserved.", linked to the root LICENSE, or to a section's
     own notice where it has one (the Zero Trust guide passes its LICENSE). With fonts, the rights line is followed by the
     typefaces' licence, for a page that names it nowhere else (the guides index, gauntlet question 30)."""
     L = d["ui"]["labels"]
     lic = licence or f'{s["repo"]}/blob/main/LICENSE'
     return ('<footer class="lx-foot"><div class="lx-foot-in">'
-            f'<p class="lx-version">{esc(s["name"])} {esc(s["version"])}, {esc(s["dateText"])}</p>'
+            f'<p class="lx-version">{esc(bw.version_line())}</p>'
             f'<ul><li><a href="{root}privacy.html">{esc(L["pagesPrivacy"])}</a></li><li><a href="{root}support.html">{esc(L["pagesSupport"])}</a></li>'
             f'<li><a href="{esc(s["repo"])}">{esc(L["sourceCode"])}</a></li></ul></div>'
             f'<div class="lx-foot-in"><p class="lx-copy">{esc(s["rights"])} <a href="{esc(lic)}">{esc(s["rightsLink"])}</a>.</p>'
@@ -192,7 +194,7 @@ HUB_CSS = """.lx-hero-lines { margin: var(--s-5) 0 0; padding: 0; list-style: no
 /* the banner: the photo of the compass on the open map, with Why the name over the map, on a fixed dark scrim so the
    heading reads the same in both themes (the photo is the same in both) */
 .lx-banner { position: relative; margin: var(--s-6) 0 var(--s-4); border: 1px solid var(--line); border-radius: var(--card-radius); overflow: hidden; background: #040817; }
-.lx-banner img { display: block; width: 100%; height: clamp(15rem, 42vw, 26rem); object-fit: cover; object-position: 50% 68%; }
+.lx-banner img { display: block; width: 100%; height: clamp(15rem, 42vw, 26rem); object-fit: cover; object-position: 0% 50%; }  /* on a phone the crop keeps the open map on the left, under the heading, and the compass to its right */
 .lx-banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4, 8, 23, 0.9) 0%, rgba(4, 8, 23, 0.6) 30%, rgba(4, 8, 23, 0) 55%); }
 .lx-banner .lx-name-head { position: absolute; z-index: 1; top: 0; left: 0; right: 0; margin: 0; padding: var(--s-4) var(--s-5); color: #EAF4FF; font-size: clamp(1.375rem, 3.2vw, 2rem); }"""
 

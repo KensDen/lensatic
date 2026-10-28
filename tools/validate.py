@@ -82,11 +82,12 @@ FONT_SHA256 = {
     "web/src/fonts/IBMPlexMono-Regular-Latin1.woff2": "e8993d946649b9d01abb1ed06d574b19d8ea3e66b5c3948602db335c44c18e56",
     "web/src/fonts/IBMPlexMono-Bold-Latin1.woff2": "e256c6e8225a8792d0274ac83ead8d668b3c0668f9bd8d36a57a56594ef777e5",
 }
-# the maker's photo beside Why the name in About (session 7D; R5 since 28 October 2026, the compass top down on a world
-# map): the owner's photo, converted to sRGB and resized with sips to 1200 px on its longest side at the highest quality
-# under 150 KB, every metadata segment stripped; pinned by SHA-256
+# the maker's photo beside Why the name in About (session 7D; since R6, 28 October 2026, the compass top down on a world
+# map, oriented to map north): the owner's photo, cropped square around the compass, scaled to 1200 px with Lanczos and a
+# light unsharp mask, in sRGB, at the highest quality that keeps the map's page under 1 MB, every metadata segment
+# stripped; pinned by SHA-256
 ABOUT_PHOTO = ROOT / "web" / "src" / "about-photo.jpg"
-ABOUT_PHOTO_SHA256 = "2a8f7d6762f59a01aa1109117924ee73d2284ed8ae6559ca546e9c1c5bef2377"
+ABOUT_PHOTO_SHA256 = "e07415c6f2ec5d0b79cbdbe0e821616444dd7a645f8b146a6a0a5ed39be668ce"
 CRITIQUE = ROOT / "critique"
 BINARY_SUFFIXES = {".png", ".jpg", ".jpeg", ".gif", ".pdf", ".ico", ".icns", ".zip", ".woff", ".woff2", ".ttf"}
 
@@ -1060,6 +1061,13 @@ def main() -> int:
     rep.check("short text: a shortSummary on every entry and a shortNote on every long note, each in the writing rules and the app's "
               "date style, with no new number, within its lines on a phone and with no one-word last line", errs,
               f"longest: summary {worst['shortSummary']} lines, note {worst['shortNote']} lines")
+
+    # 19. curly quotes (R6, the owner's ruling of 28 October 2026): no straight quote mark or apostrophe in any prose
+    # string of the content or the hub's site file, outside web addresses (tools/typography.py holds the rule)
+    import typography  # noqa: E402
+    errs = [f"content/stack.json {p_}: a straight quote mark" for p_ in typography.straight(data)]
+    errs += [f"hub/site.json {p_}: a straight quote mark" for p_ in typography.straight(json.loads((ROOT / "hub" / "site.json").read_text(encoding="utf-8")))]
+    rep.check("curly quotes: every quote mark and apostrophe in the content's and the hub's prose is curly", errs)
 
     # 18. short layer fields (content 1.2.20): every layer has a short name and a short question for the app's stack, so
     # all five layers fit on one screen at the default text size. On each card the eyebrow (number, short name and the

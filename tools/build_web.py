@@ -451,8 +451,20 @@ def umbrella_card_alt() -> str:
 
 
 def umbrella() -> dict:
-    """hub/site.json: the umbrella's sections, their addresses and the version line."""
+    """hub/site.json: the umbrella's sections and their addresses."""
     return json.loads(HUB_SITE.read_text(encoding="utf-8"))
+
+
+def version_line() -> str:
+    """The footer's version line (R6, the owner's ruling: the current app and content versions, generated, never typed):
+    the iOS app's marketing version and build from ios/project.yml, and the content version with its release day from
+    content/stack.json, as in "Lensatic app 1.0 (4), content 1.2.22, 28 Oct 2026"."""
+    yml = (ROOT / "ios" / "project.yml").read_text(encoding="utf-8")
+    mv = re.search(r'^\s*MARKETING_VERSION:\s*"?([\d.]+)"?\s*$', yml, re.M).group(1)
+    build = re.search(r'^\s*CURRENT_PROJECT_VERSION:\s*"?(\d+)"?\s*$', yml, re.M).group(1)
+    meta = json.loads((ROOT / "content" / "stack.json").read_text(encoding="utf-8"))["meta"]
+    day = fmt_date(meta["builtOn"]).replace(" ", "\u00a0")  # the date never breaks across lines
+    return f"Lensatic app {mv} ({build}), content {meta['contentVersion']}, {day}"
 
 
 def umbrella_title(d: dict) -> str:

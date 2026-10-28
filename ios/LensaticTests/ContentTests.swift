@@ -284,14 +284,14 @@ final class ContentTests: XCTestCase {
         }
     }
 
-    /// The compass on a world map since R5 (Map_TopDown), 1200 px on its longest side.
+    /// The compass on a world map (Map_TopDown, v1.1 since R6, oriented to map north), 1200 px square.
     func testPhotoIsThePinnedFileAt1200OnItsLongestSide() throws {
         let data = try Data(contentsOf: XCTUnwrap(Bundle.main.url(forResource: "about-photo", withExtension: "jpg")))
         let validator = try String(contentsOf: Repo.file("validate", "py"), encoding: .utf8)
         let pin = try XCTUnwrap(validator.firstMatch(of: /ABOUT_PHOTO_SHA256 = "([0-9a-f]{64})"/)?.1)
         XCTAssertEqual(sha256(data), String(pin))
         let image = try XCTUnwrap(UIImage(data: data))
-        XCTAssertEqual(image.size.width * image.scale, 1166)
+        XCTAssertEqual(image.size.width * image.scale, 1200)
         XCTAssertEqual(image.size.height * image.scale, 1200)
         XCTAssertEqual(store.label("aboutPhotoAlt"), "My lensatic compass, open on a world map, with its lanyard coiled around it.")
     }

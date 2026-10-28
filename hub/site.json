@@ -1,13 +1,11 @@
 {
- "about": "The umbrella's shared data: the section names, addresses and one-line descriptions, the hub's tagline, the guides list, the version line, the hub's byline, the hero's two lines of the compass story and its photo's alt text, the About banner's alt text (R5) and the order of the hub's About blocks (aboutBlocks: meta.about fields in content/stack.json; nameStory is the Framework Maps name panel, its heading and the compass photo, rendered from the same content). tools/build_hub.py builds the hub and the guides index from it, and tools/build_web.py draws the map's umbrella bar from it. The Zero Trust guide's build and the Agentic SecOps landing and app carry the same bar, and tools/check_umbrella.py holds every page to this file. Counts are never typed here: build_hub.py reads them from content/stack.json, the guides list and the Agentic SecOps sources.",
+ "about": "The umbrella’s shared data: the section names, addresses and one-line descriptions, the hub’s tagline, the guides list, the version line, the hub’s byline, the hero’s two lines of the compass story and its photo’s alt text, the About banner’s alt text (R5) and the order of the hub’s About blocks (aboutBlocks: meta.about fields in content/stack.json; nameStory is the Framework Maps name panel, its heading and the compass photo, rendered from the same content). tools/build_hub.py builds the hub and the guides index from it, and tools/build_web.py draws the map’s umbrella bar from it. The Zero Trust guide’s build and the Agentic SecOps landing and app carry the same bar, and tools/check_umbrella.py holds every page to this file. Counts are never typed here: build_hub.py reads them from content/stack.json, the guides list and the Agentic SecOps sources.",
  "name": "Lensatic",
  "site": "https://kensden.github.io/lensatic/",
  "repo": "https://github.com/KensDen/lensatic",
- "version": "2.0.3",
  "rights": "Copyright 2026 Ken Connell.",
  "rightsLink": "All rights reserved",
  "date": "2026-10-25",
- "dateText": "25 October 2026",
  "byline": {"text": "By Ken Connell", "name": "Ken Connell", "href": "https://kensden.github.io/"},
  "heroStory": ["I learned land navigation with this compass in the Army.", "More than 20 years later, it still points north."],
  "heroPhotoAlt": "My lensatic compass, open at an angle on a world map.",
@@ -56,7 +54,7 @@
    "notebook": {
     "name": "Zero Trust in the Age of AI",
     "url": "https://notebooklm.link.google/jaUFZqYbnxIe",
-    "line": "A companion NotebookLM notebook built on the guide's sources, the 2025 to 2026 guidance on AI agents and recorded talks. Anyone with the link and a Google account can read it and ask it questions."
+    "line": "A companion NotebookLM notebook built on the guide’s sources, the 2025 to 2026 guidance on AI agents and recorded talks. Anyone with the link and a Google account can read it and ask it questions."
    },
    "open": "Open the Zero Trust guide"
   }

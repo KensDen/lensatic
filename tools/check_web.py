@@ -96,12 +96,12 @@ POLICY_LINKS = ("https://kensden.github.io/lensatic/privacy.html", "https://kens
 LICENCE_FOOTER = "All rights reserved · Fonts OFL"
 LICENCE_ABOUT = ("Most of the frameworks Lensatic describes are United States government publications. Works prepared by United States "
                  "government officers and employees as part of their official duties are in the public domain in the United States. "
-                 "Lensatic's own code and text are copyright 2026 Ken Connell, all rights reserved; to ask about reusing them, open an "
+                 "Lensatic’s own code and text are copyright 2026 Ken Connell, all rights reserved; to ask about reusing them, open an "
                  "issue on the source repository. The work is published so it can be read, reviewed and used for personal study. "
                  "IBM Corp. holds the copyright in the typefaces, IBM Plex Sans and IBM Plex Mono, which "
                  "are licensed under the SIL Open Font License (OFL), version 1.1. Where a cited work is protected, its title, names and "
-                 "any short quotation remain its owner's, and the work itself is described, not reproduced.")
-LICENCE_SUPPORT = "To ask about reusing Lensatic's code or text, open an issue on the same page."
+                 "any short quotation remain its owner’s, and the work itself is described, not reproduced.")
+LICENCE_SUPPORT = "To ask about reusing Lensatic’s code or text, open an issue on the same page."
 # the owner's ruling of 27 Sep 2026 (session 7D): these terms, and only these, are marked wellKnown in the glossary and
 # never spelled out on any built page; the guard reads this pin, not the content flag, so dropping the flag fails it
 # R5 (28 Oct 2026): GPS joins it, so the maker's own paragraph in Why the name reads word for word (nits v0.5 item 18)
@@ -132,7 +132,7 @@ CITE_RULINGS = (
     ("DoD Zero Trust Strategy", "Version 1.0", "2022-10-21", "Version 1.0"),
     ("Security and Privacy Controls for Information Systems and Organizations", "Revision 5 (includes updates as of 10 December 2020)", "2020-09",
      "Revision 5 (includes updates as of 10 December 2020)"),
-    ("Improving the Nation's Cybersecurity", "Executive Order 14028", "2021-05-12", "Executive Order 14028"),
+    ("Improving the Nation’s Cybersecurity", "Executive Order 14028", "2021-05-12", "Executive Order 14028"),
     ("Implementing Suspension of CMMC Phase II (memorandum)", "Acquisition and Sustainment memorandum with Attachment 1, CMMC procedures",
      "2026-07-13", "Acquisition and Sustainment memorandum with Attachment 1, CMMC procedures"),
     ("Removing Barriers to Defense Industrial Base Expansion", "CIO memorandum", "2026-07-13", "CIO memorandum"),

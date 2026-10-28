@@ -338,7 +338,7 @@ struct SourcesSheet: View {
 
     private func checkLine(_ v: Verification) -> String {
         guard v.status == .verified, let on = v.verifiedOn else { return v.note }
-        return "Checked against the publisher's copy on \(unbroken(Rules.formatDate(on)))."
+        return "Checked against the publisher’s copy on \(unbroken(Rules.formatDate(on)))."
             + (v.recheckAfter.map { " Next check by \(unbroken(Rules.formatDate($0)))." } ?? "")
     }
 

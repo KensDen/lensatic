@@ -118,7 +118,7 @@ INFO_VALUES = {
     "CFBundleURLTypes": [{"CFBundleURLName": "io.github.kensden.lensatic", "CFBundleURLSchemes": ["lensatic"]}],
 }
 PROJECT_SETTINGS = {"PRODUCT_BUNDLE_IDENTIFIER": "io.github.kensden.lensatic", "MARKETING_VERSION": '"1.0"',
-                    "CURRENT_PROJECT_VERSION": '"3"', "TARGETED_DEVICE_FAMILY": '"1,2"', "CODE_SIGN_STYLE": "Automatic",
+                    "CURRENT_PROJECT_VERSION": '"4"', "TARGETED_DEVICE_FAMILY": '"1,2"', "CODE_SIGN_STYLE": "Automatic",
                     # Xcode 27's recommended settings (R5, item 13)
                     "xcodeVersion": '"27.1"', "BuildIndependentTargetsInParallel": "YES", "ENABLE_USER_SCRIPT_SANDBOXING": "YES",
                     "ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS": "YES", "STRING_CATALOG_GENERATE_SYMBOLS": "YES",

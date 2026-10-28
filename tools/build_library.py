@@ -42,6 +42,8 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "tools"))
+from typography import curl_tree  # noqa: E402  (R6: curly quotes in the app's copies)
 GUIDE_HTML = ROOT / "guides" / "zero-trust" / "index.html"
 JSX = ROOT / "playbook" / "Playbook" / "agentic-secops-teaming.jsx"
 GUIDE_OUT = ROOT / "guides" / "zero-trust" / "app" / "guide.json"
@@ -645,7 +647,8 @@ def build() -> tuple[dict, dict, list[str]]:
     plays = plays_wording(build_plays())
     guide, e1 = with_summaries(guide, "chapters", GUIDE_SUMMARIES)
     plays, e2 = with_summaries(plays, "plays", PLAYS_SUMMARIES)
-    return guide, plays, e1 + e2
+    # the app's copies take curly quotes and apostrophes (R6, the owner's ruling): the sections' own sources stay as written
+    return curl_tree(guide), curl_tree(plays), e1 + e2
 
 
 def main() -> int:
