@@ -3885,13 +3885,11 @@ export default function App() {
           <span style={{ fontSize: 15, fontWeight: 700, color: palette.text, letterSpacing: "-0.01em", whiteSpace: "nowrap" }}>Agentic SecOps</span>
           <span style={{ fontSize: 11, fontWeight: 700, color: palette.brand, border: `1px solid color-mix(in srgb, ${palette.brand} 33%, transparent)`, background: `color-mix(in srgb, ${palette.brand} 7%, transparent)`, padding: "1px 7px", borderRadius: 8, letterSpacing: "0.1em", marginLeft: "auto" }}>v5.4.4</span>
         </div>
-        {/* below 680px the header keeps the title, the badge, the chips and the progress row; the subtitle and the eyebrow wait for wider screens */}
-        <style>{`@media (max-width:679.98px){.pb-head-sub,.pb-head-eyebrow{display:none}}`}</style>
-        <div className="pb-head-sub" style={{ fontSize: 13, color: palette.muted, letterSpacing: "0.08em" }}>
-          A tradecraft playbook for modernizing red / blue / purple teaming through continuous, Agentic SecOps
-        </div>
-        <div className="pb-head-eyebrow" style={{ fontSize: 11, fontWeight: 700, color: palette.brand, letterSpacing: "0.14em", marginTop: 3, textTransform: "uppercase" }}>
-          Security Strategy
+        {/* below 680px the header keeps the title, the badge, the chips and the progress row; the subtitle waits for wider
+            screens. The subtitle is the hub's line for the playbook, on one line (site review, 28 October 2026) */}
+        <style>{`@media (max-width:679.98px){.pb-head-sub{display:none}}`}</style>
+        <div className="pb-head-sub" style={{ fontSize: 13, color: palette.muted, letterSpacing: "0.08em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+          A tradecraft playbook for red, blue and purple teaming in the age of Agentic AI.
         </div>
       </div>
 
@@ -3917,9 +3915,9 @@ export default function App() {
             </div>
           ))}
         </div>
-        {/* right-edge fade to hint scrollability; wider and opaque at its edge on a phone, where three whole chips can fill the strip */}
-        <style>{`@media (max-width:679.98px){.pb-navfade{width:56px!important;background:linear-gradient(90deg, transparent, var(--surface) 80%)!important}}`}</style>
-        <div className="pb-navfade" style={{ position: "absolute", top: 0, right: 0, height: "100%", width: 28, pointerEvents: "none", background: `linear-gradient(90deg, transparent, color-mix(in srgb, ${palette.surface} 94%, transparent))` }} />
+        {/* right-edge fade: a chip cut off at the edge reads as "scroll for more". Wide and opaque at its edge at every width
+            (site review, 28 October 2026; on a phone since earlier), so the cut chip fades out instead of ending abruptly */}
+        <div className="pb-navfade" style={{ position: "absolute", top: 0, right: 0, height: "100%", width: 56, pointerEvents: "none", background: "linear-gradient(90deg, transparent, var(--surface) 80%)" }} />
       </div>
 
       {/* Section progress bar: one line on wide screens; below 680px three one-line rows (count and group, bar, tab name), the same height on every tab */}
@@ -4008,8 +4006,8 @@ export default function App() {
             {["overview", "humancommand", "foundations"].includes(active) && (
               <button onClick={() => go("fluency")} title="Open the AI Fluency glossary"
                 style={{ alignSelf: "flex-start", background: "var(--sec-playbook)", border: "none", color: "var(--on-sec-playbook)", borderRadius: 100, padding: "5px 14px", fontSize: 12, fontWeight: 600, fontFamily: "inherit", letterSpacing: "0.05em", cursor: "pointer", marginBottom: 14, display: "block", textAlign: "left", lineHeight: 1.45 }}>
-                📕 New to the terms? <br />
-                Open the AI Fluency glossary →
+                📕 New to the Terms? <br />
+                Open the AI Fluency Glossary →
               </button>
             )}
             <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 22 }}>
@@ -7084,9 +7082,9 @@ export default function App() {
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             <div style={{ display: "flex", gap: 8, marginBottom: 2 }}>
               <button onClick={() => setOpenGroups(Object.fromEntries(data.groups.map((_, i) => [i, true])))}
-                style={{ background: "transparent", border: `1px solid ${palette.border}`, color: palette.muted, borderRadius: 6, padding: "4px 11px", fontSize: 11.5, fontFamily: "inherit", cursor: "pointer", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 700 }}>Expand all</button>
+                style={{ background: "transparent", border: `1px solid ${palette.border}`, color: palette.muted, borderRadius: 6, padding: "4px 11px", fontSize: 11.5, fontFamily: "inherit", cursor: "pointer", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 700 }}>Expand All</button>
               <button onClick={() => setOpenGroups({})}
-                style={{ background: "transparent", border: `1px solid ${palette.border}`, color: palette.muted, borderRadius: 6, padding: "4px 11px", fontSize: 11.5, fontFamily: "inherit", cursor: "pointer", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 700 }}>Collapse all</button>
+                style={{ background: "transparent", border: `1px solid ${palette.border}`, color: palette.muted, borderRadius: 6, padding: "4px 11px", fontSize: 11.5, fontFamily: "inherit", cursor: "pointer", letterSpacing: "0.08em", textTransform: "uppercase", fontWeight: 700 }}>Collapse All</button>
             </div>
             {data.groups.map((g, gi) => {
               const isOpen = !!openGroups[gi];
@@ -7168,7 +7166,7 @@ export default function App() {
             <nav aria-label="Next tab" style={{ display: "flex", justifyContent: "flex-end", marginTop: 28 }}>
               <button onClick={() => go(n)} data-next-tab={n}
                 style={{ minHeight: 44, display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 16px", background: "transparent", border: `1px solid ${palette.border}`, borderRadius: 6, color: palette.accent, fontSize: 14, fontWeight: 700, fontFamily: "inherit", cursor: "pointer", textAlign: "left" }}>
-                {i === allTabIds.length - 1 ? "Back to the start: " : "Next: "}{ns.label} →
+                {i === allTabIds.length - 1 ? "Back to the Start: " : "Next: "}{ns.label} →
               </button>
             </nav>
           ) : null;

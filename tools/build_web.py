@@ -38,11 +38,13 @@ import sys
 import urllib.parse
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import web_text  # noqa: E402  (the website's own wording until the next content release)
+
 ROOT = Path(__file__).resolve().parent.parent
 STACK = ROOT / "content" / "stack.json"
 SRC = ROOT / "web" / "src"
 OUT = ROOT / "web" / "lensatic.html"
-PHOTO = SRC / "about-photo.jpg"  # the maker's photo beside Why the name in About (session 7D)
 DOCS = ROOT / "docs"
 PAGES = ("privacy", "support")
 FONT_DIR = SRC / "fonts"
@@ -77,7 +79,7 @@ SECTIONS = ["doors", "stack", "matrix", "functions", "ai", "helper", "sources", 
 # entry's title in its Sources summary.
 LABEL_TAGS = frozenset({"h1", "h2", "h3", "h4", "th", "button", "nav", "footer"})    # headings, table headers, buttons, nav and menu items, the footer
 LABEL_CLASSES = frozenset({"door-title", "chip", "btn", "status", "door-meta", "layer-tag", "stamp", "sec-num",
-                           "ref", "caps-list", "ent-title"})
+                           "ref", "caps-list", "ent-title", "lx-count"})   # lx-count: the hub cards' counts (site review)
 INTERACTIVE = frozenset({"a", "button", "summary"})
 # the one section where a well-known term (AI) links to its glossary entry, at its first use in running text (session 17)
 WELL_KNOWN_SECTION = "ai"
@@ -452,7 +454,7 @@ def umbrella_card_alt() -> str:
 
 def umbrella() -> dict:
     """hub/site.json: the umbrella's sections and their addresses."""
-    return json.loads(HUB_SITE.read_text(encoding="utf-8"))
+    return web_text.site(json.loads(HUB_SITE.read_text(encoding="utf-8")))
 
 
 def version_line() -> str:
@@ -486,15 +488,15 @@ def theme_head() -> str:
 
 def umbrella_bar(s: dict, root: str, active: str | None, brand_mark: bool = True) -> str:
     """The top bar every Lensatic page shares: the mark, Lensatic, the three section links, About and the theme toggle
-    (Lensatic 2.0.2: one toggle, the same icon at the end of the bar, which lines up with each page's column, hidden until its script runs). On the map
-    the app's own header follows at once with the mark, so the bar's brand is the name alone."""
+    (Lensatic 2.0.2: one toggle, the same icon at the end of the bar, which lines up with each page's column, hidden until its script runs). Every page,
+    the map included (site review, 28 October 2026), shows the bar alike, mark and all, unless a caller opts out."""
     mark = (f'<span class="lx-tile" aria-hidden="true">{mark_svg(20, "lx-compass")}</span>') if brand_mark else ""
     links = []
     for sec in s["sections"]:
         cur = ' aria-current="page"' if sec["key"] == active else ""
         links.append(f'<li><a href="{root}{sec["path"]}" data-sec="{sec["key"]}"{cur}>{esc(sec["name"])}</a></li>')
     links.append(f'<li><a href="{root}#about">{esc(s["aboutLabel"])}</a></li>')
-    L = json.loads(STACK.read_text(encoding="utf-8"))["ui"]["labels"]
+    L = web_text.content(json.loads(STACK.read_text(encoding="utf-8")))["ui"]["labels"]
     toggle = (f'<div class="lx-tools"><button type="button" class="lx-theme" id="lx-theme" hidden aria-label="{esc(L["theme"])}: {esc(L["themeSystem"])}" '
               f'data-label="{esc(L["theme"])}" data-system="{esc(L["themeSystem"])}" data-light="{esc(L["themeLight"])}" data-dark="{esc(L["themeDark"])}">'
               f'{THEME_ICON}</button></div>')
@@ -502,6 +504,19 @@ def umbrella_bar(s: dict, root: str, active: str | None, brand_mark: bool = True
             f'<a class="lx-brand" href="{root}">{mark}<span>{esc(s["name"])}</span></a>'
             f'<ul class="lx-sections">{"".join(links)}</ul>{toggle}</div></nav>'
             f'<script>\n{THEME_BAR_JS.read_text(encoding="utf-8").rstrip()}\n</script>')
+
+
+def site_footer(s: dict, L: dict, root: str, licence: str | None = None) -> str:
+    """The footer every Lensatic page shares (site review, 28 October 2026): the version line, the policy, support and
+    source links, "Copyright 2026 Ken Connell. All rights reserved.", linked to the root LICENSE or to a section's own
+    notice, and the typefaces' licence. On phones the three links keep one line (hub/lensatic.css)."""
+    lic = licence or f'{s["repo"]}/blob/main/LICENSE'
+    return ('<footer class="lx-foot"><div class="lx-foot-in">'
+            f'<p class="lx-version">{esc(version_line())}</p>'
+            f'<ul><li><a href="{root}privacy.html">{esc(L["pagesPrivacy"])}</a></li><li><a href="{root}support.html">{esc(L["pagesSupport"])}</a></li>'
+            f'<li><a href="{esc(s["repo"])}">{esc(L["sourceCode"])}</a></li></ul></div>'
+            f'<div class="lx-foot-in"><p class="lx-copy">{esc(s["rights"])} <a href="{esc(lic)}">{esc(s["rightsLink"])}</a>.</p>'
+            f'<p class="lx-copy">{esc(s["labels"]["fontsLine"])}.</p></div></footer>')
 
 
 def umbrella_links(root: str = "../") -> list[str]:
@@ -657,7 +672,7 @@ class Renderer:
 
     def hero(self) -> str:
         """The front door, top to bottom: the tile, the eyebrow, the name (Framework Maps since content 1.2.11), the
-        description, two buttons, the version line, which ends with the link to Why the name in About."""
+        description, two buttons, the version line, which ends with the link to Why the name, on the hub (site review, 28 October 2026)."""
         meta = self.d["meta"]
         return (f'<div class="hero" id="intro">'
                 f'<div class="tile" aria-hidden="true">{mark_svg(50, "mark tile-mark")}</div>'
@@ -667,21 +682,12 @@ class Renderer:
                 f'<a class="btn secondary" href="#view-stack">{self.label("heroSecondary")}</a></p>'
                 f'<p class="stamp"><a href="#view-about">{self.label("contentVersion")} {esc(meta["contentVersion"])}</a>, '
                 f'{self.label("checkedThrough")} {fmt_date(self.latest_check())}{self.label("metaSeparator")}'
-                f'<a href="#about-name">{self.label("whyName")}</a></p></div>\n')
+                f'<a href="../#about-name">{self.label("whyName")}</a></p></div>\n')
 
-    def footer(self, page: str | None = None) -> str:
-        """After main: the maker line, the licence line (all rights reserved, fonts OFL), and the policy, support and source links. Absolute
-        addresses, so the links also work from the offline file. On a plain page the footer also links back to the app
-        and marks the page itself as current."""
-        made = f'<p class="made-by">{self.label("madeBy")} {esc(self.author)}</p>' if self.author else ""
-        links = [(f"{SITE}privacy.html", "pagesPrivacy", "privacy"), (f"{SITE}support.html", "pagesSupport", "support"), (REPO, "sourceCode", "")]
-        if page:
-            links.insert(0, ("./", "pagesOpenApp", ""))
-        current = ' aria-current="page"'
-        nav = "".join(f'<a href="{href}" rel="noreferrer"{current if page and k == page else ""}>{self.label(lab)}</a>' for href, lab, k in links)
-        return (f'<footer class="foot" id="footer"><div class="foot-in">{made}'
-                f'<p class="foot-lic">{self.label("footerLicenses")}</p>'
-                f'<nav class="foot-nav" aria-label="{self.label("footerNav")}">{nav}</nav></div></footer>\n')
+    def footer(self) -> str:
+        """After main: the footer every Lensatic page shares (site review, 28 October 2026). Absolute addresses, so the
+        links also work from the offline file."""
+        return site_footer(umbrella(), self.d["ui"]["labels"], SITE) + "\n"
 
     # ---------------------------------------------------------------- 1. doors
     def doors(self) -> str:
@@ -977,22 +983,6 @@ class Renderer:
                 f'<p>{self.t(meta["about"]["offline"])}</p>'
                 f'<p>{self.t(meta["about"]["licensing"])}</p>'
                 f'<p class="small">{self.label("counts")}:</p><div class="counts">{badges}</div>{self.status_key("status-key-about")}')
-        if self.author:
-            body += f'<p class="small made-by">{self.label("madeBy")} {esc(self.author)}</p>'
-        body += f'<p class="small built-with">{self.t(meta["about"]["builtWith"])}</p>'
-        # why the name, last in About so its heading starts a part of its own; the front door's version line links here.
-        # The maker's photo sits beside the story from 768 pixels up and above it on phones, embedded as a data: URI
-        # (part of the page, not a request); the battery pins the file and checks it carries no metadata
-        if meta["about"].get("nameStory"):
-            story = "".join(f"<p>{self.t(p)}</p>" for p in meta["about"]["nameStory"])
-            photo = ""
-            if PHOTO.is_file():
-                data = PHOTO.read_bytes()
-                w, h = jpeg_size(data)
-                photo = (f'<img class="name-photo" src="data:image/jpeg;base64,{base64.b64encode(data).decode("ascii")}" '
-                         f'alt="{self.label("aboutPhotoAlt")}" width="{w}" height="{h}">')
-            body += (f'<h3 class="name-head" id="about-name">{self.label("whyNameHeading")}</h3>'
-                     f'<div class="name-story">{photo}<div class="name-text">{story}</div></div>')
         return self.section("about", body + "</div>")
 
     @staticmethod
@@ -1033,7 +1023,7 @@ class Renderer:
         if "glossary" in self.sections:
             pop = (f'<div class="gl-pop" id="gl-pop" role="note" hidden><div class="gl-pop-body"></div>'
                    f'<a class="gl-pop-link" href="#view-glossary">{self.label("glossaryOpen", hidden=True)}</a></div>\n')
-        return {"HEADER": fu.section(self.header()), "MAIN": main + pop, "FOOTER": fu.section(self.footer())}
+        return {"HEADER": fu.section(self.header()), "MAIN": main + pop, "FOOTER": self.footer()}  # the shared footer, word for word on every page (site review)
 
 
 # ---------------------------------------------------------------- the static render's texts (session 8)
@@ -1122,17 +1112,17 @@ def static_texts(d: dict) -> tuple[dict[str, list], dict[str, int]]:
     # the intro texts that moved (Session 7, section 4.4): the audience line, the plain definition of zero trust and the
     # note on steps and layer tags open and close the doors section; the department's note moved to About
     items["view-doors"] = x(L["audience"], L["ztPlain"], L["doorsIntro"])
+    # the build credit and the story of the name left the map's About in the site review (28 October 2026): the hub tells
+    # the story, and the footer, the one every Lensatic page shares, is tools/check_umbrella.py's
     items["about-body"] = x(d["meta"]["wayfinder"], d["meta"]["about"]["notAffiliated"], d["meta"]["about"]["offline"], d["meta"]["about"].get("licensing"),
-                            dow["statusNote"], L["dowNote"], d["meta"]["about"]["builtWith"], L.get("whyNameHeading"),
-                            *d["meta"]["about"].get("nameStory", []))
-    items["footer"] = x(L["footerLicenses"], L["pagesPrivacy"], L["pagesSupport"], L["sourceCode"])
+                            dow["statusNote"], L["dowNote"])
     return items, counts
 
 
 # where each static_texts element sits on the page, top to bottom: the front door, the doors, the stack, the matrix, the
-# six functions, the AI column, the questions, Sources, the glossary, About and the footer
+# six functions, the AI column, the questions, Sources, the glossary and About
 PAGE_ORDER = ("intro", "view-doors", "door-", "elevator", "layer-", "seam", "cell-dow-", "cell-cisa-", "fn-", "view-ai", "soc-",
-              "helper-", "ent-", "gl-", "about-body", "footer")
+              "helper-", "ent-", "gl-", "about-body")
 
 
 def web_texts(d: dict) -> dict:
@@ -1148,13 +1138,15 @@ def web_texts(d: dict) -> dict:
 
 
 def page_css() -> str:
-    """The plain pages share the app's type and theme tokens: the four faces, the token blocks at the top of styles.css
-    (light, dark by preference, dark by choice), then web/src/page.css."""
+    """The plain pages share the app's type and theme tokens: the four faces, the field system's shared file (the top bar
+    and the footer), the token blocks at the top of styles.css (light, dark by preference, dark by choice), then
+    web/src/page.css."""
     css = (SRC / "styles.css").read_text(encoding="utf-8")
     start, end = css.find(":root {"), css.find("\n[hidden] {")
     if start < 0 or end < start:
         sys.exit("styles.css: the theme token blocks were not found before the [hidden] rule")
-    return font_css() + "\n" + css[start:end].rstrip("\n") + "\n" + (SRC / "page.css").read_text(encoding="utf-8").rstrip("\n")
+    return (font_css() + "\n" + SHARED_CSS.read_text(encoding="utf-8").rstrip("\n") + "\n" + css[start:end].rstrip("\n") + "\n"
+            + (SRC / "page.css").read_text(encoding="utf-8").rstrip("\n"))
 
 
 def recheck_dates(node) -> list[str]:
@@ -1207,9 +1199,10 @@ def build_page(d: dict, key: str, author: str = "") -> bytes:
     fu = FirstUse(entries, link=False)
     main = fu.section("\n".join(body) + "\n")
     template = (SRC / "page.html").read_text(encoding="utf-8")
-    replacements = {"{{LANG}}": "en", "{{TITLE}}": esc(page["title"]), "{{DESCRIPTION}}": esc(page["description"]),
-                    "{{ICON}}": favicon(), "{{STYLES}}": page_css(), "{{MARK}}": mark_svg(), "{{NAME}}": esc(meta["name"]),
-                    "{{SOCIAL}}": page_social_tags(key, page), "{{BODY}}": main, "{{FOOTER}}": fu.section(r.footer(key))}
+    # the hub's top bar and the shared footer (site review, 28 October 2026); the tab title is the website's own
+    replacements = {"{{LANG}}": "en", "{{TITLE}}": esc(web_text.PAGE_TITLES.get(key, page["title"])), "{{DESCRIPTION}}": esc(page["description"]),
+                    "{{ICON}}": favicon(), "{{STYLES}}": page_css(), "{{THEME_HEAD}}": theme_head(), "{{BAR}}": umbrella_bar(umbrella(), "./", None),
+                    "{{SOCIAL}}": page_social_tags(key, page), "{{BODY}}": main, "{{FOOTER}}": site_footer(umbrella(), d["ui"]["labels"], "./") + "\n"}
     for k, v in replacements.items():
         template = template.replace(k, v)
     if "{{" in template:
@@ -1240,7 +1233,7 @@ def social_tags(d: dict) -> str:
 
 def build_docs(index: bytes, stack: Path, docs: Path, author: str = "") -> list[Path]:
     """The project site for GitHub Pages: the app page byte for byte, the two plain pages, the social card, an empty .nojekyll."""
-    d = json.loads(stack.read_text(encoding="utf-8"))
+    d = web_text.content(json.loads(stack.read_text(encoding="utf-8")))
     docs.mkdir(parents=True, exist_ok=True)
     files = {f"{MAPS_KEY}/index.html": index, ".nojekyll": b""}
     files.update({f"{k}.html": build_page(d, k, author) for k in PAGES})
@@ -1259,7 +1252,7 @@ def build(author: str, stack: Path = STACK) -> bytes:
     for bad in ("</", "<!--", "<script", "]]>"):
         if bad in text:
             sys.exit(f"refusing to embed: stack.json contains {bad!r}, which cannot sit inside a script element verbatim")
-    d = json.loads(text)
+    d = web_text.content(json.loads(text))  # the embedded copy below stays the file's own bytes
     template = (SRC / "template.html").read_text(encoding="utf-8")
     styles = (font_css() + "\n" + SHARED_CSS.read_text(encoding="utf-8").rstrip("\n") + "\n"
               + (SRC / "styles.css").read_text(encoding="utf-8").rstrip("\n"))
@@ -1270,7 +1263,7 @@ def build(author: str, stack: Path = STACK) -> bytes:
     head_html, sep, rest = parts["HEADER"].partition('\n<header class="top"')
     if not sep:
         sys.exit("the header no longer opens with the skip link and header.top")
-    parts["HEADER"] = head_html + "\n" + umbrella_bar(umbrella(), "../", MAPS_KEY, brand_mark=False) + sep + rest
+    parts["HEADER"] = head_html + "\n" + umbrella_bar(umbrella(), "../", MAPS_KEY) + sep + rest
     build_json = json.dumps({"author": author, "contentVersion": d["meta"]["contentVersion"]}, ensure_ascii=False, sort_keys=True)
     lang = "en"
     replacements = {"{{LANG}}": lang, "{{TITLE}}": esc(umbrella_title(d)), "{{DESCRIPTION}}": esc(d["meta"]["description"]),
@@ -1307,7 +1300,7 @@ def main() -> int:
         for f in build_docs(data, Path(args.stack), Path(args.docs), args.author):
             print(f"wrote {f}: {f.stat().st_size} bytes")
     if args.texts:
-        texts = web_texts(json.loads(Path(args.stack).read_text(encoding="utf-8")))
+        texts = web_texts(web_text.content(json.loads(Path(args.stack).read_text(encoding="utf-8"))))
         Path(args.texts).write_text(json.dumps(texts, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         print(f"wrote {args.texts}: {len(texts['texts'])} texts, {len(set(texts['texts']))} distinct, {len(texts['sections'])} sections")
     return 0

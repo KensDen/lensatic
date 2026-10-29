@@ -103,6 +103,9 @@
   border: 1px solid var(--line-strong); border-radius: var(--radius); }
 .lx-skip:focus { top: var(--s-2); }
 .lx-wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--s-4); }
+/* the column is the hub's on every page, whatever box model a page sets for itself: 68rem of content between 16-pixel
+   gutters (site review, 28 October 2026) */
+.lx-wrap, .lx-bar-in, .lx-foot-in { box-sizing: content-box; }
 .lx-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 /* line breaks: headings and the eyebrow balance their lines, running text keeps its last word company (QC, 24 October 2026) */
 .lx-page :is(h1, h2, h3, h4, .lx-eyebrow) { text-wrap: balance; }
@@ -194,6 +197,8 @@
 .lx-foot { margin-top: var(--s-7); border-top: 1px solid var(--line); background: var(--bg-2); font-size: 0.9375rem; color: var(--fg-2); }
 .lx-foot-in { max-width: var(--maxw); margin: 0 auto; padding: var(--s-5) var(--s-4); display: flex; flex-wrap: wrap; align-items: center;
   justify-content: space-between; gap: var(--s-2) var(--s-5); }
+.lx-foot-in:has(+ .lx-foot-in) { padding-bottom: var(--s-1); }
+.lx-foot-in + .lx-foot-in { padding-top: 0; }  /* the rights and fonts lines follow the links without a second gap (site review) */
 /* the version line grows into the free space on its row, alone on its row under the links' width; each copyright or
    fonts line takes a whole row, so every line of text spans the column (layout sweep, 24 October 2026) */
 .lx-version { margin: 0; font-family: var(--mono); font-size: 0.875rem; flex: 1 1 auto; }

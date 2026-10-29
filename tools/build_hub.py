@@ -68,11 +68,11 @@ def esc(s: str) -> str:
 
 
 def site() -> dict:
-    return json.loads(SITE_JSON.read_text(encoding="utf-8"))
+    return bw.web_text.site(json.loads(SITE_JSON.read_text(encoding="utf-8")))
 
 
 def stack() -> dict:
-    return json.loads(bw.STACK.read_text(encoding="utf-8"))
+    return bw.web_text.content(json.loads(bw.STACK.read_text(encoding="utf-8")))
 
 
 def playbook_counts() -> dict[str, int]:
@@ -98,9 +98,24 @@ def counts(s: dict, d: dict) -> dict[str, str]:
     pb = playbook_counts()
     return {
         "maps": f"{plural(len(d['frameworks']), 'framework')} · {plural(len(d['glossary']), 'glossary term')}",
-        "guides": plural(len(s["guides"]), "guide"),
+        "guides": guide_shape(),
         "playbook": f"{plural(pb['actions'], 'action')} · {plural(pb['resources'], 'resource')} · {plural(pb['glossary'], 'glossary term')}",
     }
+
+
+def guide_shape() -> str:
+    """The Field Guides card's stat (site review, 28 October 2026): the Zero Trust guide's weeks and tracks, read from the
+    app's copy of the guide (guides/zero-trust/app/guide.json), and its PDFs, found in its tree."""
+    g = json.loads((GUIDES / "zero-trust" / "app" / "guide.json").read_text(encoding="utf-8"))
+    weeks = max(w["week"] for w in g["core"] + [w for t in g["tracks"] for w in t["weeks"]])
+    return f'{plural(weeks, "week")} · {plural(len(g["tracks"]), "track")} · {plural(len(guide_pdfs("zero-trust")), "PDF")}'
+
+
+def count_html(text: str) -> str:
+    """A count line with each number kept beside its noun, "89 glossary terms" never breaking after the 89, and each dot
+    kept with the count after it, so no line ends with a dot (site review, 28 October 2026)."""
+    parts = text.split(" · ")
+    return " ".join(f'<span class="lx-nw">{"· " if i else ""}{esc(x)}</span>' for i, x in enumerate(parts))
 
 
 def compass(size: int = 20) -> str:
@@ -138,20 +153,11 @@ def bar(s: dict, root: str, active: str | None, brand_mark: bool = True) -> str:
     return bw.umbrella_bar(s, root, active, brand_mark)
 
 
-def footer(s: dict, d: dict, root: str, licence: str | None = None, fonts: bool = False) -> str:
-    """The shared footer: the version line (generated since R6: the app's and the content's versions), the policy,
-    support and source links, and (Lensatic 2.0.2, gauntlet question 33)
-    one rights line, "Copyright 2026 Ken Connell. All rights reserved.", linked to the root LICENSE, or to a section's
-    own notice where it has one (the Zero Trust guide passes its LICENSE). With fonts, the rights line is followed by the
-    typefaces' licence, for a page that names it nowhere else (the guides index, gauntlet question 30)."""
-    L = d["ui"]["labels"]
-    lic = licence or f'{s["repo"]}/blob/main/LICENSE'
-    return ('<footer class="lx-foot"><div class="lx-foot-in">'
-            f'<p class="lx-version">{esc(bw.version_line())}</p>'
-            f'<ul><li><a href="{root}privacy.html">{esc(L["pagesPrivacy"])}</a></li><li><a href="{root}support.html">{esc(L["pagesSupport"])}</a></li>'
-            f'<li><a href="{esc(s["repo"])}">{esc(L["sourceCode"])}</a></li></ul></div>'
-            f'<div class="lx-foot-in"><p class="lx-copy">{esc(s["rights"])} <a href="{esc(lic)}">{esc(s["rightsLink"])}</a>.</p>'
-            + (f'<p class="lx-copy">{esc(s["labels"]["fontsLine"])}.</p>' if fonts else "") + '</div></footer>')
+def footer(s: dict, d: dict, root: str, licence: str | None = None) -> str:
+    """The shared footer, one implementation for every page: tools/build_web.py's site_footer (the version line, the
+    policy, support and source links, the rights line linked to the root LICENSE or a section's own notice, and the
+    typefaces' licence; site review, 28 October 2026)."""
+    return bw.site_footer(s, d["ui"]["labels"], root, licence)
 
 
 def styles() -> str:
@@ -168,6 +174,8 @@ HUB_CSS = """.lx-hero-lines { margin: var(--s-5) 0 0; padding: 0; list-style: no
 .lx-page .lx-start a.lx-btn { background: var(--sec-maps); border-color: var(--sec-maps); color: var(--on-sec-maps); }  /* the start leads into Framework Maps (QC rulings, Q22) */
 .lx-404 { min-height: 100vh; display: flex; flex-direction: column; }  /* the footer meets the bottom of a short screen (QC rulings, Q18) */
 .lx-404 > main { flex: 1 0 auto; }
+.lx-404 .lx-head .lx-actions { margin-top: var(--s-4); }  /* as far below the line as the hub's start button (site review, item 15) */
+.lx-nw { white-space: nowrap; }
 .lx-guide-meta { display: grid; gap: var(--s-2); margin: 0; }
 .lx-guide-meta dt { font-family: var(--mono); font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-2); }
 .lx-guide-meta dd { margin: 0 0 var(--s-2); }
@@ -185,7 +193,6 @@ HUB_CSS = """.lx-hero-lines { margin: var(--s-5) 0 0; padding: 0; list-style: no
 .lx-hero-photo { margin: var(--s-5) 0 0; max-width: 30rem; }
 .lx-hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 40%; border: 1px solid var(--line); border-radius: var(--card-radius); }
 .lx-hero-photo figcaption { margin-top: var(--s-2); color: var(--fg-2); }
-.lx-hero-photo figcaption span { display: block; text-wrap: balance; }
 @media (min-width: 900px) {
   .lx-hero-grid { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); grid-template-areas: "text photo" "more photo"; align-items: start; }
   .lx-hero-text { grid-area: text; } .lx-hero-more { grid-area: more; } .lx-hero-photo { grid-area: photo; margin-top: var(--s-2); }
@@ -257,14 +264,16 @@ def hub_page(s: dict, d: dict) -> str:
     tiles = []
     for x in s["sections"]:
         tiles.append(f'<li class="lx-tile-card {x["key"]}">{section_icon(x["key"], "lx-icon")}'
-                     f'<h3>{esc(x["name"])}</h3><p>{esc(x["line"])}</p><p class="lx-count">{esc(c[x["key"]])}</p>'
+                     f'<h3>{esc(x["name"])}</h3><p>{esc(x["line"])}</p><p class="lx-count">{count_html(c[x["key"]])}</p>'
                      f'<p class="lx-actions"><a class="lx-btn lx-primary" href="{x["path"]}">{esc(x["open"])}</a></p></li>')
     kicker = " · ".join(x["name"] for x in s["sections"])
-    # the eyebrow breaks only after a dot, so a phone shows whole section names and never a lone dot or name (QC, 24 October 2026)
-    eyebrow = " · ".join(x["name"].replace(" ", " ") for x in s["sections"])
-    # the compass beside the text (R5): two lines of its story under the photo, from hub/site.json; on a phone it follows
-    # the byline, and the section lines and the start button come after it
-    story = "".join(f"<span>{esc(x)}</span>" for x in s["heroStory"])
+    # the eyebrow breaks only before a dot, which stays with the name after it: a phone shows whole section names, and no
+    # line ends with a dot (QC, 24 October 2026; site review, 28 October 2026)
+    eyebrow = " · ".join(x["name"].replace(" ", " ") for x in s["sections"])
+    # the compass beside the text (R5): a caption under the photo that wraps where it falls (site review, 28 October
+    # 2026; the story itself is in About); on a phone it follows the byline, and the section lines and the start button
+    # come after it
+    story = esc(" ".join(s["heroStory"]))
     hero = (f'<header class="lx-hero"><div class="lx-wrap lx-head lx-hero-grid"><div class="lx-hero-text">{tile("lx-mark lx-tile")}'
             f'<p class="lx-eyebrow">{esc(eyebrow)}</p><h1>{esc(s["name"])}</h1>'
             f'<p class="lx-standfirst">{esc(d["meta"]["tagline"])}</p>{byline(s)}</div>'
@@ -316,7 +325,7 @@ def guides_page(s: dict, d: dict) -> str:
     listing = (f'<section class="lx-wrap lx-section" aria-labelledby="guides-h"><h2 id="guides-h" class="lx-vh">{esc(sec["name"])}</h2>'
                f'<ul class="lx-tiles">{"".join(tiles)}</ul></section>\n')
     body = (f'<body class="lx-page lx-guides">\n<a class="lx-skip" href="#main">{r.label("skip")}</a>\n{bar(s, "../", "guides")}\n<main id="main">\n'
-            f'{fu.section(top)}{fu.section(listing)}</main>\n{footer(s, d, "../", fonts=True)}\n</body>\n</html>\n')
+            f'{fu.section(top)}{fu.section(listing)}</main>\n{footer(s, d, "../")}\n</body>\n</html>\n')
     return head(s, f'{s["name"]} · {sec["name"]}', sec["line"], s["site"] + sec["path"], card_alt(s)) + body
 
 
@@ -377,6 +386,27 @@ def published() -> dict[str, Path]:
     return out
 
 
+# the web copy of each Agentic SecOps diagram gains a way back and the umbrella's tab-title prefix (site review, 28 October
+# 2026, item 6). The files in playbook/Diagrams/ stay as they are: the app embeds the same figures, and its twins must
+# equal them (playbook/Validation/sync_check.cjs), so the change is made here, on the way to docs/.
+DIAGRAM_BACK_CSS = ('<style id="lx-back-style">.lx-back{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin:-12px 0 6px;'
+                    'font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--accent);text-decoration:none}'
+                    '.lx-back:hover{text-decoration:underline}.lx-back:focus-visible{outline:3px solid var(--accent);outline-offset:2px}'
+                    '@media print{.lx-back{display:none}}</style>')
+
+
+def diagram_for_web(src: bytes, name: str) -> bytes:
+    """A diagram's web copy: "Lensatic · " before its tab title, and a small link back to the Agentic SecOps landing at the
+    top of the poster's own column, in the diagram's own type and accent."""
+    t = src.decode("utf-8")
+    poster = '<body>\n<div class="poster">'
+    for tag in ("<title>", "</head>", poster):
+        if t.count(tag) != 1:
+            sys.exit(f"build_hub: playbook/Diagrams/{name} has {t.count(tag)} {tag!r}, expected one")
+    t = t.replace("<title>", "<title>Lensatic · ", 1).replace("</head>", DIAGRAM_BACK_CSS + "\n</head>", 1)
+    return t.replace(poster, poster + '\n<a class="lx-back" href="../"><span aria-hidden="true">←</span> Agentic SecOps</a>', 1).encode("utf-8")
+
+
 def build(docs: Path) -> list[str]:
     s, d = site(), stack()
     written = {"index.html": hub_page(s, d).encode("utf-8"), "guides/index.html": guides_page(s, d).encode("utf-8"),
@@ -384,7 +414,8 @@ def build(docs: Path) -> list[str]:
     for rel, src in published().items():
         if not src.is_file():
             sys.exit(f"build_hub: {src.relative_to(ROOT)} is missing")
-        written[rel] = src.read_bytes()
+        data = src.read_bytes()
+        written[rel] = diagram_for_web(data, src.name) if rel.startswith("playbook/Diagrams/") and rel.endswith(".html") else data
     for rel, data in written.items():
         p = docs / rel
         p.parent.mkdir(parents=True, exist_ok=True)

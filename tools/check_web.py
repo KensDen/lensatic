@@ -93,7 +93,6 @@ POLICY_LINKS = ("https://kensden.github.io/lensatic/privacy.html", "https://kens
                 "https://github.com/KensDen/lensatic")
 # the licensing wording the owner ruled on 27 Sep 2026 (session 7B, content 0.7.0): the footer's licence line, the About
 # paragraph and the support page's sentence on reuse. The page renders them from content; content must say exactly this.
-LICENCE_FOOTER = "All rights reserved · Fonts OFL"
 LICENCE_ABOUT = ("Most of the frameworks Lensatic describes are United States government publications. Works prepared by United States "
                  "government officers and employees as part of their official duties are in the public domain in the United States. "
                  "Lensatic’s own code and text are copyright 2026 Ken Connell, all rights reserved; to ask about reusing them, open an "
@@ -140,7 +139,6 @@ CITE_RULINGS = (
 ISSUES_URL = "https://github.com/KensDen/lensatic/issues"
 # the one image element the page may hold: the maker's photo in About, embedded (session 7D); the photo check below
 # decodes it against the pinned file, and any other <img> or src still fails the resource check
-PHOTO = ROOT / "web" / "src" / "about-photo.jpg"
 PHOTO_IMG_RE = re.compile(r'<img class="name-photo" src="data:image/jpeg;base64,([A-Za-z0-9+/=]+)" alt="([^"<>]*)" width="(\d+)" height="(\d+)">')
 EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
 BUILD = ROOT / "tools" / "build_web.py"
@@ -552,8 +550,8 @@ def label_errors(tree: Tree, forms_rx: re.Pattern, by_form: dict, slug_of) -> tu
             exp_ids[n.attrs["id"]] = norm(text_of(n, frozenset()))
 
     def walk(n: Node, anc: list[Node]):
-        if n.tag in SKIP or n.attrs.get("aria-hidden") == "true" or classes_of(n) & {"url", "caps", "pillar-label"}:
-            return
+        if n.tag in SKIP or n.attrs.get("aria-hidden") == "true" or classes_of(n) & {"url", "caps", "pillar-label", "lx-foot"}:
+            return  # lx-foot: the footer every Lensatic page shares, held by tools/check_umbrella.py (site review)
         in_label = any(is_label(a) for a in anc + [n])
         if in_label and "xp" in classes_of(n):
             lab = next(a for a in anc + [n] if is_label(a))
@@ -862,7 +860,7 @@ def main() -> int:
         rep.check("web/lensatic.html exists", ["missing; run tools/build_web.py"])
         print("\n".join(rep.lines)); print("WEB CHECKS RED"); return 1
     html = HTML.read_bytes()
-    d = json.loads(STACK.read_text(encoding="utf-8"))
+    d = B.web_text.content(json.loads(STACK.read_text(encoding="utf-8")))  # the wording the site renders
 
     # determinism: rebuild twice into temp files with the author flag recorded in the built file
     build_meta = json.loads(re.search(rb'<script type="application/json" id="build">(.*?)</script>', html, re.S).group(1))
@@ -949,10 +947,13 @@ def main() -> int:
             errs.append(f"docs/{key}.html missing")
             continue
         page = f.read_text(encoding="utf-8")
-        errs += [f"{key}: {e}" for e in resource_errors(page)]
-        errs += [f"{key}: {e}" for e in storage_errors(page)]
-        if re.search(r"<script\b", page, re.I):
-            errs.append(f"{key}: has a script element")
+        # the site review (28 October 2026): the plain pages carry the umbrella bar, whose two theme scripts (in the head
+        # and after the bar) are their only scripts and are held by tools/check_umbrella.py, as on the map
+        bare = page.replace(B.theme_head(), "").replace(B.umbrella_bar(B.umbrella(), "./", None), "")
+        errs += [f"{key}: {e}" for e in resource_errors(bare)]
+        errs += [f"{key}: {e}" for e in storage_errors(bare)]
+        if re.search(r"<script\b", bare, re.I):
+            errs.append(f"{key}: has a script element besides the umbrella bar's theme scripts")
         if V.EM_DASH in page:
             errs.append(f"{key}: em dash")
         if "{{" in page:
@@ -961,20 +962,22 @@ def main() -> int:
         for tname in terms:
             if tname in low or codecs.encode(tname, "rot13") in low:
                 errs.append(f"{key}: sweep term #{terms.index(tname) + 1}")
-        if V.FORBIDDEN_WORD in page:
+        if V.FORBIDDEN_WORD in bare:  # the bar names the third section; check_umbrella.py holds it
             errs.append(f"{key}: forbidden word")
         ptree = parse(page)
         main_text = norm(text_of(ptree.ids["main"][0])) if "main" in ptree.ids else ""
         spec = d["pages"][key]
         title = re.search(r"<title>(.*?)</title>", page, re.S)
-        if not title or title.group(1) != spec["title"].replace("'", "&#x27;"):
-            errs.append(f"{key}: title is not {spec['title']!r}")
+        want_title = B.esc(B.web_text.PAGE_TITLES.get(key, spec["title"]))  # the website's own tab title (site review)
+        if not title or title.group(1) != want_title:
+            errs.append(f"{key}: title is not {want_title!r}")
         for para in spec["paragraphs"]:
             if norm(tok_dow(d, para)) not in main_text:
                 errs.append(f"{key}: paragraph missing: {para[:50]!r}")
         for tag, attrs in ptree.starts:
             href = attrs.get("href")
-            if tag == "a" and href is not None and not (href in ("./", "privacy.html", "support.html") or href.startswith("https://")):
+            if tag == "a" and href is not None and not (href in ("./", "privacy.html", "support.html", "./privacy.html", "./support.html")
+                                                        or href in B.umbrella_links("./") or href.startswith("https://")):
                 errs.append(f"{key}: link {href!r} is neither a site page nor an https address")
     ptext = (DOCS / "privacy.html").read_text(encoding="utf-8") if (DOCS / "privacy.html").is_file() else ""
     if f'<time datetime="{d["meta"]["builtOn"]}">' not in ptext:
@@ -990,7 +993,7 @@ def main() -> int:
     at = next((i for i, p_ in enumerate(sparas) if ISSUES_URL in p_), None)
     if at is None or at + 1 >= len(sparas) or sparas[at + 1] != LICENCE_SUPPORT:
         errs.append(f"support: the paragraph after the error-reporting one is not {LICENCE_SUPPORT!r}")
-    rep.check("privacy and support pages: no script, no resource loading, no storage, no em dash, sweep clean; title, effective date, "
+    rep.check("privacy and support pages: no script but the umbrella bar's, no resource loading, no storage, no em dash, sweep clean; title, effective date, "
               "content version, next recheck and every paragraph from content; the support page's reuse sentence follows the "
               "error-reporting paragraph; links are site pages or https", errs)
 
@@ -1037,23 +1040,25 @@ def main() -> int:
             errs.append(f"front door buttons are {got}, expected the primary to the doors and the secondary to the stack")
         if not norm(text_of(stamp)).startswith(f'{L["contentVersion"]} {d["meta"]["contentVersion"]}, {L["checkedThrough"]} '):
             errs.append("front door: the version line does not give the content version and the check date")
-        # Session 7D: the version line holds its link to About and exactly one more, Why the name?, to the heading in About
+        # Session 7D: the version line holds its link to About and exactly one more, Why the name?, to the story's heading,
+        # which since the site review (28 October 2026) lives on the hub alone
         parts_ = [c for c in stamp.children if not (isinstance(c, str) and not c)]
         links_ = [(c.tag, c.attrs.get("href"), norm(text_of(c))) for c in parts_ if not isinstance(c, str)]
         middle = re.escape(f', {L["checkedThrough"]} ') + r"\d{1,2} [A-Z][a-z]{2} \d{4}" + re.escape(L["metaSeparator"])
-        if [(t_, h_) for t_, h_, _ in links_] != [("a", "#view-about"), ("a", "#about-name")] or links_[1][2] != norm(L["whyName"]):
-            errs.append(f"front door: the version line holds {links_}, expected the link to About and one link {L['whyName']!r} to #about-name")
+        if [(t_, h_) for t_, h_, _ in links_] != [("a", "#view-about"), ("a", "../#about-name")] or links_[1][2] != norm(L["whyName"]):
+            errs.append(f"front door: the version line holds {links_}, expected the link to About and one link {L['whyName']!r} to the hub's ../#about-name")
         elif (len(parts_) != 3 or not isinstance(parts_[1], str)
               or not re.fullmatch(middle, htmllib.unescape(parts_[1]))):
             errs.append(f"front door: between its two links the version line must read exactly ', {L['checkedThrough']} <date>{L['metaSeparator']}', "
                         f"and hold nothing else; it holds {[p_ if isinstance(p_, str) else '<' + p_.tag + '>' for p_ in parts_]}")
-        target = atree_b.ids.get("about-name") or []
-        about_ = (atree_b.ids.get("view-about") or [None])[0]
-        if (len(target) != 1 or target[0].tag != "h3" or norm(text_of(target[0])) != norm(L["whyNameHeading"])
-                or about_ is None or target[0] not in list(walk_nodes(about_))):
-            errs.append("front door: #about-name is not one h3 in About reading ui.labels.whyNameHeading")
+        hub_ = parse((DOCS / "index.html").read_text(encoding="utf-8")) if (DOCS / "index.html").is_file() else None
+        target = (hub_.ids.get("about-name") if hub_ else None) or []
+        if len(target) != 1 or target[0].tag != "h3" or norm(text_of(target[0])) != norm(L["whyNameHeading"]):
+            errs.append("front door: the hub's #about-name is not one h3 reading ui.labels.whyNameHeading")
+        if atree_b.ids.get("about-name"):
+            errs.append("front door: the map still carries #about-name; the story of the name lives on the hub")
     rep.check("front door: exactly the tile, the name, the description, the two buttons (to the doors and to the stack) "
-              "and the version line, in that order; the version line ends with one link, Why the name, to its heading in About", errs)
+              "and the version line, in that order; the version line ends with one link, Why the name, to its heading on the hub", errs)
 
     errs = []
     orders = {x["id"]: x["order"] for x in d["layers"]}
@@ -1109,31 +1114,27 @@ def main() -> int:
               "framework, source and solution keeps every badge its records give", errs,
               f"{st_['glossary']} glossary entries, {st_['glossaryBadges']} glossary badges; {st_['entries']} entries, {st_['badges']} badges")
 
+    # the footer every Lensatic page shares (site review, 28 October 2026): on the map with absolute addresses, so the links
+    # also work from the offline file, and on the plain pages with the site's own; directly in body, after main
     errs = []
-    foot = (atree_b.ids.get("footer") or [None])[0]
-    if foot is None or foot.tag != "footer" or foot.parent is None or foot.parent.tag != "body":
-        errs.append("no footer element directly in body")
+    s_ = B.umbrella()
+    foots = [n_ for n_ in walk_nodes(atree_b.root) if n_.tag == "footer"]
+    if len(foots) != 1 or "lx-foot" not in classes_of(foots[0]) or foots[0].parent is None or foots[0].parent.tag != "body":
+        errs.append("the map has no single shared footer directly in body")
     else:
-        sibs = [c for c in foot.parent.children if not isinstance(c, str)]
-        if [c.tag for c in sibs].index("main") > sibs.index(foot):
+        sibs = [c for c in foots[0].parent.children if not isinstance(c, str)]
+        if [c.tag for c in sibs].index("main") > sibs.index(foots[0]):
             errs.append("the footer does not follow main")
-        hrefs = [a.attrs.get("href") for a in walk_nodes(foot) if a.tag == "a" and "gl" not in classes_of(a)]
-        if hrefs != list(POLICY_LINKS):
-            errs.append(f"the app's footer links are {hrefs}, expected {list(POLICY_LINKS)}")
-        lic = [n_ for n_ in walk_nodes(foot) if "foot-lic" in classes_of(n_)]
-        if len(lic) != 1 or norm(text_of(lic[0])) != norm(L["footerLicenses"]):
-            errs.append("the footer's licence line is not ui.labels.footerLicenses")
-        if L["footerLicenses"] != LICENCE_FOOTER:
-            errs.append(f"ui.labels.footerLicenses reads {L['footerLicenses']!r}, expected {LICENCE_FOOTER!r}")
-        if author and f"{L['madeBy']} {author}" not in norm(text_of(foot)):
-            errs.append("the footer lacks the maker line")
+        hrefs = [a.attrs.get("href") for a in walk_nodes(foots[0]) if a.tag == "a"]
+        if hrefs != list(POLICY_LINKS) + [f"{s_['repo']}/blob/main/LICENSE"]:
+            errs.append(f"the map's footer links are {hrefs}, expected {list(POLICY_LINKS)} and the LICENSE")
+    if html.count(B.site_footer(s_, L, SITE).encode("utf-8")) != 1:
+        errs.append("the map's footer is not build_web.site_footer's, word for word")
     for key, page in pages_text.items():
-        pfoot = (parse(page).ids.get("footer") or [None])[0]
-        phrefs = [a.attrs.get("href") for a in walk_nodes(pfoot) if a.tag == "a"] if pfoot else []
-        if phrefs != ["./"] + list(POLICY_LINKS):
-            errs.append(f"{key}: the footer links are {phrefs}, expected the app and {list(POLICY_LINKS)}")
-    rep.check("footer: after main, the maker line, the licence line (all rights reserved, fonts OFL) and exactly the privacy, support and source code addresses, absolute; "
-              "the plain pages add the link back to the app", errs)
+        if page.count(B.site_footer(s_, L, "./")) != 1:
+            errs.append(f"{key}: the footer is not build_web.site_footer's, word for word")
+    rep.check("footer: the one every Lensatic page shares, after main: the version line, the privacy, support and source code addresses "
+              "(absolute on the map), the rights line and the fonts line", errs)
 
     errs = []
     imgs = sorted(q.relative_to(DOCS).as_posix() for q in DOCS.rglob("*") if q.is_file() and q.suffix.lower() in IMAGE_SUFFIXES
@@ -1176,39 +1177,15 @@ def main() -> int:
               "og:image are absolute https addresses on the published site; the preview tags come from content (og:description the pitch, "
               "the description tag meta.description)", errs, size_)
 
-    # the About photo (Session 7D, section 4.4): embedded exactly once, in About, as a data: URI that decodes to the pinned
-    # file, with no metadata, its alt text from content and its true size; the plain pages hold no image
-    errs, detail = [], ""
-    found = PHOTO_IMG_RE.findall(rest)
-    if len(found) != 1 or rest.count("<img") != 1:
-        errs.append(f"the page holds {rest.count('<img')} <img> element(s) and {len(found)} embedded photo(s), expected exactly one of each")
-    else:
-        b64, alt, w_, h_ = found[0]
-        data = base64.b64decode(b64)
-        if not PHOTO.is_file() or data != PHOTO.read_bytes():
-            errs.append("the embedded photo does not decode to web/src/about-photo.jpg byte for byte")
-        if hashlib.sha256(data).hexdigest() != V.ABOUT_PHOTO_SHA256:
-            errs.append("the embedded photo is not the pinned file (SHA-256)")
-        try:
-            segs, (w, h) = V.jpeg_segments(data)
-            meta_ = [x for x in segs if x.startswith("APP") or x == "COM"]
-            if meta_:
-                errs.append(f"the embedded photo carries metadata segments: {' '.join(meta_)}")
-            if (int(w_), int(h_)) != (w, h):
-                errs.append(f"the photo's width and height attributes are {w_} x {h_}, the image is {w} x {h}")
-            detail = f"{w} x {h}, {len(data)} bytes embedded as {len(b64)} base64 characters"
-        except ValueError as exc:
-            errs.append(f"the embedded photo does not decode as a JPEG: {exc}")
-        if htmllib.unescape(alt) != d["ui"]["labels"].get("aboutPhotoAlt"):
-            errs.append("the photo's alt text is not ui.labels.aboutPhotoAlt")
-        about_ = (atree_b.ids.get("view-about") or [None])[0]
-        if about_ is None or not any("name-photo" in classes_of(n_) for n_ in walk_nodes(about_)):
-            errs.append("the photo is not in About")
+    # the About photo left the map in the site review (28 October 2026): the story of the name and its photos live on the
+    # hub alone (tools/check_umbrella.py), and web/src/about-photo.jpg stays pinned by tools/validate.py for the app
+    errs = []
+    if "<img" in rest or PHOTO_IMG_RE.search(rest):
+        errs.append(f"the map holds {rest.count('<img')} <img> element(s); the story of the name and its photo live on the hub")
     for key, page in pages_text.items():
         if "<img" in page:
             errs.append(f"{key}: holds an image")
-    rep.check("about photo: embedded exactly once, in About, as a data: URI that decodes to the pinned web/src/about-photo.jpg, no metadata, "
-              "alt text from content, true width and height; no image on the plain pages", errs, detail)
+    rep.check("no photo on the map or the plain pages: the story of the name lives on the hub", errs)
 
     errs = []
     for f in sorted(DOCS.rglob("*")) if DOCS.is_dir() else []:
@@ -1230,6 +1207,9 @@ def main() -> int:
     errs = []
     atree = parse(rest)
     site_links = set(B.umbrella_links("../"))   # the umbrella bar: Lensatic's own sections, on the same site
+    # the site review (28 October 2026): Why the name links to the hub's story, and the shared footer's rights line to the
+    # repository's LICENSE, a page of the source repository
+    site_links |= {"../#about-name", f"{B.umbrella()['repo']}/blob/main/LICENSE"}
     for node_ in walk_nodes(atree.root):
         href = node_.attrs.get("href", "") if node_.tag == "a" else ""
         if href and not href.startswith("#") and href not in POLICY_LINKS and href not in site_links:
@@ -1242,13 +1222,12 @@ def main() -> int:
             if not inside:
                 errs.append(f"external link outside Sources: {href[:60]}")
     rep.check("every external link in the app sits inside Sources, except the policy, support and source repository links (the privacy policy's claim) "
-              "and the umbrella bar's links to Lensatic's own sections", errs)
+              "and the umbrella's links to Lensatic's own pages (the bar, the hub's story of the name, the footer's LICENSE)", errs)
 
     # id skeleton: Node script when available, Python fallback otherwise
     items, counts = expected_items(d)
     expected = sorted(set(list(items) + [f"view-{s}" for s in ("doors", "stack", "matrix", "functions", "ai", "helper", "sources", "about")] +
-                          ["table-dow", "table-cisa", "matrix-dow", "matrix-cisa", "nav", "lx-theme", "to-top", "start", "matrix-control", "expand-all",
-                           "about-name"]))
+                          ["table-dow", "table-cisa", "matrix-dow", "matrix-cisa", "nav", "lx-theme", "to-top", "start", "matrix-control", "expand-all"]))
     if node and DOM_CHECK.exists():
         proc = subprocess.run([node, str(DOM_CHECK), str(HTML)], input="\n".join(expected), capture_output=True, text=True)
         missing = [l for l in proc.stdout.splitlines() if l.startswith("MISSING")]
@@ -1328,10 +1307,7 @@ def main() -> int:
         tree_full = parse(stripped)
         visible_skip = frozenset({"url", "pillar-label", "caps"})
         chunks = [("header", tree_full.ids["top"][0])] + [(k, v[0]) for k, v in tree_full.ids.items() if k == "intro" or k.startswith("view-")]
-        if "footer" in tree_full.ids:
-            chunks.append(("footer", tree_full.ids["footer"][0]))
-        else:
-            errs_cov.append("no footer to read")
+        # the footer is the one every Lensatic page shares (site review, 28 October 2026), held by tools/check_umbrella.py
         def scan(name, node_, coverage=True):
             nonlocal n_abbr, n_first
             # coverage reads every visible word, labels included; the first-use rule reads running text only (Session 7:

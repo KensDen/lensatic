@@ -144,6 +144,9 @@
   border: 1px solid var(--line-strong); border-radius: var(--radius); }
 .lx-skip:focus { top: var(--s-2); }
 .lx-wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--s-4); }
+/* the column is the hub's on every page, whatever box model a page sets for itself: 68rem of content between 16-pixel
+   gutters (site review, 28 October 2026) */
+.lx-wrap, .lx-bar-in, .lx-foot-in { box-sizing: content-box; }
 .lx-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 /* line breaks: headings and the eyebrow balance their lines, running text keeps its last word company (QC, 24 October 2026) */
 .lx-page :is(h1, h2, h3, h4, .lx-eyebrow) { text-wrap: balance; }
@@ -235,6 +238,8 @@
 .lx-foot { margin-top: var(--s-7); border-top: 1px solid var(--line); background: var(--bg-2); font-size: 0.9375rem; color: var(--fg-2); }
 .lx-foot-in { max-width: var(--maxw); margin: 0 auto; padding: var(--s-5) var(--s-4); display: flex; flex-wrap: wrap; align-items: center;
   justify-content: space-between; gap: var(--s-2) var(--s-5); }
+.lx-foot-in:has(+ .lx-foot-in) { padding-bottom: var(--s-1); }
+.lx-foot-in + .lx-foot-in { padding-top: 0; }  /* the rights and fonts lines follow the links without a second gap (site review) */
 /* the version line grows into the free space on its row, alone on its row under the links' width; each copyright or
    fonts line takes a whole row, so every line of text spans the column (layout sweep, 24 October 2026) */
 .lx-version { margin: 0; font-family: var(--mono); font-size: 0.875rem; flex: 1 1 auto; }
@@ -275,12 +280,14 @@
   .lx-playbook .card h3 { margin: 0 0 var(--s-1); font-size: 1.0625rem; }
   .lx-playbook .card p { margin: 0; color: var(--fg-2); }
   .lx-playbook .card .formats { margin-top: var(--s-1); display: flex; flex-wrap: wrap; gap: 0 var(--s-4); font-weight: 700; }
-  .lx-playbook .card .formats a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }  /* short labels (PDF, web) still get a 44-pixel target */
+  .lx-playbook .card .formats a { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }  /* short labels (PDF, Web) still get a 44-pixel target */
   .lx-playbook .diagrams { columns: 2; column-gap: var(--s-6); margin: 0; padding: 0; list-style: none; }
   .lx-playbook .diagrams li { break-inside: avoid; }
   .lx-playbook .diagrams a { display: inline-flex; align-items: center; min-height: 44px; }
-  body.lx-page > footer { margin-top: var(--s-7); border-top: 1px solid var(--line); background: var(--bg-2); color: var(--fg-2); font-size: 0.9375rem; }
-  body.lx-page > footer > p { max-width: var(--maxw); margin: 0 auto; padding: var(--s-4) var(--s-4) 0; }
+  /* the notice and the disclaimer: a line above the footer every Lensatic page shares, in the same band (site review, 28 October 2026) */
+  body.lx-page > footer:not(.lx-foot) { margin-top: var(--s-7); border-top: 1px solid var(--line); background: var(--bg-2); color: var(--fg-2); font-size: 0.9375rem; padding-bottom: var(--s-2); }
+  body.lx-page > footer:not(.lx-foot) > p { max-width: var(--maxw); margin: 0 auto; padding: var(--s-4) var(--s-4) 0; }
+  body.lx-page > footer:not(.lx-foot) + .lx-foot { margin-top: 0; border-top: 0; }
   @media (max-width: 40rem) { .lx-playbook .diagrams { columns: 1; } }
 </style>
 </head>
@@ -321,12 +328,12 @@
     <h1>Agentic SecOps</h1>
     <p class="lx-standfirst">A tradecraft playbook for red, blue and purple teaming in the age of Agentic AI.</p>
     <p class="lx-lead">Every external claim links to its source.</p>
-    <p class="lx-actions"><a class="lx-btn lx-primary" href="Playbook/">Open the app</a> <a class="lx-btn" href="https://github.com/KensDen/lensatic/tree/main/playbook">Browse the repository</a></p>
+    <p class="lx-actions"><a class="lx-btn lx-primary" href="Playbook/">Open the App</a> <a class="lx-btn" href="https://github.com/KensDen/lensatic/tree/main/playbook">Browse the Repository</a></p>
   </header>
   <section class="lx-wrap lx-section">
     <h2>Read</h2>
     <ul class="docs">
-        <li class="card"><h3>Executive summary</h3><p>The leadership read.</p><p class="formats"><a href="Documents/Agentic-SecOps-Executive-Summary.pdf">PDF</a> <a href="Documents/Agentic-SecOps-Executive-Summary.html">web</a></p></li>
+        <li class="card"><h3>Executive summary</h3><p>The leadership read.</p><p class="formats"><a href="Documents/Agentic-SecOps-Executive-Summary.pdf">PDF</a> <a href="Documents/Agentic-SecOps-Executive-Summary.html">Web</a></p></li>
         <li class="card"><h3>Briefing deck</h3><p>One story, three audiences.</p><p class="formats"><a href="Deck/Agentic-SecOps-Master-Deck.pdf">PDF</a></p></li>
         <li class="card"><h3>Study guide</h3><p>A self-study path from agents to purple teaming.</p><p class="formats"><a href="https://github.com/KensDen/lensatic/blob/main/playbook/Documents/Agentic-SecOps-Study-Guide.md">on GitHub</a></p></li>
         <li class="card"><h3>Field card</h3><p>The operational spine on two pages.</p><p class="formats"><a href="https://github.com/KensDen/lensatic/blob/main/playbook/Documents/Agentic-SecOps-Tradecraft-Field-Card.md">on GitHub</a></p></li>
@@ -358,7 +365,9 @@
 <footer>
 <p>© 2026 Ken Connell. <a href="https://github.com/KensDen/lensatic/blob/main/playbook/LICENSE">All rights reserved</a>. Built with Claude and Claude Code, reviewed by a human who owns the mistakes.</p>
 <p>Third-party product, tool, and framework names referenced in this playbook are trademarks of their respective owners. A personal project: views are my own and do not represent any employer, client, or vendor.</p>
-<div class="lx-foot-in"><p class="lx-version">Lensatic app 1.0 (4), content 1.2.22, 28 Oct 2026</p><ul><li><a href="../privacy.html">Privacy policy</a></li><li><a href="../support.html">Support</a></li><li><a href="https://github.com/KensDen/lensatic">Source code</a></li></ul></div>
 </footer>
+<!-- lx-foot -->
+<footer class="lx-foot"><div class="lx-foot-in"><p class="lx-version">Lensatic app 1.0 (4), content 1.2.22, 28 Oct 2026</p><ul><li><a href="../privacy.html">Privacy policy</a></li><li><a href="../support.html">Support</a></li><li><a href="https://github.com/KensDen/lensatic">Source code</a></li></ul></div><div class="lx-foot-in"><p class="lx-copy">Copyright 2026 Ken Connell. <a href="https://github.com/KensDen/lensatic/blob/main/playbook/LICENSE">All rights reserved</a>.</p><p class="lx-copy">Fonts: IBM Plex, SIL Open Font License 1.1.</p></div></footer>
+<!-- /lx-foot -->
 </body>
 </html>

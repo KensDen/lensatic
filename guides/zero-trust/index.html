@@ -158,6 +158,9 @@
   border: 1px solid var(--line-strong); border-radius: var(--radius); }
 .lx-skip:focus { top: var(--s-2); }
 .lx-wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--s-4); }
+/* the column is the hub's on every page, whatever box model a page sets for itself: 68rem of content between 16-pixel
+   gutters (site review, 28 October 2026) */
+.lx-wrap, .lx-bar-in, .lx-foot-in { box-sizing: content-box; }
 .lx-vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 /* line breaks: headings and the eyebrow balance their lines, running text keeps its last word company (QC, 24 October 2026) */
 .lx-page :is(h1, h2, h3, h4, .lx-eyebrow) { text-wrap: balance; }
@@ -249,6 +252,8 @@
 .lx-foot { margin-top: var(--s-7); border-top: 1px solid var(--line); background: var(--bg-2); font-size: 0.9375rem; color: var(--fg-2); }
 .lx-foot-in { max-width: var(--maxw); margin: 0 auto; padding: var(--s-5) var(--s-4); display: flex; flex-wrap: wrap; align-items: center;
   justify-content: space-between; gap: var(--s-2) var(--s-5); }
+.lx-foot-in:has(+ .lx-foot-in) { padding-bottom: var(--s-1); }
+.lx-foot-in + .lx-foot-in { padding-top: 0; }  /* the rights and fonts lines follow the links without a second gap (site review) */
 /* the version line grows into the free space on its row, alone on its row under the links' width; each copyright or
    fonts line takes a whole row, so every line of text spans the column (layout sweep, 24 October 2026) */
 .lx-version { margin: 0; font-family: var(--mono); font-size: 0.875rem; flex: 1 1 auto; }
@@ -280,7 +285,7 @@
   html { background: var(--bg); -webkit-text-size-adjust: 100%; scroll-padding-top: 16px; }
   body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.6; overflow-wrap: break-word; }
   .wrap { max-width: 960px; margin: 0 auto; padding: 40px 24px 56px; }
-  .lx-foot-in { max-width: 960px; padding-left: 24px; padding-right: 24px; }  /* v2.8: the shared footer lines up with the page; v2.8.3 v1.2: the bar keeps the shared width (Q16) */
+  .lx-foot-in { box-sizing: border-box; max-width: 960px; padding-left: 24px; padding-right: 24px; }  /* v2.8: the shared footer lines up with the page; v2.8.3 v1.2: the bar keeps the shared width (Q16) */
   a { color: var(--accent); text-underline-offset: 3px; }
   a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
   .skip { position: absolute; left: -9999px; top: 8px; background: var(--accent); color: var(--on-accent); padding: 8px 12px; border-radius: 6px; z-index: 10; }
@@ -590,7 +595,7 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     <h1><span class="z0w">Zer<span class="z0o">o</span><svg class="z0" viewBox="0 0 538 722" width="0.538em" height="0.722em" aria-hidden="true" focusable="false"><path class="r" fill-rule="evenodd" d="M0.0 361.0a269.0 361.0 0 1 0 538.0 0a269.0 361.0 0 1 0 -538.0 0ZM163.0 361.0a106.0 234.0 0 1 0 212.0 0a106.0 234.0 0 1 0 -212.0 0Z"/><polygon class="k" stroke-width="37.4" points="509.7,0.0 346.8,412.8 28.3,722.0 191.2,309.2"/><polygon class="n" points="509.7,0.0 346.8,412.8 191.2,309.2"/><polygon class="s" points="28.3,722.0 346.8,412.8 191.2,309.2"/><circle class="p" cx="269.0" cy="361.0" r="24.3"/></svg></span> Trust</h1>
     <p class="lead">Eight weeks from practitioner to lead. A shared core, then a track for where you work.</p>
     <p class="edition">Public edition v2.8.3, 18 October 2026. By Ken Connell. Public sources only.</p>
-    <p class="actions"><a class="btn primary" href="20261018_ZT_Study_Guide_v2.8.3.pdf">Study guide <small>PDF, 26 pages</small></a><span class="label">Quick References</span><a class="btn" href="20261018_ZT_Quick_Reference_DoW_v2.8.3.pdf">DoW <small>PDF, one-pager</small></a> <a class="btn" href="20261018_ZT_Quick_Reference_Federal_Civilian_v2.8.3.pdf">Federal civilian <small>PDF, one-pager</small></a> <a class="btn" href="20261018_ZT_Quick_Reference_Private_Sector_v2.8.3.pdf">Private sector <small>PDF, one-pager</small></a></p>
+    <p class="actions"><a class="btn primary" href="20261018_ZT_Study_Guide_v2.8.3.pdf">Study Guide (PDF)</a> <a class="btn" href="20261018_ZT_Quick_Reference_DoW_v2.8.3.pdf">Quick Reference: DoW (PDF)</a> <a class="btn" href="20261018_ZT_Quick_Reference_Federal_Civilian_v2.8.3.pdf">Quick Reference: Federal Civilian (PDF)</a> <a class="btn" href="20261018_ZT_Quick_Reference_Private_Sector_v2.8.3.pdf">Quick Reference: Private Sector (PDF)</a></p>
   </header>
   <nav class="tracks" aria-labelledby="tracks-h"><h2 id="tracks-h">Go to your track</h2><ul><li><a href="#part-1"><span class="t">Core</span><span class="s">Weeks 1 to 4, everyone</span></a></li><li><a href="#track-dow"><span class="t">DoW</span><span class="s">Weeks 5 to 8</span></a></li><li><a href="#track-federal-civilian"><span class="t">Federal civilian</span><span class="s">Weeks 5 to 8</span></a></li><li><a href="#track-private-sector"><span class="t">Private sector</span><span class="s">Weeks 5 to 8</span></a></li></ul><p>Not sure which? See <a href="#which-track">Which track are you?</a></p></nav>
   <nav class="toc" aria-label="Contents"><h2>Contents</h2><ol><li><a href="#how-to-use">How to use this guide</a></li><li><a href="#part-1">Part 1. The core (Weeks 1 to 4)</a></li><li><a href="#part-2">Part 2. The tracks (Weeks 5 to 8)</a></li><li><a href="#part-3">Part 3. The eight weeks at a glance</a></li><li><a href="#part-4">Part 4. Three fluencies, with drills</a></li><li><a href="#part-5">Part 5. Numbers and vocabulary to own cold</a></li><li><a href="#part-6">Part 6. Field notes</a></li><li><a href="#part-7">Part 7. After Week 8</a></li><li><a href="#qr-dow">Zero Trust Quick Reference: DoW</a></li><li><a href="#qr-federal-civilian">Zero Trust Quick Reference: Federal Civilian</a></li><li><a href="#qr-private-sector">Zero Trust Quick Reference: Private Sector</a></li><li><a href="#sources">Sources</a></li><li><a href="#about">About this edition</a></li></ol></nav>
@@ -1130,6 +1135,8 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
   </main>
   <p class="to-top"><a href="#top">Back to top</a></p>
 </div>
-<footer class="lx-foot"><div class="lx-foot-in"><p class="lx-version">Lensatic app 1.0 (4), content 1.2.22, 28 Oct 2026</p><ul><li><a href="../../privacy.html">Privacy policy</a></li><li><a href="../../support.html">Support</a></li><li><a href="https://github.com/KensDen/lensatic">Source code</a></li></ul></div><div class="lx-foot-in"><p class="lx-copy">Copyright 2026 Ken Connell. <a href="https://github.com/KensDen/lensatic/blob/main/guides/zero-trust/LICENSE">All rights reserved</a>.</p></div></footer>
+<!-- lx-foot -->
+<footer class="lx-foot"><div class="lx-foot-in"><p class="lx-version">Lensatic app 1.0 (4), content 1.2.22, 28 Oct 2026</p><ul><li><a href="../../privacy.html">Privacy policy</a></li><li><a href="../../support.html">Support</a></li><li><a href="https://github.com/KensDen/lensatic">Source code</a></li></ul></div><div class="lx-foot-in"><p class="lx-copy">Copyright 2026 Ken Connell. <a href="https://github.com/KensDen/lensatic/blob/main/guides/zero-trust/LICENSE">All rights reserved</a>.</p><p class="lx-copy">Fonts: IBM Plex, SIL Open Font License 1.1.</p></div></footer>
+<!-- /lx-foot -->
 </body>
 </html>

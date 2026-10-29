@@ -138,7 +138,7 @@ def main() -> int:
         errs.append(r.stdout.strip())
     css = bw.SHARED_CSS.read_text(encoding="utf-8").rstrip("\n")
     wrapper = bw.OUT.read_text(encoding="utf-8")
-    if wrapper.count(bw.umbrella_bar(s, "../", "maps", brand_mark=False)) != 1:
+    if wrapper.count(bw.umbrella_bar(s, "../", "maps")) != 1:  # the hub's bar, mark and all (site review, 28 October 2026)
         errs.append("web/lensatic.html: the umbrella bar is missing or stale")
     if css not in wrapper:
         errs.append("web/lensatic.html: the shared stylesheet is missing or stale")
@@ -150,6 +150,22 @@ def main() -> int:
     foot = bh.footer(s, d, "../../", licence=s["repo"] + "/blob/main/guides/zero-trust/LICENSE")  # 2.0.2: its rights line links its own notice
     if zt.count(foot) != 1:
         errs.append("guides/zero-trust/index.html: the shared footer is missing or stale")
+    # the site review (28 October 2026): every Lensatic page carries the one shared footer, and the plain pages the bar
+    labels = d["ui"]["labels"]
+    plain = {k: (DOCS / f"{k}.html").read_text(encoding="utf-8") for k in ("privacy", "support")}
+    for rel, page, foot_ in (("docs/index.html", (DOCS / "index.html").read_text(encoding="utf-8"), bh.footer(s, d, "./")),
+                             ("docs/404.html", (DOCS / "404.html").read_text(encoding="utf-8"), bh.footer(s, d, s["site"])),
+                             ("docs/guides/index.html", (DOCS / "guides" / "index.html").read_text(encoding="utf-8"), bh.footer(s, d, "../")),
+                             ("web/lensatic.html", wrapper, bw.site_footer(s, labels, bw.SITE)),
+                             ("playbook/index.html", (ROOT / "playbook" / "index.html").read_text(encoding="utf-8"),
+                              bh.footer(s, d, "../", licence=s["repo"] + "/blob/main/playbook/LICENSE")),
+                             ("docs/privacy.html", plain["privacy"], bw.site_footer(s, labels, "./")),
+                             ("docs/support.html", plain["support"], bw.site_footer(s, labels, "./"))):
+        if page.count(foot_) != 1 or page.count('class="lx-foot"') != 1:
+            errs.append(f"{rel}: the shared footer is missing, stale or not the page's only footer")
+    for k, page in plain.items():
+        if page.count(bw.umbrella_bar(s, "./", None)) != 1:
+            errs.append(f"docs/{k}.html: the umbrella bar is missing or stale")
     # Lensatic 2.0.2: every page with the umbrella bar carries the one theme script in its head, before its first stylesheet
     head = bw.theme_head()
     for rel, page in (("docs/index.html", (DOCS / "index.html").read_text(encoding="utf-8")),
@@ -157,11 +173,13 @@ def main() -> int:
                       ("docs/404.html", (DOCS / "404.html").read_text(encoding="utf-8")),
                       ("web/lensatic.html", wrapper), ("guides/zero-trust/index.html", zt),
                       ("playbook/index.html", (ROOT / "playbook" / "index.html").read_text(encoding="utf-8")),
-                      ("playbook/Playbook/index.html", (ROOT / "playbook" / "Playbook" / "index.html").read_text(encoding="utf-8"))):
+                      ("playbook/Playbook/index.html", (ROOT / "playbook" / "Playbook" / "index.html").read_text(encoding="utf-8")),
+                      ("docs/privacy.html", plain["privacy"]), ("docs/support.html", plain["support"])):
         if page.count(head) != 1 or page.index(head) > page.index("<style"):
             errs.append(f"{rel}: the shared theme script is missing, stale or after a stylesheet")
-    rep.check("chrome: the Agentic SecOps landing and app, the map and the Zero Trust guide carry the current umbrella bar and shared "
-              "stylesheet (and the guide the shared footer); every page with the bar carries the one theme script", errs)
+    rep.check("chrome: the Agentic SecOps landing and app, the map, the Zero Trust guide and the plain pages carry the current umbrella "
+              "bar and shared stylesheet; every Lensatic page carries the one shared footer; every page with the bar carries the one theme "
+              "script", errs)
 
     # ---- tokens
     errs = []
@@ -267,8 +285,9 @@ def main() -> int:
     elif (int(m[1]), int(m[2]), int(m[3])) != (pc["actions"], pc["resources"], pc["glossary"]):
         errs.append(f"hub {pc} != ripple_check {m.group(0)}")
     hub = (DOCS / "index.html").read_text(encoding="utf-8")
+    hub_text = html.unescape(re.sub(r"<[^>]+>", "", hub))  # each count sits in its own span (site review, 28 October 2026)
     want = bh.counts(s, d)
-    errs += [f"the hub does not state {v!r}" for v in want.values() if v not in hub]
+    errs += [f"the hub does not state {v!r}" for v in want.values() if v not in hub_text]
     rep.check("counts: the hub states the counts read from their sources, and the Agentic SecOps counts equal ripple_check's derived canon",
               errs, " | ".join(want.values()))
 

@@ -24,9 +24,10 @@
   --shadow: none;
   --radius: 8px;
   --card-radius: 12px;
-  --maxw: 60rem;
+  /* the hub's column (hub/lensatic.css): the umbrella bar, the section bar and the content share one left edge (site review, 28 October 2026) */
+  --maxw: 68rem;
   --nav-h: 3.5rem;
-  --gutter: 24px;
+  --gutter: 16px;
   --sans: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
   color-scheme: light;
@@ -105,7 +106,7 @@ small, .small { font-size: 0.875rem; color: var(--fg-2); }
 
 /* header: a solid bar with a hairline; the inner row aligns to a container a little wider than the reading column */
 .top { position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
-.top-in { display: flex; align-items: center; gap: 0.5rem; max-width: 70rem; height: var(--nav-h); margin: 0 auto; padding: 0 var(--gutter); }
+.top-in { display: flex; align-items: center; gap: 0.5rem; max-width: calc(var(--maxw) + 2 * var(--gutter)); height: var(--nav-h); margin: 0 auto; padding: 0 var(--gutter); }
 /* the umbrella bar (Lensatic 2.0, hub/lensatic.css) lines up with the app's own header */
 .brand { display: flex; align-items: center; gap: 0.5rem; color: var(--accent); flex: 0 0 auto; min-width: 0; min-height: 44px; margin-right: 0.75rem; text-decoration: none; }
 .mark { display: block; flex: 0 0 auto; }
@@ -363,26 +364,12 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
 /* about */
 .about-name { margin-bottom: 0.875rem; }
 .counts { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.made-by { margin-top: 1rem; margin-bottom: 0.25rem; }
-/* why the name: the front door's version line links here, so the heading clears the sticky header when it lands */
-.name-head { margin-top: 1.75rem; scroll-margin-top: calc(var(--nav-h) + 0.5rem); }
-/* the compass photo: above the story on phones, beside it from 768 pixels up */
-.name-story { display: grid; gap: 0.875rem 1.5rem; }
-.name-story .name-text p:first-child { margin-top: 0; }
-.name-photo { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--card-radius); }
-@media (min-width: 768px) { .name-story { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; } }
 
-/* footer, after main */
-.foot { margin-top: 4rem; border-top: 1px solid var(--line); font-size: 0.875rem; color: var(--fg-2); }
-.foot-in { max-width: calc(var(--maxw) + 2 * var(--gutter)); margin: 0 auto; padding: 1.5rem var(--gutter) 2.5rem; }
-.foot p { margin: 0 0 0.375rem; }
-.foot-lic a.gl { color: var(--fg); }
-.foot-nav { display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
-.foot-nav a { display: inline-flex; align-items: center; min-height: 44px; }
+/* footer: the shared one (hub/lensatic.css), after main, a little further down than on the hub */
+.lx-foot { margin-top: 4rem; }
 
 /* narrow screens */
 @media (max-width: 639.98px) {
-  :root { --gutter: 16px; }
   h1, .hero h1 { font-size: 2.25rem; }
   .hero { padding-top: 2.25rem; }
   .lede { font-size: 1.09375rem; }
@@ -401,7 +388,7 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
   .gl-entry { grid-template-columns: minmax(0, 1fr); }
   .status { white-space: normal; }
   /* room below the footer's links for the corner button */
-  .foot-in { padding-bottom: 5rem; }
+  .lx-foot .lx-foot-in:last-child { padding-bottom: 5rem; }
 }
 @media (max-width: 767px) {
   /* back to top leaves the header on phones: a fixed button in the corner, so the section menu gets the room */
@@ -470,8 +457,6 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
   .hero { padding: 0; }
   .lede { font-size: 9pt; margin: 0 0 3pt; }
   .stamp { font-size: 7pt; }
-  .name-story { display: block; }
-  .name-photo { width: 1.05in; margin: 0 0 3pt; border: 0; border-radius: 0; }  /* the portrait photo (R5) prints at the old landscape one's height */
   .view { margin-top: 0; padding: 6pt 0 4pt; }
   .sec-head { padding-bottom: 2pt; margin-bottom: 4pt; border-bottom: 0.5pt solid #999; }
   h2, h3, .matrix-caption, .sec-head { break-after: avoid-page; }
@@ -512,15 +497,15 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
   .fncard .cat-list { padding-left: 0; }
   .soc { background: none; }
   .soc th, .soc td { padding: 2pt 3pt; font-size: inherit; }
-  .ent a[href^="http"]:not(.url):not(.in-note)::after, .foot-nav a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; color: #333; overflow-wrap: anywhere; }
+  .ent a[href^="http"]:not(.url):not(.in-note)::after, .lx-foot ul a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; color: #333; overflow-wrap: anywhere; }
   .glossary { display: block; columns: 3; column-gap: 10pt; font-size: 7.5pt; line-height: 1.25; }
   .gl-entry { display: block; break-inside: avoid; padding: 1pt 0; border-top: 0; }
   .gl-entry dt { display: inline; font-size: inherit; }
   .gl-entry dt::after { content: " "; }
   .gl-entry dd { display: inline; }
   a.gl { text-decoration: none; }
-  .foot { margin-top: 6pt; border-top: 0.5pt solid #999; font-size: 7.5pt; color: #333; }
-  .foot-in { max-width: none; padding: 3pt 0 0; }
+  .lx-foot { margin-top: 6pt; border-top: 0.5pt solid #999; background: none; font-size: 7.5pt; color: #333; }
+  .lx-foot-in { max-width: none; padding: 3pt 0 0; }
   .foot-nav { display: block; }
   .foot-nav a { display: inline; min-height: 0; margin-right: 8pt; }
   /* the matrix: the department's view only, first sentences only, on landscape pages */
