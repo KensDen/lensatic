@@ -120,6 +120,10 @@ async function fallbackChrome(puppeteer) {
     args: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
   });
   const page = await browser.newPage();
+  /* no downloads (29 October 2026): this page holds the Action Plan's export buttons; a click here must never save a file to
+   * ~/Downloads */
+  const cdp = await page.createCDPSession();
+  await cdp.send('Browser.setDownloadBehavior', { behavior: 'deny' });
   await page.setViewport({ width: 1400, height: 900 });
   page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text().slice(0, 180)); });
   page.on('pageerror', (e) => pageErrors.push(String(e).slice(0, 180)));

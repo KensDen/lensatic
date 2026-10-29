@@ -98,6 +98,10 @@ const TABS = (() => {
     args: ['--no-sandbox', '--disable-gpu', '--disable-dev-shm-usage'],
   });
   const page = await browser.newPage();
+  /* no downloads (29 October 2026): the CSV and Markdown checks below read the export's Blob in memory, and the click that makes it would otherwise
+   * save a real file to ~/Downloads */
+  const cdp = await page.createCDPSession();
+  await cdp.send('Browser.setDownloadBehavior', { behavior: 'deny' });
   await page.setViewport({ width: 1280, height: 900 });
   page.on('console', (m) => { if (m.type() === 'error') consoleErrors.push(m.text().slice(0, 180)); });
   page.on('pageerror', (e) => pageErrors.push(String(e).slice(0, 180)));
@@ -142,6 +146,14 @@ const TABS = (() => {
   check('Action Plan live counts 87/40/37/10',
     plan.all === 87 && plan.now === 40 && plan.next === 37 && plan.later === 10,
     JSON.stringify(plan));
+
+  /* the exports below never become downloads: the app clicks a temporary <a download> for each, and that click is
+   * dropped here, so Chrome never starts a download (with the denial above, even a started one never touches a disk);
+   * the checks read the Blob the app hands URL.createObjectURL */
+  await page.evaluate(() => {
+    const click = HTMLAnchorElement.prototype.click;
+    HTMLAnchorElement.prototype.click = function () { if (!this.hasAttribute('download')) click.call(this); };
+  });
 
   const csv = await page.evaluate(async () => new Promise((res) => {
     const orig = URL.createObjectURL.bind(URL); let captured = null;
