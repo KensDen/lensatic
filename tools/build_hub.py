@@ -47,7 +47,7 @@ EMBLEM = HUB / "marks" / "apt-unicorn-emblem.webp"   # the Agentic SecOps emblem
 # the maker's compass photos (R5; the v1.1 set since R6, oriented to map north), cropped around the compass, sized, in sRGB
 # and with every metadata segment stripped, embedded as data: URIs like every other image here: the compass at an angle
 # on a world map beside the hero's text, and the compass on the open map under Why the name (29 October 2026: why.jpg, the
-# banner's framing whole, 1408 wide for the 44rem column at 2x). hub/photos/close.jpg, the compass close up, is kept
+# banner's framing whole, 2176 wide for the card row's 68rem at 2x). hub/photos/close.jpg, the compass close up, is kept
 # beside them for the social cards and is not published yet.
 HERO_PHOTO = HUB / "photos" / "hero.jpg"
 WHY_PHOTO = HUB / "photos" / "why.jpg"
@@ -190,6 +190,15 @@ HUB_CSS = """.lx-hero-lines { margin: var(--s-5) 0 0; padding: 0; list-style: no
 .lx-why-photo { margin: 0 0 var(--s-4); max-width: 44rem; }
 .lx-why-photo img { display: block; box-sizing: border-box; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--card-radius); }
 .lx-name-text p:first-child { margin-top: 0; }
+/* from 900 pixels (Ken's pick from the mock-up, 29 October 2026): Why the name and About span the card row's width, edge to
+   edge with the three cards, their dividers too (drawn at the content's width, not the padded section's); the longer lines
+   read at a larger size and leading, and no paragraph ends on a lone word. Below 900 nothing changes */
+@media (min-width: 900px) {
+  .lx-why, .lx-about { border-top: 0; background: linear-gradient(var(--line), var(--line)) no-repeat center top / calc(100% - 2 * var(--s-4)) 1px; }
+  .lx-why > h2, .lx-about > h2 { font-size: 1.75rem; }
+  .lx-why-photo, .lx-why p, .lx-about p { max-width: none; }
+  .lx-why p, .lx-about p { font-size: 1.1875rem; line-height: 1.7; text-wrap: pretty; }
+}
 .lx-hero-grid { display: grid; gap: 0 var(--s-6); }
 .lx-hero-photo { margin: var(--s-5) 0 0; max-width: 30rem; }
 .lx-hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 40%; border: 1px solid var(--line); border-radius: var(--card-radius); }
