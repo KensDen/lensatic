@@ -46,10 +46,11 @@ SHARED_CSS = HUB / "lensatic.css"
 EMBLEM = HUB / "marks" / "apt-unicorn-emblem.webp"   # the Agentic SecOps emblem, the landing's own file, resized by CSS only
 # the maker's compass photos (R5; the v1.1 set since R6, oriented to map north), cropped around the compass, sized, in sRGB
 # and with every metadata segment stripped, embedded as data: URIs like every other image here: the compass at an angle
-# on a world map beside the hero's text, and the compass on the open map as the banner Why the name is set over, in About.
-# hub/photos/close.jpg, the compass close up, is kept beside them for the social cards and is not published yet
+# on a world map beside the hero's text, and the compass on the open map under Why the name (29 October 2026: why.jpg, the
+# banner's framing whole, 1408 wide for the 44rem column at 2x). hub/photos/close.jpg, the compass close up, is kept
+# beside them for the social cards and is not published yet.
 HERO_PHOTO = HUB / "photos" / "hero.jpg"
-BANNER_PHOTO = HUB / "photos" / "banner.jpg"
+WHY_PHOTO = HUB / "photos" / "why.jpg"
 GUIDES = ROOT / "guides"
 PLAYBOOK = ROOT / "playbook"
 DOCS = ROOT / "docs"
@@ -184,11 +185,11 @@ HUB_CSS = """.lx-hero-lines { margin: var(--s-5) 0 0; padding: 0; list-style: no
 .lx-about p { color: var(--fg); }
 .lx-byline { margin: var(--s-2) 0 0; color: var(--fg-2); }
 .lx-byline a { display: inline-flex; align-items: center; min-height: 44px; color: var(--link); }
-.lx-name-head { margin: var(--s-6) 0 var(--s-3); font-size: 1.25rem; line-height: 1.3; }
-.lx-name-story { display: grid; gap: var(--s-3) var(--s-5); }
+/* Why the name (29 October 2026): its own section before About, the heading plain text like About's, the photo below it
+   at the About column's width and left edge, whole (the compass and its cord loop uncropped), nothing set over it */
+.lx-why-photo { margin: 0 0 var(--s-4); max-width: 44rem; }
+.lx-why-photo img { display: block; box-sizing: border-box; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--card-radius); }
 .lx-name-text p:first-child { margin-top: 0; }
-.lx-name-photo { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--card-radius); }
-@media (min-width: 768px) { .lx-name-story { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; } }
 .lx-hero-grid { display: grid; gap: 0 var(--s-6); }
 .lx-hero-photo { margin: var(--s-5) 0 0; max-width: 30rem; }
 .lx-hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 40%; border: 1px solid var(--line); border-radius: var(--card-radius); }
@@ -197,13 +198,7 @@ HUB_CSS = """.lx-hero-lines { margin: var(--s-5) 0 0; padding: 0; list-style: no
   .lx-hero-grid { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); grid-template-areas: "text photo" "more photo"; align-items: start; }
   .lx-hero-text { grid-area: text; } .lx-hero-more { grid-area: more; } .lx-hero-photo { grid-area: photo; margin-top: var(--s-2); }
   .lx-hero-photo img { aspect-ratio: auto; }
-}
-/* the banner: the photo of the compass on the open map, with Why the name over the map, on a fixed dark scrim so the
-   heading reads the same in both themes (the photo is the same in both) */
-.lx-banner { position: relative; margin: var(--s-6) 0 var(--s-4); border: 1px solid var(--line); border-radius: var(--card-radius); overflow: hidden; background: #040817; }
-.lx-banner img { display: block; width: 100%; height: clamp(15rem, 42vw, 26rem); object-fit: cover; object-position: 0% 50%; }  /* on a phone the crop keeps the open map on the left, under the heading, and the compass to its right */
-.lx-banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4, 8, 23, 0.9) 0%, rgba(4, 8, 23, 0.6) 30%, rgba(4, 8, 23, 0) 55%); }
-.lx-banner .lx-name-head { position: absolute; z-index: 1; top: 0; left: 0; right: 0; margin: 0; padding: var(--s-4) var(--s-5); color: #EAF4FF; font-size: clamp(1.375rem, 3.2vw, 2rem); }"""
+}"""
 
 
 def head(s: dict, title: str, description: str, url: str, image_alt: str) -> str:
@@ -235,13 +230,14 @@ def photo(path: Path, cls: str, alt: str) -> str:
 
 
 def name_story(r: "bw.Renderer", about: dict, s: dict) -> str:
-    """Where the name comes from, as the Framework Maps About panel tells it: its heading and meta.about.nameStory, from
-    content/stack.json and ui.labels, never restated. Since R5 the heading is set over the banner, the compass on the open
-    map (hub/site.json bannerAlt); the map's About and the app keep the top-down photo beside the same story."""
+    """Where the name comes from: its own section before About (29 October 2026), so the story comes before the legal
+    text. The heading (ui.labels.whyNameHeading) is plain text like About's and keeps the #about-name anchor the map links
+    to; the photo of the compass on the open map (hub/site.json bannerAlt) follows at the column's width, then the story,
+    meta.about.nameStory, word for word."""
     story = "".join(f"<p>{r.t(p)}</p>" for p in about["nameStory"])
-    return (f'<div class="lx-banner">{photo(BANNER_PHOTO, "lx-banner-photo", s["bannerAlt"])}'
-            f'<h3 class="lx-name-head" id="about-name">{r.label("whyNameHeading")}</h3></div>'
-            f'<div class="lx-name-text">{story}</div>')
+    return (f'<section class="lx-wrap lx-section lx-why" aria-labelledby="about-name"><h2 id="about-name">{r.label("whyNameHeading")}</h2>'
+            f'<figure class="lx-why-photo">{photo(WHY_PHOTO, "lx-why-img", s["bannerAlt"])}</figure>'
+            f'<div class="lx-name-text">{story}</div></section>\n')
 
 
 def byline(s: dict) -> str:
@@ -282,10 +278,11 @@ def hub_page(s: dict, d: dict) -> str:
             f'<p class="lx-actions lx-start"><a class="lx-btn" href="maps/#view-doors">{r.label("heroPrimary")}</a></p></div></div></header>\n')
     sections = (f'<section class="lx-wrap lx-section" aria-labelledby="sections-h"><h2 id="sections-h" class="lx-vh">{esc(kicker)}</h2>'
                 f'<ul class="lx-tiles">{"".join(tiles)}</ul></section>\n')
+    why_html = name_story(r, about, s) if "nameStory" in s["aboutBlocks"] else ""
     about_html = (f'<section class="lx-wrap lx-section lx-about" id="about" aria-labelledby="about-h"><h2 id="about-h">{esc(s["aboutLabel"])}</h2>'
-                  + "".join(name_story(r, about, s) if k == "nameStory" else f"<p>{r.t(about[k])}</p>" for k in s["aboutBlocks"]) + "</section>\n")
+                  + "".join(f"<p>{r.t(about[k])}</p>" for k in s["aboutBlocks"] if k != "nameStory") + "</section>\n")
     body = (f'<body class="lx-page">\n<a class="lx-skip" href="#main">{r.label("skip")}</a>\n{bar(s, "./", None)}\n<main id="main">\n'
-            f'{fu.section(hero)}{fu.section(sections)}{fu.section(about_html)}'
+            f'{fu.section(hero)}{fu.section(sections)}{fu.section(why_html)}{fu.section(about_html)}'
             f'</main>\n{footer(s, d, "./")}\n</body>\n</html>\n')
     return head(s, s["name"], d["meta"]["pitch"], s["site"], card_alt(s)) + body
 

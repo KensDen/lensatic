@@ -284,11 +284,11 @@
 .lx-about p { color: var(--fg); }
 .lx-byline { margin: var(--s-2) 0 0; color: var(--fg-2); }
 .lx-byline a { display: inline-flex; align-items: center; min-height: 44px; color: var(--link); }
-.lx-name-head { margin: var(--s-6) 0 var(--s-3); font-size: 1.25rem; line-height: 1.3; }
-.lx-name-story { display: grid; gap: var(--s-3) var(--s-5); }
+/* Why the name (29 October 2026): its own section before About, the heading plain text like About's, the photo below it
+   at the About column's width and left edge, whole (the compass and its cord loop uncropped), nothing set over it */
+.lx-why-photo { margin: 0 0 var(--s-4); max-width: 44rem; }
+.lx-why-photo img { display: block; box-sizing: border-box; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--card-radius); }
 .lx-name-text p:first-child { margin-top: 0; }
-.lx-name-photo { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: var(--card-radius); }
-@media (min-width: 768px) { .lx-name-story { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); align-items: start; } }
 .lx-hero-grid { display: grid; gap: 0 var(--s-6); }
 .lx-hero-photo { margin: var(--s-5) 0 0; max-width: 30rem; }
 .lx-hero-photo img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 40%; border: 1px solid var(--line); border-radius: var(--card-radius); }
@@ -298,12 +298,6 @@
   .lx-hero-text { grid-area: text; } .lx-hero-more { grid-area: more; } .lx-hero-photo { grid-area: photo; margin-top: var(--s-2); }
   .lx-hero-photo img { aspect-ratio: auto; }
 }
-/* the banner: the photo of the compass on the open map, with Why the name over the map, on a fixed dark scrim so the
-   heading reads the same in both themes (the photo is the same in both) */
-.lx-banner { position: relative; margin: var(--s-6) 0 var(--s-4); border: 1px solid var(--line); border-radius: var(--card-radius); overflow: hidden; background: #040817; }
-.lx-banner img { display: block; width: 100%; height: clamp(15rem, 42vw, 26rem); object-fit: cover; object-position: 0% 50%; }  /* on a phone the crop keeps the open map on the left, under the heading, and the compass to its right */
-.lx-banner::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4, 8, 23, 0.9) 0%, rgba(4, 8, 23, 0.6) 30%, rgba(4, 8, 23, 0) 55%); }
-.lx-banner .lx-name-head { position: absolute; z-index: 1; top: 0; left: 0; right: 0; margin: 0; padding: var(--s-4) var(--s-5); color: #EAF4FF; font-size: clamp(1.375rem, 3.2vw, 2rem); }
 </style>
 </head>
 <body class="lx-page lx-guides">

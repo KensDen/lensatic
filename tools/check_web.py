@@ -1053,8 +1053,8 @@ def main() -> int:
                         f"and hold nothing else; it holds {[p_ if isinstance(p_, str) else '<' + p_.tag + '>' for p_ in parts_]}")
         hub_ = parse((DOCS / "index.html").read_text(encoding="utf-8")) if (DOCS / "index.html").is_file() else None
         target = (hub_.ids.get("about-name") if hub_ else None) or []
-        if len(target) != 1 or target[0].tag != "h3" or norm(text_of(target[0])) != norm(L["whyNameHeading"]):
-            errs.append("front door: the hub's #about-name is not one h3 reading ui.labels.whyNameHeading")
+        if len(target) != 1 or target[0].tag != "h2" or norm(text_of(target[0])) != norm(L["whyNameHeading"]):  # its own section since 29 Oct 2026
+            errs.append("front door: the hub's #about-name is not one h2 reading ui.labels.whyNameHeading")
         if atree_b.ids.get("about-name"):
             errs.append("front door: the map still carries #about-name; the story of the name lives on the hub")
     rep.check("front door: exactly the tile, the name, the description, the two buttons (to the doors and to the stack) "
