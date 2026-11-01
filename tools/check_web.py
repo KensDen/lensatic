@@ -42,6 +42,7 @@ every Unverified or Conflict document shows its verification note; AI Risk Manag
 out; print shows each department cell's capability numbers before its sentence and leaves out the hero's buttons.
 Session 20: a glossary entry shows a status badge only when it is not verified, then exactly one of its status; every
 framework, source and solution keeps every badge its records give.
+Owner's ruling, 29 October 2026: every glossary spell-out on the map is in Title Case, with no "&".
 The embedded JSON element is exempt from the text checks: it is content/stack.json byte for byte and is
 checked by the content battery; its URLs are data, its render tokens are data.
 """
@@ -104,9 +105,11 @@ LICENCE_SUPPORT = "To ask about reusing Lensatic’s code or text, open an issue
 # the owner's ruling of 27 Sep 2026 (session 7D): these terms, and only these, are marked wellKnown in the glossary and
 # never spelled out on any built page; the guard reads this pin, not the content flag, so dropping the flag fails it
 # R5 (28 Oct 2026): GPS joins it, so the maker's own paragraph in Why the name reads word for word (nits v0.5 item 18)
-WELL_KNOWN = {"AI": "artificial intelligence", "GPS": "Global Positioning System"}
+WELL_KNOWN = {"AI": "Artificial Intelligence", "GPS": "Global Positioning System"}
 # the well-known terms the AI column uses and links once; GPS is plain everywhere
 WELL_KNOWN_LINKED = ("AI",)
+# the words a glossary spell-out keeps lowercase unless first (owner's ruling, 29 October 2026)
+GLOSSARY_SMALL_WORDS = {"a", "an", "the", "and", "or", "of", "to", "in", "on", "for", "with", "by", "as", "at"}
 # the owner's ruling of 6 Oct 2026 (session 17): a well-known term links to its glossary entry in one place only, its first
 # use in the running text of the AI column, and is plain everywhere else, labels included; the guard reads this pin
 WELL_KNOWN_SECTION = "view-ai"
@@ -776,6 +779,30 @@ def document_note_errors(tree: Tree, d: dict) -> tuple[list[str], int]:
     return errs, n
 
 
+def spellout_errors(tree: Tree, d: dict) -> tuple[list[str], int]:
+    """Every glossary spell-out as the map shows it, in Title Case (owner's ruling, 29 October 2026): each word, and each
+    part of a hyphenated word, opens with a capital, and GLOSSARY_SMALL_WORDS stay lowercase unless first. No "&"."""
+    errs, n = [], 0
+    for g in d.get("glossary", []):
+        if not g.get("expansion"):
+            continue
+        entry = tree.ids.get(f"gl-{B.slug(tok_dow(d, g['term']))}") or []
+        shown = [x for e in entry for x in walk_nodes(e) if "gl-exp" in classes_of(x)]
+        if len(shown) != 1:
+            errs.append(f"glossary {g['term']!r}: {len(shown)} spell-outs on the page")
+            continue
+        n += 1
+        text = norm(text_of(shown[0]))
+        if "&" in text:
+            errs.append(f"glossary {g['term']!r}: {text!r} has an \"&\"")
+        for i, word in enumerate(re.findall(r"[^\s-]+", text)):
+            bare = word.strip(",.;:()")
+            small = i > 0 and bare.lower() in GLOSSARY_SMALL_WORDS
+            if bare != "&" and (bare != bare.lower() if small else not bare[0].isupper()):
+                errs.append(f"glossary {g['term']!r}: {text!r} is not Title Case at {bare!r}")
+    return errs, n
+
+
 def badge_errors(tree: Tree, d: dict) -> tuple[list[str], dict]:
     """Badges by exception in the glossary, every badge elsewhere (session 20). A glossary entry shows a status badge only
     when its status is not verified: none for a verified spelling, exactly one, of its status and reading its status's
@@ -1113,6 +1140,9 @@ def main() -> int:
     rep.check("badges: a glossary entry shows a status badge only when it is not verified, then exactly one, of its status; every "
               "framework, source and solution keeps every badge its records give", errs,
               f"{st_['glossary']} glossary entries, {st_['glossaryBadges']} glossary badges; {st_['entries']} entries, {st_['badges']} badges")
+
+    errs, n_ = spellout_errors(atree_b, d)
+    rep.check("glossary: every spell-out on the map is in Title Case, small words lowercase unless first, no \"&\"", errs, f"{n_} spell-outs")
 
     # the footer every Lensatic page shares (site review, 28 October 2026): on the map with absolute addresses, so the links
     # also work from the offline file, and on the plain pages with the site's own; directly in body, after main

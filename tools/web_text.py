@@ -30,25 +30,28 @@ NAV = {"about": "About Maps"}
 # the plain pages' tab titles (item 16d); each page's heading stays the content's
 PAGE_TITLES = {"privacy": "Lensatic · Privacy Policy", "support": "Lensatic · Support"}
 
-# glossary spell-outs in lowercase where the expansion is not a proper name, a product or a document title (item 16a)
+# glossary spell-outs where the shared content differs from the website's rule, Title Case on every spell-out (owner's
+# ruling, 29 October 2026, reversing item 16a's lowercase; tools/check_web.py holds the rule): the entries lowercase in
+# the shared content, and "&" to "and" and the hyphen in "Software-Defined", kept from item 16a
 GLOSSARY = {
-    "IL": "impact level",
-    "PMO": "program management office",
-    "CIO": "chief information officer",
-    "URL": "uniform resource locator",
-    "SOAR": "security orchestration, automation and response",
-    "SIEM": "security information and event management",
-    "PDP": "policy decision point",
-    "PAM": "privileged access management",
-    "DLP": "data loss prevention",
-    "SDN": "software-defined networking",
-    "EDR": "endpoint detection and response",
-    "XDR": "extended detection and response",
-    "MFA": "multi-factor authentication",
-    "UEM": "unified endpoint management",
-    "MDM": "mobile device management",
-    "ICAM": "identity, credential and access management",
-    "IR": "incident response",
+    "AI": "Artificial Intelligence",
+    "ATO": "Authorization to Operate",
+    "IT": "Information Technology",
+    "OT": "Operational Technology",
+    "ZT": "Zero Trust",
+    "ZTA": "Zero Trust Architecture",
+    "COA": "Course of Action",
+    "STIG": "Security Technical Implementation Guide",
+    "SRG": "Security Requirements Guide",
+    "FCI": "Federal Contract Information",
+    "NAVADMIN": "Navy Specific Administrative Message",
+    "DTM": "Directive-Type Memorandum",
+    "FY": "Fiscal Year",
+    "SOC": "Security Operations Center",
+    "SOAR": "Security Orchestration, Automation and Response",
+    "SDN": "Software-Defined Networking",
+    "EDR": "Endpoint Detection and Response",
+    "XDR": "Extended Detection and Response",
 }
 
 # hub/site.json: the hub's hero caption (items 8 and 10), Title Case on buttons (item 12), the PDF labels (item 14)
