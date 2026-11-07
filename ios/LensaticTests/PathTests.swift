@@ -37,7 +37,7 @@ final class PathTests: XCTestCase {
         XCTAssertFalse(p.progress([1, 2, 3, 4, 5, 6]).isComplete)
         XCTAssertTrue(p.progress(Set(1...7)).isComplete)
         // a trailhead without steps (none ships since content 1.2.21; the model still reads one)
-        let empty = try Strict.decode(Door.self, from: Data(#"{"id":"state-local","title":"T","shortTitle":"T","whoYouAre":"W.","cardLine":"C","steps":[],"pillarView":null,"paragraph":"P.","verification":{"status":"authored","verifiedOn":null,"method":"synthesis","basisIds":["x"],"note":""}}"#.utf8))
+        let empty = try Strict.decode(Door.self, from: Data(#"{"id":"state-local","title":"T","shortTitle":"T","whoYouAre":"W.","welcomeLine":"L","cardLine":"C","steps":[],"pillarView":null,"paragraph":"P.","verification":{"status":"authored","verifiedOn":null,"method":"synthesis","basisIds":["x"],"note":""}}"#.utf8))
         let none = PathPlan(door: empty, entities: store.entities)
         XCTAssertEqual(none.progress([]), .init(done: 0, total: 0))
         XCTAssertFalse(none.progress([]).isComplete)

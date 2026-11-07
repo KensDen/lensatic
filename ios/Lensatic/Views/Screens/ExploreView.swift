@@ -13,25 +13,29 @@ struct ExploreView: View {
         @Bindable var model = model
         let options = ExploreMode.allCases.map { ($0, model.store.content.ui.nav[$0.rawValue] ?? $0.rawValue.capitalized) }
         List {
-            SwiftUI.Section {
-                ScreenHeader(title: AppTab.explore.title)
-                    .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 4, trailing: 20))
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                // the modes: a segmented control under the title
-                if !typeSize.isAccessibilitySize { ModePicker(options: options, selection: $model.explore, identifier: "explore") }
+            Group {
+                SwiftUI.Section {
+                    ScreenHeader(title: AppTab.explore.title)
+                        .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 4, trailing: 20))
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                    // the modes: a segmented control under the title
+                    if !typeSize.isAccessibilitySize { ModePicker(options: options, selection: $model.explore, identifier: "explore") }
+                }
+                // at the accessibility sizes, a section of rows, one per mode
+                if typeSize.isAccessibilitySize {
+                    SwiftUI.Section { ModePicker(options: options, selection: $model.explore, identifier: "explore") }
+                }
+                switch model.explore {
+                case .stack: StackView()
+                case .matrix: MatrixView()
+                case .functions: FunctionsView()
+                }
             }
-            // at the accessibility sizes, a section of rows, one per mode
-            if typeSize.isAccessibilitySize {
-                SwiftUI.Section { ModePicker(options: options, selection: $model.explore, identifier: "explore") }
-            }
-            switch model.explore {
-            case .stack: StackView()
-            case .matrix: MatrixView()
-            case .functions: FunctionsView()
-            }
+            .lxRows()
         }
         .listStyle(.insetGrouped)
+        .lxListSurface()
         .environment(\.defaultMinListRowHeight, 44)
         .hardTopEdge()
         .toolbar(.hidden, for: .navigationBar)
@@ -98,7 +102,7 @@ struct StackView: View {
                     VStack(spacing: 0) {
                         ForEach(screen.layers, id: \.id) { layer in
                             padRow(layer.id) { layerRow(layer, onPath: onPath) }
-                            if layer.id != screen.layers.last?.id { Divider().padding(.leading, 42) }
+                            if layer.id != screen.layers.last?.id { Divider().overlay(Palette.line).padding(.leading, 42) }
                         }
                     }
                     .lxCard(radius: 12)
@@ -127,13 +131,13 @@ struct StackView: View {
 
     private func layerRow(_ layer: Layer, onPath: String?) -> TileRow {
         let n = layer.frameworkIds.count
-        return TileRow(icon: RowIcon.layer(layer.order), title: TitleCase.apply(layer.name),
+        return TileRow(icon: RowIcon.layer(layer.order), title: TitleCase.apply(layer.name), subtitle: layer.shortQuestion,
                        note: layer.id == onPath ? "On your path" : nil, value: n == 1 ? "1 framework" : "\(n) frameworks")
     }
 
     private func columnRow(_ column: Layer) -> TileRow {
         let count = StackScreen.entryIds(column, store: model.store).count
-        return TileRow(icon: RowIcon.aiColumn, title: TitleCase.apply(column.name), value: count == 1 ? "1 entry" : "\(count) entries")
+        return TileRow(icon: RowIcon.aiColumn, title: TitleCase.apply(column.name), subtitle: column.shortQuestion, value: count == 1 ? "1 entry" : "\(count) entries")
     }
 
     private func layerLink(_ layer: Layer, onPath: String?) -> some View {
@@ -261,7 +265,7 @@ struct FunctionSection: View {
                     ForEach(card.function.categories, id: \.code) { c in
                         Text(c.code).font(DS.style(.caption)).foregroundStyle(Palette.fg2)
                             .padding(.horizontal, 8).padding(.vertical, 4)
-                            .background(Color(.tertiarySystemFill), in: Capsule())
+                            .background(Palette.bg3, in: Capsule())
                             .accessibilityLabel("\(c.code), \(c.name)")
                     }
                 }
@@ -356,7 +360,7 @@ struct LayerView: View {
                 }
             }
         } else {
-            Color(.systemGroupedBackground)
+            Palette.bg
         }
     }
 

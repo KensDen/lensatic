@@ -59,7 +59,7 @@ struct DetailScreen<Trailing: View, Content: View>: View {
 
 /// A pushed screen as a system inset-grouped list (content release 1.0.1, section 7: the screens Explore owns): the
 /// detail screen's header, the way back, the section eyebrow and the title, then the screen's own sections, on the
-/// system's grouped background.
+/// app's own surfaces (lxListSurface).
 struct ListScreen<Body: View>: View {
     var eyebrow: String?
     var eyebrowColor: Color = Palette.secMaps
@@ -70,28 +70,32 @@ struct ListScreen<Body: View>: View {
 
     var body: some View {
         List {
-            SwiftUI.Section {
-                VStack(alignment: .leading, spacing: 12) {
-                    Button { dismiss() } label: { CircleIconLabel(icon: .chevronLeft) }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel("Back")
-                        .accessibilityIdentifier("back")
-                    VStack(alignment: .leading, spacing: 4) {
-                        // the section's place in the system's own type (section 7.4: the mono eyebrow is for hero cards)
-                        if let eyebrow { Text(eyebrow).font(DS.style(.subheadline).weight(.semibold)).foregroundStyle(eyebrowColor) }
-                        Text(keepWhole(title)).font(DS.style(.title2)).foregroundStyle(.primary)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .accessibilityAddTraits(.isHeader)
-                            .accessibilityIdentifier("screen-title")
+            Group {
+                SwiftUI.Section {
+                    VStack(alignment: .leading, spacing: 12) {
+                        Button { dismiss() } label: { CircleIconLabel(icon: .chevronLeft) }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("Back")
+                            .accessibilityIdentifier("back")
+                        VStack(alignment: .leading, spacing: 4) {
+                            // the section's place in the system's own type (section 7.4: the mono eyebrow is for hero cards)
+                            if let eyebrow { Text(eyebrow).font(DS.style(.subheadline).weight(.semibold)).foregroundStyle(eyebrowColor) }
+                            Text(keepWhole(title)).font(DS.style(.title2)).foregroundStyle(.primary)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .accessibilityAddTraits(.isHeader)
+                                .accessibilityIdentifier("screen-title")
+                        }
                     }
+                    .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 4, trailing: 20))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
                 }
-                .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 4, trailing: 20))
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
+                sections
             }
-            sections
+            .lxRows()
         }
         .listStyle(.insetGrouped)
+        .lxListSurface()
         .environment(\.defaultMinListRowHeight, 44)
         .hardTopEdge()
         .toolbar(.hidden, for: .navigationBar)
@@ -202,5 +206,21 @@ func sectionColor(_ key: String) -> Color {
     case "playbook": return Palette.secPurple
     case "path": return Palette.accent
     default: return Palette.secMaps
+    }
+}
+
+/// The app's own surfaces on a system inset-grouped list (Ken's ruling, 7 November 2026, over section 7.6 of the
+/// content release prompt): the list keeps its structure, but its grouped background gives way to the page colour
+/// (Palette.bg), so Library, Explore and the layer screens match Welcome, Search, My Path and the rest, and the tab bar,
+/// in light and dark. The rows take the card fill and the separators the palette's line through lxRows.
+extension View {
+    func lxListSurface() -> some View {
+        scrollContentBackground(.hidden).background(Palette.bg)
+    }
+
+    /// Every row inside: the card fill (Palette.bg2, the fill of .card()) and the palette's hairline for the separators.
+    /// A row that sets its own background (a header on the page colour, the AI column's tint) keeps it.
+    func lxRows() -> some View {
+        listRowBackground(Palette.bg2).listRowSeparatorTint(Palette.line).listSectionSeparatorTint(Palette.line)
     }
 }

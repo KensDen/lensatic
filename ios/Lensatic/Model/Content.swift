@@ -495,6 +495,9 @@ struct Door: Decodable, Sendable {
     /// The trailhead's name in Title Case, and the line under it on the welcome screen (content 1.2.18).
     let shortTitle: String
     let whoYouAre: String
+    /// Who the trailhead is for in one short line, under its name on the welcome screen only (content release 1.0.1,
+    /// Ken's ruling on 6.14): five trailheads fit 390 x 844 at the default size; whoYouAre stays whole everywhere else.
+    let welcomeLine: String
     /// Who should start elsewhere (content release 1.0.1): shown after the steps, under "Not your trailhead if".
     let notYours: String?
     let cardLine: String

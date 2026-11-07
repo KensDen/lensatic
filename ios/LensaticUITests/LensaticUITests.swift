@@ -66,6 +66,13 @@ final class LensaticUITests: XCTestCase {
     /// Tap a control, scrolling the screen it is on until it is in view.
     func tap(_ id: String, in screen: String? = nil, file: StaticString = #filePath, line: UInt = #line) {
         let target = element(id)
+        // a system list creates its rows lazily: a row below the fold (the AI column under the stack's layers, now that
+        // each layer row carries its question) exists only once the list scrolls toward it
+        if let screen, !target.waitForExistence(timeout: 2) {
+            let scroll = scroller(screen)
+            var tries = 0
+            while !target.exists, tries < 8 { scroll.swipeUp(velocity: .slow); tries += 1 }
+        }
         XCTAssertTrue(target.waitForExistence(timeout: 5), id, file: file, line: line)
         if let screen {
             let scroll = scroller(screen)
@@ -214,20 +221,13 @@ final class LensaticUITests: XCTestCase {
             let footer = app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'Switch paths anytime from My Path'")).firstMatch
             XCTAssertTrue(footer.exists, "the footer says where to switch paths")
             XCTAssertTrue(app.staticTexts["CHOOSE A TRAILHEAD"].exists || app.staticTexts["Choose a trailhead"].exists, "the eyebrow")
-            for id in ["door-dow", "door-federal-civilian", "door-defense-contractor", "door-state-local", "door-industry-academia"]
-                where window.height >= 900 {
+            // content release 1.0.1 (6.14, Ken's ruling of 7 November 2026): each trailhead says who it is for in one
+            // short line, and all five, with the footer, fit without a scroll at the default size on every phone
+            for id in ["door-dow", "door-federal-civilian", "door-defense-contractor", "door-state-local", "door-industry-academia"] {
                 XCTAssertTrue(element(id).isHittable, "\(id) is on screen")
                 XCTAssertLessThanOrEqual(element(id).frame.maxY, window.maxY, id)
             }
-            // content release 1.0.1 (6.14): each trailhead says who it is for, so on a phone under 900 points tall the
-            // last card and the footer are one scroll away; on the tallest phones they still fit
-            if window.height >= 900 {
-                XCTAssertLessThanOrEqual(footer.frame.maxY, window.maxY, "the footer is on screen without a scroll")
-            } else {
-                var swipes = 0
-                while footer.frame.maxY > window.maxY, swipes < 4 { element("welcome").swipeUp(velocity: .slow); swipes += 1 }
-                XCTAssertLessThanOrEqual(footer.frame.maxY, window.maxY, "the footer is a scroll away")
-            }
+            XCTAssertLessThanOrEqual(footer.frame.maxY, window.maxY, "the footer is on screen without a scroll")
             app.terminate()
         }
     }

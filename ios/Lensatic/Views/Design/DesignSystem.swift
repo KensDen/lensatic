@@ -543,8 +543,10 @@ struct LxCard: ViewModifier {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background {
                 let shape = RoundedRectangle(cornerRadius: radius, style: .continuous)
+                // the app's card fill and hairline, as .card() and the list rows (lxRows) draw them
                 ZStack {
-                    shape.fill(Color(.secondarySystemGroupedBackground))
+                    shape.fill(Palette.bg2)
+                    shape.strokeBorder(Palette.line, lineWidth: 1)
                     if let tint {
                         shape.fill(LinearGradient(colors: [tint.opacity(0.30), tint.opacity(0.06)], startPoint: .topLeading, endPoint: .bottomTrailing))
                     }
@@ -658,6 +660,8 @@ struct ListNote: View {
 struct TileRow: View {
     let icon: (String, Color)
     let title: String
+    /// Secondary text under the title: a layer's short question on the stack (Ken's ruling, 7 November 2026).
+    var subtitle: String?
     var note: String?
     var noteColor: Color = Palette.secMaps
     var value: String?
@@ -668,6 +672,9 @@ struct TileRow: View {
             IconTile(symbol: icon.0, tint: icon.1)
             VStack(alignment: .leading, spacing: 2) {
                 Text(title).font(DS.style(.body)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                if let subtitle {
+                    Text(subtitle).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                }
                 if let note { Text(note).font(DS.style(.footnote)).foregroundStyle(noteColor).fixedSize(horizontal: false, vertical: true) }
                 if typeSize.isAccessibilitySize, let value {
                     Text(value).font(DS.style(.body)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)

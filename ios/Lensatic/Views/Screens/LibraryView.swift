@@ -13,75 +13,79 @@ struct LibraryView: View {
         let site = model.library.site
         let saved = model.progress.saved.filter { model.describe($0) != nil }
         List {
-            SwiftUI.Section {
-                ScreenHeader(title: AppTab.library.title)
-                    .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 4, trailing: 20))
+            Group {
+                SwiftUI.Section {
+                    ScreenHeader(title: AppTab.library.title)
+                        .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 4, trailing: 20))
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                    let cards = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 12)) : AnyLayout(HStackLayout(alignment: .top, spacing: 12))
+                    cards {
+                        Button { model.push(.guide) } label: {
+                            GuideCard(symbol: "map.fill", tint: Palette.secGuides, tile: .green, kicker: "Field Guide", title: site.guideTitle,
+                                      progress: guideProgress.fraction, line: guideProgress.line)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityIdentifier("library-guide")
+                        Button { model.push(.plays) } label: {
+                            GuideCard(symbol: "star.fill", tint: Palette.secPurple, tile: .purple, kicker: site.playsName, title: site.playsTitle,
+                                      progress: playsProgress.fraction, line: playsProgress.line)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityIdentifier("library-plays")
+                    }
+                    // the two cards share one height
+                    .fixedSize(horizontal: false, vertical: true)
+                    // the cards' edges line up with the sections' below
+                    .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
                     .listRowBackground(Color.clear)
                     .listRowSeparator(.hidden)
-                let cards = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 12)) : AnyLayout(HStackLayout(alignment: .top, spacing: 12))
-                cards {
-                    Button { model.push(.guide) } label: {
-                        GuideCard(symbol: "map.fill", tint: Palette.secGuides, tile: .green, kicker: "Field Guide", title: site.guideTitle,
-                                  progress: guideProgress.fraction, line: guideProgress.line)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityIdentifier("library-guide")
-                    Button { model.push(.plays) } label: {
-                        GuideCard(symbol: "star.fill", tint: Palette.secPurple, tile: .purple, kicker: site.playsName, title: site.playsTitle,
-                                  progress: playsProgress.fraction, line: playsProgress.line)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityIdentifier("library-plays")
                 }
-                // the two cards share one height
-                .fixedSize(horizontal: false, vertical: true)
-                // the cards' edges line up with the sections' below
-                .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
-                .listRowBackground(Color.clear)
-                .listRowSeparator(.hidden)
-            }
-            SwiftUI.Section {
-                if saved.isEmpty {
-                    Text("Nothing saved yet. Tap the bookmark on a framework, a step or a play to keep it here.")
-                        .font(DS.style(.subheadline)).foregroundStyle(Palette.fg2)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .accessibilityIdentifier("library-saved-empty")
-                } else {
-                    // grouped by type: frameworks and sources, then steps, then plays, each newest first
-                    ForEach(LibraryView.byType(Array(saved.prefix(LibraryView.savedShown))), id: \.key) { item in SavedListRow(item: item) }
-                    if saved.count > LibraryView.savedShown {
-                        NavigationLink(value: Nav.saved) {
-                            Text("All \(saved.count) Saved").font(DS.style(.body))
+                SwiftUI.Section {
+                    if saved.isEmpty {
+                        Text("Nothing saved yet. Tap the bookmark on a framework, a step or a play to keep it here.")
+                            .font(DS.style(.subheadline)).foregroundStyle(Palette.fg2)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .accessibilityIdentifier("library-saved-empty")
+                    } else {
+                        // grouped by type: frameworks and sources, then steps, then plays, each newest first
+                        ForEach(LibraryView.byType(Array(saved.prefix(LibraryView.savedShown))), id: \.key) { item in SavedListRow(item: item) }
+                        if saved.count > LibraryView.savedShown {
+                            NavigationLink(value: Nav.saved) {
+                                Text("All \(saved.count) Saved").font(DS.style(.body))
+                            }
+                            .accessibilityIdentifier("library-all-saved")
                         }
-                        .accessibilityIdentifier("library-all-saved")
                     }
+                } header: {
+                    ListNote("Saved")
                 }
-            } header: {
-                ListNote("Saved")
-            }
-            .accessibilityElement(children: .contain)
-            .accessibilityIdentifier("library-saved")
-            SwiftUI.Section {
-                ReferenceRow(icon: RowIcon.glossary, title: model.store.navTitle(.glossary), detail: "\(model.store.terms.count) terms",
-                             nav: .glossary, id: "library-glossary")
-                ReferenceRow(icon: RowIcon.sources, title: "All Sources", detail: "\(model.store.counts[.verified] ?? 0) verified",
-                             nav: .sources, id: "library-sources")
-                ReferenceRow(icon: RowIcon.changes, title: "What Changed", detail: Rules.shortDate(model.store.content.meta.builtOn),
-                             nav: .changes, id: "library-changes")
-            } header: {
-                ListNote("Reference")
-            } footer: {
-                // About, with the compass story and the square photo, from a plain footer link (6.19)
-                Button { model.push(.about) } label: {
-                    Text("About \(model.store.content.meta.name)").font(DS.style(.footnote)).foregroundStyle(Palette.link)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .frame(minHeight: 44, alignment: .leading).contentShape(Rectangle())
+                .accessibilityElement(children: .contain)
+                .accessibilityIdentifier("library-saved")
+                SwiftUI.Section {
+                    ReferenceRow(icon: RowIcon.glossary, title: model.store.navTitle(.glossary), detail: "\(model.store.terms.count) terms",
+                                 nav: .glossary, id: "library-glossary")
+                    ReferenceRow(icon: RowIcon.sources, title: "All Sources", detail: "\(model.store.counts[.verified] ?? 0) verified",
+                                 nav: .sources, id: "library-sources")
+                    ReferenceRow(icon: RowIcon.changes, title: "What Changed", detail: Rules.shortDate(model.store.content.meta.builtOn),
+                                 nav: .changes, id: "library-changes")
+                } header: {
+                    ListNote("Reference")
+                } footer: {
+                    // About, with the compass story and the square photo, from a plain footer link (6.19)
+                    Button { model.push(.about) } label: {
+                        Text("About \(model.store.content.meta.name)").font(DS.style(.footnote)).foregroundStyle(Palette.link)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .frame(minHeight: 44, alignment: .leading).contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("library-about")
                 }
-                .buttonStyle(.plain)
-                .accessibilityIdentifier("library-about")
             }
+            .lxRows()
         }
         .listStyle(.insetGrouped)
+        .lxListSurface()
         .environment(\.defaultMinListRowHeight, 44)
         .hardTopEdge()
         .toolbar(.hidden, for: .navigationBar)

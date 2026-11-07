@@ -324,13 +324,16 @@ final class LibraryTests: XCTestCase {
         XCTAssertTrue((site.intro("guides", actions: library.actionCount) ?? "").hasPrefix("Guided study routes"))
     }
 
-    /// The Welcome screen's line (6.14): who the trailhead is for, with the step count beside the name; no framework
-    /// abbreviations.
+    /// The Welcome screen's line (6.14): who the trailhead is for in its own short line, with the step count beside the
+    /// name; no framework abbreviations, and not the whoYouAre sentence, which stays for the map and My Path.
     func testTheWelcomeLineSaysWhoTheTrailheadIsFor() throws {
         for id in Door.ID.welcomeOrder {
             let d = try door(id)
             let plan = PathPlan(door: d, entities: store.entities)
-            XCTAssertEqual(plan.welcomeLine(), Rules.firstSentence(d.whoYouAre).first)
+            XCTAssertEqual(plan.welcomeLine(), d.welcomeLine)
+            XCTAssertNotEqual(plan.welcomeLine(), Rules.firstSentence(d.whoYouAre).first)
+            XCTAssertLessThanOrEqual(plan.welcomeLine().count, 36, "one line on a 390-point phone")
+            XCTAssertFalse(plan.welcomeLine().hasSuffix("."))
             XCTAssertFalse(plan.welcomeLine().contains(d.cardLine))
             XCTAssertEqual(plan.welcomeCount(labels: store.content.ui.labels), "\(d.steps.count) steps")
         }
