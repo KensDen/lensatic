@@ -1,8 +1,9 @@
 import SwiftUI
 
-/// Library (the redesign, R2; Library.dc.html): the Field Guide and the plays as two cards, what the reader saved, the
-/// reference screens (Glossary, All sources, Why "Lensatic") and Settings. Every count is computed: the guide's week
-/// from the weeks the reader marked done, the groups and plays from the plays' file, the verified count from the content.
+/// Library (content release 1.0.1, Ken's ruling of 7 November 2026, 6.19 and section 7): a system inset-grouped list with
+/// one hero row, the two guide cards, then Saved and Reference in the system's own section style. Every count is
+/// computed: the guide's week from the weeks the reader marked done, the plays read from the plays the reader opened, the
+/// terms and verified sources from the content. The compass story lives on About, linked from Reference's footer.
 struct LibraryView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.dynamicTypeSize) private var typeSize
@@ -11,114 +12,105 @@ struct LibraryView: View {
     var body: some View {
         let site = model.library.site
         let saved = model.progress.saved.filter { model.describe($0) != nil }
-        ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
+        List {
+            SwiftUI.Section {
                 ScreenHeader(title: AppTab.library.title)
-                let cards = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 10)) : AnyLayout(HStackLayout(alignment: .top, spacing: 10))
+                    .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 4, trailing: 20))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                let cards = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 12)) : AnyLayout(HStackLayout(alignment: .top, spacing: 12))
                 cards {
                     Button { model.push(.guide) } label: {
-                        SectionCard(icon: .map, color: Palette.secGuides, eyebrow: site.guidesName, title: site.guideTitle, line: guideLine)
+                        GuideCard(symbol: "map.fill", tint: Palette.secGuides, tile: .green, kicker: "Field Guide", title: site.guideTitle,
+                                  progress: guideProgress.fraction, line: guideProgress.line)
                     }
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("library-guide")
                     Button { model.push(.plays) } label: {
-                        SectionCard(icon: .star, color: Palette.secPurple, eyebrow: site.playsName, title: site.playsTitle, line: playsLine)
+                        GuideCard(symbol: "star.fill", tint: Palette.secPurple, tile: .purple, kicker: site.playsName, title: site.playsTitle,
+                                  progress: playsProgress.fraction, line: playsProgress.line)
                     }
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("library-plays")
                 }
-                // the two cards share one height, as the mockup draws them
+                // the two cards share one height
                 .fixedSize(horizontal: false, vertical: true)
-                VStack(alignment: .leading, spacing: 8) {
-                    CountedLabel(text: "Saved", count: saved.count)
-                    if saved.isEmpty {
-                        Text("Tap the bookmark on a framework, a step or a play to keep it here.")
-                            .font(DS.note).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
-                            .padding(14).frame(maxWidth: .infinity, alignment: .leading).card(radius: 12, fill: .clear)
-                    }
-                    ForEach(saved.prefix(LibraryView.savedShown), id: \.key) { item in SavedRow(item: item) }
-                    if saved.count > LibraryView.savedShown {
-                        NavigationLink(value: Nav.saved) { ResultRow(title: "All \(saved.count) Saved") }
-                            .buttonStyle(.plain)
-                            .accessibilityIdentifier("library-all-saved")
-                    }
-                }
-                .accessibilityElement(children: .contain)
-                .accessibilityIdentifier("library-saved")
-                VStack(alignment: .leading, spacing: 8) {
-                    SectionLabel(text: "Reference")
-                    VStack(spacing: 0) {
-                        ReferenceRow(title: model.store.navTitle(.glossary), detail: "\(model.store.terms.count) terms", nav: .glossary, id: "library-glossary")
-                        Divider().overlay(Palette.line)
-                        ReferenceRow(title: "All Sources", detail: "\(model.store.counts[.verified] ?? 0) verified", nav: .sources, id: "library-sources")
-                        Divider().overlay(Palette.line)
-                        ReferenceRow(title: "What Changed", detail: model.changes.libraryLine(since: model.progress.state.changesViewed), nav: .changes, id: "library-changes")
-                        Divider().overlay(Palette.line)
-                        ReferenceRow(title: "Why \u{201C}\(model.store.content.meta.name)\u{201D}", detail: model.store.navTitle(.about), nav: .about, id: "library-about")
-                    }
-                    .card(radius: 12)
-                }
-                VStack(alignment: .leading, spacing: 8) {
-                    SectionLabel(text: "Settings")
-                    if let door = model.door {
-                        Button { model.changingDoor = true } label: {
-                            ListRow(title: "Change Path", subtitle: door.shortTitle, icon: door.id.icon, iconColor: door.id.color)
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityIdentifier("library-change-door")
-                    }
-                }
+                // the cards' edges line up with the sections' below
+                .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 12)
-            .padding(.bottom, 24)
+            SwiftUI.Section {
+                if saved.isEmpty {
+                    Text("Nothing saved yet. Tap the bookmark on a framework, a step or a play to keep it here.")
+                        .font(DS.style(.subheadline)).foregroundStyle(Palette.fg2)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .accessibilityIdentifier("library-saved-empty")
+                } else {
+                    // grouped by type: frameworks and sources, then steps, then plays, each newest first
+                    ForEach(LibraryView.byType(Array(saved.prefix(LibraryView.savedShown))), id: \.key) { item in SavedListRow(item: item) }
+                    if saved.count > LibraryView.savedShown {
+                        NavigationLink(value: Nav.saved) {
+                            Text("All \(saved.count) Saved").font(DS.style(.body))
+                        }
+                        .accessibilityIdentifier("library-all-saved")
+                    }
+                }
+            } header: {
+                ListNote("Saved")
+            }
+            .accessibilityElement(children: .contain)
+            .accessibilityIdentifier("library-saved")
+            SwiftUI.Section {
+                ReferenceRow(icon: RowIcon.glossary, title: model.store.navTitle(.glossary), detail: "\(model.store.terms.count) terms",
+                             nav: .glossary, id: "library-glossary")
+                ReferenceRow(icon: RowIcon.sources, title: "All Sources", detail: "\(model.store.counts[.verified] ?? 0) verified",
+                             nav: .sources, id: "library-sources")
+                ReferenceRow(icon: RowIcon.changes, title: "What Changed", detail: Rules.shortDate(model.store.content.meta.builtOn),
+                             nav: .changes, id: "library-changes")
+            } header: {
+                ListNote("Reference")
+            } footer: {
+                // About, with the compass story and the square photo, from a plain footer link (6.19)
+                Button { model.push(.about) } label: {
+                    Text("About \(model.store.content.meta.name)").font(DS.style(.footnote)).foregroundStyle(Palette.link)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .frame(minHeight: 44, alignment: .leading).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("library-about")
+            }
         }
-        .background(Palette.bg)
+        .listStyle(.insetGrouped)
+        .environment(\.defaultMinListRowHeight, 44)
         .hardTopEdge()
         .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("library")
     }
 
-    /// Week N of 8: the first week on the reader's route not marked done; every week done says so.
-    private var guideLine: String {
-        guard let door = model.door else { return "" }
+    /// Saved items grouped by type, in the order frameworks, steps, plays, each group keeping its newest-first order.
+    static func byType(_ items: [SavedItem]) -> [SavedItem] {
+        func rank(_ i: SavedItem) -> Int {
+            switch i { case .entity: return 0; case .step: return 1; case .play: return 2 }
+        }
+        return items.enumerated().sorted { a, b in rank(a.element) != rank(b.element) ? rank(a.element) < rank(b.element) : a.offset < b.offset }.map(\.element)
+    }
+
+    /// Week N of 8: the first week on the reader's route not marked done; every week done says so. The bar is the share done.
+    private var guideProgress: (line: String, fraction: Double) {
+        guard let door = model.door else { return ("", 0) }
         let weeks = model.library.weeks(for: door.id)
         let done = weeks.filter { model.progress.weeksDone(model.library.weekKey($0, door: door.id)).contains($0.week) }
-        if let next = weeks.first(where: { w in !done.contains(w) }) { return "Week \(next.week) of \(weeks.count)" }
-        return "All \(weeks.count) weeks done"
+        let fraction = weeks.isEmpty ? 0 : Double(done.count) / Double(weeks.count)
+        if let next = weeks.first(where: { w in !done.contains(w) }) { return ("Week \(next.week) of \(weeks.count)", fraction) }
+        return ("All \(weeks.count) weeks done", fraction)
     }
 
-    private var playsLine: String {
-        let p = model.library.plays
-        return "\(p.groups.count) sections\(model.store.label("metaSeparator"))\(p.plays.count) plays"
-    }
-}
-
-/// One of the Library's two section cards: the section's colour along the top, its icon, name, title and a count.
-struct SectionCard: View {
-    let icon: IconName
-    let color: Color
-    let eyebrow: String
-    let title: String
-    let line: String
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Icon(icon, size: 28, color: color, lineWidth: 1.8)
-            Eyebrow(text: eyebrow, color: color, small: true)
-            Text(title).font(DS.libraryTitle).foregroundStyle(Palette.fg).fixedSize(horizontal: false, vertical: true)
-            Text(line).font(DS.caption).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
-        }
-        .padding(14)
-        .frame(maxWidth: .infinity, minHeight: 150, maxHeight: .infinity, alignment: .topLeading)
-        .multilineTextAlignment(.leading)
-        .background(Palette.bg2)
-        // the section's colour along the top follows the card's rounded corners
-        .overlay(alignment: .top) { Rectangle().fill(color).frame(height: 3).accessibilityHidden(true) }
-        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Palette.line, lineWidth: 1))
-        .contentShape(RoundedRectangle(cornerRadius: 14))
-        .accessibilityElement(children: .combine)
+    /// N of 35 plays read: the plays the reader has opened, of the plays in the file.
+    private var playsProgress: (line: String, fraction: Double) {
+        let plays = model.library.plays.plays
+        let read = plays.filter { model.progress.isRead(play: $0.id) }.count
+        return ("\(read) of \(plays.count) plays read", plays.isEmpty ? 0 : Double(read) / Double(plays.count))
     }
 }
 
@@ -135,7 +127,36 @@ struct SavedRow: View {
     }
 }
 
+/// A saved item as a native row in Library's Saved section (6.19): its title, and its kind and place as secondary text.
+struct SavedListRow: View {
+    @Environment(AppModel.self) private var model
+    let item: SavedItem
+
+    var body: some View {
+        if let d = model.describe(item) {
+            Button { model.open(item) } label: {
+                HStack(spacing: 12) {
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(keepWhole(d.title)).font(DS.style(.body)).foregroundStyle(.primary)
+                        Text(d.line).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary)
+                        .accessibilityHidden(true)
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier("saved-\(item.key)")
+        }
+    }
+}
+
+/// A Reference row, as Settings draws one (section 7.3): an icon tile, the title, the value as trailing secondary text and
+/// the chevron of the system's navigation link.
 struct ReferenceRow: View {
+    let icon: (String, Color)
     let title: String
     let detail: String
     let nav: Nav
@@ -143,16 +164,8 @@ struct ReferenceRow: View {
 
     var body: some View {
         NavigationLink(value: nav) {
-            HStack(spacing: 12) {
-                Text(title).font(DS.summary).foregroundStyle(Palette.fg)
-                Spacer(minLength: 12)
-                Text(detail).font(DS.step).foregroundStyle(Palette.fg2).multilineTextAlignment(.trailing)
-            }
-            .padding(.horizontal, 16)
-            .frame(minHeight: 52)
-            .contentShape(Rectangle())
+            TileRow(icon: icon, title: title, value: detail)
         }
-        .buttonStyle(.plain)
         .accessibilityIdentifier(id)
     }
 }
@@ -184,7 +197,10 @@ struct GuideView: View {
             if let door = model.door {
                 let weeks = lib.weeks(for: door.id)
                 let done = weeks.filter { model.progress.weeksDone(lib.weekKey($0, door: door.id)).contains($0.week) }.map(\.week)
-                Text(site.guides.first?.line ?? "").font(DS.answer).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                // who the route is for (4.2 and 4.5): the Field Guides intro, on the screen the Library card opens
+                Text(site.intro("guides", actions: lib.actionCount) ?? site.guides.first?.line ?? "").font(DS.answer).foregroundStyle(Palette.fg2)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("guide-intro")
                 VStack(alignment: .leading, spacing: 8) {
                     CountedLabel(text: "Your weeks", count: weeks.count)
                     if let track = lib.track(for: door.id), let c0 = lib.guide.core.first?.week, let c1 = lib.guide.core.last?.week,
@@ -303,7 +319,10 @@ struct PlaysView: View {
     var body: some View {
         let lib = model.library
         DetailScreen(eyebrow: lib.site.playsName, eyebrowColor: Palette.secPurple, title: lib.site.playsTitle, identifier: "plays-screen") {
-            Text(lib.site.section("playbook")?.line ?? "").font(DS.answer).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+            // who the playbook is for (4.3 and 4.5), on the screen the Library card opens
+            Text(lib.site.intro("playbook", actions: lib.actionCount) ?? lib.site.section("playbook")?.line ?? "").font(DS.answer)
+                .foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                .accessibilityIdentifier("plays-intro")
             ForEach(lib.plays.groups, id: \.label) { g in
                 VStack(alignment: .leading, spacing: 8) {
                     CountedLabel(text: g.label, count: g.playIds.count)
@@ -330,6 +349,8 @@ struct PlayView: View {
                 SummaryFirst(summary: p.summary, outline: p.outline, accent: Palette.secPurple)
                 BlocksView(blocks: p.blocks, accent: Palette.secPurple)
             }
+            // a play opened counts as read on the Library's card (content release 1.0.1)
+            .onAppear { model.progress.markRead(play: id) }
         } else {
             Palette.bg
         }

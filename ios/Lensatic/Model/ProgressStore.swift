@@ -23,6 +23,10 @@ final class ProgressStore {
         var weeks: [String: [Int]] = [:]
         /// The reader's last view of What Changed (R3): the content release it showed and the day; nil before any.
         var changesViewed: ChangesViewed?
+        /// The plays the reader has opened (content release 1.0.1): the Library's progress line counts them.
+        var playsRead: [String] = []
+        /// The reader's last searches, newest first, at most `recentLimit` (content release 1.0.1): Search's Recent list.
+        var recent: [String] = []
 
         struct ChangesViewed: Codable, Equatable, Sendable {
             /// The content release the list was cleared at (contentVersion): items of later releases are new.
@@ -32,15 +36,17 @@ final class ProgressStore {
         }
 
         init(door: String? = nil, checked: [String: [Int]] = [:], saved: [String] = [], weeks: [String: [Int]] = [:],
-             changesViewed: ChangesViewed? = nil) {
+             changesViewed: ChangesViewed? = nil, playsRead: [String] = [], recent: [String] = []) {
             self.door = door
             self.checked = checked
             self.saved = saved
             self.weeks = weeks
             self.changesViewed = changesViewed
+            self.playsRead = playsRead
+            self.recent = recent
         }
 
-        private enum CodingKeys: String, CodingKey { case door, checked, saved, weeks, changesViewed }
+        private enum CodingKeys: String, CodingKey { case door, checked, saved, weeks, changesViewed, playsRead, recent }
 
         /// A file from before saved items and weeks (R1), or before What Changed (R2), reads with none of them.
         init(from decoder: Decoder) throws {
@@ -50,6 +56,8 @@ final class ProgressStore {
             saved = try c.decodeIfPresent([String].self, forKey: .saved) ?? []
             weeks = try c.decodeIfPresent([String: [Int]].self, forKey: .weeks) ?? [:]
             changesViewed = try c.decodeIfPresent(ChangesViewed.self, forKey: .changesViewed)
+            playsRead = try c.decodeIfPresent([String].self, forKey: .playsRead) ?? []
+            recent = try c.decodeIfPresent([String].self, forKey: .recent) ?? []
         }
     }
 
@@ -153,6 +161,37 @@ final class ProgressStore {
         var set = weeksDone(key)
         if set.contains(week) { set.remove(week) } else { set.insert(week) }
         state.weeks[key] = set.sorted()
+        save()
+    }
+
+    // MARK: plays read
+
+    func isRead(play id: String) -> Bool { state.playsRead.contains(id) }
+
+    /// Mark a play read when the reader opens it; opening it again changes nothing.
+    func markRead(play id: String) {
+        guard !state.playsRead.contains(id) else { return }
+        state.playsRead.append(id)
+        save()
+    }
+
+    // MARK: recent searches
+
+    static let recentLimit = 5
+
+    /// Keep a search the reader ran, at the top, once, the oldest dropping off past the limit. Blank queries are not kept.
+    func remember(search query: String) {
+        let q = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !q.isEmpty else { return }
+        var list = state.recent.filter { $0.caseInsensitiveCompare(q) != .orderedSame }
+        list.insert(q, at: 0)
+        state.recent = Array(list.prefix(ProgressStore.recentLimit))
+        save()
+    }
+
+    func clearRecent() {
+        guard !state.recent.isEmpty else { return }
+        state.recent = []
         save()
     }
 

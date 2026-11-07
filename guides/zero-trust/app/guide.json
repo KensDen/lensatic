@@ -3372,7 +3372,25 @@
    "blocks": [
     {
      "type": "text",
-     "text": "Public edition v2.8.3, 18 October 2026. v1.0 was written for DoW readers; v2.0 adds a shared core and tracks for federal civilian and private-sector readers. v2.1 changes only the license. v2.2 adds a list of talks to watch. v2.3 renames the guide and adds its icon. v2.4 briefly tries a different name, since retired. v2.5 tidies the layout and labels. v2.6 rebuilds the PDFs under the v2.3 name. v2.7 refocuses the exercises on learning and recasts Fluency 3. v2.8, 18 October 2026: joins Lensatic as a Field Guide. v2.8.1, 18 October 2026: reuse questions now go to the Lensatic repo. v2.8.2, 18 October 2026: the naming note follows EO 14347, five prose phrases say DoW, and talk and source lines follow the record. I adapted this guide from my own study notes, rebuilt from public sources only. I built it with Claude and Claude Code: Claude helped me research, verify and restructure it, and Claude Code built the page and PDFs. I reviewed every change, and I own the result, mistakes included."
+     "text": "Public edition v2.8.3, 18 October 2026. I adapted this guide from my own study notes, rebuilt from public sources only."
+    },
+    {
+     "type": "list",
+     "ordered": false,
+     "items": [
+      "v2.8.2, 18 October 2026: the naming note follows EO 14347, five prose phrases say DoW, and talk and source lines follow the record.",
+      "v2.8.1, 18 October 2026: reuse questions now go to the Lensatic repo.",
+      "v2.8, 18 October 2026: joins Lensatic as a Field Guide.",
+      "v2.7: refocuses the exercises on learning and recasts Fluency 3.",
+      "v2.6: rebuilds the PDFs under the v2.3 name.",
+      "v2.5: tidies the layout and labels.",
+      "v2.4: briefly tries a different name, since retired.",
+      "v2.3: renames the guide and adds its icon.",
+      "v2.2: adds a list of talks to watch.",
+      "v2.1: changes only the license.",
+      "v2.0: adds a shared core and tracks for federal civilian and private-sector readers.",
+      "v1.0: written for DoW readers."
+     ]
     },
     {
      "type": "text",
@@ -3380,7 +3398,11 @@
     },
     {
      "type": "text",
-     "text": "To ask about reuse, open an issue at github.com/KensDen/lensatic/issues. Built with Claude and Claude Code, reviewed by a human who owns the mistakes."
+     "text": "To ask about reuse, open an issue at github.com/KensDen/lensatic/issues."
+    },
+    {
+     "type": "text",
+     "text": "Built with Claude and Claude Code, reviewed by a human who owns the mistakes."
     }
    ]
   }

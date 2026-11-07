@@ -171,7 +171,9 @@ const TARGETS = `(() => {
 })()`;
 
 // visible text with every disclosure opened the way a reader would open it (clicks, not script-created text)
-const VISIBLE_TEXT = `(() => { document.querySelectorAll('details').forEach((d) => { d.open = true; }); const st = document.createElement('style'); st.textContent = '.xp { display: none !important; }'; document.head.appendChild(st); const t = document.body.innerText; st.remove(); return t; })()`;
+// (content release 1.0.1: a trailhead belongs to a group a reader opens one at a time; the group is lifted so all can be
+// open at once, and the PDF tag beside a link, which no content text carries, is left out like the expansions)
+const VISIBLE_TEXT = `(() => { document.querySelectorAll('details').forEach((d) => { d.removeAttribute('name'); d.open = true; }); const st = document.createElement('style'); st.textContent = '.xp, span.pdf-tag, span.gloss { display: none !important; }'; document.head.appendChild(st); const t = document.body.innerText; st.remove(); return t; })()`;
 
 const out = { browser: browserPath, file: resolve(file) };
 try {
@@ -293,7 +295,7 @@ try {
     const m = await p.evaluate(MEASURE);
     m.closedDetails = await p.evaluate(`document.querySelectorAll('details:not([open])').length`);
     // text as printed, leaving out the expansions the build adds after abbreviations (they are checked separately)
-    m.text = await p.evaluate(`(() => { const st = document.createElement('style'); st.textContent = '.xp { display: none !important; }'; document.head.appendChild(st); const t = document.body.innerText; st.remove(); return t; })()`);
+    m.text = await p.evaluate(`(() => { const st = document.createElement('style'); st.textContent = '.xp, span.pdf-tag, span.gloss { display: none !important; }'; document.head.appendChild(st); const t = document.body.innerText; st.remove(); return t; })()`);
     const { data } = await send('Page.printToPDF', { printBackground: false, paperWidth: 8.5, paperHeight: 11 }, p.sessionId);
     const pdf = Buffer.from(data, 'base64');
     m.pages = (pdf.toString('latin1').match(/\/Type\s*\/Page(?!s)/g) || []).length;

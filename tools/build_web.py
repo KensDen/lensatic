@@ -38,8 +38,6 @@ import sys
 import urllib.parse
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-import web_text  # noqa: E402  (the website's own wording until the next content release)
 
 ROOT = Path(__file__).resolve().parent.parent
 STACK = ROOT / "content" / "stack.json"
@@ -79,13 +77,55 @@ SECTIONS = ["doors", "stack", "matrix", "functions", "ai", "helper", "sources", 
 # entry's title in its Sources summary.
 LABEL_TAGS = frozenset({"h1", "h2", "h3", "h4", "th", "button", "nav", "footer"})    # headings, table headers, buttons, nav and menu items, the footer
 LABEL_CLASSES = frozenset({"door-title", "chip", "btn", "status", "door-meta", "layer-tag", "stamp", "sec-num",
-                           "ref", "caps-list", "ent-title", "lx-count"})   # lx-count: the hub cards' counts (site review)
+                           "ref", "caps-list", "ent-title", "lx-count", "step-title"})  # step-title: a step's name (1.0.1)   # lx-count: the hub cards' counts (site review)
 INTERACTIVE = frozenset({"a", "button", "summary"})
 # the one section where a well-known term (AI) links to its glossary entry, at its first use in running text (session 17)
 WELL_KNOWN_SECTION = "ai"
 # the statuses whose note the status key promises beside the badge: every address tried, or both readings and a date
 PROBLEM = ("conflict", "unverified")
 MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+
+# 6.2 (content release 1.0.1): the brand words, glossed once per page at their first use in running text
+BRAND_WORDS = (("glossTrailhead", re.compile(r"\btrailheads?\b", re.I)),
+               ("glossStack", re.compile(r"\b(?:the|this)(?: framework)? stack\b", re.I)))
+GLOSS_SKIP_TAGS = frozenset({"a", "button", "summary", "h1", "h2", "h3", "h4", "nav", "script", "style", "svg", "title", "th", "label",
+                             "figcaption", "dt"})
+GLOSS_SKIP_CLASSES = frozenset({"door-title", "door-meta", "btn", "chip", "stamp", "eyebrow", "lx-eyebrow", "sec-num", "xp", "gl", "url",
+                                "pdf-tag", "caps", "lx-count", "lede", "door"})  # door: inside a closed card
+TAG_RE = re.compile(r"<(/?)([a-zA-Z0-9]+)([^>]*)>")
+
+
+def gloss_first(page_html: str, labels: dict) -> str:
+    """Each brand word glossed at its first use in the page's running text, once per page (6.2): "trailhead (your
+    starting point for where you work)", "the stack (the frameworks sorted by the question each answers)". Labels,
+    links, buttons, summaries, headings and the hero's lede are not running text."""
+    todo = [(labels[k], rx) for k, rx in BRAND_WORDS if labels.get(k)]
+    out, stack, pos = [], [], 0
+    for m in TAG_RE.finditer(page_html):
+        text = page_html[pos:m.start()]
+        skipping = any(tag in GLOSS_SKIP_TAGS or cls & GLOSS_SKIP_CLASSES for tag, cls in stack)
+        if text and todo and not skipping:
+            for i, (gloss, rx) in enumerate(list(todo)):
+                hit = rx.search(text)
+                if hit:
+                    text = text[:hit.end()] + f'<span class="gloss"> ({esc(gloss)})</span>' + text[hit.end():]
+                    todo.remove((gloss, rx))
+        out.append(text)
+        out.append(m.group(0))
+        closing, tag, attrs = m.group(1), m.group(2).lower(), m.group(3)
+        if tag in ("br", "img", "hr", "meta", "input", "wbr", "link", "source", "path", "circle", "rect", "col") or attrs.rstrip().endswith("/"):
+            pass
+        elif closing:
+            while stack:
+                if stack.pop()[0] == tag:
+                    break
+        else:
+            cm = re.search(r'class="([^"]*)"', attrs)
+            stack.append((tag, set(cm.group(1).split()) if cm else set()))
+        pos = m.end()
+    out.append(page_html[pos:])
+    return "".join(out)
 
 
 def is_label(tag: str, classes: set[str]) -> bool:
@@ -116,6 +156,22 @@ def fmt_date(iso: str | None) -> str:
 
 
 URL_RE = re.compile(r'https?://[^\s<>"]+')
+# content release 1.0.1 (Ken's ruling, 5 November 2026): every link that opens a PDF carries this small tag right after it
+PDF_TAG = '<span class="pdf-tag">PDF</span>'
+
+
+def is_pdf(url: str) -> bool:
+    """An address whose path ends in .pdf, whatever its case, query or fragment."""
+    return url.split("#")[0].split("?")[0].lower().endswith(".pdf")
+
+
+def opens_pdf(rec: dict) -> bool:
+    """Whether a record's url opens a PDF: by its address, or by its urlFormat where the address does not say."""
+    return rec.get("urlFormat") == "pdf" or is_pdf(rec["url"])
+
+
+def pdf_tag(opens: bool) -> str:
+    return PDF_TAG if opens else ""
 
 
 def linkify(escaped: str) -> str:
@@ -126,7 +182,7 @@ def linkify(escaped: str) -> str:
         while url and url[-1] in ".,;:)":
             tail = url[-1] + tail
             url = url[:-1]
-        return f'<a class="url" href="{url}" rel="noreferrer">{url}</a>{tail}'
+        return f'<a class="url" href="{url}" rel="noreferrer">{url}</a>{pdf_tag(is_pdf(html.unescape(url)))}{tail}'
     return URL_RE.sub(rep, escaped)
 
 
@@ -230,7 +286,7 @@ class FirstUse:
     """
     DESIGNATION = re.compile(r"(?:/([A-Z][A-Za-z]+))?\s?\d+(?:[-/:]\d+)*")
     SKIP_TAGS = {"script", "style", "svg", "textarea", "title"}
-    SKIP_CLASSES = {"url", "xp", "caps", "pillar-label", "gl"}
+    SKIP_CLASSES = {"url", "xp", "caps", "pillar-label", "gl", "pdf-tag"}  # pdf-tag: the PDF tag (content release 1.0.1)
     VOID = {"br", "img", "hr", "meta", "input", "wbr", "link", "source", "col", "area", "base", "embed", "track", "path", "circle", "rect"}
 
     def __init__(self, entries: list[dict], link: bool = True) -> None:
@@ -454,7 +510,7 @@ def umbrella_card_alt() -> str:
 
 def umbrella() -> dict:
     """hub/site.json: the umbrella's sections and their addresses."""
-    return web_text.site(json.loads(HUB_SITE.read_text(encoding="utf-8")))
+    return json.loads(HUB_SITE.read_text(encoding="utf-8"))
 
 
 def version_line() -> str:
@@ -467,6 +523,14 @@ def version_line() -> str:
     meta = json.loads((ROOT / "content" / "stack.json").read_text(encoding="utf-8"))["meta"]
     day = fmt_date(meta["builtOn"]).replace(" ", "\u00a0")  # the date never breaks across lines
     return f"Lensatic app {mv} ({build}), content {meta['contentVersion']}, {day}"
+
+
+def content_line() -> str:
+    """The footer's line on every page (content release 1.0.1, 6.5): "Content checked 28 Oct 2026", the content release
+    date from content/stack.json, the same source as the version line, which stays on the About pages."""
+    meta = json.loads((ROOT / "content" / "stack.json").read_text(encoding="utf-8"))
+    label = meta["ui"]["labels"]["contentChecked"]
+    return f'{label} {fmt_date(meta["meta"]["builtOn"]).replace(" ", "\u00a0")}'
 
 
 def umbrella_title(d: dict) -> str:
@@ -496,7 +560,7 @@ def umbrella_bar(s: dict, root: str, active: str | None, brand_mark: bool = True
         cur = ' aria-current="page"' if sec["key"] == active else ""
         links.append(f'<li><a href="{root}{sec["path"]}" data-sec="{sec["key"]}"{cur}>{esc(sec["name"])}</a></li>')
     links.append(f'<li><a href="{root}#about">{esc(s["aboutLabel"])}</a></li>')
-    L = web_text.content(json.loads(STACK.read_text(encoding="utf-8")))["ui"]["labels"]
+    L = json.loads(STACK.read_text(encoding="utf-8"))["ui"]["labels"]
     toggle = (f'<div class="lx-tools"><button type="button" class="lx-theme" id="lx-theme" hidden aria-label="{esc(L["theme"])}: {esc(L["themeSystem"])}" '
               f'data-label="{esc(L["theme"])}" data-system="{esc(L["themeSystem"])}" data-light="{esc(L["themeLight"])}" data-dark="{esc(L["themeDark"])}">'
               f'{THEME_ICON}</button></div>')
@@ -512,7 +576,7 @@ def site_footer(s: dict, L: dict, root: str, licence: str | None = None) -> str:
     notice, and the typefaces' licence. On phones the three links keep one line (hub/lensatic.css)."""
     lic = licence or f'{s["repo"]}/blob/main/LICENSE'
     return ('<footer class="lx-foot"><div class="lx-foot-in">'
-            f'<p class="lx-version">{esc(version_line())}</p>'
+            f'<p class="lx-version">{esc(content_line())}</p>'
             f'<ul><li><a href="{root}privacy.html">{esc(L["pagesPrivacy"])}</a></li><li><a href="{root}support.html">{esc(L["pagesSupport"])}</a></li>'
             f'<li><a href="{esc(s["repo"])}">{esc(L["sourceCode"])}</a></li></ul></div>'
             f'<div class="lx-foot-in"><p class="lx-copy">{esc(s["rights"])} <a href="{esc(lic)}">{esc(s["rightsLink"])}</a>.</p>'
@@ -681,8 +745,9 @@ class Renderer:
                 f'<p class="actions"><a class="btn primary" href="#view-doors">{self.label("heroPrimary")}</a> '
                 f'<a class="btn secondary" href="#view-stack">{self.label("heroSecondary")}</a></p>'
                 f'<p class="stamp"><a href="#view-about">{self.label("contentVersion")} {esc(meta["contentVersion"])}</a>, '
-                f'{self.label("checkedThrough")} {fmt_date(self.latest_check())}{self.label("metaSeparator")}'
-                f'<a href="../#about-name">{self.label("whyName")}</a></p></div>\n')
+                # the dot stays with the link after it, so no line ends with a dot (8, the parked nits)
+                f'{self.label("checkedThrough")} {fmt_date(self.latest_check()).replace(" ", "\u00a0")} '
+                f'<span class="nw">{self.label("metaSeparator").strip()} <a href="../#about-name">{self.label("whyName")}</a></span></p></div>\n')
 
     def footer(self) -> str:
         """After main: the footer every Lensatic page shares (site review, 28 October 2026). Absolute addresses, so the
@@ -699,19 +764,34 @@ class Renderer:
             if not door.get("steps") and para:
                 para = first_sentence(para)[1]  # its first sentence is the card's meta line
             # all doors closed by default; the summary holds the title, the first sentence and the meta line
-            parts = [f'<details class="door" id="door-{esc(door["id"])}"{pv}>',
-                     f'<summary><span class="door-title">{self.t(door["title"])}</span>'
+            # 6.3 (content release 1.0.1): the five cards closed, the step count in view; opening one closes the others
+            # (the details name groups them, with no script), and a link to a trailhead opens it
+            parts = [f'<details class="door" name="trailhead" id="door-{esc(door["id"])}"{pv}>',
+                     f'<summary><span class="door-title">{self.t(door["shortTitle"])}</span>'
                      f'<span class="who">{self.t(who)}</span><span class="door-meta{"" if door.get("steps") else " sentence"}">{door_meta(self, door)}</span></summary><div class="body">']
             if who_rest:
                 parts.append(f'<p>{self.t(who_rest)}</p>')
             if para:
                 parts.append(f'<p>{self.t(para)}</p>')
             if door.get("steps"):
-                parts.append(f'<h3 class="lbl">{self.label("steps")}</h3><ol class="steps">')
+                # 6.9: no Steps label (the card's meta line counts them); 6.3: each step its title and first sentence,
+                # the rest of its text and its entries one tap down, as the app's My Path does; every word kept
+                parts.append('<ol class="steps">')
                 for s in door["steps"]:
-                    parts.append(f'<li id="door-{esc(door["id"])}-step-{s["order"]}">{self.layer_tag(s["layerId"])}'
-                                 f'{self.t(s["text"])} <small>{self.ent_links(s["entityIds"])}</small></li>')
+                    sid = f'door-{esc(door["id"])}-step-{s["order"]}'
+                    first, rest = first_sentence(s["text"])
+                    head = (f'{self.layer_tag(s["layerId"])}<span class="step-title">{self.t(s["title"])}</span> '
+                            f'<span class="step-first">{self.t(first)}</span>')
+                    links = f'<small>{self.ent_links(s["entityIds"])}</small>'
+                    if rest:
+                        parts.append(f'<li id="{sid}"><details class="step"><summary>{head}</summary>'
+                                     f'<p class="step-rest">{self.t(rest)} {links}</p></details></li>')
+                    else:
+                        parts.append(f'<li id="{sid}">{head} {links}</li>')
                 parts.append("</ol>")
+            if door.get("notYours"):
+                # 6.8: who should start at another trailhead, after the steps
+                parts.append(f'<div class="not-yours"><h3 class="lbl">{self.label("notYours")}</h3><p>{self.t(door["notYours"])}</p></div>')
             for ld in door.get("landings") or []:
                 parts.append(f'<div class="landing" id="landing-{esc(ld["id"])}"><h3>{self.t(ld["label"])}</h3>'
                              f'<p>{self.t(ld["text"])} <small>{self.ent_links(ld["entityIds"])}</small></p></div>')
@@ -896,7 +976,10 @@ class Renderer:
             # never read: the addresses its note records as gone are shown as text, not as live links (gauntlet question 46)
             p.append(f'<dt>{self.label("primary")}</dt><dd><span class="url">{esc(e["url"])}</span></dd>')
         else:
-            p.append(f'<dt>{self.label("primary")}</dt><dd><a class="url" href="{esc(e["url"])}" rel="noreferrer">{esc(e["url"])}</a></dd>')
+            # web pages first (content release 1.0.1): the publication's page, then its PDF as a second link labelled PDF
+            pdf = (f' <a class="pdf-tag" href="{esc(e["pdf"])}" rel="noreferrer">{self.label("pdfLink")}</a>' if e.get("pdf") else "")
+            p.append(f'<dt>{self.label("primary")}</dt><dd><a class="url" href="{esc(e["url"])}" rel="noreferrer">{esc(e["url"])}</a>'
+                     f'{pdf_tag(opens_pdf(e))}{pdf}</dd>')
         vnote = self.t(e["verification"].get("note")) if unread else self.tl(e["verification"].get("note"))
         p.append(f'<dt>{self.label("verification")}</dt><dd>{self.status_badge(e["verification"])} <span class="small">{vnote}</span></dd>')
         p.append("</dl>")
@@ -914,7 +997,9 @@ class Renderer:
                 # gives the primary's address, print does not repeat it after the link (class in-note)
                 in_note = ' class="in-note"' if shown and doc["url"] in self.tok(v["note"]) else ""
                 p.append(f'<li>{self.cite(doc["title"], doc["edition"], doc["date"])}{authors} '
-                         f'<a{in_note} href="{esc(doc["url"])}" rel="noreferrer">{self.label("primary")}</a> {self.status_badge(v or None)}{vnote}{note}</li>')
+                         f'<a{in_note} href="{esc(doc["url"])}" rel="noreferrer">{self.label("primary")}</a>{pdf_tag(opens_pdf(doc))}'
+                         + (f' <a class="pdf-tag" href="{esc(doc["pdf"])}" rel="noreferrer">{self.label("pdfLink")}</a>' if doc.get("pdf") else "")
+                         + f' {self.status_badge(v or None)}{vnote}{note}</li>')
             p.append("</ul>")
         if e.get("note"):
             p.append(f'<p class="small">{self.tl(e["note"])}</p>')
@@ -976,6 +1061,7 @@ class Renderer:
         badges = "".join(f'<span class="status {k}">{self.t(self.ui["status"][k])} {n}</span>' for k, n in counts.items())
         # the wayfinder line opens About, after the name and the content version (session 15)
         body = (f'<div id="about-body"><p class="about-name"><strong>{self.label("mapName")}</strong> <span class="small">{self.label("contentVersion")} {esc(meta["contentVersion"])}</span></p>'
+                f'<p class="small lx-build">{esc(version_line())}</p>'
                 f'<p>{self.t(meta["wayfinder"])}</p>'
                 f'<p>{self.t(meta["about"]["notAffiliated"])}</p>'
                 f'<p class="small" id="dow-note">{self.label("dowNote")}</p>'
@@ -1023,7 +1109,7 @@ class Renderer:
         if "glossary" in self.sections:
             pop = (f'<div class="gl-pop" id="gl-pop" role="note" hidden><div class="gl-pop-body"></div>'
                    f'<a class="gl-pop-link" href="#view-glossary">{self.label("glossaryOpen", hidden=True)}</a></div>\n')
-        return {"HEADER": fu.section(self.header()), "MAIN": main + pop, "FOOTER": self.footer()}  # the shared footer, word for word on every page (site review)
+        return {"HEADER": fu.section(self.header()), "MAIN": gloss_first(main, self.L) + pop, "FOOTER": self.footer()}  # the shared footer, word for word on every page (site review)
 
 
 # ---------------------------------------------------------------- the static render's texts (session 8)
@@ -1054,7 +1140,7 @@ def static_texts(d: dict) -> tuple[dict[str, list], dict[str, int]]:
     for door in d["doors"]:
         # the card shows the title, the first sentence of whoYouAre and a meta line; a door with no steps shows its
         # paragraph's first sentence as the meta line, and the rest of each sits in the body
-        texts = x(door["title"])
+        texts = x(door["shortTitle"])
         for s_ in (door["whoYouAre"], door.get("paragraph")):
             if s_:
                 sp = split_first(text_norm(tok(s_)))
@@ -1199,8 +1285,8 @@ def build_page(d: dict, key: str, author: str = "") -> bytes:
     fu = FirstUse(entries, link=False)
     main = fu.section("\n".join(body) + "\n")
     template = (SRC / "page.html").read_text(encoding="utf-8")
-    # the hub's top bar and the shared footer (site review, 28 October 2026); the tab title is the website's own
-    replacements = {"{{LANG}}": "en", "{{TITLE}}": esc(web_text.PAGE_TITLES.get(key, page["title"])), "{{DESCRIPTION}}": esc(page["description"]),
+    # the hub's top bar and the shared footer (site review, 28 October 2026); the tab title is the page's tabTitle
+    replacements = {"{{LANG}}": "en", "{{TITLE}}": esc(page["tabTitle"]), "{{DESCRIPTION}}": esc(page["description"]),
                     "{{ICON}}": favicon(), "{{STYLES}}": page_css(), "{{THEME_HEAD}}": theme_head(), "{{BAR}}": umbrella_bar(umbrella(), "./", None),
                     "{{SOCIAL}}": page_social_tags(key, page), "{{BODY}}": main, "{{FOOTER}}": site_footer(umbrella(), d["ui"]["labels"], "./") + "\n"}
     for k, v in replacements.items():
@@ -1233,7 +1319,7 @@ def social_tags(d: dict) -> str:
 
 def build_docs(index: bytes, stack: Path, docs: Path, author: str = "") -> list[Path]:
     """The project site for GitHub Pages: the app page byte for byte, the two plain pages, the social card, an empty .nojekyll."""
-    d = web_text.content(json.loads(stack.read_text(encoding="utf-8")))
+    d = json.loads(stack.read_text(encoding="utf-8"))
     docs.mkdir(parents=True, exist_ok=True)
     files = {f"{MAPS_KEY}/index.html": index, ".nojekyll": b""}
     files.update({f"{k}.html": build_page(d, k, author) for k in PAGES})
@@ -1252,7 +1338,7 @@ def build(author: str, stack: Path = STACK) -> bytes:
     for bad in ("</", "<!--", "<script", "]]>"):
         if bad in text:
             sys.exit(f"refusing to embed: stack.json contains {bad!r}, which cannot sit inside a script element verbatim")
-    d = web_text.content(json.loads(text))  # the embedded copy below stays the file's own bytes
+    d = json.loads(text)  # the embedded copy below is the file's own bytes
     template = (SRC / "template.html").read_text(encoding="utf-8")
     styles = (font_css() + "\n" + SHARED_CSS.read_text(encoding="utf-8").rstrip("\n") + "\n"
               + (SRC / "styles.css").read_text(encoding="utf-8").rstrip("\n"))
@@ -1300,7 +1386,7 @@ def main() -> int:
         for f in build_docs(data, Path(args.stack), Path(args.docs), args.author):
             print(f"wrote {f}: {f.stat().st_size} bytes")
     if args.texts:
-        texts = web_texts(web_text.content(json.loads(Path(args.stack).read_text(encoding="utf-8"))))
+        texts = web_texts(json.loads(Path(args.stack).read_text(encoding="utf-8")))
         Path(args.texts).write_text(json.dumps(texts, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
         print(f"wrote {args.texts}: {len(texts['texts'])} texts, {len(set(texts['texts']))} distinct, {len(texts['sections'])} sections")
     return 0

@@ -1,32 +1,84 @@
 import SwiftUI
 
-/// Explore (the redesign, R2; Explore.dc.html): the map three ways on a segmented control. Stack shows the five layers,
-/// narrowest at the top, with the AI column beside them; the layer of the reader's next step is called out as on their
-/// path. Matrix goes function by function through the pillars of the chosen view; Functions gives the six CSF functions.
+/// Explore (content release 1.0.1, section 7: system components first): the map three ways on the system's segmented
+/// control under the large title, each an inset-grouped list. Stack gives the five layers as rows with an icon tile, the
+/// AI column as a sixth, tinted row (the iPad keeps it as a side column beside the layers); the layer of the reader's
+/// next step says so. Matrix goes function by function through the pillars of the chosen view; Functions gives the six
+/// CSF functions. Backgrounds are the system's grouped colours, so light and dark need no colour work of their own.
 struct ExploreView: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
         @Bindable var model = model
-        ScrollView {
-            VStack(alignment: .leading, spacing: 14) {
+        let options = ExploreMode.allCases.map { ($0, model.store.content.ui.nav[$0.rawValue] ?? $0.rawValue.capitalized) }
+        List {
+            SwiftUI.Section {
                 ScreenHeader(title: AppTab.explore.title)
-                Segmented(options: ExploreMode.allCases.map { ($0, model.store.content.ui.nav[$0.rawValue] ?? $0.rawValue.capitalized) },
-                          selection: $model.explore, identifier: "explore")
-                switch model.explore {
-                case .stack: StackView()
-                case .matrix: MatrixView()
-                case .functions: FunctionsView()
-                }
+                    .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 4, trailing: 20))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                // the modes: a segmented control under the title
+                if !typeSize.isAccessibilitySize { ModePicker(options: options, selection: $model.explore, identifier: "explore") }
             }
-            .padding(.horizontal, 20)
-            .padding(.top, 12)
-            .padding(.bottom, 24)
+            // at the accessibility sizes, a section of rows, one per mode
+            if typeSize.isAccessibilitySize {
+                SwiftUI.Section { ModePicker(options: options, selection: $model.explore, identifier: "explore") }
+            }
+            switch model.explore {
+            case .stack: StackView()
+            case .matrix: MatrixView()
+            case .functions: FunctionsView()
+            }
         }
-        .background(Palette.bg)
+        .listStyle(.insetGrouped)
+        .environment(\.defaultMinListRowHeight, 44)
         .hardTopEdge()
         .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("explore")
+    }
+}
+
+/// The system's segmented control; at the accessibility sizes, where a segment's label would be cut, one row per mode
+/// with a checkmark on the chosen one, as an inline picker draws it, so the modes still stack one to a line (section 7.7).
+struct ModePicker<Value: Hashable>: View {
+    let options: [(Value, String)]
+    @Binding var selection: Value
+    var identifier: String
+    @Environment(\.dynamicTypeSize) private var typeSize
+
+    var body: some View {
+        if typeSize.isAccessibilitySize {
+            ForEach(options, id: \.0) { value, label in
+                Button { selection = value } label: {
+                    HStack(spacing: 12) {
+                        Text(label).font(DS.style(.body)).foregroundStyle(.primary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .fixedSize(horizontal: false, vertical: true)
+                        if value == selection {
+                            Image(systemName: "checkmark").font(.body.weight(.semibold)).foregroundStyle(Palette.link).accessibilityHidden(true)
+                        }
+                    }
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityAddTraits(value == selection ? [.isSelected, .isButton] : .isButton)
+                .accessibilityIdentifier("\(identifier)-\(value)")
+            }
+        } else {
+            Picker(identifier, selection: $selection) {
+                ForEach(options, id: \.0) { value, label in
+                    Text(label).tag(value).accessibilityIdentifier("\(identifier)-\(value)")
+                }
+            }
+            .pickerStyle(.segmented)
+            .labelsHidden()
+            .accessibilityIdentifier("\(identifier)-picker")
+            .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+            .listRowBackground(Color.clear)
+            .listRowSeparator(.hidden)
+        }
     }
 }
 
@@ -34,113 +86,86 @@ struct ExploreView: View {
 
 struct StackView: View {
     @Environment(AppModel.self) private var model
-    @Environment(\.dynamicTypeSize) private var typeSize
-    /// The turned label's line height, which is its width on screen: it grows with the text, so the label is never cut.
-    @ScaledMetric(relativeTo: .caption) private var labelLine: CGFloat = 20
+    @Environment(\.horizontalSizeClass) private var sizeClass
 
     var body: some View {
         let screen = model.screen("stack") { StackScreen(store: model.store) }
         let onPath = model.pathLayer
-        VStack(alignment: .leading, spacing: 14) {
-            ProseText(run: Run(Span(intro(screen), role: .label)), font: DS.note, color: Palette.fg2)
-            if typeSize.isAccessibilitySize {
-                // at the accessibility sizes the column takes its own row under the layers, so neither is squeezed
-                layers(screen, onPath)
-                if let column = screen.column { columnCard(column, vertical: false) }
-            } else {
-                HStack(alignment: .top, spacing: 10) {
-                    layers(screen, onPath)
-                    if let column = screen.column { columnCard(column, vertical: true) }
+        SwiftUI.Section {
+            if sizeClass == .regular, let column = screen.column {
+                // the iPad: the layers beside the AI column, the one hero container this screen keeps
+                HStack(alignment: .top, spacing: 12) {
+                    VStack(spacing: 0) {
+                        ForEach(screen.layers, id: \.id) { layer in
+                            padRow(layer.id) { layerRow(layer, onPath: onPath) }
+                            if layer.id != screen.layers.last?.id { Divider().padding(.leading, 42) }
+                        }
+                    }
+                    .lxCard(radius: 12)
+                    padRow(column.id) { columnRow(column) }.lxCard(radius: 12, tint: Palette.secPurple).frame(maxWidth: 280)
                 }
-                .fixedSize(horizontal: false, vertical: true)
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.clear)
+            } else {
+                ForEach(screen.layers, id: \.id) { layer in layerLink(layer, onPath: onPath) }
             }
+        } footer: {
+            ListNote(intro(screen)).font(DS.style(.footnote))
+        }
+        // the AI column, a sixth row under the layers, tinted as the column and labelled from its content; a section of
+        // its own, so its tint never reads as a row left selected
+        if sizeClass != .regular, let column = screen.column {
+            SwiftUI.Section { columnLink(column).listRowBackground(Palette.secPurple.opacity(0.18)) }
         }
     }
 
-    /// The mockup's two short lines, with the number of layers counted from the content.
+    /// The section's footer, with the number of layers counted from the content.
     private func intro(_ screen: StackScreen) -> String {
         let n = NumberFormatter.localizedString(from: NSNumber(value: screen.layers.count), number: .spellOut).capitalized
-        return "\(n) layers, from what leadership funds down to who checks. AI runs alongside. Tap a layer."
+        return "\(n) layers, from what leadership funds down to who checks. AI runs alongside."
     }
 
-    private func layers(_ screen: StackScreen, _ onPath: String?) -> some View {
-        let n = screen.layers.count
-        return VStack(spacing: 8) {
-            ForEach(Array(screen.layers.enumerated()), id: \.element.id) { i, layer in
-                // the stack narrows toward the top, as the mockup draws it: four points each side per layer
-                let inset = typeSize.isAccessibilitySize ? 0 : CGFloat(n - 1 - i) * 4
-                LayerCard(layer: layer, names: StackScreen.names(layer, store: model.store), onPath: layer.id == onPath)
-                    .padding(.horizontal, inset)
-            }
-        }
-        .frame(maxWidth: .infinity)
+    private func layerRow(_ layer: Layer, onPath: String?) -> TileRow {
+        let n = layer.frameworkIds.count
+        return TileRow(icon: RowIcon.layer(layer.order), title: TitleCase.apply(layer.name),
+                       note: layer.id == onPath ? "On your path" : nil, value: n == 1 ? "1 framework" : "\(n) frameworks")
     }
 
-    private func columnCard(_ column: Layer, vertical: Bool) -> some View {
+    private func columnRow(_ column: Layer) -> TileRow {
         let count = StackScreen.entryIds(column, store: model.store).count
-        let label = "\(column.name.uppercased())\(model.store.label("metaSeparator"))\(count)"
-        return Button { model.push(.layer(column.id)) } label: {
-            Group {
-                if vertical {
-                    VStack(spacing: 10) {
-                        Icon(.chip, size: 24, color: Palette.secPurple, lineWidth: 1.8)
-                        Text(label).font(DS.eyebrowSmall).kerning(1.1).foregroundStyle(Palette.secPurple)
-                            .fixedSize()
-                            .rotationEffect(.degrees(90))
-                            .frame(width: labelLine)
-                            .frame(minHeight: 140)
-                    }
-                    .frame(minWidth: 64)
-                    .frame(maxHeight: .infinity)
-                } else {
-                    HStack(spacing: 12) {
-                        Icon(.chip, size: 24, color: Palette.secPurple, lineWidth: 1.8)
-                        Text(label).font(DS.eyebrowSmall).foregroundStyle(Palette.secPurple)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    .padding(14)
-                }
-            }
-            .background(Palette.bg2, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Palette.secPurple, style: StrokeStyle(lineWidth: 1, dash: [4, 3])))
-            .contentShape(RoundedRectangle(cornerRadius: 12))
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel("\(column.name), \(count) entries")
-        .accessibilityHint(column.question)
-        .accessibilityIdentifier("layer-\(column.id)")
+        return TileRow(icon: RowIcon.aiColumn, title: TitleCase.apply(column.name), value: count == 1 ? "1 entry" : "\(count) entries")
     }
-}
 
-/// One layer of the stack: its number and name, its question, and the short names of its entries.
-struct LayerCard: View {
-    @Environment(AppModel.self) private var model
-    let layer: Layer
-    let names: [String]
-    let onPath: Bool
+    private func layerLink(_ layer: Layer, onPath: String?) -> some View {
+        NavigationLink(value: Nav.layer(layer.id)) { layerRow(layer, onPath: onPath) }
+            .accessibilityHint(layer.question)
+            .accessibilityIdentifier("layer-\(layer.id)")
+    }
 
-    var body: some View {
-        let sep = model.store.label("metaSeparator")
-        Button { model.push(.layer(layer.id)) } label: {
-            VStack(alignment: .leading, spacing: 4) {
-                // untracked mono caps, as the mockup sets them; a non-breaking space keeps each dot with the word after it, so no line ends on a dot
-                Eyebrow(text: ("\(layer.order)\(sep)\(layer.shortName)" + (onPath ? "\(sep)On your path" : ""))
-                            .replacingOccurrences(of: sep, with: " " + sep.trimmingCharacters(in: .whitespaces) + "\u{00A0}"),
-                        color: onPath ? Palette.secMaps : Palette.accent, small: true, tracked: false)
-                Text(layer.shortQuestion).font(DS.layerTitle).foregroundStyle(Palette.fg)
-                // each name kept on one line, so a line breaks only between names (nit 2), and never after a dot (R5)
-                Text(dotted(names, separator: sep)).font(DS.layerNames).foregroundStyle(Palette.fg2)
+    private func columnLink(_ column: Layer) -> some View {
+        let count = StackScreen.entryIds(column, store: model.store).count
+        return NavigationLink(value: Nav.layer(column.id)) { columnRow(column) }
+            .accessibilityLabel("\(column.name), \(count) entries")
+            .accessibilityHint(column.question)
+            .accessibilityIdentifier("layer-\(column.id)")
+    }
+
+    /// The iPad's side-by-side stack: one plain button per row, at least 44 points tall, with the list's chevron, so each
+    /// row is its own target inside the one list row that holds the container.
+    private func padRow(_ id: String, @ViewBuilder _ content: () -> TileRow) -> some View {
+        let layer = model.store.layers[id]
+        return Button { model.push(.layer(id)) } label: {
+            HStack(spacing: 8) {
+                content()
+                Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .multilineTextAlignment(.leading)
-            .fixedSize(horizontal: false, vertical: true)
-            .padding(12)
-            .card(radius: 12, fill: onPath ? Palette.bg3 : Palette.bg2, stroke: onPath ? Palette.secMaps : Palette.line)
-            .contentShape(RoundedRectangle(cornerRadius: 12))
+            .padding(.vertical, 8)
+            .frame(minHeight: 44)
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
-        .accessibilityElement(children: .combine)
-        .accessibilityIdentifier("layer-\(layer.id)")
+        .accessibilityHint(layer?.question ?? "")
+        .accessibilityIdentifier("layer-\(id)")
     }
 }
 
@@ -148,47 +173,41 @@ struct LayerCard: View {
 
 struct MatrixView: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
         @Bindable var model = model
         let screen = model.screen("matrix-\(model.matrixView.rawValue)") { MatrixScreen(store: model.store, view: model.matrixView) }
-        VStack(alignment: .leading, spacing: 14) {
-            Text(intro(screen)).font(DS.note).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
-            Segmented(options: PillarView.allCases.map { ($0, viewName($0)) },
-                      selection: $model.matrixView, identifier: "pillar-view")
-            ForEach(screen.functions, id: \.function.id) { fn, rows in
-                VStack(alignment: .leading, spacing: 8) {
-                    HStack(alignment: .firstTextBaseline, spacing: 8) {
-                        Text(fn.id.rawValue).font(DS.eyebrow).foregroundStyle(Palette.accent)
-                        Text(fn.name).font(DS.readerHeading).foregroundStyle(Palette.fg)
+        SwiftUI.Section {
+            ModePicker(options: PillarView.allCases.map { ($0, viewName($0)) }, selection: $model.matrixView, identifier: "pillar-view")
+        } footer: {
+            ListNote(intro(screen)).font(DS.style(.footnote))
+        }
+        ForEach(screen.functions, id: \.function.id) { fn, rows in
+            SwiftUI.Section {
+                ForEach(rows, id: \.pillar) { row in
+                    NavigationLink(value: Nav.cell(screen.view, row.pillar, fn.id)) {
+                        VStack(alignment: .leading, spacing: 3) {
+                            // at the accessibility sizes the capability numbers go under the name, which keeps the width
+                            (typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 2))
+                                                          : AnyLayout(HStackLayout(alignment: .firstTextBaseline))) {
+                                Text(row.crossCutting ? "\(row.name) (\(model.store.label("crossCutting")))" : row.name)
+                                    .font(DS.style(.headline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                                if !typeSize.isAccessibilitySize { Spacer(minLength: 8) }
+                                if !row.capabilities.isEmpty {
+                                    Text("\(model.store.label("capabilities")) \(row.capabilities.joined(separator: " "))")
+                                        .font(DS.style(.caption)).foregroundStyle(Palette.fg2)
+                                }
+                            }
+                            ProseText(run: screen.prose[row.line], font: DS.style(.subheadline), color: Palette.fg2, lineSpacing: 2)
+                        }
+                        .multilineTextAlignment(.leading)
                     }
                     .accessibilityElement(children: .combine)
-                    .accessibilityAddTraits(.isHeader)
-                    ForEach(rows, id: \.pillar) { row in
-                        Button { model.push(.cell(screen.view, row.pillar, fn.id)) } label: {
-                            VStack(alignment: .leading, spacing: 3) {
-                                HStack(alignment: .firstTextBaseline) {
-                                    Text(row.crossCutting ? "\(row.name) (\(model.store.label("crossCutting")))" : row.name)
-                                        .font(DS.layerTitle).foregroundStyle(Palette.fg)
-                                    Spacer(minLength: 8)
-                                    if !row.capabilities.isEmpty {
-                                        Text("\(model.store.label("capabilities")) \(row.capabilities.joined(separator: " "))")
-                                            .font(DS.eyebrowSmall).foregroundStyle(Palette.fg2)
-                                    }
-                                }
-                                ProseText(run: screen.prose[row.line], font: DS.note, color: Palette.fg2, lineSpacing: 2)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .multilineTextAlignment(.leading)
-                            .padding(12)
-                            .card(radius: 12)
-                            .contentShape(RoundedRectangle(cornerRadius: 12))
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityElement(children: .combine)
-                        .accessibilityIdentifier("cell-\(screen.view.rawValue)-\(row.pillar)-\(fn.id.rawValue)")
-                    }
+                    .accessibilityIdentifier("cell-\(screen.view.rawValue)-\(row.pillar)-\(fn.id.rawValue)")
                 }
+            } header: {
+                ListNote("\(fn.id.rawValue) \(fn.name)")
             }
         }
     }
@@ -216,76 +235,72 @@ struct FunctionsView: View {
 
     var body: some View {
         let screen = model.screen("functions") { FunctionsScreen(store: model.store) }
-        VStack(alignment: .leading, spacing: 12) {
-            ForEach(screen.cards, id: \.function.id) { card in
-                FunctionCard(card: card, prose: screen.prose)
-            }
+        ForEach(screen.cards, id: \.function.id) { card in
+            FunctionSection(card: card, prose: screen.prose)
         }
     }
 }
 
-struct FunctionCard: View {
+/// One CSF function as a section: its question, where zero trust lands, its categories and, one tap down in the system's
+/// disclosure, the pillars.
+struct FunctionSection: View {
     @Environment(AppModel.self) private var model
     let card: FunctionsScreen.Card
     let prose: Prose
     @State private var open = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .firstTextBaseline, spacing: 8) {
-                Text(card.function.id.rawValue).font(DS.eyebrow).foregroundStyle(Palette.accent)
-                Text(card.function.name).font(DS.readerHeading).foregroundStyle(Palette.fg)
-            }
-            .accessibilityElement(children: .combine)
-            .accessibilityAddTraits(.isHeader)
-            ProseText(run: prose[card.question], font: DS.nextTitle)
-            VStack(alignment: .leading, spacing: 4) {
-                SectionLabel(text: model.store.label("whereZtLands"), tracked: false)
-                ProseText(run: prose[card.landing], font: DS.step)
-            }
-            FlowLayout(spacing: 6) {
-                ForEach(card.function.categories, id: \.code) { c in
-                    Text(c.code).font(DS.eyebrowSmall).foregroundStyle(Palette.fg2)
-                        .padding(.horizontal, 8).padding(.vertical, 4)
-                        .overlay(Capsule().strokeBorder(Palette.line, lineWidth: 1))
-                        .accessibilityLabel("\(c.code), \(c.name)")
+        SwiftUI.Section {
+            VStack(alignment: .leading, spacing: 10) {
+                ProseText(run: prose[card.question], font: DS.style(.headline), color: .primary)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(model.store.label("whereZtLands")).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                    ProseText(run: prose[card.landing], font: DS.style(.subheadline), color: .primary)
+                }
+                FlowLayout(spacing: 6) {
+                    ForEach(card.function.categories, id: \.code) { c in
+                        Text(c.code).font(DS.style(.caption)).foregroundStyle(Palette.fg2)
+                            .padding(.horizontal, 8).padding(.vertical, 4)
+                            .background(Color(.tertiarySystemFill), in: Capsule())
+                            .accessibilityLabel("\(c.code), \(c.name)")
+                    }
                 }
             }
+            .padding(.vertical, 4)
+            .accessibilityElement(children: .contain)
+            .accessibilityIdentifier("function-\(card.function.id.rawValue)")
+            // the pillars one tap down, the row the control (a hidden chevron turns), so nothing in it goes unnamed
             Button { open.toggle() } label: {
                 HStack {
-                    Text(open ? "Hide the Pillars" : "By Pillar").font(DS.link).foregroundStyle(Palette.link)
+                    Text("By Pillar").font(DS.style(.body)).foregroundStyle(Palette.link)
+                        .fixedSize(horizontal: false, vertical: true).layoutPriority(1)
                     Spacer()
-                    Icon(.chevronRight, size: 16, color: Palette.link).rotationEffect(.degrees(open ? 90 : 0))
+                    Icon(.chevronRight, size: 14, color: Palette.fg2).rotationEffect(.degrees(open ? 90 : 0)).accessibilityHidden(true)
                 }
-                .frame(minHeight: 44)
-                .contentShape(Rectangle())
+                .frame(minHeight: 44).contentShape(Rectangle())
             }
             .buttonStyle(.plain)
             .accessibilityValue(open ? "Expanded" : "Collapsed")
             .accessibilityIdentifier("function-\(card.function.id.rawValue)-pillars")
             if open {
-                VStack(alignment: .leading, spacing: 8) {
-                    ForEach(card.pillars, id: \.name) { p in
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(p.name).font(DS.stepStrong).foregroundStyle(Palette.fg)
-                            ProseText(run: prose[p.line], font: DS.step, color: Palette.fg2, lineSpacing: 2)
-                        }
+                ForEach(card.pillars, id: \.name) { p in
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(p.name).font(DS.style(.subheadline).weight(.semibold)).foregroundStyle(.primary)
+                        ProseText(run: prose[p.line], font: DS.style(.subheadline), color: Palette.fg2, lineSpacing: 2)
                     }
                 }
             }
+        } header: {
+            ListNote("\(card.function.id.rawValue) \(card.function.name)")
         }
-        .padding(14)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .card(radius: 14)
-        .accessibilityElement(children: .contain)
-        .accessibilityIdentifier("function-\(card.function.id.rawValue)")
     }
 }
 
 // MARK: a layer
 
-/// A layer opened from the stack: its question and line, its entries (each opens its card), the solutions measured
-/// against it and the questions the map answers there. The AI column adds its note and the worked Profile.
+/// A layer opened from the stack: its question and line, its entries as rows (each opens its card, its short summary
+/// beneath), the solutions measured against it and the questions the map answers there. The AI column adds its note and
+/// the worked Profile.
 struct LayerView: View {
     @Environment(AppModel.self) private var model
     @State private var noteOpen = false
@@ -295,90 +310,102 @@ struct LayerView: View {
         if let screen = model.screen("layer-\(id)", { LayerScreen(store: model.store, id: id) }) {
             let layer = screen.layer
             let p = screen.prose
-            DetailScreen(eyebrow: layer.isColumn ? nil : "\(model.store.label("layer")) \(layer.order)",
-                         eyebrowColor: layer.isColumn ? Palette.secPurple : Palette.secMaps,
-                         title: TitleCase.apply(layer.name), identifier: "layer-screen-\(id)") {
-                ProseText(run: p[screen.question], font: DS.nextTitle)
-                ProseText(run: p[screen.oneLiner], font: DS.answer, color: Palette.fg2)
-                if let note = screen.note {
-                    ProseText(run: p[note], font: DS.answer)
-                    if let rest = screen.noteRest {
-                        if noteOpen { ProseText(run: p[rest], font: DS.answer) }
-                        Button { noteOpen.toggle() } label: {
-                            Text(noteOpen ? "Show Less" : "Read More").font(DS.link).foregroundStyle(Palette.link)
-                                .frame(minHeight: 44).contentShape(Rectangle())
+            ListScreen(eyebrow: layer.isColumn ? nil : "\(model.store.label("layer")) \(layer.order)",
+                       eyebrowColor: layer.isColumn ? Palette.secPurple : Palette.secMaps,
+                       title: TitleCase.apply(layer.name), identifier: "layer-screen-\(id)") {
+                SwiftUI.Section {
+                    VStack(alignment: .leading, spacing: 8) {
+                        ProseText(run: p[screen.question], font: DS.style(.headline), color: .primary)
+                        ProseText(run: p[screen.oneLiner], font: DS.style(.subheadline), color: Palette.fg2)
+                        if let note = screen.note {
+                            ProseText(run: p[note], font: DS.style(.subheadline), color: .primary)
+                            if let rest = screen.noteRest {
+                                if noteOpen { ProseText(run: p[rest], font: DS.style(.subheadline), color: .primary) }
+                                Button { noteOpen.toggle() } label: {
+                                    Text(noteOpen ? "Show Less" : "Read More").font(DS.style(.subheadline)).foregroundStyle(Palette.link)
+                                        .frame(minHeight: 44).contentShape(Rectangle())
+                                }
+                                .buttonStyle(.plain)
+                                .accessibilityIdentifier("layer-note-more")
+                            }
                         }
-                        .buttonStyle(.plain)
-                        .accessibilityIdentifier("layer-note-more")
                     }
+                    .padding(.vertical, 4)
                 }
                 entries(layer.isColumn ? "In the column" : "On this layer", screen.entryIds)
                 if !screen.solutionIds.isEmpty { entries("Validated solutions", screen.solutionIds) }
                 if let title = screen.socTitle {
-                    VStack(alignment: .leading, spacing: 8) {
-                        ProseText(run: p[title], font: DS.readerHeading).accessibilityAddTraits(.isHeader)
+                    SwiftUI.Section {
                         ForEach(Array(screen.soc.enumerated()), id: \.offset) { _, row in
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(row.function).font(DS.stepStrong).foregroundStyle(Palette.fg)
-                                ProseText(run: p[row.outcome], font: DS.step, color: Palette.fg2, lineSpacing: 2)
+                                Text(row.function).font(DS.style(.headline)).foregroundStyle(.primary)
+                                ProseText(run: p[row.outcome], font: DS.style(.subheadline), color: Palette.fg2, lineSpacing: 2)
                             }
                             .accessibilityElement(children: .combine)
                         }
+                    } header: {
+                        ProseText(run: p[title], font: DS.style(.footnote), color: Palette.fg2).accessibilityAddTraits(.isHeader)
                     }
-                    .padding(14)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .card(radius: 14)
                 }
                 if !screen.helpers.isEmpty {
-                    VStack(alignment: .leading, spacing: 8) {
-                        SectionLabel(text: model.store.navTitle(.helper))
-                        ForEach(screen.helpers, id: \.id) { h in HelperCard(helper: h, prose: p) }
+                    SwiftUI.Section {
+                        ForEach(screen.helpers, id: \.id) { h in HelperRow(helper: h, prose: p) }
+                    } header: {
+                        ListNote(model.store.navTitle(.helper))
                     }
                 }
             }
         } else {
-            Palette.bg
+            Color(.systemGroupedBackground)
         }
     }
 
     private func entries(_ title: String, _ ids: [String]) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            SectionLabel(text: title)
+        SwiftUI.Section {
             ForEach(ids, id: \.self) { eid in
                 if let e = model.store.entities[eid] {
-                    Button { model.push(.entity(eid)) } label: { ResultRow(title: e.displayName, line: e.shortSummary) }
-                        .buttonStyle(.plain)
-                        .accessibilityIdentifier("entry-\(eid)")
+                    NavigationLink(value: Nav.entity(eid)) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(e.displayName).font(DS.style(.body)).foregroundStyle(.primary)
+                            Text(keepWhole(e.shortSummary)).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .padding(.vertical, 2)
+                    }
+                    .accessibilityIdentifier("entry-\(eid)")
                 }
             }
+        } header: {
+            ListNote(title)
         }
     }
 }
 
-/// One of the map's questions at a layer: the question opens in place to its answer and the entries it draws on.
-struct HelperCard: View {
+/// One of the map's questions at a layer, in the system's disclosure: the question opens in place to its answer and the
+/// entries it draws on.
+struct HelperRow: View {
     @Environment(AppModel.self) private var model
     let helper: LayerScreen.Helper
     let prose: Prose
     @State private var open = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            Button { open.toggle() } label: {
-                HStack(alignment: .firstTextBaseline, spacing: 10) {
-                    ProseText(run: prose[helper.question], font: DS.nextTitle)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .multilineTextAlignment(.leading)
-                    Icon(.chevronRight, size: 16, color: Palette.fg2).rotationEffect(.degrees(open ? 90 : 0))
-                }
-                .frame(minHeight: 44)
-                .contentShape(Rectangle())
+        // the question is the row's control; its answer and entries follow as a row of their own when open
+        Button { open.toggle() } label: {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                ProseText(run: prose[helper.question], font: DS.style(.body), color: .primary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                Icon(.chevronRight, size: 14, color: Palette.fg2).rotationEffect(.degrees(open ? 90 : 0)).accessibilityHidden(true)
             }
-            .buttonStyle(.plain)
-            .accessibilityValue(open ? "Expanded" : "Collapsed")
-            .accessibilityIdentifier("helper-\(helper.id)")
-            if open {
-                ProseText(run: prose[helper.answer], font: DS.step)
+            .frame(minHeight: 44).contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityValue(open ? "Expanded" : "Collapsed")
+        .accessibilityIdentifier("helper-\(helper.id)")
+        if open {
+            VStack(alignment: .leading, spacing: 8) {
+                ProseText(run: prose[helper.answer], font: DS.style(.subheadline), color: .primary)
                 FlowLayout {
                     ForEach(helper.entityIds, id: \.self) { eid in
                         if let e = model.store.entities[eid] {
@@ -387,10 +414,8 @@ struct HelperCard: View {
                     }
                 }
             }
+            .padding(.vertical, 4)
         }
-        .padding(14)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .card(radius: 12)
     }
 }
 

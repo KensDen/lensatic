@@ -60,16 +60,19 @@ PLAYS = ROOT / "playbook" / "app" / "plays.json"
 # the settled wording (the owner's decisions of 27 and 28 September 2026, and of 18 October 2026 for "public sector" in the
 # tagline, the pitch and the description's opening), verbatim. Only the App Store says "Lensatic Cyber"; everywhere else says "Lensatic".
 STORE_NAME = "Lensatic Cyber"
-SUBTITLE = "A compass for cyber frameworks"
+SUBTITLE = "A zero trust compass"  # Ken's ruling, 5 November 2026 (content release 1.0.1): zero trust wording, the name unchanged
 TAGLINE = "Public sector cyber frameworks are thick woods. Lensatic is the compass."
-PITCH = ("Public sector cyber frameworks are thick woods. Lensatic is the compass: find where you stand, see which framework "
-         "applies, and take a bearing on your next waypoint.")
+# 5 November 2026: on zero trust; 7 November 2026, Ken's pick of a shorter close ("take your next bearing"), since the
+# ruled wording ran to 179 characters, over the promotional text's 170
+PITCH = ("Public sector cyber frameworks are thick woods. Lensatic is the compass: find where you stand on zero trust, see which "
+         "framework applies, and take your next bearing.")
 WAYFINDER = ("Framework Maps is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how "
              "the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber "
              "assurance terrain.")
-OPENING = ("The public sector cyber framework landscape is thick woods: overlapping rules, shifting requirements, and a dozen "
-           "trails that all look alike. Lensatic Cyber is the compass that shows where you stand and which way to head "
-           "next.")
+# the description's second paragraph (Ken's ruling, 5 November 2026): zero trust first, the other frameworks around it
+OPENING = ("Lensatic Cyber is built around zero trust. It starts with SP 800-207 and the DoD and CISA maturity models, then shows "
+           "how CSF 2.0, SP 800-53, the RMF, CMMC and the NIST AI frameworks connect to it, so you know which document answers "
+           "which question before you open a control catalog.")
 # the compass story leads the description (R5, nits v0.5 item 17): two plain sentences in the maker's own words, the
 # second word for word from the content's Why the name; the settled opening follows it
 STORY = ("I learned land navigation with a lensatic compass in the Army, and more than 20 years later it still points north. "
@@ -78,6 +81,9 @@ STORY_FROM = "That’s the idea behind this app: when the noise gets loud, go ba
 WHATS_INSIDE = "What’s Inside"  # a heading, in Title Case (R4)
 KEYWORD_CANDIDATES = ("zero trust", "NIST", "CSF", "800-53", "800-207", "800-171", "CMMC", "RMF", "FedRAMP", "CISA", "compliance",
                       "cybersecurity", "federal", "framework", "controls", "reference", "governance")
+
+# Ken's ruling, 7 November 2026: "Zero Trust" stays the first keyword though the subtitle names zero trust too
+KEYWORD_SUBTITLE_OVERLAP = ("zero trust",)
 
 SITE = "https://kensden.github.io/lensatic/"
 URLS = {"supportUrl": (SITE + "support.html", "support.html"), "marketingUrl": (SITE, "index.html"),
@@ -149,7 +155,7 @@ NOTES = {"name": "The App Store name only; everywhere else the app is Lensatic."
                       "controls, age assurance and medical or wellness topics none; giving 4+.",
          "privacyNutrition": "The App Privacy answer: the app collects no data.",
          "exportCompliance": "The app uses no non-exempt encryption; Info.plist says so with ITSAppUsesNonExemptEncryption set to NO.",
-         "whatsNew": "Not used for a first version."}
+         "whatsNew": "What changed since the version before; not used for a first version."}
 
 
 def units(s: str) -> int:
@@ -196,9 +202,8 @@ def app_facts(d: dict) -> dict:
     site = load(SITE_JSON)
     plays = load(PLAYS)["plays"]
     doors = [resolve(d, x["shortTitle"]) for x in d["doors"]]
-    shape = site["labels"]["guideShape"]
     return {"doors": doors, "layers": sum(1 for x in d["layers"] if not x.get("isColumn")), "functions": len(d["functions"]),
-            "guide": f'{site["guides"][0]["name"]} in {shape.title()}',  # the guide's card title (Zero Trust in Eight Weeks)
+            "guide": site["guides"][0]["title"],  # the guide's title standing alone (6.20: Zero Trust Study Route)
             "playbook": site["cards"]["playbook"]["title"], "plays": len(plays)}
 
 
@@ -341,6 +346,8 @@ def check(rep) -> None:
     stem = lambda w: w[:-1] if w.endswith("s") and len(w) > 3 else w  # noqa: E731  (frameworks and framework are one word)
     taken = {stem(w) for w in re.findall(r"[a-z0-9-]+", f"{STORE_NAME} {SUBTITLE}".lower())}
     for t in terms:
+        if t.lower() in KEYWORD_SUBTITLE_OVERLAP:
+            continue
         for w in re.findall(r"[a-z0-9-]+", t.lower()):
             if stem(w) in taken:
                 errs.append(f"keyword {t!r} repeats the word {w!r} from the name or subtitle")
@@ -420,6 +427,8 @@ def check(rep) -> None:
         errs.append("reviewNotes do not carry the support sentence")
     if listing.get("version") == "1.0" and listing.get("whatsNew") is not None:
         errs.append("whatsNew is set for a first version")
+    if listing.get("version") != "1.0" and not listing.get("whatsNew"):
+        errs.append(f"whatsNew is empty for version {listing.get('version')}")
     rep.check("the support, marketing and privacy addresses are the site's own pages and exist in docs/; copyright, secondary "
               "category (none), price, availability, age rating and privacy answer as settled; version, devices, encryption "
               "and privacy agree with the app", errs,

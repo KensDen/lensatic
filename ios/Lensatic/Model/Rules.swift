@@ -42,6 +42,14 @@ struct Rules: Sendable {
     private static let datePattern = try! NSRegularExpression(pattern: #"^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$"#)
 
     /// 2026 stays 2026, 2026-09 is Sep 2026, 2026-09-09 is 9 Sep 2026; anything else is shown as it is.
+    /// A day for a row's trailing value (content release 1.0.1, the Library's What Changed): "7 Nov", with the year only
+    /// when it is not this year.
+    static func shortDate(_ iso: String, today: Date = Date(), calendar: Calendar = .lensatic) -> String {
+        guard let c = PathPlan.day(iso), let month = c.month, let day = c.day, (1...12).contains(month) else { return formatDate(iso) }
+        let year = c.year == calendar.component(.year, from: today) ? "" : " \(c.year ?? 0)"
+        return "\(day) \(months[month - 1])\(year)"
+    }
+
     static func formatDate(_ iso: String?) -> String {
         let s = iso ?? ""
         let ns = s as NSString

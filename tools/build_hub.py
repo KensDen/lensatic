@@ -69,11 +69,11 @@ def esc(s: str) -> str:
 
 
 def site() -> dict:
-    return bw.web_text.site(json.loads(SITE_JSON.read_text(encoding="utf-8")))
+    return json.loads(SITE_JSON.read_text(encoding="utf-8"))
 
 
 def stack() -> dict:
-    return bw.web_text.content(json.loads(bw.STACK.read_text(encoding="utf-8")))
+    return json.loads(bw.STACK.read_text(encoding="utf-8"))
 
 
 def playbook_counts() -> dict[str, int]:
@@ -177,6 +177,19 @@ HUB_CSS = """.lx-hero-lines { margin: var(--s-5) 0 0; padding: 0; list-style: no
 .lx-404 > main { flex: 1 0 auto; }
 .lx-404 .lx-head .lx-actions { margin-top: var(--s-4); }  /* as far below the line as the hub's start button (site review, item 15) */
 .lx-nw { white-space: nowrap; }
+/* content release 1.0.1: zero trust after the tagline (3.2); where to start above the cards (6.1), what each section is for
+   under them (4.4), a second way into Framework Maps (6.13), the build string on About (6.5) */
+.lx-spine { margin-top: var(--s-2); font-size: 1rem; }
+.lx-pick { margin: 0 0 var(--s-4); max-width: 44rem; font-size: 1.0625rem; }
+.lx-purpose { margin: var(--s-4) 0 0; color: var(--fg-2); text-wrap: pretty; }
+.lx-sublink { display: inline-flex; align-items: center; min-height: 44px; color: var(--link); }
+.lx-about p.lx-build { font-family: var(--mono); font-size: 0.875rem; line-height: 1.55; color: var(--fg-2); }
+.lx-tile-card .lx-ask { margin-top: calc(-1 * var(--s-2)); }
+/* the eyebrow (8, the parked nits): on a phone its names wrap with no dot, so no line starts or ends with one */
+.lx-eyebrow-row { display: flex; flex-wrap: wrap; column-gap: 0.9em; }
+.lx-eyebrow-row .lx-dot { white-space: pre; }
+@media (max-width: 30rem) { .lx-eyebrow-row { flex-direction: column; } .lx-eyebrow-row .lx-dot { display: none; } }
+@media (min-width: 30.01rem) { .lx-eyebrow-row { column-gap: 0; } }
 .lx-guide-meta { display: grid; gap: var(--s-2); margin: 0; }
 .lx-guide-meta dt { font-family: var(--mono); font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-2); }
 .lx-guide-meta dd { margin: 0 0 var(--s-2); }
@@ -268,31 +281,45 @@ def hub_page(s: dict, d: dict) -> str:
     hero_lines = "".join(f'<li class="{x["key"]}">{esc(x["hero"])}</li>' for x in s["sections"])
     tiles = []
     for x in s["sections"]:
+        # 6.13: Framework Maps' card also starts from a question (its Questions section)
+        # (above the counts, so the three cards' buttons keep one line at the foot)
+        ask = (f'<p class="lx-ask"><a class="lx-sublink" href="{x["path"]}#view-helper">{esc(s["labels"]["startWithQuestion"])}</a></p>'
+               if x["key"] == "maps" else "")
         tiles.append(f'<li class="lx-tile-card {x["key"]}">{section_icon(x["key"], "lx-icon")}'
-                     f'<h3>{esc(x["name"])}</h3><p>{esc(x["line"])}</p><p class="lx-count">{count_html(c[x["key"]])}</p>'
+                     f'<h3>{esc(x["name"])}</h3><p>{esc(x["line"])}</p>{ask}<p class="lx-count">{count_html(c[x["key"]])}</p>'
                      f'<p class="lx-actions"><a class="lx-btn lx-primary" href="{x["path"]}">{esc(x["open"])}</a></p></li>')
     kicker = " · ".join(x["name"] for x in s["sections"])
     # the eyebrow breaks only before a dot, which stays with the name after it: a phone shows whole section names, and no
     # line ends with a dot (QC, 24 October 2026; site review, 28 October 2026)
     eyebrow = " · ".join(x["name"].replace(" ", " ") for x in s["sections"])
+    # on a phone the names stand on their own lines with no dot (8, the parked nits: no line starts or ends with a dot);
+    # from 30rem they run on one line with the dots (hub/lensatic.css, .lx-dot)
+    eyebrow_html = "".join(f'{"<span class=\"lx-dot\" aria-hidden=\"true\"> · </span>" if i else ""}<span class="lx-nw">{esc(x["name"])}</span>'
+                           for i, x in enumerate(s["sections"]))
     # the compass beside the text (R5): a caption under the photo that wraps where it falls (site review, 28 October
     # 2026; the story itself is in About); on a phone it follows the byline, and the section lines and the start button
     # come after it
     story = esc(" ".join(s["heroStory"]))
     hero = (f'<header class="lx-hero"><div class="lx-wrap lx-head lx-hero-grid"><div class="lx-hero-text">{tile("lx-mark lx-tile")}'
-            f'<p class="lx-eyebrow">{esc(eyebrow)}</p><h1>{esc(s["name"])}</h1>'
-            f'<p class="lx-standfirst">{esc(d["meta"]["tagline"])}</p>{byline(s)}</div>'
+            f'<p class="lx-eyebrow lx-eyebrow-row" aria-label="{esc(eyebrow)}">{eyebrow_html}</p><h1>{esc(s["name"])}</h1>'
+            f'<p class="lx-standfirst">{esc(d["meta"]["tagline"])}</p>'
+            # 3.2: zero trust as the spine, one sentence after the locked tagline
+            f'<p class="lx-standfirst lx-spine">{esc(d["meta"]["ztSpine"])}</p>{byline(s)}</div>'
             f'<figure class="lx-hero-photo">{photo(HERO_PHOTO, "lx-hero-img", s["heroPhotoAlt"])}<figcaption>{story}</figcaption></figure>'
             f'<div class="lx-hero-more"><ul class="lx-hero-lines">{hero_lines}</ul>'
             f'<p class="lx-actions lx-start"><a class="lx-btn" href="maps/#view-doors">{r.label("heroPrimary")}</a></p></div></div></header>\n')
+    # 6.1: where to start, above the cards; 4.4: what each section is for, under them
     sections = (f'<section class="lx-wrap lx-section" aria-labelledby="sections-h"><h2 id="sections-h" class="lx-vh">{esc(kicker)}</h2>'
-                f'<ul class="lx-tiles">{"".join(tiles)}</ul></section>\n')
+                f'<p class="lx-pick">{esc(s["pickLine"])}</p>'
+                f'<ul class="lx-tiles">{"".join(tiles)}</ul><p class="lx-purpose">{esc(s["purpose"])}</p></section>\n')
     why_html = name_story(r, about, s) if "nameStory" in s["aboutBlocks"] else ""
+    # the full build string stays on About (6.5); the footer says when the content was checked
     about_html = (f'<section class="lx-wrap lx-section lx-about" id="about" aria-labelledby="about-h"><h2 id="about-h">{esc(s["aboutLabel"])}</h2>'
-                  + "".join(f"<p>{r.t(about[k])}</p>" for k in s["aboutBlocks"] if k != "nameStory") + "</section>\n")
+                  + "".join(f"<p>{r.t(about[k])}</p>" for k in s["aboutBlocks"] if k != "nameStory")
+                  + f'<p class="lx-build">{esc(bw.version_line())}</p></section>\n')
     body = (f'<body class="lx-page">\n<a class="lx-skip" href="#main">{r.label("skip")}</a>\n{bar(s, "./", None)}\n<main id="main">\n'
-            f'{fu.section(hero)}{fu.section(sections)}{fu.section(why_html)}{fu.section(about_html)}'
-            f'</main>\n{footer(s, d, "./")}\n</body>\n</html>\n')
+            + bw.gloss_first(f'{fu.section(hero)}{fu.section(sections)}{fu.section(why_html)}{fu.section(about_html)}', d["ui"]["labels"])
+            + f'</main>\n{footer(s, d, "./")}\n</body>\n</html>\n')
     return head(s, s["name"], d["meta"]["pitch"], s["site"], card_alt(s)) + body
 
 
@@ -319,7 +346,7 @@ def guides_page(s: dict, d: dict) -> str:
                  ("Quick_Reference_Federal_Civilian", "pdfFederalCivilian"), ("Quick_Reference_Private_Sector", "pdfPrivateSector")) if k in pdfs]
         nb = g["notebook"]
         tiles.append(
-            f'<li class="lx-tile-card guides">{section_icon("guides", "lx-icon")}<h3>{esc(g["name"])}</h3><p>{esc(g["line"])}</p>'
+            f'<li class="lx-tile-card guides">{section_icon("guides", "lx-icon")}<h3>{esc(g["title"])}</h3><p>{esc(g["line"])}</p>'
             f'<dl class="lx-guide-meta"><dt>{esc(L["guideShape"])}</dt><dd>{esc(g["shape"])}</dd>'
             f'<dt>{esc(L["guideTracks"])}</dt><dd>{esc(", ".join(g["tracks"]))}</dd>'
             f'<dt>{esc(L["guideReferences"])}</dt><dd>{esc(g["references"])}<ul class="lx-refs">'
@@ -327,7 +354,7 @@ def guides_page(s: dict, d: dict) -> str:
             f'<dt>{esc(L["guideNotebook"])}</dt><dd><a href="{esc(nb["url"])}">{esc(nb["name"])}</a>. {esc(nb["line"])}</dd></dl>'
             f'<p class="lx-actions"><a class="lx-btn lx-primary" href="{g["path"]}">{esc(g["open"])}</a></p></li>')
     top = (f'<header class="lx-wrap lx-head">{section_icon("guides", "lx-mark")}<p class="lx-eyebrow">{esc(sec["name"])}</p>'
-           f'<h1>{esc(sec["name"])}</h1><p class="lx-standfirst">{esc(sec["line"])}</p></header>\n')
+           f'<h1>{esc(sec["name"])}</h1><p class="lx-standfirst">{esc(sec.get("intro") or sec["line"])}</p></header>\n')
     listing = (f'<section class="lx-wrap lx-section" aria-labelledby="guides-h"><h2 id="guides-h" class="lx-vh">{esc(sec["name"])}</h2>'
                f'<ul class="lx-tiles">{"".join(tiles)}</ul></section>\n')
     body = (f'<body class="lx-page lx-guides">\n<a class="lx-skip" href="#main">{r.label("skip")}</a>\n{bar(s, "../", "guides")}\n<main id="main">\n'
@@ -340,7 +367,7 @@ def not_found_page(s: dict, d: dict) -> str:
     the bar's root are absolute. Not in the sitemap, and marked noindex."""
     r = bw.Renderer(d, "")
     nf, root = s["notFound"], s["site"]
-    title = f'{s["name"]} · {nf["title"]}'
+    title = nf["tabTitle"]  # the site's tab style, in Title Case (8, the parked nits)
     head_html = ("<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n"
                  "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, viewport-fit=cover\">\n"
                  "<meta name=\"color-scheme\" content=\"light dark\">\n<meta name=\"referrer\" content=\"no-referrer\">\n"
@@ -398,7 +425,10 @@ def published() -> dict[str, Path]:
 DIAGRAM_BACK_CSS = ('<style id="lx-back-style">.lx-back{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin:-12px 0 6px;'
                     'font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--accent);text-decoration:none}'
                     '.lx-back:hover{text-decoration:underline}.lx-back:focus-visible{outline:3px solid var(--accent);outline-offset:2px}'
-                    '@media print{.lx-back{display:none}}</style>')
+                    '@media print{.lx-back{display:none}}'
+                    # a phone's narrowest width (8, the parked nits: two posters scrolled sideways at 320): grids take one
+                    # column and a card's header wraps, on the web copies only
+                    '@media (max-width:400px){.grid,.cards{grid-template-columns:minmax(0,1fr)!important}.ag .hd{flex-wrap:wrap}}</style>')
 
 
 def diagram_for_web(src: bytes, name: str) -> bytes:
@@ -409,7 +439,8 @@ def diagram_for_web(src: bytes, name: str) -> bytes:
     for tag in ("<title>", "</head>", poster):
         if t.count(tag) != 1:
             sys.exit(f"build_hub: playbook/Diagrams/{name} has {t.count(tag)} {tag!r}, expected one")
-    t = t.replace("<title>", "<title>Lensatic · ", 1).replace("</head>", DIAGRAM_BACK_CSS + "\n</head>", 1)
+    # the shared tab icon, so no browser asks the server for /favicon.ico (8, the parked nits: a 404 logged at 320)
+    t = t.replace("<title>", f'<link rel="icon" href="{bw.favicon()}">\n<title>Lensatic · ', 1).replace("</head>", DIAGRAM_BACK_CSS + "\n</head>", 1)
     return t.replace(poster, poster + '\n<a class="lx-back" href="../"><span aria-hidden="true">←</span> Agentic SecOps</a>', 1).encode("utf-8")
 
 

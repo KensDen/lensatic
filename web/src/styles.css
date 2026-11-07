@@ -88,6 +88,10 @@ body {
 a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { text-decoration-thickness: 2px; }
 a.url { overflow-wrap: anywhere; }
+/* the PDF tag (content release 1.0.1): every link that opens a PDF carries it; a PDF kept beside a web page is a link drawn as the tag */
+.pdf-tag { display: inline-block; margin-left: 0.4em; padding: 0 0.35em; border: 1px solid var(--line-strong); border-radius: 4px; font-family: var(--mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; line-height: 1.5; color: var(--fg-2); vertical-align: 0.1em; white-space: nowrap; text-decoration: none; }
+a.pdf-tag { color: var(--link); border-color: currentColor; min-height: 0; }
+a.pdf-tag:hover { background: var(--bg-2); }
 :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
 button { font: inherit; color: inherit; }
 h1, h2, h3 { line-height: 1.2; }
@@ -167,6 +171,7 @@ main p, main li { max-width: 44em; }
 .actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0 0 1.375rem; }
 .stamp { font-family: var(--mono); font-size: 0.78125rem; letter-spacing: 0.02em; color: var(--fg-2); margin: 0; }
 .stamp a { color: var(--link); }
+.stamp .nw { white-space: nowrap; }  /* the dot and Why the name stay together */
 
 /* doors: cards, all closed by default; an open door takes the full row */
 .door-grid { display: grid; gap: 0.875rem; grid-template-columns: minmax(0, 1fr); align-items: start; }
@@ -185,6 +190,16 @@ main p, main li { max-width: 44em; }
 .steps { margin: 0; padding-left: 1.4em; }
 .steps li { margin: 0.5rem 0; }
 .steps li::marker { font-family: var(--mono); color: var(--fg-2); }
+/* a step (content release 1.0.1): its title and first sentence, the rest of its text and its entries one tap down */
+.steps .step > summary { list-style: none; cursor: pointer; }
+.steps .step > summary::-webkit-details-marker { display: none; }
+.steps .step > summary::after { content: "+"; content: "+" / ""; margin-left: 0.4em; font-family: var(--mono); font-weight: 700; color: var(--accent); }
+.steps .step[open] > summary::after { content: "\2212"; content: "\2212" / ""; }
+.step-title { display: block; margin-top: 0.125rem; font-weight: 700; }  /* under its layer tag; the first sentence follows */
+.step-rest { margin: 0.375rem 0 0; }
+/* who should start elsewhere (6.8), after the steps */
+.not-yours { margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--line); }
+.not-yours p { margin: 0.25rem 0 0; }
 a.layer-tag { text-decoration: none; }
 /* a linked layer tag is a 44px target with the same pill drawn inside it (QC rulings, Q15) */
 a.layer-tag { position: relative; display: inline-flex; align-items: center; min-height: 44px; vertical-align: middle; border-color: transparent; background: none; }
@@ -474,7 +489,14 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
   .door-meta { font-size: 6.5pt; }
   .ent > summary .badges, .ent > summary .cite { display: inline; }
   .steps { padding-left: 1.75em; }
-  .steps li { margin: 0; }  /* five trailheads (R5) print in the same pages */
+  .steps li { margin: 0; line-height: 1.25; }  /* five trailheads (R5) print in the same pages; 1.0.1 a touch tighter */
+  .steps .step > summary, .steps .step > .step-rest { display: inline; margin: 0; }  /* a step prints as one paragraph, every word */
+  .steps .step > .step-rest::before { content: " "; }
+  .step-title { display: none; }  /* the title only names the step its text states in full: paper keeps to 20 pages */
+  .not-yours { margin-top: 1pt; padding-top: 0; border-top: 0; }
+  .not-yours h3, .not-yours p { display: inline; margin: 0; }  /* the label runs in, as a lead */
+  .not-yours h3::after { content: ": "; }
+  .pdf-tag { display: inline; white-space: normal; overflow-wrap: anywhere; }  /* a PDF link prints its address after it, and wraps */
   .landing { margin-top: 3pt; padding: 2pt 4pt; }
   .section-x { display: block; }
   .bands { border: 0; border-radius: 0; background: none; }
@@ -497,7 +519,7 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
   .fncard .cat-list { padding-left: 0; }
   .soc { background: none; }
   .soc th, .soc td { padding: 2pt 3pt; font-size: inherit; }
-  .ent a[href^="http"]:not(.url):not(.in-note)::after, .lx-foot ul a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; color: #333; overflow-wrap: anywhere; }
+  .ent a[href^="http"]:not(.url):not(.in-note):not(.pdf-tag)::after, .lx-foot ul a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; color: #333; overflow-wrap: anywhere; }
   .glossary { display: block; columns: 3; column-gap: 10pt; font-size: 7.5pt; line-height: 1.25; }
   .gl-entry { display: block; break-inside: avoid; padding: 1pt 0; border-top: 0; }
   .gl-entry dt { display: inline; font-size: inherit; }

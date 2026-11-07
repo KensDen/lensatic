@@ -258,4 +258,81 @@ final class LibraryTests: XCTestCase {
         XCTAssertTrue(site.guideTitle.hasPrefix(site.guideName))
         XCTAssertEqual(TitleCase.apply(site.guideTitle), site.guideTitle)
     }
+
+    // MARK: content release 1.0.1
+
+    /// The one Read More rule (Ken's finding, 7 November 2026), walking the content: wherever a short text stands for a
+    /// longer one with a control, the control hides at least 25 words and at least as much as it shows. No card summary
+    /// qualifies, so the card shows the one-liner whole; which notes keep their control is computed from the words.
+    func testEveryReadMoreHidesEnoughToBeWorthATap() throws {
+        var pairs: [(name: String, shown: String, full: String)] = entries.map { ("\($0.id) summary", $0.shortSummary, $0.oneLiner) }
+        pairs += entries.compactMap { e in e.shortNote.map { ("\(e.id) note", $0, e.note ?? "") } }
+        let ai = Rules.firstSentence(store.content.ai.note)
+        pairs.append(("the AI column's note", ai.first, store.content.ai.note))
+        var shownControls = 0
+        for p in pairs where ReadMore.worthIt(shown: p.shown, full: p.full) {
+            shownControls += 1
+            let hidden = ReadMore.words(p.full) - ReadMore.words(p.shown)
+            XCTAssertGreaterThanOrEqual(hidden, 25, "\(p.name): a Read More that hides fewer than 25 words")
+            XCTAssertGreaterThanOrEqual(hidden, ReadMore.words(p.shown), "\(p.name): a Read More that hides less than it shows")
+        }
+        XCTAssertGreaterThan(shownControls, 0)
+        XCTAssertFalse(entries.contains { ReadMore.worthIt(shown: $0.shortSummary, full: $0.oneLiner) }, "no card summary hides enough")
+        let kept = Set(entries.filter { e in e.shortNote.map { ReadMore.worthIt(shown: $0, full: e.note ?? "") } ?? false }.map(\.shortName))
+        XCTAssertTrue(kept.isSuperset(of: ["CMMC", "CORA", "RMF / ATO", "CSF 2.0", "DoD ZT Strategy"]), "\(kept)")
+        XCTAssertTrue(kept.isDisjoint(with: ["SP 1353", "CISA ZTMM", "CoSAI ZT for AI", "SP 800-171", "M-25-21", "SP 800-53"]), "\(kept)")
+    }
+
+    /// Search's Start With chips (6.18): defined in the content, eight to ten, each finding something, and together
+    /// reaching every kind of result: a framework, a step on the path, a guide chapter, a play and a glossary term.
+    func testEveryStarterFindsSomethingAndTheyReachEveryKind() throws {
+        let starters = store.content.ui.search.starters
+        XCTAssertTrue((8...10).contains(starters.count), "\(starters.count) starters")
+        var kinds = Set<SearchIndex.Kind>()
+        for q in starters {
+            let groups = index.search(q)
+            XCTAssertFalse(groups.isEmpty, "\(q) finds nothing")
+            kinds.formUnion(groups.map(\.kind))
+        }
+        XCTAssertEqual(kinds, Set(SearchIndex.Kind.allCases), "the starters reach \(kinds)")
+    }
+
+    /// The last five searches and the plays read are kept in the progress file, on the device, and read back.
+    func testRecentSearchesAndPlaysReadAreKept() {
+        let progress = tempStore()
+        for q in ["CMMC", "zero trust", "RMF", "cmmc", "800-53", "overlays", "deadline"] { progress.remember(search: q) }
+        progress.remember(search: "   ")
+        XCTAssertEqual(progress.state.recent, ["deadline", "overlays", "800-53", "cmmc", "RMF"], "newest first, once, five at most")
+        progress.markRead(play: "actionplan")
+        progress.markRead(play: "actionplan")
+        let again = ProgressStore(url: progress.url)
+        XCTAssertEqual(again.state.recent.count, ProgressStore.recentLimit)
+        XCTAssertEqual(again.state.playsRead, ["actionplan"])
+        again.clearRecent()
+        XCTAssertTrue(ProgressStore(url: progress.url).state.recent.isEmpty)
+    }
+
+    /// The Library's titles and lines (6.19, 6.20): the guide stands alone as Zero Trust Study Route, the guide's and the
+    /// playbook's screens open on their intros with the playbook's actions counted from its Action Plan.
+    func testTheGuideIsAStudyRouteAndTheIntrosCountTheirActions() {
+        let site = library.site
+        XCTAssertEqual(site.guideTitle, "Zero Trust Study Route")
+        XCTAssertEqual(library.actionCount, 87)
+        let intro = site.intro("playbook", actions: library.actionCount) ?? ""
+        XCTAssertTrue(intro.contains("the 87 actions"), intro)
+        XCTAssertFalse(intro.contains("{"), intro)
+        XCTAssertTrue((site.intro("guides", actions: library.actionCount) ?? "").hasPrefix("Guided study routes"))
+    }
+
+    /// The Welcome screen's line (6.14): who the trailhead is for, with the step count beside the name; no framework
+    /// abbreviations.
+    func testTheWelcomeLineSaysWhoTheTrailheadIsFor() throws {
+        for id in Door.ID.welcomeOrder {
+            let d = try door(id)
+            let plan = PathPlan(door: d, entities: store.entities)
+            XCTAssertEqual(plan.welcomeLine(), Rules.firstSentence(d.whoYouAre).first)
+            XCTAssertFalse(plan.welcomeLine().contains(d.cardLine))
+            XCTAssertEqual(plan.welcomeCount(labels: store.content.ui.labels), "\(d.steps.count) steps")
+        }
+    }
 }

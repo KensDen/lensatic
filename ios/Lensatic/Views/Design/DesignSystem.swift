@@ -80,6 +80,37 @@ struct SectionLabel: View {
     }
 }
 
+/// A short text with the whole text one tap down, under the one Read More rule (ReadMore.worthIt, content release 1.0.1):
+/// where the rule fails, the whole text shows and there is no control. Every such control in the app is this view.
+struct ExpandableText: View {
+    let short: String?
+    let full: String
+    var font: Font = DS.summary
+    var color: Color = Palette.fg
+    var lineSpacing: CGFloat = 4
+    /// The control's label: Read More, or a name for what it opens (Full note, 6.15).
+    var moreLabel = "Read More"
+    let identifier: String
+    @State private var open = false
+
+    var body: some View {
+        let collapsible = short.map { ReadMore.worthIt(shown: $0, full: full) } ?? false
+        VStack(alignment: .leading, spacing: 0) {
+            Text(collapsible && !open ? keepWhole(short ?? full) : full).font(font).foregroundStyle(color).lineSpacing(lineSpacing)
+                .fixedSize(horizontal: false, vertical: true)
+                .accessibilityIdentifier(identifier)
+            if collapsible {
+                Button { open.toggle() } label: {
+                    Text(open ? "Show Less" : moreLabel).font(DS.link).foregroundStyle(Palette.link)
+                        .frame(minHeight: 44).contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("\(identifier)-more")
+            }
+        }
+    }
+}
+
 /// A card: the surface colour, a 1-point hairline and the card radius (12 to 16 in the mockups).
 extension View {
     func card(radius: CGFloat = 14, fill: Color = Palette.bg2, stroke: Color = Palette.line) -> some View {
@@ -424,12 +455,22 @@ struct ListRow: View {
     var icon: IconName?
     var iconColor: Color = Palette.secMaps
     var highlighted = false
+    /// A short value beside the title (the Welcome screen's step count, content release 1.0.1).
+    var detail: String?
+    /// The row's top and bottom inset: the Welcome screen's are tighter since its rows carry who each trailhead is for.
+    var verticalPadding: CGFloat = 16
 
     var body: some View {
         HStack(spacing: 14) {
             if let icon { Icon(icon, size: 28, color: iconColor, lineWidth: 1.8) }
             VStack(alignment: .leading, spacing: 2) {
-                Text(title).font(DS.rowTitle).foregroundStyle(Palette.fg)
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Text(title).font(DS.rowTitle).foregroundStyle(Palette.fg)
+                    if let detail {
+                        Spacer(minLength: 4)
+                        Text(detail).font(DS.caption).foregroundStyle(Palette.fg2).fixedSize()
+                    }
+                }
                 if let subtitle { Text(subtitle).font(DS.caption).foregroundStyle(Palette.fg2) }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -437,7 +478,7 @@ struct ListRow: View {
             Icon(.chevronRight, size: 18, color: Palette.fg2)
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 16)
+        .padding(.vertical, verticalPadding)
         .frame(minHeight: 44)
         .card(radius: 14, stroke: highlighted ? Palette.secMaps : Palette.line)
         .contentShape(RoundedRectangle(cornerRadius: 14))
@@ -469,5 +510,175 @@ struct ScreenHeader<Trailing: View>: View {
 extension ScreenHeader where Trailing == EmptyView {
     init(eyebrow: String? = nil, title: String) {
         self.init(eyebrow: eyebrow, title: title) { EmptyView() }
+    }
+}
+
+// MARK: native screens (content release 1.0.1, section 7: Library and Explore)
+
+extension DS {
+    /// The system's Dynamic Type text styles (section 7.4): Library, Explore and the screens Explore owns set their list text
+    /// with these and no point sizes of their own, as Settings and Files do; the brand's faces stay on the large titles and
+    /// the hero cards' mono kickers.
+    static func style(_ style: Font.TextStyle) -> Font {
+        switch style {
+        case .largeTitle: return .largeTitle.weight(.bold)
+        case .title: return .title.weight(.bold)
+        case .title2: return .title2.weight(.bold)
+        case .title3: return .title3.weight(.semibold)
+        default: return .system(style)
+        }
+    }
+}
+
+/// The one card style (section 7.2): its radius and padding on the system's grouped surface, with no stroke and no
+/// coloured edge. A hero card may lay a tint gradient over the surface; nothing else changes.
+struct LxCard: ViewModifier {
+    var radius: CGFloat = 18
+    var tint: Color?
+
+    // the modifier's content type spelled out: the app's own Content (the content model) shadows the protocol's name
+    func body(content: _ViewModifier_Content<LxCard>) -> some View {
+        content
+            .padding(16)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background {
+                let shape = RoundedRectangle(cornerRadius: radius, style: .continuous)
+                ZStack {
+                    shape.fill(Color(.secondarySystemGroupedBackground))
+                    if let tint {
+                        shape.fill(LinearGradient(colors: [tint.opacity(0.30), tint.opacity(0.06)], startPoint: .topLeading, endPoint: .bottomTrailing))
+                    }
+                }
+            }
+            .contentShape(RoundedRectangle(cornerRadius: radius, style: .continuous))
+    }
+}
+
+extension View {
+    /// The one card style (LxCard).
+    func lxCard(radius: CGFloat = 18, tint: Color? = nil) -> some View { modifier(LxCard(radius: radius, tint: tint)) }
+}
+
+/// A row's icon tile, as Settings draws them (section 7.3): a white SF Symbol on a tint in a 30-point rounded square,
+/// scaled with the row's text.
+struct IconTile: View {
+    let symbol: String
+    let tint: Color
+    @ScaledMetric(relativeTo: .body) private var scaled: CGFloat = 30
+
+    var body: some View {
+        // grows with the text up to 44 points, as Settings' tiles do, so the row's words keep the width
+        let side = min(scaled, 44)
+        Image(systemName: symbol)
+            .font(.subheadline.weight(.semibold))
+            .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+            .foregroundStyle(.white)
+            .frame(width: side, height: side)
+            .background(tint, in: RoundedRectangle(cornerRadius: side * 0.24, style: .continuous))
+            .accessibilityHidden(true)
+    }
+}
+
+/// The SF Symbols the native rows use (section 7.3), each on the deployment target (iOS 17), with the tint of its tile.
+enum RowIcon {
+    static let glossary = ("character.book.closed.fill", Color.blue)
+    static let sources = ("checkmark.seal.fill", Color.green)
+    static let changes = ("clock.arrow.circlepath", Color.orange)
+    static let matrix = ("square.grid.3x3.fill", Color.indigo)
+    static let aiColumn = ("cpu", Color.purple)
+
+    /// The five layers, top to bottom: outcomes, definition, target state, controls, verification.
+    static func layer(_ order: Int) -> (String, Color) {
+        switch order {
+        case 1: return ("target", .teal)
+        case 2: return ("book.closed.fill", .blue)
+        case 3: return ("chart.bar.fill", .indigo)
+        case 4: return ("slider.horizontal.3", .orange)
+        default: return ("checkmark.shield.fill", .green)
+        }
+    }
+}
+
+/// A hero card on Library (6.19): the section's tint as a soft gradient, an icon tile, a mono caps kicker (the brand's
+/// eyebrow, on hero cards only), the title, a thin progress bar and one progress line.
+struct GuideCard: View {
+    let symbol: String
+    let tint: Color
+    /// The icon tile's colour: the system's own, as Settings' tiles are, so the white symbol keeps its contrast in both looks.
+    var tile: Color = .blue
+    let kicker: String
+    let title: String
+    let progress: Double
+    let line: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            IconTile(symbol: symbol, tint: tile)
+            VStack(alignment: .leading, spacing: 4) {
+                Eyebrow(text: kicker, color: tint, small: true)
+                Text(title).font(DS.style(.headline)).foregroundStyle(.primary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
+            ProgressView(value: min(max(progress, 0), 1)).tint(tint).accessibilityHidden(true)
+            Text(line).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+        }
+        .multilineTextAlignment(.leading)
+        .frame(maxHeight: .infinity, alignment: .topLeading)
+        .lxCard(radius: 18, tint: tint)
+        .accessibilityElement(children: .combine)
+    }
+}
+
+/// The PDF tag (content release 1.0.1, Ken's ruling of 5 November 2026): beside every link that opens a PDF, as on the
+/// website. The links still open in the in-app viewer (SFSafariViewController).
+struct PDFTag: View {
+    var body: some View {
+        Text("PDF")
+            .font(DS.eyebrowSmall)
+            .foregroundStyle(Palette.fg2)
+            .padding(.horizontal, 5)
+            .padding(.vertical, 1)
+            .overlay(RoundedRectangle(cornerRadius: 4, style: .continuous).strokeBorder(Palette.lineStrong, lineWidth: 1))
+            .accessibilityLabel("PDF")
+    }
+}
+
+/// A list section's header or footer text in the system's style, coloured fg-2 (content release 1.0.1): the system's
+/// secondary label on the grouped background falls just short of 4.5:1, which the accessibility audit holds to.
+struct ListNote: View {
+    let text: String
+    init(_ text: String) { self.text = text }
+
+    var body: some View { Text(text).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true) }
+}
+
+/// A list row as Settings draws one (section 7.3): an icon tile, the title, an optional line under it, and a value at the
+/// trailing edge; at the accessibility sizes the value moves under the title, so a long word never breaks.
+struct TileRow: View {
+    let icon: (String, Color)
+    let title: String
+    var note: String?
+    var noteColor: Color = Palette.secMaps
+    var value: String?
+    @Environment(\.dynamicTypeSize) private var typeSize
+
+    var body: some View {
+        HStack(alignment: typeSize.isAccessibilitySize ? .top : .center, spacing: 12) {
+            IconTile(symbol: icon.0, tint: icon.1)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title).font(DS.style(.body)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                if let note { Text(note).font(DS.style(.footnote)).foregroundStyle(noteColor).fixedSize(horizontal: false, vertical: true) }
+                if typeSize.isAccessibilitySize, let value {
+                    Text(value).font(DS.style(.body)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .layoutPriority(1)
+            if !typeSize.isAccessibilitySize, let value {
+                // a short value ("93 terms") keeps its own width; the title wraps beside it
+                Text(value).font(DS.style(.body)).foregroundStyle(Palette.fg2).fixedSize()
+            }
+        }
     }
 }

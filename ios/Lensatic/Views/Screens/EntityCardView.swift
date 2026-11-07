@@ -7,7 +7,6 @@ struct EntityCardView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) private var typeSize
-    @State private var summaryOpen = false
     let id: String
 
     var body: some View {
@@ -49,18 +48,9 @@ struct EntityCardView: View {
                         }
                         .fixedSize(horizontal: false, vertical: true)
                     }
-                    // the short summary (content 1.2.19), and the whole one-liner one tap down
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text(keepWhole(summaryOpen ? e.oneLiner : e.shortSummary)).font(DS.summary).foregroundStyle(Palette.fg).lineSpacing(4)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .accessibilityIdentifier("card-summary")
-                        Button { summaryOpen.toggle() } label: {
-                            Text(summaryOpen ? "Show Less" : "Read More").font(DS.link).foregroundStyle(Palette.link)
-                                .frame(minHeight: 44).contentShape(Rectangle())
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityIdentifier("card-summary-more")
-                    }
+                    // the one-liner; the short summary (content 1.2.19) stands for it only where the Read More rule holds,
+                    // which no entry meets today (each one-liner adds 4 to 16 words), so the card shows the one-liner whole
+                    ExpandableText(short: e.shortSummary, full: e.oneLiner, identifier: "card-summary")
                     StatTileRow {
                         StatTile(label: model.store.label("binds"), value: facts.binds)
                         StatTile(label: "Due", value: facts.due)
@@ -205,14 +195,13 @@ struct EntityFacts {
     }
 
     /// The format of the source the button opens: a PDF by its address, otherwise a web page.
-    var isPDF: Bool { entity.url.lowercased().hasSuffix(".pdf") }
+    var isPDF: Bool { entity.opensPDF }
 }
 
 /// The Sources sheet (Sources.dc.html): where the entry comes from, its check and the next one, the citation, any
 /// caveat, and the button that opens the source.
 struct SourcesSheet: View {
     @Environment(AppModel.self) private var model
-    @State private var noteOpen = false
     @State private var documentsOpen = false
     let id: String
 
@@ -253,21 +242,11 @@ struct SourcesSheet: View {
                     }
                 }
                 if let note = e.note {
-                    // the short note (content 1.2.19), and the whole note one tap down; a note short enough has none
-                    let short = e.shortNote
+                    // the short note (content 1.2.19), and the whole note one tap down where the Read More rule holds;
+                    // its control reads Full note, so it never reads like the card's own (6.15)
                     VStack(alignment: .leading, spacing: 4) {
                         SectionLabel(text: model.store.label("note"), tracked: false)
-                        Text(noteOpen || short == nil ? note : keepWhole(short ?? note)).font(DS.note).foregroundStyle(Palette.fg).lineSpacing(3)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .accessibilityIdentifier("sources-note")
-                        if short != nil {
-                            Button { noteOpen.toggle() } label: {
-                                Text(noteOpen ? "Show Less" : "Read More").font(DS.link).foregroundStyle(Palette.link)
-                                    .frame(minHeight: 44).contentShape(Rectangle())
-                            }
-                            .buttonStyle(.plain)
-                            .accessibilityIdentifier("sources-note-more")
-                        }
+                        ExpandableText(short: e.shortNote, full: note, font: DS.note, lineSpacing: 3, moreLabel: "Full Note", identifier: "sources-note")
                     }
                     .padding(12)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -282,6 +261,20 @@ struct SourcesSheet: View {
                     }
                     .buttonStyle(PrimaryButtonStyle(minHeight: 50, font: DS.sheetButton))
                     .accessibilityIdentifier("sources-open")
+                    // web pages first (content release 1.0.1): the publication's PDF, where it has a page too, one link down
+                    if let pdf = e.pdf.flatMap(URL.init(string:)) {
+                        Button { Reader.open(pdf) } label: {
+                            HStack(spacing: 8) {
+                                Text("Open the PDF").font(DS.link).foregroundStyle(Palette.link)
+                                PDFTag()
+                            }
+                            .frame(maxWidth: .infinity, minHeight: 44)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityHint("Opens the PDF in Safari, inside the app")
+                        .accessibilityIdentifier("sources-open-pdf")
+                    }
                     Text(model.store.label("opensInReader")).font(DS.keyLabel).foregroundStyle(Palette.fg2)
                         .frame(maxWidth: .infinity)
                 }
@@ -313,8 +306,11 @@ struct SourcesSheet: View {
                     Button { if let url = URL(string: d.url) { Reader.open(url) } } label: {
                         HStack(spacing: 8) {
                         VStack(alignment: .leading, spacing: 2) {
-                            Text(keepWhole(d.title)).font(DS.step).foregroundStyle(Palette.link)
-                                .multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
+                            HStack(alignment: .firstTextBaseline, spacing: 6) {
+                                Text(keepWhole(d.title)).font(DS.step).foregroundStyle(Palette.link)
+                                    .multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
+                                if d.opensPDF { PDFTag() }
+                            }
                             Text("\(d.edition)\(model.store.label("metaSeparator"))\(unbroken(Rules.formatDate(d.date)))").font(DS.caption)
                                 .foregroundStyle(Palette.fg2).multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
                         }
@@ -329,6 +325,21 @@ struct SourcesSheet: View {
                     .accessibilityElement(children: .combine)
                     .accessibilityHint("Opens in Safari, inside the app")
                     .accessibilityIdentifier("sources-document-\(i)")
+                    // the document's PDF where its link is a web page (content release 1.0.1), labelled PDF
+                    if let pdf = d.pdf.flatMap(URL.init(string:)) {
+                        Button { Reader.open(pdf) } label: {
+                            HStack(spacing: 8) {
+                                Text("Open the PDF").font(DS.caption).foregroundStyle(Palette.link)
+                                PDFTag()
+                            }
+                            .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+                            .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.top, -8)
+                        .accessibilityHint("Opens the PDF in Safari, inside the app")
+                        .accessibilityIdentifier("sources-document-\(i)-pdf")
+                    }
                 }
             }
         }

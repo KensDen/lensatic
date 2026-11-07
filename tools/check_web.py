@@ -224,9 +224,10 @@ def hidden_within(n: Node) -> bool:
     return False
 
 
-def text_of(n: Node, skip_classes: frozenset = frozenset({"xp"})) -> str:
-    """Rendered text of an element. By default the expansions the build adds after abbreviations are left out,
-    so content texts compare byte for byte; the glossary checks pass their own class set."""
+def text_of(n: Node, skip_classes: frozenset = frozenset({"xp", "pdf-tag", "gloss"})) -> str:
+    """Rendered text of an element. By default the expansions the build adds after abbreviations, the PDF tags beside
+    links and the brand words' glosses (content release 1.0.1) are left out, so content texts compare byte for byte; the glossary checks pass their own
+    class set."""
     if n.tag in SKIP or "hidden" in n.attrs or n.attrs.get("aria-hidden") == "true":
         return ""
     if skip_classes and set(n.attrs.get("class", "").split()) & skip_classes:
@@ -754,7 +755,8 @@ def document_note_errors(tree: Tree, d: dict) -> tuple[list[str], int]:
                 if at is None:
                     errs.append(f"{where}: no link to its primary")
                     continue
-                after = kids[at + 1:]
+                # the PDF tag, and the PDF kept beside a web page (content release 1.0.1), sit between the link and its badge
+                after = [k for k in kids[at + 1:] if isinstance(k, str) or "pdf-tag" not in classes_of(k)]
                 if not after or isinstance(after[0], str) or "status" not in classes_of(after[0]):
                     errs.append(f"{where}: the badge does not follow the link to the primary")
                     continue
@@ -774,8 +776,9 @@ def document_note_errors(tree: Tree, d: dict) -> tuple[list[str], int]:
                                 f"{'does not give' if marked else 'gives'} its address")
     css = STYLES.read_text(encoding="utf-8")
     pr = css[css.find("@media print"):] if "@media print" in css else ""
-    if not re.search(r'\.ent a\[href\^="http"\]:not\(\.url\):not\(\.in-note\)::after', pr):
-        errs.append("the print rule that writes a link's address after it does not leave out in-note links")
+    # the PDF kept beside a web page prints as its tag alone (content release 1.0.1): the entry's address prints already
+    if not re.search(r'\.ent a\[href\^="http"\]:not\(\.url\):not\(\.in-note\):not\(\.pdf-tag\)::after', pr):
+        errs.append("the print rule that writes a link's address after it does not leave out in-note links and PDF tags")
     return errs, n
 
 
@@ -792,14 +795,32 @@ def spellout_errors(tree: Tree, d: dict) -> tuple[list[str], int]:
             errs.append(f"glossary {g['term']!r}: {len(shown)} spell-outs on the page")
             continue
         n += 1
-        text = norm(text_of(shown[0]))
-        if "&" in text:
-            errs.append(f"glossary {g['term']!r}: {text!r} has an \"&\"")
-        for i, word in enumerate(re.findall(r"[^\s-]+", text)):
-            bare = word.strip(",.;:()")
-            small = i > 0 and bare.lower() in GLOSSARY_SMALL_WORDS
-            if bare != "&" and (bare != bare.lower() if small else not bare[0].isupper()):
-                errs.append(f"glossary {g['term']!r}: {text!r} is not Title Case at {bare!r}")
+        errs += title_case_errors(f"glossary {g['term']!r}", norm(text_of(shown[0])))
+    return errs, n
+
+
+def title_case_errors(where: str, text: str) -> list[str]:
+    """The spell-out rule (owner's ruling, 29 October 2026): each word, and each part of a hyphenated word, opens with a
+    capital, GLOSSARY_SMALL_WORDS stay lowercase unless first, and no "&"."""
+    errs = []
+    if "&" in text:
+        errs.append(f"{where}: {text!r} has an \"&\"")
+    for i, word in enumerate(re.findall(r"[^\s-]+", text)):
+        bare = word.strip(",.;:()")
+        small = i > 0 and bare.lower() in GLOSSARY_SMALL_WORDS
+        if bare and bare != "&" and (bare != bare.lower() if small else not bare[0].isupper()):
+            errs.append(f"{where}: {text!r} is not Title Case at {bare!r}")
+    return errs
+
+
+def content_spellout_errors(d: dict) -> tuple[list[str], int]:
+    """The same rule on content/stack.json itself (content release 1.0.1): the app reads the file, so its spell-outs hold
+    to the rule the map does."""
+    errs, n = [], 0
+    for g in d.get("glossary", []):
+        if g.get("expansion"):
+            n += 1
+            errs += title_case_errors(f"content/stack.json glossary {g['term']!r}", tok_dow(d, g["expansion"]))
     return errs, n
 
 
@@ -887,7 +908,7 @@ def main() -> int:
         rep.check("web/lensatic.html exists", ["missing; run tools/build_web.py"])
         print("\n".join(rep.lines)); print("WEB CHECKS RED"); return 1
     html = HTML.read_bytes()
-    d = B.web_text.content(json.loads(STACK.read_text(encoding="utf-8")))  # the wording the site renders
+    d = json.loads(STACK.read_text(encoding="utf-8"))
 
     # determinism: rebuild twice into temp files with the author flag recorded in the built file
     build_meta = json.loads(re.search(rb'<script type="application/json" id="build">(.*?)</script>', html, re.S).group(1))
@@ -995,7 +1016,7 @@ def main() -> int:
         main_text = norm(text_of(ptree.ids["main"][0])) if "main" in ptree.ids else ""
         spec = d["pages"][key]
         title = re.search(r"<title>(.*?)</title>", page, re.S)
-        want_title = B.esc(B.web_text.PAGE_TITLES.get(key, spec["title"]))  # the website's own tab title (site review)
+        want_title = B.esc(spec["tabTitle"])  # the page's own tab title (site review; in the content since 1.0.1)
         if not title or title.group(1) != want_title:
             errs.append(f"{key}: title is not {want_title!r}")
         for para in spec["paragraphs"]:
@@ -1069,9 +1090,20 @@ def main() -> int:
             errs.append("front door: the version line does not give the content version and the check date")
         # Session 7D: the version line holds its link to About and exactly one more, Why the name?, to the story's heading,
         # which since the site review (28 October 2026) lives on the hub alone
-        parts_ = [c for c in stamp.children if not (isinstance(c, str) and not c)]
+        # since content release 1.0.1 the dot and Why the name sit together in one no-wrap span (8, the parked nits)
+        parts_ = [g for c in stamp.children for g in (c.children if not isinstance(c, str) and "nw" in classes_of(c) else [c])
+                  if not (isinstance(g, str) and not g)]
+        # the text between the links, joined across the no-wrap span's edge, reads as before
+        merged: list = []
+        for g in parts_:
+            if isinstance(g, str) and merged and isinstance(merged[-1], str):
+                merged[-1] += g
+            else:
+                merged.append(g)
+        parts_ = merged
         links_ = [(c.tag, c.attrs.get("href"), norm(text_of(c))) for c in parts_ if not isinstance(c, str)]
-        middle = re.escape(f', {L["checkedThrough"]} ') + r"\d{1,2} [A-Z][a-z]{2} \d{4}" + re.escape(L["metaSeparator"])
+        # the date's spaces do not break (content release 1.0.1, 8: no line breaks inside it)
+        middle = re.escape(f', {L["checkedThrough"]} ') + r"\d{1,2}[ \u00a0][A-Z][a-z]{2}[ \u00a0]\d{4}" + re.escape(L["metaSeparator"])
         if [(t_, h_) for t_, h_, _ in links_] != [("a", "#view-about"), ("a", "../#about-name")] or links_[1][2] != norm(L["whyName"]):
             errs.append(f"front door: the version line holds {links_}, expected the link to About and one link {L['whyName']!r} to the hub's ../#about-name")
         elif (len(parts_) != 3 or not isinstance(parts_[1], str)
@@ -1106,7 +1138,7 @@ def main() -> int:
             meta_ = first_sentence_of(door.get("paragraph") or "")[0]
         summ = next((c for c in nodes_[0].children if not isinstance(c, str) and c.tag == "summary"), None)
         got = [(" ".join(sorted(classes_of(c))), norm(text_of(c))) for c in (summ.children if summ else []) if not isinstance(c, str)]
-        want_ = [("door-title", norm(tok_dow(d, door["title"]))), ("who", norm(tok_dow(d, first_sentence_of(door["whoYouAre"])[0]))),
+        want_ = [("door-title", norm(tok_dow(d, door["shortTitle"]))), ("who", norm(tok_dow(d, first_sentence_of(door["whoYouAre"])[0]))),
                  ("door-meta" if steps else "door-meta sentence", norm(tok_dow(d, meta_)))]
         if got != want_:
             errs.append(f"door {door['id']}: the card reads {got}, expected {want_}")
@@ -1143,6 +1175,25 @@ def main() -> int:
 
     errs, n_ = spellout_errors(atree_b, d)
     rep.check("glossary: every spell-out on the map is in Title Case, small words lowercase unless first, no \"&\"", errs, f"{n_} spell-outs")
+    errs, n_ = content_spellout_errors(d)
+    rep.check("glossary: every spell-out in content/stack.json, which the app reads, holds to the same rule", errs, f"{n_} spell-outs")
+    # 6.6 (content release 1.0.1): "the outcome language leadership funds against" is CSF 2.0's one-liner, said once; no
+    # published page and no screen's worth of content says it twice
+    errs, pages_ = [], 0
+    fund_rx = re.compile(r"\bfunds?\s+against\b", re.I)
+    for page_ in sorted((ROOT / "docs").rglob("*.html")):
+        pages_ += 1
+        txt_ = htmllib.unescape(re.sub(r"<script[^>]*>.*?</script>|<[^>]+>", " ", page_.read_text(encoding="utf-8"), flags=re.S))
+        # the one sentence may stand twice on a page (the map's stack summary quotes CSF 2.0's one-liner, which its Sources
+        # entry gives too); what may not happen is the phrase in a second sentence
+        uses = {re.sub(r"\s+", " ", m.group(0)).strip() for m in re.finditer(r"[^.?!]*\bfunds?\s+against\b[^.?!]*[.?!]", txt_, re.I)}
+        if len(uses) > 1:
+            errs.append(f"{page_.relative_to(ROOT)} says \"funds against\" in {len(uses)} sentences: {sorted(uses)}")
+    in_content = len(fund_rx.findall(json.dumps(d, ensure_ascii=False)))
+    if in_content > 1:
+        errs.append(f"content/stack.json says \"funds against\" {in_content} times")
+    rep.check("wording: the phrase \"funds against\" is in one sentence at most on every published page, and once in the content", errs,
+              f"{pages_} pages, {in_content} in the content")
 
     # the footer every Lensatic page shares (site review, 28 October 2026): on the map with absolute addresses, so the links
     # also work from the offline file, and on the plain pages with the site's own; directly in body, after main
@@ -1335,7 +1386,7 @@ def main() -> int:
         codes = {f["id"] for f in d["functions"]} | {"II", "III", "SECRET", "SharePoint", "iOS"}
         cand_rx = re.compile(r"(?<![A-Za-z0-9.&/-])(?:[a-z]?[A-Z][A-Za-z]*[A-Z][A-Za-z]*(?:&[A-Z]+)?(?:-[A-Z][A-Za-z]*)*|[A-Z](?:\.[A-Z])+\.)(?![a-z])")
         tree_full = parse(stripped)
-        visible_skip = frozenset({"url", "pillar-label", "caps"})
+        visible_skip = frozenset({"url", "pillar-label", "caps", "pdf-tag", "gloss"})  # pdf-tag: the PDF tag, a label beside a link (1.0.1)
         chunks = [("header", tree_full.ids["top"][0])] + [(k, v[0]) for k, v in tree_full.ids.items() if k == "intro" or k.startswith("view-")]
         # the footer is the one every Lensatic page shares (site review, 28 October 2026), held by tools/check_umbrella.py
         def scan(name, node_, coverage=True):

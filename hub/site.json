@@ -7,10 +7,12 @@
  "rightsLink": "All rights reserved",
  "date": "2026-10-25",
  "byline": {"text": "By Ken Connell", "name": "Ken Connell", "href": "https://kensden.github.io/"},
- "heroStory": ["I learned land navigation with this compass in the Army.", "More than 20 years later, it still points north."],
+ "heroStory": ["My lensatic compass, oriented to map north."],
  "heroPhotoAlt": "My lensatic compass, open at an angle on a world map.",
- "bannerAlt": "My lensatic compass on a world map, with the open map above it.",
+ "bannerAlt": "My lensatic compass on a world map, over the Atlantic between the Americas and Africa.",
  "aboutLabel": "About",
+ "pickLine": "Start by picking the trailhead that describes you. Everything else follows from there.",
+ "purpose": "Maps say which framework. Field Guides say how to learn it. The Playbook says how to run security with AI agents.",
  "aboutBlocks": ["notAffiliated", "offline", "licensing", "builtWith", "nameStory"],
  "sections": [
   {
@@ -26,7 +28,8 @@
    "name": "Field Guides",
    "path": "guides/",
    "hero": "Field Guides walks the eight-week Zero Trust route: a shared core, then a track for where you work, with one-page references.",
-   "line": "Guided study routes. The first is Zero Trust: eight weeks, a shared core, three tracks and one-page references.",
+   "line": "Get fluent in zero trust in eight weeks: a shared core, then a track for where you work, with one-page references to keep.",
+   "intro": "Guided study routes for people who need to get fluent fast: a new analyst, a move into a federal role, an interview next month. The Zero Trust route: eight weeks, a shared core, three tracks and one-page references.",
    "open": "Open Field Guides"
   },
   {
@@ -35,6 +38,7 @@
    "path": "playbook/",
    "hero": "Playbook holds Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI.",
    "line": "Agentic SecOps: a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI.",
+   "intro": "For SOC leads, security engineers and the people who fund them: how to put AI agents to work in red, blue and purple teaming without losing command. Start with the Executive Summary; the {actions} actions, the maturity ladder and the roadmap are behind it.",
    "open": "Open the Playbook"
   }
  ],
@@ -42,6 +46,7 @@
   {
    "key": "zero-trust",
    "name": "Zero Trust",
+   "title": "Zero Trust Study Route",
    "path": "zero-trust/",
    "line": "Eight weeks from practitioner to lead. A shared core, then a track for where you work.",
    "shape": "Weeks 1 to 4 are the shared core, for everyone: NIST SP 800-207 and the CISA Zero Trust Maturity Model. Weeks 5 to 8 are your track.",
@@ -56,7 +61,7 @@
     "url": "https://notebooklm.link.google/jaUFZqYbnxIe",
     "line": "A companion NotebookLM notebook built on the guide’s sources, the 2025 to 2026 guidance on AI agents and recorded talks. Anyone with the link and a Google account can read it and ask it questions."
    },
-   "open": "Open the Zero Trust guide"
+   "open": "Open the Zero Trust Guide"
   }
  ],
  "labels": {
@@ -64,17 +69,19 @@
   "guideTracks": "Tracks",
   "guideReferences": "Quick references",
   "guideNotebook": "Companion notebook",
-  "pdfStudyGuide": "Study guide (PDF)",
+  "pdfStudyGuide": "Study Guide (PDF)",
   "pdfDoW": "Quick Reference: DoW (PDF)",
-  "pdfFederalCivilian": "Quick Reference: Federal civilian (PDF)",
-  "pdfPrivateSector": "Quick Reference: Private sector (PDF)",
-  "fontsLine": "Fonts: IBM Plex, SIL Open Font License 1.1"
+  "pdfFederalCivilian": "Quick Reference: Federal Civilian (PDF)",
+  "pdfPrivateSector": "Quick Reference: Private Sector (PDF)",
+  "fontsLine": "Fonts: IBM Plex, SIL Open Font License 1.1",
+  "startWithQuestion": "Start with a question"
  },
  "notFound": {
   "title": "Page not found",
+  "tabTitle": "Lensatic · Page Not Found",
   "eyebrow": "Lensatic",
   "line": "Nothing is published at this address. A page or file from an earlier edition may have moved or been renamed.",
-  "back": "Open the Lensatic hub"
+  "back": "Open the Lensatic Hub"
  },
  "cards": {
   "hub": {

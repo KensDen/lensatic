@@ -167,10 +167,16 @@ struct AboutView: View {
 
     var body: some View {
         let s = model.screen("about") { AboutScreen(store: model.store) }
-        DetailScreen(eyebrow: model.store.navTitle(.about), title: "Why \u{201C}\(s.name)\u{201D}", identifier: "about-screen") {
+        // no eyebrow: the screen is Lensatic's own About, reached from Library's About Lensatic (6.19), not the map's About
+        DetailScreen(title: "Why \u{201C}\(s.name)\u{201D}", identifier: "about-screen") {
             // each part kept whole, the release date with the word before it, and each dot with the part after it (R5)
             Text(dotted(s.version.components(separatedBy: model.store.label("metaSeparator")), separator: model.store.label("metaSeparator"))).font(DS.eyebrowSmall).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
                 .accessibilityIdentifier("about-version")
+            // the locked tagline, then zero trust as the spine of the map in one sentence (content release 1.0.1, 3.2)
+            let meta = model.store.content.meta
+            Text(keepWhole("\(meta.tagline) \(meta.ztSpine)")).font(DS.summary).foregroundStyle(Palette.fg).lineSpacing(4)
+                .fixedSize(horizontal: false, vertical: true)
+                .accessibilityIdentifier("about-tagline")
             VStack(alignment: .leading, spacing: 14) {
                 // the story's heading is the screen's own title here (Why "Lensatic"), so it is not said twice (R4)
                 if AboutView.plain(s.storyHeading) != AboutView.plain("Why \(s.name)") {

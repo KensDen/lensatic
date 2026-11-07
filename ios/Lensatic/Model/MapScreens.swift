@@ -78,9 +78,16 @@ struct LayerScreen {
         entryIds = StackScreen.entryIds(layer, store: store)
         solutionIds = store.solutions.filter { $0.layerId == id }.map(\.id)
         if layer.isColumn {
-            let parts = Rules.firstSentence(store.content.ai.note)
-            note = b.text(parts.first)
-            noteRest = parts.rest.isEmpty ? nil : b.text(parts.rest)
+            // the first sentence, and the rest one tap down only where the Read More rule holds (content release 1.0.1)
+            let whole = store.content.ai.note
+            let parts = Rules.firstSentence(whole)
+            if !parts.rest.isEmpty && ReadMore.worthIt(shown: parts.first, full: whole) {
+                note = b.text(parts.first)
+                noteRest = b.text(parts.rest)
+            } else {
+                note = b.text(whole)
+                noteRest = nil
+            }
             socTitle = b.text(store.label("socProfile"), .label)
             soc = store.content.ai.socProfile.compactMap { r in
                 store.functions[r.functionId].map { ($0.name, b.text(r.outcome)) }

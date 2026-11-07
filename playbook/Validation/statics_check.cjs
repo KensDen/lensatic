@@ -58,7 +58,8 @@
  *      package.json and LICENSE, except inside an allowance (the study guide's dated addenda are left out, as
  *      text_units leaves them out). Each allowance is pinned to its files and exact text and must be present exactly
  *      as pinned, so a stale allowance fails too.
- *  17. The short notice, exactly, at its four sites: the landing page's first footer paragraph, the executive
+ *  17. The short notice, exactly, at its four sites: the landing page's footers (the copyright line in the shared one,
+ *      the rest of the notice in its own, since Lensatic content release 1.0.1), the executive
  *      summary's credit paragraph, the app footer (the JSX, without the final period) and the deck's closing slide
  *      (slide38.xml, two paragraphs).
  *  17b (Round K). The copyright line, the short notice's first two sentences, exactly as its own line at 19 sites: the
@@ -501,7 +502,14 @@ const win = (h, w) => h.ctx.slice(Math.max(0, h.index - w), h.index + h.text.len
       ? TU.pdfText(SUITE, TU.DECK_REL).split('\f').filter((p) => p.trim()).pop().split('\n').map((l) => ({ text: l.trim() })).filter((u) => u.text)
       : TU.ooxmlUnits(SUITE, TU.DECK_REL, /^ppt\/slides\/slide38\.xml$/, 'a:p', 'a:t', true);
     const sites = [
-      ['the landing footer', (one(landing, /<footer>\s*<p>([\s\S]*?)<\/p>/g) || '').replace(/<[^>]+>/g, '') === N],
+      /* the landing (Lensatic content release 1.0.1, the parked nits): the copyright shows once, in the footer every
+       * Lensatic page shares, linked to this section's LICENSE; the landing's own footer carries the rest of the notice */
+      ['the landing footer', (() => {
+        const shared = (one(landing, /<p class="lx-copy">(Copyright 2026 Ken Connell\. <a [^>]*playbook\/LICENSE"[^>]*>All rights reserved<\/a>\.)<\/p>/g) || '').replace(/<[^>]+>/g, '');
+        const own = (one(landing, /<footer>\s*<p>([\s\S]*?)<\/p>/g) || '').replace(/<[^>]+>/g, '');
+        return shared === N.replace(/^\u00a9 2026 Ken Connell\. (All rights reserved\.) .*$/, 'Copyright 2026 Ken Connell. $1')
+          && own === N.replace(/^\u00a9 2026 Ken Connell\. All rights reserved\. /, '');
+      })()],
       ['the summary credit', one(summary, /<p class="credit">([^<]*)<\/p>/g) === N],
       ['the app footer', (() => { const ms = [...jsx.matchAll(/>(\u00a9 2026 Ken Connell\. (?:<a [^>]*>)?All rights reserved(?:<\/a>)?\.[^<]*)<\/span>/g)]; return ms.length === 1 && ms[0][1].replace(/<[^>]+>/g, '') === N; })()],
       ['the deck closing slide', deck.some((u, i) => i + 1 < deck.length && `${u.text} ${deck[i + 1].text}` === N)],

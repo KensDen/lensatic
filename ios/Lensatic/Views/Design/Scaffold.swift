@@ -57,6 +57,49 @@ struct DetailScreen<Trailing: View, Content: View>: View {
     }
 }
 
+/// A pushed screen as a system inset-grouped list (content release 1.0.1, section 7: the screens Explore owns): the
+/// detail screen's header, the way back, the section eyebrow and the title, then the screen's own sections, on the
+/// system's grouped background.
+struct ListScreen<Body: View>: View {
+    var eyebrow: String?
+    var eyebrowColor: Color = Palette.secMaps
+    let title: String
+    var identifier: String
+    @ViewBuilder var sections: Body
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        List {
+            SwiftUI.Section {
+                VStack(alignment: .leading, spacing: 12) {
+                    Button { dismiss() } label: { CircleIconLabel(icon: .chevronLeft) }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Back")
+                        .accessibilityIdentifier("back")
+                    VStack(alignment: .leading, spacing: 4) {
+                        // the section's place in the system's own type (section 7.4: the mono eyebrow is for hero cards)
+                        if let eyebrow { Text(eyebrow).font(DS.style(.subheadline).weight(.semibold)).foregroundStyle(eyebrowColor) }
+                        Text(keepWhole(title)).font(DS.style(.title2)).foregroundStyle(.primary)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .accessibilityAddTraits(.isHeader)
+                            .accessibilityIdentifier("screen-title")
+                    }
+                }
+                .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 4, trailing: 20))
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+            }
+            sections
+        }
+        .listStyle(.insetGrouped)
+        .environment(\.defaultMinListRowHeight, 44)
+        .hardTopEdge()
+        .toolbar(.hidden, for: .navigationBar)
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier(identifier)
+    }
+}
+
 /// The scroll view a screen's content sits in, so a control inside it can scroll to a place (the outline, R3).
 extension EnvironmentValues {
     @Entry var scrollProxy: ScrollViewProxy?
@@ -101,46 +144,6 @@ struct BookmarkButton: View {
         .accessibilityAddTraits(saved ? .isSelected : [])
         .accessibilityIdentifier("bookmark")
         .accessibilityShowsLargeContentViewer()
-    }
-}
-
-/// A segmented control as Explore.dc.html draws it: the segments share a surface, the chosen one raised. Each segment
-/// is at least 44 points tall; at the accessibility sizes they stack.
-struct Segmented<Value: Hashable>: View {
-    let options: [(Value, String)]
-    @Binding var selection: Value
-    var identifier: String
-    @Environment(\.dynamicTypeSize) private var typeSize
-
-    var body: some View {
-        let stacked = typeSize.isAccessibilitySize
-        let layout = stacked ? AnyLayout(VStackLayout(spacing: 2)) : AnyLayout(HStackLayout(spacing: 0))
-        layout {
-            ForEach(Array(options.enumerated()), id: \.element.0) { i, option in
-                let (value, label) = option
-                let on = value == selection
-                // stacked, a hairline between the segments keeps them apart as rows (R4)
-                if stacked, i > 0 { Rectangle().fill(Palette.line).frame(height: 1).padding(.horizontal, 10).accessibilityHidden(true) }
-                Button { selection = value } label: {
-                    Text(label)
-                        .font(DS.segment)
-                        .foregroundStyle(on ? Palette.fg : Palette.fg2)
-                        .multilineTextAlignment(.center)
-                        .frame(maxWidth: .infinity, minHeight: 40)
-                        .background(on ? Palette.bg3 : Color.clear, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-                        // the chosen segment's edge, so it stands apart in the dark theme too (R4)
-                        .overlay { if on { RoundedRectangle(cornerRadius: 8, style: .continuous).strokeBorder(Palette.fg2, lineWidth: 1) } }
-                        .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                .accessibilityAddTraits(on ? [.isSelected, .isButton] : .isButton)
-                .accessibilityIdentifier("\(identifier)-\(value)")
-            }
-        }
-        .padding(3)
-        .frame(minHeight: 46)
-        .card(radius: 10)
-        .accessibilityElement(children: .contain)
     }
 }
 

@@ -31,10 +31,13 @@ struct Meta: Decodable, Sendable {
     let changelog: [ChangelogEntry]
     let description: String
     /// The pitch lines are for link previews, the README, the repository and the store listing: decoded, since the
-    /// decoding is strict. The tagline and the pitch are shown on no screen; the wayfinder line opens About (session 15).
+    /// decoding is strict. The pitch is shown on no screen; the tagline and the zero trust sentence open About (content
+    /// release 1.0.1), and the wayfinder line follows (session 15).
     let tagline: String
     let pitch: String
     let wayfinder: String
+    /// Zero trust as the spine of the map, in one sentence after the tagline (content release 1.0.1): About opens with both.
+    let ztSpine: String
     let about: About
     let licenses: Licenses
 
@@ -210,10 +213,40 @@ struct Document: Decodable, Sendable {
     let shortTitle: String?
     let edition: String
     let date: String
+    /// The publication's web page where it has one (content release 1.0.1), or the PDF where it has none.
     let url: String
+    /// The PDF, kept beside a web page as a second link labelled PDF.
+    let pdf: String?
     let verification: Verification
     let note: String?
     let authors: [String]?
+
+    /// Whether the primary link opens a PDF.
+    var opensPDF: Bool { LinkFormat.isPDF(url) }
+}
+
+/// When a short text may hide the rest behind a control (Ken's finding, 7 November 2026: some Read More controls revealed only
+/// a line). One rule for every such control, applied in the views: the control appears only when the hidden text is at
+/// least 25 words and at least as long as the text shown; otherwise the full text shows and there is no control.
+enum ReadMore {
+    static let minimumHiddenWords = 25
+
+    static func words(_ s: String) -> Int { s.split(whereSeparator: { $0.isWhitespace }).count }
+
+    /// Whether `shown` may stand for `full` with the rest one tap down.
+    static func worthIt(shown: String, full: String) -> Bool {
+        let hidden = words(full) - words(shown)
+        return hidden >= minimumHiddenWords && hidden >= words(shown)
+    }
+}
+
+/// Which links open a PDF (content release 1.0.1): every one gets the PDF tag beside it.
+enum LinkFormat {
+    /// An address whose path ends in .pdf, whatever its case, query or fragment.
+    static func isPDF(_ address: String) -> Bool {
+        let path = address.split(separator: "#", maxSplits: 1).first.map(String.init) ?? address
+        return (path.split(separator: "?", maxSplits: 1).first.map(String.init) ?? path).lowercased().hasSuffix(".pdf")
+    }
 }
 
 struct Layer: Decodable, Sendable {
@@ -261,7 +294,12 @@ struct Entity: Sendable {
     let title: String
     let edition: String
     let date: String
+    /// The publication's web page where it has one (content release 1.0.1), or the PDF where it has none.
     let url: String
+    /// The PDF, kept beside a web page as a second link labelled PDF.
+    let pdf: String?
+    /// "pdf" where the address serves a PDF without saying so in its path.
+    let urlFormat: String?
     let verification: Verification
     let authority: Authority
     let documents: [Document]?
@@ -275,14 +313,14 @@ struct Entity: Sendable {
     let adopterResponsibilities: [Responsibility]?
 
     fileprivate enum CodingKeys: String, CodingKey, CaseIterable {
-        case id, layerId, name, shortName, oneLiner, shortSummary, answersQuestion, role, publisher, title, edition, date, url
+        case id, layerId, name, shortName, oneLiner, shortSummary, answersQuestion, role, publisher, title, edition, date, url, pdf, urlFormat
         case verification, authority, documents, note, shortNote, authors, license, attributionRequired, validatedAgainst, adopterResponsibilities
     }
 
     /// The fields each kind may carry, and the ones it must.
     private static let allowed: [Kind: Set<CodingKeys>] = {
-        let common: Set<CodingKeys> = [.id, .name, .shortName, .oneLiner, .shortSummary, .publisher, .title, .edition, .date, .url, .verification,
-                                       .authority, .documents, .note, .shortNote, .authors, .license, .attributionRequired]
+        let common: Set<CodingKeys> = [.id, .name, .shortName, .oneLiner, .shortSummary, .publisher, .title, .edition, .date, .url, .pdf, .urlFormat,
+                                       .verification, .authority, .documents, .note, .shortNote, .authors, .license, .attributionRequired]
         return [.framework: common.union([.layerId, .answersQuestion]),
                 .source: common.union([.role, .layerId]),
                 .solution: common.union([.layerId, .answersQuestion, .validatedAgainst, .adopterResponsibilities])]
@@ -318,6 +356,8 @@ struct Entity: Sendable {
         edition = try c.decode(String.self, forKey: .edition)
         date = try c.decode(String.self, forKey: .date)
         url = try c.decode(String.self, forKey: .url)
+        pdf = try c.decodeIfPresent(String.self, forKey: .pdf)
+        urlFormat = try c.decodeIfPresent(String.self, forKey: .urlFormat)
         verification = try c.decode(Verification.self, forKey: .verification)
         authority = try c.decode(Authority.self, forKey: .authority)
         documents = try c.decodeIfPresent([Document].self, forKey: .documents)
@@ -329,6 +369,9 @@ struct Entity: Sendable {
         validatedAgainst = must(.validatedAgainst) ? try c.decode(ValidatedAgainst.self, forKey: .validatedAgainst) : nil
         adopterResponsibilities = must(.adopterResponsibilities) ? try c.decode([Responsibility].self, forKey: .adopterResponsibilities) : nil
     }
+
+    /// Whether the primary link opens a PDF: by its address, or by the entry's word where the address does not say.
+    var opensPDF: Bool { urlFormat == "pdf" || LinkFormat.isPDF(url) }
 
     /// Every verification record inside the entry other than its own, as the web's conflict badge reads them.
     var innerVerifications: [Verification] {
@@ -452,6 +495,8 @@ struct Door: Decodable, Sendable {
     /// The trailhead's name in Title Case, and the line under it on the welcome screen (content 1.2.18).
     let shortTitle: String
     let whoYouAre: String
+    /// Who should start elsewhere (content release 1.0.1): shown after the steps, under "Not your trailhead if".
+    let notYours: String?
     let cardLine: String
     let steps: [Step]
     let pillarView: Nullable<PillarView>
@@ -517,11 +562,19 @@ struct UIText: Decodable, Sendable {
     let nature: [String: String]
     let status: [String: String]
     let kind: [String: String]
+    /// Search's empty state (content release 1.0.1): the Start With chips, each a query that finds something.
+    let search: SearchText
+
+    struct SearchText: Decodable, Sendable {
+        let starters: [String]
+    }
 }
 
 struct Pages: Decodable, Sendable {
     struct Page: Decodable, Sendable {
         let title: String
+        /// The page's browser tab title on the website (content release 1.0.1); the app shows the title.
+        let tabTitle: String
         let description: String
         let paragraphs: [String]
     }

@@ -28,19 +28,24 @@ sys.path.insert(0, str(ROOT / "tools"))
 import build_web as bw  # noqa: E402
 
 # page, the bar's root (the way back up to /lensatic/), the active section
-PAGES = ((ROOT / "playbook" / "index.html", "../"), (ROOT / "playbook" / "Playbook" / "index.html", "../../"))
+PAGES = ((ROOT / "playbook" / "index.html", "../"), (ROOT / "playbook" / "Playbook" / "index.html", "../../"),
+         # the executive summary's web page carries the bar and follows the site's theme (content release 1.0.1, 8); its
+         # print stylesheet hides the bar, so the PDF is unchanged
+         (ROOT / "playbook" / "Documents" / "Agentic-SecOps-Executive-Summary.html", "../../"))
 STYLE_RE = re.compile(r'<style id="lx-shared">\n.*?\n</style>\n', re.S)
 BAR_RE = re.compile(r"<!-- lx-bar -->\n.*?\n<!-- /lx-bar -->\n", re.S)
 THEME_RE = re.compile(r"<!-- lx-theme -->\n.*?\n<!-- /lx-theme -->\n", re.S)
 # the shared footer (site review, 28 October 2026): page, the way back up to /lensatic/, the section's own notice
 FOOT_RE = re.compile(r"<!-- lx-foot -->\n.*?\n<!-- /lx-foot -->\n", re.S)
 FOOT_PAGES = ((ROOT / "playbook" / "index.html", "../", "playbook/LICENSE"),
-              (ROOT / "guides" / "zero-trust" / "index.html", "../../", "guides/zero-trust/LICENSE"))
+              (ROOT / "guides" / "zero-trust" / "index.html", "../../", "guides/zero-trust/LICENSE"),
+              # the executive summary's web page (content release 1.0.1, 8); its print stylesheet hides the footer
+              (ROOT / "playbook" / "Documents" / "Agentic-SecOps-Executive-Summary.html", "../../", "playbook/LICENSE"))
 
 
 def foot(root: str, notice: str) -> str:
     s = bw.umbrella()
-    labels = bw.web_text.content(json.loads(bw.STACK.read_text(encoding="utf-8")))["ui"]["labels"]
+    labels = json.loads(bw.STACK.read_text(encoding="utf-8"))["ui"]["labels"]
     licence = s["repo"] + "/blob/main/" + notice
     return f"<!-- lx-foot -->\n{bw.site_footer(s, labels, root, licence)}\n<!-- /lx-foot -->\n"
 
@@ -97,7 +102,7 @@ def main() -> int:
             page.write_text(new, encoding="utf-8")
             print(f"apply_chrome: refreshed the footer in {page.relative_to(ROOT)}")
     if args.check:
-        print("apply_chrome: " + ("stale or missing in " + ", ".join(stale) if stale else "both Agentic SecOps pages carry the current chrome, and both footers are current"))
+        print("apply_chrome: " + ("stale or missing in " + ", ".join(stale) if stale else "the three Agentic SecOps pages carry the current chrome, and the three footers are current"))
         return 1 if stale else 0
     return 0
 

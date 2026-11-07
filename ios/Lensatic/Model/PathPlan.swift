@@ -158,6 +158,18 @@ extension PathPlan {
     /// The line under a trailhead's name on the welcome screen: its step count and, when a dated deadline lies ahead
     /// on the path, that deadline ("7 steps · Target Level by FY2027"); otherwise the trailhead's own line. A trailhead
     /// with no steps shows its own line alone.
+    /// The Welcome screen's line under a trailhead's name (content release 1.0.1, 6.14): who the trailhead is for, the
+    /// first sentence of its whoYouAre, in place of the framework abbreviations (which stay on My Path and the website's
+    /// cards); the step count stands beside the name (welcomeCount), so five trailheads still fit one screen.
+    func welcomeLine() -> String { Rules.firstSentence(door.whoYouAre).first }
+
+    /// The step count beside a trailhead's name on the Welcome screen ("7 steps").
+    func welcomeCount(labels L: [String: String]) -> String? {
+        guard !steps.isEmpty else { return nil }
+        return steps.count == 1 ? (L["doorMetaStep"] ?? "1 step")
+            : (L["doorMetaSteps"] ?? "{n} steps").replacingOccurrences(of: "{n}", with: String(steps.count))
+    }
+
     func cardLine(today: Date, labels L: [String: String], calendar: Calendar = .lensatic) -> String {
         guard !steps.isEmpty else { return door.cardLine }
         let count = steps.count == 1 ? (L["doorMetaStep"] ?? "1 step")

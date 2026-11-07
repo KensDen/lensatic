@@ -198,7 +198,7 @@ final class ContentTests: XCTestCase {
         XCTAssertFalse(screens.contains { $0.1.runs.flatMap(\.segments).contains { if case .term("GPS", _, _) = $0 { return true } else { return false } } })
         // the glossary keeps its expansion
         let glossary = try XCTUnwrap(screens.first { $0.0 == "glossary" }?.1)
-        XCTAssertTrue(glossary.runs.contains { $0.source.hasPrefix("artificial intelligence. ") })
+        XCTAssertTrue(glossary.runs.contains { $0.source.hasPrefix("Artificial Intelligence. ") })  // Title Case since content 1.3.0
     }
 
     /// The AI column is tagged by its name, never as a sixth layer: on its screen, on its entries' cards, in search and

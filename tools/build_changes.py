@@ -14,7 +14,8 @@ News, what moved in the world (the R5 rules, item 19):
   document   an entry gains a document                     dated the document's own date; named by its shortTitle
   deadline   a deadline's date moves, or a deadline the     dated the release day
              publisher set after the release before appears
-  link       an entry's address changes                    dated the release day
+  link       an entry's address changes                    dated the release day (not when the old address is kept
+                                                             as the PDF beside the publication's web page)
 
 Source checks, shown only when the reader asks (the app's Show Source Checks):
   status     an entry's verification status changes        dated the release day
@@ -109,9 +110,11 @@ def diff(old: dict, new: dict, short_titles: dict[str, str]) -> list[dict]:
                 item("added", eid, f"{short} joins the map", e["date"] if len(e["date"]) == 10 else day)
             continue
         was = a[eid]
+        # a document is the same one when its address, or the PDF it now keeps beside a web page (content 1.3.0), was
+        # an address the release before gave it
         urls = {d["url"] for d in was.get("documents") or []}
         for d in e.get("documents") or []:
-            if d["url"] not in urls:
+            if d["url"] not in urls and d.get("pdf") not in urls:
                 title = d.get("shortTitle") or short_titles.get(d["url"])
                 if not title:
                     sys.exit(f"build_changes: {rel} adds a document to {eid} with no shortTitle for What Changed")
@@ -126,7 +129,9 @@ def diff(old: dict, new: dict, short_titles: dict[str, str]) -> list[dict]:
             y, m, dd = (int(x) for x in due_b["date"].split("-"))
             month = ("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")[m - 1]
             item("deadline", eid, f"{due_b['label']} due {dd} {month} {y}", day)
-        if e.get("url") != was.get("url"):
+        # a new address is news; the map pointing to the publication's web page with the same PDF kept beside it is not
+        # (content 1.3.0, web pages first)
+        if e.get("url") != was.get("url") and e.get("pdf") != was.get("url"):
             item("link", eid, f"{short} has a new link", day)
         sa, sb = was.get("verification", {}).get("status"), e.get("verification", {}).get("status")
         if sa != sb:

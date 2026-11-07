@@ -87,13 +87,13 @@ FONT_SHA256 = {
 # light unsharp mask, in sRGB, at the highest quality that keeps the map's page under 1 MB, every metadata segment
 # stripped; pinned by SHA-256
 ABOUT_PHOTO = ROOT / "web" / "src" / "about-photo.jpg"
-ABOUT_PHOTO_SHA256 = "e07415c6f2ec5d0b79cbdbe0e821616444dd7a645f8b146a6a0a5ed39be668ce"
+ABOUT_PHOTO_SHA256 = "0f0152debfc9b4ac1d0fdf33fc59454974c0a414180fa745d1c87b9b05569103"  # content release 1.0.1: the Atlantic shot, square, colour-corrected (Ken's pick, 6 Nov 2026)
 CRITIQUE = ROOT / "critique"
 BINARY_SUFFIXES = {".png", ".jpg", ".jpeg", ".gif", ".pdf", ".ico", ".icns", ".zip", ".woff", ".woff2", ".ttf"}
 
 FUNCTION_IDS = ["GV", "ID", "PR", "DE", "RS", "RC"]
 # content 1.2.21 (R5, item 16): Everyone Else became State and Local Government and Industry and Academia
-DOOR_IDS = ["federal-civilian", "dow", "defense-contractor", "state-local", "industry-academia"]
+DOOR_IDS = ["dow", "federal-civilian", "defense-contractor", "state-local", "industry-academia"]
 # the fewest ordered steps a trailhead may have: every door is a real path, never padded (R5, item 16)
 MIN_DOOR_STEPS = 4
 DOW_REQUIRED = ["current", "abbr", "statutory", "basis", "verifiedOn", "renderRule", "statusNote"]

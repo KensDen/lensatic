@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.2.22",
-    "builtOn": "2026-10-28",
+    "contentVersion": "1.3.0",
+    "builtOn": "2026-11-07",
     "sources": [
       "csf20",
       "sp800-207",
@@ -225,11 +225,16 @@
         "version": "1.2.22",
         "date": "2026-10-28",
         "summary": "Every quotation mark and apostrophe in the content is curly, as on the iOS app, and the name story’s heading reads Why “Lensatic”, as the app has it. Why the name sits beside the new photo of the compass, oriented to map north. Nothing else on the stack changes."
+      },
+      {
+        "version": "1.3.0",
+        "date": "2026-11-07",
+        "summary": "Zero trust leads: a sentence after the tagline says it is the spine the other frameworks hang off, in the map’s plain definition. Source links go to each publication’s web page first, with the PDF kept beside it and every PDF link tagged; the department’s basis and the portfolio office link to their pages. Every glossary spell-out is in Title Case, with “and” for “&”. The website’s own wording moves into the content, so the app and the site read the same words: the trailheads in the welcome screen’s order, Title Case buttons, About Maps and the plain pages’ tab titles. The State and Local and Industry and Academia trailheads each say their four shared steps for their own readers; who should start at another trailhead moves out of who each trailhead is for, after the steps; five lines that echoed CSF 2.0’s one-liner each say it their own way. Search gets starting queries, and the privacy page lists the plays opened and the last five searches the app keeps. Nothing else on the stack changes."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
     "tagline": "Public sector cyber frameworks are thick woods. Lensatic is the compass.",
-    "pitch": "Public sector cyber frameworks are thick woods. Lensatic is the compass: find where you stand, see which framework applies, and take a bearing on your next waypoint.",
+    "pitch": "Public sector cyber frameworks are thick woods. Lensatic is the compass: find where you stand on zero trust, see which framework applies, and take your next bearing.",
     "wayfinder": "Framework Maps is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.",
     "about": {
       "notAffiliated": "Not affiliated with NIST, CISA, NSA, {{dow.current}}, OMB, or any framework publisher.",
@@ -275,7 +280,8 @@
           "IBM Plex Sans and IBM Plex Mono, regular and bold: IBM’s own Latin1 subset files in web/src/fonts/, embedded in the built pages, and IBM’s own TrueType files in ios/Lensatic/Resources/Fonts/, all unmodified"
         ]
       }
-    }
+    },
+    "ztSpine": "Zero trust, where nothing is trusted because of where it connects from and every request is checked against policy each time, is the spine the other frameworks hang off."
   },
   "orgs": {
     "dow": {
@@ -286,7 +292,7 @@
       "verifiedOn": "2026-09-09",
       "renderRule": "Prose renders the department only from this object, through render tokens: the token dow alone renders the abbreviation, the token dow.current renders the current name, and a first mention renders the current name followed by the abbreviation in parentheses. Citation fields (publisher, title, edition), published document titles and organization names keep the form printed at the source.",
       "statusNote": "The statutory title remains Department of Defense pending Congress. On 9 September 2026, 10 U.S.C. 111 still read Department of Defense (text current through 8 September 2026); the FY2026 National Defense Authorization Act, enacted 18 December 2025 as Public Law 119-60, did not change it; the FY2027 bill the House of Representatives passed on 22 July 2026 as H.R. 8800 carries a section deeming statutory references to the Department of Defense to be references to the department’s current name, and the Senate bill (S. 4784) carries a section redesignating the department in titles 10, 32 and 37; neither is law.",
-      "url": "https://www.govinfo.gov/content/pkg/FR-2025-09-10/pdf/2025-17508.pdf",
+      "url": "https://www.federalregister.gov/documents/2025/09/10/2025-17508/restoring-the-united-states-department-of-war",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-09",
@@ -318,7 +324,7 @@
     "ztPfmo": {
       "name": "Zero Trust Portfolio Management Office",
       "abbr": "ZT PfMO",
-      "url": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-OperationalTechnologyActivitiesOutcomes_v2.pdf",
+      "url": "https://dowcio.war.gov/Library/",
       "established": "January 2022, within the {{dow}} CIO’s office; Directive-type Memorandum (DTM) 25-003 of 17 July 2025 set out its role in an issuance.",
       "role": "Coordinates, synchronizes and accelerates zero trust adoption across the {{dow}} enterprise. DTM 25-003, whose printed expiry of 17 July 2026 has passed with no successor instruction found, directs components to submit their zero trust implementation plans each year to the CIO through the office and to U.S. Cyber Command through its Cyber Defense Command, and gives the office’s Chief Zero Trust Officer their review and approval. The office conducted the 2023 purple team assessment of the Navy’s Flank Speed and sponsored the 2024 round.",
       "verification": {
@@ -336,7 +342,7 @@
       "order": 1,
       "name": "Outcomes and communication",
       "shortName": "Outcomes",
-      "question": "What does good look like, in the language leadership funds against?",
+      "question": "What does good look like, in terms leadership will fund?",
       "shortQuestion": "What does good look like?",
       "oneLiner": "The layer that states outcomes in the words leadership already uses, so a security program can be discussed, funded, and measured without technical detail.",
       "frameworkIds": [
@@ -426,13 +432,14 @@
       "name": "NIST Cybersecurity Framework 2.0",
       "shortName": "CSF 2.0",
       "oneLiner": "CSF 2.0 gives an organization six functions, Profiles, and Tiers to describe cybersecurity outcomes in language leadership funds against.",
-      "shortSummary": "Six functions, Profiles and Tiers that describe cybersecurity outcomes in language leadership funds against.",
+      "shortSummary": "Six functions, Profiles and Tiers that describe cybersecurity outcomes in terms leadership can pay for.",
       "answersQuestion": "What does good look like, and how do we say it to the people who fund it?",
       "publisher": "NIST",
       "title": "The NIST Cybersecurity Framework (CSF) 2.0",
       "edition": "Version 2.0 (NIST CSWP 29)",
       "date": "2024-02-26",
-      "url": "https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf",
+      "url": "https://csrc.nist.gov/pubs/cswp/29/the-nist-cybersecurity-framework-csf-20/final",
+      "pdf": "https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-29",
@@ -504,7 +511,8 @@
       "title": "DoD Zero Trust Strategy",
       "edition": "Version 1.0",
       "date": "2022-10-21",
-      "url": "https://dowcio.war.gov/Portals/0/Documents/Library/DoD-ZTStrategy.pdf",
+      "url": "https://dowcio.war.gov/Library/",
+      "pdf": "https://dowcio.war.gov/Portals/0/Documents/Library/DoD-ZTStrategy.pdf",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-09",
@@ -540,7 +548,8 @@
           "title": "DoD Zero Trust Strategy",
           "edition": "Version 1.0",
           "date": "2022-10-21",
-          "url": "https://dowcio.war.gov/Portals/0/Documents/Library/DoD-ZTStrategy.pdf",
+          "url": "https://dowcio.war.gov/Library/",
+          "pdf": "https://dowcio.war.gov/Portals/0/Documents/Library/DoD-ZTStrategy.pdf",
           "verification": {
             "status": "verified",
             "verifiedOn": "2026-09-29",
@@ -809,7 +818,8 @@
       "title": "Zero Trust for Operational Technology Activities and Outcomes",
       "edition": "Version OT.1.3 (as of 25 September 2025)",
       "date": "2025-11-18",
-      "url": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-OperationalTechnologyActivitiesOutcomes_v2.pdf",
+      "url": "https://dowcio.war.gov/Library/",
+      "pdf": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-OperationalTechnologyActivitiesOutcomes_v2.pdf",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-29",
@@ -874,7 +884,8 @@
           "title": "Security and Privacy Controls for Information Systems and Organizations",
           "edition": "Revision 5 (includes updates as of 10 December 2020)",
           "date": "2020-09",
-          "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-53r5.pdf",
+          "url": "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+          "pdf": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-53r5.pdf",
           "verification": {
             "status": "verified",
             "verifiedOn": "2026-09-29",
@@ -1058,12 +1069,13 @@
       "shortName": "AI RMF",
       "oneLiner": "The AI RMF gives an organization four functions, Govern, Map, Measure, and Manage, to handle the risks of AI systems in outcome language.",
       "shortSummary": "Four functions, Govern, Map, Measure and Manage, for handling the risks of AI systems in outcome language.",
-      "answersQuestion": "What does good look like for AI risk, in the language leadership funds against?",
+      "answersQuestion": "What does good look like for AI risk, stated so leadership can weigh it and resource it?",
       "publisher": "NIST",
       "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
       "edition": "Version 1.0 (NIST AI 100-1)",
       "date": "2023-01-26",
-      "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf",
+      "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10",
+      "pdf": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-29",
@@ -1178,7 +1190,8 @@
       "title": "Zero Trust for AI Systems",
       "edition": "Version 1.0",
       "date": "2026-09-04",
-      "url": "https://github.com/cosai-oasis/ws2-defenders/blob/main/zero-trust/Zero-Trust-for-AI-Systems.pdf",
+      "url": "https://www.coalitionforsecureai.org/zero-trust-for-ai-systems-why-authorization-cant-live-inside-the-model/",
+      "pdf": "https://github.com/cosai-oasis/ws2-defenders/blob/main/zero-trust/Zero-Trust-for-AI-Systems.pdf",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-30",
@@ -1254,7 +1267,8 @@
       "title": "Improving the Nation’s Cybersecurity",
       "edition": "Executive Order 14028",
       "date": "2021-05-12",
-      "url": "https://www.govinfo.gov/content/pkg/FR-2021-05-17/pdf/2021-10460.pdf",
+      "url": "https://www.federalregister.gov/documents/2021/05/17/2021-10460/improving-the-nations-cybersecurity",
+      "pdf": "https://www.govinfo.gov/content/pkg/FR-2021-05-17/pdf/2021-10460.pdf",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-29",
@@ -1292,7 +1306,8 @@
       "title": "Moving the U.S. Government Toward Zero Trust Cybersecurity Principles",
       "edition": "M-22-09",
       "date": "2022-01-26",
-      "url": "https://www.whitehouse.gov/wp-content/uploads/2022/01/M-22-09.pdf",
+      "url": "https://bidenwhitehouse.archives.gov/omb/briefing-room/2022/01/26/office-of-management-and-budget-releases-federal-strategy-to-move-the-u-s-government-towards-a-zero-trust-architecture/",
+      "pdf": "https://www.whitehouse.gov/wp-content/uploads/2022/01/M-22-09.pdf",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-29",
@@ -1335,7 +1350,8 @@
       "title": "Strengthening the Cybersecurity of Federal Networks and Critical Infrastructure",
       "edition": "Executive Order 13800",
       "date": "2017-05-11",
-      "url": "https://www.govinfo.gov/content/pkg/FR-2017-05-16/pdf/2017-10004.pdf",
+      "url": "https://www.federalregister.gov/documents/2017/05/16/2017-10004/strengthening-the-cybersecurity-of-federal-networks-and-critical-infrastructure",
+      "pdf": "https://www.govinfo.gov/content/pkg/FR-2017-05-16/pdf/2017-10004.pdf",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-29",
@@ -1370,7 +1386,8 @@
       "title": "Zero Trust Execution Roadmap",
       "edition": "v1.1",
       "date": "2024-11-22",
-      "url": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-ExecutionRoadmap-v1.1.pdf",
+      "url": "https://dowcio.war.gov/Library/",
+      "pdf": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-ExecutionRoadmap-v1.1.pdf",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-29",
@@ -1399,7 +1416,8 @@
           "title": "Zero Trust Execution Roadmap",
           "edition": "v1.1",
           "date": "2024-11-22",
-          "url": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-ExecutionRoadmap-v1.1.pdf",
+          "url": "https://dowcio.war.gov/Library/",
+          "pdf": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-ExecutionRoadmap-v1.1.pdf",
           "verification": {
             "status": "verified",
             "verifiedOn": "2026-09-29",
@@ -1411,7 +1429,8 @@
           "title": "DOD Zero Trust Execution Roadmap (COAs 1-3)",
           "edition": "v1.1",
           "date": "2025-01-22",
-          "url": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf",
+          "url": "https://dowcio.war.gov/Library/",
+          "pdf": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf",
           "verification": {
             "status": "verified",
             "verifiedOn": "2026-09-29",
@@ -1510,7 +1529,8 @@
       "title": "Cybersecurity Maturity Model Certification (CMMC) Program",
       "edition": "32 CFR Part 170, final rule (89 FR 83092)",
       "date": "2024-10-15",
-      "url": "https://www.govinfo.gov/content/pkg/FR-2024-10-15/pdf/2024-22905.pdf",
+      "url": "https://www.federalregister.gov/documents/2024/10/15/2024-22905/cybersecurity-maturity-model-certification-cmmc-program",
+      "pdf": "https://www.govinfo.gov/content/pkg/FR-2024-10-15/pdf/2024-22905.pdf",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-29",
@@ -1542,7 +1562,8 @@
           "title": "Cybersecurity Maturity Model Certification (CMMC) Program",
           "edition": "32 CFR Part 170, final rule (89 FR 83092)",
           "date": "2024-10-15",
-          "url": "https://www.govinfo.gov/content/pkg/FR-2024-10-15/pdf/2024-22905.pdf",
+          "url": "https://www.federalregister.gov/documents/2024/10/15/2024-22905/cybersecurity-maturity-model-certification-cmmc-program",
+          "pdf": "https://www.govinfo.gov/content/pkg/FR-2024-10-15/pdf/2024-22905.pdf",
           "verification": {
             "status": "verified",
             "verifiedOn": "2026-09-29",
@@ -1554,7 +1575,8 @@
           "title": "Defense Federal Acquisition Regulation Supplement: Assessing Contractor Implementation of Cybersecurity Requirements",
           "edition": "48 CFR Parts 204, 212, 217 and 252, final rule (90 FR 43560)",
           "date": "2025-09-10",
-          "url": "https://www.govinfo.gov/content/pkg/FR-2025-09-10/pdf/2025-17359.pdf",
+          "url": "https://www.federalregister.gov/documents/2025/09/10/2025-17359/defense-federal-acquisition-regulation-supplement-assessing-contractor-implementation-of",
+          "pdf": "https://www.govinfo.gov/content/pkg/FR-2025-09-10/pdf/2025-17359.pdf",
           "verification": {
             "status": "verified",
             "verifiedOn": "2026-09-29",
@@ -1663,7 +1685,8 @@
       "title": "Accelerating Federal Use of AI through Innovation, Governance, and Public Trust",
       "edition": "M-25-21",
       "date": "2025-04-03",
-      "url": "https://www.whitehouse.gov/wp-content/uploads/2025/02/M-25-21-Accelerating-Federal-Use-of-AI-through-Innovation-Governance-and-Public-Trust.pdf",
+      "url": "https://www.whitehouse.gov/omb/information-resources/guidance/memoranda/",
+      "pdf": "https://www.whitehouse.gov/wp-content/uploads/2025/02/M-25-21-Accelerating-Federal-Use-of-AI-through-Innovation-Governance-and-Public-Trust.pdf",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-29",
@@ -1806,6 +1829,7 @@
       "edition": "Joint memorandum Ser CIO/25-0001",
       "date": "2025-01-15",
       "url": "https://www.doncio.navy.mil/FileHandler.ashx?id=23732",
+      "urlFormat": "pdf",
       "verification": {
         "status": "verified",
         "verifiedOn": "2026-09-16",
@@ -1878,7 +1902,8 @@
           "title": "Zero Trust PfMO Newsletter",
           "edition": "November 2024",
           "date": "2024-11",
-          "url": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-NewsletterNov.pdf",
+          "url": "https://dowcio.war.gov/Library/",
+          "pdf": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-NewsletterNov.pdf",
           "verification": {
             "status": "verified",
             "verifiedOn": "2026-09-29",
@@ -3557,167 +3582,6 @@
   },
   "doors": [
     {
-      "id": "federal-civilian",
-      "title": "Federal civilian agency",
-      "shortTitle": "Federal Civilian Agency",
-      "whoYouAre": "You run or build systems for a federal civilian agency, and you have been told to do zero trust.",
-      "cardLine": "M-22-09, CISA ZTMM",
-      "pillarView": "cisa",
-      "paragraph": null,
-      "steps": [
-        {
-          "order": 1,
-          "title": "Start with EO 14028",
-          "layerId": "l1",
-          "entityIds": [
-            "eo14028"
-          ],
-          "text": "Start with Executive Order (EO) 14028, section 3, which orders the move to zero trust architecture and sets the outcome for every civilian agency.",
-          "verification": {
-            "status": "authored",
-            "verifiedOn": null,
-            "method": "synthesis",
-            "basisIds": [
-              "eo14028"
-            ],
-            "note": "Owner’s synthesis of the cited entries’ direction into one step."
-          }
-        },
-        {
-          "order": 2,
-          "title": "Meet the M-22-09 goals",
-          "layerId": "l3",
-          "entityIds": [
-            "omb-m2209",
-            "cisa-ztmm"
-          ],
-          "text": "Read the Office of Management and Budget (OMB) memorandum M-22-09 for the specific goals every agency must meet, due by the end of fiscal year 2024 and still binding, organized by the five pillars of the maturity model from the Cybersecurity and Infrastructure Security Agency (CISA).",
-          "verification": {
-            "status": "authored",
-            "verifiedOn": null,
-            "method": "synthesis",
-            "basisIds": [
-              "omb-m2209",
-              "cisa-ztmm"
-            ],
-            "note": "Owner’s synthesis of the cited entries’ direction into one step."
-          }
-        },
-        {
-          "order": 3,
-          "title": "Define zero trust with SP 800-207",
-          "layerId": "l2",
-          "entityIds": [
-            "sp800-207"
-          ],
-          "text": "Use National Institute of Standards and Technology (NIST) Special Publication (SP) 800-207 for what zero trust means, so the program is an architecture and not a product list.",
-          "verification": {
-            "status": "authored",
-            "verifiedOn": null,
-            "method": "synthesis",
-            "basisIds": [
-              "sp800-207"
-            ],
-            "note": "Owner’s synthesis of the cited entries’ direction into one step."
-          }
-        },
-        {
-          "order": 4,
-          "title": "Place yourself on the CISA maturity model",
-          "layerId": "l3",
-          "entityIds": [
-            "cisa-ztmm"
-          ],
-          "text": "Place yourself on the CISA maturity model’s four stages, pillar by pillar; the memo’s goals are the floor, and the next stage is the plan.",
-          "verification": {
-            "status": "authored",
-            "verifiedOn": null,
-            "method": "synthesis",
-            "basisIds": [
-              "cisa-ztmm"
-            ],
-            "note": "Owner’s synthesis of the cited entries’ direction into one step."
-          }
-        },
-        {
-          "order": 5,
-          "title": "Select controls from SP 800-53 through the RMF",
-          "layerId": "l4",
-          "entityIds": [
-            "sp800-53",
-            "rmf-ato"
-          ],
-          "text": "Select and tailor SP 800-53 controls through the Risk Management Framework (RMF), so the target maps to controls your assessors test and your authorizing official signs.",
-          "verification": {
-            "status": "authored",
-            "verifiedOn": null,
-            "method": "synthesis",
-            "basisIds": [
-              "sp800-53",
-              "rmf-ato"
-            ],
-            "note": "Owner’s synthesis of the cited entries’ direction into one step."
-          }
-        },
-        {
-          "order": 6,
-          "title": "Express the target as a CSF 2.0 Profile",
-          "layerId": "l1",
-          "entityIds": [
-            "csf20",
-            "eo13800"
-          ],
-          "text": "Express the target as a Cybersecurity Framework (CSF) 2.0 Profile, which EO 13800 already directs your agency to use, so leadership can fund it in outcome language.",
-          "verification": {
-            "status": "authored",
-            "verifiedOn": null,
-            "method": "synthesis",
-            "basisIds": [
-              "csf20",
-              "eo13800"
-            ],
-            "note": "Owner’s synthesis of the cited entries’ direction into one step."
-          }
-        },
-        {
-          "order": 7,
-          "title": "Assess, authorize and keep your plan current",
-          "layerId": "l5",
-          "entityIds": [
-            "rmf-ato",
-            "omb-m2209"
-          ],
-          "text": "Assess the controls against SP 800-53A, obtain and keep the authorization under the RMF, and keep current the zero trust implementation plan the memo had you file with OMB and CISA.",
-          "verification": {
-            "status": "authored",
-            "verifiedOn": null,
-            "method": "synthesis",
-            "basisIds": [
-              "rmf-ato",
-              "omb-m2209"
-            ],
-            "note": "Owner’s synthesis: the FISMA assessment and authorization steps come from SP 800-37 and SP 800-53A; the plan filed with OMB and CISA is the memo’s requirement."
-          }
-        }
-      ],
-      "verification": {
-        "status": "authored",
-        "verifiedOn": null,
-        "method": "synthesis",
-        "basisIds": [
-          "cisa-ztmm",
-          "csf20",
-          "eo13800",
-          "eo14028",
-          "omb-m2209",
-          "rmf-ato",
-          "sp800-207",
-          "sp800-53"
-        ],
-        "note": "Owner’s synthesis of who the trailhead is for, from the cited entries’ own applicability statements."
-      }
-    },
-    {
       "id": "dow",
       "title": "{{dow}} component",
       "shortTitle": "{{dow.current}} Component",
@@ -3886,10 +3750,172 @@
       }
     },
     {
+      "id": "federal-civilian",
+      "title": "Federal civilian agency",
+      "shortTitle": "Federal Civilian Agency",
+      "whoYouAre": "You run or build systems for a federal civilian agency, and you have been told to do zero trust.",
+      "cardLine": "M-22-09, CISA ZTMM",
+      "pillarView": "cisa",
+      "paragraph": null,
+      "steps": [
+        {
+          "order": 1,
+          "title": "Start with EO 14028",
+          "layerId": "l1",
+          "entityIds": [
+            "eo14028"
+          ],
+          "text": "Start with Executive Order (EO) 14028, section 3, which orders the move to zero trust architecture and sets the outcome for every civilian agency.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "eo14028"
+            ],
+            "note": "Owner’s synthesis of the cited entries’ direction into one step."
+          }
+        },
+        {
+          "order": 2,
+          "title": "Meet the M-22-09 goals",
+          "layerId": "l3",
+          "entityIds": [
+            "omb-m2209",
+            "cisa-ztmm"
+          ],
+          "text": "Read the Office of Management and Budget (OMB) memorandum M-22-09 for the specific goals every agency must meet, due by the end of fiscal year 2024 and still binding, organized by the five pillars of the maturity model from the Cybersecurity and Infrastructure Security Agency (CISA).",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "omb-m2209",
+              "cisa-ztmm"
+            ],
+            "note": "Owner’s synthesis of the cited entries’ direction into one step."
+          }
+        },
+        {
+          "order": 3,
+          "title": "Define zero trust with SP 800-207",
+          "layerId": "l2",
+          "entityIds": [
+            "sp800-207"
+          ],
+          "text": "Use National Institute of Standards and Technology (NIST) Special Publication (SP) 800-207 for what zero trust means, so the program is an architecture and not a product list.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "sp800-207"
+            ],
+            "note": "Owner’s synthesis of the cited entries’ direction into one step."
+          }
+        },
+        {
+          "order": 4,
+          "title": "Place yourself on the CISA maturity model",
+          "layerId": "l3",
+          "entityIds": [
+            "cisa-ztmm"
+          ],
+          "text": "Place yourself on the CISA maturity model’s four stages, pillar by pillar; the memo’s goals are the floor, and the next stage is the plan.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "cisa-ztmm"
+            ],
+            "note": "Owner’s synthesis of the cited entries’ direction into one step."
+          }
+        },
+        {
+          "order": 5,
+          "title": "Select controls from SP 800-53 through the RMF",
+          "layerId": "l4",
+          "entityIds": [
+            "sp800-53",
+            "rmf-ato"
+          ],
+          "text": "Select and tailor SP 800-53 controls through the Risk Management Framework (RMF), so the target maps to controls your assessors test and your authorizing official signs.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "sp800-53",
+              "rmf-ato"
+            ],
+            "note": "Owner’s synthesis of the cited entries’ direction into one step."
+          }
+        },
+        {
+          "order": 6,
+          "title": "Express the target as a CSF 2.0 Profile",
+          "layerId": "l1",
+          "entityIds": [
+            "csf20",
+            "eo13800"
+          ],
+          "text": "Express the target as a Cybersecurity Framework (CSF) 2.0 Profile, which EO 13800 already directs your agency to use, so leadership can fund it in outcome language.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "csf20",
+              "eo13800"
+            ],
+            "note": "Owner’s synthesis of the cited entries’ direction into one step."
+          }
+        },
+        {
+          "order": 7,
+          "title": "Assess, authorize and keep your plan current",
+          "layerId": "l5",
+          "entityIds": [
+            "rmf-ato",
+            "omb-m2209"
+          ],
+          "text": "Assess the controls against SP 800-53A, obtain and keep the authorization under the RMF, and keep current the zero trust implementation plan the memo had you file with OMB and CISA.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "rmf-ato",
+              "omb-m2209"
+            ],
+            "note": "Owner’s synthesis: the FISMA assessment and authorization steps come from SP 800-37 and SP 800-53A; the plan filed with OMB and CISA is the memo’s requirement."
+          }
+        }
+      ],
+      "verification": {
+        "status": "authored",
+        "verifiedOn": null,
+        "method": "synthesis",
+        "basisIds": [
+          "cisa-ztmm",
+          "csf20",
+          "eo13800",
+          "eo14028",
+          "omb-m2209",
+          "rmf-ato",
+          "sp800-207",
+          "sp800-53"
+        ],
+        "note": "Owner’s synthesis of who the trailhead is for, from the cited entries’ own applicability statements."
+      }
+    },
+    {
       "id": "defense-contractor",
       "title": "Defense contractor handling controlled unclassified information (CUI)",
       "shortTitle": "Defense Contractor with CUI",
-      "whoYouAre": "You are a contractor or subcontractor that handles controlled unclassified information for a {{dow}} customer. If you hold only federal contract information, the Federal Acquisition Regulation (FAR) basic safeguarding clause, 52.204-21 (52.240-93 in contracts written under the FAR overhaul deviations), sets your 15 requirements; if you hold controlled unclassified information for a civilian agency, that agency’s own contract clauses name the requirements; the Industry and Academia trailhead covers both cases.",
+      "whoYouAre": "You are a contractor or subcontractor that handles controlled unclassified information for a {{dow}} customer.",
+      "notYours": "If you hold only federal contract information, the Federal Acquisition Regulation (FAR) basic safeguarding clause, 52.204-21 (52.240-93 in contracts written under the FAR overhaul deviations), sets your 15 requirements; if you hold controlled unclassified information for a civilian agency, that agency’s own contract clauses name the requirements; the Industry and Academia trailhead covers both cases.",
       "cardLine": "SP 800-171, CMMC",
       "pillarView": null,
       "paragraph": null,
@@ -4020,7 +4046,7 @@
           "entityIds": [
             "csf20"
           ],
-          "text": "Use the Cybersecurity Framework (CSF) 2.0 from the National Institute of Standards and Technology (NIST) to say what good looks like. It is voluntary for you, and a Current Profile beside a Target Profile puts the gap in the outcome language leadership fund against.",
+          "text": "Use the Cybersecurity Framework (CSF) 2.0 from the National Institute of Standards and Technology (NIST) to say what good looks like. It is voluntary for you, and a Current Profile beside a Target Profile shows the gap as outcomes your council or legislature can budget for.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -4038,7 +4064,7 @@
           "entityIds": [
             "sp800-207"
           ],
-          "text": "Use NIST Special Publication (SP) 800-207 for what zero trust means, so the program is an architecture and not a product list. It was written for federal information systems, and nothing in it binds you.",
+          "text": "Use NIST Special Publication (SP) 800-207 for what zero trust means, so the program that protects election systems, water and transit controls and the rest of your networks is an architecture and not a product list. It was written for federal information systems, and nothing in it binds you.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -4056,7 +4082,7 @@
           "entityIds": [
             "cisa-ztmm"
           ],
-          "text": "Place yourself on the zero trust maturity model from the Cybersecurity and Infrastructure Security Agency (CISA), pillar by pillar across its four stages. It was written for federal civilian agencies, and CISA says all organizations should review and consider adopting it.",
+          "text": "Place yourself on the zero trust maturity model from the Cybersecurity and Infrastructure Security Agency (CISA), pillar by pillar across its four stages, the same yardstick a state chief information security officer can hold every agency and locality to. It was written for federal civilian agencies, and CISA says all organizations should review and consider adopting it.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -4074,7 +4100,7 @@
           "entityIds": [
             "sp800-53"
           ],
-          "text": "Select controls from SP 800-53, which anyone outside the federal government may use voluntarily, or from a smaller catalog such as the Center for Internet Security (CIS) Controls, so the target maps to controls someone can test.",
+          "text": "Select controls from SP 800-53, which anyone outside the federal government may use voluntarily, or from a smaller catalog such as the Center for Internet Security (CIS) Controls, so the target maps to controls an auditor can test, from city hall to the water plant.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -4092,7 +4118,7 @@
           "entityIds": [
             "sp1800-35"
           ],
-          "text": "Use the NIST practice guide SP 1800-35 to see how the SP 800-207 model becomes a working build, from example implementations mapped to common standards. It binds no one and adds no controls.",
+          "text": "Use the NIST practice guide SP 1800-35 to see how the SP 800-207 model becomes a working build, from example implementations mapped to common standards, before you commit a city or state network to one. It binds no one and adds no controls.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -4142,7 +4168,8 @@
       "id": "industry-academia",
       "title": "Industry and academia",
       "shortTitle": "Industry and Academia",
-      "whoYouAre": "You are a company, a university or another organization outside government, and nothing on this stack binds you by its own force; a government contract can, and the two cases below say how. If you hold controlled unclassified information under a {{dow}} contract, start at the contractor trailhead.",
+      "whoYouAre": "You are a company, a university or another organization outside government, and nothing on this stack binds you by its own force; a government contract can, and the two cases below say how.",
+      "notYours": "If you hold controlled unclassified information under a {{dow}} contract, start at the contractor trailhead.",
       "cardLine": "CSF 2.0, SP 800-171",
       "pillarView": "cisa",
       "paragraph": null,
@@ -4154,7 +4181,7 @@
           "entityIds": [
             "csf20"
           ],
-          "text": "Use the Cybersecurity Framework (CSF) 2.0 from the National Institute of Standards and Technology (NIST) to say what good looks like. It is voluntary for you, and a Current Profile beside a Target Profile puts the gap in the outcome language leadership and customers fund against.",
+          "text": "Use the Cybersecurity Framework (CSF) 2.0 from the National Institute of Standards and Technology (NIST) to say what good looks like. It is voluntary for you, and a Current Profile beside a Target Profile turns the gap into outcomes your leadership and your customers can decide to pay for.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -4172,7 +4199,7 @@
           "entityIds": [
             "sp800-207"
           ],
-          "text": "Use NIST Special Publication (SP) 800-207 for what zero trust means, so the program is an architecture and not a product list. It was written for federal information systems, and nothing in it binds you.",
+          "text": "Use NIST Special Publication (SP) 800-207 for what zero trust means, so the program that guards research data, student records or customer systems is an architecture and not a product list. It was written for federal information systems, and nothing in it binds you.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -4190,7 +4217,7 @@
           "entityIds": [
             "cisa-ztmm"
           ],
-          "text": "Place yourself on the zero trust maturity model from the Cybersecurity and Infrastructure Security Agency (CISA), pillar by pillar across its four stages. It was written for federal civilian agencies, and CISA says all organizations should review and consider adopting it.",
+          "text": "Place yourself on the zero trust maturity model from the Cybersecurity and Infrastructure Security Agency (CISA), pillar by pillar across its four stages, which gives a company or a campus one target to show customers and grant sponsors. It was written for federal civilian agencies, and CISA says all organizations should review and consider adopting it.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -4208,7 +4235,7 @@
           "entityIds": [
             "sp800-53"
           ],
-          "text": "Select controls from SP 800-53, which anyone outside the federal government may use voluntarily, or from a smaller catalog such as the Center for Internet Security (CIS) Controls, so the target maps to controls someone can test.",
+          "text": "Select controls from SP 800-53, which anyone outside the federal government may use voluntarily, or from a smaller catalog such as the Center for Internet Security (CIS) Controls, so the target maps to controls someone can test, whether a customer’s auditor or a research sponsor asks.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -4247,7 +4274,7 @@
           "entityIds": [
             "sp1800-35"
           ],
-          "text": "Use the NIST practice guide SP 1800-35 to see how the SP 800-207 model becomes a working build, from example implementations mapped to common standards. It binds no one and adds no controls.",
+          "text": "Use the NIST practice guide SP 1800-35 to see how the SP 800-207 model becomes a working build, from example implementations mapped to common standards, before you roll it out across a campus or a company network. It binds no one and adds no controls.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -4577,7 +4604,7 @@
         "AI"
       ],
       "wellKnown": true,
-      "expansion": "artificial intelligence",
+      "expansion": "Artificial Intelligence",
       "oneLine": "In the AI Risk Management Framework from NIST, an AI system is an engineered or machine-based system that can, for a given set of objectives, generate outputs such as predictions, recommendations or decisions.",
       "entityIds": [
         "ai-rmf"
@@ -4745,7 +4772,7 @@
       "forms": [
         "ATO"
       ],
-      "expansion": "authorization to operate",
+      "expansion": "Authorization to Operate",
       "oneLine": "A senior official’s decision to let an information system operate and to accept the risk that remains.",
       "entityIds": [
         "rmf-ato"
@@ -4779,7 +4806,7 @@
       "forms": [
         "IT"
       ],
-      "expansion": "information technology",
+      "expansion": "Information Technology",
       "oneLine": "Equipment and systems used to acquire, store, process and move data or information.",
       "entityIds": [],
       "verification": {
@@ -4794,7 +4821,7 @@
       "forms": [
         "OT"
       ],
-      "expansion": "operational technology",
+      "expansion": "Operational Technology",
       "oneLine": "Programmable systems and devices that interact with the physical environment, such as industrial control and building automation systems.",
       "entityIds": [
         "dod-zt-ot"
@@ -4812,7 +4839,7 @@
       "forms": [
         "ZT"
       ],
-      "expansion": "zero trust",
+      "expansion": "Zero Trust",
       "oneLine": "A security model in which nothing is trusted because of where it connects from, and every request is checked against policy.",
       "entityIds": [
         "sp800-207",
@@ -4830,7 +4857,7 @@
       "forms": [
         "ZTA"
       ],
-      "expansion": "zero trust architecture",
+      "expansion": "Zero Trust Architecture",
       "oneLine": "A plan that uses zero trust principles to lay out an organization’s industrial and enterprise infrastructure and workflows.",
       "entityIds": [
         "sp800-207"
@@ -4933,7 +4960,7 @@
         "COA",
         "COAs"
       ],
-      "expansion": "course of action",
+      "expansion": "Course of Action",
       "oneLine": "One of the three routes the department’s zero trust roadmap offers: uplifting legacy systems, commercial cloud, or purpose-built on-premise cloud.",
       "entityIds": [
         "dod-zt-roadmap"
@@ -4985,7 +5012,7 @@
         "STIG",
         "STIGs"
       ],
-      "expansion": "security technical implementation guide",
+      "expansion": "Security Technical Implementation Guide",
       "oneLine": "An implementation guide for securing a specific product and version, based on department policy and security controls.",
       "entityIds": [
         "sp800-53"
@@ -5003,7 +5030,7 @@
         "SRG",
         "SRGs"
       ],
-      "expansion": "security requirements guide",
+      "expansion": "Security Requirements Guide",
       "oneLine": "A compilation of security requirements grouped by technology area and product specificity.",
       "entityIds": [
         "sp800-53"
@@ -5104,7 +5131,7 @@
       "forms": [
         "FCI"
       ],
-      "expansion": "Federal contract information",
+      "expansion": "Federal Contract Information",
       "oneLine": "Information not intended for public release that is provided by or generated for the government under a contract.",
       "entityIds": [
         "cmmc20"
@@ -5308,7 +5335,7 @@
       "forms": [
         "NAVADMIN"
       ],
-      "expansion": "Navy specific administrative message",
+      "expansion": "Navy Specific Administrative Message",
       "oneLine": "An administrative message specific to the Navy, as the Navy glosses the term; one sets out who leads migration onto Flank Speed.",
       "entityIds": [
         "flank-speed"
@@ -5378,7 +5405,7 @@
       "forms": [
         "DTM"
       ],
-      "expansion": "directive-type memorandum",
+      "expansion": "Directive-Type Memorandum",
       "oneLine": "A department issuance that establishes or implements policy, assigns responsibilities and may provide procedures.",
       "entityIds": [
         "dod-zt-strategy"
@@ -5491,7 +5518,7 @@
         "FY"
       ],
       "prefix": true,
-      "expansion": "fiscal year",
+      "expansion": "Fiscal Year",
       "oneLine": "The federal budget year, which begins on 1 October and ends on 30 September of the following year, as in FY2027.",
       "entityIds": [],
       "verification": {
@@ -5845,7 +5872,7 @@
       "forms": [
         "SOC"
       ],
-      "expansion": "security operations center",
+      "expansion": "Security Operations Center",
       "oneLine": "The unit that runs an organization’s security operations; the AI column’s worked example is a Profile for an AI-enabled one.",
       "entityIds": [],
       "verification": {
@@ -5861,7 +5888,7 @@
       "forms": [
         "SOAR"
       ],
-      "expansion": "Security Orchestration, Automation & Response",
+      "expansion": "Security Orchestration, Automation and Response",
       "oneLine": "Tools that ingest alert data and trigger automated response and remediation to speed up security operations and incident response.",
       "entityIds": [
         "dod-zt-roadmap"
@@ -5948,7 +5975,7 @@
       "forms": [
         "SDN"
       ],
-      "expansion": "Software Defined Networking",
+      "expansion": "Software-Defined Networking",
       "oneLine": "Programmable network infrastructure that separates the control and data planes so the network can be centrally managed.",
       "entityIds": [
         "dod-zt-roadmap"
@@ -5965,7 +5992,7 @@
       "forms": [
         "EDR"
       ],
-      "expansion": "Endpoint Detection & Response",
+      "expansion": "Endpoint Detection and Response",
       "oneLine": "Tools that monitor, detect and remediate malicious activity on endpoints.",
       "entityIds": [
         "dod-zt-roadmap"
@@ -5982,7 +6009,7 @@
       "forms": [
         "XDR"
       ],
-      "expansion": "Extended Detection & Response",
+      "expansion": "Extended Detection and Response",
       "oneLine": "Detection and response tooling that extends beyond endpoints to activity such as cloud and network.",
       "entityIds": [
         "dod-zt-roadmap"
@@ -6244,7 +6271,7 @@
       "ai": "The AI column",
       "helper": "Questions: which framework, when",
       "sources": "Sources",
-      "about": "About",
+      "about": "About Maps",
       "glossary": "Glossary"
     },
     "nav": {
@@ -6255,7 +6282,7 @@
       "ai": "AI",
       "helper": "Questions",
       "sources": "Sources",
-      "about": "About",
+      "about": "About Maps",
       "glossary": "Glossary"
     },
     "labels": {
@@ -6285,8 +6312,8 @@
       "attribution": "attribution required on reuse",
       "function": "Function",
       "crossCutting": "cross-cutting",
-      "pillarViewDow": "{{dow}} model: 7 pillars",
-      "pillarViewCisa": "CISA model: 5 pillars plus 3 cross-cutting",
+      "pillarViewDow": "{{dow}} Model: 7 Pillars",
+      "pillarViewCisa": "CISA Model: 5 Pillars Plus 3 Cross-Cutting",
       "theme": "Theme",
       "themeLight": "Light",
       "themeDark": "Dark",
@@ -6302,11 +6329,11 @@
       "sourcesIntro": "Every framework and source on the stack, with its title as printed, publisher, edition, date, a link to the primary, and the verification status with its date. Provenance is a feature.",
       "skip": "Skip to content",
       "sectionsNav": "Sections",
-      "backToTop": "Back to top",
+      "backToTop": "Back to Top",
       "audience": "For anyone handed a framework, a maturity model, or a zero trust deadline and asked where it fits: federal civilian agencies, {{dow}} components, defense contractors, and the state and local governments, companies and universities that borrow the United States federal models. Start at the trailhead that describes you.",
       "pillarView": "Pillar view",
-      "expandAll": "Expand all",
-      "collapseAll": "Collapse all",
+      "expandAll": "Expand All",
+      "collapseAll": "Collapse All",
       "previousColumn": "Previous column",
       "nextColumn": "Next column",
       "matrixIntro": "Rows are the six functions of the NIST Cybersecurity Framework (CSF) 2.0; columns are the zero trust pillars, the areas of an enterprise that zero trust covers, such as users, devices and data. Each cell says what that function looks like in that pillar. Codes such as GV.PO are CSF 2.0 categories, spelled out in the function cards; the numbers in the {{dow}} model are its capability numbers, pillar first.",
@@ -6346,8 +6373,8 @@
       "pagesEffective": "Effective",
       "pagesNextRecheck": "Next dated recheck",
       "pagesNoRecheck": "none scheduled",
-      "heroPrimary": "Find your trailhead",
-      "heroSecondary": "See the stack",
+      "heroPrimary": "Find Your Trailhead",
+      "heroSecondary": "See the Stack",
       "doorMetaSteps": "{n} steps",
       "doorMetaStep": "1 step",
       "doorMetaLayers": "layers {list}",
@@ -6362,7 +6389,12 @@
       "sourceCode": "Source code",
       "releasedOn": "released",
       "glossaryCrossLink": "The playbook section keeps its own glossary of AI security terms, in its AI Fluency tab.",
-      "opensInReader": "Opens in Safari, inside the app."
+      "opensInReader": "Opens in Safari, inside the app.",
+      "pdfLink": "PDF",
+      "notYours": "Not your trailhead if",
+      "glossTrailhead": "your starting point for where you work",
+      "glossStack": "the frameworks sorted by the question each answers",
+      "contentChecked": "Content checked"
     },
     "binds": {
       "federal-civilian": "Federal civilian agencies",
@@ -6393,17 +6425,32 @@
       "framework": "Framework",
       "quick-start-guide": "Quick-start guide",
       "governance": "Governance"
+    },
+    "search": {
+      "starters": [
+        "zero trust",
+        "CMMC",
+        "800-53",
+        "800-207",
+        "CISA ZTMM",
+        "AI agents",
+        "overlays",
+        "deadline",
+        "Target Level",
+        "RMF"
+      ]
     }
   },
   "pages": {
     "privacy": {
       "title": "Lensatic privacy policy",
+      "tabTitle": "Lensatic · Privacy Policy",
       "description": "How Lensatic handles data: Framework Maps runs on your device and makes no network requests, and no page has an account or collects anything.",
       "paragraphs": [
         "Framework Maps runs entirely on your device. The iOS app and the web page carry all of their content with them. Once open, the web page needs no connection, and a saved copy works offline.",
         "Framework Maps makes no network requests. Once the web page is open it loads no scripts, fonts, images or data from anywhere, and the iOS app itself does not connect to the internet: a link you open in it loads in Safari’s viewer, as the paragraph on outside links says.",
         "There is no account and nothing to sign in to.",
-        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web pages keep is your theme choice (system, light or dark), saved in your browser’s local storage under the one key lensatic-theme, on your device and never sent anywhere. The iOS app keeps, on your device only, the trailhead you picked, the steps you checked off, the items you saved, the guide weeks you marked done, and the day you last viewed What Changed with the content release it then showed. They sit in one file in a space on the device that only the app and its own home screen widget can open (an App Group), and the file is never sent anywhere. The widget reads it to show your next step and your next deadline; if you ask Siri or Shortcuts for your next step, the app answers from the same file, and Siri’s own handling of your request is under Apple’s privacy policy. The app lists its frameworks, plays and your trailhead’s steps in your device’s own search (Spotlight), which also stays on the device, and it follows your device’s light or dark setting. A share card you make goes only where you send it from the share sheet.",
+        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web pages keep is your theme choice (system, light or dark), saved in your browser’s local storage under the one key lensatic-theme, on your device and never sent anywhere. The iOS app keeps, on your device only, the trailhead you picked, the steps you checked off, the items you saved, the guide weeks you marked done, the plays you opened, your last five searches, and the day you last viewed What Changed with the content release it then showed. They sit in one file in a space on the device that only the app and its own home screen widget can open (an App Group), and the file is never sent anywhere. The widget reads it to show your next step and your next deadline; if you ask Siri or Shortcuts for your next step, the app answers from the same file, and Siri’s own handling of your request is under Apple’s privacy policy. The app lists its frameworks, plays and your trailhead’s steps in your device’s own search (Spotlight), which also stays on the device, and it follows your device’s light or dark setting. A share card you make goes only where you send it from the share sheet.",
         "Lensatic holds nothing about you. Deleting the iOS app removes your trailhead, checked steps, saved items, marked weeks and the day you last viewed What Changed, its widget, and its entries in your device’s search; clearing this site’s data in your browser removes the saved theme choice.",
         "There are no third-party software development kits (SDKs), no analytics and no advertising.",
         "In the web page and the iOS app, the only outside links go to the public documents cited in Sources, in the guide and in the playbook, and to the source repository on GitHub; both also link to this policy and the support page. The web page opens them in your browser. The iOS app opens them in Safari’s viewer inside the app (SFSafariViewController): Safari loads the page, and the app cannot see the page or what you do on it. Either way the sites open under their own privacy policies. This page and the support page also link to GitHub.",
@@ -6416,13 +6463,14 @@
     },
     "support": {
       "title": "Lensatic support",
+      "tabTitle": "Lensatic · Support",
       "description": "How to report a content error in any Lensatic section, how Framework Maps content is re-verified, and its current content version.",
       "paragraphs": [
-        "Lensatic holds three sections: Framework Maps, a guide to the United States public sector cybersecurity frameworks; Field Guides, with the Zero Trust study guide; and the playbook section, Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI. Framework Maps sorts the frameworks by the question each one answers, says who each one binds, and shows where zero trust and AI land.",
+        "Lensatic holds three sections: Framework Maps, a guide to the United States public sector cybersecurity frameworks; Field Guides, with the Zero Trust study guide; and the playbook section, with Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI. Framework Maps sorts the frameworks by the question each one answers, says who each one binds, and shows where zero trust and AI land.",
         "To report a content error in any section, open an issue at https://github.com/KensDen/lensatic/issues. Name the framework, page or entry, say what is wrong, and cite the primary source: the publisher’s own page or document that shows the correct fact. Opening an issue needs a GitHub account, and issues are public.",
         "To ask about reusing Lensatic’s code or text, open an issue on the same page.",
         "Reuse of Agentic SecOps follows its own notice, playbook/LICENSE.",
-        "The iOS app is built from the same content as Framework Maps. Questions and problems with the app go to the same issues page.",
+        "The iOS app carries all three sections, from the same sources as the website: Framework Maps, the Zero Trust guide and the Agentic SecOps playbook. Questions and problems with the app go to the same issues page.",
         "In Framework Maps, every verified framework, source and solution shows the date its publisher’s page was last read, and every other one shows its status instead. A glossary entry shows a status only where its spelling could not be confirmed. An entry with a recheck date is read again when that date comes up, and no content release goes out while a recheck is overdue. The Zero Trust guide records its sources and checks in guides/zero-trust/VERIFICATION.md in the source repository. The next dated recheck, if one is scheduled, is shown below."
       ]
     }

@@ -53,6 +53,9 @@ final class Library: Sendable {
 
     func play(_ id: String) -> Plays.Play? { plays.plays.first { $0.id == id } }
 
+    /// The playbook's actions: the cards of its Action Plan, which gathers every play's actions (87 in v5.4).
+    var actionCount: Int { play("actionplan")?.blocks.reduce(0) { $0 + $1.cards.count } ?? 0 }
+
     func group(of id: String) -> Plays.Group? { plays.groups.first { $0.playIds.contains(id) } }
 
     func plays(in group: Plays.Group) -> [Plays.Play] { group.playIds.compactMap(play) }
@@ -236,11 +239,16 @@ struct SiteNames: Decodable, Sendable {
         let key: String
         let name: String
         let line: String
+        /// The section's purpose, said on the screen its Library card opens (content release 1.0.1, 4.5); a count in it is
+        /// a placeholder ({actions}), filled from the files, never typed.
+        let intro: String?
     }
 
     struct GuideInfo: Decodable, Sendable {
         let key: String
         let name: String
+        /// The guide's title wherever it stands alone (6.20: Zero Trust Study Route).
+        let title: String
         let line: String
     }
 
@@ -262,9 +270,12 @@ struct SiteNames: Decodable, Sendable {
     /// The playbook's own title (Agentic SecOps).
     var playsTitle: String { cards["playbook"]?.title ?? "" }
     var guideName: String { guides.first?.name ?? "" }
-    /// The guide's title on its card: its name and its shape (Zero Trust in Eight Weeks).
-    var guideTitle: String {
-        let shape = labels["guideShape"].map { " in " + $0.lowercased() } ?? ""
-        return TitleCase.apply(guideName + shape)
+    /// The guide's title wherever it stands alone, on its card and its screen (6.20, Ken's ruling of 7 November 2026: a name
+    /// that reads as study, Zero Trust Study Route; the eight weeks stay in the progress line and the prose).
+    var guideTitle: String { guides.first?.title ?? guideName }
+
+    /// A section's intro with its counts filled in: {actions}, the playbook's actions, counted from its Action Plan.
+    func intro(_ key: String, actions: Int) -> String? {
+        section(key)?.intro?.replacingOccurrences(of: "{actions}", with: String(actions))
     }
 }

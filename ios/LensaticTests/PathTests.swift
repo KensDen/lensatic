@@ -146,7 +146,7 @@ final class PathTests: XCTestCase {
 
     func testTheTrailheadNamesAreInTitleCase() throws {
         XCTAssertEqual(store.content.doors.map(\.shortTitle),
-                       ["Federal Civilian Agency", "Department of War Component", "Defense Contractor with CUI",
+                       ["Department of War Component", "Federal Civilian Agency", "Defense Contractor with CUI",
                         "State and Local Government", "Industry and Academia"])
         for d in store.content.doors {
             XCTAssertEqual(TitleCase.apply(d.shortTitle), d.shortTitle, d.id.rawValue)
@@ -229,6 +229,7 @@ final class PathTests: XCTestCase {
         XCTAssertNil(state.door.flatMap(Door.ID.init(rawValue:)))
     }
 
+    /// Since content release 1.0.1 the file also keeps the plays opened and the last searches (the privacy page says so).
     func testTheProgressFileIsTheTrailheadTheChecksTheSavedItemsAndTheWeeksOnly() throws {
         let (p, url) = tempStore()
         p.choose(.dow)
@@ -236,7 +237,9 @@ final class PathTests: XCTestCase {
         p.toggleSaved(.entity("sp800-207"))
         p.toggleWeek("core", 1)
         let json = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
-        XCTAssertEqual(Set(json.keys), ["door", "checked", "saved", "weeks"])
+        XCTAssertEqual(Set(json.keys), ["door", "checked", "saved", "weeks", "playsRead", "recent"])
+        XCTAssertEqual(json["playsRead"] as? [String], [])
+        XCTAssertEqual(json["recent"] as? [String], [])
         XCTAssertEqual(json["door"] as? String, "dow")
         XCTAssertEqual(json["checked"] as? [String: [Int]], ["dow": [3]])
         XCTAssertEqual(json["saved"] as? [String], ["entity:sp800-207"])
@@ -270,7 +273,10 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(strategy.readLabel, "Read the Strategy")
         XCTAssertEqual(strategy.eyebrow, "Layer 3 · Target state and maturity")
         XCTAssertEqual(strategy.verifiedLine, "Verified against the source · " + unbroken("9 Sep 2026"))
-        XCTAssertTrue(strategy.isPDF)
+        // web pages first (content 1.3.0): the strategy's link is the CIO library's page, its PDF kept beside it
+        XCTAssertFalse(strategy.isPDF)
+        XCTAssertEqual(strategy.entity.pdf, "https://dowcio.war.gov/Portals/0/Documents/Library/DoD-ZTStrategy.pdf")
+        XCTAssertTrue(EntityFacts(try XCTUnwrap(store.entities["flank-speed"]), store: store).isPDF, "a PDF without .pdf in its address")
         XCTAssertEqual(strategy.answers?.text, store.entities["dod-zt-strategy"]?.answersQuestion)
         // a deadline with no date the source prints, and none at all
         XCTAssertEqual(EntityFacts(try XCTUnwrap(store.entities["eo14028"]), store: store).due, "Not Dated")

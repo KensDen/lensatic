@@ -56,6 +56,16 @@ struct MyPathView: View {
                             .id("step-row-\(step.order)")
                         }
                     }
+                    // who should start at another trailhead (content release 1.0.1, 6.8): after the steps, as on the website
+                    if let elsewhere = door.notYours {
+                        VStack(alignment: .leading, spacing: 8) {
+                            SectionLabel(text: model.store.label("notYours"))
+                            Text(keepWhole(elsewhere)).font(DS.step).foregroundStyle(Palette.fg2).lineSpacing(2)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(14).frame(maxWidth: .infinity, alignment: .leading).card(radius: 12)
+                                .accessibilityIdentifier("not-yours")
+                        }
+                    }
                     // Industry and Academia's two contract cases (R5), under the steps
                     if let landings = door.landings, !landings.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {

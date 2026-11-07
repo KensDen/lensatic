@@ -24,6 +24,7 @@ struct SearchView: View {
                             if model.query.contains("\n") {
                                 model.query = model.query.replacingOccurrences(of: "\n", with: "")
                                 focused = false
+                                model.progress.remember(search: model.query)
                             }
                         }
                         .font(DS.searchField)
@@ -48,7 +49,7 @@ struct SearchView: View {
                 .card(radius: 12, stroke: Palette.lineStrong)
                 .onTapGesture { focused = true }
                 if model.query.trimmingCharacters(in: .whitespaces).isEmpty {
-                    Text(hint).font(DS.note).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                    emptyState
                 } else if groups.isEmpty {
                     Text("Nothing matches \u{201C}\(model.query)\u{201D}.").font(DS.note).foregroundStyle(Palette.fg2)
                         .accessibilityIdentifier("search-empty")
@@ -58,7 +59,9 @@ struct SearchView: View {
                             CountedLabel(text: title(group.kind), count: group.results.count)
                             ForEach(group.results) { item in
                                 let line = SearchIndex.excerpt(item, query: model.query).map { "\(item.subtitle)\(model.store.label("metaSeparator"))\($0)" }
-                                Button { focused = false; model.open(item.opens) } label: { ResultRow(title: item.title, line: line ?? item.subtitle) }
+                                Button { focused = false; model.progress.remember(search: model.query); model.open(item.opens) } label: {
+                                    ResultRow(title: item.title, line: line ?? item.subtitle)
+                                }
                                     .buttonStyle(.plain)
                                     .accessibilityIdentifier("result-\(item.id)")
                             }
@@ -77,6 +80,77 @@ struct SearchView: View {
         .hardTopEdge()
         .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("search")
+    }
+
+    /// Before a query (content release 1.0.1, Ken's finding of 7 November 2026: a near-empty screen): queries to start with,
+    /// drawn from the content; the next step on the reader's path; their last searches; and, at the foot, what the field
+    /// searches.
+    @ViewBuilder private var emptyState: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            SectionLabel(text: "Start with")
+            FlowLayout(spacing: 8) {
+                ForEach(model.store.content.ui.search.starters, id: \.self) { q in
+                    Button { run(q) } label: { Pill(text: q) }
+                        .buttonStyle(.plain)
+                        .accessibilityHint("Searches for \(q)")
+                        .accessibilityIdentifier("starter-\(q)")
+                }
+            }
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("search-starters")
+        if let door = model.door {
+            let plan = model.plan(door)
+            if let next = plan.next(model.progress.checked(door.id)), let first = next.entityIds.first {
+                VStack(alignment: .leading, spacing: 8) {
+                    SectionLabel(text: "On your path")
+                    Button { focused = false; model.push(.entity(first)) } label: {
+                        ResultRow(title: "Step \(next.order): \(next.title)", line: model.store.entities[first]?.displayName ?? "")
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityHint("Opens the step's source")
+                    .accessibilityIdentifier("search-next-step")
+                }
+            }
+        }
+        let recent = model.progress.state.recent
+        if !recent.isEmpty {
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    SectionLabel(text: "Recent")
+                    Spacer()
+                    Button { model.progress.clearRecent() } label: {
+                        Text("Clear").font(DS.link).foregroundStyle(Palette.link).frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Clear recent searches")
+                    .accessibilityIdentifier("recent-clear")
+                }
+                ForEach(recent, id: \.self) { q in
+                    Button { run(q) } label: {
+                        HStack(spacing: 10) {
+                            Icon(.search, size: 16, color: Palette.fg2)
+                            Text(q).font(DS.step).foregroundStyle(Palette.fg).frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        .frame(minHeight: 44).contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("recent-\(q)")
+                }
+            }
+            .accessibilityElement(children: .contain)
+            .accessibilityIdentifier("search-recent")
+        }
+        Text(hint).font(DS.caption).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+            .padding(.top, 8)
+            .accessibilityIdentifier("search-hint")
+    }
+
+    /// Run a query from a chip or the Recent list: it fills the field and is kept as a recent search.
+    private func run(_ q: String) {
+        focused = false
+        model.query = q
+        model.progress.remember(search: q)
     }
 
     /// What the field searches, counted from the content.

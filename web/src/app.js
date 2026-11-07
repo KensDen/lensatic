@@ -144,6 +144,8 @@
       var id = decodeURIComponent((location.hash || '').slice(1));
       if (!id) return;
       var node = document.getElementById(id);
+      /* a step's link opens its own disclosure too (content release 1.0.1), as well as the trailhead around it */
+      if (node && node.tagName === 'LI') { var inner = node.querySelector(':scope > details'); if (inner) inner.open = true; }
       while (node) {
         if (node.tagName === 'DETAILS') node.open = true;
         if (node.classList && node.classList.contains('matrix-view') && node.hidden) setView(node.getAttribute('data-view'));
