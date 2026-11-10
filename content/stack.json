@@ -1237,8 +1237,8 @@
         "note": "CSRC record fetched: initial public draft published 19 August 2026, comments due 15 October 2026, part of the CSF 2.0 quick-start guide series. Rechecked 17 September 2026: still the initial public draft, comments due 15 October 2026, no second draft or final. Rechecked 30 September 2026: still the initial public draft of 19 August 2026, comments due 15 October 2026, with one history entry. Rechecked 18 October 2026: still the initial public draft of 19 August 2026, the public comment period closed on 15 October 2026, one history entry, no second draft or final. Rechecked 10 November 2026: still the initial public draft of 19 August 2026, the public comment period closed on 15 October 2026, one history entry, no second draft or final.",
         "recheckAfter": "2027-02-01"
       },
-      "note": "Placed in the AI column as a quick-start guide rather than a framework. Its comment period closed on 15 October 2026, and it was still the initial public draft on 18 October 2026.",
-      "shortNote": "A quick-start guide, not a framework. Its comment period closed on 15 Oct 2026, and it was still the initial public draft on 18 October.",
+      "note": "Placed in the AI column as a quick-start guide rather than a framework. Its comment period closed on 15 October 2026, and it was still the initial public draft on 10 November 2026.",
+      "shortNote": "A quick-start guide, not a framework. Its comment period closed on 15 Oct 2026, and it was still the initial public draft on 10 November.",
       "authority": {
         "nature": "guidance",
         "binds": [
