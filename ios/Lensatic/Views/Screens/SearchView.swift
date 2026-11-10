@@ -4,6 +4,7 @@ import SwiftUI
 /// the guide's chapters, the plays and the glossary, with the results grouped by kind. A result opens what it names.
 struct SearchView: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.dynamicTypeSize) private var typeSize
     @FocusState private var focused: Bool
 
     var body: some View {
@@ -34,6 +35,9 @@ struct SearchView: View {
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
                         .accessibilityIdentifier("search-field")
+                        // a growing field keeps the height it had at a larger text size when the size comes back down
+                        // (an empty field two lines tall, the prompt on the first); a new field per text size measures afresh
+                        .id(typeSize)
                     if !model.query.isEmpty {
                         Button { model.query = "" } label: {
                             Icon(.close, size: 16, color: Palette.fg2).frame(width: 44, height: 44).contentShape(Rectangle())

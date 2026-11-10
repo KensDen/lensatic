@@ -426,7 +426,12 @@ final class LensaticUITests: XCTestCase {
         var swipes = 0
         while !governance.exists, swipes < 6 { scroller("explore").swipeUp(velocity: .slow); swipes += 1 }
         XCTAssertTrue(governance.waitForExistence(timeout: 5), "CISA's governance capability shows")
-        try auditScreen("explore")
+        // contrast first, on its own, with the list where the swipes left it: the audit's text size check resizes the
+        // rows and the list does not come back to the same place (in the 10 November 2026 recording it sat 342 points
+        // away), and a contrast read after that was reported on rows whose colours measure 7.5:1. Every row in view is
+        // still read for contrast, and nothing is exempt; the other checks follow
+        try auditScreen("explore", types: .contrast)
+        try auditScreen("explore", types: XCUIAccessibilityAuditType.all.subtracting(.contrast))
         // back up to the control, which the list let go while it scrolled
         swipes = 0
         while !segment("pillar-view-dow", "DoW Model").exists, swipes < 8 { scroller("explore").swipeDown(velocity: .fast); swipes += 1 }
