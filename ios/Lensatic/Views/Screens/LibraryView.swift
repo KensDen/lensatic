@@ -62,6 +62,9 @@ struct LibraryView: View {
                 }
                 .accessibilityElement(children: .contain)
                 .accessibilityIdentifier("library-saved")
+                #if DEBUG
+                .id("library-saved")
+                #endif
                 SwiftUI.Section {
                     ReferenceRow(icon: RowIcon.glossary, title: model.store.navTitle(.glossary), detail: "\(model.store.terms.count) terms",
                                  nav: .glossary, id: "library-glossary")
@@ -90,6 +93,9 @@ struct LibraryView: View {
         .hardTopEdge()
         .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("library")
+        #if DEBUG
+        .debugScrollTo()
+        #endif
     }
 
     /// Saved items grouped by type, in the order frameworks, steps, plays, each group keeping its newest-first order.
@@ -611,3 +617,21 @@ struct OutsideLink: View {
         .accessibilityHint("Opens \(host) in Safari, inside the app")
     }
 }
+
+#if DEBUG
+extension View {
+    /// Scrolls the list inside to the view -LensaticScrollTo names, as DetailScreen does (the empty-state captures: the
+    /// Library's Saved section, which sits below the fold at the largest text sizes).
+    func debugScrollTo() -> some View {
+        ScrollViewReader { proxy in
+            self.task {
+                if let target = AppModel.debugScrollTo {
+                    try? await Task.sleep(for: .milliseconds(600))
+                    // centred, so the section's header stays clear of the status bar
+                    proxy.scrollTo(target, anchor: .center)
+                }
+            }
+        }
+    }
+}
+#endif

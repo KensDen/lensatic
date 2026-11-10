@@ -6,6 +6,13 @@
 # -LensaticTab, -LensaticExplore, -LensaticNav, -LensaticSources, -LensaticQuery, -LensaticChangesViewed) into
 # .tmp/DerivedData, incrementally.
 #
+# The empty states (v1.1 groundwork, 9 November 2026): every run also shoots the states the screens above never reach,
+# in the same four variants, on the largest iPhone and on the 390 x 844 iPhone 17e: Search before any query on a fresh
+# install and with recent searches, the Library with Saved empty and with two items, My Path on each of the five
+# trailheads with no step checked, My Path with every step checked, and Welcome on a fresh install. A fresh install is a
+# real one: the app is removed and installed again before the shot. Files are <device>_state-<state>_<appearance>_<size>.png.
+# With --states, a run shoots the empty states only.
+#
 # With --store (session 9, section 5): the App Store screenshots, plain screens with no overlay, frame or caption, on
 # the 6.3-inch iPhone App Store Connect requires (24 October 2026: the newest "iPhone NN Pro" from the 16 on, else the
 # newest plain iPhone from the 17 on) and the largest iPad. On each device, one at a time: the status bar set to 9:41,
@@ -18,17 +25,26 @@
 # SHA-256, and the SHA-256 of its pixels below the status bar (tools/check_listing.py holds no two alike, so a screen
 # taken twice fails). The images stay out of the repository.
 # Usage: tools/ios_shots.sh [output folder]           (default handoffs/session8-work/shots)
+#        tools/ios_shots.sh --states [output folder]  (the empty states only; default handoffs/session8-work/shots)
 #        tools/ios_shots.sh --store [output folder]   (default handoffs/session9-work/store-shots)
 set -euo pipefail
 cd "$(dirname "$0")/.."
 STORE=0
+STATES_ONLY=0
 if [ "${1:-}" = "--store" ]; then STORE=1; shift; fi
+if [ "${1:-}" = "--states" ]; then STATES_ONLY=1; shift; fi
 if [ "$STORE" = 1 ]; then OUT="${1:-handoffs/session9-work/store-shots}"; else OUT="${1:-handoffs/session8-work/shots}"; fi
 DERIVED=.tmp/DerivedData
 APP="$DERIVED/Build/Products/Debug-iphonesimulator/Lensatic.app"
 BUNDLE=io.github.kensden.lensatic
+GROUP=group.io.github.kensden.lensatic
 SCREENS="start path changes stack matrix functions layer ai card sources search library guide chapter plays play glossary sources-list about"
 STORE_SCREENS="start path stack card sources search library play"
+# the empty states: one My Path per trailhead (path-<door>), in the content's order, then the rest
+DOORS="$(python3 -c 'import json; print(" ".join(d["id"] for d in json.load(open("content/stack.json"))["doors"]))')"
+STATES="welcome-fresh search-fresh search-recent library-saved-empty library-saved-two $(for d in $DOORS; do printf 'path-%s ' "$d"; done)path-all-done"
+# the 390 x 844 iPhone the empty states are also shot on
+SMALL_IPHONE="iPhone 17e"
 OPAQUE=.tmp/png_opaque
 mkdir -p "$OUT" .tmp
 export TMPDIR="$(pwd)/.tmp/"
@@ -53,6 +69,12 @@ prefix = "iPad" if kind == "ipad" else "iPhone"
 rts = sorted((r for r in devs if ".iOS-" in r and any(d["name"].startswith(prefix) for d in devs[r])),
              key=lambda r: [int(x) for x in re.findall(r"\d+", r.split("iOS-")[1])])
 cands = [d for d in devs[rts[-1]] if d["name"].startswith(prefix)]
+if kind == "small":
+    best = next((d for d in cands if d["name"] == sys.argv[2]), None)
+    if not best:
+        sys.exit(f"no {sys.argv[2]} simulator on the newest runtime")
+    print(best["udid"], best["name"])
+    sys.exit(0)
 if kind == "iphone63":
     def gen63(n):
         m = re.fullmatch(r"iPhone (\d+)( Pro)?", n)
@@ -73,7 +95,7 @@ def key(d):
     return (inches, chip)
 best = max(cands, key=key)
 print(best["udid"], best["name"])
-' "$1"
+' "$1" "${2:-}"
 }
 
 # open one screen: the app starts fresh on it, the department's trailhead picked with two steps done and What Changed
@@ -106,6 +128,41 @@ open_screen() {
   esac
 }
 
+# open one empty state, as open_screen does a screen; a fresh state removes the app and installs it again first
+open_state() {
+  local udid="$1" state="$2"
+  local base=(-LensaticResetProgress -LensaticChangesViewed "$RELEASE")
+  xcrun simctl terminate "$udid" "$BUNDLE" >/dev/null 2>&1 || true
+  case "$state" in
+    welcome-fresh|search-fresh)
+      # the progress lives in the app group's container, which the simulator keeps through an uninstall; a device
+      # removes it with the group's last app, so the fresh install empties it first
+      local group
+      group="$(xcrun simctl get_app_container "$udid" "$BUNDLE" "$GROUP" 2>/dev/null || true)"
+      if [ -n "$group" ] && [ -d "$group" ]; then find "$group" -mindepth 1 -delete; fi
+      xcrun simctl uninstall "$udid" "$BUNDLE"
+      xcrun simctl install "$udid" "$APP"
+      if [ "$state" = welcome-fresh ]; then xcrun simctl launch "$udid" "$BUNDLE" >/dev/null
+      else xcrun simctl launch "$udid" "$BUNDLE" -LensaticDoor dow -LensaticChangesViewed "$RELEASE" -LensaticTab search >/dev/null; fi
+      sleep 2 ;;  # a first launch takes longer
+    search-recent) xcrun simctl launch "$udid" "$BUNDLE" "${base[@]}" -LensaticDoor dow -LensaticTab search \
+                     -LensaticRecent "zero trust,CMMC,SP 800-207" >/dev/null ;;
+    # the Library scrolled to its Saved section
+    library-saved-empty) xcrun simctl launch "$udid" "$BUNDLE" "${base[@]}" -LensaticDoor dow -LensaticTab library \
+                           -LensaticScrollTo library-saved >/dev/null ;;
+    library-saved-two) xcrun simctl launch "$udid" "$BUNDLE" "${base[@]}" -LensaticDoor dow -LensaticTab library \
+                         -LensaticScrollTo library-saved -LensaticSaved entity:dod-zt-strategy,play:containment >/dev/null ;;
+    path-all-done) xcrun simctl launch "$udid" "$BUNDLE" "${base[@]}" -LensaticDoor dow -LensaticChecked "$(steps dow)" >/dev/null ;;
+    path-*) xcrun simctl launch "$udid" "$BUNDLE" "${base[@]}" -LensaticDoor "${state#path-}" >/dev/null ;;
+    *) echo "unknown state $state" >&2; exit 1 ;;
+  esac
+}
+
+# a trailhead's step numbers, 1 to its count, as -LensaticChecked takes them
+steps() {
+  python3 -c 'import json, sys; d = next(x for x in json.load(open("content/stack.json"))["doors"] if x["id"] == sys.argv[1]); print(",".join(str(i + 1) for i in range(len(d["steps"]))))' "$1"
+}
+
 # the content release, from What Changed's list (content/changes.json); the changes shot clears the list at the oldest
 # release the list names (R4: a real release, never "0", which the screen would print), so every later item shows as new
 RELEASE="$(python3 -c 'import json; print(json.load(open("content/changes.json"))["contentVersion"])')"
@@ -115,8 +172,12 @@ PREVIOUS="$(python3 -c 'import json; print(min((i["release"] for i in json.load(
 BOOTED=""
 trap 'if [ -n "$BOOTED" ]; then xcrun simctl shutdown "$BOOTED" >/dev/null 2>&1 || true; fi' EXIT
 
-for kind in iphone ipad; do
-  if [ "$STORE" = 1 ] && [ "$kind" = iphone ]; then read -r UDID NAME <<< "$(pick iphone63)"; else read -r UDID NAME <<< "$(pick $kind)"; fi
+# the store's devices; otherwise the largest iPhone, the largest iPad (screens only) and the small iPhone (states only)
+if [ "$STORE" = 1 ]; then KINDS="iphone ipad"; elif [ "$STATES_ONLY" = 1 ]; then KINDS="iphone small"; else KINDS="iphone ipad small"; fi
+for kind in $KINDS; do
+  if [ "$STORE" = 1 ] && [ "$kind" = iphone ]; then read -r UDID NAME <<< "$(pick iphone63)"
+  elif [ "$kind" = small ]; then read -r UDID NAME <<< "$(pick small "$SMALL_IPHONE")"
+  else read -r UDID NAME <<< "$(pick $kind)"; fi
   [ -n "$UDID" ] || exit 1  # pick has said why on stderr
   # one device at a time: none booted and no test process left over before this one boots
   if xcrun simctl list devices booted | grep -qE "iPhone|iPad" || pgrep -x xcodebuild >/dev/null || ps -Ao args | grep -q "[s]imruntime.*testmanagerd"; then
@@ -149,11 +210,20 @@ for kind in iphone ipad; do
       xcrun simctl ui "$UDID" appearance "$appearance"
       for size in default accessibility-extra-large; do
         if [ "$size" = default ]; then xcrun simctl ui "$UDID" content_size large; else xcrun simctl ui "$UDID" content_size "$size"; fi
-        for screen in $SCREENS; do
-          open_screen "$UDID" "$screen"
-          sleep 3
-          xcrun simctl io "$UDID" screenshot "$OUT/${SLUG}_${screen}_${appearance}_${size}.png" >/dev/null 2>&1
-        done
+        if [ "$STATES_ONLY" = 0 ] && [ "$kind" != small ]; then
+          for screen in $SCREENS; do
+            open_screen "$UDID" "$screen"
+            sleep 3
+            xcrun simctl io "$UDID" screenshot "$OUT/${SLUG}_${screen}_${appearance}_${size}.png" >/dev/null 2>&1
+          done
+        fi
+        if [ "$kind" != ipad ]; then
+          for state in $STATES; do
+            open_state "$UDID" "$state"
+            sleep 3
+            xcrun simctl io "$UDID" screenshot "$OUT/${SLUG}_state-${state}_${appearance}_${size}.png" >/dev/null 2>&1
+          done
+        fi
       done
     done
   fi
