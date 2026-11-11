@@ -229,7 +229,7 @@
       {
         "version": "1.3.0",
         "date": "2026-11-07",
-        "summary": "Zero trust leads: a sentence after the tagline says it is the spine the other frameworks hang off, in the map’s plain definition. Source links go to each publication’s web page first, with the PDF kept beside it and every PDF link tagged; the department’s basis and the portfolio office link to their pages. Every glossary spell-out is in Title Case, with “and” for “&”. The website’s own wording moves into the content, so the app and the site read the same words: the trailheads in the welcome screen’s order, Title Case buttons, About Maps and the plain pages’ tab titles. The State and Local and Industry and Academia trailheads each say their five shared steps for their own readers; who should start at another trailhead moves out of who each trailhead is for, after the steps; on the app’s welcome screen each trailhead says in one line who it is for; five lines that echoed CSF 2.0’s one-liner each say it their own way. Search gets starting queries, and the privacy page lists the plays opened and the last five searches the app keeps. CMMC and NIST SP 1353 are rechecked on 10 November 2026: Phase 2 was still suspended, with no new date, and SP 1353 is still the initial public draft. Nothing else on the stack changes."
+        "summary": "Zero trust leads: a sentence after the tagline says it is the spine the other frameworks hang off, in the map’s plain definition. Source links go to each publication’s web page first, with the PDF kept beside it and every PDF link tagged; the department’s basis and the portfolio office link to their pages. Every glossary spell-out is in Title Case, with “and” for “&”. The website’s own wording moves into the content, so the app and the site read the same words: the trailheads in the welcome screen’s order, Title Case buttons, About Maps and the plain pages’ tab titles. The State and Local and Industry and Academia trailheads each say their five shared steps for their own readers; who should start at another trailhead moves out of who each trailhead is for, after the steps; on the app’s welcome screen each trailhead says in one line who it is for; five lines that echoed CSF 2.0’s one-liner each say it their own way. Search gets starting queries, and the privacy page lists the plays opened and the last five searches the app keeps. CMMC and NIST SP 1353 are rechecked on 10 November 2026: Phase 2 was still suspended, with no new date, and SP 1353 is still the initial public draft. For the app’s launch build, four trailhead steps and one answer name the document they cite where they said the document, the memo or the roadmap; each type of document gets a one-line meaning; the app’s Home, its finished path and the Start With chips get their labels; the pages’ footer reads Content updated and the map’s front door Sources last checked; and About Maps says what Unverified usually means. Nothing else on the stack changes."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -3619,7 +3619,7 @@
             "dod-zt-strategy",
             "dod-zt-roadmap"
           ],
-          "text": "Work the seven pillars and 45 capabilities as your model; each capability breaks into activities, 152 in all, and the 91 at Target Level come first, with the 61 at Advanced Level where the mission needs them; the roadmap offers three courses of action (uplift your own infrastructure, use a commercial cloud, or use an on-premises cloud the department or a component owns) and lets you mix them, and an enterprise service can deliver some activities for you (see Questions).",
+          "text": "Work the seven pillars and 45 capabilities as your model; each capability breaks into activities, 152 in all, and the 91 at Target Level come first, with the 61 at Advanced Level where the mission needs them; the DoD Zero Trust Execution Roadmap offers three courses of action (uplift your own infrastructure, use a commercial cloud, or use an on-premises cloud the department or a component owns) and lets you mix them, and an enterprise service can deliver some activities for you (see Questions).",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -3639,7 +3639,7 @@
           "entityIds": [
             "dod-zt-ot"
           ],
-          "text": "If you own control systems or other operational technology, work its zero trust activities and outcomes alongside the enterprise ones; they add to your existing cybersecurity requirements, and the document says separate guidance will be developed for weapon systems and defense critical infrastructure.",
+          "text": "If you own control systems or other operational technology, work its zero trust activities and outcomes alongside the enterprise ones; they add to your existing cybersecurity requirements, and Zero Trust for Operational Technology Activities and Outcomes says separate guidance will be developed for weapon systems and defense critical infrastructure.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -3823,7 +3823,7 @@
           "entityIds": [
             "cisa-ztmm"
           ],
-          "text": "Place yourself on the CISA maturity model’s four stages, pillar by pillar; the memo’s goals are the floor, and the next stage is the plan.",
+          "text": "Place yourself on the CISA maturity model’s four stages, pillar by pillar; the goals in OMB memorandum M-22-09 are the floor, and the next stage is the plan.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -3882,7 +3882,7 @@
             "rmf-ato",
             "omb-m2209"
           ],
-          "text": "Assess the controls against SP 800-53A, obtain and keep the authorization under the RMF, and keep current the zero trust implementation plan the memo had you file with OMB and CISA.",
+          "text": "Assess the controls against SP 800-53A, obtain and keep the authorization under the RMF, and keep current the zero trust implementation plan that OMB memorandum M-22-09 had you file with OMB and CISA.",
           "verification": {
             "status": "authored",
             "verifiedOn": null,
@@ -4549,7 +4549,7 @@
     {
       "id": "where-ot",
       "question": "Where does operational technology land, and where does IEC 62443 fit?",
-      "answer": "Operational technology (OT) lands at layer 3. On the {{dow}} side it has its own baseline: activities and outcomes that adapt the enterprise zero trust activities to OT and control systems under the same seven pillars, stay aligned with the enterprise IT activities, and are implemented in addition to existing cybersecurity requirements; the document says separate guidance will be developed for weapon systems and defense critical infrastructure. Civilian agencies have no separate OT baseline on this stack: the CISA maturity model is still their model, CISA’s 2026 companion, Adapting Zero Trust Principles to Operational Technology, applies it to OT, and NIST SP 800-82 Revision 3 is NIST’s guide to OT security. IEC 62443, from the International Electrotechnical Commission, is a series of standards for the security of industrial automation and control systems, not a zero trust model: the {{dow}} document names it, with the Purdue Model, among the established reference architectures it treats as authoritative for classifying OT systems.",
+      "answer": "Operational technology (OT) lands at layer 3. On the {{dow}} side it has its own baseline: activities and outcomes that adapt the enterprise zero trust activities to OT and control systems under the same seven pillars, stay aligned with the enterprise IT activities, and are implemented in addition to existing cybersecurity requirements; Zero Trust for Operational Technology Activities and Outcomes says separate guidance will be developed for weapon systems and defense critical infrastructure. Civilian agencies have no separate OT baseline on this stack: the CISA maturity model is still their model, CISA’s 2026 companion, Adapting Zero Trust Principles to Operational Technology, applies it to OT, and NIST SP 800-82 Revision 3 is NIST’s guide to OT security. IEC 62443, from the International Electrotechnical Commission, is a series of standards for the security of industrial automation and control systems, not a zero trust model: the {{dow}} document names it, with the Purdue Model, among the established reference architectures it treats as authoritative for classifying OT systems.",
       "layerId": "l3",
       "entityIds": [
         "dod-zt-ot",
@@ -6399,6 +6399,7 @@
       "glossTrailhead": "your starting point for where you work",
       "glossStack": "the frameworks sorted by the question each answers",
       "contentUpdated": "Content updated",
+      "unverifiedNote": "Unverified usually means the publisher’s site refuses automated reads, so its copy could not be fetched to compare, not that the fact is in doubt; see {entries}.",
       "homeMapsTitle": "Which frameworks apply to you?",
       "welcomeLede": "Pick where you stand. Lensatic builds your path: what binds you, in what order, and by when.",
       "homeFieldGuide": "Field Guide",

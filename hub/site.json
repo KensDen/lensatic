@@ -77,10 +77,10 @@
   "startWithQuestion": "Start with a question"
  },
  "notFound": {
-  "title": "Page not found",
+  "title": "That page isn’t here.",
   "tabTitle": "Lensatic · Page Not Found",
   "eyebrow": "Lensatic",
-  "line": "Nothing is published at this address. A page or file from an earlier edition may have moved or been renamed.",
+  "line": "It may have moved or been renamed. Start again from the hub, or open one of the three sections.",
   "back": "Open the Lensatic Hub"
  },
  "cards": {

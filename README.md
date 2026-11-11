@@ -116,6 +116,7 @@ The web checks:
 - Hold the footer's license line, the About licensing paragraph and the support page's sentence on reuse to the all-rights-reserved wording of content 0.7.0.
 - Hold the front door's version line to its two links, the second to Why the name in About, and check that the About photo is embedded once, as a `data:` URI of the pinned `web/src/about-photo.jpg`, with no metadata.
 - Report containment: no stray untracked files, temporary files inside the repository, and no tool naming a path outside it.
+- Hold the front door's Sources last checked date to the newest `verifiedOn` on the stack, worked out from the content; the first DoW in each section that uses it to its glossary link; About Maps' sentence on what Unverified usually means to the entries that carry such a record; the 404 page to the hub and the three sections; and every trailhead step to naming the document it cites.
 
 The page works from a local file with no network access.
 

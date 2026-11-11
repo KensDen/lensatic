@@ -1694,6 +1694,59 @@ def main() -> int:
     rep.check("layout: DoW table fits at 1280; header fits at phone widths; back to top and the header name reach the very top; nothing clipped; script-off text complete; "
               "print at most 20 pages and complete, with capability numbers and without the hero's buttons", errs, info)
 
+    # build 6, the small site items. Each is read from the built pages and the content, not from the builder.
+    errs = []
+    built_ = (DOCS / "maps" / "index.html").read_text(encoding="utf-8") if (DOCS / "maps" / "index.html").is_file() else ""
+    abbr_ = d["orgs"]["dow"]["abbr"]
+    marks_ = [(m_.group(1), m_.start()) for m_ in re.finditer(r'<section[^>]*id="(view-[a-z]+)"', built_)]
+    ends_ = [a_ for _, a_ in marks_[1:]] + [built_.find("</main>") if "</main>" in built_ else len(built_)]
+    linked_ = 0
+    for (name_, a_), b_ in zip(marks_, ends_):
+        part_ = built_[a_:b_]
+        # the abbreviation where a reader sees it: outside tags, and outside the glossary's own entry for it
+        seen_ = [m_.start() for m_ in re.finditer(r"(?<![A-Za-z])" + re.escape(abbr_) + r"(?![A-Za-z])", part_)
+                 if part_.rfind("<", 0, m_.start()) < part_.rfind(">", 0, m_.start())]
+        if not seen_:
+            continue
+        if part_[:seen_[0]].endswith(f'<a class="gl" href="#gl-{abbr_.lower()}">'):
+            linked_ += 1
+        else:
+            errs.append(f"{name_}: the first {abbr_} is not a link to its glossary entry")
+    # About Maps: one sentence under the counts on what Unverified usually means, linking every entry that carries such a record
+    def unverified_(n_):
+        if isinstance(n_, dict):
+            return (n_.get("status") == "unverified" and "method" in n_) or any(unverified_(x_) for x_ in n_.values())
+        return isinstance(n_, list) and any(unverified_(x_) for x_ in n_)
+    want_ids_ = [e_["id"] for k_ in ("frameworks", "sources", "solutions") for e_ in d.get(k_, []) if unverified_(e_)]
+    note_m_ = re.search(r'<div class="counts">.*?</div><p class="small" id="unverified-note">(.*?)</p>', built_, re.S)
+    if want_ids_ and not note_m_:
+        errs.append("About Maps: no sentence on what Unverified means right under the verification counts")
+    elif note_m_:
+        got_ids_ = re.findall(r'href="#ent-([a-z0-9-]+)"', note_m_.group(1))
+        lead_, _, tail_ = L["unverifiedNote"].partition("{entries}")
+        text_ = norm(htmllib.unescape(re.sub(r"<[^>]+>", "", note_m_.group(1))))
+        if got_ids_ != want_ids_:
+            errs.append(f"About Maps: the Unverified sentence links {got_ids_}, but the entries with an unverified record are {want_ids_}")
+        if not (text_.startswith(norm(lead_)) and text_.endswith(norm(tail_))) or text_.count(". ") or "{" in text_:
+            errs.append("About Maps: the Unverified sentence is not ui.labels.unverifiedNote, one sentence, with its entries filled in")
+    # the 404 page: for a visitor. Its heading, the way to the hub and to each of the three sections, by site.json
+    site_ = json.loads((ROOT / "hub" / "site.json").read_text(encoding="utf-8"))
+    nf_text_ = (DOCS / "404.html").read_text(encoding="utf-8") if (DOCS / "404.html").is_file() else ""
+    h1s_ = [norm(htmllib.unescape(re.sub(r"<[^>]+>", "", x_))) for x_ in re.findall(r"<h1[^>]*>(.*?)</h1>", nf_text_, re.S)]
+    if h1s_ != [norm(site_["notFound"]["title"])] or not site_["notFound"]["title"].startswith("That page isn"):
+        errs.append(f"404: the heading reads {h1s_}, expected site.json notFound.title, That page isn’t here.")
+    hrefs_ = re.findall(r'<a class="lx-(?:btn lx-primary|sublink)" href="([^"]+)"', nf_text_[nf_text_.find("<main"):nf_text_.find("</main>")])
+    want_hrefs_ = [site_["site"]] + [site_["site"] + sec_["path"] for sec_ in site_["sections"]]
+    if hrefs_ != want_hrefs_:
+        errs.append(f"404: its links go to {hrefs_}, expected the hub and the three sections, {want_hrefs_}")
+    # trailhead steps name the document they cite: none says "the document says" or "the memo" in place of its name
+    vague_ = [f"{door_['id']} step {st_['order']}" for door_ in d["doors"] for st_ in door_["steps"]
+              if re.search(r"\bthe (document|memo|memorandum|publication) (says|states|had|names|sets|requires)\b|\bthe memo’s\b", st_["text"])]
+    errs += [f"{v_}: cites a document without naming it" for v_ in vague_]
+    rep.check(f"build 6: the first {abbr_} in each section that uses it links to the glossary; About Maps says what Unverified usually "
+              "means, linking the entries; the 404 page gives the hub and the three sections; no trailhead step cites a document "
+              "without naming it", errs, f"{linked_} sections link {abbr_}; {len(want_ids_)} entries linked from About")
+
     print("\n".join(rep.lines))
     if rep.failures:
         print(f"WEB CHECKS RED ({len(rep.failures)})"); return 1

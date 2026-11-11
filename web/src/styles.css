@@ -379,6 +379,7 @@ a.gl[aria-expanded="true"] { background: var(--chip-bg); }
 /* about */
 .about-name { margin-bottom: 0.875rem; }
 .counts { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+#unverified-note { margin-top: 0.75rem; }  /* build 6: the sentence on what Unverified means, clear of the counts */
 
 /* footer: the shared one (hub/lensatic.css), after main, a little further down than on the hub */
 .lx-foot { margin-top: 4rem; }

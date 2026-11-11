@@ -176,6 +176,8 @@ HUB_CSS = """.lx-hero-lines { margin: var(--s-5) 0 0; padding: 0; list-style: no
 .lx-404 { min-height: 100vh; display: flex; flex-direction: column; }  /* the footer meets the bottom of a short screen (QC rulings, Q18) */
 .lx-404 > main { flex: 1 0 auto; }
 .lx-404 .lx-head .lx-actions { margin-top: var(--s-4); }  /* as far below the line as the hub's start button (site review, item 15) */
+.lx-404-ways .lx-404-line { display: block; color: var(--fg-2); text-wrap: pretty; }  /* build 6: the three sections, each with the hub's line */
+.lx-404-ways li { padding-bottom: var(--s-2); }
 .lx-nw { white-space: nowrap; }
 /* content release 1.0.1: zero trust after the tagline (3.2); where to start above the cards (6.1), what each section is for
    under them (4.4), a second way into Framework Maps (6.13), the build string on About (6.5) */
@@ -373,9 +375,14 @@ def not_found_page(s: dict, d: dict) -> str:
                  "<meta name=\"color-scheme\" content=\"light dark\">\n<meta name=\"referrer\" content=\"no-referrer\">\n"
                  f"<meta name=\"robots\" content=\"noindex\">\n<link rel=\"icon\" href=\"{bw.favicon()}\">\n<title>{esc(title)}</title>\n"
                  f"{bw.theme_head()}\n<style>\n{styles()}\n</style>\n</head>\n")
+    # build 6: a page for a visitor, not a maintainer: what happened in a few words, the way to the hub, and the three
+    # sections, each by its own name and the hub's own line for it
+    ways = "".join(f'<li class="{esc(sec["key"])}"><a class="lx-sublink" href="{esc(root + sec["path"])}">{esc(sec["open"])}</a>'
+                   f'<span class="lx-404-line">{esc(sec["line"])}</span></li>' for sec in s["sections"])
     top = (f'<header class="lx-wrap lx-head">{tile("lx-mark lx-tile")}<p class="lx-eyebrow">{esc(nf["eyebrow"])}</p>'
            f'<h1>{esc(nf["title"])}</h1><p class="lx-standfirst">{esc(nf["line"])}</p>'
-           f'<p class="lx-actions"><a class="lx-btn lx-primary" href="{esc(root)}">{esc(nf["back"])}</a></p></header>\n')
+           f'<p class="lx-actions"><a class="lx-btn lx-primary" href="{esc(root)}">{esc(nf["back"])}</a></p>'
+           f'<ul class="lx-hero-lines lx-404-ways">{ways}</ul></header>\n')
     body = (f'<body class="lx-page lx-404">\n<a class="lx-skip" href="#main">{r.label("skip")}</a>\n{bar(s, root, None)}\n<main id="main">\n'
             f'{top}</main>\n{footer(s, d, root)}\n</body>\n</html>\n')
     return head_html + body

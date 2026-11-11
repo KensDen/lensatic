@@ -514,15 +514,16 @@ def umbrella() -> dict:
 
 
 def version_line() -> str:
-    """The footer's version line (R6, the owner's ruling: the current app and content versions, generated, never typed):
-    the iOS app's marketing version and build from ios/project.yml, and the content version with its release day from
-    content/stack.json, as in "Lensatic app 1.0 (4), content 1.2.22, 28 Oct 2026"."""
+    """The build string on the About pages (R6, the owner's ruling: the current app and content versions, generated, never
+    typed): the iOS app's marketing version and build from ios/project.yml, and the content version from
+    content/stack.json, as in "Lensatic app 1.0.1 (6), content 1.3.0"."""
     yml = (ROOT / "ios" / "project.yml").read_text(encoding="utf-8")
     mv = re.search(r'^\s*MARKETING_VERSION:\s*"?([\d.]+)"?\s*$', yml, re.M).group(1)
     build = re.search(r'^\s*CURRENT_PROJECT_VERSION:\s*"?(\d+)"?\s*$', yml, re.M).group(1)
     meta = json.loads((ROOT / "content" / "stack.json").read_text(encoding="utf-8"))["meta"]
-    day = fmt_date(meta["builtOn"]).replace(" ", "\u00a0")  # the date never breaks across lines
-    return f"Lensatic app {mv} ({build}), content {meta['contentVersion']}, {day}"
+    # build 6: no date in the build string. It printed the content release date a third time, unlabelled, beside the
+    # footer's "Content updated" (the fresh-eyes review, finding 29)
+    return f"Lensatic app {mv} ({build}), content {meta['contentVersion']}"
 
 
 def content_line() -> str:
@@ -1062,6 +1063,14 @@ class Renderer:
         walk(self.d)
         meta = self.d["meta"]
         badges = "".join(f'<span class="status {k}">{self.t(self.ui["status"][k])} {n}</span>' for k, n in counts.items())
+        # build 6: one sentence under the counts on what Unverified usually means here, linked to the entries that carry
+        # such a record, themselves or on one of their documents; no sentence when nothing is unverified
+        unverified = [e["id"] for kind in ("frameworks", "sources", "solutions") for e in self.d.get(kind, [])
+                      if any(v.get("status") == "unverified" for _, v in self.walk_verifications(e))]
+        links = [self.ent_link(i) for i in unverified]
+        listed = ", ".join(links[:-1]) + (" and " if len(links) > 1 else "") + links[-1] if links else ""
+        note = (f'<p class="small" id="unverified-note">{self.label("unverifiedNote").replace("{entries}", listed)}</p>'
+                if unverified else "")
         # the wayfinder line opens About, after the name and the content version (session 15)
         body = (f'<div id="about-body"><p class="about-name"><strong>{self.label("mapName")}</strong> <span class="small">{self.label("contentVersion")} {esc(meta["contentVersion"])}</span></p>'
                 f'<p class="small lx-build">{esc(version_line())}</p>'
@@ -1071,7 +1080,7 @@ class Renderer:
                 f'<p class="small">{self.t(self.dow["statusNote"])}</p>'
                 f'<p>{self.t(meta["about"]["offline"])}</p>'
                 f'<p>{self.t(meta["about"]["licensing"])}</p>'
-                f'<p class="small">{self.label("counts")}:</p><div class="counts">{badges}</div>{self.status_key("status-key-about")}')
+                f'<p class="small">{self.label("counts")}:</p><div class="counts">{badges}</div>{note}{self.status_key("status-key-about")}')
         return self.section("about", body + "</div>")
 
     @staticmethod
