@@ -259,8 +259,8 @@ final class AppModel {
     /// <key,key> saves those items; -LensaticWeeks <1,2> marks those weeks done; -LensaticTab <tab> opens a tab;
     /// -LensaticExplore <view> picks Explore's view; -LensaticNav <path> pushes a screen (as Target.url's path, such
     /// as entity/dod-zt-strategy) on its tab, and -LensaticSources its Sources sheet; -LensaticEntity <id> opens a
-    /// card on My Path; -LensaticQuery <text> fills Search; -LensaticScreen <section> opens a section of the map where
-    /// the redesign keeps it (tools/ios_shots.sh).
+    /// card on My Path; -LensaticQuery <text> fills Search; -LensaticRecent <text,text> fills Search's Recent list, newest
+    /// first; -LensaticScreen <section> opens a section of the map where the redesign keeps it (tools/ios_shots.sh).
     private func debugLaunch(_ args: [String]) {
         func value(_ flag: String) -> String? { args.firstIndex(of: flag).flatMap { $0 + 1 < args.count ? args[$0 + 1] : nil } }
         func list(_ flag: String) -> [String] { value(flag)?.split(separator: ",").map(String.init) ?? [] }
@@ -280,6 +280,8 @@ final class AppModel {
         if let t = value("-LensaticTab").flatMap(AppTab.init(rawValue:)) { tab = t }
         if let e = value("-LensaticExplore").flatMap(ExploreMode.init(rawValue:)) { explore = e }
         if let q = value("-LensaticQuery") { query = q }
+        // -LensaticRecent <text,text> keeps those searches, newest first, as running them would (the empty-state captures)
+        for q in list("-LensaticRecent").reversed() { progress.remember(search: q) }
         if let id = value("-LensaticEntity"), store.entities[id] != nil {
             paths[.path] = [.entity(id)]
             if args.contains("-LensaticSources") { sourcesFor = id }
@@ -295,7 +297,8 @@ final class AppModel {
             let day = changes.items.first { $0.release == v }?.released ?? changes.builtOn
             progress.setChangesViewed(v == "none" ? nil : .init(through: v, on: day.isEmpty ? Changes.today() : day))
         }
-        // -LensaticScrollTo <figure-id> scrolls the screen opened to that figure (the R4 screenshots)
+        // -LensaticScrollTo <id> scrolls the screen opened to that figure (the R4 screenshots), or the Library to its Saved
+        // section (library-saved, the empty-state captures)
         AppModel.debugScrollTo = value("-LensaticScrollTo")
         // -LensaticLink <url> follows one of the app's own links, as a tap on the widget does
         if let link = value("-LensaticLink").flatMap(URL.init(string:)) { open(link: link) }
