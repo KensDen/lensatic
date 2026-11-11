@@ -142,7 +142,8 @@ struct HomeView: View {
                 model.push(.guide)
             }
             HomeDoor(symbol: RowIcon.playbook.0, tile: RowIcon.playbook.1, tint: Palette.secPurple, eyebrow: site.playsName,
-                     title: site.playsTitle, line: site.section("playbook")?.line ?? "", status: [model.playsStatus.line], tall: wide,
+                     // the hub's line opens with the title this door already carries, so the app has its own (ui.labels)
+                     title: site.playsTitle, line: model.store.label("homePlaysLine"), status: [model.playsStatus.line], tall: wide,
                      start: model.library.play(HomeView.startPlay).map { play in
                          (model.store.label("homeStartHere").replacingOccurrences(of: "{play}", with: play.name), { model.push(.play(play.id)) })
                      },

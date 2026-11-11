@@ -376,10 +376,15 @@ final class LibraryTests: XCTestCase {
         XCTAssertEqual(site.sections.map(\.key), ["maps", "guides", "playbook"], "the hub's order: Framework Maps, Field Guides, the playbook")
         for key in ["maps", "guides", "playbook"] { XCTAssertFalse(try XCTUnwrap(site.section(key)).line.isEmpty, key) }
         XCTAssertEqual(site.aboutLabel, "About")
-        for key in ["homeMapsTitle", "welcomeLede", "homeFieldGuide", "homeStartHere", "homePickTrailhead", "homeChoose", "homeAbout", "whyName"] {
+        for key in ["homeMapsTitle", "welcomeLede", "homeFieldGuide", "homeStartHere", "homePlaysLine", "homePickTrailhead", "homeChoose", "homeAbout", "whyName"] {
             XCTAssertNotNil(store.content.ui.labels[key], key)
         }
         XCTAssertTrue(store.label("homeStartHere").contains("{play}"))
+        // the playbook door's line is the app's own: the hub's line opens with the title the door already shows
+        let hubLine = try XCTUnwrap(site.section("playbook")).line
+        XCTAssertTrue(hubLine.hasPrefix(site.playsTitle), "the hub keeps its line")
+        XCTAssertFalse(store.label("homePlaysLine").contains(site.playsTitle), "the door does not say its title twice")
+        XCTAssertTrue(hubLine.lowercased().hasSuffix(store.label("homePlaysLine").lowercased()), "the same words, less the title")
         XCTAssertEqual(try XCTUnwrap(library.play(HomeView.startPlay)).name, "Agentic Insider Risk")
         let progress = tempStore()
         let model = AppModel(store: store, library: library, progress: progress)
