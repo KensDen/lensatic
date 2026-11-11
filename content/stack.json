@@ -6406,7 +6406,13 @@
       "homeStartHere": "Start here: {play}",
       "homePickTrailhead": "Pick a trailhead to start your path",
       "homeChoose": "Choose a Trailhead",
-      "homeAbout": "About {name}"
+      "homeAbout": "About {name}",
+      "pathNoDeadline": "No dated deadline ahead",
+      "pathStepNext": "Step {n} of {total} is next",
+      "pathNext": "Where next",
+      "pathAnother": "Pick Another Trailhead",
+      "pathShowDone": "Show Completed Steps",
+      "pathHideDone": "Hide Completed Steps"
     },
     "binds": {
       "federal-civilian": "Federal civilian agencies",

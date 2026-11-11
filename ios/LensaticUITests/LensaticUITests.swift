@@ -275,7 +275,8 @@ final class LensaticUITests: XCTestCase {
         element("story-done").tap()
     }
 
-    /// R5 (item 16): each new door opens a path of real steps with the next step in the hero, no countdown.
+    /// R5 (item 16): each new door opens a path of real steps with no countdown. Since build 6 the card says no dated
+    /// deadline lies ahead and names the next step by its number; the step's title is in its own row, once.
     func testTheNewDoorsOpenTheirPaths() throws {
         for id in ["state-local", "industry-academia"] {
             launch(door: nil)
@@ -285,7 +286,9 @@ final class LensaticUITests: XCTestCase {
             door.tap()
             XCTAssertTrue(element("my-path").waitForExistence(timeout: 5))
             XCTAssertTrue(element("step-check-6").waitForExistence(timeout: 5), "\(id): six steps")
-            XCTAssertTrue(element("path-hero").label.contains("Next step"), element("path-hero").label)
+            XCTAssertTrue(element("path-hero").label.contains(label("pathNoDeadline")), element("path-hero").label)
+            XCTAssertTrue(element("path-hero").label.contains("Step 1 of"), element("path-hero").label)
+            XCTAssertFalse(element("path-hero").label.contains("Next step"), "the card does not repeat the next step's row: \(element("path-hero").label)")
             XCTAssertFalse(element("path-hero").label.contains("days"), "no countdown: \(element("path-hero").label)")
             try auditScreen("my-path")
             app.terminate()
@@ -340,6 +343,34 @@ final class LensaticUITests: XCTestCase {
         launch(reset: false, door: nil)
         XCTAssertTrue(element("step-check-1").waitForExistence(timeout: 10))
         XCTAssertEqual(value("step-check-1"), "Not done")
+    }
+
+    /// Build 6: with every step checked, My Path says the path is done, keeps the deadline, offers the next useful things
+    /// and puts the checked steps behind Show Completed Steps.
+    func testAFinishedPathSaysSoAndOffersWhatIsNext() throws {
+        let steps = ((doors.first { $0["id"] as? String == "dow" })?["steps"] as? [[String: Any]])?.count ?? 0
+        launch(door: "dow", checked: (1...max(steps, 1)).map(String.init).joined(separator: ","))
+        XCTAssertTrue(element("my-path").waitForExistence(timeout: 10))
+        let hero = element("path-hero").label
+        XCTAssertTrue(hero.contains("Path complete") && hero.contains("All \(steps) steps done"), hero)
+        XCTAssertTrue(hero.contains("due") && hero.contains("days"), "the deadline still shows: \(hero)")
+        for id in ["path-next-guide", "path-next-plays", "path-next-trailhead", "path-next-changes"] { XCTAssertTrue(element(id).exists, id) }
+        XCTAssertFalse(element("step-check-1").exists, "the checked steps wait behind Show Completed Steps")
+        try auditScreen("my-path")
+        tap("path-show-done", in: "my-path")
+        XCTAssertTrue(element("step-check-1").waitForExistence(timeout: 5))
+        XCTAssertEqual(value("step-check-1"), "Done")
+        tap("step-check-1", in: "my-path")
+        XCTAssertFalse(element("path-next").waitForExistence(timeout: 2), "unchecking a step brings the path back")
+        XCTAssertEqual(value("step-check-1"), "Not done")
+        tap("step-check-1", in: "my-path")
+        XCTAssertTrue(element("path-next-guide").waitForExistence(timeout: 5))
+        showTab("tab-path")
+        element("path-next-guide").tap()
+        XCTAssertTrue(element("guide-screen").waitForExistence(timeout: 5), "the Field Guide opens from a finished path")
+        element("back").tap()
+        element("path-next-trailhead").tap()
+        XCTAssertTrue(element("door-federal-civilian").waitForExistence(timeout: 5), "another trailhead: the question, as Change Path")
     }
 
     func testSwitchingTrailheadsKeepsEachOnesChecks() throws {
@@ -529,6 +560,7 @@ final class LensaticUITests: XCTestCase {
         showTab("tab-search")
         XCTAssertTrue(element("search-recent").waitForExistence(timeout: 5), "Recent survives the relaunch")
         XCTAssertTrue(element("recent-overlays").exists && element("recent-CMMC").exists)
+        XCTAssertLessThan(element("search-recent").frame.minY, element("search-starters").frame.minY, "Recent comes first when there is any (build 6)")
         let recent = element("recent-overlays"), chip = element("recent-CMMC")
         XCTAssertLessThan(recent.frame.minY, chip.frame.minY, "newest first")
         recent.tap()

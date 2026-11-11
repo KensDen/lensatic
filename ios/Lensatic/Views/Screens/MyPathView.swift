@@ -5,6 +5,10 @@ import SwiftUI
 /// device, the next one called out. A step opens in place to its full text and the entries it names. Under the steps,
 /// What Changed (R3, MyPath.dc.html) lists what the content releases changed since the reader last cleared it. A
 /// check-off taps lightly and finishing the path gives the success pattern (the system's haptics, so its setting holds).
+/// With every step checked (build 6) the card says the path is done and keeps the deadline where the trailhead has
+/// one, the next useful things follow (the Field Guide, the playbook, another trailhead, What Changed), and the
+/// checked steps wait behind Show Completed Steps. Where no dated deadline lies ahead the card says so and names the
+/// next step by its number, so it does not repeat the next step's row beneath it.
 struct MyPathView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.scenePhase) private var phase
@@ -12,6 +16,8 @@ struct MyPathView: View {
     /// The contract cases opened to their whole text (R5: three lines, the rest one tap down).
     @State private var openCases: Set<String> = []
     @State private var now = Date()
+    /// A finished path's checked steps, shown again (build 6).
+    @State private var showDone = false
     @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
@@ -31,6 +37,7 @@ struct MyPathView: View {
     private func content(_ door: Door, _ plan: PathPlan) -> some View {
         let checked = model.progress.checked(door.id)
         let next = plan.next(checked)
+        let complete = plan.progress(checked).isComplete
         return ScrollViewReader { proxy in
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
@@ -45,9 +52,20 @@ struct MyPathView: View {
                 if plan.steps.isEmpty {
                     noPath(door)
                 } else {
+                    // a finished path: what to do next, then the checked steps one tap down (build 6)
+                    if complete { whereNext(door) }
                     VStack(alignment: .leading, spacing: 8) {
                         SectionLabel(text: "Your steps")
-                        ForEach(plan.steps, id: \.order) { step in
+                        if complete {
+                            Button { showDone.toggle() } label: {
+                                ResultRow(title: model.store.label(showDone ? "pathHideDone" : "pathShowDone"),
+                                          line: "\(plan.steps.count) of \(plan.steps.count) done", trailing: true)
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityValue(showDone ? "Expanded" : "Collapsed")
+                            .accessibilityIdentifier("path-show-done")
+                        }
+                        ForEach(complete && !showDone ? [] : plan.steps, id: \.order) { step in
                             StepRow(door: door.id, step: step, isDone: checked.contains(step.order), isNext: step.order == next?.order,
                                     layer: model.store.layerTag(step.layerId), names: names(step.entityIds),
                                     expanded: expanded.contains(step.order),
@@ -100,6 +118,8 @@ struct MyPathView: View {
     private func focus(_ proxy: ScrollViewProxy) {
         guard let order = model.pathFocus else { return }
         model.pathFocus = nil
+        // a step on a finished path sits behind Show Completed Steps
+        showDone = true
         expanded.insert(order)
         DispatchQueue.main.async { proxy.scrollTo("step-row-\(order)", anchor: .top) }
     }
@@ -125,18 +145,26 @@ struct MyPathView: View {
             (typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12)) : AnyLayout(HStackLayout(spacing: 16))) {
                 if progress.total > 0 { ProgressRing(done: progress.done, total: progress.total) }
                 VStack(alignment: .leading, spacing: 4) {
-                    if let upcoming, let days = PathPlan.days(from: now, to: upcoming.day) {
+                    if progress.isComplete {
+                        // done comes first (build 6): the ring is full, so the card says so, and the deadline, which still
+                        // matters, stays as one line under it
+                        Text("Path complete").font(DS.caption).foregroundStyle(Palette.fg2)
+                        Text(progress.total == 1 ? "The step is done" : "All \(progress.total) steps done").font(DS.heroStep).foregroundStyle(Palette.fg)
+                        if let upcoming, let days = PathPlan.days(from: now, to: upcoming.day) {
+                            Text(dotted(["\(upcoming.due.label) due", Countdown.text(days: days)] + upcoming.due.stated(separator: sep).components(separatedBy: sep), separator: sep))
+                                .font(DS.caption).foregroundStyle(Palette.fg2)
+                                .accessibilityIdentifier("path-done-deadline")
+                        }
+                    } else if let upcoming, let days = PathPlan.days(from: now, to: upcoming.day) {
                         Text("\(upcoming.due.label) due").font(DS.caption).foregroundStyle(Palette.fg2)
                         Text(Countdown.text(days: days)).font(DS.countdown).foregroundStyle(Palette.fg)
                         Text(upcoming.due.stated(separator: sep)).font(DS.caption).foregroundStyle(Palette.fg2)
                     } else if let next {
-                        Text("Next step").font(DS.caption).foregroundStyle(Palette.fg2)
-                        Text(keepDesignations(next.title)).font(DS.heroStep).foregroundStyle(Palette.fg)
-                        Text("Step \(next.order) of \(progress.total)" + (model.store.layerTag(next.layerId).map { "\(sep)\($0)" } ?? ""))
-                            .font(DS.caption).foregroundStyle(Palette.fg2)
-                    } else if progress.isComplete {
-                        Text("Path complete").font(DS.caption).foregroundStyle(Palette.fg2)
-                        Text(progress.total == 1 ? "The step is done" : "All \(progress.total) steps done").font(DS.heroStep).foregroundStyle(Palette.fg)
+                        // no dated deadline ahead (build 6): the card says so and names the next step by its number; the
+                        // step's own row, right below, carries its title, so the card no longer repeats it
+                        Text(model.store.label("pathNoDeadline")).font(DS.caption).foregroundStyle(Palette.fg2)
+                        Text(model.store.label("pathStepNext").replacingOccurrences(of: "{n}", with: "\(next.order)")
+                            .replacingOccurrences(of: "{total}", with: "\(progress.total)")).font(DS.heroStep).foregroundStyle(Palette.fg)
                     } else {
                         Text("No required path").font(DS.caption).foregroundStyle(Palette.fg2)
                         Text(Rules.firstSentence(door.paragraph.value ?? door.whoYouAre).first).font(DS.step).foregroundStyle(Palette.fg)
@@ -153,6 +181,51 @@ struct MyPathView: View {
         .disabled(upcoming == nil && next == nil)
         .accessibilityElement(children: .combine)
         .accessibilityIdentifier("path-hero")
+    }
+
+    /// A finished path's next useful things (build 6): the Field Guide and the playbook with their status lines,
+    /// another trailhead, and What Changed, as rows in one card.
+    @ViewBuilder private func whereNext(_ door: Door) -> some View {
+        let site = model.library.site
+        VStack(alignment: .leading, spacing: 8) {
+            SectionLabel(text: model.store.label("pathNext"))
+            VStack(spacing: 0) {
+                nextRow(TileRow(icon: RowIcon.guide, title: site.guideTitle, note: model.guideStatus.line, noteColor: Palette.fg2), "path-next-guide") {
+                    model.push(.guide)
+                }
+                Divider().overlay(Palette.line).padding(.leading, 42)
+                nextRow(TileRow(icon: RowIcon.playbook, title: site.playsTitle, note: model.playsStatus.line, noteColor: Palette.fg2), "path-next-plays") {
+                    model.push(.plays)
+                }
+                Divider().overlay(Palette.line).padding(.leading, 42)
+                nextRow(TileRow(icon: RowIcon.maps, title: model.store.label("pathAnother")), "path-next-trailhead") {
+                    model.changingDoor = true
+                }
+                Divider().overlay(Palette.line).padding(.leading, 42)
+                nextRow(TileRow(icon: RowIcon.changes, title: "What Changed", note: Rules.shortDate(model.store.content.meta.builtOn), noteColor: Palette.fg2),
+                        "path-next-changes") {
+                    model.push(.changes)
+                }
+            }
+            .padding(.vertical, -8)
+            .lxCard(radius: 12)
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("path-next")
+    }
+
+    private func nextRow(_ row: TileRow, _ id: String, _ action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: 8) {
+                row
+                Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
+            }
+            .padding(.vertical, 8)
+            .frame(minHeight: 44)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier(id)
     }
 
     /// A trailhead with no ordered steps (Everyone Else until content 1.2.21; none since): the rest of its paragraph and
@@ -208,13 +281,22 @@ struct StepRow: View {
     let isDone: Bool
     let isNext: Bool
     let layer: String?
+    @Environment(\.dynamicTypeSize) private var typeSize
+
+    /// The line under the next step's title: when it applies, or the entries it names. Where the title already names
+    /// every one of them ("Start with EO 14028" over "EO 14028"), there is no line (build 6).
+    private var nextLine: String? {
+        if let when = step.when { return when }
+        let title = step.title.lowercased()
+        guard names.contains(where: { !title.contains($0.name.lowercased()) }) else { return nil }
+        return names.map(\.name).joined(separator: model.store.label("listSeparator"))
+    }
 
     /// The row as VoiceOver reads it: the title, and on the next step its layer and the line under the title.
     private var spokenTitle: String {
         guard isNext else { return step.title }
         let place: String = layer.map { ", " + $0 } ?? ""
-        let line: String = step.when ?? names.map(\.name).joined(separator: model.store.label("listSeparator"))
-        return "Next step\(place). \(step.title). \(line)"
+        return "Next step\(place). \(step.title)." + (nextLine.map { " " + $0 } ?? "")
     }
     let names: [(id: String, name: String)]
     let expanded: Bool
@@ -237,7 +319,9 @@ struct StepRow: View {
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
-                .padding(-10)
+                // the 44-point target reaches into the row's inset at the standard sizes; at the accessibility sizes the mark
+                // itself fills the target, so it stays inside the inset and clear of the row's edge (build 6)
+                .padding(typeSize.isAccessibilitySize ? 0 : -10)
                 .accessibilityLabel("Step \(step.order): \(step.title)")
                 .accessibilityValue(isDone ? "Done" : "Not done")
                 .accessibilityAddTraits(.isToggle)
@@ -253,9 +337,8 @@ struct StepRow: View {
                                 .font(isNext ? DS.nextTitle : DS.step)
                                 .foregroundStyle(isDone ? Palette.fg2 : Palette.fg)
                                 .strikethrough(isDone, color: Palette.fg2)
-                            if isNext {
-                                Text(step.when ?? names.map(\.name).joined(separator: model.store.label("listSeparator")))
-                                    .font(DS.caption).foregroundStyle(Palette.fg2)
+                            if isNext, let nextLine {
+                                Text(nextLine).font(DS.caption).foregroundStyle(Palette.fg2)
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -298,7 +381,9 @@ struct StepRow: View {
             }
         }
         .padding(.horizontal, 14)
-        .padding(.vertical, isNext ? 14 : 2)
+        // at the accessibility sizes a title runs past the 44-point control, so the row keeps its own inset (build 6:
+        // the checked rows' text touched the row's edges at the largest sizes)
+        .padding(.vertical, isNext ? 14 : typeSize.isAccessibilitySize ? 10 : 2)
         .card(radius: 12, fill: isNext ? Palette.bg3 : Palette.bg2, stroke: isNext ? Palette.secMaps : Palette.line)
     }
 }

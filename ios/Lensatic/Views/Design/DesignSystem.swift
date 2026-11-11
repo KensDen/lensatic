@@ -459,8 +459,35 @@ struct ListRow: View {
     var detail: String?
     /// The row's top and bottom inset: the Welcome screen's are tighter since its rows carry who each trailhead is for.
     var verticalPadding: CGFloat = 16
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
+        if typeSize.isAccessibilitySize {
+            // at the accessibility sizes the icon and the chevron share a line above the words, and the value goes under
+            // the title, so the title has the card's whole width (build 6: beside the icon and the step count, a
+            // trailhead's name broke inside its words on a 390-point phone)
+            VStack(alignment: .leading, spacing: 6) {
+                HStack {
+                    if let icon { Icon(icon, size: 28, color: iconColor, lineWidth: 1.8) }
+                    Spacer()
+                    Icon(.chevronRight, size: 18, color: Palette.fg2)
+                }
+                Text(title).font(DS.rowTitle).foregroundStyle(Palette.fg)
+                if let subtitle { Text(subtitle).font(DS.caption).foregroundStyle(Palette.fg2) }
+                if let detail { Text(detail).font(DS.caption).foregroundStyle(Palette.fg2) }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .multilineTextAlignment(.leading)
+            .padding(.horizontal, 16)
+            .padding(.vertical, verticalPadding)
+            .card(radius: 14, stroke: highlighted ? Palette.secMaps : Palette.line)
+            .contentShape(RoundedRectangle(cornerRadius: 14))
+        } else {
+            standard
+        }
+    }
+
+    private var standard: some View {
         HStack(spacing: 14) {
             if let icon { Icon(icon, size: 28, color: iconColor, lineWidth: 1.8) }
             VStack(alignment: .leading, spacing: 2) {

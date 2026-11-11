@@ -86,37 +86,12 @@ struct SearchView: View {
         .accessibilityIdentifier("search")
     }
 
-    /// Before a query (content release 1.0.1, Ken's finding of 7 November 2026: a near-empty screen): queries to start with,
-    /// drawn from the content; the next step on the reader's path; their last searches; and, at the foot, what the field
-    /// searches.
+    /// Before a query (content release 1.0.1, Ken's finding of 7 November 2026: a near-empty screen): the reader's last
+    /// searches, when there are any; queries to start with, drawn from the content; the next step on the reader's path;
+    /// and, at the foot, what the field searches.
     @ViewBuilder private var emptyState: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            SectionLabel(text: "Start with")
-            FlowLayout(spacing: 8) {
-                ForEach(model.store.content.ui.search.starters, id: \.self) { q in
-                    Button { run(q) } label: { Pill(text: q) }
-                        .buttonStyle(.plain)
-                        .accessibilityHint("Searches for \(q)")
-                        .accessibilityIdentifier("starter-\(q)")
-                }
-            }
-        }
-        .accessibilityElement(children: .contain)
-        .accessibilityIdentifier("search-starters")
-        if let door = model.door {
-            let plan = model.plan(door)
-            if let next = plan.next(model.progress.checked(door.id)), let first = next.entityIds.first {
-                VStack(alignment: .leading, spacing: 8) {
-                    SectionLabel(text: "On your path")
-                    Button { focused = false; model.push(.entity(first)) } label: {
-                        ResultRow(title: "Step \(next.order): \(next.title)", line: model.store.entities[first]?.displayName ?? "")
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityHint("Opens the step's source")
-                    .accessibilityIdentifier("search-next-step")
-                }
-            }
-        }
+        // the reader's own searches come first when there are any (build 6: at the accessibility sizes they sat below the
+        // fold, under Start With and On Your Path)
         let recent = model.progress.state.recent
         if !recent.isEmpty {
             VStack(alignment: .leading, spacing: 4) {
@@ -145,9 +120,48 @@ struct SearchView: View {
             .accessibilityElement(children: .contain)
             .accessibilityIdentifier("search-recent")
         }
+        VStack(alignment: .leading, spacing: 8) {
+            SectionLabel(text: "Start with")
+            if typeSize.isAccessibilitySize {
+                // one row that scrolls sideways, so the chips never fill the screen at the largest sizes (build 6)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) { starters }
+                }
+                .padding(.horizontal, -20)
+                .contentMargins(.horizontal, 20, for: .scrollContent)
+            } else {
+                FlowLayout(spacing: 8) { starters }
+            }
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("search-starters")
+        if let door = model.door {
+            let plan = model.plan(door)
+            if let next = plan.next(model.progress.checked(door.id)), let first = next.entityIds.first {
+                VStack(alignment: .leading, spacing: 8) {
+                    SectionLabel(text: "On your path")
+                    Button { focused = false; model.push(.entity(first)) } label: {
+                        ResultRow(title: "Step \(next.order): \(next.title)", line: model.store.entities[first]?.displayName ?? "")
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityHint("Opens the step's source")
+                    .accessibilityIdentifier("search-next-step")
+                }
+            }
+        }
         Text(hint).font(DS.caption).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
             .padding(.top, 8)
             .accessibilityIdentifier("search-hint")
+    }
+
+    /// The Start With chips, each a query drawn from the content.
+    private var starters: some View {
+        ForEach(model.store.content.ui.search.starters, id: \.self) { q in
+            Button { run(q) } label: { Pill(text: q) }
+                .buttonStyle(.plain)
+                .accessibilityHint("Searches for \(q)")
+                .accessibilityIdentifier("starter-\(q)")
+        }
     }
 
     /// Run a query from a chip or the Recent list: it fills the field and is kept as a recent search.
