@@ -169,6 +169,22 @@ final class ContentTests: XCTestCase {
         }
     }
 
+    /// Build 6, section 10: a form followed by a hyphen and a digit is a control identifier (SI-02(07) in
+    /// SP 800-53), not the glossary's term, so it is never spelled out.
+    func testAControlIdentifierIsNotSpelledOutAsATerm() throws {
+        XCTAssertNotNil(store.terms.first { $0.forms.contains("SI") }, "the glossary has the term the rule is for")
+        let pattern = try XCTUnwrap(store.rules.pattern)
+        func forms(_ s: String) -> [String] {
+            pattern.matches(in: s, range: NSRange(location: 0, length: (s as NSString).length)).map { (s as NSString).substring(with: $0.range) }
+        }
+        XCTAssertEqual(forms("as SI-02(07) and SI-07(12) list them"), [], "a control identifier is not the term")
+        XCTAssertEqual(forms("agencies write SI in new pages"), ["SI"])
+        XCTAssertEqual(forms("an SI-enabled tool"), ["SI"], "a hyphen before a word still leaves the term")
+        // the SP 800-53 entry is where the content prints such identifiers
+        let notes = (store.frameworks + store.sources + store.solutions).compactMap(\.note)
+        XCTAssertTrue(notes.contains { $0.contains("SI-0") }, "no note carries an SI control identifier any more")
+    }
+
     func testWellKnownTermsAreNeverSpelledOut() {
         let wellKnown = store.terms.filter(\.wellKnown)
         // GPS since content 1.2.21 (R5), so the maker's paragraph in Why the name reads word for word

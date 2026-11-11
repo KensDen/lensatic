@@ -151,7 +151,7 @@ Agents authenticate as software, not people: they hold their own secrets, tokens
 
 ### MITRE ATLAS
 
-ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems) is the AI counterpart to MITRE ATT&CK: a living knowledge base of real-world adversary tactics and techniques against AI systems, complete with mitigations and documented case studies. As of October 2026 (ATLAS v2026.10) it spans 16 tactics, 129 techniques and 92 sub-techniques; MITRE releases new data about monthly, and each release’s notes give the current counts. It has been expanding aggressively to cover generative-AI and agent-specific techniques (RAG poisoning, indirect prompt injection, memory manipulation, agent tool abuse). Because it mirrors ATT&CK's structure, it slots naturally into work you already know: threat modeling, red-team planning, and mapping techniques to detections.
+ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems) is the AI counterpart to MITRE ATT&CK: a living knowledge base of real-world adversary tactics and techniques against AI systems, complete with mitigations and documented case studies. As of October 2026 (ATLAS v2026.10) it spans 16 tactics, 129 techniques and 92 sub-techniques; MITRE publishes new data roughly every month, and the notes for each release give the current counts. It has been expanding aggressively to cover generative-AI and agent-specific techniques (RAG poisoning, indirect prompt injection, memory manipulation, agent tool abuse). Because it mirrors ATT&CK's structure, it slots naturally into work you already know: threat modeling, red-team planning, and mapping techniques to detections.
 
 Notable case studies worth knowing by name:
 
@@ -592,7 +592,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [CISA: BOD 26-04 Implementation Guidance: Forensic Triage (Jun 2026)](https://www.cisa.gov/news-events/directives/bod-26-04-implementation-guidance-prioritizing-security-updates-based-risk)
 - [CISA: BOD 26-04: Prioritizing Security Updates Based on Risk (Jun 2026)](https://www.cisa.gov/news-events/news/cisa-issues-new-directive-improving-how-federal-agencies-prioritize-mitigation-cyber-vulnerabilities)
 - [CISA: CI Fortify: Advice for Isolating Vital Systems (Jul 2026)](https://www.cisa.gov/resources-tools/resources/ci-fortify-advice-isolating-vital-systems)
-- [CISA: Principles for the Secure Integration of Super Intelligence in OT (2025)](https://www.cisa.gov/resources-tools/resources/principles-secure-integration-super-intelligence-operational-technology)
+- [CISA: Principles for the Secure Integration of Super Intelligence in Operational Technology (2025)](https://www.cisa.gov/resources-tools/resources/principles-secure-integration-super-intelligence-operational-technology)
 - [Five Eyes: Careful Adoption of Agentic SI Services (May 2026)](https://www.cisa.gov/resources-tools/resources/careful-adoption-agentic-si-services)
 - [Microsoft: A CISO’s Guide to Securing AI (Federal & DIB)](https://techcommunity.microsoft.com/blog/publicsectorblog/a-cisos-guide-to-securing-ai---securing-ai-for-federal-dib-and-dow-entities/4464081)
 - [NSA: AI Data Security (May 2025)](https://www.cisa.gov/resources-tools/resources/ai-data-security-best-practices-securing-data-used-train-operate-ai-systems)
