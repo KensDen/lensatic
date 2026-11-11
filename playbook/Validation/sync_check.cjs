@@ -5,7 +5,7 @@
  *
  * Checks:
  *   1. JSX nav parity (content tabs <-> nav entries, both 35)
- *   2. Canonical counts: 87 actions (40/37/10), 243 resources / 13 groups,
+ *   2. Canonical counts: 87 actions (40/37/10), 244 resources / 13 groups,
  *      89 glossary terms / 5 groups, 34 tools / 6 categories
  *   3. index.html zero external loads (script src / link href / remote img /
  *      @import / remote url() / fetch(http)
@@ -76,14 +76,14 @@ gpos.forEach((x, k) => {
   const block = jsx.slice(x.i, end);
   resTotal += (block.match(/\{\s*(?:sub:\s*"[^"]*",\s*)?name:\s*"/g) || []).length;
 });
-check('resources 243 / 13 groups', gpos.length === 13 && resTotal === 243,
+check('resources 244 / 13 groups', gpos.length === 13 && resTotal === 244,
   `groups=${gpos.length} items=${resTotal}`);
 
 /* ---- tier integrity (TIERING round): every RI entry carries a tier; split pinned ---- */
 const riSlice = jsx.slice(gpos[0].i, gpos[gpos.length - 1].i + 80000);
 const tierSpine = (riSlice.match(/tier: "spine"/g) || []).length;
 const tierAppx = (riSlice.match(/tier: "appendix"/g) || []).length;
-check('tier integrity 187 spine / 56 appendix', tierSpine === 187 && tierAppx === 56 && tierSpine + tierAppx === resTotal,
+check('tier integrity 188 spine / 56 appendix', tierSpine === 188 && tierAppx === 56 && tierSpine + tierAppx === resTotal,
   `spine=${tierSpine} appendix=${tierAppx} total=${resTotal}`);
 
 /* ---- impl integrity (ACTIONABILITY): armed and empty until exemplar payloads land ---- */

@@ -49,7 +49,7 @@ Keep the glossary handy as you read. The self-check at the end is grouped by Par
 
 ## About this edition
 
-**October 1, 2026 addendum (public edition).** This guide tracks the Agentic SecOps playbook, a living reference that changes in dated passes. This public edition is an independent personal project: it keeps the guide's substance and sources and leaves out the working change log behind them. The guide and the app stay in lockstep, and the app's counts are: 87 actions (40 Now / 37 Next / 10 Later), 243 sources / 13 groups, 89 glossary terms, 34 tools.
+**October 1, 2026 addendum (public edition).** This guide tracks the Agentic SecOps playbook, a living reference that changes in dated passes. This public edition is an independent personal project: it keeps the guide's substance and sources and leaves out the working change log behind them. The guide and the app stay in lockstep, and the app's counts are: 87 actions (40 Now / 37 Next / 10 Later), 244 sources / 13 groups, 89 glossary terms, 34 tools.
 
 -----
 
@@ -595,6 +595,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [CISA: Principles for the Secure Integration of Super Intelligence in Operational Technology (2025)](https://www.cisa.gov/resources-tools/resources/principles-secure-integration-super-intelligence-operational-technology)
 - [Five Eyes: Careful Adoption of Agentic SI Services (May 2026)](https://www.cisa.gov/resources-tools/resources/careful-adoption-agentic-si-services)
 - [Microsoft: A CISO’s Guide to Securing AI (Federal & DIB)](https://techcommunity.microsoft.com/blog/publicsectorblog/a-cisos-guide-to-securing-ai---securing-ai-for-federal-dib-and-dow-entities/4464081)
+- [NIST, NSA, CISA: Key Practices for Incident Readiness and Response in Super Intelligence Training and Evaluation (Oct 2026)](https://www.nist.gov/system/files/documents/2026/10/16/Key_Practices_for_Incident_Readiness_and_Response_in_Super_Intelligence%20_Training_and_Evaluation.pdf)
 - [NSA: AI Data Security (May 2025)](https://www.cisa.gov/resources-tools/resources/ai-data-security-best-practices-securing-data-used-train-operate-ai-systems)
 - [NSA: Deploying AI Systems Securely (Apr 2024)](https://www.cisa.gov/news-events/alerts/2024/04/15/joint-guidance-deploying-ai-systems-securely)
 

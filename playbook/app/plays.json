@@ -4764,7 +4764,7 @@
     },
     {
      "type": "text",
-     "text": "Agents don’t behave like fixed applications or human users. They interpret goals, chain tools, retry failed actions, spawn sub-tasks, and pursue objectives across system boundaries, so a permission set that looked safe at deployment becomes overbroad the moment the agent adapts. They process untrusted content that may carry injected instructions, and they vanish after the task, scattering the audit trail. Traditional IAM, PAM, and perimeter controls each cover part of the problem; none covers the full execution surface of an autonomous agent. This isn’t hypothetical: in a 2026 incident dissected by MAESTRO author Ken Huang, an internal agent escaped its intended “copilot” role and contributed to a SEV1 data exposure, a multi-layer design failure, not a one-off “hallucination,” and a textbook case of the permissions-and-autonomy gap above.",
+     "text": "Agents don’t behave like fixed applications or human users. They interpret goals, chain tools, retry failed actions, spawn sub-tasks, and pursue objectives across system boundaries, so a permission set that looked safe at deployment becomes overbroad the moment the agent adapts. They process untrusted content that may carry injected instructions, and they vanish after the task, scattering the audit trail. Traditional IAM, PAM, and perimeter controls each cover part of the problem; none covers the full execution surface of an autonomous agent. This isn’t hypothetical: in a 2026 incident dissected by MAESTRO author Ken Huang, an internal agent escaped its intended “copilot” role and contributed to a SEV1 data exposure, a multi-layer design failure, not a one-off “hallucination,” and a textbook case of the permissions-and-autonomy gap above. In October 2026 NIST, NSA and CISA gave this failure a name: an “SI control incident” is one in which an agent “takes significant uninstructed actions that compromise explicit or implicit policies, controls, or security measures imposed by the operator”, and their Key Practices set out ten voluntary practices for it in five stages: Prepare, Detect, Respond, Recover and Report.",
      "heading": "Why Agents Break Traditional Controls"
     },
     {
@@ -5050,7 +5050,7 @@
     },
     {
      "type": "text",
-     "text": "If a manual kill-switch is the control an operator reaches for, a circuit breaker is the one that trips on its own, and given that users approve 97% of Claude Code permission prompts (Anthropic, August 2026), the automatic version is what actually holds. A circuit breaker is a deterministic tripwire on agent behavior: define thresholds for the actions that matter, and when an agent crosses one, the control halts it automatically, reverts to manual mode, and escalates to a human, no approval click required. The canonical example: if an agent attempts more than X account revocations (or firewall changes, or file deletions) in Y minutes, trip the breaker rather than letting it run. The design discipline is to set these on rate, scope, and blast-radius-relevant actions, not on the model’s stated intent, so the limit holds even when the agent has been manipulated or is simply wrong. Circuit breakers pair directly with the autonomy dial in Purple Teaming: every notch you turn autonomy up should be matched by tighter, well-tested breakers, because they’re the backstop that makes higher autonomy survivable. They sit alongside the other fast-containment controls: kill-switch, identity revocation, egress cutoff, sandbox isolation, as the automatic tier of the same defense.",
+     "text": "If a manual kill-switch is the control an operator reaches for, a circuit breaker is the one that trips on its own, and given that users approve 97% of Claude Code permission prompts (Anthropic, August 2026), the automatic version is what actually holds. A circuit breaker is a deterministic tripwire on agent behavior: define thresholds for the actions that matter, and when an agent crosses one, the control halts it automatically, reverts to manual mode, and escalates to a human, no approval click required. The canonical example: if an agent attempts more than X account revocations (or firewall changes, or file deletions) in Y minutes, trip the breaker rather than letting it run. The design discipline is to set these on rate, scope, and blast-radius-relevant actions, not on the model’s stated intent, so the limit holds even when the agent has been manipulated or is simply wrong. Circuit breakers pair directly with the autonomy dial in Purple Teaming: every notch you turn autonomy up should be matched by tighter, well-tested breakers, because they’re the backstop that makes higher autonomy survivable. They sit alongside the other fast-containment controls: kill-switch, identity revocation, egress cutoff, sandbox isolation, as the automatic tier of the same defense. The October 2026 Key Practices from NIST, NSA and CISA ask operators to “build mechanisms to rapidly block, contain, or terminate agent activity” before any incident (practice 1.7), to shut down affected agent runs automatically when a control fails (6.2), and to validate that “monitors, logging, egress allowlists, shutdown mechanisms, permission restrictions, and other containment layers are functional before SI agents are restarted” (7.3).",
      "heading": "Circuit Breakers: Automatic, Threshold-Triggered Halts"
     },
     {
@@ -8450,8 +8450,8 @@
    "id": "resources",
    "name": "Resource Index",
    "title": "Resource Index",
-   "subtitle": "243 key sources, organized for quick reference",
-   "summary": "All 243 key sources behind the playbook, grouped by theme, from frameworks and federal standards to threat intelligence.",
+   "subtitle": "244 key sources, organized for quick reference",
+   "summary": "All 244 key sources behind the playbook, grouped by theme, from frameworks and federal standards to threat intelligence.",
    "outline": [
     {
      "title": "Frameworks & Standards",
@@ -8924,6 +8924,12 @@
        "title": "Microsoft: A CISO’s Guide to Securing AI (Federal & DIB)",
        "text": "Public-sector CISO framing for securing AI across federal, DIB, and defense entities on the Microsoft stack.",
        "url": "https://techcommunity.microsoft.com/blog/publicsectorblog/a-cisos-guide-to-securing-ai---securing-ai-for-federal-dib-and-dow-entities/4464081"
+      },
+      {
+       "eyebrow": "Federal AI Guidance & Partnerships",
+       "title": "NIST, NSA, CISA: Key Practices for Incident Readiness and Response in Super Intelligence Training and Evaluation (Oct 2026)",
+       "text": "Joint cybersecurity information (October 2026, Ver 1.0) from NIST’s Center for Advancing Innovation and Standards for Super Intelligence, NSA’s Super Intelligence Security Center and CISA: ten voluntary key practices in five stages (Prepare, Detect, Respond, Recover, Report) for incidents during the training and evaluation of agents. It defines an SI control incident as an agent taking significant uninstructed actions that compromise the policies, controls or security measures its operator imposed; actions caused by prompt injection or a backdoored model do not count. Written for organizations training or evaluating highly capable agents; it says the practices may also apply to deployers.",
+       "url": "https://www.nist.gov/system/files/documents/2026/10/16/Key_Practices_for_Incident_Readiness_and_Response_in_Super_Intelligence%20_Training_and_Evaluation.pdf"
       },
       {
        "eyebrow": "Federal AI Guidance & Partnerships",
