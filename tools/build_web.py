@@ -526,10 +526,11 @@ def version_line() -> str:
 
 
 def content_line() -> str:
-    """The footer's line on every page (content release 1.0.1, 6.5): "Content checked 28 Oct 2026", the content release
-    date from content/stack.json, the same source as the version line, which stays on the About pages."""
+    """The footer's line on every page (content release 1.0.1, 6.5; build 6): "Content updated 7 Nov 2026", the content
+    release date from content/stack.json. It says what it is: the day the content was last released, not the day a source
+    was last checked, which the map's front door gives ("Sources last checked"). The build string stays on the About pages."""
     meta = json.loads((ROOT / "content" / "stack.json").read_text(encoding="utf-8"))
-    label = meta["ui"]["labels"]["contentChecked"]
+    label = meta["ui"]["labels"]["contentUpdated"]
     return f'{label} {fmt_date(meta["meta"]["builtOn"]).replace(" ", "\u00a0")}'
 
 
@@ -744,9 +745,11 @@ class Renderer:
                 f'<p class="lede">{self.t(meta["description"])}</p>'
                 f'<p class="actions"><a class="btn primary" href="#view-doors">{self.label("heroPrimary")}</a> '
                 f'<a class="btn secondary" href="#view-stack">{self.label("heroSecondary")}</a></p>'
-                f'<p class="stamp"><a href="#view-about">{self.label("contentVersion")} {esc(meta["contentVersion"])}</a>, '
-                # the dot stays with the link after it, so no line ends with a dot (8, the parked nits)
-                f'{self.label("checkedThrough")} {fmt_date(self.latest_check()).replace(" ", "\u00a0")} '
+                # build 6: the line's date says what it is, "Sources last checked" and the newest verification date on the
+                # stack (latest_check); each dot stays with the part after it, so no line ends with a dot (8, the parked nits)
+                f'<p class="stamp"><a href="#view-about">{self.label("contentVersion")} {esc(meta["contentVersion"])}</a> '
+                f'<span class="nw">{self.label("metaSeparator").strip()} {self.label("checkedThrough")} '
+                f'{fmt_date(self.latest_check()).replace(" ", "\u00a0")}</span> '
                 f'<span class="nw">{self.label("metaSeparator").strip()} <a href="../#about-name">{self.label("whyName")}</a></span></p></div>\n')
 
     def footer(self) -> str:

@@ -270,8 +270,11 @@ struct AboutScreen {
         var b = ProseBuilder()
         name = meta.name
         let sep = store.label("metaSeparator")
+        // build 6: two dates, each saying what it is, as on the website: the day the content was last released and the
+        // newest verification date on the stack. The build string shows here, on About, and nowhere else.
         version = [store.appVersion, "\(store.label("contentVersion")) \(meta.contentVersion)",
-                   "\(store.label("releasedOn")) \(Rules.formatDate(meta.builtOn))"].filter { !$0.isEmpty }.joined(separator: sep)
+                   "\(store.label("contentUpdated")) \(Rules.formatDate(meta.builtOn))",
+                   "\(store.label("checkedThrough")) \(Rules.formatDate(store.latestCheck))"].filter { !$0.isEmpty }.joined(separator: sep)
         // the story leads the screen, so its runs come first and take the first uses
         storyHeading = store.label("whyNameHeading")
         story = (meta.about.nameStory ?? []).map { b.text($0) }

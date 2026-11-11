@@ -1086,8 +1086,26 @@ def main() -> int:
         want_ = [("a", {"btn", "primary"}, "#view-doors", norm(L["heroPrimary"])), ("a", {"btn", "secondary"}, "#view-stack", norm(L["heroSecondary"]))]
         if got != want_ or any(isinstance(c, str) and c.strip() for c in actions.children):
             errs.append(f"front door buttons are {got}, expected the primary to the doors and the secondary to the stack")
-        if not norm(text_of(stamp)).startswith(f'{L["contentVersion"]} {d["meta"]["contentVersion"]}, {L["checkedThrough"]} '):
+        dot_ = L["metaSeparator"].strip()
+        if not norm(text_of(stamp)).startswith(f'{L["contentVersion"]} {d["meta"]["contentVersion"]} {dot_} {L["checkedThrough"]} '):
             errs.append("front door: the version line does not give the content version and the check date")
+        # build 6: the line's date is the newest verification date on the stack (the glossary's spelling checks are not
+        # source checks), worked out here from the content, not taken from the builder
+        def checks_(n_):
+            if isinstance(n_, dict):
+                for k_, x_ in n_.items():
+                    if k_ == "verifiedOn" and isinstance(x_, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", x_):
+                        yield x_
+                    yield from checks_(x_)
+            elif isinstance(n_, list):
+                for x_ in n_:
+                    yield from checks_(x_)
+        newest_ = max(checks_({k_: x_ for k_, x_ in d.items() if k_ != "glossary"}), default="")
+        shown_ = re.search(re.escape(L["checkedThrough"]) + r"[ \u00a0](\d{1,2})[ \u00a0]([A-Z][a-z]{2})[ \u00a0](\d{4})", htmllib.unescape(text_of(stamp)))
+        months_ = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        iso_ = f"{shown_.group(3)}-{months_.index(shown_.group(2)) + 1:02d}-{int(shown_.group(1)):02d}" if shown_ and shown_.group(2) in months_ else None
+        if iso_ != newest_:
+            errs.append(f"front door: {L['checkedThrough']!r} gives {iso_}, but the newest verifiedOn on the stack is {newest_}")
         # Session 7D: the version line holds its link to About and exactly one more, Why the name?, to the story's heading,
         # which since the site review (28 October 2026) lives on the hub alone
         # since content release 1.0.1 the dot and Why the name sit together in one no-wrap span (8, the parked nits)
@@ -1103,12 +1121,12 @@ def main() -> int:
         parts_ = merged
         links_ = [(c.tag, c.attrs.get("href"), norm(text_of(c))) for c in parts_ if not isinstance(c, str)]
         # the date's spaces do not break (content release 1.0.1, 8: no line breaks inside it)
-        middle = re.escape(f', {L["checkedThrough"]} ') + r"\d{1,2}[ \u00a0][A-Z][a-z]{2}[ \u00a0]\d{4}" + re.escape(L["metaSeparator"])
+        middle = re.escape(f' {dot_} {L["checkedThrough"]} ') + r"\d{1,2}[ \u00a0][A-Z][a-z]{2}[ \u00a0]\d{4}" + re.escape(f' {dot_} ')
         if [(t_, h_) for t_, h_, _ in links_] != [("a", "#view-about"), ("a", "../#about-name")] or links_[1][2] != norm(L["whyName"]):
             errs.append(f"front door: the version line holds {links_}, expected the link to About and one link {L['whyName']!r} to the hub's ../#about-name")
         elif (len(parts_) != 3 or not isinstance(parts_[1], str)
               or not re.fullmatch(middle, htmllib.unescape(parts_[1]))):
-            errs.append(f"front door: between its two links the version line must read exactly ', {L['checkedThrough']} <date>{L['metaSeparator']}', "
+            errs.append(f"front door: between its two links the version line must read exactly ' {dot_} {L['checkedThrough']} <date> {dot_} ', "
                         f"and hold nothing else; it holds {[p_ if isinstance(p_, str) else '<' + p_.tag + '>' for p_ in parts_]}")
         hub_ = parse((DOCS / "index.html").read_text(encoding="utf-8")) if (DOCS / "index.html").is_file() else None
         target = (hub_.ids.get("about-name") if hub_ else None) or []

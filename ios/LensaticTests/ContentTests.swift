@@ -266,7 +266,11 @@ final class ContentTests: XCTestCase {
         XCTAssertTrue(text.contains(store.content.meta.about.licensing))
         XCTAssertEqual(about.story.count, store.content.meta.about.nameStory?.count)
         XCTAssertTrue(about.version.contains(store.content.meta.contentVersion))
-        XCTAssertTrue(about.version.contains("\(store.label("releasedOn")) \(Rules.formatDate(store.content.meta.builtOn))"))
+        XCTAssertTrue(about.version.contains("\(store.label("contentUpdated")) \(Rules.formatDate(store.content.meta.builtOn))"))
+        // build 6: the second date is the newest verification date on the stack, named for what it is
+        XCTAssertTrue(about.version.contains("\(store.label("checkedThrough")) \(Rules.formatDate(store.latestCheck))"), about.version)
+        XCTAssertEqual(store.label("contentUpdated"), "Content updated")
+        XCTAssertEqual(store.label("checkedThrough"), "Sources last checked")
         XCTAssertFalse(store.appVersion.isEmpty)
         XCTAssertTrue(about.version.contains(store.appVersion))
         XCTAssertEqual(about.madeBy, "\(store.label("madeBy")) \(store.maker)")
