@@ -132,7 +132,7 @@ EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-
 
 # the store screenshots (section 5; the redesign's screens from R3): eight screens per device, in this order, at Apple's
 # required sizes
-STORE_SCREENS = ("start", "path", "stack", "card", "sources", "search", "library", "play")
+STORE_SCREENS = ("home", "path", "stack", "card", "sources", "search", "guide", "play")
 # the iPhone slot App Store Connect requires is the 6.3-inch display (24 October 2026); the list names the 6.3-inch copies
 DISPLAYS = {"iPhone": ("iPhone 6.3-inch display", 1206, 2622), "iPad": ("iPad 13-inch display", 2064, 2752)}
 
@@ -218,13 +218,14 @@ def build_description(d: dict) -> str:
             f"order, as steps you check off, and counts down to the next deadline wherever a source dates one. Beside the map sit two companions to read "
             f"on your phone: {f['guide']}, a zero trust field guide, and {f['playbook']}, a playbook of {f['plays']} plays.")
     items = [
+        # build 6: Home is the first tab and holds what the Library tab held
+        ("Home", "three doors, to Framework Maps, the field guide and the playbook, each chapter and play summary first, with your saved items"),
         ("My Path", f"pick one of {n(len(f['doors']))} trailheads ({doors}) and get your frameworks in order, as steps you check off"),
         ("Countdown", "the days to your next deadline where a source dates one, each date taken from that source"),
         ("What Changed", "new documents, links and deadlines in the frameworks, newest first, with each source check a tap away"),
         ("Explore", f"the stack in {n(f['layers'])} layers beside the AI column, the matrix of pillars and functions, and the "
                     f"{n(f['functions'])} functions"),
         ("Search", "one search across frameworks, path steps, the field guide, the playbook and the glossary, with results in iOS search too"),
-        ("Library", "the field guide and the playbook as native screens, each chapter and play summary first, with your saved items"),
         ("Sources", "every framework with its publisher, edition and date, a link to the primary that opens inside the app, and "
                     "the date it was last verified"),
         ("Home Screen Widget", "your countdown and next step, in small and medium sizes"),
@@ -486,8 +487,8 @@ def check(rep) -> None:
     for k, what in (("sha256", "file"), ("contentSha256", "content")):
         hashes = [s.get(k) for s in shots]
         errs += [f"two screenshots share the {what} SHA-256 {x[:12]}" for x in sorted({x for x in hashes if x and hashes.count(x) > 1})]
-    rep.check("ios/store/screenshots.json: eight screens per device (the welcome, My Path, Explore's stack, a Framework card, "
-              "its Sources sheet, Search, the Library, a play) at Apple's sizes (iPhone 6.3-inch 1206 x 2622, iPad 13-inch 2064 x 2752), "
+    rep.check("ios/store/screenshots.json: eight screens per device (Home, My Path, Explore's stack, a Framework card, "
+              "its Sources sheet, Search, the Field Guide, a play) at Apple's sizes (iPhone 6.3-inch 1206 x 2622, iPad 13-inch 2064 x 2752), "
               "each with the SHA-256 of its file and of its pixels below the status bar, no two alike", errs, f"{len(shots)} screenshots")
 
     # the house rules in ios/store/

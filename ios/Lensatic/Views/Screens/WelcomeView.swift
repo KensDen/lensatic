@@ -1,10 +1,14 @@
 import SwiftUI
 
-/// The welcome screen (the redesign, R1; Main.dc.html): one question and the four trailheads. On first launch it is
-/// the whole app; afterwards Change Path brings it back over the tabs, with the current trailhead outlined and Cancel.
+/// The trailhead question (the redesign, R1; Main.dc.html; the welcome screen until build 6): one question and the five
+/// trailheads. Since build 6 the app opens on Home, and the question comes over the tabs: full screen for the first pick
+/// (isFirst), with Cancel beside the compass tile, so the screen is as tall as it was; and as a sheet for Change Path
+/// (isChange), with the current trailhead outlined and Cancel.
 struct WelcomeView: View {
     @Environment(AppModel.self) private var model
     var isChange = false
+    /// The first pick, over Home: Cancel shares the compass tile's row.
+    var isFirst = false
     @State private var showStory = false
 
     var body: some View {
@@ -23,17 +27,27 @@ struct WelcomeView: View {
                         }
                     }
                     // the compass opens the story of the name (R5, item 17): no new words on the screen itself
-                    Button { showStory = true } label: { MarkTile() }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel("Why Lensatic")
-                        .accessibilityHint("Opens the story of the name")
-                        .accessibilityIdentifier("welcome-story")
+                    HStack(alignment: .top) {
+                        Button { showStory = true } label: { MarkTile() }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel("Why Lensatic")
+                            .accessibilityHint("Opens the story of the name")
+                            .accessibilityIdentifier("welcome-story")
+                        if isFirst {
+                            Spacer()
+                            Button { model.changingDoor = false } label: {
+                                Text("Cancel").font(DS.link).foregroundStyle(Palette.link).frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityIdentifier("welcome-cancel")
+                        }
+                    }
                     VStack(alignment: .leading, spacing: 8) {
                         Eyebrow(text: "Choose a trailhead")
-                        Text("Which frameworks apply to you?")
+                        Text(model.store.label("homeMapsTitle"))
                             .font(DS.welcomeTitle).foregroundStyle(Palette.fg)
                             .accessibilityAddTraits(.isHeader)
-                        Text("Pick where you stand. Lensatic builds your path: what binds you, in what order, and by when.")
+                        Text(model.store.label("welcomeLede"))
                             .font(DS.lede).foregroundStyle(Palette.fg2).lineSpacing(3)
                     }
                     .fixedSize(horizontal: false, vertical: true)
@@ -67,12 +81,6 @@ struct WelcomeView: View {
         .background(GridGround())
         .accessibilityIdentifier("welcome")
         .sheet(isPresented: $showStory) { StorySheet().environment(model).tint(Palette.link) }
-        .onAppear {
-            #if DEBUG
-            // -LensaticStory opens the sheet at launch, for the tests and screenshots
-            if !isChange && CommandLine.arguments.contains("-LensaticStory") { showStory = true }
-            #endif
-        }
     }
 }
 
@@ -82,19 +90,23 @@ struct WelcomeView: View {
 /// tile ground, as the Dark icon. A hairline edge keeps the tile's shape against the ground in both.
 struct MarkTile: View {
     @Environment(\.colorScheme) private var scheme
+    /// The tile's side: 64 points on the trailhead question, 44 in Home's header (build 6), the mark and the corner in
+    /// proportion.
+    var side: CGFloat = 64
 
     var body: some View {
         let dark = scheme == .dark
+        let mark = side * 46 / 64, radius = side / 4
         Image("Mark")
             .resizable()
             .renderingMode(.template)
             .scaledToFit()
-            .frame(width: 46, height: 46)
+            .frame(width: mark, height: mark)
             .foregroundStyle(dark ? Palette.tileFg : Palette.secGuides)
-            .frame(width: 64, height: 64)
-            .background(dark ? Palette.tileBg : Palette.bg2, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(dark ? Palette.lineStrong : Palette.line, lineWidth: 1))
-            .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+            .frame(width: side, height: side)
+            .background(dark ? Palette.tileBg : Palette.bg2, in: RoundedRectangle(cornerRadius: radius, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: radius, style: .continuous).strokeBorder(dark ? Palette.lineStrong : Palette.line, lineWidth: 1))
+            .contentShape(RoundedRectangle(cornerRadius: radius, style: .continuous))
     }
 }
 

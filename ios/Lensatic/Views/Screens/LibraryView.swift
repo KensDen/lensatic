@@ -1,128 +1,7 @@
 import SwiftUI
 
-/// Library (content release 1.0.1, Ken's ruling of 7 November 2026, 6.19 and section 7): a system inset-grouped list with
-/// one hero row, the two guide cards, then Saved and Reference in the system's own section style. Every count is
-/// computed: the guide's week from the weeks the reader marked done, the plays read from the plays the reader opened, the
-/// terms and verified sources from the content. The compass story lives on About, linked from Reference's footer.
-struct LibraryView: View {
-    @Environment(AppModel.self) private var model
-    @Environment(\.dynamicTypeSize) private var typeSize
-    static let savedShown = 5
-
-    var body: some View {
-        let site = model.library.site
-        let saved = model.progress.saved.filter { model.describe($0) != nil }
-        List {
-            Group {
-                SwiftUI.Section {
-                    ScreenHeader(title: AppTab.library.title)
-                        .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 4, trailing: 20))
-                        .listRowBackground(Color.clear)
-                        .listRowSeparator(.hidden)
-                    let cards = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 12)) : AnyLayout(HStackLayout(alignment: .top, spacing: 12))
-                    cards {
-                        Button { model.push(.guide) } label: {
-                            GuideCard(symbol: "map.fill", tint: Palette.secGuides, tile: .green, kicker: "Field Guide", title: site.guideTitle,
-                                      progress: guideProgress.fraction, line: guideProgress.line)
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityIdentifier("library-guide")
-                        Button { model.push(.plays) } label: {
-                            GuideCard(symbol: "star.fill", tint: Palette.secPurple, tile: .purple, kicker: site.playsName, title: site.playsTitle,
-                                      progress: playsProgress.fraction, line: playsProgress.line)
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityIdentifier("library-plays")
-                    }
-                    // the two cards share one height
-                    .fixedSize(horizontal: false, vertical: true)
-                    // the cards' edges line up with the sections' below
-                    .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
-                    .listRowBackground(Color.clear)
-                    .listRowSeparator(.hidden)
-                }
-                SwiftUI.Section {
-                    if saved.isEmpty {
-                        Text("Nothing saved yet. Tap the bookmark on a framework, a step or a play to keep it here.")
-                            .font(DS.style(.subheadline)).foregroundStyle(Palette.fg2)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .accessibilityIdentifier("library-saved-empty")
-                    } else {
-                        // grouped by type: frameworks and sources, then steps, then plays, each newest first
-                        ForEach(LibraryView.byType(Array(saved.prefix(LibraryView.savedShown))), id: \.key) { item in SavedListRow(item: item) }
-                        if saved.count > LibraryView.savedShown {
-                            NavigationLink(value: Nav.saved) {
-                                Text("All \(saved.count) Saved").font(DS.style(.body))
-                            }
-                            .accessibilityIdentifier("library-all-saved")
-                        }
-                    }
-                } header: {
-                    ListNote("Saved")
-                }
-                .accessibilityElement(children: .contain)
-                .accessibilityIdentifier("library-saved")
-                #if DEBUG
-                .id("library-saved")
-                #endif
-                SwiftUI.Section {
-                    ReferenceRow(icon: RowIcon.glossary, title: model.store.navTitle(.glossary), detail: "\(model.store.terms.count) terms",
-                                 nav: .glossary, id: "library-glossary")
-                    ReferenceRow(icon: RowIcon.sources, title: "All Sources", detail: "\(model.store.counts[.verified] ?? 0) verified",
-                                 nav: .sources, id: "library-sources")
-                    ReferenceRow(icon: RowIcon.changes, title: "What Changed", detail: Rules.shortDate(model.store.content.meta.builtOn),
-                                 nav: .changes, id: "library-changes")
-                } header: {
-                    ListNote("Reference")
-                } footer: {
-                    // About, with the compass story and the square photo, from a plain footer link (6.19)
-                    Button { model.push(.about) } label: {
-                        Text("About \(model.store.content.meta.name)").font(DS.style(.footnote)).foregroundStyle(Palette.link)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .frame(minHeight: 44, alignment: .leading).contentShape(Rectangle())
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityIdentifier("library-about")
-                }
-            }
-            .lxRows()
-        }
-        .listStyle(.insetGrouped)
-        .lxListSurface()
-        .environment(\.defaultMinListRowHeight, 44)
-        .hardTopEdge()
-        .toolbar(.hidden, for: .navigationBar)
-        .accessibilityIdentifier("library")
-        #if DEBUG
-        .debugScrollTo()
-        #endif
-    }
-
-    /// Saved items grouped by type, in the order frameworks, steps, plays, each group keeping its newest-first order.
-    static func byType(_ items: [SavedItem]) -> [SavedItem] {
-        func rank(_ i: SavedItem) -> Int {
-            switch i { case .entity: return 0; case .step: return 1; case .play: return 2 }
-        }
-        return items.enumerated().sorted { a, b in rank(a.element) != rank(b.element) ? rank(a.element) < rank(b.element) : a.offset < b.offset }.map(\.element)
-    }
-
-    /// Week N of 8: the first week on the reader's route not marked done; every week done says so. The bar is the share done.
-    private var guideProgress: (line: String, fraction: Double) {
-        guard let door = model.door else { return ("", 0) }
-        let weeks = model.library.weeks(for: door.id)
-        let done = weeks.filter { model.progress.weeksDone(model.library.weekKey($0, door: door.id)).contains($0.week) }
-        let fraction = weeks.isEmpty ? 0 : Double(done.count) / Double(weeks.count)
-        if let next = weeks.first(where: { w in !done.contains(w) }) { return ("Week \(next.week) of \(weeks.count)", fraction) }
-        return ("All \(weeks.count) weeks done", fraction)
-    }
-
-    /// N of 35 plays read: the plays the reader has opened, of the plays in the file.
-    private var playsProgress: (line: String, fraction: Double) {
-        let plays = model.library.plays.plays
-        let read = plays.filter { model.progress.isRead(play: $0.id) }.count
-        return ("\(read) of \(plays.count) plays read", plays.isEmpty ? 0 : Double(read) / Double(plays.count))
-    }
-}
+// The screens Home's doors and rows open (build 6: the Library tab's own screen became Home, HomeView.swift): the saved
+// list, the Field Guide and its chapters, the plays and one play, and the blocks they are drawn from.
 
 struct SavedRow: View {
     @Environment(AppModel.self) private var model
@@ -137,7 +16,7 @@ struct SavedRow: View {
     }
 }
 
-/// A saved item as a native row in Library's Saved section (6.19): its title, and its kind and place as secondary text.
+/// A saved item as a native row in Home's Saved section (6.19): its title, and its kind and place as secondary text.
 struct SavedListRow: View {
     @Environment(AppModel.self) private var model
     let item: SavedItem
@@ -359,7 +238,7 @@ struct PlayView: View {
                 SummaryFirst(summary: p.summary, outline: p.outline, accent: Palette.secPurple)
                 BlocksView(blocks: p.blocks, accent: Palette.secPurple)
             }
-            // a play opened counts as read on the Library's card (content release 1.0.1)
+            // a play opened counts as read on Home's playbook door (content release 1.0.1)
             .onAppear { model.progress.markRead(play: id) }
         } else {
             Palette.bg
@@ -620,8 +499,8 @@ struct OutsideLink: View {
 
 #if DEBUG
 extension View {
-    /// Scrolls the list inside to the view -LensaticScrollTo names, as DetailScreen does (the empty-state captures: the
-    /// Library's Saved section, which sits below the fold at the largest text sizes).
+    /// Scrolls the list inside to the view -LensaticScrollTo names, as DetailScreen does (the empty-state captures:
+    /// Home's Saved section, which sits below the fold at the largest text sizes).
     func debugScrollTo() -> some View {
         ScrollViewReader { proxy in
             self.task {

@@ -40,12 +40,12 @@ Framework Maps is a wayfinder, not a crosswalk. It guides you, showing which fra
 Lensatic Cyber turns that map into a path. Tell it where you stand and it lists the frameworks that apply to you, in order, as steps you check off, and counts down to the next deadline wherever a source dates one. Beside the map sit two companions to read on your phone: Zero Trust Study Route, a zero trust field guide, and Agentic SecOps, a playbook of 35 plays.
 
 What’s Inside
+- Home: three doors, to Framework Maps, the field guide and the playbook, each chapter and play summary first, with your saved items
 - My Path: pick one of five trailheads (Department of War Component, Federal Civilian Agency, Defense Contractor with CUI, State and Local Government, or Industry and Academia) and get your frameworks in order, as steps you check off
 - Countdown: the days to your next deadline where a source dates one, each date taken from that source
 - What Changed: new documents, links and deadlines in the frameworks, newest first, with each source check a tap away
 - Explore: the stack in five layers beside the AI column, the matrix of pillars and functions, and the six functions
 - Search: one search across frameworks, path steps, the field guide, the playbook and the glossary, with results in iOS search too
-- Library: the field guide and the playbook as native screens, each chapter and play summary first, with your saved items
 - Sources: every framework with its publisher, edition and date, a link to the primary that opens inside the app, and the date it was last verified
 - Home Screen Widget: your countdown and next step, in small and medium sizes
 - Siri and Shortcuts: ask for your next step, open Search, or open any framework, step or play
@@ -57,7 +57,7 @@ No account. No data collected.
 Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework publisher.
 ```
 
-2539 characters (limit 4,000)
+2550 characters (limit 4,000)
 
 ## Keywords (`keywords`)
 
@@ -172,10 +172,10 @@ usesNonExemptEncryption: false
 ## App Review Notes (`reviewNotes`)
 
 ```text
-No sign-in is needed: the app has no accounts. It works fully offline and makes no network requests. The app summarizes public documents. The frameworks and sources on its stack are each cited in its Sources section: United States government and standards publications, and one privately published framework released under a Creative Commons license. The app is not affiliated with any agency. Outside links open in Safari’s viewer inside the app (SFSafariViewController), which loads the page itself; the app makes no request. What the app keeps (the trailhead picked, the checked steps, saved items, the guide weeks marked done, the plays opened, the last five searches and the day What Changed was last viewed) stays in one file on the device, in an App Group shared with the app’s home screen widget; nothing is sent anywhere. Siri and Shortcuts answer from that file on the device. Share hands a card image and the source link to the system share sheet only when the reader taps it. To see the path, pick a trailhead on the first screen; the department’s trailhead has a dated deadline for the countdown. The privacy policy is linked in About, beside the support page and the source code. Support is through the public issues page linked from the support page, where the app goes by Lensatic, its name outside the App Store; the app collects no data.
+No sign-in is needed: the app has no accounts. It works fully offline and makes no network requests. The app summarizes public documents. The frameworks and sources on its stack are each cited in its Sources section: United States government and standards publications, and one privately published framework released under a Creative Commons license. The app is not affiliated with any agency. Outside links open in Safari’s viewer inside the app (SFSafariViewController), which loads the page itself; the app makes no request. What the app keeps (the trailhead picked, the checked steps, saved items, the guide weeks marked done, the plays opened, the last five searches and the day What Changed was last viewed) stays in one file on the device, in an App Group shared with the app’s home screen widget; nothing is sent anywhere. Siri and Shortcuts answer from that file on the device. Share hands a card image and the source link to the system share sheet only when the reader taps it. To see the path, tap Framework Maps on the first screen and pick a trailhead; the department’s trailhead has a dated deadline for the countdown. The privacy policy is linked in About, beside the support page and the source code. Support is through the public issues page linked from the support page, where the app goes by Lensatic, its name outside the App Store; the app collects no data.
 ```
 
-1355 characters (limit 4,000)
+1378 characters (limit 4,000)
 
 ## Version (`version`)
 
@@ -190,7 +190,7 @@ No sign-in is needed: the app has no accounts. It works fully offline and makes 
 What changed since the version before; not used for a first version.
 
 ```text
-Zero trust front and center, web-first source links, a Title Case glossary, and small fixes.
+A new Home with three doors, zero trust front and center, web-first source links, a Title Case glossary, and small fixes.
 ```
 
-92 characters (limit 4,000)
+121 characters (limit 4,000)

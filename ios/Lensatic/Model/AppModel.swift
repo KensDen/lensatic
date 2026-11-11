@@ -10,9 +10,11 @@ final class AppModel {
     let library: Library
     let changes: Changes
     let progress: ProgressStore
-    var tab: AppTab = .path
+    /// The app opens on Home (build 6), on first launch and after.
+    var tab: AppTab = .home
     var paths: [AppTab: [Nav]] = [:]
-    /// The welcome screen over the tabs, to pick a different trailhead (Change on My Path, Library's Settings).
+    /// The trailhead question over the tabs: to pick the first trailhead (Home's Framework Maps door, My Path before a
+    /// pick) or a different one (Change Path on My Path).
     var changingDoor = false
     var explore: ExploreMode = .stack
     var matrixView: PillarView = .dow
@@ -61,8 +63,8 @@ final class AppModel {
         if progress.door == nil && progress.state.changesViewed == nil {
             progress.viewChanges(through: changes.contentVersion, on: Changes.today())
         }
-        progress.choose(id)
         changingDoor = false
+        progress.choose(id)
         paths[.path] = []
         tab = .path
         if let view = door(id)?.pillarView.value { matrixView = view }
@@ -209,6 +211,41 @@ final class AppModel {
         paths[.path] = []
     }
 
+    /// Home's Framework Maps door (build 6): My Path once a trailhead is picked; before that, the trailhead question.
+    func openMaps() {
+        if door == nil { changingDoor = true } else { showPath() }
+    }
+
+    /// Home's status lines (build 6), each computed from the content and the progress file.
+    /// The reader's trailhead and steps done, as the parts of one line; nil before a pick.
+    var pathStatus: [String]? {
+        guard let door else { return nil }
+        let p = plan(door).progress(progress.checked(door.id))
+        if p.total == 0 { return [door.shortTitle] }
+        return [door.shortTitle, "\(p.done) of \(p.total) \(p.total == 1 ? "step" : "steps") done"]
+    }
+
+    /// Week N of 8: the first week on the reader's route not marked done; every week done says so. Before a trailhead is
+    /// picked, the route's length. The fraction is the share done.
+    var guideStatus: (line: String, fraction: Double) {
+        guard let door else {
+            let n = library.guide.core.count + (library.guide.tracks.first?.weeks.count ?? 0)
+            return ("\(n) weeks", 0)
+        }
+        let weeks = library.weeks(for: door.id)
+        let done = weeks.filter { progress.weeksDone(library.weekKey($0, door: door.id)).contains($0.week) }
+        let fraction = weeks.isEmpty ? 0 : Double(done.count) / Double(weeks.count)
+        if let next = weeks.first(where: { w in !done.contains(w) }) { return ("Week \(next.week) of \(weeks.count)", fraction) }
+        return ("All \(weeks.count) weeks done", fraction)
+    }
+
+    /// N of 35 plays read: the plays the reader has opened, of the plays in the file.
+    var playsStatus: (line: String, fraction: Double) {
+        let plays = library.plays.plays
+        let read = plays.filter { progress.isRead(play: $0.id) }.count
+        return ("\(read) of \(plays.count) plays read", plays.isEmpty ? 0 : Double(read) / Double(plays.count))
+    }
+
     /// Follow a link inside text: a screen pushes, a glossary term opens its entry, an outside address opens in the
     /// in-app reader (R3).
     func go(_ target: Target) {
@@ -219,7 +256,7 @@ final class AppModel {
         }
     }
 
-    /// What a saved item is called in the Library's list, the line under it, and its section's colour key.
+    /// What a saved item is called in Home's Saved list, the line under it, and its section's colour key.
     func describe(_ item: SavedItem) -> (title: String, line: String, section: String)? {
         let sep = store.label("metaSeparator")
         switch item {
@@ -257,6 +294,7 @@ final class AppModel {
     /// Launch arguments for the UI tests and the screenshot sheet (Debug builds only): -LensaticResetProgress forgets
     /// everything; -LensaticDoor <id> picks a trailhead; -LensaticChecked <1,2> checks those steps on it; -LensaticSaved
     /// <key,key> saves those items; -LensaticWeeks <1,2> marks those weeks done; -LensaticTab <tab> opens a tab;
+    /// -LensaticPick opens the trailhead question over Home;
     /// -LensaticExplore <view> picks Explore's view; -LensaticNav <path> pushes a screen (as Target.url's path, such
     /// as entity/dod-zt-strategy) on its tab, and -LensaticSources its Sources sheet; -LensaticEntity <id> opens a
     /// card on My Path; -LensaticQuery <text> fills Search; -LensaticRecent <text,text> fills Search's Recent list, newest
@@ -278,6 +316,7 @@ final class AppModel {
         }
         for item in list("-LensaticSaved").reversed().compactMap(SavedItem.init(key:)) where !progress.isSaved(item) { progress.toggleSaved(item) }
         if let t = value("-LensaticTab").flatMap(AppTab.init(rawValue:)) { tab = t }
+        if args.contains("-LensaticPick") { changingDoor = true }
         if let e = value("-LensaticExplore").flatMap(ExploreMode.init(rawValue:)) { explore = e }
         if let q = value("-LensaticQuery") { query = q }
         // -LensaticRecent <text,text> keeps those searches, newest first, as running them would (the empty-state captures)
@@ -297,8 +336,8 @@ final class AppModel {
             let day = changes.items.first { $0.release == v }?.released ?? changes.builtOn
             progress.setChangesViewed(v == "none" ? nil : .init(through: v, on: day.isEmpty ? Changes.today() : day))
         }
-        // -LensaticScrollTo <id> scrolls the screen opened to that figure (the R4 screenshots), or the Library to its Saved
-        // section (library-saved, the empty-state captures)
+        // -LensaticScrollTo <id> scrolls the screen opened to that figure (the R4 screenshots), or Home to its Saved
+        // section (home-saved, the empty-state captures)
         AppModel.debugScrollTo = value("-LensaticScrollTo")
         // -LensaticLink <url> follows one of the app's own links, as a tap on the widget does
         if let link = value("-LensaticLink").flatMap(URL.init(string:)) { open(link: link) }

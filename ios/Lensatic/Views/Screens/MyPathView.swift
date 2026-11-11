@@ -19,7 +19,8 @@ struct MyPathView: View {
             if let door = model.door {
                 content(door, model.plan(door))
             } else {
-                Palette.bg
+                // before a trailhead is picked (build 6: the app opens on Home, so this tab can be reached first)
+                NoTrailheadView()
             }
         }
         .background(Palette.bg)

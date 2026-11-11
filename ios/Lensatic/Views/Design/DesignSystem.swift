@@ -530,8 +530,12 @@ extension DS {
     }
 }
 
-/// The one card style (section 7.2): its radius and padding on the system's grouped surface, with no stroke and no
-/// coloured edge. A hero card may lay a tint gradient over the surface; nothing else changes.
+/// The one card style (section 7.2): its radius and padding on the app's card fill, with a hairline. A hero card may carry
+/// its section's tint: a flat wash over the fill and the tint in its hairline. The wash is light enough (7%, build 6) that
+/// the section's own colour, the secondary text and a link all keep 4.5:1 on it in light and dark; at the 30% build 5 used,
+/// the section's eyebrow fell to 3.5:1 on its own tint. It is flat, not a gradient: under several lines of small text a
+/// gradient gives the accessibility audit a background of many near-equal shades, and it reported text that measures 7:1
+/// from the simulator's pixels as failing.
 struct LxCard: ViewModifier {
     var radius: CGFloat = 18
     var tint: Color?
@@ -546,9 +550,11 @@ struct LxCard: ViewModifier {
                 // the app's card fill and hairline, as .card() and the list rows (lxRows) draw them
                 ZStack {
                     shape.fill(Palette.bg2)
-                    shape.strokeBorder(Palette.line, lineWidth: 1)
                     if let tint {
-                        shape.fill(LinearGradient(colors: [tint.opacity(0.30), tint.opacity(0.06)], startPoint: .topLeading, endPoint: .bottomTrailing))
+                        shape.fill(tint.opacity(0.07))
+                        shape.strokeBorder(tint.opacity(0.45), lineWidth: 1)
+                    } else {
+                        shape.strokeBorder(Palette.line, lineWidth: 1)
                     }
                 }
             }
@@ -559,6 +565,18 @@ struct LxCard: ViewModifier {
 extension View {
     /// The one card style (LxCard).
     func lxCard(radius: CGFloat = 18, tint: Color? = nil) -> some View { modifier(LxCard(radius: radius, tint: tint)) }
+}
+
+extension LxCard {
+    /// The radius of a hero card that sits in a system list's row (Home's doors, the iPad's stack). From iOS 26 the
+    /// inset-grouped list rounds its rows by 26 points and clips what is inside them, so a card with a smaller corner lost
+    /// its hairline at the row's corners (the fresh-eyes review of build 6, finding 7). There the card takes the corner
+    /// that, with the row's own inset, meets the list's; before iOS 26 the list's corner is the smaller one and the card
+    /// keeps its own.
+    static func inList(_ own: CGFloat, inset: CGFloat = 0) -> CGFloat {
+        if #available(iOS 26.0, *) { return max(own, 26 - inset) }
+        return own
+    }
 }
 
 /// A row's icon tile, as Settings draws them (section 7.3): a white SF Symbol on a tint in a 30-point rounded square,
@@ -588,6 +606,12 @@ enum RowIcon {
     static let changes = ("clock.arrow.circlepath", Color.orange)
     static let matrix = ("square.grid.3x3.fill", Color.indigo)
     static let aiColumn = ("cpu", Color.purple)
+    /// Home (build 6): the three doors, each in its section's own system tint, and the two About rows.
+    static let maps = ("signpost.right.fill", Color.teal)
+    static let guide = ("map.fill", Color.green)
+    static let playbook = ("star.fill", Color.purple)
+    static let story = ("location.north.circle.fill", Color.teal)
+    static let about = ("info.circle.fill", Color.gray)
 
     /// The five layers, top to bottom: outcomes, definition, target state, controls, verification.
     static func layer(_ order: Int) -> (String, Color) {

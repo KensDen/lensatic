@@ -155,20 +155,16 @@ struct StorySheet: View {
     }
 }
 
-/// Why "Lensatic" (Library, Reference): the name and versions, what the map is, how it was checked, the counts, the
+/// About Lensatic (Home, About): the name and versions, what the map is, how it was checked, the counts, the
 /// links, and the story of the name with the maker's photo.
 struct AboutView: View {
     @Environment(AppModel.self) private var model
 
-    /// A heading without its quotation marks, in lower case, to compare two headings.
-    static func plain(_ s: String) -> String {
-        s.filter { !"\"'\u{2018}\u{2019}\u{201C}\u{201D}".contains($0) }.lowercased()
-    }
-
     var body: some View {
         let s = model.screen("about") { AboutScreen(store: model.store) }
-        // no eyebrow: the screen is Lensatic's own About, reached from Library's About Lensatic (6.19), not the map's About
-        DetailScreen(title: "Why \u{201C}\(s.name)\u{201D}", identifier: "about-screen") {
+        // no eyebrow: the screen is Lensatic's own About, not the map's. Since build 6 Home has a row for the story of the
+        // name and a row for About, so this screen takes the About row's name and the story keeps its own heading below
+        DetailScreen(title: model.store.label("homeAbout").replacingOccurrences(of: "{name}", with: s.name), identifier: "about-screen") {
             // each part kept whole, the release date with the word before it, and each dot with the part after it (R5)
             Text(dotted(s.version.components(separatedBy: model.store.label("metaSeparator")), separator: model.store.label("metaSeparator"))).font(DS.eyebrowSmall).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
                 .accessibilityIdentifier("about-version")
@@ -178,11 +174,9 @@ struct AboutView: View {
                 .fixedSize(horizontal: false, vertical: true)
                 .accessibilityIdentifier("about-tagline")
             VStack(alignment: .leading, spacing: 14) {
-                // the story's heading is the screen's own title here (Why "Lensatic"), so it is not said twice (R4)
-                if AboutView.plain(s.storyHeading) != AboutView.plain("Why \(s.name)") {
-                    Text(s.storyHeading).font(DS.readerHeading).foregroundStyle(Palette.fg).accessibilityAddTraits(.isHeader)
-                        .accessibilityIdentifier("about-name")
-                }
+                // the story's own heading (Why "Lensatic"), under the screen's title
+                Text(s.storyHeading).font(DS.readerHeading).foregroundStyle(Palette.fg).accessibilityAddTraits(.isHeader)
+                    .accessibilityIdentifier("about-name")
                 NameStory(screen: s)
             }
             ForEach(s.paragraphs, id: \.self) { ProseText(run: s.prose[$0], font: DS.answer) }

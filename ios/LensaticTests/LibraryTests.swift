@@ -208,8 +208,8 @@ final class LibraryTests: XCTestCase {
         XCTAssertEqual(model.tab, .explore)
         XCTAssertEqual(model.paths[.explore], [.entity("sp800-207")])
         model.openSpotlight("play:containment")
-        XCTAssertEqual(model.tab, .library)
-        XCTAssertEqual(model.paths[.library], [.play("containment")])
+        XCTAssertEqual(model.tab, .home)
+        XCTAssertEqual(model.paths[.home], [.play("containment")])
         model.openSpotlight("step:dow:4")
         XCTAssertEqual(model.tab, .path)
         XCTAssertEqual(model.pathFocus, 4)
@@ -322,6 +322,33 @@ final class LibraryTests: XCTestCase {
         XCTAssertTrue(intro.contains("the 87 actions"), intro)
         XCTAssertFalse(intro.contains("{"), intro)
         XCTAssertTrue((site.intro("guides", actions: library.actionCount) ?? "").hasPrefix("Guided study routes"))
+    }
+
+    /// Home (build 6): the three doors read the hub's own names and lines from hub/site.json, in the hub's order; the
+    /// status lines are computed from the progress file; the playbook door starts with a play the file holds; and every
+    /// label Home reads is in the content.
+    func testHomesDoorsReadTheHubAndCountFromTheFiles() throws {
+        let site = library.site
+        XCTAssertEqual(site.sections.map(\.key), ["maps", "guides", "playbook"], "the hub's order: Framework Maps, Field Guides, the playbook")
+        for key in ["maps", "guides", "playbook"] { XCTAssertFalse(try XCTUnwrap(site.section(key)).line.isEmpty, key) }
+        XCTAssertEqual(site.aboutLabel, "About")
+        for key in ["homeMapsTitle", "welcomeLede", "homeFieldGuide", "homeStartHere", "homePickTrailhead", "homeChoose", "homeAbout", "whyName"] {
+            XCTAssertNotNil(store.content.ui.labels[key], key)
+        }
+        XCTAssertTrue(store.label("homeStartHere").contains("{play}"))
+        XCTAssertEqual(try XCTUnwrap(library.play(HomeView.startPlay)).name, "Agentic Insider Risk")
+        let progress = tempStore()
+        let model = AppModel(store: store, library: library, progress: progress)
+        let weeks = library.guide.core.count + (library.guide.tracks.first?.weeks.count ?? 0)
+        XCTAssertEqual(model.guideStatus.line, "\(weeks) weeks", "before a trailhead, the route's length")
+        XCTAssertEqual(model.playsStatus.line, "0 of \(library.plays.plays.count) plays read")
+        model.choose(.dow)
+        XCTAssertEqual(model.guideStatus.line, "Week 1 of \(library.weeks(for: .dow).count)")
+        progress.toggle(.dow, 1)
+        progress.markRead(play: HomeView.startPlay)
+        XCTAssertEqual(try XCTUnwrap(model.pathStatus).last, "1 of \(try door(.dow).steps.count) steps done")
+        XCTAssertEqual(model.playsStatus.line, "1 of \(library.plays.plays.count) plays read")
+        XCTAssertEqual(HomeView.byType([.play("containment"), .step(.dow, 2), .entity("csf20")]).map(\.key), ["entity:csf20", "step:dow:2", "play:containment"])
     }
 
     /// The Welcome screen's line (6.14): who the trailhead is for in its own short line, with the step count beside the

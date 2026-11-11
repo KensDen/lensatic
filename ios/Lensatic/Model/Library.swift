@@ -259,6 +259,8 @@ struct SiteNames: Decodable, Sendable {
 
     let sections: [SectionInfo]
     let guides: [GuideInfo]
+    /// The word over the hub's About blocks, and over Home's About rows (build 6).
+    let aboutLabel: String
     let labels: [String: String]
     let cards: [String: Card]
 

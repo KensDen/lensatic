@@ -67,6 +67,7 @@
 		A6C8CEE751AFEFC48F5CF209 /* Reader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20E5BADC225FFF5190500E3B /* Reader.swift */; };
 		A6E18D50A6285A1087312135 /* PathPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B7130AF5BB326132BD41F2 /* PathPlan.swift */; };
 		AE834D0C66EE31BC4E4BF29C /* IBMPlexSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2E10C781DCF8E4FC7BB396BA /* IBMPlexSans-SemiBold.ttf */; };
+		B0F1D451F7BD87C5FD4BE8F8 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16DD384DF211A77048A52BA /* HomeView.swift */; };
 		B28E9A7247A8501D40F63BD2 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 17DDD0858294AB97393430B5 /* AppIcon.icon */; };
 		C024F5C87C788DE9357329A4 /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11C98B9C93EBBCCA91C2D03 /* ContentStore.swift */; };
 		C02633A9B45A1FC363FE4FBC /* Spotlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = B41465C9FEF151D644CFC2E2 /* Spotlight.swift */; };
@@ -185,6 +186,7 @@
 		88B7F9C17846D0F9556797A7 /* Prose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prose.swift; sourceTree = "<group>"; };
 		977780DF5ADCA390FA53AAD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9B8CE489507CE8479366F526 /* LensaticWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LensaticWidget.entitlements; sourceTree = "<group>"; };
+		A16DD384DF211A77048A52BA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AFC96B740B66DD83CDB140CA /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		B41465C9FEF151D644CFC2E2 /* Spotlight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spotlight.swift; sourceTree = "<group>"; };
 		B56237ADCFD54F5C33CA8A45 /* EntityCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntityCardView.swift; sourceTree = "<group>"; };
@@ -403,6 +405,7 @@
 			children = (
 				B56237ADCFD54F5C33CA8A45 /* EntityCardView.swift */,
 				2572BC4541C0EC4775E0A02F /* ExploreView.swift */,
+				A16DD384DF211A77048A52BA /* HomeView.swift */,
 				8126127134E77A969438FF89 /* LibraryView.swift */,
 				34637BAAA56FF1A42E985976 /* MyPathView.swift */,
 				DA895FEDEAC8133F8089250E /* ReferenceViews.swift */,
@@ -653,6 +656,7 @@
 				4A771EAA9C7C46CD45F535D9 /* ExploreView.swift in Sources */,
 				5D30601E00A0E8B67AD197E8 /* Figures.swift in Sources */,
 				A65E6EE4E85887484D5474B6 /* Glance.swift in Sources */,
+				B0F1D451F7BD87C5FD4BE8F8 /* HomeView.swift in Sources */,
 				1E4BDD66A7863EF69EDEDB59 /* Icons.swift in Sources */,
 				212E4EFBC23C5B745C924CC7 /* LensaticApp.swift in Sources */,
 				9258DC0E6B333B5039591A3A /* LensaticIntents.swift in Sources */,
@@ -766,7 +770,7 @@
 				"CODE_SIGNING_ALLOWED[sdk=iphonesimulator*]" = NO;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = K57ZDM4BRY;
@@ -899,7 +903,7 @@
 				"CODE_SIGNING_ALLOWED[sdk=iphonesimulator*]" = NO;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = K57ZDM4BRY;

@@ -208,8 +208,8 @@ final class EngagementTests: XCTestCase {
         XCTAssertEqual(model.tab, .path)
         XCTAssertEqual(model.pathFocus, 4)
         XCTAssertTrue(model.open(link: DeepLink.open(.play("containment"))))
-        XCTAssertEqual(model.tab, .library)
-        XCTAssertEqual(model.paths[.library], [.play("containment")])
+        XCTAssertEqual(model.tab, .home)
+        XCTAssertEqual(model.paths[.home], [.play("containment")])
         XCTAssertTrue(model.open(link: DeepLink.open(.entity("sp800-207"))))
         XCTAssertEqual(model.paths[.explore], [.entity("sp800-207")])
         model.query = "left over"
@@ -248,7 +248,8 @@ final class EngagementTests: XCTestCase {
         defer { IntentRouter.model = nil }
         let play = try XCTUnwrap(items.first { $0.id == "play:containment" })
         _ = try await OpenItemIntent(item: play).perform()
-        XCTAssertEqual(model.paths[.library], [.play("containment")])
+        XCTAssertEqual(model.tab, .home, "a play opens under Home, where the playbook door is (build 6)")
+        XCTAssertEqual(model.paths[.home], [.play("containment")])
         _ = try await OpenSearchIntent().perform()
         XCTAssertEqual(model.tab, .search)
     }

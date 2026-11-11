@@ -6399,7 +6399,14 @@
       "notYours": "Not your trailhead if",
       "glossTrailhead": "your starting point for where you work",
       "glossStack": "the frameworks sorted by the question each answers",
-      "contentChecked": "Content checked"
+      "contentChecked": "Content checked",
+      "homeMapsTitle": "Which frameworks apply to you?",
+      "welcomeLede": "Pick where you stand. Lensatic builds your path: what binds you, in what order, and by when.",
+      "homeFieldGuide": "Field Guide",
+      "homeStartHere": "Start here: {play}",
+      "homePickTrailhead": "Pick a trailhead to start your path",
+      "homeChoose": "Choose a Trailhead",
+      "homeAbout": "About {name}"
     },
     "binds": {
       "federal-civilian": "Federal civilian agencies",

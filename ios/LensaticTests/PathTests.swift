@@ -192,7 +192,21 @@ final class PathTests: XCTestCase {
         let (p, _) = tempStore()
         let model = AppModel(store: store, library: Self.library, progress: p)
         XCTAssertNil(model.door)
+        // build 6: the app opens on Home, and its Framework Maps door asks the trailhead question until one is picked
+        XCTAssertEqual(model.tab, .home)
+        XCTAssertEqual(AppTab.allCases, [.home, .path, .explore, .search])
+        XCTAssertNil(model.pathStatus)
+        model.openMaps()
+        XCTAssertTrue(model.changingDoor, "no trailhead yet: the door opens the question")
+        XCTAssertEqual(model.tab, .home)
         model.choose(.dow)
+        XCTAssertFalse(model.changingDoor)
+        XCTAssertEqual(model.tab, .path, "a pick opens My Path")
+        model.tab = .home
+        model.openMaps()
+        XCTAssertFalse(model.changingDoor, "with a trailhead, the door opens My Path")
+        XCTAssertEqual(model.tab, .path)
+        XCTAssertEqual(model.pathStatus, [try XCTUnwrap(model.door).shortTitle, "0 of \(model.plan(try XCTUnwrap(model.door)).steps.count) steps done"])
         XCTAssertEqual(model.door?.id, .dow)
         XCTAssertEqual(model.matrixView, .dow)
         model.push(.entity("dod-zt-strategy"))
@@ -225,7 +239,7 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(state.saved, ["entity:csf20", "play:x"])
         XCTAssertEqual(state.weeks, ["core": [1]])
         XCTAssertEqual(state.changesViewed?.through, "1.2.20")
-        // the app reads the trailhead through Door.ID, so the welcome screen shows (RootView: no door, Welcome)
+        // the app reads the trailhead through Door.ID, so Home's Framework Maps door asks the question again
         XCTAssertNil(state.door.flatMap(Door.ID.init(rawValue:)))
     }
 

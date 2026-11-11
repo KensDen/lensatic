@@ -1,25 +1,26 @@
 import CoreSpotlight
 import SwiftUI
 
-/// The app (the redesign): the welcome screen until a trailhead is picked, then the four tabs. Change brings the
-/// welcome screen back over the tabs; a glossary entry and an entry's Sources open as sheets. A tap on one of the app's
+/// The app (build 6): the four tabs, opening on Home, on first launch and after. The trailhead question comes over the
+/// tabs: full screen for the first pick (Home's Framework Maps door, My Path before a pick), as the welcome screen was,
+/// and as a sheet for Change Path. A glossary entry and an entry's Sources open as sheets. A tap on one of the app's
 /// items in iOS search opens it.
 struct RootView: View {
     @Environment(AppModel.self) private var model
 
     var body: some View {
         @Bindable var model = model
-        Group {
-            if model.door == nil {
-                WelcomeView()
-            } else {
-                Shell()
-            }
-        }
+        let picked = model.door != nil
+        Shell()
         .tint(Palette.link)
-        .sheet(isPresented: $model.changingDoor) {
+        .sheet(isPresented: Binding(get: { model.changingDoor && picked }, set: { if !$0 { model.changingDoor = false } })) {
             WelcomeView(isChange: true)
                 .environment(model)
+        }
+        .fullScreenCover(isPresented: Binding(get: { model.changingDoor && !picked }, set: { if !$0 { model.changingDoor = false } })) {
+            WelcomeView(isFirst: true)
+                .environment(model)
+                .tint(Palette.link)
         }
         .onContinueUserActivity(CSSearchableItemActionType) { activity in
             if let id = activity.userInfo?[CSSearchableItemActivityIdentifier] as? String { model.openSpotlight(id) }
@@ -86,10 +87,10 @@ struct Shell: View {
 
     @ViewBuilder private func root(_ tab: AppTab) -> some View {
         switch tab {
+        case .home: HomeView()
         case .path: MyPathView()
         case .explore: ExploreView()
         case .search: SearchView()
-        case .library: LibraryView()
         }
     }
 

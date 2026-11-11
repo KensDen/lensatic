@@ -1,10 +1,10 @@
 import XCTest
 
-/// Walks the app the way a reader does (the redesign, R1 and R2): the welcome screen, picking a trailhead, checking off
-/// a step and finding it checked after a relaunch, switching trailheads, a step to its card and the card's Sources
-/// sheet; Explore to a layer and a framework card, the matrix and the functions; Search to a result; saving and finding
-/// it saved after a relaunch; the Library to the Field Guide and the plays; the reference screens and the three About
-/// links (found by label); What Changed showing and clearing, a widget's tap, the share sheet, a play's outline and the
+/// Walks the app the way a reader does (the redesign, R1 and R2; build 6): Home and its three doors, the trailhead
+/// question, picking a trailhead, checking off a step and finding it checked after a relaunch, switching trailheads, a
+/// step to its card and the card's Sources sheet; Explore to a layer and a framework card, the matrix and the functions;
+/// Search to a result; saving and finding it saved after a relaunch; Home to the Field Guide and the plays; the reference
+/// screens and the three About links (found by label); What Changed showing and clearing, a widget's tap, the share sheet, a play's outline and the
 /// in-app reader (R3); with an accessibility audit on each screen, and again at the largest accessibility text size.
 /// Words come from content/stack.json, which the test bundle carries.
 @MainActor
@@ -22,9 +22,12 @@ final class LensaticUITests: XCTestCase {
     var app: XCUIApplication { launched ?? XCUIApplication() }
 
     /// Every test starts from a fresh launch, in portrait. By default the progress on the device is forgotten and the
-    /// department's trailhead picked, so the tabs show; `door: nil` starts on the welcome screen, and `reset: false`
-    /// keeps what the last launch saved (the relaunch test).
-    func launch(reset: Bool = true, door: String? = "dow", checked: String? = nil, _ extra: [String] = []) {
+    /// department's trailhead picked; `door: nil` starts as a fresh install does, with no trailhead, and `reset: false`
+    /// keeps what the last launch saved (the relaunch test). The app opens on Home (build 6). The tests written on My Path
+    /// start there, so a launch with a trailhead, or one that keeps the last launch's, opens the My Path tab unless it
+    /// names a tab or a screen of its own or asks for the app's own opening screen with `home: true`; a fresh install
+    /// with no trailhead always opens as the app does, on Home.
+    func launch(reset: Bool = true, door: String? = "dow", checked: String? = nil, home: Bool = false, _ extra: [String] = []) {
         continueAfterFailure = false
         XCUIDevice.shared.orientation = .portrait
         let app = XCUIApplication()
@@ -32,14 +35,24 @@ final class LensaticUITests: XCTestCase {
         if reset { args.append("-LensaticResetProgress") }
         if let door { args += ["-LensaticDoor", door] }
         if let checked { args += ["-LensaticChecked", checked] }
+        let placed = ["-LensaticTab", "-LensaticNav", "-LensaticScreen", "-LensaticEntity", "-LensaticLink"].contains { extra.contains($0) }
+        if !home, !placed, door != nil || !reset { args += ["-LensaticTab", "path"] }
         app.launchArguments = args + extra
         app.launch()
         launched = app
     }
 
+    /// The trailhead question from Home (build 6): the Framework Maps door opens it while no trailhead is picked.
+    func openQuestion(file: StaticString = #filePath, line: UInt = #line) {
+        let door = element("home-door-maps")
+        XCTAssertTrue(door.waitForExistence(timeout: 10), "Home shows the Framework Maps door", file: file, line: line)
+        door.tap()
+        XCTAssertTrue(element("welcome").waitForExistence(timeout: 5), "the door opens the trailhead question", file: file, line: line)
+    }
+
     func element(_ id: String) -> XCUIElement { app.descendants(matching: .any).matching(identifier: id).firstMatch }
 
-    /// A screen's scrolling container: a scroll view, or since content release 1.0.1 a system list (Library, Explore and
+    /// A screen's scrolling container: a scroll view, or since content release 1.0.1 a system list (Home, Explore and
     /// the screens Explore opens), which XCTest sees as a collection view.
     func scroller(_ id: String) -> XCUIElement {
         let types = [XCUIElement.ElementType.scrollView, .collectionView].map(\.rawValue)
@@ -216,7 +229,7 @@ final class LensaticUITests: XCTestCase {
         for appearance in [XCUIDevice.Appearance.light, .dark] {
             XCUIDevice.shared.appearance = appearance
             launch(door: nil)
-            XCTAssertTrue(element("welcome").waitForExistence(timeout: 10))
+            openQuestion()
             let window = app.windows.firstMatch.frame
             let footer = app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'Switch paths anytime from My Path'")).firstMatch
             XCTAssertTrue(footer.exists, "the footer says where to switch paths")
@@ -232,10 +245,15 @@ final class LensaticUITests: XCTestCase {
         }
     }
 
-    /// R5 (item 17): the compass tile opens the story of the name as a sheet, and Done closes it.
+    /// R5 (item 17): the compass tile opens the story of the name as a sheet, and Done closes it. Since build 6 the tile is
+    /// in Home's header and on the trailhead question, and Home's About section has a row for the story too.
     func testTheCompassOpensTheStory() throws {
         launch(door: nil)
-        let tile = element("welcome-story")
+        openQuestion()
+        XCTAssertTrue(element("welcome-story").exists, "the question keeps its compass tile")
+        XCTAssertEqual(element("welcome-story").label, "Why Lensatic")
+        element("welcome-cancel").tap()
+        let tile = element("home-story")
         XCTAssertTrue(tile.waitForExistence(timeout: 10))
         XCTAssertEqual(tile.label, "Why Lensatic")
         XCTAssertGreaterThanOrEqual(tile.frame.width, 44)
@@ -249,13 +267,19 @@ final class LensaticUITests: XCTestCase {
         sleep(1)  // the sheet settles before the audit reads it (mid-animation its text reads as clipped)
         try audit("story sheet", region: visibleRegion(sheet), types: XCUIAccessibilityAuditType.all.subtracting(.elementDetection))
         element("story-done").tap()
-        XCTAssertTrue(element("door-dow").waitForExistence(timeout: 5))
+        XCTAssertTrue(element("home-door-maps").waitForExistence(timeout: 5))
+        // the visible row (Ken's ruling, 10 November 2026): Why "Lensatic"? at the foot of Home opens the same story
+        tap("home-why", in: "home")
+        XCTAssertTrue(element("story-sheet").waitForExistence(timeout: 5), "the row opens the story")
+        XCTAssertEqual(element("home-why").label.isEmpty, false)
+        element("story-done").tap()
     }
 
     /// R5 (item 16): each new door opens a path of real steps with the next step in the hero, no countdown.
     func testTheNewDoorsOpenTheirPaths() throws {
         for id in ["state-local", "industry-academia"] {
             launch(door: nil)
+            openQuestion()
             let door = element("door-\(id)")
             XCTAssertTrue(door.waitForExistence(timeout: 10))
             door.tap()
@@ -270,20 +294,24 @@ final class LensaticUITests: XCTestCase {
 
     func testTheWelcomeScreenOffersTheFiveTrailheads() throws {
         launch(door: nil)
-        XCTAssertTrue(element("welcome").waitForExistence(timeout: 10))
+        openQuestion()
         for door in doors {
             let id = try XCTUnwrap(door["id"] as? String)
             let card = element("door-\(id)")
             XCTAssertTrue(card.exists, id)
             XCTAssertTrue(card.label.contains(webTokens(door["shortTitle"] as? String ?? "")), "\(id) shows its name")
         }
-        XCTAssertFalse(element("tab-path").exists, "no tabs before a trailhead is picked")
         try audit("welcome")
+        // the question is over Home (build 6): Cancel goes back to it with no trailhead picked
+        element("welcome-cancel").tap()
+        XCTAssertTrue(element("home-door-maps").waitForExistence(timeout: 5), "Cancel returns to Home")
+        XCTAssertTrue(element("home-door-maps").label.contains(label("homePickTrailhead")), element("home-door-maps").label)
     }
 
     /// The round's acceptance test: pick a door, check off a step, relaunch, and the check is still there.
     func testPickADoorCheckAStepRelaunchAndTheCheckStays() throws {
         launch(door: nil)
+        openQuestion()
         let door = element("door-dow")
         XCTAssertTrue(door.waitForExistence(timeout: 10))
         door.tap()
@@ -297,8 +325,12 @@ final class LensaticUITests: XCTestCase {
         try audit("my path")
 
         app.terminate()
-        launch(reset: false, door: nil)
-        XCTAssertTrue(element("my-path").waitForExistence(timeout: 10), "the trailhead is remembered: My Path opens, not the welcome")
+        // the app opens on Home (build 6): its Framework Maps door shows the trailhead and the step done, and opens My Path
+        launch(reset: false, door: nil, home: true)
+        XCTAssertTrue(element("home-door-maps").waitForExistence(timeout: 10), "the app opens on Home")
+        XCTAssertTrue(element("home-door-maps").label.contains("1 of"), element("home-door-maps").label)
+        element("home-door-maps").tap()
+        XCTAssertTrue(element("my-path").waitForExistence(timeout: 10), "the trailhead is remembered: the door opens My Path, not the question")
         XCTAssertFalse(element("welcome").exists)
         XCTAssertEqual(value("step-check-1"), "Done", "the check survived the relaunch")
         XCTAssertEqual(value("step-check-2"), "Not done")
@@ -321,7 +353,7 @@ final class LensaticUITests: XCTestCase {
         civilian.tap()
         XCTAssertTrue(element("step-check-1").waitForExistence(timeout: 5))
         XCTAssertEqual(value("step-check-1"), "Not done", "a new trailhead starts with nothing checked")
-        // Change Path is on My Path's header only (6.19: Library's Settings section is gone)
+        // Change Path is on My Path's header only (6.19)
         XCTAssertTrue(element("change-door").waitForExistence(timeout: 5))
         element("change-door").tap()
         let dow = element("door-dow")
@@ -508,7 +540,7 @@ final class LensaticUITests: XCTestCase {
 
     // MARK: Saved (R2)
 
-    /// Save a framework and a step, relaunch, and they are still saved, grouped by type, in the Library.
+    /// Save a framework and a step, relaunch, and they are still saved, grouped by type, on Home.
     func testSaveRelaunchAndTheItemsAreStillSaved() throws {
         launch(door: "dow", checked: nil, ["-LensaticNav", "entity/sp800-207"])
         let bookmark = element("bookmark")
@@ -523,8 +555,10 @@ final class LensaticUITests: XCTestCase {
         XCTAssertTrue(stepMark.waitForExistence(timeout: 5))
         stepMark.tap()
         app.terminate()
-        launch(reset: false, door: nil)
-        showTab("tab-library")
+        launch(reset: false, door: nil, home: true)
+        tap("saved-step:dow:2", in: "home")
+        XCTAssertTrue(element("step-2").waitForExistence(timeout: 5), "a saved step opens on My Path")
+        showTab("tab-home")
         XCTAssertTrue(element("saved-step:dow:2").waitForExistence(timeout: 10), "the saved step survived the relaunch")
         XCTAssertTrue(element("saved-entity:sp800-207").exists, "the saved framework survived the relaunch")
         // grouped by type since content release 1.0.1 (6.19): frameworks, then steps, then plays, each newest first
@@ -536,14 +570,65 @@ final class LensaticUITests: XCTestCase {
         XCTAssertFalse(element("saved-entity:sp800-207").waitForExistence(timeout: 2), "unsaved, it leaves the list")
     }
 
-    // MARK: Library (R2)
+    // MARK: Home (build 6; the Library tab until then)
 
-    func testTheLibraryOpensTheFieldGuideAndThePlays() throws {
-        launch(door: "dow")
-        showTab("tab-library")
-        XCTAssertTrue(element("library").waitForExistence(timeout: 5))
-        try auditScreen("library")
-        element("library-guide").tap()
+    /// Home is the first tab and where a fresh install opens: the header, then the three doors in the hub's order, all
+    /// on screen with no scroll at the default text size, each with its status line; the Framework Maps door opens the
+    /// trailhead question until a trailhead is picked, and the playbook door names the play to start with.
+    func testHomeOpensOnTheThreeDoors() throws {
+        launch(door: nil)
+        XCTAssertTrue(element("home").waitForExistence(timeout: 10), "a fresh install opens on Home")
+        XCTAssertEqual(element("home-tagline").label, (Self.content["meta"] as? [String: Any])?["tagline"] as? String)
+        for tab in ["tab-home", "tab-path", "tab-explore", "tab-search"] { XCTAssertTrue(element(tab).exists, tab) }
+        XCTAssertFalse(element("tab-library").exists, "the Library tab folded into Home")
+        XCTAssertTrue(element("tab-home").isSelected)
+        XCTAssertLessThan(element("tab-home").frame.minX, element("tab-path").frame.minX, "Home is the first tab")
+        let ids = ["home-door-maps", "home-door-guide", "home-door-playbook"]
+        for id in ids {
+            XCTAssertTrue(element(id).isHittable, "\(id) is on screen")
+            XCTAssertLessThanOrEqual(element(id).frame.maxY, tabBarTop(), "\(id) fits above the tab bar with no scroll")
+        }
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            XCTAssertLessThan(element(ids[0]).frame.minY, element(ids[1]).frame.minY, "Framework Maps, then Field Guide")
+            XCTAssertLessThan(element(ids[1]).frame.minY, element(ids[2]).frame.minY, "then the playbook")
+        } else {
+            XCTAssertLessThan(element(ids[0]).frame.minX, element(ids[1]).frame.minX, "side by side on the iPad")
+            XCTAssertLessThan(element(ids[1]).frame.minX, element(ids[2]).frame.minX)
+        }
+        XCTAssertTrue(element("home-door-maps").label.contains("FRAMEWORK MAPS") || element("home-door-maps").label.contains("Framework Maps"), element("home-door-maps").label)
+        XCTAssertTrue(element("home-door-guide").label.contains("8 weeks"), element("home-door-guide").label)
+        XCTAssertTrue(element("home-door-playbook").label.contains("0 of"), element("home-door-playbook").label)
+        try auditScreen("home")
+        // the playbook door's second control opens the play to start with
+        let start = element("home-door-playbook-start")
+        XCTAssertTrue(start.isHittable)
+        XCTAssertLessThanOrEqual(start.frame.maxY, tabBarTop(), "Start here fits above the tab bar")
+        XCTAssertTrue(start.label.hasPrefix("Start here: "), start.label)
+        start.tap()
+        XCTAssertTrue(element("play-screen").waitForExistence(timeout: 5), "Start here opens its play")
+        XCTAssertTrue(start.label.hasSuffix(element("screen-title").label), "the play it names: \(element("screen-title").label)")
+        element("back").tap()
+        XCTAssertTrue(element("home-door-playbook").label.contains("1 of"), "the play opened counts as read: \(element("home-door-playbook").label)")
+        // My Path before a pick says what a path is and leads to the same question
+        showTab("tab-path")
+        XCTAssertTrue(element("my-path-empty").waitForExistence(timeout: 5))
+        try audit("my path, no trailhead")
+        element("path-choose").tap()
+        XCTAssertTrue(element("welcome").waitForExistence(timeout: 5))
+        element("door-federal-civilian").tap()
+        XCTAssertTrue(element("my-path").waitForExistence(timeout: 5), "a pick opens My Path")
+        showTab("tab-home")
+        XCTAssertTrue(element("home-door-maps").label.contains("0 of"), element("home-door-maps").label)
+        XCTAssertTrue(element("home-door-guide").label.contains("Week 1"), element("home-door-guide").label)
+        element("home-door-maps").tap()
+        XCTAssertTrue(element("my-path").waitForExistence(timeout: 5), "with a trailhead picked, the door opens My Path")
+    }
+
+    func testHomeOpensTheFieldGuideAndThePlays() throws {
+        launch(door: "dow", home: true)
+        XCTAssertTrue(element("home").waitForExistence(timeout: 5))
+        try auditScreen("home")
+        element("home-door-guide").tap()
         XCTAssertTrue(element("guide-screen").waitForExistence(timeout: 5))
         XCTAssertEqual(value("week-check-1"), "Not done")
         element("week-check-1").tap()
@@ -554,8 +639,8 @@ final class LensaticUITests: XCTestCase {
         try auditScreen("chapter-screen")
         element("back").tap()
         element("back").tap()
-        XCTAssertTrue(element("library-guide").label.contains("Week 2"), "the guide's card counts the weeks done")
-        element("library-plays").tap()
+        XCTAssertTrue(element("home-door-guide").label.contains("Week 2"), "the guide's door counts the weeks done")
+        element("home-door-playbook").tap()
         XCTAssertTrue(element("plays-screen").waitForExistence(timeout: 5))
         try auditScreen("plays-screen")
         tap("play-containment", in: "plays-screen")
@@ -564,14 +649,14 @@ final class LensaticUITests: XCTestCase {
         element("bookmark").tap()
         element("back").tap()
         element("back").tap()
-        XCTAssertTrue(element("saved-play:containment").waitForExistence(timeout: 5), "a saved play is in the list")
+        tap("saved-play:containment", in: "home")
+        XCTAssertTrue(element("play-screen").waitForExistence(timeout: 5), "a saved play is in the list and opens")
     }
 
     func testTheReferenceScreensAndTheAboutLinks() throws {
-        launch()
-        showTab("tab-library")
-        for (row, screen) in [("library-glossary", "glossary-screen"), ("library-sources", "sources-screen"), ("library-about", "about-screen")] {
-            tap(row, in: "library")
+        launch(home: true)
+        for (row, screen) in [("home-glossary", "glossary-screen"), ("home-sources", "sources-screen"), ("home-changes", "changes-screen"), ("home-about", "about-screen")] {
+            tap(row, in: "home")
             XCTAssertTrue(element(screen).waitForExistence(timeout: 5), screen)
             try auditScreen(screen)
             if screen == "about-screen" {
@@ -595,7 +680,7 @@ final class LensaticUITests: XCTestCase {
             (["-LensaticTab", "explore", "-LensaticExplore", "matrix"], "explore"),
             (["-LensaticTab", "explore", "-LensaticExplore", "functions"], "explore"),
             (["-LensaticTab", "search", "-LensaticQuery", "overlays"], "search"),
-            (["-LensaticTab", "library"], "library"),
+            (["-LensaticTab", "home"], "home"),
             (["-LensaticNav", "layer/l3"], "layer-screen-l3"),
             (["-LensaticNav", "cell/dow/user/GV"], "cell-screen"),
             (["-LensaticNav", "guide"], "guide-screen"),
@@ -637,7 +722,7 @@ final class LensaticUITests: XCTestCase {
 
     /// What Changed (R5, item 19) shows on My Path while it has news newer than the last visit, each item marked New,
     /// and opens an item's card; the list groups by day with a plain intro, keeps the source checks behind a toggle, and a
-    /// visit puts My Path's section away, which a relaunch remembers. The Library's row then dates the latest news.
+    /// visit puts My Path's section away, which a relaunch remembers. Home's row then dates the latest news.
     func testWhatChangedShowsUntilTheListIsVisited() throws {
         launch(door: "dow", checked: "1,2", ["-LensaticChangesViewed", "1.2.16"])
         XCTAssertTrue(element("my-path").waitForExistence(timeout: 10))
@@ -675,18 +760,20 @@ final class LensaticUITests: XCTestCase {
         launch(reset: false, door: nil)
         XCTAssertTrue(element("my-path").waitForExistence(timeout: 10))
         XCTAssertFalse(element("what-changed").waitForExistence(timeout: 2), "and it stays away after a relaunch")
-        showTab("tab-library")
-        XCTAssertTrue(element("library-changes").waitForExistence(timeout: 5))
+        showTab("tab-home")
+        tap("home-changes", in: "home")
+        XCTAssertTrue(element("changes-screen").waitForExistence(timeout: 5), "Home's row opens the list")
+        element("back").tap()
         // the content release's day (6.19: What Changed's value is the content date)
-        XCTAssertTrue(element("library-changes").label.contains("What Changed"), element("library-changes").label)
-        XCTAssertNotNil(element("library-changes").label.range(of: #"\d{1,2} [A-Z][a-z]{2}"#, options: .regularExpression), element("library-changes").label)
+        XCTAssertTrue(element("home-changes").label.contains("What Changed"), element("home-changes").label)
+        XCTAssertNotNil(element("home-changes").label.range(of: #"\d{1,2} [A-Z][a-z]{2}"#, options: .regularExpression), element("home-changes").label)
     }
 
     /// A tap on the widget opens its link, lensatic://open/step:dow:3, which opens that step on My Path (the widget's
     /// own link is the glance's, a unit test holds them equal).
     func testAWidgetsTapOpensItsStep() throws {
-        launch(door: "dow", checked: "1,2", ["-LensaticTab", "library"])
-        XCTAssertTrue(element("library").waitForExistence(timeout: 10))
+        launch(door: "dow", checked: "1,2", ["-LensaticTab", "home"])
+        XCTAssertTrue(element("home").waitForExistence(timeout: 10))
         app.open(URL(string: "lensatic" + "://open/step:dow:3")!)
         XCTAssertTrue(element("my-path").waitForExistence(timeout: 10), "the link opens My Path")
         XCTAssertTrue(element("step-3-entity-dod-zt-ot").waitForExistence(timeout: 5), "with step 3 open")
@@ -776,7 +863,7 @@ final class LensaticUITests: XCTestCase {
             (["-LensaticTab", "explore", "-LensaticExplore", "matrix"], "explore"),
             (["-LensaticTab", "explore", "-LensaticExplore", "functions"], "explore"),
             (["-LensaticTab", "search", "-LensaticQuery", "overlays"], "search"),
-            (["-LensaticTab", "library"], "library"),
+            (["-LensaticTab", "home"], "home"),
             (["-LensaticNav", "layer/l3"], "layer-screen-l3"),
             (["-LensaticNav", "entity/dod-zt-strategy"], "entity-card-dod-zt-strategy"),
             (["-LensaticNav", "guide"], "guide-screen"),

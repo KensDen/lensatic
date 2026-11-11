@@ -115,7 +115,7 @@ extension DetailScreen where Trailing == EmptyView {
     }
 }
 
-/// The bookmark: saves the item to the Library's list, or takes it off (Framework.dc.html's filled mark when saved).
+/// The bookmark: saves the item to Home's Saved list, or takes it off (Framework.dc.html's filled mark when saved).
 struct BookmarkButton: View {
     @Environment(AppModel.self) private var model
     let item: SavedItem
@@ -144,7 +144,7 @@ struct BookmarkButton: View {
         }
         .buttonStyle(.plain)
         .accessibilityLabel(saved ? "Saved" : "Save")
-        .accessibilityHint(saved ? "Removes it from Saved in the Library" : "Adds it to Saved in the Library")
+        .accessibilityHint(saved ? "Removes it from Saved on Home" : "Adds it to Saved on Home")
         .accessibilityAddTraits(saved ? .isSelected : [])
         .accessibilityIdentifier("bookmark")
         .accessibilityShowsLargeContentViewer()

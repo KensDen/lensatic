@@ -1,29 +1,30 @@
 import Foundation
 
-/// The tabs (the brief's information architecture): My Path, Explore, Search, Library.
+/// The tabs (build 6, Ken's pick of 10 November 2026): Home, My Path, Explore, Search. Home is the first tab and where
+/// the app opens; it holds the three doors and what the Library tab held (Saved, Reference, About).
 enum AppTab: String, CaseIterable, Hashable, Sendable {
-    case path, explore, search, library
+    case home, path, explore, search
 
     var title: String {
         switch self {
+        case .home: return "Home"
         case .path: return "My Path"
         case .explore: return "Explore"
         case .search: return "Search"
-        case .library: return "Library"
         }
     }
 
     var icon: IconName {
         switch self {
+        case .home: return .home
         case .path: return .compass
         case .explore: return .layers
         case .search: return .search
-        case .library: return .library
         }
     }
 }
 
-/// One screen pushed inside a tab (the redesign, R2): an entry's card, a layer, a cell of the matrix, the Library's
+/// One screen pushed inside a tab (the redesign, R2): an entry's card, a layer, a cell of the matrix, Home's
 /// reference screens, the guide and its chapters, the plays and one play, the saved list.
 enum Nav: Hashable, Sendable {
     case entity(String)
@@ -81,7 +82,7 @@ enum Nav: Hashable, Sendable {
     var home: AppTab {
         switch self {
         case .entity, .layer, .cell: return .explore
-        case .glossary, .sources, .about, .saved, .guide, .chapter, .plays, .play, .changes: return .library
+        case .glossary, .sources, .about, .saved, .guide, .chapter, .plays, .play, .changes: return .home
         }
     }
 }
