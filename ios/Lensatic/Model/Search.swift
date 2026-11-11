@@ -156,20 +156,47 @@ struct SearchIndex: Sendable {
         return total
     }
 
-    /// For a chapter or a play matched in its body rather than its title, the words around the first match in its
-    /// prose, so a result says why it is there; none when the words match only in a table, a link or a figure.
-    static func excerpt(_ item: Item, query: String, width: Int = 90) -> String? {
+    /// For a chapter or a play matched in its body rather than its title, the sentence that holds the first match in its
+    /// prose, so a result says why it is there; none when the words match only in a table, a link or a figure. The
+    /// excerpt starts where its sentence starts (build 6), never mid-sentence behind an ellipsis; a long sentence is cut
+    /// at a word after the match, and only there does an ellipsis stand.
+    static func excerpt(_ item: Item, query: String, width: Int = 120) -> String? {
         guard item.kind == .guide || item.kind == .play else { return nil }
         let words = fold(query).split(separator: " ").map(String.init)
         guard let first = words.first, !words.allSatisfy({ item.folded.title.contains($0) }) else { return nil }
         let body = item.prose as NSString
         let hit = body.range(of: first, options: [.caseInsensitive, .diacriticInsensitive])
         guard hit.location != NSNotFound else { return nil }
-        var start = max(0, hit.location - width / 3), end = min(body.length, hit.location + width)
-        while start > 0, !CharacterSet.whitespaces.contains(UnicodeScalar(body.character(at: start - 1)) ?? " ") { start -= 1 }
-        while end < body.length, !CharacterSet.whitespaces.contains(UnicodeScalar(body.character(at: end)) ?? " ") { end += 1 }
-        let text = body.substring(with: NSRange(location: start, length: end - start)).trimmingCharacters(in: .whitespaces)
-        return (start > 0 ? "\u{2026}" : "") + text + (end < body.length ? "\u{2026}" : "")
+        // the sentence around the match: it opens at the start of the prose or where a full stop, a question mark or an
+        // exclamation mark (and any closing quote or bracket) is followed by a space and a capital, a figure or an opening
+        // quote, so a question mark inside a bracket mid-sentence does not count; it ends the same way
+        func isSpace(_ c: unichar) -> Bool { c == 0x20 || c == 0xA0 || c == 0x0A || c == 0x09 }
+        func closes(_ c: unichar) -> Bool { c == 0x29 || c == 0x5D || c == 0x201D || c == 0x2019 || c == 0x22 }
+        func opens(_ c: unichar) -> Bool {
+            guard let u = UnicodeScalar(c) else { return false }
+            return CharacterSet.uppercaseLetters.contains(u) || CharacterSet.decimalDigits.contains(u) || c == 0x201C || c == 0x2018 || c == 0x28
+        }
+        /// Whether a sentence opens at `i`: the text before it ends one and the character at it can open one.
+        func boundary(_ i: Int) -> Bool {
+            guard i > 0, i < body.length, isSpace(body.character(at: i - 1)), opens(body.character(at: i)) else { return false }
+            var k = i - 1
+            while k > 0, isSpace(body.character(at: k)) { k -= 1 }
+            while k > 0, closes(body.character(at: k)) { k -= 1 }
+            let end = body.character(at: k)
+            return end == 0x2E || end == 0x3F || end == 0x21
+        }
+        var start = hit.location
+        while start > 0, !boundary(start) { start -= 1 }
+        var limit = NSMaxRange(hit)
+        while limit < body.length, !boundary(limit) { limit += 1 }
+        // the whole sentence when it is short; else up to a word's end past the match, at least `width` characters in
+        var end = limit
+        if limit - start > width {
+            end = min(limit, max(start + width, NSMaxRange(hit)))
+            while end < limit, !CharacterSet.whitespaces.contains(UnicodeScalar(body.character(at: end)) ?? " ") { end += 1 }
+        }
+        let text = body.substring(with: NSRange(location: start, length: end - start)).trimmingCharacters(in: .whitespacesAndNewlines)
+        return end < limit ? text.trimmingCharacters(in: CharacterSet(charactersIn: ",;:")) + "\u{2026}" : text
     }
 
     /// The results for a query, grouped by kind, best first inside each group; between equal scores the shorter title

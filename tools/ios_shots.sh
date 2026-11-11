@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Screenshots of the iOS app for review (session 8, section 4.4; the redesign's screens from R3): every screen of the
 # redesign, on the largest iPhone, the largest iPad and (since build 6) the 390 x 844 iPhone 17e simulator, in light and
-# dark, at the default text size and at accessibility-extra-large. Files are <device>_<screen>_<appearance>_<size>.png. Needs Xcode; first builds the
+# dark, at the default text size and at accessibility-extra-large. Files are <device>_<screen>_<appearance>_<size>.png.
+# Needs Xcode; first builds the
 # app (Debug, which opens a screen by the launch arguments AppModel documents: -LensaticDoor, -LensaticChecked,
 # -LensaticTab, -LensaticExplore, -LensaticNav, -LensaticSources, -LensaticQuery, -LensaticChangesViewed) into
 # .tmp/DerivedData, incrementally.
@@ -25,6 +26,8 @@
 # Files are <nn>_<device>_<screen>.png; ios/store/screenshots.json lists each file's order, device, display, screen, size,
 # SHA-256, and the SHA-256 of its pixels below the status bar (tools/check_listing.py holds no two alike, so a screen
 # taken twice fails). The images stay out of the repository.
+# LENSATIC_SHOTS_ONLY="question state-search-fresh ..." (build 6) limits a run to those screens and states, to retake a
+# few after a fix; the devices and the four variants are as in a full run.
 # Usage: tools/ios_shots.sh [output folder]           (default handoffs/session8-work/shots)
 #        tools/ios_shots.sh --states [output folder]  (the empty states only; default handoffs/session8-work/shots)
 #        tools/ios_shots.sh --store [output folder]   (default handoffs/session9-work/store-shots)
@@ -39,11 +42,23 @@ DERIVED=.tmp/DerivedData
 APP="$DERIVED/Build/Products/Debug-iphonesimulator/Lensatic.app"
 BUNDLE=io.github.kensden.lensatic
 GROUP=group.io.github.kensden.lensatic
-SCREENS="start question home path changes stack matrix functions layer ai card sources search guide chapter plays play glossary sources-list about"
+SCREENS="start question home path changes stack matrix matrix-jump functions layer ai card card-type sources search guide chapter plays play glossary sources-list about"
 STORE_SCREENS="home path stack card sources search guide play"
 # the empty states: one My Path per trailhead (path-<door>), in the content's order, then the rest
 DOORS="$(python3 -c 'import json; print(" ".join(d["id"] for d in json.load(open("content/stack.json"))["doors"]))')"
-STATES="home-fresh question-fresh search-fresh search-recent home-saved-empty home-saved-two path-none $(for d in $DOORS; do printf 'path-%s ' "$d"; done)path-all-done"
+STATES="home-fresh question-fresh search-fresh search-recent home-saved-empty home-saved-two path-none guide-none $(for d in $DOORS; do printf 'path-%s ' "$d"; done)path-all-done"
+if [ -n "${LENSATIC_SHOTS_ONLY:-}" ]; then
+  # keep <prefix> <names>: the names that LENSATIC_SHOTS_ONLY lists (with the prefix, state- for the states)
+  keep() {
+    local prefix="$1" out="" x
+    for x in $2; do
+      case " $LENSATIC_SHOTS_ONLY " in (*" $prefix$x "*) out="$out $x" ;; esac
+    done
+    echo "$out"
+  }
+  SCREENS="$(keep "" "$SCREENS")"
+  STATES="$(keep "state-" "$STATES")"
+fi
 # the 390 x 844 iPhone the empty states are also shot on
 SMALL_IPHONE="iPhone 17e"
 OPAQUE=.tmp/png_opaque
@@ -115,9 +130,14 @@ open_screen() {
                -LensaticChangesViewed "$PREVIOUS" -LensaticNav changes >/dev/null ;;
     stack) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticTab explore >/dev/null ;;
     matrix|functions) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticTab explore -LensaticExplore "$screen" >/dev/null ;;
+    # the matrix scrolled to a function, as its jump row scrolls it (on a phone the row is then pinned at the top)
+    matrix-jump) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticTab explore -LensaticExplore matrix \
+                   -LensaticScrollTo matrix-fn-PR >/dev/null ;;
     layer) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav layer/l3 >/dev/null ;;
     ai) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav layer/l6 >/dev/null ;;
     card) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav entity/dod-zt-strategy >/dev/null ;;
+    # the card with its Type tile's meaning open
+    card-type) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav entity/dod-zt-strategy -LensaticType >/dev/null ;;
     sources) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav entity/dod-zt-strategy -LensaticSources >/dev/null ;;
     search) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticTab search -LensaticQuery overlays >/dev/null ;;
     guide) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav guide >/dev/null ;;
@@ -156,7 +176,8 @@ open_state() {
                         -LensaticScrollTo home-saved >/dev/null ;;
     home-saved-two) xcrun simctl launch "$udid" "$BUNDLE" "${base[@]}" -LensaticDoor dow -LensaticTab home \
                       -LensaticScrollTo home-saved -LensaticSaved entity:dod-zt-strategy,play:containment >/dev/null ;;
-    # My Path before a trailhead is picked
+    # My Path and the Field Guide before a trailhead is picked
+    guide-none) xcrun simctl launch "$udid" "$BUNDLE" "${base[@]}" -LensaticNav guide >/dev/null ;;
     path-none) xcrun simctl launch "$udid" "$BUNDLE" "${base[@]}" -LensaticTab path >/dev/null ;;
     path-all-done) xcrun simctl launch "$udid" "$BUNDLE" "${base[@]}" -LensaticDoor dow -LensaticChecked "$(steps dow)" -LensaticTab path >/dev/null ;;
     path-*) xcrun simctl launch "$udid" "$BUNDLE" "${base[@]}" -LensaticDoor "${state#path-}" -LensaticTab path >/dev/null ;;

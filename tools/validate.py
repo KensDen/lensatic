@@ -1123,6 +1123,22 @@ def main() -> int:
     rep.check("recheck dates: none overdue on the release date (meta.builtOn, which is the last changelog date)", errs,
               f"{len(dated)} dated, next {min((s for _, s in dated if s >= built), default='none scheduled')}")
 
+    # 17. the type meanings (build 6): the app's Type tile opens one line on what each type of document is, so every type
+    # the content can name has one, a whole sentence, and none is left over
+    errs = []
+    ui_ = data.get("ui", {})
+    names, meanings = ui_.get("nature", {}), ui_.get("natureMeaning", {})
+    errs += [f"ui.natureMeaning has no line for {k!r}" for k in names if k not in meanings]
+    errs += [f"ui.natureMeaning.{k} names no type in ui.nature" for k in meanings if k not in names]
+    errs += [f"ui.natureMeaning.{k} is not one sentence ending in a full stop" for k, v in meanings.items()
+             if not v.endswith(".") or v.count(". ") > 0]
+    used = {(e.get("authority") or {}).get("nature") for kind in ("frameworks", "sources", "solutions") for e in data.get(kind, [])}
+    errs += [f"an entry's type {k!r} has no line in ui.natureMeaning" for k in sorted(x for x in used if x and x not in meanings)]
+    # the Start With chips read in Title Case (Ken, 10 November 2026); the app's search ignores case, which its tests hold
+    errs += [f"ui.search.starters: {q!r} starts in lower case" for q in ui_.get("search", {}).get("starters", []) if q[:1].islower()]
+    rep.check("type meanings: one sentence in ui.natureMeaning for every type in ui.nature and on every entry; the Start With "
+              "chips start with a capital or a number", errs, f"{len(meanings)} types")
+
     print("\n".join(rep.lines))
     if rep.failures:
         print(f"BATTERY RED ({len(rep.failures)} failing check{'s' if len(rep.failures) != 1 else ''})")

@@ -7,6 +7,8 @@ struct EntityCardView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) private var typeSize
+    /// The Type tile's one-line meaning, shown under the tiles (build 6).
+    @State private var showType = false
     let id: String
 
     var body: some View {
@@ -19,6 +21,10 @@ struct EntityCardView: View {
         }
         .background(Palette.bg)
         .toolbar(.hidden, for: .navigationBar)
+        #if DEBUG
+        // -LensaticType opens the Type tile's meaning at launch, for the screenshots
+        .onAppear { if CommandLine.arguments.contains("-LensaticType") { showType = true } }
+        #endif
     }
 
     private func card(_ e: Entity) -> some View {
@@ -54,10 +60,28 @@ struct EntityCardView: View {
                     StatTileRow {
                         StatTile(label: model.store.label("binds"), value: facts.binds)
                         StatTile(label: "Due", value: facts.due)
-                        StatTile(label: "Type", value: facts.type)
+                        // the Type tile opens what its word means, in one line from the content (build 6)
+                        if facts.typeMeaning != nil {
+                            Button { showType.toggle() } label: { StatTile(label: "Type", value: facts.type, opens: true) }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel("Type, \(facts.type)")
+                                .accessibilityValue(showType ? "Expanded" : "Collapsed")
+                                .accessibilityHint("Says what this type of document is")
+                                .accessibilityIdentifier("type-tile")
+                        } else {
+                            StatTile(label: "Type", value: facts.type)
+                        }
                     }
-                    // the card's lists (build 6: the section 7 rule): what it answers in the one card style, and what it
-                    // goes with as rows in one card, each with its name and the list's chevron, as a system list draws them
+                    if showType, let meaning = facts.typeMeaning {
+                        Text(meaning).font(DS.style(.subheadline)).foregroundStyle(.primary)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.vertical, -4)
+                            .lxCard(radius: 12)
+                            .padding(.top, -8)
+                            .accessibilityIdentifier("type-meaning")
+                    }
+                    // the card's lists (build 6: the section 7 rule): what it answers, and what it goes with, each in the one
+                    // card style under a header in the system's type
                     if let answers = facts.answers {
                         VStack(alignment: .leading, spacing: 6) {
                             Text(answers.label).font(DS.style(.footnote)).foregroundStyle(Palette.fg2).accessibilityAddTraits(.isHeader)
@@ -71,26 +95,16 @@ struct EntityCardView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Goes With").font(DS.style(.footnote)).foregroundStyle(Palette.fg2).padding(.leading, 16)
                                 .accessibilityAddTraits(.isHeader)
-                            VStack(spacing: 0) {
-                                ForEach(Array(goes.enumerated()), id: \.element) { i, other in
-                                    if i > 0 { Divider().overlay(Palette.line) }
-                                    Button { model.push(.entity(other)) } label: {
-                                        HStack(spacing: 8) {
-                                            Text(model.store.entities[other]?.shortName ?? other).font(DS.style(.body)).foregroundStyle(.primary)
-                                                .frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                            Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary)
-                                                .accessibilityHidden(true)
-                                        }
-                                        .padding(.vertical, 6)
-                                        .frame(minHeight: 44)
-                                        .contentShape(Rectangle())
-                                    }
-                                    .buttonStyle(.plain)
-                                    .accessibilityIdentifier("goes-with-\(other)")
+                            // chips, so every entry it goes with is in view above the card's foot (as rows, two showed
+                            // where four chips had: the fresh-eyes review of build 6, finding 14), inside the one card
+                            FlowLayout {
+                                ForEach(goes, id: \.self) { other in
+                                    Button { model.push(.entity(other)) } label: { Pill(text: model.store.entities[other]?.shortName ?? other) }
+                                        .buttonStyle(.plain)
+                                        .accessibilityIdentifier("goes-with-\(other)")
                                 }
                             }
-                            .padding(.vertical, -16)
+                            .padding(.vertical, -8)
                             .lxCard(radius: 14)
                         }
                     }
@@ -157,6 +171,8 @@ struct EntityFacts {
     let binds: String
     let due: String
     let type: String
+    /// What the type means, in one line from ui.natureMeaning (build 6).
+    let typeMeaning: String?
     let answers: (label: String, text: String)?
     let verifiedLine: String
     let statusIcon: IconName
@@ -184,6 +200,7 @@ struct EntityFacts {
             due = TitleCase.apply(store.label("noDeadline"))
         }
         type = TitleCase.apply(nature)
+        typeMeaning = ui.natureMeaning[e.authority.nature.rawValue]
         if let q = e.answersQuestion {
             answers = (store.label("answers"), q)
         } else if let role = e.role {

@@ -65,11 +65,13 @@ struct WelcomeView: View {
                             .accessibilityAddTraits(isChange && model.progress.door == door.id ? .isSelected : [])
                         }
                     }
-                    Spacer(minLength: 8)
+                    // directly under the five cards (build 6), where the eye is after reading them, not at the foot of the screen
                     Text("No account. Nothing leaves your phone.\nSwitch paths anytime from My Path.")
                         .font(DS.caption).foregroundStyle(Palette.fg2).lineSpacing(3)
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
+                        .padding(.top, 4)
+                        .accessibilityIdentifier("welcome-hint")
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, isChange ? 8 : 16)

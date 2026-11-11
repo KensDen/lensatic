@@ -123,10 +123,15 @@ extension View {
 struct StatTile: View {
     let label: String
     let value: String
+    /// The tile opens something (build 6: the Type tile's meaning): a small mark beside its label says so.
+    var opens = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(label.uppercased()).font(DS.tileLabel).foregroundStyle(Palette.fg2)
+            HStack(spacing: 4) {
+                Text(label.uppercased()).font(DS.tileLabel).foregroundStyle(Palette.fg2)
+                if opens { Image(systemName: "info.circle").font(DS.tileLabel).foregroundStyle(Palette.fg2).accessibilityHidden(true) }
+            }
             // one line by the row's arrangement (StatTileRow), never by a line limit, so the value scales in full
             Text(value).font(DS.tileValue).foregroundStyle(Palette.fg).fixedSize(horizontal: false, vertical: true)
         }

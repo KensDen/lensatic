@@ -493,7 +493,8 @@
         "nature",
         "status",
         "kind",
-        "search"
+        "search",
+        "natureMeaning"
       ],
       "properties": {
         "sections": {
@@ -563,6 +564,14 @@
                 "minLength": 1
               }
             }
+          }
+        },
+        "natureMeaning": {
+          "description": "What each type of document is, in one line (build 6): the app's Framework card shows it when the Type tile is tapped. One entry for every key of ui.nature",
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
           }
         }
       }

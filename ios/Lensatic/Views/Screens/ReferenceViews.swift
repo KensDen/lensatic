@@ -64,7 +64,8 @@ struct GlossaryItemView: View {
                             Button {
                                 model.glossaryEntry = nil
                                 model.push(.entity(eid))
-                            } label: { Pill(text: e.shortName) }
+                            // a label, not a bare tag (build 6): "See: AI RMF", the word from the content
+                            } label: { Pill(text: "\(model.store.label("glossarySee")): \(e.shortName)") }
                             .buttonStyle(.plain)
                             .accessibilityIdentifier("gl-\(item.slug)-\(eid)")
                         }

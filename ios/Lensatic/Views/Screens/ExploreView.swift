@@ -8,10 +8,18 @@ import SwiftUI
 struct ExploreView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.dynamicTypeSize) private var typeSize
+    @Environment(\.horizontalSizeClass) private var sizeClass
+    /// The matrix's jump row has scrolled out of view (build 6): its pinned copy shows at the top of the screen.
+    @State private var jumpAway = false
+    /// The function the jump row last scrolled to: its code is marked until the reader scrolls the list themselves.
+    @State private var jumped: FunctionID?
 
     var body: some View {
         @Bindable var model = model
         let options = ExploreMode.allCases.map { ($0, model.store.content.ui.nav[$0.rawValue] ?? $0.rawValue.capitalized) }
+        // on a phone the matrix carries a row that jumps to a function (build 6); it stays pinned once it scrolls away
+        let jumps = model.explore == .matrix && sizeClass == .compact
+        ScrollViewReader { proxy in
         List {
             Group {
                 SwiftUI.Section {
@@ -28,7 +36,7 @@ struct ExploreView: View {
                 }
                 switch model.explore {
                 case .stack: StackView()
-                case .matrix: MatrixView()
+                case .matrix: MatrixView(jumps: jumps, jumpAway: $jumpAway, jumped: jumped) { jump($0, proxy) }
                 case .functions: FunctionsView()
                 }
             }
@@ -38,8 +46,80 @@ struct ExploreView: View {
         .lxListSurface()
         .environment(\.defaultMinListRowHeight, 44)
         .hardTopEdge()
+        .safeAreaInset(edge: .top, spacing: 0) {
+            if jumps && jumpAway {
+                FunctionJumpRow(functions: model.store.content.functions, current: jumped, identifier: "matrix-jump-pinned") { jump($0, proxy) }
+                    .padding(.horizontal, 20).padding(.vertical, 6)
+                    .background(Palette.bg)
+                    .overlay(alignment: .bottom) { Rectangle().fill(Palette.line).frame(height: 1) }
+            }
+        }
         .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("explore")
+        .onChange(of: model.explore) { jumpAway = false; jumped = nil }
+        .onChange(of: model.matrixView) { jumped = nil }
+        // the reader's own scroll takes the mark off: the row no longer knows which function is at the top
+        .simultaneousGesture(DragGesture(minimumDistance: 12).onChanged { _ in if jumped != nil { jumped = nil } })
+        #if DEBUG
+        // -LensaticScrollTo matrix-fn-<code> scrolls the matrix to that function, as its jump row does (the screenshots)
+        .task {
+            if let target = AppModel.debugScrollTo, target.hasPrefix("matrix-fn-"), let fn = FunctionID(rawValue: String(target.dropFirst("matrix-fn-".count))) {
+                try? await Task.sleep(for: .milliseconds(600))
+                jump(fn, proxy)
+            }
+        }
+        #endif
+        }
+    }
+
+    /// Scroll the matrix to a function's first row, at the top of the list under the pinned row, and mark its code there:
+    /// the function's own header is then just above the screen's edge, and the mark says where the reader is. (A list
+    /// honours a top or a bottom anchor exactly and centres anything between, so the header cannot be held in view.)
+    private func jump(_ function: FunctionID, _ proxy: ScrollViewProxy) {
+        let screen = model.screen("matrix-\(model.matrixView.rawValue)") { MatrixScreen(store: model.store, view: model.matrixView) }
+        guard let first = screen.functions.first(where: { $0.function.id == function })?.rows.first else { return }
+        let target = MatrixView.rowID(function, first.pillar)
+        jumped = function
+        withAnimation(UIAccessibility.isReduceMotionEnabled ? nil : .easeInOut) { proxy.scrollTo(target, anchor: .top) }
+        // a list places rows it has not made yet by estimate, so the first scroll can stop short; once the rows exist a
+        // second one lands exactly (the fresh-eyes review of build 6, finding 26)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.45) { proxy.scrollTo(target, anchor: .top) }
+    }
+}
+
+/// The matrix's jump row (build 6): the six CSF functions by their codes (GV ID PR DE RS RC), each a control that scrolls
+/// the matrix to that function's rows. The codes keep the largest standard text size, as the tab bar's labels do, so all
+/// six stay on one row; a long press at the accessibility sizes shows a code in the large content viewer.
+struct FunctionJumpRow: View {
+    @Environment(AppModel.self) private var model
+    let functions: [CSFFunction]
+    /// The function the row last jumped to, marked until the reader scrolls on.
+    var current: FunctionID?
+    var identifier: String
+    let jump: (FunctionID) -> Void
+
+    var body: some View {
+        HStack(spacing: 6) {
+            ForEach(functions, id: \.id) { fn in
+                Button { jump(fn.id) } label: {
+                    Text(fn.id.rawValue).font(DS.style(.subheadline).weight(.semibold))
+                        .foregroundStyle(fn.id == current ? Palette.onSecMaps : Color.primary)
+                        .dynamicTypeSize(...DynamicTypeSize.xxxLarge)
+                        .frame(maxWidth: .infinity, minHeight: 32)
+                        .background(fn.id == current ? Palette.secMaps : Palette.bg3, in: Capsule())
+                        .overlay(Capsule().strokeBorder(fn.id == current ? Palette.secMaps : Palette.line, lineWidth: 1))
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("\(model.store.label("matrixJump")) \(fn.name)")
+                .accessibilityAddTraits(fn.id == current ? .isSelected : [])
+                .accessibilityIdentifier("\(identifier)-\(fn.id.rawValue)")
+                .accessibilityShowsLargeContentViewer { Text("\(fn.id.rawValue) \(fn.name)") }
+            }
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier(identifier)
     }
 }
 
@@ -105,8 +185,30 @@ struct StackView: View {
                             if layer.id != screen.layers.last?.id { Divider().overlay(Palette.line).padding(.leading, 42) }
                         }
                     }
-                    .lxCard(radius: 12)
-                    padRow(column.id) { columnRow(column) }.lxCard(radius: 12, tint: Palette.secPurple).frame(maxWidth: 280)
+                    .lxCard(radius: LxCard.inList(12))
+                    // the AI column's side tile (build 6): the question runs under the title at the tile's full width, where
+                    // beside the icon it wrapped into a narrow column
+                    Button { model.push(.layer(column.id)) } label: {
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack(spacing: 12) {
+                                IconTile(symbol: RowIcon.aiColumn.0, tint: RowIcon.aiColumn.1)
+                                Text(TitleCase.apply(column.name)).font(DS.style(.body)).foregroundStyle(.primary)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
+                            }
+                            Text(column.shortQuestion).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2)
+                                .fixedSize(horizontal: false, vertical: true)
+                            Text(columnCount(column)).font(DS.style(.body)).foregroundStyle(Palette.fg2)
+                        }
+                        .multilineTextAlignment(.leading)
+                        .padding(.vertical, 8)
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityHint(column.question)
+                    .accessibilityIdentifier("layer-\(column.id)")
+                    .lxCard(radius: LxCard.inList(12), tint: Palette.secPurple).frame(maxWidth: 300)
                 }
                 .listRowInsets(EdgeInsets())
                 .listRowBackground(Color.clear)
@@ -135,9 +237,13 @@ struct StackView: View {
                        note: layer.id == onPath ? "On your path" : nil, value: n == 1 ? "1 framework" : "\(n) frameworks")
     }
 
-    private func columnRow(_ column: Layer) -> TileRow {
+    private func columnCount(_ column: Layer) -> String {
         let count = StackScreen.entryIds(column, store: model.store).count
-        return TileRow(icon: RowIcon.aiColumn, title: TitleCase.apply(column.name), subtitle: column.shortQuestion, value: count == 1 ? "1 entry" : "\(count) entries")
+        return count == 1 ? "1 entry" : "\(count) entries"
+    }
+
+    private func columnRow(_ column: Layer) -> TileRow {
+        TileRow(icon: RowIcon.aiColumn, title: TitleCase.apply(column.name), subtitle: column.shortQuestion, value: columnCount(column))
     }
 
     private func layerLink(_ layer: Layer, onPath: String?) -> some View {
@@ -178,6 +284,15 @@ struct StackView: View {
 struct MatrixView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.dynamicTypeSize) private var typeSize
+    /// On a phone (build 6): the jump row under the model picker, whether it has scrolled away, and the jump itself.
+    var jumps = false
+    @Binding var jumpAway: Bool
+    var jumped: FunctionID?
+    var jump: (FunctionID) -> Void = { _ in }
+
+    /// A row's identity in the list: its function and pillar, so every row is its own (a pillar repeats under each
+    /// function) and the jump row can scroll to a function's first row before the list has made it.
+    static func rowID(_ function: FunctionID, _ pillar: String) -> String { "matrix-\(function.rawValue)-\(pillar)" }
 
     var body: some View {
         @Bindable var model = model
@@ -185,11 +300,27 @@ struct MatrixView: View {
         SwiftUI.Section {
             ModePicker(options: PillarView.allCases.map { ($0, viewName($0)) }, selection: $model.matrixView, identifier: "pillar-view")
         } footer: {
-            ListNote(intro(screen)).font(DS.style(.footnote))
+            if !jumps { ListNote(intro(screen)).font(DS.style(.footnote)) }
+        }
+        if jumps {
+            // a section of its own, close under the picker, so the picker's card keeps its corners at every text size
+            SwiftUI.Section {
+                FunctionJumpRow(functions: screen.functions.map(\.function), current: jumped, identifier: "matrix-jump", jump: jump)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                    // once this row scrolls away its pinned copy takes over at the top of the screen
+                    .onAppear { jumpAway = false }
+                    .onDisappear { jumpAway = true }
+            } footer: {
+                ListNote(intro(screen)).font(DS.style(.footnote))
+            }
+            .listSectionSpacing(8)
         }
         ForEach(screen.functions, id: \.function.id) { fn, rows in
             SwiftUI.Section {
-                ForEach(rows, id: \.pillar) { row in
+                ForEach(rows.map { (id: MatrixView.rowID(fn.id, $0.pillar), row: $0) }, id: \.id) { item in
+                    let row = item.row
                     NavigationLink(value: Nav.cell(screen.view, row.pillar, fn.id)) {
                         VStack(alignment: .leading, spacing: 3) {
                             // at the accessibility sizes the capability numbers go under the name, which keeps the width

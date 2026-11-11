@@ -99,7 +99,8 @@ final class LibraryTests: XCTestCase {
         let hits = try XCTUnwrap(index.search("overlays").first { $0.kind == .guide }?.results)
         let line = try XCTUnwrap(hits.lazy.compactMap { SearchIndex.excerpt($0, query: "overlays") }.first)
         XCTAssertTrue(line.localizedCaseInsensitiveContains("overlays"), line)
-        XCTAssertLessThan(line.count, 140)
+        XCTAssertLessThan(line.count, 200)
+        XCTAssertFalse(line.hasPrefix("\u{2026}"), "an excerpt starts at its sentence (build 6): \(line)")
         let titled = try XCTUnwrap(index.search("containment").first { $0.kind == .play }?.results.first)
         XCTAssertNil(SearchIndex.excerpt(titled, query: "containment"), "a title match needs no excerpt")
     }
@@ -295,6 +296,49 @@ final class LibraryTests: XCTestCase {
             kinds.formUnion(groups.map(\.kind))
         }
         XCTAssertEqual(kinds, Set(SearchIndex.Kind.allCases), "the starters reach \(kinds)")
+    }
+
+    /// Build 6 (Ken, 10 November 2026): the Start With chips read in Title Case, and search ignores case, so each chip
+    /// finds exactly what its lower-case form found before, in the same order.
+    func testTheStartersAreInTitleCaseAndSearchIgnoresCase() throws {
+        XCTAssertEqual(store.content.ui.search.starters,
+                       ["Zero Trust", "CMMC", "800-53", "800-207", "CISA ZTMM", "AI Agents", "Overlays", "Deadline", "Target Level", "RMF"])
+        for q in store.content.ui.search.starters {
+            func ids(_ query: String) -> [[String]] { index.search(query).map { $0.results.map(\.id) } }
+            XCTAssertEqual(ids(q), ids(q.lowercased()), "\(q) finds what \(q.lowercased()) finds")
+            XCTAssertEqual(ids(q), ids(q.uppercased()), q)
+        }
+    }
+
+    /// Build 6: an excerpt starts where its sentence starts, never mid-sentence behind an ellipsis, and still holds the
+    /// word it was found by; only a sentence cut short ends with one.
+    func testAnExcerptStartsAtASentence() throws {
+        var seen = 0
+        for q in store.content.ui.search.starters + ["insider", "identity", "telemetry", "segmentation", "pillar"] {
+            for group in index.search(q) where group.kind == .guide || group.kind == .play {
+                for item in group.results {
+                    guard let line = SearchIndex.excerpt(item, query: q) else { continue }
+                    seen += 1
+                    XCTAssertFalse(line.hasPrefix("\u{2026}"), "\(item.id): \(line)")
+                    let first = try XCTUnwrap(line.unicodeScalars.first)
+                    XCTAssertFalse(CharacterSet.lowercaseLetters.contains(first), "\(item.id) starts mid-sentence: \(line)")
+                    let word = SearchIndex.fold(q).split(separator: " ").first.map(String.init) ?? q
+                    XCTAssertTrue(line.localizedCaseInsensitiveContains(word), "\(item.id): \(line)")
+                }
+            }
+        }
+        XCTAssertGreaterThan(seen, 10, "the excerpts were checked")
+    }
+
+    /// Build 6: every type a card can show has its one-line meaning in the content, and the card's facts carry it.
+    func testEveryTypeHasItsMeaning() throws {
+        let ui = store.content.ui
+        XCTAssertEqual(Set(ui.natureMeaning.keys), Set(ui.nature.keys))
+        for e in store.frameworks + store.sources + store.solutions {
+            let facts = EntityFacts(e, store: store)
+            XCTAssertEqual(facts.typeMeaning, ui.natureMeaning[e.authority.nature.rawValue], e.id)
+            XCTAssertTrue(facts.typeMeaning?.hasSuffix(".") == true, e.id)
+        }
     }
 
     /// The last five searches and the plays read are kept in the progress file, on the device, and read back.

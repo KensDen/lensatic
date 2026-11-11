@@ -567,6 +567,8 @@ struct UIText: Decodable, Sendable {
     let kind: [String: String]
     /// Search's empty state (content release 1.0.1): the Start With chips, each a query that finds something.
     let search: SearchText
+    /// What each type of document is, in one line (build 6): the Framework card's Type tile opens it. Keyed as nature.
+    let natureMeaning: [String: String]
 
     struct SearchText: Decodable, Sendable {
         let starters: [String]

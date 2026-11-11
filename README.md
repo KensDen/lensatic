@@ -80,6 +80,7 @@ Since Lensatic 2.0.3 it also runs the layout guard, `tools/layout_guard.mjs`: it
 - Glossary terms and spellings are unique, resolve to their entries and carry an expansion.
 - `LICENSE` and `web/src/fonts/OFL.txt` hold their pinned text (SHA-256), `meta.licenses` names them, and `content/LICENSE`, retired at content 0.7.0, stays absent.
 - No dated recheck is overdue on the release date. That date is `meta.builtOn`, which must match the last changelog entry.
+- Every type of document in `ui.nature`, and on every entry, has a one-sentence meaning in `ui.natureMeaning`, which the app's Type tile opens, and the Start With chips start with a capital or a number.
 
 The font license, `web/src/fonts/OFL.txt`, is a verbatim legal text, so it is exempt from the em-dash and planning-vocabulary checks and from nothing else. `LICENSE` is Lensatic's own notice and has no exemption. `tools/check_web.py` checks the built page and the site, as described under the web wrapper below.
 
