@@ -74,7 +74,9 @@ struct SavedListView: View {
 // MARK: the guide
 
 /// The Field Guide (native): the reader's eight weeks, each with what to read, what to apply and the self-check, marked
-/// done on the device; then the guide's chapters and its quick reference for the reader's track.
+/// done on the device; then the guide's chapters. A system inset-grouped list (build 6: the section 7 rule). Before a
+/// trailhead is picked there are no weeks to show, since the last four are a track's: the screen says so and leads to
+/// the trailhead question.
 struct GuideView: View {
     @Environment(AppModel.self) private var model
     @State private var openWeek: Int?
@@ -82,54 +84,87 @@ struct GuideView: View {
     var body: some View {
         let lib = model.library
         let site = lib.site
-        DetailScreen(eyebrow: site.guidesName, eyebrowColor: Palette.secGuides, title: site.guideTitle, identifier: "guide-screen") {
+        ListScreen(eyebrow: site.guidesName, eyebrowColor: Palette.secGuides, title: site.guideTitle, identifier: "guide-screen") {
+            SwiftUI.Section {
+                // who the route is for (4.2 and 4.5): the Field Guides intro, on the screen Home's door opens
+                Text(site.intro("guides", actions: lib.actionCount) ?? site.guides.first?.line ?? "").font(DS.style(.subheadline))
+                    .foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                    .padding(.vertical, 2)
+                    .accessibilityIdentifier("guide-intro")
+            }
             if let door = model.door {
                 let weeks = lib.weeks(for: door.id)
                 let done = weeks.filter { model.progress.weeksDone(lib.weekKey($0, door: door.id)).contains($0.week) }.map(\.week)
-                // who the route is for (4.2 and 4.5): the Field Guides intro, on the screen the Library card opens
-                Text(site.intro("guides", actions: lib.actionCount) ?? site.guides.first?.line ?? "").font(DS.answer).foregroundStyle(Palette.fg2)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .accessibilityIdentifier("guide-intro")
-                VStack(alignment: .leading, spacing: 8) {
-                    CountedLabel(text: "Your weeks", count: weeks.count)
-                    if let track = lib.track(for: door.id), let c0 = lib.guide.core.first?.week, let c1 = lib.guide.core.last?.week,
-                       let t0 = track.weeks.first?.week, let t1 = track.weeks.last?.week {
-                        // the ranges are read from the guide's plans, never typed
-                        Text("Weeks \(c0) to \(c1) are the shared core; \(t0) to \(t1) are the \(track.name).").font(DS.caption).foregroundStyle(Palette.fg2)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    let current = weeks.first { !done.contains($0.week) }?.week
+                let current = weeks.first { !done.contains($0.week) }?.week
+                SwiftUI.Section {
                     ForEach(weeks, id: \.week) { w in
                         WeekRow(week: w, done: done.contains(w.week), current: w.week == current, open: openWeek == w.week,
                                 toggle: { model.progress.toggleWeek(lib.weekKey(w, door: door.id), w.week) },
                                 expand: { openWeek = openWeek == w.week ? nil : w.week })
                     }
+                } header: {
+                    HStack(alignment: .firstTextBaseline) {
+                        ListNote("Your Weeks")
+                        Spacer()
+                        ListNote("\(weeks.count)")
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityAddTraits(.isHeader)
+                } footer: {
+                    if let track = lib.track(for: door.id), let c0 = lib.guide.core.first?.week, let c1 = lib.guide.core.last?.week,
+                       let t0 = track.weeks.first?.week, let t1 = track.weeks.last?.week {
+                        // the ranges are read from the guide's plans, never typed
+                        ListNote("Weeks \(c0) to \(c1) are the shared core; \(t0) to \(t1) are the \(track.name).").font(DS.style(.footnote))
+                    }
+                }
+            } else {
+                SwiftUI.Section {
+                    Button { model.changingDoor = true } label: {
+                        Text(model.store.label("homeChoose")).font(DS.style(.body)).foregroundStyle(Palette.link)
+                            .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading).contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("guide-choose")
+                } header: {
+                    ListNote("Your Weeks")
+                } footer: {
+                    ListNote(model.store.label("guideNoTrailhead")).font(DS.style(.footnote))
                 }
             }
-            VStack(alignment: .leading, spacing: 8) {
-                SectionLabel(text: "Chapters")
+            SwiftUI.Section {
                 ForEach(lib.guide.chapters) { c in
-                    NavigationLink(value: Nav.chapter(c.id)) { ResultRow(title: c.displayTitle, line: c.part, bar: Palette.secGuides) }
-                        .buttonStyle(.plain)
-                        .accessibilityIdentifier("chapter-\(c.id)")
+                    NavigationLink(value: Nav.chapter(c.id)) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(noOrphan(keepWhole(c.displayTitle))).font(DS.style(.body)).foregroundStyle(.primary)
+                            if let part = c.part, !part.isEmpty { Text(part).font(DS.style(.footnote)).foregroundStyle(Palette.fg2) }
+                        }
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(.vertical, 2)
+                    }
+                    .accessibilityIdentifier("chapter-\(c.id)")
                 }
+            } header: {
+                ListNote("Chapters")
+            } footer: {
+                ListNote(lib.guide.edition).font(DS.style(.footnote))
             }
-            Text(lib.guide.edition).font(DS.caption).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
         }
     }
 }
 
+/// One of the reader's weeks as a list row: its check (its own 44-point control), the week and what to read, and, opened,
+/// what to apply and the self-check. The first week not marked done says This Week, as My Path calls out the next step.
 struct WeekRow: View {
     let week: Guide.Week
     let done: Bool
-    /// The first week not marked done: called out, as My Path calls out the next step.
+    /// The first week not marked done.
     var current = false
     let open: Bool
     let toggle: () -> Void
     let expand: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 12) {
                 Button(action: toggle) {
                     Group { if done { DoneMark() } else { Icon(.circle, size: 24, color: current ? Palette.secGuides : Palette.fg2) } }
@@ -144,14 +179,14 @@ struct WeekRow: View {
                 Button(action: expand) {
                     HStack {
                         VStack(alignment: .leading, spacing: 2) {
-                            if current { Eyebrow(text: "This week", color: Palette.secGuides, small: true) }
-                            Text("Week \(week.week)").font(DS.stepStrong).foregroundStyle(done ? Palette.fg2 : Palette.fg)
-                            Text(keepWhole(week.read)).font(DS.caption).foregroundStyle(Palette.fg2)
+                            if current { Text("This Week").font(DS.style(.footnote).weight(.semibold)).foregroundStyle(Palette.secGuides) }
+                            Text("Week \(week.week)").font(DS.style(.body)).foregroundStyle(done ? Palette.fg2 : Color.primary)
+                            Text(keepWhole(week.read)).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
-                        Icon(.chevronRight, size: 16, color: Palette.fg2).rotationEffect(.degrees(open ? 90 : 0))
+                        Icon(.chevronRight, size: 14, color: Palette.fg2).rotationEffect(.degrees(open ? 90 : 0)).accessibilityHidden(true)
                     }
                     .frame(minHeight: 44)
                     .contentShape(Rectangle())
@@ -162,21 +197,20 @@ struct WeekRow: View {
             }
             if open {
                 VStack(alignment: .leading, spacing: 8) {
-                    labeled("Apply on the job", week.apply)
-                    labeled("Self-check", week.check)
+                    labeled("Apply on the Job", week.apply)
+                    labeled("Self-Check", week.check)
                 }
                 .padding(.leading, 36)
+                .padding(.bottom, 4)
             }
         }
-        .padding(.horizontal, 14)
-        .padding(.vertical, current ? 12 : 6)
-        .card(radius: 12, fill: current ? Palette.bg3 : Palette.bg2, stroke: current ? Palette.secGuides : Palette.line)
+        .padding(.vertical, 2)
     }
 
     private func labeled(_ label: String, _ text: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
-            SectionLabel(text: label, tracked: false)
-            Text(keepWhole(text)).font(DS.step).foregroundStyle(Palette.fg).lineSpacing(2).fixedSize(horizontal: false, vertical: true)
+            Text(label).font(DS.style(.footnote)).foregroundStyle(Palette.fg2).accessibilityAddTraits(.isHeader)
+            Text(keepWhole(text)).font(DS.style(.subheadline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
         }
     }
 }
@@ -201,25 +235,42 @@ struct ChapterView: View {
 
 // MARK: the plays
 
-/// The plays (native): the groups in their order, each play a row under its group.
+/// The plays (native): the groups in their order, each play a row under its group. A system inset-grouped list (build 6:
+/// the section 7 rule), one section per group.
 struct PlaysView: View {
     @Environment(AppModel.self) private var model
 
     var body: some View {
         let lib = model.library
-        DetailScreen(eyebrow: lib.site.playsName, eyebrowColor: Palette.secPurple, title: lib.site.playsTitle, identifier: "plays-screen") {
-            // who the playbook is for (4.3 and 4.5), on the screen the Library card opens
-            Text(lib.site.intro("playbook", actions: lib.actionCount) ?? lib.site.section("playbook")?.line ?? "").font(DS.answer)
-                .foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
-                .accessibilityIdentifier("plays-intro")
+        ListScreen(eyebrow: lib.site.playsName, eyebrowColor: Palette.secPurple, title: lib.site.playsTitle, identifier: "plays-screen") {
+            SwiftUI.Section {
+                // who the playbook is for (4.3 and 4.5), on the screen Home's door opens
+                Text(lib.site.intro("playbook", actions: lib.actionCount) ?? lib.site.section("playbook")?.line ?? "").font(DS.style(.subheadline))
+                    .foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                    .padding(.vertical, 2)
+                    .accessibilityIdentifier("plays-intro")
+            }
             ForEach(lib.plays.groups, id: \.label) { g in
-                VStack(alignment: .leading, spacing: 8) {
-                    CountedLabel(text: g.label, count: g.playIds.count)
+                SwiftUI.Section {
                     ForEach(lib.plays(in: g)) { p in
-                        NavigationLink(value: Nav.play(p.id)) { ResultRow(title: p.name, line: p.subtitle, bar: Palette.secPurple) }
-                            .buttonStyle(.plain)
-                            .accessibilityIdentifier("play-\(p.id)")
+                        NavigationLink(value: Nav.play(p.id)) {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(noOrphan(keepWhole(p.name))).font(DS.style(.body)).foregroundStyle(.primary)
+                                Text(noOrphan(keepWhole(p.subtitle))).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                            }
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.vertical, 2)
+                        }
+                        .accessibilityIdentifier("play-\(p.id)")
                     }
+                } header: {
+                    HStack(alignment: .firstTextBaseline) {
+                        ListNote(g.label)
+                        Spacer()
+                        ListNote("\(g.playIds.count)")
+                    }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityAddTraits(.isHeader)
                 }
             }
         }

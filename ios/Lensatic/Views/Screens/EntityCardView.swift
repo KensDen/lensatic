@@ -56,27 +56,42 @@ struct EntityCardView: View {
                         StatTile(label: "Due", value: facts.due)
                         StatTile(label: "Type", value: facts.type)
                     }
+                    // the card's lists (build 6: the section 7 rule): what it answers in the one card style, and what it
+                    // goes with as rows in one card, each with its name and the list's chevron, as a system list draws them
                     if let answers = facts.answers {
                         VStack(alignment: .leading, spacing: 6) {
-                            SectionLabel(text: answers.label, tracked: false)
-                            Text(answers.text).font(DS.answer).foregroundStyle(Palette.fg).lineSpacing(3)
+                            Text(answers.label).font(DS.style(.footnote)).foregroundStyle(Palette.fg2).accessibilityAddTraits(.isHeader)
+                            Text(answers.text).font(DS.style(.callout)).foregroundStyle(.primary)
                                 .fixedSize(horizontal: false, vertical: true)
                         }
-                        .padding(14)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .card(radius: 14)
+                        .lxCard(radius: 14)
                     }
                     let goes = model.store.goesWith(e.id)
                     if !goes.isEmpty {
                         VStack(alignment: .leading, spacing: 8) {
-                            SectionLabel(text: "Goes with", tracked: false)
-                            FlowLayout {
-                                ForEach(goes, id: \.self) { other in
-                                    Button { model.push(.entity(other)) } label: { Pill(text: model.store.entities[other]?.shortName ?? other) }
-                                        .buttonStyle(.plain)
-                                        .accessibilityIdentifier("goes-with-\(other)")
+                            Text("Goes With").font(DS.style(.footnote)).foregroundStyle(Palette.fg2).padding(.leading, 16)
+                                .accessibilityAddTraits(.isHeader)
+                            VStack(spacing: 0) {
+                                ForEach(Array(goes.enumerated()), id: \.element) { i, other in
+                                    if i > 0 { Divider().overlay(Palette.line) }
+                                    Button { model.push(.entity(other)) } label: {
+                                        HStack(spacing: 8) {
+                                            Text(model.store.entities[other]?.shortName ?? other).font(DS.style(.body)).foregroundStyle(.primary)
+                                                .frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                                                .fixedSize(horizontal: false, vertical: true)
+                                            Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary)
+                                                .accessibilityHidden(true)
+                                        }
+                                        .padding(.vertical, 6)
+                                        .frame(minHeight: 44)
+                                        .contentShape(Rectangle())
+                                    }
+                                    .buttonStyle(.plain)
+                                    .accessibilityIdentifier("goes-with-\(other)")
                                 }
                             }
+                            .padding(.vertical, -16)
+                            .lxCard(radius: 14)
                         }
                     }
                     if typeSize.isAccessibilitySize { footer(e, facts).padding(.horizontal, -20) }
@@ -202,6 +217,7 @@ struct EntityFacts {
 /// caveat, and the button that opens the source.
 struct SourcesSheet: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.dynamicTypeSize) private var typeSize
     @State private var documentsOpen = false
     let id: String
 
@@ -211,46 +227,46 @@ struct SourcesSheet: View {
             let v = e.verification
             BottomSheet {
                 HStack {
-                    Text("Where This Comes From").font(DS.sheetTitle).foregroundStyle(Palette.fg).accessibilityAddTraits(.isHeader)
+                    Text("Where This Comes From").font(DS.style(.title3)).foregroundStyle(.primary).accessibilityAddTraits(.isHeader)
                     Spacer()
                     Button { model.sourcesFor = nil } label: {
-                        Text("Done").font(DS.link).foregroundStyle(Palette.link).frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                        Text("Done").font(DS.style(.body)).foregroundStyle(Palette.link).frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                     .accessibilityIdentifier("sources-done")
                 }
+                // the sheet's groups (build 6: the section 7 rule): each a card in the one card style on the page colour, as an
+                // inset-grouped list draws its sections, in the system's Dynamic Type styles
                 HStack(alignment: .center, spacing: 10) {
                     Icon(facts.statusIcon, size: 22, color: facts.statusColor)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(model.store.content.ui.status[v.status.rawValue] ?? v.status.rawValue).font(DS.stepStrong).foregroundStyle(Palette.fg)
-                        Text(checkLine(v)).font(DS.caption).foregroundStyle(Palette.fg2).lineSpacing(2)
+                        Text(model.store.content.ui.status[v.status.rawValue] ?? v.status.rawValue).font(DS.style(.headline)).foregroundStyle(.primary)
+                        Text(checkLine(v)).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .fixedSize(horizontal: false, vertical: true)
                 }
-                .padding(12)
-                .background(Palette.bg3, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                .lxCard(radius: 12)
                 .accessibilityElement(children: .combine)
-                Grid(alignment: .topLeading, horizontalSpacing: 16, verticalSpacing: 12) {
-                    GridRow {
-                        fact(model.store.label("publisher"), e.publisher)
-                        fact(model.store.label("edition"), e.edition)
-                    }
-                    GridRow {
-                        fact("Published", Rules.formatDate(e.date))
-                        fact("Format", facts.isPDF ? "PDF" : "Web page")
-                    }
+                VStack(spacing: 0) {
+                    fact(model.store.label("publisher"), e.publisher)
+                    Divider().overlay(Palette.line)
+                    fact(model.store.label("edition"), e.edition)
+                    Divider().overlay(Palette.line)
+                    fact("Published", Rules.formatDate(e.date))
+                    Divider().overlay(Palette.line)
+                    fact("Format", facts.isPDF ? "PDF" : "Web page")
                 }
+                .padding(.vertical, -16)
+                .lxCard(radius: 12)
                 if let note = e.note {
                     // the short note (content 1.2.19), and the whole note one tap down where the Read More rule holds;
                     // its control reads Full note, so it never reads like the card's own (6.15)
                     VStack(alignment: .leading, spacing: 4) {
-                        SectionLabel(text: model.store.label("note"), tracked: false)
-                        ExpandableText(short: e.shortNote, full: note, font: DS.note, lineSpacing: 3, moreLabel: "Full Note", identifier: "sources-note")
+                        Text(model.store.label("note")).font(DS.style(.footnote)).foregroundStyle(Palette.fg2).accessibilityAddTraits(.isHeader)
+                        ExpandableText(short: e.shortNote, full: note, font: DS.style(.subheadline), lineSpacing: 2, moreLabel: "Full Note", identifier: "sources-note")
                     }
-                    .padding(12)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .card(radius: 12, fill: .clear)
+                    .lxCard(radius: 12)
                 }
                 if let url = URL(string: e.url) {
                     Button { Reader.open(url) } label: {
@@ -265,7 +281,7 @@ struct SourcesSheet: View {
                     if let pdf = e.pdf.flatMap(URL.init(string:)) {
                         Button { Reader.open(pdf) } label: {
                             HStack(spacing: 8) {
-                                Text("Open the PDF").font(DS.link).foregroundStyle(Palette.link)
+                                Text("Open the PDF").font(DS.style(.subheadline)).foregroundStyle(Palette.link)
                                 PDFTag()
                             }
                             .frame(maxWidth: .infinity, minHeight: 44)
@@ -275,7 +291,7 @@ struct SourcesSheet: View {
                         .accessibilityHint("Opens the PDF in Safari, inside the app")
                         .accessibilityIdentifier("sources-open-pdf")
                     }
-                    Text(model.store.label("opensInReader")).font(DS.keyLabel).foregroundStyle(Palette.fg2)
+                    Text(model.store.label("opensInReader")).font(DS.style(.caption)).foregroundStyle(Palette.fg2)
                         .frame(maxWidth: .infinity)
                 }
                 if let docs = e.documents, !docs.isEmpty { documents(docs) }
@@ -289,10 +305,10 @@ struct SourcesSheet: View {
         VStack(alignment: .leading, spacing: 0) {
             Button { documentsOpen.toggle() } label: {
                 HStack {
-                    Text("Documents").font(DS.stepStrong).foregroundStyle(Palette.fg)
-                    Text("\(docs.count)").font(DS.sectionLabel).foregroundStyle(Palette.fg2)
+                    Text("Documents").font(DS.style(.body)).foregroundStyle(.primary)
                     Spacer()
-                    Icon(.chevronRight, size: 16, color: Palette.fg2).rotationEffect(.degrees(documentsOpen ? 90 : 0))
+                    Text("\(docs.count)").font(DS.style(.body)).foregroundStyle(Palette.fg2)
+                    Icon(.chevronRight, size: 14, color: Palette.fg2).rotationEffect(.degrees(documentsOpen ? 90 : 0))
                 }
                 .frame(minHeight: 44).contentShape(Rectangle())
             }
@@ -302,20 +318,20 @@ struct SourcesSheet: View {
             .accessibilityIdentifier("sources-documents")
             if documentsOpen {
                 ForEach(Array(docs.enumerated()), id: \.offset) { i, d in
-                    if i > 0 { Divider().overlay(Palette.line) }
+                    Divider().overlay(Palette.line)
                     Button { if let url = URL(string: d.url) { Reader.open(url) } } label: {
                         HStack(spacing: 8) {
                         VStack(alignment: .leading, spacing: 2) {
                             HStack(alignment: .firstTextBaseline, spacing: 6) {
-                                Text(keepWhole(d.title)).font(DS.step).foregroundStyle(Palette.link)
+                                Text(keepWhole(d.title)).font(DS.style(.subheadline)).foregroundStyle(Palette.link)
                                     .multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
                                 if d.opensPDF { PDFTag() }
                             }
-                            Text("\(d.edition)\(model.store.label("metaSeparator"))\(unbroken(Rules.formatDate(d.date)))").font(DS.caption)
+                            Text("\(d.edition)\(model.store.label("metaSeparator"))\(unbroken(Rules.formatDate(d.date)))").font(DS.style(.footnote))
                                 .foregroundStyle(Palette.fg2).multilineTextAlignment(.leading).fixedSize(horizontal: false, vertical: true)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        Icon(.chevronRight, size: 14, color: Palette.fg2)
+                        Image(systemName: "arrow.up.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
                         }
                         .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
                         .padding(.vertical, 8)
@@ -329,7 +345,7 @@ struct SourcesSheet: View {
                     if let pdf = d.pdf.flatMap(URL.init(string:)) {
                         Button { Reader.open(pdf) } label: {
                             HStack(spacing: 8) {
-                                Text("Open the PDF").font(DS.caption).foregroundStyle(Palette.link)
+                                Text("Open the PDF").font(DS.style(.footnote)).foregroundStyle(Palette.link)
                                 PDFTag()
                             }
                             .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
@@ -343,8 +359,8 @@ struct SourcesSheet: View {
                 }
             }
         }
-        .padding(.horizontal, 12)
-        .card(radius: 12, fill: .clear)
+        .padding(.vertical, -16)
+        .lxCard(radius: 12)
     }
 
     private func checkLine(_ v: Verification) -> String {
@@ -353,12 +369,17 @@ struct SourcesSheet: View {
             + (v.recheckAfter.map { " Next check by \(unbroken(Rules.formatDate($0)))." } ?? "")
     }
 
+    /// A fact as a list row: the label, and its value at the trailing edge; at the accessibility sizes the value goes
+    /// under the label, so neither is cut.
     private func fact(_ label: String, _ value: String) -> some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(label).font(DS.keyLabel).foregroundStyle(Palette.fg2)
-            Text(value).font(DS.value).foregroundStyle(Palette.fg).fixedSize(horizontal: false, vertical: true)
+        (typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 2)) : AnyLayout(HStackLayout(alignment: .firstTextBaseline, spacing: 12))) {
+            Text(label).font(DS.style(.body)).foregroundStyle(.primary)
+            if !typeSize.isAccessibilitySize { Spacer(minLength: 0) }
+            Text(value).font(DS.style(.body)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                .multilineTextAlignment(typeSize.isAccessibilitySize ? .leading : .trailing)
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
         .accessibilityElement(children: .combine)
     }
 }

@@ -358,7 +358,8 @@ struct TabBar: View {
     }
 }
 
-/// The bottom sheet as the Sources mockup draws it: the surface colour, 22-point top corners, a short handle, sized to
+/// The bottom sheet as the Sources mockup draws it: the page colour (build 6, so the cards in it read as an inset-grouped
+/// list's sections; the surface colour until then), 22-point top corners, a short handle, sized to
 /// its content up to the full height (then it scrolls). The height is measured once, when the sheet opens: a sheet that
 /// followed its content as the text size changed would chase its own layout, so a later change scrolls instead.
 struct BottomSheet<Content: View>: View {
@@ -386,7 +387,7 @@ struct BottomSheet<Content: View>: View {
         .presentationDetents([.height(height), .large])
         .presentationDragIndicator(.hidden)
         .presentationCornerRadius(22)
-        .presentationBackground(Palette.bg2)
+        .presentationBackground(Palette.bg)
     }
 }
 

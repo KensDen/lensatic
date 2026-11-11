@@ -416,8 +416,34 @@ struct ChangeRow: View {
     @Environment(AppModel.self) private var model
     let item: Changes.Item
     var isNew = false
+    /// A row of the What Changed list (build 6: the section 7 rule), in the system's type with the list's chevron; My
+    /// Path keeps the card.
+    var inList = false
 
     var body: some View {
+        if inList {
+            NavigationLink(value: Nav.entity(item.entityId)) {
+                HStack(alignment: .firstTextBaseline, spacing: 10) {
+                    if isNew { Circle().fill(Palette.accent).frame(width: 8, height: 8).accessibilityHidden(true) }
+                    VStack(alignment: .leading, spacing: 2) {
+                        if isNew { Text("New").font(DS.style(.footnote).weight(.semibold)).foregroundStyle(Palette.accent) }
+                        Text(keepWhole(item.title)).font(DS.style(.body)).foregroundStyle(.primary)
+                        Text(metaLine).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(.vertical, 2)
+            }
+            .accessibilityElement(children: .combine)
+            .accessibilityIdentifier("change-\(item.id)")
+        } else {
+            card
+        }
+    }
+
+    private var card: some View {
         Button { model.push(.entity(item.entityId)) } label: {
             HStack(alignment: .firstTextBaseline, spacing: 10) {
                 if isNew { Circle().fill(Palette.accent).frame(width: 8, height: 8).accessibilityHidden(true) }
@@ -448,8 +474,9 @@ struct ChangeRow: View {
     }
 }
 
-/// Every change the content carries, by the day each is about, newest first (Library, Reference). The news shows; the
-/// source checks join it when the reader turns on Show Source Checks. Leaving the list marks everything in it seen.
+/// Every change the content carries, by the day each is about, newest first (Home, Reference). The news shows; the
+/// source checks join it when the reader turns on Show Source Checks. Leaving the list marks everything in it seen. A
+/// system inset-grouped list (build 6: the section 7 rule), one section per day.
 struct ChangesListView: View {
     @Environment(AppModel.self) private var model
     @State private var showChecks = false
@@ -460,30 +487,32 @@ struct ChangesListView: View {
         let changes = model.changes
         let viewed = viewedAtOpen ?? model.progress.state.changesViewed
         let shown = showChecks ? changes.items : changes.news
-        DetailScreen(title: "What Changed", identifier: "changes-screen") {
-            Text("What moved in the frameworks, newest first.").font(DS.note).foregroundStyle(Palette.fg2)
-                .fixedSize(horizontal: false, vertical: true)
-                .accessibilityIdentifier("changes-intro")
-            // one control VoiceOver reads as a named switch: the system Toggle exposes its inner switch without a name (R5)
-            Button { showChecks.toggle() } label: {
-                HStack {
-                    Text("Show Source Checks").font(DS.summary).foregroundStyle(Palette.fg)
-                    Spacer()
-                    SwitchGlyph(isOn: showChecks)
+        ListScreen(title: "What Changed", identifier: "changes-screen") {
+            SwiftUI.Section {
+                // one control VoiceOver reads as a named switch: the system Toggle exposes its inner switch without a name (R5)
+                Button { showChecks.toggle() } label: {
+                    HStack {
+                        Text("Show Source Checks").font(DS.style(.body)).foregroundStyle(.primary)
+                            .frame(maxWidth: .infinity, alignment: .leading).multilineTextAlignment(.leading)
+                        SwitchGlyph(isOn: showChecks)
+                    }
+                    .frame(minHeight: 44)
+                    .contentShape(Rectangle())
                 }
-                .frame(minHeight: 44)
-                .contentShape(Rectangle())
+                .buttonStyle(.plain)
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel("Show Source Checks")
+                .accessibilityValue(showChecks ? "On" : "Off")
+                .accessibilityAddTraits(.isToggle)
+                .accessibilityIdentifier("changes-checks")
+            } header: {
+                ListNote("What moved in the frameworks, newest first.").accessibilityIdentifier("changes-intro")
             }
-            .buttonStyle(.plain)
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel("Show Source Checks")
-            .accessibilityValue(showChecks ? "On" : "Off")
-            .accessibilityAddTraits(.isToggle)
-            .accessibilityIdentifier("changes-checks")
             ForEach(Changes.byDay(shown), id: \.day) { group in
-                VStack(alignment: .leading, spacing: 8) {
-                    SectionLabel(text: Rules.formatDate(group.day), tracked: false)
-                    ForEach(group.items) { item in ChangeRow(item: item, isNew: !item.kind.isCheck && Changes.isNew(item, since: viewed)) }
+                SwiftUI.Section {
+                    ForEach(group.items) { item in ChangeRow(item: item, isNew: !item.kind.isCheck && Changes.isNew(item, since: viewed), inList: true) }
+                } header: {
+                    ListNote(Rules.formatDate(group.day))
                 }
             }
         }
