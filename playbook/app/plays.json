@@ -2034,9 +2034,9 @@
       },
       {
        "eyebrow": "Agent Containment · GRC",
-       "title": "Baseline every agent deployment against the Five Eyes ‘Careful Adoption of Agentic AI Services’ guidance: audit what each agent can reach (least privilege), anchor agents to verified short-lived credentials, and adopt its containment-over-efficiency defaults.",
+       "title": "Baseline every agent deployment against the Five Eyes ‘Careful Adoption of Agentic SI Services’ guidance: audit what each agent can reach (least privilege), anchor agents to verified short-lived credentials, and adopt its containment-over-efficiency defaults.",
        "play": "containment",
-       "meta": "Five Eyes · Careful Adoption of Agentic AI, May 2026"
+       "meta": "Five Eyes · Careful Adoption of Agentic SI, May 2026"
       },
       {
        "eyebrow": "Agent Containment · SOC",
@@ -3030,7 +3030,7 @@
        "text": "Tamper-evident logs must stay provable decades out: SLH-DSA/ML-DSA signatures keep the forensic record trustworthy post-quantum"
       }
      ],
-     "text": "Harvest-now-decrypt-later applied to the agentic estate: an adversary recording encrypted agent traffic today (tool calls, credential exchanges, machine-to-machine sessions) and holding long-retained tamper-evident logs decrypts them later unless channel cryptography and signatures migrate. The quantum-safe primitives exist: NIST finalized FIPS 203 (ML-KEM key encapsulation), FIPS 204 (ML-DSA) and FIPS 205 (SLH-DSA) signatures in August 2024, NIST IR 8547 (draft) sequences the federal transition toward NSM-10’s 2035 target, and NSA’s CNSA 2.0 sets the National Security Systems mandate (see Federal & DoW Standards in the Resource Index). For agents the work is concrete: crypto-agility in agent identity so certificates can migrate to ML-DSA without re-architecting; ML-KEM in transit for agent channels; and PQC signatures on audit trails, so the tamper-evident record that agent forensics leans on stays provable after a cryptographically relevant quantum computer arrives.",
+     "text": "Harvest-now-decrypt-later applied to the agentic estate: an adversary recording encrypted agent traffic today (tool calls, credential exchanges, machine-to-machine sessions) and holding long-retained tamper-evident logs decrypts them later unless channel cryptography and signatures migrate. The quantum-safe primitives exist: NIST finalized FIPS 203 (ML-KEM key encapsulation), FIPS 204 (ML-DSA) and FIPS 205 (SLH-DSA) signatures in August 2024, NIST IR 8547 sequences the federal transition toward NSM-10’s 2035 target, and NSA’s CNSA 2.0 sets the National Security Systems mandate (see Federal & DoW Standards in the Resource Index). For agents the work is concrete: crypto-agility in agent identity so certificates can migrate to ML-DSA without re-architecting; ML-KEM in transit for agent channels; and PQC signatures on audit trails, so the tamper-evident record that agent forensics leans on stays provable after a cryptographically relevant quantum computer arrives.",
      "url": "https://csrc.nist.gov/pubs/fips/203/final"
     },
     {
@@ -3173,7 +3173,7 @@
     },
     {
      "type": "text",
-     "text": "In December 2025, CISA, the NSA, the FBI, and international partners (Australia, Canada, Germany, the Netherlands, New Zealand, and the UK) published “Principles for the Secure Integration of AI in Operational Technology”: a cross-government baseline for putting ML, LLMs, and AI agents into systems that control physical processes. It rests on four principles: understand the AI-specific risks, assess the business case before adopting, build a governance framework, and embed safety and security, human oversight included. It maps directly to a critical-infrastructure mission: it warns that AI in OT couples cyber, safety, and reliability risk; that OT vendors embedding AI often hold privileged access to control workflows (a supply-chain concern, see Supply-Chain Counter-Threat); and that autonomy must never outrun a human’s ability to intervene in a physical process. Read it alongside the OT standards stack above.",
+     "text": "In December 2025, CISA, the NSA, the FBI, and international partners (Australia, Canada, Germany, the Netherlands, New Zealand, and the UK) published the guidance CISA now titles “Principles for the Secure Integration of Super Intelligence in Operational Technology”: a cross-government baseline for putting ML, LLMs, and AI agents into systems that control physical processes. It rests on four principles: understand the AI-specific risks, assess the business case before adopting, build a governance framework, and embed safety and security, human oversight included. It maps directly to a critical-infrastructure mission: it warns that AI in OT couples cyber, safety, and reliability risk; that OT vendors embedding AI often hold privileged access to control workflows (a supply-chain concern, see Supply-Chain Counter-Threat); and that autonomy must never outrun a human’s ability to intervene in a physical process. Read it alongside the OT standards stack above.",
      "heading": "CISA Guidance: Securing AI in OT (2025)"
     },
     {
@@ -3631,7 +3631,7 @@
    "blocks": [
     {
      "type": "text",
-     "text": "In the federal public sector, a security program is judged not only on whether it works but on whether it’s authorized. FISMA (the Federal Information Security Modernization Act) requires agencies to secure information systems against a NIST-defined control baseline; FedRAMP standardizes the authorization of cloud services; and for Department of War (DoW) customers, the DISA Cloud Computing SRG adds defense-specific requirements on top. Any Agentic AI capability supporting federal, and especially DoW/Army, missions has to live inside this authorization scaffolding from day one, not be retrofitted into it. The good news: the governance, continuous-validation, and Zero Trust approach in this playbook produces much of the evidence these regimes demand.",
+     "text": "In the federal public sector, a security program is judged not only on whether it works but on whether it’s authorized. FISMA (the Federal Information Security Modernization Act) requires agencies to secure information systems against a NIST-defined control baseline; FedRAMP standardizes the certification of cloud services (FedRAMP Certification since May 2026; authorization before); and for Department of War (DoW) customers, the DISA Cloud Computing SRG adds defense-specific requirements on top. Any Agentic AI capability supporting federal, and especially DoW/Army, missions has to live inside this authorization scaffolding from day one, not be retrofitted into it. The good news: the governance, continuous-validation, and Zero Trust approach in this playbook produces much of the evidence these regimes demand.",
      "heading": "Why This Matters for a Federal Program"
     },
     {
@@ -3641,7 +3641,7 @@
     },
     {
      "type": "text",
-     "text": "For DoW missions, the DISA Cloud Computing SRG sorts systems by Impact Level based on data sensitivity and the damage from compromise. IL2 covers public/non-critical data (and is granted by reciprocity to FedRAMP Moderate). IL4 covers Controlled Unclassified Information (CUI) and other mission-critical data. IL5 covers higher-sensitivity CUI and unclassified National Security Systems, requiring dedicated infrastructure and U.S.-person-only access. IL6 covers classified information up to SECRET, hosted on the SIPRNet side. The practical point for Agentic AI: the impact level of the data an agent can touch dictates where it can run, who can operate it, and which control baseline applies, so determine the IL before designing the agent, not after. (Facility-related control systems and other OT follow a distinct lane: DoW categorizes them as Platform IT (PIT) with tailored controls under UFC 4-010-06, often implemented through an agency’s own guide specifications. See the OT, ICS and SCADA play.)",
+     "text": "For DoW missions, the DISA Cloud Computing SRG sorts systems by Impact Level based on data sensitivity and the damage from compromise. IL2 covers public/non-critical data; in the SRG’s own terms the department gives “full reciprocity with FedRAMP Moderate and High P-ATOs” at IL2. FedRAMP itself now speaks of FedRAMP Certification in classes A to D: Class C includes the former Moderate baseline and Class D the former High, and FedRAMP says the classes are not one-for-one replacements for impact levels. IL4 covers Controlled Unclassified Information (CUI) and other mission-critical data. IL5 covers higher-sensitivity CUI and unclassified National Security Systems, requiring dedicated infrastructure and U.S.-person-only access. IL6 covers classified information up to SECRET, hosted on the SIPRNet side. The practical point for Agentic AI: the impact level of the data an agent can touch dictates where it can run, who can operate it, and which control baseline applies, so determine the IL before designing the agent, not after. (Facility-related control systems and other OT follow a distinct lane: DoW categorizes them as Platform IT (PIT) with tailored controls under UFC 4-010-06, often implemented through an agency’s own guide specifications. See the OT, ICS and SCADA play.)",
      "heading": "DoD Cloud Impact Levels (IL2 - IL6)"
     },
     {
@@ -5002,7 +5002,7 @@
     },
     {
      "type": "text",
-     "text": "In May 2026 the containment-first thesis acquired a six-agency signature. “Careful Adoption of Agentic AI Services”, co-authored by ASD’s ACSC, CISA, NSA, and the Canadian, New Zealand, and UK cyber centers, is the first joint Five Eyes guidance in this index written specifically for Agentic AI, and its bottom line is this play’s: until security standards and evaluation methods mature, plan for unexpected behavior and prioritize resilience, reversibility, and risk containment over efficiency. It maps five risk categories (privilege, design and configuration, behavioral, structural, and accountability), and its prescriptions read like a containment checklist: never grant agents broad or unrestricted access, especially to sensitive data or critical systems; start with low-risk, non-sensitive use cases and earn expansion; fold Agentic AI into the existing security model rather than running it as a side experiment; and anchor every agent to a verified, cryptographically backed identity with short-lived credentials. Two candors make the document more useful, not less: the authoring agencies concede that current evaluation methods are immature and only partially capture real deployment conditions, and they note that for some repetitive tasks the lower-risk answer is eliminating the low-value process, not agentifying it. When six national security agencies coordinate to say contain first, the burden of proof has officially shifted to whoever wants to move fast.",
+     "text": "In May 2026 the containment-first thesis acquired a six-agency signature. “Careful Adoption of Agentic SI Services”, co-authored by ASD’s ACSC, CISA, NSA, and the Canadian, New Zealand, and UK cyber centers, is the first joint Five Eyes guidance in this index written specifically for Agentic AI, and its bottom line is this play’s: until security standards and evaluation methods mature, plan for unexpected behavior and prioritize resilience, reversibility, and risk containment over efficiency. It maps five risk categories (privilege, design and configuration, behavioral, structural, and accountability), and its prescriptions read like a containment checklist: never grant agents broad or unrestricted access, especially to sensitive data or critical systems; start with low-risk, non-sensitive use cases and earn expansion; fold Agentic AI into the existing security model rather than running it as a side experiment; and anchor every agent to a verified, cryptographically backed identity with short-lived credentials. Two candors make the document more useful, not less: the authoring agencies concede that current evaluation methods are immature and only partially capture real deployment conditions, and they note that for some repetitive tasks the lower-risk answer is eliminating the low-value process, not agentifying it. When six national security agencies coordinate to say contain first, the burden of proof has officially shifted to whoever wants to move fast.",
      "heading": "The Five Eyes Make It Official: Containment Over Efficiency"
     },
     {
@@ -5035,11 +5035,11 @@
      "items": [
       {
        "label": "Anthropic: Containing Claude (engineering)",
-       "url": "https://www.anthropic.com/engineering/how-we-contain-claude"
+       "url": "https://www.anthropic.com/research/how-we-contain-claude"
       },
       {
        "label": "Anthropic: Auto Mode Is Now the Default in Claude Code (Aug 2026)",
-       "url": "https://claude.com/blog/auto-mode-default-in-claude-code"
+       "url": "https://claude.com/resources/articles/auto-mode-default-in-claude-code"
       }
      ]
     },
@@ -5058,7 +5058,7 @@
      "items": [
       {
        "label": "Anthropic: Containing Claude (engineering)",
-       "url": "https://www.anthropic.com/engineering/how-we-contain-claude"
+       "url": "https://www.anthropic.com/research/how-we-contain-claude"
       }
      ]
     },
@@ -5105,7 +5105,7 @@
       },
       {
        "eyebrow": "Now · GRC",
-       "title": "Baseline every agent deployment against the Five Eyes ‘Careful Adoption of Agentic AI Services’ guidance: audit what each agent can reach (least privilege), anchor agents to verified short-lived credentials, and adopt its containment-over-efficiency defaults.",
+       "title": "Baseline every agent deployment against the Five Eyes ‘Careful Adoption of Agentic SI Services’ guidance: audit what each agent can reach (least privilege), anchor agents to verified short-lived credentials, and adopt its containment-over-efficiency defaults.",
        "text": "Run the joint guidance as a deployment baseline: registry, entitlements, ephemeral credentials, internal-process logging.",
        "bullets": [
         "Give every agent its own identity as the guidance words it, a distinct principal with a cryptographically anchored identity holding its own unique keys or certificates, and bind it in a trusted registry of identities and authorized roles, reconciling that registry against the live set of agents and denying any agent or key it does not carry.",
@@ -5114,7 +5114,7 @@
         "Log the inside of the agent, not just its edges: monitor all agent operations including internal processes, record which tools ran and what they retrieved, restrict tool use to an approved allow list, and audit regularly for drift, impersonation or misconfiguration.",
         "Set the guidance’s default posture where the trade-off is decided: prioritize resilience, reversibility and risk containment over efficiency gains, keep the human control points in the workflow, live monitoring and interruption, mandatory approval for decision-making steps, auditing and reversibility afterwards, and keep the approval threshold a decision for designers and operators, never delegated to the agent."
        ],
-       "meta": "Five Eyes · Careful Adoption of Agentic AI, May 2026"
+       "meta": "Five Eyes · Careful Adoption of Agentic SI, May 2026"
       },
       {
        "eyebrow": "Now · SOC",
@@ -6058,7 +6058,7 @@
      "block": 6
     },
     {
-     "title": "OWASP AI Exchange (324-page guide)",
+     "title": "OWASP AI Exchange",
      "block": 7
     },
     {
@@ -6229,7 +6229,7 @@
     },
     {
      "type": "cards",
-     "heading": "OWASP AI Exchange (324-page guide)",
+     "heading": "OWASP AI Exchange",
      "items": [
       {
        "title": "Threat Map with Controls",
@@ -6248,7 +6248,7 @@
        "text": "The most scannable control catalog for finding coverage gaps"
       }
      ],
-     "text": "A free AI security reference OWASP describes as the go-to comprehensive resource: 324 pages spanning the full lifecycle, feeding directly into the EU AI Act and ISO standards. Its essentials sort AI controls into four categories (Manage, Have resilient models, Watch, Limit); this playbook summarizes its threat view in three moves: (1) new AI assets facing conventional threats, (2) new suppliers, and (3) input threats via the model’s own interface. The prescription: resilience + what this playbook calls zero model trust + blast-radius control. (See the AI Security Essentials section of the Fundamentals play for the full mental model.)",
+     "text": "A free AI security reference OWASP describes as the go-to comprehensive resource: 300-plus pages spanning the full lifecycle, feeding directly into the EU AI Act and ISO standards. Its essentials sort AI controls into four categories (Manage, Have resilient models, Watch, Limit); this playbook summarizes its threat view in three moves: (1) new AI assets facing conventional threats, (2) new suppliers, and (3) input threats via the model’s own interface. The prescription: resilience + what this playbook calls zero model trust + blast-radius control. (See the AI Security Essentials section of the Fundamentals play for the full mental model.)",
      "url": "https://owaspai.org/OWASP-AI-Exchange.pdf"
     },
     {
@@ -6421,7 +6421,7 @@
       }
      ],
      "text": "Anthropic’s Zero Trust framework for deploying autonomous AI agents in the enterprise. Its premise: frontier models compress the vulnerability-to-exploit window from months to hours, hitting agent programs twice. The infrastructure they run on faces AI-accelerated offense, and the agents themselves can abuse legitimate permissions at machine speed. It adapts ‘never trust, always verify, assume breach’ for agents and maps adoption to organizational maturity and risk tolerance. The floor is raised at Foundation. Friction-only controls no longer qualify: short-lived tokens, cryptographically rooted identity, identity-based isolation, and automated first-pass triage are entry requirements, and every control faces one design test: impossible, or merely tedious?",
-     "url": "https://claude.com/blog/zero-trust-for-ai-agents"
+     "url": "https://claude.com/resources/articles/zero-trust-for-ai-agents"
     },
     {
      "type": "cards",
@@ -8020,7 +8020,7 @@
       },
       {
        "title": "FedRAMP",
-       "text": "Federal Risk and Authorization Management Program: standardized security authorization for cloud services used by the federal government, with continuous monitoring."
+       "text": "Federal Risk and Authorization Management Program: standardized security certification for cloud services used by the federal government (FedRAMP Certification, in classes A to D, since May 2026; authorization and impact levels before), with ongoing monitoring."
       },
       {
        "title": "FISMA",
@@ -8256,7 +8256,7 @@
      "items": [
       {
        "label": "Antisyphon: Agentic AI for Threat Hunting",
-       "url": "https://www.antisyphontraining.com/product/agentic-ai-for-threat-hunting/"
+       "url": "https://learning.antisyphontraining.com/courses/agentic-ai-for-threat-hunting-1"
       },
       {
        "label": "Antisyphon: Attacking, Defending & Leveraging AI-LLM Systems",
@@ -8615,7 +8615,7 @@
       },
       {
        "eyebrow": "OWASP",
-       "title": "OWASP: AI Exchange (324-page PDF)",
+       "title": "OWASP: AI Exchange (PDF)",
        "text": "OWASP’s self-described go-to comprehensive AI security guide; the four-category ‘essentials’ model, now the foundation for its AI Security Essentials overview under the SANS/OWASP alignment.",
        "url": "https://owaspai.org/OWASP-AI-Exchange.pdf"
       },
@@ -8802,7 +8802,7 @@
       {
        "eyebrow": "Standards & Authorization",
        "title": "FedRAMP: Program & Marketplace",
-       "text": "Standardized authorization for cloud services; IL2 by reciprocity to FedRAMP Moderate.",
+       "text": "Standardized certification for cloud services: FedRAMP Certification in classes A to D since May 2026, authorization at Low, Moderate and High before. The DISA SRG still grants IL2 by reciprocity with FedRAMP Moderate and High; FedRAMP puts the former Moderate baseline in Class C.",
        "url": "https://www.fedramp.gov/"
       },
       {
@@ -8825,9 +8825,9 @@
       },
       {
        "eyebrow": "NIST",
-       "title": "NIST: IR 8547: Transition to Post-Quantum Cryptography Standards (draft)",
-       "text": "NIST’s transition roadmap (initial public draft, November 2024): how quantum-vulnerable algorithms get deprecated and replaced across federal systems, anchored to NSM-10’s 2035 primary target with per-algorithm disallow dates. The scheduling layer over the FIPS trio; draft status carried deliberately: watch for the final.",
-       "url": "https://csrc.nist.gov/pubs/ir/8547/ipd"
+       "title": "NIST: IR 8547: Transition to Post-Quantum Cryptography Standards",
+       "text": "NIST’s transition roadmap (final, October 27, 2026): how quantum-vulnerable algorithms get deprecated and replaced across federal systems. NSM-10’s 2035 target stays in place; NIST deprecates quantum-vulnerable public-key algorithms after 2030 and disallows them after 2035, and the most sensitive federal systems must move earlier, key establishment by the end of 2030 and digital signatures by the end of 2031. The scheduling layer over the FIPS trio.",
+       "url": "https://csrc.nist.gov/pubs/ir/8547/final"
       },
       {
        "eyebrow": "NIST",
@@ -8879,7 +8879,7 @@
       },
       {
        "eyebrow": "Federal AI Guidance & Partnerships",
-       "title": "ASD ACSC: Opportunities for AI in Cyber Defence (May 2026)",
+       "title": "ASD ACSC: Opportunities for AI in Cyber Defence (Aug 2026)",
        "text": "Joint guidance from the Australian Signals Directorate’s ACSC, co-sealed by the Canadian, New Zealand and UK cyber security centers, on using AI to strengthen cyber defense: maps AI use to the ISM security functions, gives principles for secure adoption, and supplies vendor questions for defenders, the defensive-opportunity counterpart to the Five Eyes ‘Careful Adoption’ risk guidance. Use cases span AI-assisted asset discovery, risk-based patch prioritization, and vulnerability-chain analysis.",
        "url": "https://www.cyber.gov.au/publication/opportunities-for-ai-in-cyber-defence"
       },
@@ -8909,15 +8909,15 @@
       },
       {
        "eyebrow": "Federal AI Guidance & Partnerships",
-       "title": "CISA: Principles for the Secure Integration of AI in OT (2025)",
-       "text": "Joint guidance (December 3, 2025) co-authored by CISA and the Australian Signals Directorate’s Australian Cyber Security Centre in collaboration with NSA’s Super Intelligence Security Center, the FBI, the Canadian Centre for Cyber Security, Germany’s BSI, and the Netherlands, New Zealand, and UK National Cyber Security Centres: nine authoring agencies. Focuses on ML- and LLM-based AI and AI agents in operational technology, though it may also be applied to traditional statistical modeling and other logic-based automation, and outlines four principles owners and operators can follow: understand AI, consider AI use in the OT domain, establish AI governance and assurance frameworks, and embed safety and security practices into AI-enabled OT systems. Explicitly voluntary: it does not create policies, impose requirements, or mandate actions.",
-       "url": "https://www.cisa.gov/news-events/news/new-joint-guide-advances-secure-integration-artificial-intelligence-operational-technology"
+       "title": "CISA: Principles for the Secure Integration of Super Intelligence in OT (2025)",
+       "text": "First published as Principles for the Secure Integration of Artificial Intelligence in Operational Technology, the title its PDF keeps; CISA’s page now carries the Super Intelligence title. Joint guidance (December 3, 2025) co-authored by CISA and the Australian Signals Directorate’s Australian Cyber Security Centre in collaboration with NSA’s Super Intelligence Security Center, the FBI, the Canadian Centre for Cyber Security, Germany’s BSI, and the Netherlands, New Zealand, and UK National Cyber Security Centres: nine authoring agencies. Focuses on ML- and LLM-based AI and AI agents in operational technology, though it may also be applied to traditional statistical modeling and other logic-based automation, and outlines four principles owners and operators can follow: understand AI, consider AI use in the OT domain, establish AI governance and assurance frameworks, and embed safety and security practices into AI-enabled OT systems. Explicitly voluntary: it does not create policies, impose requirements, or mandate actions.",
+       "url": "https://www.cisa.gov/resources-tools/resources/principles-secure-integration-super-intelligence-operational-technology"
       },
       {
        "eyebrow": "Federal AI Guidance & Partnerships",
-       "title": "Five Eyes: Careful Adoption of Agentic AI Services (May 2026)",
-       "text": "The first joint Five Eyes guidance in this index written specifically for Agentic AI (ASD ACSC, CISA, NSA, and the Canadian, NZ, and UK cyber centers). Five risk categories (privilege, design & configuration, behavioral, structural, accountability), cryptographically anchored agent identity with short-lived credentials, and an explicit instruction to prioritize resilience, reversibility, and containment over efficiency until evaluation methods mature.",
-       "url": "https://www.cisa.gov/resources-tools/resources/careful-adoption-agentic-ai-services"
+       "title": "Five Eyes: Careful Adoption of Agentic SI Services (May 2026)",
+       "text": "First published as Careful Adoption of Agentic AI Services, the title ASD’s own copy keeps; CISA’s page now carries the SI title. The first joint Five Eyes guidance in this index written specifically for Agentic AI (ASD ACSC, CISA, NSA, and the Canadian, NZ, and UK cyber centers). Five risk categories (privilege, design & configuration, behavioral, structural, accountability), cryptographically anchored agent identity with short-lived credentials, and an explicit instruction to prioritize resilience, reversibility, and containment over efficiency until evaluation methods mature.",
+       "url": "https://www.cisa.gov/resources-tools/resources/careful-adoption-agentic-si-services"
       },
       {
        "eyebrow": "Federal AI Guidance & Partnerships",
@@ -8965,7 +8965,7 @@
        "eyebrow": "Anthropic",
        "title": "Anthropic: Auto Mode Is Now the Default in Claude Code (Aug 2026)",
        "text": "Anthropic’s claude.com post (August 7, 2026): auto mode becomes the default for Pro, Max and Team plans, on Anthropic’s data that manual review turns habitual. An update of October 22, 2026 says it rolls out as the default for new sessions in most Claude apps on those plans, and that Enterprise admins get an email before it becomes the default for their organizations. Users approve 97% of permission prompts (Anthropic, August 2026), yet reject 39% of plans presented for approval. Anthropic’s earlier engineering posts (March and May 2026) gave 93%; this August 2026 post gives no measurement period or population.",
-       "url": "https://claude.com/blog/auto-mode-default-in-claude-code"
+       "url": "https://claude.com/resources/articles/auto-mode-default-in-claude-code"
       },
       {
        "eyebrow": "Anthropic",
@@ -8977,7 +8977,7 @@
        "eyebrow": "Anthropic",
        "title": "Anthropic: Containing Claude (engineering)",
        "text": "Agent containment retrospective: sandboxes, VMs, egress controls, blast-radius bounding.",
-       "url": "https://www.anthropic.com/engineering/how-we-contain-claude"
+       "url": "https://www.anthropic.com/research/how-we-contain-claude"
       },
       {
        "eyebrow": "Anthropic",
@@ -9139,7 +9139,7 @@
        "eyebrow": "",
        "title": "Anthropic: Project Glasswing: An initial update (May 2026)",
        "text": "Anthropic’s May 22, 2026 progress report: the vendor reports Mythos Preview found an estimated 6,202 high or critical severity vulnerabilities in open-source projects, and the post links the program’s coordinated vulnerability disclosure dashboard.",
-       "url": "https://www.anthropic.com/research/glasswing-initial-update"
+       "url": "https://www.anthropic.com/news/glasswing-initial-update"
       },
       {
        "eyebrow": "",
@@ -9607,7 +9607,7 @@
        "eyebrow": "",
        "title": "Anthropic: Zero Trust for AI Agents (eBook)",
        "text": "Anthropic primary framework (May 2026): three principles (never trust/verify, assume breach, least privilege), seven control domains across three maturity tiers, an eight-phase workflow, and the design test of whether a control makes attack impossible or merely tedious. The architecture-side anchor for agentic zero trust.",
-       "url": "https://claude.com/blog/zero-trust-for-ai-agents"
+       "url": "https://claude.com/resources/articles/zero-trust-for-ai-agents"
       },
       {
        "eyebrow": "",

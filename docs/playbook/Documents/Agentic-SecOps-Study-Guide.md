@@ -151,7 +151,7 @@ Agents authenticate as software, not people: they hold their own secrets, tokens
 
 ### MITRE ATLAS
 
-ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems) is the AI counterpart to MITRE ATT&CK: a living knowledge base of real-world adversary tactics and techniques against AI systems, complete with mitigations and documented case studies. As of September 2026 (ATLAS v2026.09) it spans 16 tactics, 120 techniques and 88 sub-techniques, and it has been expanding aggressively to cover generative-AI and agent-specific techniques (RAG poisoning, indirect prompt injection, memory manipulation, agent tool abuse). Because it mirrors ATT&CK's structure, it slots naturally into work you already know: threat modeling, red-team planning, and mapping techniques to detections.
+ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems) is the AI counterpart to MITRE ATT&CK: a living knowledge base of real-world adversary tactics and techniques against AI systems, complete with mitigations and documented case studies. As of October 2026 (ATLAS v2026.10) it spans 16 tactics, 129 techniques and 92 sub-techniques; MITRE releases new data about monthly, and each release’s notes give the current counts. It has been expanding aggressively to cover generative-AI and agent-specific techniques (RAG poisoning, indirect prompt injection, memory manipulation, agent tool abuse). Because it mirrors ATT&CK's structure, it slots naturally into work you already know: threat modeling, red-team planning, and mapping techniques to detections.
 
 Notable case studies worth knowing by name:
 
@@ -479,7 +479,7 @@ These are the documents to actually open, not just cite:
 
 Formal certifications are one track; the Black Hills Information Security (BHIS) / Antisyphon / Active Countermeasures ecosystem is the other: practical, instructor-led, and radically accessible (a select group of courses run on a Pay-What-You-Can model). Two AI-focused courses map directly to this guide:
 
-- Antisyphon: Agentic AI for Threat Hunting, `https://www.antisyphontraining.com/product/agentic-ai-for-threat-hunting/`
+- Antisyphon: Agentic AI for Threat Hunting, `https://learning.antisyphontraining.com/courses/agentic-ai-for-threat-hunting-1`
 - Antisyphon: Attacking, Defending & Leveraging AI-LLM Systems, `https://www.antisyphontraining.com/product/attacking-defending-and-leveraging-ai-llm-systems/`
 - Antisyphon Pay-What-You-Can catalog: `https://www.antisyphontraining.com/pay-what-you-can/`
 
@@ -522,7 +522,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 
 - [OWASP: Agentic Top 10 (2026)](https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/)
 - [OWASP: AI Agent Security Cheat Sheet](https://github.com/OWASP/CheatSheetSeries/blob/master/cheatsheets/AI_Agent_Security_Cheat_Sheet.md)
-- [OWASP: AI Exchange (324-page PDF)](https://owaspai.org/OWASP-AI-Exchange.pdf)
+- [OWASP: AI Exchange (PDF)](https://owaspai.org/OWASP-AI-Exchange.pdf)
 - [OWASP: AI Exchange Threat Advisor](https://owaspai.org/docs/ai_security_overview/)
 - [OWASP: AI Exchange Threat Model & Decision Tree](https://owaspai.org/images/threattree.png)
 - [OWASP: AI Security Verification Standard (AISVS) 1.01](https://github.com/OWASP/AISVS)
@@ -569,7 +569,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 *NIST*
 
 - [NIST NCCoE: Software and AI Agent Identity and Authorization (Concept Paper, Feb 2026)](https://csrc.nist.gov/pubs/other/2026/02/05/accelerating-the-adoption-of-software-and-ai-agent/ipd)
-- [NIST: IR 8547: Transition to Post-Quantum Cryptography Standards (draft)](https://csrc.nist.gov/pubs/ir/8547/ipd)
+- [NIST: IR 8547: Transition to Post-Quantum Cryptography Standards](https://csrc.nist.gov/pubs/ir/8547/final)
 - [NIST: Post-Quantum Cryptography Standards (FIPS 203/204/205, Aug 2024)](https://csrc.nist.gov/pubs/fips/203/final)
 
 *NSA*
@@ -587,13 +587,13 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 *Federal AI Guidance & Partnerships*
 
 - [Anthropic: DoD / CDAO Partnership](https://www.anthropic.com/news/anthropic-and-the-department-of-defense-to-advance-responsible-ai-in-defense-operations)
-- [ASD ACSC: Opportunities for AI in Cyber Defence (May 2026)](https://www.cyber.gov.au/publication/opportunities-for-ai-in-cyber-defence)
+- [ASD ACSC: Opportunities for AI in Cyber Defence (Aug 2026)](https://www.cyber.gov.au/publication/opportunities-for-ai-in-cyber-defence)
 - [CISA: Adapting Zero Trust Principles to Operational Technology (Apr 2026)](https://www.cisa.gov/resources-tools/resources/adapting-zero-trust-principles-operational-technology)
 - [CISA: BOD 26-04 Implementation Guidance: Forensic Triage (Jun 2026)](https://www.cisa.gov/news-events/directives/bod-26-04-implementation-guidance-prioritizing-security-updates-based-risk)
 - [CISA: BOD 26-04: Prioritizing Security Updates Based on Risk (Jun 2026)](https://www.cisa.gov/news-events/news/cisa-issues-new-directive-improving-how-federal-agencies-prioritize-mitigation-cyber-vulnerabilities)
 - [CISA: CI Fortify: Advice for Isolating Vital Systems (Jul 2026)](https://www.cisa.gov/resources-tools/resources/ci-fortify-advice-isolating-vital-systems)
-- [CISA: Principles for the Secure Integration of AI in OT (2025)](https://www.cisa.gov/news-events/news/new-joint-guide-advances-secure-integration-artificial-intelligence-operational-technology)
-- [Five Eyes: Careful Adoption of Agentic AI Services (May 2026)](https://www.cisa.gov/resources-tools/resources/careful-adoption-agentic-ai-services)
+- [CISA: Principles for the Secure Integration of Super Intelligence in OT (2025)](https://www.cisa.gov/resources-tools/resources/principles-secure-integration-super-intelligence-operational-technology)
+- [Five Eyes: Careful Adoption of Agentic SI Services (May 2026)](https://www.cisa.gov/resources-tools/resources/careful-adoption-agentic-si-services)
 - [Microsoft: A CISO’s Guide to Securing AI (Federal & DIB)](https://techcommunity.microsoft.com/blog/publicsectorblog/a-cisos-guide-to-securing-ai---securing-ai-for-federal-dib-and-dow-entities/4464081)
 - [NSA: AI Data Security (May 2025)](https://www.cisa.gov/resources-tools/resources/ai-data-security-best-practices-securing-data-used-train-operate-ai-systems)
 - [NSA: Deploying AI Systems Securely (Apr 2024)](https://www.cisa.gov/news-events/alerts/2024/04/15/joint-guidance-deploying-ai-systems-securely)
@@ -605,9 +605,9 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [Anthropic + NNSA: Nuclear Safeguards](https://www.anthropic.com/research/nuclear-safeguards-for-ai)
 - [Anthropic + PNNL: Critical Infrastructure](https://www.anthropic.com/research/critical-infrastructure-defense)
 - [Anthropic: AI models on realistic cyber ranges (Jan 2026)](https://www.anthropic.com/research/cyber-toolkits-update)
-- [Anthropic: Auto Mode Is Now the Default in Claude Code (Aug 2026)](https://claude.com/blog/auto-mode-default-in-claude-code)
+- [Anthropic: Auto Mode Is Now the Default in Claude Code (Aug 2026)](https://claude.com/resources/articles/auto-mode-default-in-claude-code)
 - [Anthropic: Claude Code Security (defenders)](https://www.anthropic.com/news/claude-code-security)
-- [Anthropic: Containing Claude (engineering)](https://www.anthropic.com/engineering/how-we-contain-claude)
+- [Anthropic: Containing Claude (engineering)](https://www.anthropic.com/research/how-we-contain-claude)
 - [Anthropic: Disrupting AI Espionage (GTG-1002)](https://www.anthropic.com/news/disrupting-AI-espionage)
 - [Anthropic: Fable 5 Cyber Safeguards & Cyber Jailbreak Severity Framework (Jul 2026)](https://www.anthropic.com/news/fable-safeguards-jailbreak-framework)
 - [Anthropic: Frontier Red Team](https://www.anthropic.com/research/team/frontier-red-team)
@@ -641,7 +641,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 **6. The Offense-Defense Balance**
 
 - [Anthropic: Expanding Project Glasswing (Jun 2026)](https://www.anthropic.com/news/expanding-project-glasswing)
-- [Anthropic: Project Glasswing: An initial update (May 2026)](https://www.anthropic.com/research/glasswing-initial-update)
+- [Anthropic: Project Glasswing: An initial update (May 2026)](https://www.anthropic.com/news/glasswing-initial-update)
 - [Cotool: BlueBench (Windows Enterprise Intrusion)](https://www.cotool.ai/research/windows-enterprise-intrusion)
 - [CSA: NIST’s Gödel Proof: Static Guardrails Are Insufficient (Jun 2026)](https://labs.cloudsecurityalliance.org/research/csa-research-note-nist-continuous-ai-monitoring-godel-proof/)
 - [CSA: Project Glasswing: Discovery Outpaces Patching](https://labs.cloudsecurityalliance.org/research/csa-research-note-glasswing-ai-vuln-patching-deficit-2026060/)
@@ -741,7 +741,7 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 **10. Threat Intelligence & Industry Reports**
 
 - [Anthropic: Government of Alberta Cybersecurity Case Study](https://www.anthropic.com/news/alberta-government-claude-cybersecurity)
-- [Anthropic: Zero Trust for AI Agents (eBook)](https://claude.com/blog/zero-trust-for-ai-agents)
+- [Anthropic: Zero Trust for AI Agents (eBook)](https://claude.com/resources/articles/zero-trust-for-ai-agents)
 - [CASP: How Boko Haram Uses Frontier AI (Juelich, Jul 2026)](https://casp.ac/reports/ai-enabled-terrorism)
 - [Check Point Research: VoidLink: AI-Authored Malware Framework (Jan 2026)](https://research.checkpoint.com/2026/voidlink-early-ai-generated-malware-framework/)
 - [CrowdStrike: 2026 Global Threat Report (Feb 2026)](https://www.crowdstrike.com/en-us/global-threat-report/)

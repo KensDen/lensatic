@@ -85,7 +85,7 @@
   {"check": "P04", "phrase": "Defence AI", "reason": "a proper name: the Alan Turing Institute's defense AI programs (DARe and AIDA), as the institute styles them"},
   {"check": "P04", "phrase": "UK Defence", "reason": "a proper name: the UK defense establishment, as the institute styles it"},
   {"check": "P04", "phrase": "Autonomous Cyber Defence", "reason": "a cited title (the CETaS and Georgetown CSET report)"},
-  {"check": "P04", "phrase": "Opportunities for AI in Cyber Defence", "reason": "a cited title (ASD's ACSC, May 2026)"},
+  {"check": "P04", "phrase": "Opportunities for AI in Cyber Defence", "reason": "a cited title (ASD's ACSC, August 2026 edition)"},
   {"check": "P04", "phrase": "Cambridge Programme on AI Science & Policy", "reason": "a proper name (CASP)"},
   {"check": "P11", "phrase": "the first cross-lab convergence point in this index", "reason": "scoped to this index: the playbook's own observation, not a vendor claim"},
   {"check": "P11", "phrase": "Favor proven isolation primitives", "reason": "advice to prefer mature primitives, not a claim about a product"},
