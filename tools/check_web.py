@@ -1396,7 +1396,7 @@ def main() -> int:
         prefixed = [f for e in entries if e["prefix"] for f in e["forms"]]
         # one pattern, longest form first, the same rule the build uses: NIST IR is one match, not IR inside it
         forms_rx = re.compile("|".join(p_ for p_ in (
-            rf"(?<![A-Za-z0-9.])(?:{alts(plain)})(?![A-Za-z0-9])" if plain else "",
+            rf"(?<![A-Za-z0-9.])(?:{alts(plain)})(?![A-Za-z0-9]|-\d)" if plain else "",  # -\d: a control identifier (section 10)
             rf"(?<![A-Za-z0-9.])(?:{alts(prefixed)})(?![A-Za-z])" if prefixed else "") if p_))
         ws = lambda v: re.sub(r"\s+", " ", v).strip()
         # function codes sit beside their names; II is a roman numeral in printed titles; SECRET is a classification

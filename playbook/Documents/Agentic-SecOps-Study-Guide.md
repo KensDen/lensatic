@@ -595,8 +595,8 @@ Immersive (formerly Immersive Labs) runs offensive and defensive cyber ranges ac
 - [CISA: Principles for the Secure Integration of AI in OT (2025)](https://www.cisa.gov/news-events/news/new-joint-guide-advances-secure-integration-artificial-intelligence-operational-technology)
 - [Five Eyes: Careful Adoption of Agentic AI Services (May 2026)](https://www.cisa.gov/resources-tools/resources/careful-adoption-agentic-ai-services)
 - [Microsoft: A CISO’s Guide to Securing AI (Federal & DIB)](https://techcommunity.microsoft.com/blog/publicsectorblog/a-cisos-guide-to-securing-ai---securing-ai-for-federal-dib-and-dow-entities/4464081)
-- [NSA AISC: AI Data Security (May 2025)](https://www.cisa.gov/resources-tools/resources/ai-data-security-best-practices-securing-data-used-train-operate-ai-systems)
-- [NSA AISC: Deploying AI Systems Securely (Apr 2024)](https://www.cisa.gov/news-events/alerts/2024/04/15/joint-guidance-deploying-ai-systems-securely)
+- [NSA: AI Data Security (May 2025)](https://www.cisa.gov/resources-tools/resources/ai-data-security-best-practices-securing-data-used-train-operate-ai-systems)
+- [NSA: Deploying AI Systems Securely (Apr 2024)](https://www.cisa.gov/news-events/alerts/2024/04/15/joint-guidance-deploying-ai-systems-securely)
 
 **4. Frontier Labs & National-Security Research**
 

@@ -229,7 +229,7 @@
       {
         "version": "1.3.0",
         "date": "2026-11-07",
-        "summary": "Zero trust leads: a sentence after the tagline says it is the spine the other frameworks hang off, in the map’s plain definition. Source links go to each publication’s web page first, with the PDF kept beside it and every PDF link tagged; the department’s basis and the portfolio office link to their pages. Every glossary spell-out is in Title Case, with “and” for “&”. The website’s own wording moves into the content, so the app and the site read the same words: the trailheads in the welcome screen’s order, Title Case buttons, About Maps and the plain pages’ tab titles. The State and Local and Industry and Academia trailheads each say their five shared steps for their own readers; who should start at another trailhead moves out of who each trailhead is for, after the steps; on the app’s welcome screen each trailhead says in one line who it is for; five lines that echoed CSF 2.0’s one-liner each say it their own way. Search gets starting queries, and the privacy page lists the plays opened and the last five searches the app keeps. CMMC and NIST SP 1353 are rechecked on 10 November 2026: Phase 2 was still suspended, with no new date, and SP 1353 is still the initial public draft. For the app’s launch build, four trailhead steps and one answer name the document they cite where they said the document, the memo or the roadmap; each type of document gets a one-line meaning; the app’s Home, its finished path and the Start With chips get their labels; the pages’ footer reads Content updated and the map’s front door Sources last checked; and About Maps says what Unverified usually means. Nothing else on the stack changes."
+        "summary": "Zero trust leads: a sentence after the tagline says it is the spine the other frameworks hang off, in the map’s plain definition. Source links go to each publication’s web page first, with the PDF kept beside it and every PDF link tagged; the department’s basis and the portfolio office link to their pages. Every glossary spell-out is in Title Case, with “and” for “&”. The website’s own wording moves into the content, so the app and the site read the same words: the trailheads in the welcome screen’s order, Title Case buttons, About Maps and the plain pages’ tab titles. The State and Local and Industry and Academia trailheads each say their five shared steps for their own readers; who should start at another trailhead moves out of who each trailhead is for, after the steps; on the app’s welcome screen each trailhead says in one line who it is for; five lines that echoed CSF 2.0’s one-liner each say it their own way. Search gets starting queries, and the privacy page lists the plays opened and the last five searches the app keeps. CMMC and NIST SP 1353 are rechecked on 10 November 2026: Phase 2 was still suspended, with no new date, and SP 1353 is still the initial public draft. For the app’s launch build, four trailhead steps and one answer name the document they cite where they said the document, the memo or the roadmap; each type of document gets a one-line meaning; the app’s Home, its finished path and the Start With chips get their labels; the pages’ footer reads Content updated and the map’s front door Sources last checked; and About Maps says what Unverified usually means. The glossary adds SI, the federal term for AI since Executive Order 14434, and COSIS, the new name of NIST’s control overlays project, which the Cyber AI Profile’s note now uses. Nothing else on the stack changes."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -1133,8 +1133,8 @@
           "note": "A NIST Community Profile in draft; the record and the document describe it as a Profile for voluntary use and invite comment."
         }
       },
-      "note": "Focus areas as printed in the draft: Securing AI System Components (Secure), Conducting AI-Enabled Cyber Defense (Defend), Thwarting AI-Enabled Cyber Attacks (Thwart). A companion NIST project drafts SP 800-53 control overlays for securing AI systems.",
-      "shortNote": "A companion NIST project drafts SP 800-53 control overlays for securing AI systems."
+      "note": "Focus areas as printed in the draft: Securing AI System Components (Secure), Conducting AI-Enabled Cyber Defense (Defend), Thwarting AI-Enabled Cyber Attacks (Thwart). A companion NIST project, COSIS, formerly Control Overlays for Securing AI Systems, is to develop SP 800-53 control overlays for securing AI systems; it had published no overlay draft by 11 November 2026.",
+      "shortNote": "A companion NIST project, COSIS, is to develop SP 800-53 control overlays for AI systems; no overlay draft was out by 11 Nov 2026."
     },
     {
       "id": "ai-defense-matrix",
@@ -4636,6 +4636,40 @@
         "verifiedOn": "2026-09-29",
         "method": "primary-fetch",
         "note": "Expansion and meaning read on 17 September 2026 in NIST’s AI RMF page and the publication’s printed title (https://www.nist.gov/itl/ai-risk-management-framework and https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf)."
+      }
+    },
+    {
+      "term": "SI",
+      "forms": [
+        "SI"
+      ],
+      "expansion": "Super Intelligence",
+      "oneLine": "The federal term for AI since Executive Order 14434 of 29 September 2026: executive branch agencies use it in new material, the order does not require earlier documents to be altered, and Lensatic keeps AI in its own text.",
+      "entityIds": [],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-11",
+        "method": "primary-fetch",
+        "note": "Expansion and meaning read on 11 November 2026 in Executive Order 14434, Inaugurating the Era of Super Intelligence, signed 29 September 2026 and published 2 October 2026 at 91 FR 63129 (https://www.federalregister.gov/documents/2026/10/02/2026-20321/inaugurating-the-era-of-super-intelligence). Section 2(a) has agencies use “Super Intelligence” and “SI” in place of “Artificial Intelligence” and “AI” in official correspondence, public communications, websites, reports, policy documents and other non-statutory documents; section 2(b) says nothing in the section requires the alteration of previously issued documents; section 3(b) asks for a proposed statutory definition within 60 days.",
+        "recheckAfter": "2026-12-15"
+      }
+    },
+    {
+      "term": "COSIS",
+      "forms": [
+        "COSIS"
+      ],
+      "expansion": "Control Overlays for Super Intelligence Systems",
+      "oneLine": "A NIST project to develop overlays of SP 800-53 controls for securing AI systems; NIST renamed it from Control Overlays for Securing AI Systems on 20 October 2026.",
+      "entityIds": [
+        "ir8596"
+      ],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-11",
+        "method": "primary-fetch",
+        "note": "Expansion and meaning read on 11 November 2026 on the project’s page (https://csrc.nist.gov/projects/cosis), which prints the project as SP 800-53 Control Overlays for Super Intelligence Systems and as The Control Overlays for Super Intelligence Systems (COSIS), and records the renaming on 20 October 2026; its publications list held no overlay draft that day.",
+        "recheckAfter": "2026-12-15"
       }
     },
     {

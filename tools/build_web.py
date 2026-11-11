@@ -192,8 +192,9 @@ def slug(term: str) -> str:
 
 def form_pattern(forms: list[str], prefix: bool = False) -> str:
     """A form matches as a whole token: no letter, digit or dot before it, no letter or digit after it
-    (a prefix form such as FY may be followed by digits, as in FY2027)."""
-    after = r"(?![A-Za-z])" if prefix else r"(?![A-Za-z0-9])"
+    (a prefix form such as FY may be followed by digits, as in FY2027). A form followed by a hyphen and a digit is a
+    control identifier, not the term (build 6, section 10: SI-02(07) is an SP 800-53 control, not Super Intelligence)."""
+    after = r"(?![A-Za-z])" if prefix else r"(?![A-Za-z0-9]|-\d)"
     alts = "|".join(re.escape(f) for f in sorted(forms, key=len, reverse=True))
     return rf"(?<![A-Za-z0-9.])(?:{alts}){after}"
 

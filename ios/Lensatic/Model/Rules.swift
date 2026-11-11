@@ -264,7 +264,8 @@ struct Rules: Sendable {
             }
         }
         func formPattern(_ forms: [String], prefix: Bool) -> String {
-            let after = prefix ? "(?![A-Za-z])" : "(?![A-Za-z0-9])"
+            // a form followed by a hyphen and a digit is a control identifier, not the term (SI-02(07)), as on the web
+            let after = prefix ? "(?![A-Za-z])" : "(?![A-Za-z0-9]|-\\d)"
             let alts = forms.sorted { $0.count > $1.count }.map { NSRegularExpression.escapedPattern(for: $0) }.joined(separator: "|")
             return "(?<![A-Za-z0-9.])(?:\(alts))\(after)"
         }
