@@ -642,15 +642,20 @@ final class LensaticUITests: XCTestCase {
         launch(door: nil)
         XCTAssertTrue(element("home").waitForExistence(timeout: 10), "a fresh install opens on Home")
         XCTAssertEqual(element("home-tagline").label, (Self.content["meta"] as? [String: Any])?["tagline"] as? String)
-        for tab in ["tab-home", "tab-path", "tab-explore", "tab-search"] { XCTAssertTrue(element(tab).exists, tab) }
+        for tab in ["tab-home", "tab-frameworks", "tab-path", "tab-explore", "tab-search"] { XCTAssertTrue(element(tab).exists, tab) }
+        XCTAssertLessThan(element("tab-frameworks").frame.minX, element("tab-path").frame.minX, "Frameworks is the second tab (Lensatic 2.0)")
         XCTAssertFalse(element("tab-library").exists, "the Library tab folded into Home")
         XCTAssertTrue(element("tab-home").isSelected)
         XCTAssertLessThan(element("tab-home").frame.minX, element("tab-path").frame.minX, "Home is the first tab")
-        let ids = ["home-door-maps", "home-door-guide", "home-door-playbook"]
-        for id in ids {
+        // Lensatic 2.0: the zero trust countdown and the frameworks card, with its three ways in, lead Home; the first
+        // door follows on the first screen, and the other two are a short scroll below on a phone
+        for id in ["home-countdown", "home-frameworks", "home-frameworks-browse", "home-frameworks-compare", "home-frameworks-check", "home-door-maps"] {
             XCTAssertTrue(element(id).isHittable, "\(id) is on screen")
             XCTAssertLessThanOrEqual(element(id).frame.maxY, tabBarTop(), "\(id) fits above the tab bar with no scroll")
         }
+        XCTAssertLessThan(element("home-countdown").frame.minY, element("home-door-maps").frame.maxY, "the countdown leads")
+        let ids = ["home-door-maps", "home-door-guide", "home-door-playbook"]
+        for id in ids { XCTAssertTrue(element(id).exists, id) }
         if UIDevice.current.userInterfaceIdiom == .phone {
             XCTAssertLessThan(element(ids[0]).frame.minY, element(ids[1]).frame.minY, "Framework Maps, then Field Guide")
             XCTAssertLessThan(element(ids[1]).frame.minY, element(ids[2]).frame.minY, "then the playbook")
@@ -664,11 +669,10 @@ final class LensaticUITests: XCTestCase {
         try auditScreen("home")
         // the playbook door's second control opens the play to start with
         let start = element("home-door-playbook-start")
-        XCTAssertTrue(start.isHittable)
-        XCTAssertLessThanOrEqual(start.frame.maxY, tabBarTop(), "Start here fits above the tab bar")
+        XCTAssertTrue(start.exists)
         let startLabel = start.label
         XCTAssertTrue(startLabel.hasPrefix("Start here: "), startLabel)
-        start.tap()
+        tap("home-door-playbook-start", in: "home")
         XCTAssertTrue(element("play-screen").waitForExistence(timeout: 5), "Start here opens its play")
         XCTAssertTrue(startLabel.hasSuffix(element("screen-title").label), "the play it names: \(element("screen-title").label)")
         element("back").tap()
@@ -755,7 +759,7 @@ final class LensaticUITests: XCTestCase {
             (["-LensaticNav", "sources"], "sources-screen"),
             (["-LensaticNav", "about"], "about-screen"),
             (["-LensaticNav", "changes", "-LensaticChangesViewed", "1.2.16"], "changes-screen"),
-        ]
+        ] + Self.frameworkScreens
         // in the light theme and in the dark (R4), the device's own appearance setting
         defer { XCUIDevice.shared.appearance = .light }
         for appearance in [XCUIDevice.Appearance.light, .dark] {
@@ -939,7 +943,7 @@ final class LensaticUITests: XCTestCase {
             (["-LensaticNav", "sources"], "sources-screen"),
             (["-LensaticNav", "about"], "about-screen"),
             (["-LensaticNav", "changes", "-LensaticChangesViewed", "1.2.16"], "changes-screen"),
-        ]
+        ] + Self.frameworkScreens
         // LENSATIC_LABELS_ONLY (a quick run while fixing): only the screens whose id is listed
         let only = ProcessInfo.processInfo.environment["LENSATIC_LABELS_ONLY"].map { Set($0.split(separator: ",").map(String.init)) }
         let chosen = only.map { o in screens.filter { o.contains($0.1) } } ?? screens

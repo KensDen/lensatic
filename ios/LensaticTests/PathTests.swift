@@ -194,7 +194,8 @@ final class PathTests: XCTestCase {
         XCTAssertNil(model.door)
         // build 6: the app opens on Home, and its Framework Maps door asks the trailhead question until one is picked
         XCTAssertEqual(model.tab, .home)
-        XCTAssertEqual(AppTab.allCases, [.home, .path, .explore, .search])
+        // Lensatic 2.0: Frameworks is the second tab
+        XCTAssertEqual(AppTab.allCases, [.home, .frameworks, .path, .explore, .search])
         XCTAssertNil(model.pathStatus)
         model.openMaps()
         XCTAssertTrue(model.changingDoor, "no trailhead yet: the door opens the question")
@@ -251,7 +252,9 @@ final class PathTests: XCTestCase {
         p.toggleSaved(.entity("sp800-207"))
         p.toggleWeek("core", 1)
         let json = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
-        XCTAssertEqual(Set(json.keys), ["door", "checked", "saved", "weeks", "playsRead", "recent"])
+        // Lensatic 2.0 adds the readiness checks' answers; the privacy page has to name them before 2.0 ships
+        XCTAssertEqual(Set(json.keys), ["door", "checked", "saved", "weeks", "playsRead", "recent", "readiness"])
+        XCTAssertEqual(json["readiness"] as? [String: [String: String]], [:])
         XCTAssertEqual(json["playsRead"] as? [String], [])
         XCTAssertEqual(json["recent"] as? [String], [])
         XCTAssertEqual(json["door"] as? String, "dow")

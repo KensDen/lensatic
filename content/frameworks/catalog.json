@@ -59,6 +59,13 @@
     "attack",
     "d3fend"
   ],
+  "featured": [
+    "fedramp",
+    "iso27001",
+    "cis",
+    "cmmc",
+    "attack"
+  ],
   "lands": [
     {
       "id": "soc2",
@@ -151,7 +158,7 @@
     "day": "day",
     "days": "days",
     "binds": "Binds",
-    "verified": "Verified",
+    "verified": "Assessment",
     "size": "Size",
     "sits": "Where It Sits",
     "browse": "Browse",
@@ -161,7 +168,7 @@
     "landsLine": "Standards without a full entry here, and the frameworks they meet.",
     "landsOn": "Lands On",
     "compareIntro": "Two frameworks, the same questions. No strictness scores: frameworks on different layers are not stricter or looser than each other.",
-    "compareMore": "This round holds one comparison. More arrive as each framework gets its full structure.",
+    "compareMore": "One comparison so far. More arrive as each framework gets its full structure.",
     "sources": "Sources",
     "openSource": "Open the Source",
     "openPDF": "Open the PDF",
@@ -204,7 +211,14 @@
     "startOver": "Start Over",
     "checkKept": "Your answers are kept on this device only.",
     "homeFrameworksTitle": "{count} frameworks, one map",
-    "homeCheck": "Self-Check",
-    "homeFrameworksLine": "FedRAMP, ISO/IEC 27001, CIS, CMMC, ATT&CK and the rest."
+    "homeCheck": "CSF 2.0 Check",
+    "cardOnly": "Lensatic shows this one as a card for now. There is no structure to open yet.",
+    "textAtSource": "Lensatic lists the identifier and the title. The text is at the source.",
+    "landsEyebrow": "Where It Lands",
+    "selfCheck": "Self-Check",
+    "nextAtEnd": "Your next steps are listed after the questions.",
+    "inFieldGuide": "In the Field Guide",
+    "jump": "Jump to",
+    "homeFrameworksLine": "Open one, or browse them all."
   }
 }

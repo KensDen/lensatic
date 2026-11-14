@@ -136,6 +136,9 @@ struct PathWidgetView: View {
                 Text("Next: \(n.short)").font(next).foregroundStyle(Palette.secMaps).lineLimit(2)
             } else if let door = g.door, family == .systemSmall {
                 Text(door).font(next).foregroundStyle(Palette.fg2).lineLimit(2)
+            } else if g.door == nil, g.countdown != nil, family == .systemSmall {
+                // Lensatic 2.0: the countdown shows before a trailhead is picked, with what to do first under it
+                Text("Pick a trailhead").font(next).foregroundStyle(Palette.secMaps).lineLimit(2)
             }
         }
     }
@@ -148,6 +151,9 @@ struct PathWidgetView: View {
                 Text(n.title).font(title).foregroundStyle(Palette.fg).lineLimit(3)
             } else if g.isComplete {
                 Text("ALL STEPS DONE").font(eyebrow).foregroundStyle(Palette.secMaps)
+            } else if g.door == nil {
+                Text("START HERE").font(eyebrow).foregroundStyle(Palette.secMaps).widgetAccentable()
+                Text("Pick a trailhead to get your steps").font(title).foregroundStyle(Palette.fg).lineLimit(3)
             }
             Spacer(minLength: 4)
             // the bar, unless the left half already counts the steps (no deadline ahead)

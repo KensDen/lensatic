@@ -34,6 +34,16 @@
       "unit": "Annex A Controls"
     }
   ],
+  "note": "Lensatic shows the standard’s shape and none of its text, which is ISO’s and is sold. Clauses 4 to 10 are the requirements, and none may be left out. Annex A’s 93 controls sit under four themes: 37 organizational, 8 people, 14 physical and 34 technological.",
+  "aliases": [
+    "ISO 27001",
+    "27001",
+    "ISMS",
+    "Annex A",
+    "Statement of Applicability",
+    "ISO/IEC 27002",
+    "27002"
+  ],
   "sits": {
     "layers": [
       "l1",
@@ -92,7 +102,7 @@
   "terms": {
     "basis": "copyrighted",
     "shows": "structure",
-    "line": "Copyright ISO and IEC, all rights reserved, and sold. Lensatic shows only the standard’s shape, in its own words: clause numbers and how many controls each theme holds. The text is at ISO.",
+    "line": "Copyright ISO and IEC, all rights reserved. The standard is sold by ISO. Lensatic gives only its shape, in its own words and in the note at the top of this screen: no clause headings, no control titles and no text.",
     "notice": null,
     "url": "https://www.iso.org/standard/27001"
   },

@@ -78,3 +78,27 @@ extension View {
         }
     }
 }
+
+// MARK: framework colours (Lensatic 2.0)
+
+extension UIColor {
+    /// An sRGB colour from six hex digits (#0B6B5E); black for anything else.
+    convenience init(hex: String) {
+        let digits = hex.hasPrefix("#") ? String(hex.dropFirst()) : hex
+        let v = digits.count == 6 ? UInt32(digits, radix: 16) ?? 0 : 0
+        self.init(red: CGFloat((v >> 16) & 0xFF) / 255, green: CGFloat((v >> 8) & 0xFF) / 255, blue: CGFloat(v & 0xFF) / 255, alpha: 1)
+    }
+}
+
+extension Color {
+    /// A colour from the content: its light value on paper and its dark value on the dial, following the system
+    /// appearance. Each framework's one colour is such a pair, held to 4.5:1 on both of the app's surfaces by the
+    /// battery (tools/check_frameworks.py), so it reads as text, in light and dark, at every size.
+    init(light: String, dark: String) {
+        self.init(uiColor: UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: dark) : UIColor(hex: light) })
+    }
+}
+
+extension Framework {
+    var tone: Color { Color(light: color.light, dark: color.dark) }
+}

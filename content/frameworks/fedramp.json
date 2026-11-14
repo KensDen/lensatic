@@ -34,6 +34,20 @@
       "unit": "Key Security Indicators"
     }
   ],
+  "note": "If you know the old words: FedRAMP Certified was FedRAMP Authorized. Class B takes in the Low and LI-SaaS baselines, Class C the Moderate and Class D the High, though FedRAMP says a class is not an impact level. A FedRAMP Recognized assessor was a 3PAO. Ongoing Certification was continuous monitoring.",
+  "aliases": [
+    "3PAO",
+    "POA&M",
+    "FedRAMP Authorized",
+    "FedRAMP Moderate",
+    "FedRAMP High",
+    "FedRAMP Low",
+    "JAB",
+    "20x",
+    "KSI",
+    "Key Security Indicators",
+    "Rev5"
+  ],
   "sits": {
     "layers": [
       "l5"
@@ -943,7 +957,8 @@
         "SR-11(1)",
         "SR-11(2)",
         "SR-12"
-      ]
+      ],
+      "line": "One fewer than the 156 of the legacy Low and LI-SaaS baselines: the 2026 rules no longer list CA-5."
     },
     {
       "id": "rev5-class-c",
@@ -1273,7 +1288,8 @@
         "SR-11(1)",
         "SR-11(2)",
         "SR-12"
-      ]
+      ],
+      "line": "One fewer than the 323 of the legacy Moderate baseline: the 2026 rules no longer list CA-5."
     },
     {
       "id": "rev5-class-d",
@@ -1690,7 +1706,8 @@
         "SR-11(1)",
         "SR-11(2)",
         "SR-12"
-      ]
+      ],
+      "line": "One fewer than the 410 of the legacy High baseline: the 2026 rules no longer list CA-5."
     }
   ],
   "crosswalks": [

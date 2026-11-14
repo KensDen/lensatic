@@ -117,8 +117,10 @@ final class PolishTests: XCTestCase {
         let g = Glance(store: Self.store, state: .init(door: "dow", checked: ["dow": [1, 2]]), today: day)
         let door = try XCTUnwrap(g.door), next = try XCTUnwrap(g.next), c = try XCTUnwrap(g.countdown)
         XCTAssertEqual(g.voiceOver, "Lensatic, \(door). \(c.days) days to \(c.label). Next, step \(next.order) of \(g.total): \(next.title). 2 of \(g.total) steps done.")
+        // Lensatic 2.0: before a trailhead is picked the widget still counts down to the next dated zero trust deadline
         XCTAssertEqual(Glance(store: Self.store, state: .init(door: nil, checked: [:]), today: day).voiceOver,
-                       "Lensatic. Pick a trailhead to start your path.")
+                       "Lensatic. \(c.days) days to \(c.label). Pick a trailhead to start your path.")
+        XCTAssertEqual(Glance(door: nil, done: 0, total: 0, next: nil, countdown: nil).voiceOver, "Lensatic. Pick a trailhead to start your path.")
         let all = Array(1...g.total)
         let done = Glance(store: Self.store, state: .init(door: "dow", checked: ["dow": all]), today: day)
         XCTAssertTrue(done.voiceOver.contains("Path complete") && done.voiceOver.hasSuffix("\(g.total) of \(g.total) steps done."), done.voiceOver)

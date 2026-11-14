@@ -10,6 +10,10 @@ final class AppModel {
     let library: Library
     let changes: Changes
     let progress: ProgressStore
+    /// The framework navigator's content (Lensatic 2.0): the cards, their structure, the comparisons and the checks.
+    let frameworks: FrameworkLibrary
+    /// The Frameworks tab's two views of the cards.
+    var frameworksMode: FrameworksMode = .browse
     /// The app opens on Home (build 6), on first launch and after.
     var tab: AppTab = .home
     var paths: [AppTab: [Nav]] = [:]
@@ -33,15 +37,41 @@ final class AppModel {
         var id: String { slug }
     }
 
-    init(store: ContentStore, library: Library, changes: Changes = .empty, progress: ProgressStore = ProgressStore()) {
+    init(store: ContentStore, library: Library, changes: Changes = .empty, progress: ProgressStore = ProgressStore(),
+         frameworks: FrameworkLibrary? = nil) {
         self.store = store
         self.library = library
         self.changes = changes
         self.progress = progress
+        // the frameworks ship inside the app and the unit tests decode them on every build, as the stack is
+        self.frameworks = frameworks ?? AppModel.bundledFrameworks(store)
         if let view = door?.pillarView.value { matrixView = view }
         #if DEBUG
         debugLaunch(ProcessInfo.processInfo.arguments)
         #endif
+    }
+
+    static func bundledFrameworks(_ store: ContentStore) -> FrameworkLibrary {
+        do {
+            return try FrameworkLibrary.bundled(department: store.content.orgs.dow.fields)
+        } catch {
+            preconditionFailure("the bundled frameworks did not decode: \(error)")
+        }
+    }
+
+    // MARK: the frameworks (Lensatic 2.0)
+
+    /// The countdown Home leads with and the widget falls back to: the next dated zero trust deadline.
+    func zeroTrustCountdown(today: Date = Date()) -> DatedDeadline? { frameworks.zeroTrustCountdown(store: store, today: today) }
+
+    /// The Frameworks tab at its top, in Browse or Compare.
+    func showFrameworks(_ mode: FrameworksMode = .browse) {
+        glossaryEntry = nil
+        sourcesFor = nil
+        changingDoor = false
+        frameworksMode = mode
+        paths[.frameworks] = []
+        tab = .frameworks
     }
 
     // MARK: the path
@@ -100,7 +130,7 @@ final class AppModel {
 
     var search: SearchIndex {
         if let hit = searchIndex, hit.door == door?.id { return hit.index }
-        let index = SearchIndex(store: store, library: library, door: door, labels: .init())
+        let index = SearchIndex(store: store, library: library, door: door, labels: .init(), frameworks: frameworks)
         searchIndex = (door?.id, index)
         return index
     }
@@ -318,6 +348,17 @@ final class AppModel {
         if let t = value("-LensaticTab").flatMap(AppTab.init(rawValue:)) { tab = t }
         if args.contains("-LensaticPick") { changingDoor = true }
         if let e = value("-LensaticExplore").flatMap(ExploreMode.init(rawValue:)) { explore = e }
+        // -LensaticFrameworks <browse|compare> picks the Frameworks tab's view; -LensaticAnswers <check>:<answer,answer>
+        // answers that check's items in order with those answer ids, repeating the list (the readiness captures)
+        if let m = value("-LensaticFrameworks").flatMap(FrameworksMode.init(rawValue:)) { frameworksMode = m }
+        if let spec = value("-LensaticAnswers")?.split(separator: ":", maxSplits: 1).map(String.init), spec.count == 2,
+           let check = frameworks.check(spec[0]) {
+            let given = spec[1].split(separator: ",").map(String.init)
+            progress.clearAnswers(check.id)
+            for (i, item) in check.items.enumerated() where !given.isEmpty && given[i % given.count] != "-" {
+                progress.answer(check.id, item.id, given[i % given.count])
+            }
+        }
         if let q = value("-LensaticQuery") { query = q }
         // -LensaticRecent <text,text> keeps those searches, newest first, as running them would (the empty-state captures)
         for q in list("-LensaticRecent").reversed() { progress.remember(search: q) }

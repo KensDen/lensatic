@@ -66,6 +66,11 @@ targets:
       # What Changed (R3): the list tools/build_changes.py generates from the content history, by reference
       - path: ../content/changes.json
         buildPhase: resources
+      # the framework navigator (Lensatic 2.0): the folder of framework files, by reference; adding a framework is adding
+      # a file there, so the project never changes for one
+      - path: ../content/frameworks
+        type: folder
+        buildPhase: resources
     dependencies:
       # the home screen widget (R3), embedded in the app
       - target: LensaticWidget
@@ -175,6 +180,10 @@ targets:
       - path: ../content/stack.json
         buildPhase: resources
       - path: ../tools/validate.py
+        buildPhase: resources
+      # the frameworks folder as the repository has it (Lensatic 2.0), for the test that the app carries the same files
+      - path: ../content/frameworks
+        type: folder
         buildPhase: resources
     dependencies:
       - target: Lensatic

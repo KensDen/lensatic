@@ -65,9 +65,20 @@ struct SearchIndex: Sendable {
 
     /// Every searchable item: the entries, the steps of the reader's trailhead, the guide's chapters, the plays and
     /// the glossary's terms.
-    init(store: ContentStore, library: Library, door: Door?, labels: Labels) {
+    init(store: ContentStore, library: Library, door: Door?, labels: Labels, frameworks: FrameworkLibrary? = nil) {
         var out: [Item] = []
         let sep = store.label("metaSeparator")
+        // Lensatic 2.0: the frameworks the navigator adds (one the stack already has is found as its entry, below), and
+        // the standards it says where they land; each opens its own screen
+        for f in frameworks?.frameworks ?? [] where f.entityId == nil {
+            out.append(Item(kind: .framework, id: "framework:\(f.id)", title: f.name, subtitle: f.kind + sep + f.purpose,
+                            aliases: [f.shortName] + (f.aliases ?? []), body: [f.what, f.note ?? "", f.binds.line, f.verifiedBy.line, f.sits.line].joined(separator: " "),
+                            opens: .nav(.framework(f.id))))
+        }
+        for l in frameworks?.catalog.lands ?? [] {
+            out.append(Item(kind: .framework, id: "landing:\(l.id)", title: l.name, subtitle: l.owner + sep + l.lands, aliases: [],
+                            body: l.what, opens: .nav(.landing(l.id))))
+        }
         for e in store.frameworks + store.sources + store.solutions {
             let lead = store.layerTag(e.layerId) ?? labels.source
             out.append(Item(kind: .framework, id: "entity:\(e.id)", title: e.displayName, subtitle: lead + sep + e.shortSummary,

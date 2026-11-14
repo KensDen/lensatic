@@ -69,7 +69,7 @@
   "terms": {
     "basis": "mitre",
     "shows": "structure",
-    "line": "Used under MITRE’s D3FEND Terms of Use, whose license has the same form as ATT&CK’s. This round shows the card. MITRE D3FEND™ is a trademark of The MITRE Corporation.",
+    "line": "Used under MITRE’s D3FEND Terms of Use, whose license has the same form as ATT&CK’s. Lensatic shows the card only for now. MITRE D3FEND™ is a trademark of The MITRE Corporation.",
     "notice": null,
     "url": "https://d3fend.mitre.org/tou/"
   },

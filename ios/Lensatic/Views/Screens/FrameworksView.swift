@@ -1,0 +1,320 @@
+import SwiftUI
+
+/// Frameworks (Lensatic 2.0, Round 1): the second tab. Browse gives every framework as a card, grouped the way the stack
+/// is ordered, from the outcomes leadership funds down to who checks the evidence, then the state and local programs, the
+/// AI column and the adversary column, and under them the answers to where other standards land. Compare gives the
+/// comparisons the content holds. Every word and count comes from content/frameworks.
+struct FrameworksView: View {
+    @Environment(AppModel.self) private var model
+    @Environment(\.dynamicTypeSize) private var typeSize
+
+    var body: some View {
+        @Bindable var model = model
+        let L = model.frameworks
+        ScrollViewReader { proxy in
+        ScrollView {
+            // not lazy: nineteen cards are few, and the accessibility audit's text size check needs every row laid out
+            VStack(alignment: .leading, spacing: 14) {
+                ScreenHeader(title: AppTab.frameworks.title)
+                Text(L.catalog.intro).font(DS.step).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("frameworks-intro")
+                VStack(spacing: 6) {
+                    ModePicker(options: FrameworksMode.allCases.map { ($0, L.label($0.rawValue)) }, selection: $model.frameworksMode, identifier: "frameworks")
+                }
+                switch model.frameworksMode {
+                case .browse:
+                    jumpRow(proxy)
+                    browse
+                case .compare: compare
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 12)
+            .padding(.bottom, 28)
+            .frame(maxWidth: 1100, alignment: .leading)
+            .frame(maxWidth: .infinity)
+        }
+        .background(Palette.bg)
+        .hardTopEdge()
+        .toolbar(.hidden, for: .navigationBar)
+        .accessibilityIdentifier("frameworks")
+        }
+    }
+
+    /// The groups as a row that scrolls sideways: a tap brings that group's cards to the top, so the eleventh card is
+    /// one tap away and not three screens down.
+    private func jumpRow(_ proxy: ScrollViewProxy) -> some View {
+        let L = model.frameworks
+        return ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(L.catalog.groups.filter { !L.frameworks(in: $0.id).isEmpty }) { g in
+                    Button {
+                        withAnimation(UIAccessibility.isReduceMotionEnabled ? nil : .easeInOut) { proxy.scrollTo("group-\(g.id)", anchor: .top) }
+                    } label: {
+                        Text(g.name).font(DS.chip).foregroundStyle(Palette.fg)
+                            .padding(.horizontal, 12)
+                            .frame(minHeight: 44)
+                            .background(Palette.bg3, in: Capsule())
+                            .overlay(Capsule().strokeBorder(Palette.line, lineWidth: 1))
+                            .contentShape(Capsule())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("\(L.label("jump")) \(g.name)")
+                    .accessibilityIdentifier("frameworks-jump-\(g.id)")
+                }
+            }
+        }
+        .accessibilityIdentifier("frameworks-jump")
+    }
+
+    /// One column on a phone and at the accessibility sizes, two or three where the width allows.
+    private var grid: CardGrid { CardGrid(minimum: typeSize.isAccessibilitySize ? 560 : 330, spacing: 12) }
+
+    @ViewBuilder private var browse: some View {
+        let L = model.frameworks
+        ForEach(L.catalog.groups) { group in
+            let cards = L.frameworks(in: group.id)
+            if !cards.isEmpty {
+                VStack(alignment: .leading, spacing: 2) {
+                    CountedLabel(text: group.name, count: cards.count)
+                    Text(group.line).font(DS.caption).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                }
+                .padding(.top, 6)
+                .id("group-\(group.id)")
+                .accessibilityIdentifier("framework-group-\(group.id)")
+                grid {
+                    ForEach(cards) { f in
+                        Button { model.push(.framework(f.id)) } label: { FrameworkCard(framework: f) }
+                            .buttonStyle(.plain)
+                            .accessibilityIdentifier("framework-card-\(f.id)")
+                    }
+                }
+            }
+        }
+        if !L.catalog.lands.isEmpty {
+            VStack(alignment: .leading, spacing: 2) {
+                SectionLabel(text: L.label("landsTitle"))
+                Text(L.label("landsLine")).font(DS.caption).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.top, 6)
+            grid {
+                ForEach(L.catalog.lands) { land in
+                    Button { model.push(.landing(land.id)) } label: {
+                        ResultRow(title: land.name, line: land.owner, bar: Palette.lineStrong, trailing: true)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("landing-\(land.id)")
+                }
+            }
+        }
+    }
+
+    @ViewBuilder private var compare: some View {
+        let L = model.frameworks
+        Text(L.label("compareIntro")).font(DS.step).foregroundStyle(Palette.fg).fixedSize(horizontal: false, vertical: true)
+        ForEach(L.compares) { c in
+            if let a = L.byId[c.a], let b = L.byId[c.b] {
+                Button { model.push(.compare(c.id)) } label: { ComparisonCard(comparison: c, a: a, b: b) }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("compare-card-\(c.id)")
+            }
+        }
+        Text(L.label("compareMore")).font(DS.caption).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+            .accessibilityIdentifier("compare-more")
+    }
+}
+
+/// Cards in as many equal columns as fit a minimum width, row by row, each row as tall as its tallest card. Not lazy.
+struct CardGrid: Layout {
+    var minimum: CGFloat = 330
+    var spacing: CGFloat = 12
+
+    private func columns(_ width: CGFloat) -> Int { max(1, Int((width + spacing) / (minimum + spacing))) }
+
+    private func frames(_ width: CGFloat, _ subviews: Subviews) -> [CGRect] {
+        let n = columns(width)
+        let w = (width - spacing * CGFloat(n - 1)) / CGFloat(n)
+        var out: [CGRect] = [], y: CGFloat = 0
+        for start in stride(from: 0, to: subviews.count, by: n) {
+            let row = start..<min(start + n, subviews.count)
+            let h = row.map { subviews[$0].sizeThatFits(ProposedViewSize(width: w, height: nil)).height }.max() ?? 0
+            for (k, _) in row.enumerated() { out.append(CGRect(x: CGFloat(k) * (w + spacing), y: y, width: w, height: h)) }
+            y += h + spacing
+        }
+        return out
+    }
+
+    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+        let width = proposal.width ?? minimum
+        return CGSize(width: width, height: frames(width, subviews).map(\.maxY).max() ?? 0)
+    }
+
+    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+        for (sv, f) in zip(subviews, frames(bounds.width, subviews)) {
+            sv.place(at: CGPoint(x: bounds.minX + f.minX, y: bounds.minY + f.minY), proposal: ProposedViewSize(f.size))
+        }
+    }
+}
+
+/// A comparison's card in the Compare list: the two frameworks by tile and short name, and the one-sentence verdict.
+struct ComparisonCard: View {
+    @Environment(AppModel.self) private var model
+    let comparison: Comparison
+    let a: Framework
+    let b: Framework
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            ComparePair(a: a, b: b)
+            Text(comparison.verdict).font(DS.style(.subheadline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+        }
+        .multilineTextAlignment(.leading)
+        .lxCard(radius: 18)
+        .accessibilityElement(children: .combine)
+        .accessibilityAddTraits(.isButton)
+    }
+}
+
+/// Two frameworks side by side, each by its tile, short name and kind, with the word between them from the content.
+struct ComparePair: View {
+    @Environment(AppModel.self) private var model
+    @Environment(\.dynamicTypeSize) private var typeSize
+    let a: Framework
+    let b: Framework
+
+    var body: some View {
+        let stacked = typeSize.isAccessibilitySize
+        (stacked ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8)) : AnyLayout(HStackLayout(alignment: .center, spacing: 10))) {
+            side(a)
+            Text(model.frameworks.label("with")).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+            side(b)
+        }
+    }
+
+    private func side(_ f: Framework) -> some View {
+        HStack(spacing: 8) {
+            FrameworkTile(framework: f, base: 30)
+            VStack(alignment: .leading, spacing: 0) {
+                Text(keepDesignations(f.shortName)).font(DS.style(.headline)).foregroundStyle(.primary)
+                Eyebrow(text: f.kind, color: f.tone, small: true)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        // one element, read as a name and what it is: "CSF 2.0, Outcomes"
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("\(f.shortName), \(f.kind)")
+    }
+}
+
+/// Where does X land? A standard without a full entry: what it is, who asks for it, the frameworks here it meets, and
+/// its source.
+struct LandingView: View {
+    @Environment(AppModel.self) private var model
+    let id: String
+
+    var body: some View {
+        let L = model.frameworks
+        if let land = L.catalog.lands.first(where: { $0.id == id }) {
+            ListScreen(eyebrow: L.label("landsEyebrow"), eyebrowColor: Palette.fg2, title: land.name, identifier: "landing-screen") {
+                SwiftUI.Section {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(land.what).font(DS.style(.body)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                        Text(land.lands).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding(.vertical, 4)
+                } header: {
+                    ListNote(land.owner)
+                }
+                SwiftUI.Section {
+                    ForEach(land.frameworkIds.compactMap { L.byId[$0] }) { f in FrameworkRow(framework: f, line: f.purpose) }
+                } header: {
+                    ListNote(L.label("landsOn"))
+                }
+                SwiftUI.Section {
+                    SourceRows(source: land.source, tone: Palette.link)
+                } header: {
+                    ListNote(L.label("sources"))
+                }
+            }
+        }
+    }
+}
+
+/// A framework as a list row: its tile, its short name and one line; opens the framework.
+struct FrameworkRow: View {
+    @Environment(AppModel.self) private var model
+    let framework: Framework
+    let line: String
+
+    var body: some View {
+        NavigationLink(value: Nav.framework(framework.id)) {
+            HStack(alignment: .top, spacing: 12) {
+                FrameworkTile(framework: framework, base: 30)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(keepDesignations(framework.shortName)).font(DS.style(.body)).foregroundStyle(.primary)
+                    Text(line).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .padding(.vertical, 2)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("framework-row-\(framework.id)")
+    }
+}
+
+/// A source's rows: its title with publisher, edition and date, the day it was last checked, and the link, which opens
+/// in the in-app reader with the PDF tag where it opens a PDF. The trust mark, on every new entry.
+struct SourceRows: View {
+    @Environment(AppModel.self) private var model
+    let source: Framework.SourceRecord
+    let tone: Color
+
+    var body: some View {
+        let L = model.frameworks
+        let sep = model.store.label("metaSeparator")
+        VStack(alignment: .leading, spacing: 3) {
+            Text(keepWhole(source.title)).font(DS.style(.body)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+            Text(dotted([source.publisher, source.edition, Rules.formatDate(source.date)], separator: sep))
+                .font(DS.style(.footnote)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+            Text(SourceRows.checked(source.verification, store: model.store, labels: L))
+                .font(DS.style(.footnote)).foregroundStyle(source.verification.status == .conflict ? Palette.bad : Palette.secMaps)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.vertical, 2)
+        .accessibilityElement(children: .combine)
+        .accessibilityIdentifier("source-\(source.id)")
+        if let url = URL(string: source.url) {
+            Button { Reader.open(url) } label: {
+                HStack(spacing: 8) {
+                    Text(L.label("openSource")).font(DS.style(.body)).foregroundStyle(Palette.link)
+                    if LinkFormat.isPDF(source.url) { PDFTag() }
+                    Spacer()
+                    Image(systemName: "arrow.up.forward").font(.footnote.weight(.semibold)).foregroundStyle(Palette.link).accessibilityHidden(true)
+                }
+                .frame(minHeight: 44).contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier("source-open-\(source.id)")
+        }
+        if let pdf = source.pdf.flatMap(URL.init(string:)) {
+            Button { Reader.open(pdf) } label: {
+                HStack(spacing: 8) {
+                    Text(L.label("openPDF")).font(DS.style(.body)).foregroundStyle(Palette.link)
+                    PDFTag()
+                    Spacer()
+                }
+                .frame(minHeight: 44).contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityIdentifier("source-pdf-\(source.id)")
+        }
+    }
+
+    /// "Verified · checked 14 Nov 2026", in the stack's own status words.
+    static func checked(_ v: Verification, store: ContentStore, labels L: FrameworkLibrary) -> String {
+        let status = store.content.ui.status[v.status.rawValue] ?? v.status.rawValue
+        guard let on = v.verifiedOn else { return status }
+        return dotted([status, "\(store.label("verifiedOn")) \(Rules.formatDate(on))"], separator: store.label("metaSeparator"))
+    }
+}

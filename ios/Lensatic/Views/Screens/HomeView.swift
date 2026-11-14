@@ -26,6 +26,11 @@ struct HomeView: View {
                         .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 2, trailing: 20))
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
+                    // Lensatic 2.0: the zero trust countdown and the way into the frameworks lead; the three doors follow
+                    lead
+                        .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
                     doors
                         // the doors' edges line up with the sections' below
                         .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
@@ -125,6 +130,27 @@ struct HomeView: View {
         }
     }
 
+    /// Lensatic 2.0, above the doors: the countdown to the next dated zero trust deadline, as a bearing on the compass,
+    /// which opens the framework that sets it; and the frameworks card, with its three ways in: Browse, Compare and Check
+    /// Yourself. Side by side on the iPad, one under the other on a phone.
+    @ViewBuilder private var lead: some View {
+        let L = model.frameworks
+        let wide = sizeClass == .regular && !typeSize.isAccessibilitySize
+        let today = Date()
+        (wide ? AnyLayout(HStackLayout(alignment: .top, spacing: 12)) : AnyLayout(VStackLayout(spacing: 10))) {
+            if let d = model.zeroTrustCountdown(today: today), let days = d.days(from: today), let f = L.byId[d.frameworkId] {
+                Button { model.show(.framework(f.id)) } label: {
+                    CountdownCard(deadline: d, days: days, tone: f.tone, eyebrow: L.label("countdown"), chevron: true, tall: wide)
+                }
+                .buttonStyle(.plain)
+                .accessibilityHint(L.label("countdownHint"))
+                .accessibilityIdentifier("home-countdown")
+            }
+            HomeFrameworks(tall: wide)
+        }
+        .fixedSize(horizontal: false, vertical: true)
+    }
+
     /// The three doors, in the hub's order (Ken's ruling): stacked on a phone, side by side on the iPad.
     @ViewBuilder private var doors: some View {
         let site = model.library.site
@@ -205,8 +231,12 @@ struct HomeDoor: View {
                         Eyebrow(text: eyebrow, color: tint, small: true)
                         Text(title).font(DS.style(.headline)).foregroundStyle(.primary)
                             .fixedSize(horizontal: false, vertical: true)
-                        Text(line).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2)
-                            .fixedSize(horizontal: false, vertical: true)
+                        // Lensatic 2.0: on a phone the door keeps its name and its live status; the line on what the
+                        // section is for shows where there is room for it, side by side on the iPad
+                        if tall {
+                            Text(line).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
                         ViewThatFits(in: .horizontal) {
                             Text(status.joined(separator: model.store.label("metaSeparator"))).lineLimit(1)
                             VStack(alignment: .leading, spacing: 1) {
@@ -254,6 +284,88 @@ struct HomeDoor: View {
         }
         // the doors' row is inset 4 points from the list row's edge
         .lxCard(radius: LxCard.inList(18, inset: 4), tint: tint)
+    }
+}
+
+/// Home's frameworks card (Lensatic 2.0): how many frameworks the navigator holds, in one line, and the three things a
+/// first-time reader can do with them at once, each a control of its own: Browse, Compare and Check Yourself.
+struct HomeFrameworks: View {
+    @Environment(AppModel.self) private var model
+    @Environment(\.dynamicTypeSize) private var typeSize
+    var tall = false
+
+    var body: some View {
+        let L = model.frameworks
+        VStack(alignment: .leading, spacing: 10) {
+            Button { model.showFrameworks(.browse) } label: {
+                HStack(alignment: .top, spacing: 12) {
+                    IconTile(symbol: "square.stack.3d.up.fill", tint: .indigo)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Eyebrow(text: AppTab.frameworks.title, color: Palette.link, small: true)
+                        Text(L.label("homeFrameworksTitle").replacingOccurrences(of: "{count}", with: "\(L.frameworks.count)"))
+                            .font(DS.style(.headline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                        Text(L.label("homeFrameworksLine")).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary)
+                        .padding(.top, 8).accessibilityHidden(true)
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityElement(children: .combine)
+            .accessibilityAddTraits(.isButton)
+            .accessibilityIdentifier("home-frameworks")
+            // the frameworks a first-time reader is most likely to be looking for, each one tap from Home: a row that
+            // scrolls sideways, in each framework's own color
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(L.catalog.featured.compactMap { L.byId[$0] }) { f in
+                        Button { model.show(.framework(f.id)) } label: {
+                            HStack(spacing: 6) {
+                                Circle().fill(f.tone).frame(width: 8, height: 8).accessibilityHidden(true)
+                                Text(keepDesignations(f.shortName)).font(DS.style(.subheadline).weight(.semibold)).foregroundStyle(.primary)
+                            }
+                            .padding(.horizontal, 12)
+                            .frame(minHeight: 44)
+                            .background(Palette.bg2, in: Capsule())
+                            .overlay(Capsule().strokeBorder(Palette.line, lineWidth: 1))
+                            .contentShape(Capsule())
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityHint(f.kind)
+                        .accessibilityIdentifier("home-framework-\(f.id)")
+                    }
+                }
+            }
+            .accessibilityIdentifier("home-featured")
+            (typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 8)) : AnyLayout(HStackLayout(spacing: 8))) {
+                action(L.label("browse"), "home-frameworks-browse") { model.showFrameworks(.browse) }
+                action(L.label("compare"), "home-frameworks-compare") { model.showFrameworks(.compare) }
+                if let check = L.checks.first {
+                    action(L.label("homeCheck"), "home-frameworks-check") { model.show(.check(check.id)) }
+                }
+            }
+            if tall { Spacer(minLength: 0) }
+        }
+        .frame(maxHeight: tall ? .infinity : nil, alignment: .topLeading)
+        .lxCard(radius: LxCard.inList(18, inset: 4), tint: Palette.link)
+    }
+
+    private func action(_ title: String, _ id: String, _ run: @escaping () -> Void) -> some View {
+        Button(action: run) {
+            Text(title).font(DS.style(.subheadline).weight(.semibold)).foregroundStyle(Palette.link)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 6)
+                .frame(maxWidth: .infinity, minHeight: 44)
+                .background(Palette.bg2, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Palette.link.opacity(0.45), lineWidth: 1))
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier(id)
     }
 }
 

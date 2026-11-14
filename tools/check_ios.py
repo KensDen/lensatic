@@ -479,7 +479,7 @@ def check_xcode(rep) -> None:
         shutil.copytree(IOS, work / "ios", ignore=shutil.ignore_patterns("Lensatic.xcodeproj", "xcuserdata", "build", ".DS_Store"))
         for rel in ("content/stack.json", "web/src/about-photo.jpg", "tools/validate.py",  # what project.yml references outside ios/
                     "guides/zero-trust/app/guide.json", "playbook/app/plays.json", "hub/site.json", "content/changes.json",
-                    "playbook/app/figures"):
+                    "playbook/app/figures", "content/frameworks"):
             (work / rel).parent.mkdir(parents=True, exist_ok=True)
             if (ROOT / rel).is_dir():
                 shutil.copytree(ROOT / rel, work / rel)

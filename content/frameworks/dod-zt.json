@@ -35,6 +35,8 @@
       "unit": "Activities"
     }
   ],
+  "note": "Lensatic does not list the pillars, capabilities and activities on this screen yet. The Field Guide’s quick reference has all seven pillars and every capability.",
+  "chapterId": "qr-dow",
   "sits": {
     "layers": [
       "l3"
@@ -45,7 +47,7 @@
   "terms": {
     "basis": "us-government-work",
     "shows": "structure",
-    "line": "A work of the United States government. This round shows the card; the full structure follows in a later round.",
+    "line": "A work of the United States government. Lensatic shows the card only for now.",
     "notice": null,
     "url": null
   },

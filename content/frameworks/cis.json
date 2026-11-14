@@ -34,6 +34,14 @@
       "unit": "Safeguards"
     }
   ],
+  "note": "Lensatic shows the Controls’ shape and none of their titles or Safeguards, which CIS licenses. The three Implementation Groups build on each other: 56 Safeguards, then 74 more, then 23 more.",
+  "aliases": [
+    "CIS Critical Security Controls",
+    "CIS 18",
+    "CIS Controls v8.1",
+    "Implementation Groups",
+    "IG1"
+  ],
   "sits": {
     "layers": [
       "l4"

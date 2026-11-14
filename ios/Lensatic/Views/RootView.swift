@@ -88,6 +88,7 @@ struct Shell: View {
     @ViewBuilder private func root(_ tab: AppTab) -> some View {
         switch tab {
         case .home: HomeView()
+        case .frameworks: FrameworksView()
         case .path: MyPathView()
         case .explore: ExploreView()
         case .search: SearchView()
@@ -108,6 +109,12 @@ struct Shell: View {
         case .plays: PlaysView()
         case .play(let id): PlayView(id: id)
         case .changes: ChangesListView()
+        case .framework(let id): FrameworkDetailView(id: id)
+        case .node(let f, let n): NodeView(frameworkId: f, nodeId: n)
+        case .baseline(let f, let s): BaselineView(frameworkId: f, setId: s)
+        case .compare(let id): CompareView(id: id)
+        case .check(let id): ReadinessView(id: id)
+        case .landing(let id): LandingView(id: id)
         }
     }
 }

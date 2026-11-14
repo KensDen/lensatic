@@ -167,6 +167,10 @@ def main() -> int:
             errs += [f"{i}: {t} is listed as unresolved but no element points at it" for t in c["unresolved"] if not any(t in v for v in c["map"].values())]
     for land in catalog.get("lands", []):
         errs += [f"{land['id']} lands on {x!r}, which is not a framework" for x in land["frameworkIds"] if x not in fws]
+    errs += [f"the catalog features {x!r}, which is not a framework" for x in catalog.get("featured", []) if x not in fws]
+    guide = ROOT / "guides" / "zero-trust" / "app" / "guide.json"
+    chapters = {c["id"] for c in load(guide)["chapters"]} if guide.exists() else set()
+    errs += [f"{i}: the Field Guide has no chapter {f['chapterId']!r}" for i, f in fws.items() if "chapterId" in f and f["chapterId"] not in chapters]
     for n in catalog.get("compares", []):
         c = docs.get(n, {})
         if c and (c["a"] not in fws or c["b"] not in fws):

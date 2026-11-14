@@ -59,6 +59,11 @@ def prose(s: str, dash: bool = False) -> str:
 def write_into(path: str, **blocks) -> None:
     p = Path(path)
     doc = json.loads(p.read_text(encoding="utf-8"))
+    # a set's line is written by hand (why a baseline's count is what it is): a re-import keeps it
+    lines = {s["id"]: s["line"] for s in doc.get("sets", []) if "line" in s}
+    for s in blocks.get("sets", []):
+        if s["id"] in lines:
+            s["line"] = lines[s["id"]]
     doc.update(blocks)
     p.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"{p.name}: " + ", ".join(f"{k} {len(v) if isinstance(v, (list, dict)) else v}" for k, v in blocks.items()))

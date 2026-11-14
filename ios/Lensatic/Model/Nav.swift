@@ -1,13 +1,15 @@
 import Foundation
 
 /// The tabs (build 6, Ken's pick of 10 November 2026): Home, My Path, Explore, Search. Home is the first tab and where
-/// the app opens; it holds the three doors and what the Library tab held (Saved, Reference, About).
+/// the app opens; it holds the three doors and what the Library tab held (Saved, Reference, About). Lensatic 2.0 adds
+/// Frameworks as the second tab: every framework as a card, with Browse and Compare.
 enum AppTab: String, CaseIterable, Hashable, Sendable {
-    case home, path, explore, search
+    case home, frameworks, path, explore, search
 
     var title: String {
         switch self {
         case .home: return "Home"
+        case .frameworks: return "Frameworks"
         case .path: return "My Path"
         case .explore: return "Explore"
         case .search: return "Search"
@@ -17,6 +19,7 @@ enum AppTab: String, CaseIterable, Hashable, Sendable {
     var icon: IconName {
         switch self {
         case .home: return .home
+        case .frameworks: return .cards
         case .path: return .compass
         case .explore: return .layers
         case .search: return .search
@@ -39,6 +42,14 @@ enum Nav: Hashable, Sendable {
     case plays
     case play(String)
     case changes
+    /// The framework navigator (Lensatic 2.0): a framework, one node of its structure, one of its baselines, a
+    /// comparison, a readiness check and an answer to where another standard lands.
+    case framework(String)
+    case node(String, String)
+    case baseline(String, String)
+    case compare(String)
+    case check(String)
+    case landing(String)
 
     /// The screen as the parts of an address (Target.url), and back.
     var pathParts: [String] {
@@ -55,6 +66,12 @@ enum Nav: Hashable, Sendable {
         case .plays: return ["plays"]
         case .play(let id): return ["play", id]
         case .changes: return ["changes"]
+        case .framework(let id): return ["framework", id]
+        case .node(let f, let n): return ["node", f, n]
+        case .baseline(let f, let s): return ["baseline", f, s]
+        case .compare(let id): return ["compare", id]
+        case .check(let id): return ["check", id]
+        case .landing(let id): return ["landing", id]
         }
     }
 
@@ -74,6 +91,12 @@ enum Nav: Hashable, Sendable {
         case ("plays", 1): self = .plays
         case ("play", 2): self = .play(parts[1])
         case ("changes", 1): self = .changes
+        case ("framework", 2): self = .framework(parts[1])
+        case ("node", 3): self = .node(parts[1], parts[2])
+        case ("baseline", 3): self = .baseline(parts[1], parts[2])
+        case ("compare", 2): self = .compare(parts[1])
+        case ("check", 2): self = .check(parts[1])
+        case ("landing", 2): self = .landing(parts[1])
         default: return nil
         }
     }
@@ -83,8 +106,14 @@ enum Nav: Hashable, Sendable {
         switch self {
         case .entity, .layer, .cell: return .explore
         case .glossary, .sources, .about, .saved, .guide, .chapter, .plays, .play, .changes: return .home
+        case .framework, .node, .baseline, .compare, .check, .landing: return .frameworks
         }
     }
+}
+
+/// The Frameworks tab's two views (Lensatic 2.0): every card, or two frameworks side by side.
+enum FrameworksMode: String, CaseIterable, Hashable, Sendable {
+    case browse, compare
 }
 
 /// Explore's three views of the map.

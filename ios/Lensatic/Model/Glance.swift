@@ -58,7 +58,9 @@ struct Glance: Sendable, Equatable {
     /// The glance for a progress state on a day.
     init(store: ContentStore, state: ProgressStore.State, today: Date, calendar: Calendar = .lensatic) {
         guard let id = state.door.flatMap(Door.ID.init(rawValue:)), let door = store.content.doors.first(where: { $0.id == id }) else {
-            self.init(door: nil, done: 0, total: 0, next: nil, countdown: nil)
+            // Lensatic 2.0: before a trailhead is picked the widget still counts down to the next dated zero trust
+            // deadline on the stack; once one is picked, only a deadline that binds that trailhead shows (PathPlan)
+            self.init(door: nil, done: 0, total: 0, next: nil, countdown: Glance.general(store: store, today: today, calendar: calendar))
             return
         }
         let plan = PathPlan(door: door, entities: store.entities)
@@ -75,10 +77,23 @@ struct Glance: Sendable, Equatable {
         self.init(door: door.shortTitle, done: progress.done, total: progress.total, next: next, countdown: countdown)
     }
 
+    /// The next dated deadline among the stack's frameworks, today or later: the zero trust countdown Home leads with.
+    static func general(store: ContentStore, today: Date, calendar: Calendar = .lensatic) -> Countdown? {
+        let dated = store.frameworks.compactMap { e -> (Authority.Due, String, Int)? in
+            guard let d = e.authority.deadline.value, let due = d.due, let day = PathPlan.day(due.date),
+                  let days = PathPlan.days(from: today, to: day, calendar: calendar), days >= 0 else { return nil }
+            return (due, d.sourceId, days)
+        }
+        return dated.min { $0.0.date < $1.0.date }.map { Countdown(days: $0.2, label: $0.0.short, sourceId: $0.1) }
+    }
+
     /// What VoiceOver reads for the widget (R4), as one element in the order it is drawn: the countdown, the next step
     /// and how far along the path is; or what to do first.
     var voiceOver: String {
-        guard let door else { return "Lensatic. Pick a trailhead to start your path." }
+        guard let door else {
+            let due = countdown.map { $0.days == 0 ? "\($0.label) is due today. " : "\($0.days) \($0.days == 1 ? "day" : "days") to \($0.label). " } ?? ""
+            return "Lensatic. \(due)Pick a trailhead to start your path."
+        }
         var parts = ["Lensatic, \(door)"]
         if let c = countdown { parts.append(c.days == 0 ? "\(c.label) is due today" : "\(c.days) \(c.days == 1 ? "day" : "days") to \(c.label)") }
         if let next { parts.append("Next, step \(next.order) of \(total): \(next.title)") } else if isComplete { parts.append("Path complete") }

@@ -27,6 +27,9 @@ final class ProgressStore {
         var playsRead: [String] = []
         /// The reader's last searches, newest first, at most `recentLimit` (content release 1.0.1): Search's Recent list.
         var recent: [String] = []
+        /// The readiness checks' answers (Lensatic 2.0): for each check, the answer picked for each of its items. A
+        /// self-check, kept here and nowhere else.
+        var readiness: [String: [String: String]] = [:]
 
         struct ChangesViewed: Codable, Equatable, Sendable {
             /// The content release the list was cleared at (contentVersion): items of later releases are new.
@@ -36,7 +39,8 @@ final class ProgressStore {
         }
 
         init(door: String? = nil, checked: [String: [Int]] = [:], saved: [String] = [], weeks: [String: [Int]] = [:],
-             changesViewed: ChangesViewed? = nil, playsRead: [String] = [], recent: [String] = []) {
+             changesViewed: ChangesViewed? = nil, playsRead: [String] = [], recent: [String] = [],
+             readiness: [String: [String: String]] = [:]) {
             self.door = door
             self.checked = checked
             self.saved = saved
@@ -44,9 +48,10 @@ final class ProgressStore {
             self.changesViewed = changesViewed
             self.playsRead = playsRead
             self.recent = recent
+            self.readiness = readiness
         }
 
-        private enum CodingKeys: String, CodingKey { case door, checked, saved, weeks, changesViewed, playsRead, recent }
+        private enum CodingKeys: String, CodingKey { case door, checked, saved, weeks, changesViewed, playsRead, recent, readiness }
 
         /// A file from before saved items and weeks (R1), or before What Changed (R2), reads with none of them.
         init(from decoder: Decoder) throws {
@@ -58,6 +63,7 @@ final class ProgressStore {
             changesViewed = try c.decodeIfPresent(ChangesViewed.self, forKey: .changesViewed)
             playsRead = try c.decodeIfPresent([String].self, forKey: .playsRead) ?? []
             recent = try c.decodeIfPresent([String].self, forKey: .recent) ?? []
+            readiness = try c.decodeIfPresent([String: [String: String]].self, forKey: .readiness) ?? [:]
         }
     }
 
@@ -192,6 +198,26 @@ final class ProgressStore {
     func clearRecent() {
         guard !state.recent.isEmpty else { return }
         state.recent = []
+        save()
+    }
+
+    // MARK: readiness checks
+
+    /// The answers given so far on a check: item id to answer id.
+    func answers(_ check: String) -> [String: String] { state.readiness[check] ?? [:] }
+
+    /// Answer an item of a check; the same answer again takes it back.
+    func answer(_ check: String, _ item: String, _ answer: String) {
+        var given = answers(check)
+        given[item] = given[item] == answer ? nil : answer
+        state.readiness[check] = given.isEmpty ? nil : given
+        save()
+    }
+
+    /// Start a check over.
+    func clearAnswers(_ check: String) {
+        guard state.readiness[check] != nil else { return }
+        state.readiness[check] = nil
         save()
     }
 

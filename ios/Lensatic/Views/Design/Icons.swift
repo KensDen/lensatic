@@ -6,6 +6,8 @@ enum IconName: String, CaseIterable, Sendable {
     case compass, layers, search, home, shield, shieldCheck, building, briefcase, globe, landmark
     case chevronRight, chevronLeft, check, circle, checkCircle, bookmark, share, info, doc
     case map, star, chip, close, expand, loop
+    /// Lensatic 2.0: the Frameworks tab, two cards one behind the other, drawn on the same 24-point grid.
+    case cards
 
     var paths: [String] {
         switch self {
@@ -34,6 +36,7 @@ enum IconName: String, CaseIterable, Sendable {
         case .close: return ["M6 6l12 12M18 6L6 18"]
         case .expand: return ["M14 4h6v6", "M10 20H4v-6", "M20 4l-7 7", "M4 20l7-7"]
         case .loop: return ["M19 12a7 7 0 1 1-2.05-4.95", "M19 4v4h-4"]
+        case .cards: return ["M5 9h14a2 2 0 012 2v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7a2 2 0 012-2z", "M6 5.5h12", "M8 2.5h8"]
         }
     }
 }

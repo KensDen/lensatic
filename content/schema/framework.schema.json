@@ -409,6 +409,10 @@
               "minLength": 1
             },
             "uniqueItems": true
+          },
+          "line": {
+            "type": "string",
+            "minLength": 1
           }
         }
       }
@@ -464,6 +468,28 @@
           }
         }
       }
+    },
+    "note": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 420
+    },
+    "aliases": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "chapterId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "cardSize": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40
     }
   },
   "$defs": {

@@ -334,7 +334,9 @@ struct TabBar: View {
                 Button { selection = tab } label: {
                     VStack(spacing: 2) {
                         Icon(tab.icon, size: 24, color: selection == tab ? Palette.secMaps : Palette.fg2, relativeTo: .caption)
-                        Text(tab.title).font(DS.tab).multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
+                        // one line, a little smaller where five labels are tight (Lensatic 2.0: "Frameworks" is the longest),
+                        // never broken inside a word
+                        Text(tab.title).font(DS.tab).lineLimit(1).minimumScaleFactor(0.7)
                     }
                     // as the system's tab bars do: the labels stop growing at the largest standard size, and a long
                     // press at the accessibility sizes shows the tab in the large content viewer
