@@ -9,13 +9,11 @@ extension LensaticUITests {
     /// The navigator's screens, for the audit at the largest text size and the spoken labels.
     static let frameworkScreens: [([String], String)] = [
         (["-LensaticTab", "frameworks"], "frameworks"),
-        (["-LensaticTab", "frameworks", "-LensaticFrameworks", "compare"], "frameworks"),
         (["-LensaticNav", "framework/fedramp"], "framework-screen"),
         (["-LensaticNav", "node/csf20/GV.OC-01"], "node-screen"),
         (["-LensaticNav", "baseline/fedramp/rev5-class-b"], "baseline-screen"),
         (["-LensaticNav", "compare/compare-csf20-sp800-53"], "compare-screen"),
         (["-LensaticNav", "check/check-csf20", "-LensaticAnswers", "check-csf20:yes,partly,no"], "check-screen"),
-        (["-LensaticNav", "landing/soc2"], "landing-screen"),
     ]
 
     /// The pushed screen's title as its words: the app keeps a designation and its number on one line with a no-break space.

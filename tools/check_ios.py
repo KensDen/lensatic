@@ -50,7 +50,10 @@ MARK = ASSETS / "Mark.imageset" / "mark.svg"
 TMP = ROOT / ".tmp" / "ios-check"
 XCODEGEN = ROOT / ".tmp" / "xcodegen" / "bin" / "xcodegen"
 BATTERY_DERIVED = ROOT / ".tmp" / "DerivedData-battery"
-BUILD_TEST_TIMEOUT = 1800  # seconds: a failing test must turn the battery red, never hang it
+# seconds: a failing test must turn the battery red, never hang it. Raised from 1800 for Lensatic 2.0, Round 1: build 6's
+# suite ran about 22 minutes after its build, and the navigator's six UI tests and its screens in the two audits add
+# about ten more, so the old limit would stop a passing run
+BUILD_TEST_TIMEOUT = 3600
 
 # IBM's own TrueType faces, byte for byte from IBM's release archives for @ibm/plex-sans 1.1.0 and @ibm/plex-mono
 # 2.5.0 (session 11: nothing converted, subset or renamed; session 8's conversion is retired), and IBM's licence beside them.
