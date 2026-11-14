@@ -1,0 +1,61 @@
+{
+  "id": "rmf",
+  "entityId": "rmf-ato",
+  "name": "NIST Risk Management Framework",
+  "shortName": "RMF",
+  "group": "authorization",
+  "kind": "Authorization Process",
+  "compliance": true,
+  "symbol": "arrow.triangle.2.circlepath",
+  "color": {
+    "light": "#44586B",
+    "dark": "#A9BFD4"
+  },
+  "purpose": "The process that ends with an official deciding a federal system may operate.",
+  "what": "Seven steps, from Prepare to Monitor, that select controls, assess them and produce the evidence for an authorization to operate.",
+  "binds": {
+    "short": "Federal agencies",
+    "line": "Mandatory for federal agencies, civilian and {{dow}}, under FISMA and OMB Circular A-130."
+  },
+  "verifiedBy": {
+    "short": "Authorization to operate",
+    "line": "An assessor tests the controls and an authorizing official accepts the risk, then the system is monitored."
+  },
+  "size": [
+    {
+      "count": 7,
+      "unit": "Steps"
+    }
+  ],
+  "sits": {
+    "layers": [
+      "l4",
+      "l5"
+    ],
+    "line": "Layers 4 and 5. Categorize, Select and Implement sit with the controls; Assess, Authorize and Monitor verify."
+  },
+  "sources": [],
+  "terms": {
+    "basis": "us-government-work",
+    "shows": "structure",
+    "line": "A work of the United States government. This round shows the card; the full structure follows in a later round.",
+    "notice": null,
+    "url": null
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "sp800-53",
+      "line": "The RMF selects its controls from SP 800-53."
+    },
+    {
+      "id": "fedramp",
+      "line": "FedRAMP applies the same idea to cloud services that many agencies share."
+    }
+  ],
+  "depth": null,
+  "levels": [],
+  "nodes": [],
+  "sets": [],
+  "crosswalks": []
+}

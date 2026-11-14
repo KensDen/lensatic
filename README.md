@@ -90,6 +90,17 @@ Every working session on this repository, by a person or an agent, follows the s
 
 `content/stack.json` is the single source of truth. Every framework one-liner, every matrix cell, every trailhead step and every helper answer lives there once, and nothing that will be rendered is written anywhere else. The schema is `content/schema/stack.schema.json` (JSON Schema draft 2020-12). The web wrapper and the iOS app are thin views over that file and restate nothing.
 
+## The framework navigator (Lensatic 2.0, in progress)
+
+Branch `v2.0/r1` adds a framework navigator to the iOS app. Its content is a folder, `content/frameworks/`, so adding a framework is content work and no code changes:
+
+- `catalog.json` orders the cards, names the groups, answers where other standards land, lists the comparison and readiness check files, and holds the navigator's labels.
+- `<id>.json`, one for each framework, has two halves. The card half is written by hand: what the framework is for, who it binds, how it is verified, how big it is, where it sits on the stack, its sources (publisher, edition, date, link and the day each was last checked) and the publisher's terms. The structure half is written by `tools/import_structure.py` from the publisher's own machine-readable edition, so no identifier, title or count is typed: `levels`, `nodes` (each names its parents, so the same list holds a tree and a graph), `sets` (a baseline: a named selection of another framework's nodes), `crosswalks` (links a source publishes) and `depth` (how many of how many the app shows, and why when it is fewer).
+- `compare-<a>-<b>.json` asks the same questions of two frameworks and has no field for a score; the app counts the overlap from a published crosswalk.
+- `check-<id>.json` is a readiness check: questions tied to a framework's nodes, the answers, and what to do next. The answers stay in the app's progress file on the device.
+
+The schemas are `content/schema/framework*.schema.json`. `tools/check_frameworks.py`, part of the battery, holds the folder to them and to the rules they cannot state: every reference resolves; a card's counts equal the structure under it; every source is complete and no recheck is overdue; copyrighted and licensed material (ISO/IEC 27001, the CIS Controls) shows structure only, never the publisher's text; and each framework's one color reads at 4.5:1 or better on the app's surfaces in light and dark. `tools/check_links.py` counts the folder's links and opens them in its `--online` mode.
+
 ## Sources
 
 Public frameworks and public sources only. Every framework and source entry carries publisher, title as printed, edition, date, URL, and a verification record that says whether the primary was fetched on the recorded date and matched; the owner's own synthesis is marked as authored, with the entries it draws on. Prose uses plain, short sentences and no em dashes.

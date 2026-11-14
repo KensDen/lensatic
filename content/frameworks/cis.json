@@ -1,0 +1,113 @@
+{
+  "id": "cis",
+  "name": "CIS Critical Security Controls",
+  "shortName": "CIS Controls",
+  "group": "controls",
+  "kind": "Prioritized Safeguards",
+  "compliance": true,
+  "symbol": "list.number",
+  "color": {
+    "light": "#7A5200",
+    "dark": "#E8B84A"
+  },
+  "purpose": "A short, prioritized list of what to do first, for an organization that needs a place to start.",
+  "what": "Version 8.1 has 18 Controls and 153 Safeguards in three Implementation Groups. The first group, 56 Safeguards, is where everyone starts.",
+  "binds": {
+    "short": "Voluntary",
+    "line": "Voluntary. CIS says the Controls replace no regulatory, compliance or authorization scheme. Some state safe harbor laws name them."
+  },
+  "verifiedBy": {
+    "short": "Self-assessed",
+    "line": "An organization assesses its own implementation, for example with the CIS Controls Self Assessment Tool."
+  },
+  "size": [
+    {
+      "count": 3,
+      "unit": "Implementation Groups"
+    },
+    {
+      "count": 18,
+      "unit": "Controls"
+    },
+    {
+      "count": 153,
+      "unit": "Safeguards"
+    }
+  ],
+  "sits": {
+    "layers": [
+      "l4"
+    ],
+    "line": "Layer 4. Safeguards, in priority order."
+  },
+  "sources": [
+    {
+      "id": "cis-groups",
+      "publisher": "Center for Internet Security",
+      "title": "CIS Critical Security Controls Implementation Groups",
+      "edition": "CIS Controls v8.1",
+      "date": "2024-06-25",
+      "url": "https://www.cisecurity.org/controls/implementation-groups",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026: ‘There is a total of 153 Safeguards in CIS Controls v8 and v8.1.’ The first group holds 56, the second adds 74 and the third 23. Version 8.1, released on 25 June 2024, was still the latest on the site, and the Controls list page numbers 18 Controls.",
+        "recheckAfter": "2027-01-15"
+      }
+    },
+    {
+      "id": "cis-faq",
+      "publisher": "Center for Internet Security",
+      "title": "CIS Controls FAQ",
+      "edition": "Web page",
+      "date": "2026",
+      "url": "https://www.cisecurity.org/controls/cis-controls-faq",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026: ‘The CIS Controls are not a replacement for any existing regulatory, compliance, or authorization scheme.’ The same page says a vendor or consultant should hold a CIS SecureSuite membership or be an authorized Supporter ‘to use the Controls in tools or services that benefit your customers’. The release announcement for v8.1 says the Controls are in state safe harbor statutes in Ohio, Utah, Connecticut and Iowa.",
+        "recheckAfter": "2027-01-15"
+      }
+    },
+    {
+      "id": "cis-terms",
+      "publisher": "Center for Internet Security",
+      "title": "Terms of Use for Non-Member CIS Products",
+      "edition": "Web page",
+      "date": "2026",
+      "url": "https://www.cisecurity.org/terms-of-use-for-non-member-cis-products",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026: the Controls and their guidance are offered under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License, and the terms add that a user may not post the product on a website or create a derivative work from it. CIS’s trademark policy asks an independent publication to carry the disclaimer in this entry’s terms.",
+        "recheckAfter": "2027-02-12"
+      }
+    }
+  ],
+  "terms": {
+    "basis": "licensed",
+    "shows": "structure",
+    "line": "Licensed by CIS under Creative Commons BY-NC-ND 4.0 and its own terms of use, which bar derivative works. Lensatic shows counts and its own description, not CIS’s titles or Safeguards. The Controls are at CIS.",
+    "notice": "Lensatic is an independent publication and has not been authorized, sponsored or otherwise approved by CIS.",
+    "url": "https://www.cisecurity.org/terms-of-use-for-non-member-cis-products"
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "csf20",
+      "line": "NIST’s CSF 2.0 Reference Tool lists CIS Controls v8.1 among its informative references."
+    },
+    {
+      "id": "sp800-53",
+      "line": "CIS publishes its own mapping of the Controls to SP 800-53 Revision 5."
+    }
+  ],
+  "depth": null,
+  "levels": [],
+  "nodes": [],
+  "sets": [],
+  "crosswalks": []
+}

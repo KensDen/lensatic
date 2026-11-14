@@ -1,0 +1,210 @@
+{
+  "modelVersion": "2.0.0-r1",
+  "checkedOn": "2026-11-14",
+  "intro": "Every framework as a card: what it is for, who it binds, how it is verified, how big it is and where it sits.",
+  "groups": [
+    {
+      "id": "outcomes",
+      "name": "Outcomes and Governance",
+      "line": "What good looks like, in words leadership funds."
+    },
+    {
+      "id": "zero-trust",
+      "name": "Zero Trust",
+      "line": "The definition, the target states and the deadline."
+    },
+    {
+      "id": "controls",
+      "name": "Controls",
+      "line": "The safeguards themselves."
+    },
+    {
+      "id": "authorization",
+      "name": "Authorization and Assessment",
+      "line": "Who checks the evidence, and what they grant."
+    },
+    {
+      "id": "state-local",
+      "name": "State and Local",
+      "line": "What state, local and tribal governments ask for."
+    },
+    {
+      "id": "ai",
+      "name": "AI",
+      "line": "The AI column: the same questions when the system is AI."
+    },
+    {
+      "id": "adversary",
+      "name": "Adversary Knowledge",
+      "line": "Knowledge bases of attacker and defender behavior. Not compliance frameworks: nothing here is audited or certified."
+    }
+  ],
+  "frameworks": [
+    "csf20",
+    "iso27001",
+    "sp800-207",
+    "dod-zt",
+    "cisa-ztmm",
+    "sp800-53",
+    "sp800-171",
+    "cis",
+    "rmf",
+    "fedramp",
+    "il",
+    "cmmc",
+    "govramp",
+    "cjis",
+    "ai-rmf",
+    "ir8596",
+    "attack",
+    "d3fend"
+  ],
+  "lands": [
+    {
+      "id": "soc2",
+      "name": "SOC 2",
+      "owner": "AICPA",
+      "what": "An examination by a licensed, independent CPA of a service organization’s controls against the Trust Services Criteria: security, availability, processing integrity, confidentiality and privacy. It ends in a report, and customers are the ones who ask for it.",
+      "lands": "It lands on Layer 5: independent evidence that controls exist and work. FedRAMP’s Class A rules accept a SOC 2 Type II from the past 12 months as a way in.",
+      "frameworkIds": [
+        "fedramp"
+      ],
+      "source": {
+        "id": "soc2-aicpa",
+        "publisher": "AICPA",
+        "title": "AICPA Proposes Update of SOC 2 Trust Services Criteria",
+        "edition": "News release",
+        "date": "2026-10-28",
+        "url": "https://www.aicpa-cima.com/news/article/aicpa-proposes-update-of-soc-2-r-trust-services-criteria-to-enhance-the-relevance-usability-and-value-of-cpas-reports",
+        "verification": {
+          "status": "verified",
+          "verifiedOn": "2026-11-14",
+          "method": "primary-fetch",
+          "note": "Read on 14 November 2026: ‘SOC 2® is an examination performed by a licensed, independent CPA under the AICPA Attestation Standards’. The criteria in force are the 2017 Trust Services Criteria with the revised points of focus of 2022; a proposed 2027 edition is out for comment until 15 January 2027. The FedRAMP rule is FRC-CLA-ASF in the Consolidated Rules for 2026, read the same day.",
+          "recheckAfter": "2027-01-20"
+        }
+      }
+    },
+    {
+      "id": "hipaa",
+      "name": "HIPAA Security Rule",
+      "owner": "HHS Office for Civil Rights",
+      "what": "Federal regulation, 45 CFR Part 160 and Subparts A and C of Part 164. It binds covered entities and business associates to administrative, physical and technical safeguards for electronic protected health information. A 2025 proposal to strengthen it is still pending.",
+      "lands": "It lands on Layer 4 as requirements, with a regulator in place of an assessor. CSF 2.0 names it as an example of the legal requirements an organization must track, under GV.OC-03.",
+      "frameworkIds": [
+        "csf20"
+      ],
+      "source": {
+        "id": "hipaa-ecfr",
+        "publisher": "Office of the Federal Register",
+        "title": "45 CFR Part 164, Subpart C: Security Standards for the Protection of Electronic Protected Health Information",
+        "edition": "eCFR, current to 12 November 2026",
+        "date": "2026-11-12",
+        "url": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-C/part-164/subpart-C",
+        "verification": {
+          "status": "verified",
+          "verifiedOn": "2026-11-14",
+          "method": "primary-fetch",
+          "note": "Read on 14 November 2026: sections 164.308, 164.310 and 164.312 are the administrative, physical and technical safeguards, and ‘A covered entity or business associate must comply’. The proposed rule of 6 January 2025 (90 FR 898) was still pending: the 2026 Unified Agenda lists it under Long-Term Actions with final action in July 2027.",
+          "recheckAfter": "2027-02-12"
+        }
+      }
+    },
+    {
+      "id": "pci-dss",
+      "name": "PCI DSS",
+      "owner": "PCI Security Standards Council",
+      "what": "The payment card industry’s data security standard, version 4.0.1: 12 requirements under 6 goals for anyone who stores, processes or transmits cardholder data. It is validated by an assessor’s Report on Compliance or by a Self-Assessment Questionnaire.",
+      "lands": "It spans Layers 4 and 5 in one document: its own requirements and its own validation, enforced by the card brands and acquirers. NIST’s CSF 2.0 Reference Tool lists PCI DSS among its informative references.",
+      "frameworkIds": [
+        "csf20"
+      ],
+      "source": {
+        "id": "pci-dss-ssc",
+        "publisher": "PCI Security Standards Council",
+        "title": "PCI DSS",
+        "edition": "PCI DSS v4.0.1",
+        "date": "2024-06-11",
+        "url": "https://www.pcisecuritystandards.org/standards/pci-dss/",
+        "verification": {
+          "status": "verified",
+          "verifiedOn": "2026-11-14",
+          "method": "primary-fetch",
+          "note": "Read on 14 November 2026. Version 4.0.1, announced on 11 June 2024, has been the only active version since 1 January 2025 and was still current; the council took comments on it from 3 June to 20 July 2026 toward the next iteration. Only counts are shown here, not the standard’s text.",
+          "recheckAfter": "2027-02-12"
+        }
+      }
+    }
+  ],
+  "compares": [
+    "compare-csf20-sp800-53"
+  ],
+  "checks": [
+    "check-csf20"
+  ],
+  "labels": {
+    "layers": "Layers",
+    "adversaryColumn": "Adversary column",
+    "aiShort": "AI",
+    "adversaryShort": "ADV",
+    "dueToday": "Due today",
+    "day": "day",
+    "days": "days",
+    "binds": "Binds",
+    "verified": "Verified",
+    "size": "Size",
+    "sits": "Where It Sits",
+    "browse": "Browse",
+    "compare": "Compare",
+    "with": "with",
+    "landsTitle": "Where Does X Land?",
+    "landsLine": "Standards without a full entry here, and the frameworks they meet.",
+    "landsOn": "Lands On",
+    "compareIntro": "Two frameworks, the same questions. No strictness scores: frameworks on different layers are not stricter or looser than each other.",
+    "compareMore": "This round holds one comparison. More arrive as each framework gets its full structure.",
+    "sources": "Sources",
+    "openSource": "Open the Source",
+    "openPDF": "Open the PDF",
+    "terms": "Terms",
+    "openTerms": "Open the Publisher’s Terms",
+    "notCompliance": "A knowledge base, not a compliance framework. Nothing is audited against it.",
+    "countdown": "Countdown",
+    "countdownHint": "Opens the framework that sets this deadline",
+    "atAGlance": "At a Glance",
+    "structure": "Structure",
+    "shownOf": "Lensatic shows {shown} of {of} {unit}.",
+    "baselines": "Baselines",
+    "baselinesOn": "Each is a selection of controls from {name}.",
+    "baseline": "Baseline",
+    "baselineCount": "{n} of the {of} {unit} in {name}",
+    "useIt": "Use It",
+    "checkYourself": "Check Yourself",
+    "compareWith": "Compare With",
+    "connects": "Connects To",
+    "onTheMap": "On the Map",
+    "onTheMapLine": "The full card, its deadline and every source",
+    "notInCatalog": "Listed by the source, but withdrawn from the current catalog.",
+    "inBaselines": "In Baselines",
+    "referencedBy": "Referenced by",
+    "sideBySide": "Side by Side",
+    "howTheyConnect": "How They Connect",
+    "whereTheyOverlap": "Where They Overlap",
+    "noScoreTitle": "No Score",
+    "openEach": "Open Each",
+    "reached": "In all, the references reach {n} of the {of} {unit} in {name}.",
+    "overlapRow": "{linked} of {leaves} {unit} point to {targets} controls in {name}",
+    "mostIn": "Most in",
+    "answered": "{n} of {m} answered",
+    "whereYouStand": "Where You Stand",
+    "doNext": "Do Next",
+    "checkStart": "Answer a question and your next steps appear here.",
+    "checkFinish": "Answer the rest for the full list.",
+    "checkAllInPlace": "Everything is in place by your own account. Have someone else test it.",
+    "checkNotAssessment": "A self-check, not an assessment.",
+    "startOver": "Start Over",
+    "checkKept": "Your answers are kept on this device only.",
+    "homeFrameworksTitle": "{count} frameworks, one map",
+    "homeCheck": "Self-Check",
+    "homeFrameworksLine": "FedRAMP, ISO/IEC 27001, CIS, CMMC, ATT&CK and the rest."
+  }
+}

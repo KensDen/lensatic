@@ -1,0 +1,84 @@
+{
+  "id": "cjis",
+  "name": "Criminal Justice Information Services (CJIS) Security Policy",
+  "shortName": "CJIS",
+  "group": "state-local",
+  "kind": "Security Policy",
+  "compliance": true,
+  "symbol": "lock.shield",
+  "color": {
+    "light": "#6B5800",
+    "dark": "#E0C95A"
+  },
+  "purpose": "The rules for anyone who touches criminal justice information from the FBI’s systems.",
+  "what": "Version 6.1 has 20 policy areas. Eighteen are named for SP 800-53 control families, and each modernized control carries a priority from 1 to 4.",
+  "binds": {
+    "short": "Agencies with CJI access",
+    "line": "Every agency with access to criminal justice information, and its vendors through the CJIS Security Addendum."
+  },
+  "verifiedBy": {
+    "short": "Audited every three years",
+    "line": "Each CJIS Systems Agency audits the agencies that connect through it on a three-year cycle, and the FBI CJIS Division audits each CJIS Systems Agency."
+  },
+  "size": [
+    {
+      "count": 20,
+      "unit": "Policy Areas"
+    }
+  ],
+  "sits": {
+    "layers": [
+      "l4",
+      "l5"
+    ],
+    "line": "Layers 4 and 5. It sets requirements in SP 800-53’s vocabulary and brings its own audit."
+  },
+  "sources": [
+    {
+      "id": "cjis-policy",
+      "publisher": "FBI CJIS Division",
+      "title": "Criminal Justice Information Services (CJIS) Security Policy",
+      "edition": "Version 6.1",
+      "date": "2026-06-25",
+      "url": "https://le.fbi.gov/file-repository/cjis_security_policy_v6-1_20260625.pdf",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026; the newest version found, dated 25 June 2026. The page that lists versions refuses scripts, so a newer one cannot be ruled out. Section 1.4: since 1 October 2024 the sanctionable requirements are those that existed before the modernization and those marked Priority 1, and ‘All [Priority 2], [Priority 3], and [Priority 4] modernized requirements fall into a zero-cycle status. The zero-cycle begins October 1, 2024 and ends September 30, 2027.’ Section 1.5: version 6.0 and later ‘is a publicly available document and may be posted and shared without restrictions’. The policy does not say in one sentence that it aligns to SP 800-53 Revision 5; its controls use that catalog’s identifiers.",
+        "recheckAfter": "2027-01-15"
+      }
+    }
+  ],
+  "terms": {
+    "basis": "us-government-work",
+    "shows": "structure",
+    "line": "A work of the United States government that its own section 1.5 says may be posted and shared without restrictions. This round shows the card.",
+    "notice": null,
+    "url": null
+  },
+  "deadlines": [
+    {
+      "date": "2027-09-30",
+      "label": "The zero-cycle for Priority 2, 3 and 4 requirements ends",
+      "short": "Zero-cycle ends",
+      "binds": "Agencies with CJI access",
+      "sourceId": "cjis-policy"
+    }
+  ],
+  "related": [
+    {
+      "id": "sp800-53",
+      "line": "Eighteen of its policy areas carry SP 800-53 family names and control identifiers."
+    },
+    {
+      "id": "govramp",
+      "line": "GovRAMP’s CJIS overlay is aligned to version 6.0, one behind."
+    }
+  ],
+  "depth": null,
+  "levels": [],
+  "nodes": [],
+  "sets": [],
+  "crosswalks": []
+}

@@ -1,0 +1,31 @@
+{
+  "id": "compare-csf20-sp800-53",
+  "a": "csf20",
+  "b": "sp800-53",
+  "verdict": "Not rivals. CSF 2.0 says what to achieve; SP 800-53 is the catalog of controls that achieve it.",
+  "rows": [
+    {
+      "label": "Purpose",
+      "a": "Says what a security program should achieve, in words leadership can fund.",
+      "b": "Lists the safeguards a system can use, in words an engineer can build and an assessor can test."
+    },
+    {
+      "label": "Who Must Follow It",
+      "a": "Voluntary by design. Executive Order 13800 directs federal agency heads to use it.",
+      "b": "Federal information systems, under FISMA and OMB Circular A-130. Voluntary for everyone else."
+    },
+    {
+      "label": "How It Is Assessed",
+      "a": "It is not. NIST offers no certification; an organization describes itself with Profiles and Tiers.",
+      "b": "Control by control, with SP 800-53A procedures, inside the Risk Management Framework."
+    },
+    {
+      "label": "Its Unit",
+      "a": "An outcome: a Subcategory such as PR.AA-01.",
+      "b": "A control such as AC-2, and enhancements such as AC-2(1)."
+    }
+  ],
+  "connect": "NIST publishes Informative References from every CSF 2.0 Subcategory to the SP 800-53 controls that can help achieve it. A reference is a pointer, not an equivalence: meeting the controls does not prove the outcome, and one control serves many outcomes.",
+  "noScore": "Lensatic gives no strictness score here. One states outcomes and the other lists controls, so neither is stricter than the other. They are used together.",
+  "overlapLine": "Counted from NIST’s own references. Open a Function to follow them down to each control."
+}

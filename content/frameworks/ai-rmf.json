@@ -1,0 +1,60 @@
+{
+  "id": "ai-rmf",
+  "entityId": "ai-rmf",
+  "name": "NIST AI Risk Management Framework 1.0",
+  "shortName": "AI RMF",
+  "group": "ai",
+  "kind": "Outcomes",
+  "compliance": true,
+  "symbol": "cpu",
+  "color": {
+    "light": "#6A34A8",
+    "dark": "#CDA6FF"
+  },
+  "purpose": "Outcome language for the risks of AI systems, so leadership can weigh and resource them.",
+  "what": "Four functions: Govern, Map, Measure and Manage. NIST says a revision is under way.",
+  "binds": {
+    "short": "Voluntary",
+    "line": "Voluntary for all organizations."
+  },
+  "verifiedBy": {
+    "short": "Self-described",
+    "line": "No certification. An organization describes its own practice against the functions."
+  },
+  "size": [
+    {
+      "count": 4,
+      "unit": "Functions"
+    }
+  ],
+  "sits": {
+    "layers": [
+      "l6"
+    ],
+    "line": "The AI column, beside the five layers: what good looks like when the system is AI."
+  },
+  "sources": [],
+  "terms": {
+    "basis": "us-government-work",
+    "shows": "structure",
+    "line": "A work of the United States government. This round shows the card; the full structure follows in a later round.",
+    "notice": null,
+    "url": null
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "csf20",
+      "line": "The same shape as the CSF: functions and outcomes, for AI risk."
+    },
+    {
+      "id": "ir8596",
+      "line": "The Cyber AI Profile applies the CSF’s functions to AI."
+    }
+  ],
+  "depth": null,
+  "levels": [],
+  "nodes": [],
+  "sets": [],
+  "crosswalks": []
+}

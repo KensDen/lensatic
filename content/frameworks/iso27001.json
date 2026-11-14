@@ -1,0 +1,115 @@
+{
+  "id": "iso27001",
+  "name": "ISO/IEC 27001:2022",
+  "shortName": "ISO/IEC 27001",
+  "group": "outcomes",
+  "kind": "Management System Standard",
+  "compliance": true,
+  "symbol": "checkmark.seal",
+  "color": {
+    "light": "#8A3B12",
+    "dark": "#F2A66B"
+  },
+  "purpose": "The international standard for running information security as a managed system, and one you can be certified against.",
+  "what": "Requirements in clauses 4 to 10 for an information security management system, with 93 reference controls in Annex A under four themes.",
+  "binds": {
+    "short": "Voluntary",
+    "line": "Voluntary. It binds where a contract, a customer or a regulator asks for conformity or certification."
+  },
+  "verifiedBy": {
+    "short": "Accredited certification",
+    "line": "An accredited certification body audits in two stages, then returns for surveillance and recertifies on a three-year cycle."
+  },
+  "size": [
+    {
+      "count": 7,
+      "unit": "Requirement Clauses"
+    },
+    {
+      "count": 4,
+      "unit": "Themes"
+    },
+    {
+      "count": 93,
+      "unit": "Annex A Controls"
+    }
+  ],
+  "sits": {
+    "layers": [
+      "l1",
+      "l4",
+      "l5"
+    ],
+    "line": "Layers 1, 4 and 5. A management system that governs, a reference set of controls, and a certification."
+  },
+  "sources": [
+    {
+      "id": "iso27001-catalogue",
+      "publisher": "ISO and IEC",
+      "title": "Information security, cybersecurity and privacy protection - Information security management systems - Requirements",
+      "edition": "ISO/IEC 27001:2022, edition 3, with Amendment 1:2024",
+      "date": "2022-10-25",
+      "url": "https://www.iso.org/standard/27001",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "ISO’s catalogue page refuses scripts; opened in a browser on 14 November 2026 it reads ‘Published (Edition 3, 2022)’ with one amendment. The details were read the same day in ISO Open Data, the catalogue ISO publishes for machines: ISO/IEC 27001:2022, edition 3, published 25 October 2022, with Amendment 1:2024, Climate action changes, published 23 February 2024, and no revision registered. Its scope says that excluding any requirement of clauses 4 to 10 is not acceptable when an organization claims conformity. The text of the standard was not read and none of it is shown.",
+        "recheckAfter": "2027-01-15"
+      }
+    },
+    {
+      "id": "iso27001-sc27",
+      "publisher": "ISO/IEC JTC 1/SC 27",
+      "title": "SC 27 Journal, Volume 2, Issue 2",
+      "edition": "Update of December 2022",
+      "date": "2022-12-17",
+      "url": "https://committee.iso.org/files/live/sites/jtc1sc27/files/resources/ISO-IEC%20JTC%201-SC%2027_N22755_SC27%20Journal%20Vol%202%20Issue%202%20(update%20Dec%202022).pdf",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026, from the committee that owns the standard: the controls ‘are organized through 4 themes: 37 organizational, 8 people, 14 physical and 34’ technological, 93 in all. The clause numbers 4 to 10 were read in the British Standards Institution’s preview of its adoption of the standard.",
+        "recheckAfter": "2027-01-15"
+      }
+    },
+    {
+      "id": "iso27001-transition",
+      "publisher": "International Accreditation Forum",
+      "title": "IAF MD 26: Transition Requirements for ISO/IEC 27001:2022",
+      "edition": "Issue 2",
+      "date": "2023-02-15",
+      "url": "https://iaf.nu/iaf_system/uploads/documents/IAF_MD26_Issue_2_15012023.pdf",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026: ‘All certifications based on ISO/IEC 27001:2013 shall expire or be withdrawn at the end of the transition period’, which ended on 31 October 2025. The forum ceased operations on 1 January 2026; Global Accreditation Cooperation Incorporated now runs the recognition arrangement, and iaf.nu is kept as an archive.",
+        "recheckAfter": "2027-02-12"
+      }
+    }
+  ],
+  "terms": {
+    "basis": "copyrighted",
+    "shows": "structure",
+    "line": "Copyright ISO and IEC, all rights reserved, and sold. Lensatic shows only the standard’s shape, in its own words: clause numbers and how many controls each theme holds. The text is at ISO.",
+    "notice": null,
+    "url": "https://www.iso.org/standard/27001"
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "csf20",
+      "line": "NIST’s CSF 2.0 Reference Tool lists ISO/IEC 27001:2022 among its informative references."
+    },
+    {
+      "id": "sp800-53",
+      "line": "Annex A is a reference set of controls; SP 800-53 is a far larger catalog of them."
+    }
+  ],
+  "depth": null,
+  "levels": [],
+  "nodes": [],
+  "sets": [],
+  "crosswalks": []
+}

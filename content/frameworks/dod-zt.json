@@ -1,0 +1,72 @@
+{
+  "id": "dod-zt",
+  "entityId": "dod-zt-strategy",
+  "name": "DoD Zero Trust Strategy",
+  "shortName": "DoD ZT Strategy",
+  "group": "zero-trust",
+  "kind": "Strategy and Target State",
+  "compliance": true,
+  "symbol": "shield.lefthalf.filled",
+  "color": {
+    "light": "#4D5E16",
+    "dark": "#B9D46A"
+  },
+  "purpose": "The target state for zero trust across the {{dow.current}}, with a date on it.",
+  "what": "Seven pillars, 45 capabilities and 152 activities at two levels. Target Level, 91 activities, is due by the end of fiscal year 2027.",
+  "binds": {
+    "short": "{{dow}} components",
+    "line": "Directs {{dow}} components. Others may borrow the pillar model but are not bound by it."
+  },
+  "verifiedBy": {
+    "short": "Assessed by the department",
+    "line": "Components report against the activities, and solutions are assessed against them, as Flank Speed was."
+  },
+  "size": [
+    {
+      "count": 7,
+      "unit": "Pillars"
+    },
+    {
+      "count": 45,
+      "unit": "Capabilities"
+    },
+    {
+      "count": 152,
+      "unit": "Activities"
+    }
+  ],
+  "sits": {
+    "layers": [
+      "l3"
+    ],
+    "line": "Layer 3. It sets the target state; the zero trust overlays tie it to controls one layer down."
+  },
+  "sources": [],
+  "terms": {
+    "basis": "us-government-work",
+    "shows": "structure",
+    "line": "A work of the United States government. This round shows the card; the full structure follows in a later round.",
+    "notice": null,
+    "url": null
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "sp800-207",
+      "line": "The strategy points to SP 800-207 for what zero trust means."
+    },
+    {
+      "id": "cisa-ztmm",
+      "line": "The civilian counterpart: five pillars where the department has seven."
+    },
+    {
+      "id": "sp800-53",
+      "line": "The department’s zero trust overlays select from this catalog."
+    }
+  ],
+  "depth": null,
+  "levels": [],
+  "nodes": [],
+  "sets": [],
+  "crosswalks": []
+}

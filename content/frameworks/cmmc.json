@@ -1,0 +1,56 @@
+{
+  "id": "cmmc",
+  "entityId": "cmmc20",
+  "name": "Cybersecurity Maturity Model Certification (CMMC)",
+  "shortName": "CMMC",
+  "group": "authorization",
+  "kind": "Contractor Verification",
+  "compliance": true,
+  "symbol": "rosette",
+  "color": {
+    "light": "#7A2E7E",
+    "dark": "#E3A0E6"
+  },
+  "purpose": "How the {{dow.current}} checks that a contractor protects the information it is given.",
+  "what": "Three levels: 15 requirements at Level 1, the 110 of SP 800-171 Revision 2 at Level 2, and 24 more from SP 800-172 at Level 3.",
+  "binds": {
+    "short": "Defense contractors",
+    "line": "Binds defense contractors and subcontractors when the clause is in the contract."
+  },
+  "verifiedBy": {
+    "short": "Self, C3PAO or government",
+    "line": "Self-assessment, certification by an accredited third-party assessor, or a government assessment, by level. The later phases are suspended."
+  },
+  "size": [
+    {
+      "count": 3,
+      "unit": "Levels"
+    }
+  ],
+  "sits": {
+    "layers": [
+      "l5"
+    ],
+    "line": "Layer 5. It verifies; the requirements it checks are SP 800-171’s, one layer up."
+  },
+  "sources": [],
+  "terms": {
+    "basis": "us-government-work",
+    "shows": "structure",
+    "line": "A work of the United States government. This round shows the card; the full structure follows in a later round.",
+    "notice": null,
+    "url": null
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "sp800-171",
+      "line": "Level 2 assesses the 110 requirements of SP 800-171 Revision 2."
+    }
+  ],
+  "depth": null,
+  "levels": [],
+  "nodes": [],
+  "sets": [],
+  "crosswalks": []
+}

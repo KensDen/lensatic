@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:lensatic:framework-compare.schema:2.0.0-r1",
+  "title": "A Lensatic framework comparison",
+  "description": "Schema for content/frameworks/compare-<a>-<b>.json: the same questions asked of two frameworks, how they connect, and the line over the overlap the app counts from a published crosswalk. There is no field for a score.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "a",
+    "b",
+    "verdict",
+    "rows",
+    "connect",
+    "noScore",
+    "overlapLine"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "a": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "b": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "verdict": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "label",
+          "a",
+          "b"
+        ],
+        "properties": {
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "a": {
+            "type": "string",
+            "minLength": 1
+          },
+          "b": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "connect": {
+      "type": "string",
+      "minLength": 1
+    },
+    "noScore": {
+      "type": "string",
+      "minLength": 1
+    },
+    "overlapLine": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

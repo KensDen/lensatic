@@ -1,0 +1,64 @@
+{
+  "id": "ir8596",
+  "entityId": "ir8596",
+  "name": "NIST IR 8596, Cyber AI Profile (draft)",
+  "shortName": "Cyber AI Profile",
+  "group": "ai",
+  "kind": "Draft Community Profile",
+  "compliance": true,
+  "symbol": "sparkles",
+  "color": {
+    "light": "#9C2C77",
+    "dark": "#F2A0D6"
+  },
+  "purpose": "How the six CSF functions apply when AI is what you secure, what you defend with, or what attacks you.",
+  "what": "A draft CSF 2.0 Community Profile that crosses the six functions with three focus areas: Secure, Defend and Thwart.",
+  "binds": {
+    "short": "Voluntary draft",
+    "line": "A draft Community Profile: voluntary, and still changing."
+  },
+  "verifiedBy": {
+    "short": "Not assessed",
+    "line": "A profile to adopt and adapt, not something to be certified against."
+  },
+  "size": [
+    {
+      "count": 6,
+      "unit": "Functions"
+    },
+    {
+      "count": 3,
+      "unit": "Focus Areas"
+    }
+  ],
+  "sits": {
+    "layers": [
+      "l6"
+    ],
+    "line": "The AI column. It reuses Layer 1’s functions for AI."
+  },
+  "sources": [],
+  "terms": {
+    "basis": "us-government-work",
+    "shows": "structure",
+    "line": "A work of the United States government. This round shows the card; the full structure follows in a later round.",
+    "notice": null,
+    "url": null
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "csf20",
+      "line": "It is built on the CSF 2.0 Core."
+    },
+    {
+      "id": "ai-rmf",
+      "line": "The AI RMF covers AI risk as a whole; this profile covers the cybersecurity of it."
+    }
+  ],
+  "depth": null,
+  "levels": [],
+  "nodes": [],
+  "sets": [],
+  "crosswalks": []
+}

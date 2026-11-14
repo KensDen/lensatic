@@ -12,6 +12,10 @@ answers 200 after redirects. A Federal Register document page is checked through
 the site sends scripts to a captcha page. A host that answers every script with 403 (bot protection on the department's
 and NSA's sites) is listed apart, to be opened in a browser by hand; the tool never imitates a browser to get past it.
 
+Lensatic 2.0 (Round 1): the framework navigator's files under content/frameworks/ carry sources of their own. Their links
+are counted with the stack's, their PDF editions are held to the same rule, and --online opens them too; the app tags
+their PDFs from the address, so there is no page to check them on.
+
 Usage: python3 tools/check_links.py [--online] [--counts]
 """
 from __future__ import annotations
@@ -26,11 +30,14 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 STACK = ROOT / "content" / "stack.json"
+FRAMEWORKS = ROOT / "content" / "frameworks"
 MAP = ROOT / "docs" / "maps" / "index.html"
 PDF_TAG_CLASS = "pdf-tag"
 FR_DOC = re.compile(r"^https://www\.federalregister\.gov/documents/\d{4}/\d{2}/\d{2}/([0-9-]+)/")
 # hosts that answer any script with 403 whatever it asks: checked in a browser by hand, never by imitating one
-BROWSER_ONLY = ("dowcio.war.gov", "media.defense.gov", "www.nsa.gov", "www.esd.whs.mil", "www.war.gov", "www.dcdc.mil")
+BROWSER_ONLY = ("dowcio.war.gov", "media.defense.gov", "www.nsa.gov", "www.esd.whs.mil", "www.war.gov", "www.dcdc.mil",
+                # Lensatic 2.0: ISO's catalogue answers scripts with a challenge page
+                "www.iso.org")
 AGENT = "lensatic-link-check (https://github.com/KensDen/lensatic)"
 
 
@@ -54,6 +61,14 @@ def records(d: dict) -> list[tuple[str, str, bool]]:
             for i, v in enumerate(o):
                 walk(v, f"{path}[{i}]")
     walk(d, "")
+    return out
+
+
+def framework_records() -> list[tuple[str, str, bool]]:
+    """Every url and pdf field in the framework navigator's files, as records() gives the stack's."""
+    out: list[tuple[str, str, bool]] = []
+    for p in sorted(FRAMEWORKS.glob("*.json")) if FRAMEWORKS.is_dir() else []:
+        out += [(f"{p.name}{where}", u, pdf) for where, u, pdf in records(json.loads(p.read_text(encoding="utf-8")))]
     return out
 
 
@@ -123,7 +138,7 @@ def fetch(u: str) -> int:
 def online(d: dict) -> int:
     seen: dict[str, int] = {}
     blocked, bad = [], []
-    for _, u, _ in records(d):
+    for _, u, _ in records(d) + framework_records():
         if u in seen:
             continue
         m = FR_DOC.match(u)
@@ -154,18 +169,24 @@ def main() -> int:
     args = ap.parse_args()
     d = json.loads(STACK.read_text(encoding="utf-8"))
     recs = records(d)
+    extra = framework_records()
     if args.counts:
         print(f"{len(recs)} links in content/stack.json, {sum(1 for r in recs if r[2])} open a PDF, "
               f"{len({r[1] for r in recs})} distinct addresses")
+        print(f"{len(extra)} links in content/frameworks/, {sum(1 for r in extra if r[2])} open a PDF, "
+              f"{len({r[1] for r in extra})} distinct addresses")
     if args.online:
         return online(d)
     errs = offline(d)
+    errs += [f"{where}: the PDF edition {u} does not end in .pdf" for where, u, _ in extra if where.endswith(".pdf") and not is_pdf_address(u)]
+    errs += [f"{where}: {u} is not an https address" for where, u, _ in extra if not u.startswith("https://")]
     n_pdf = sum(1 for r in recs if r[2])
     if errs:
         print("FAIL  source links: " + "; ".join(errs[:6]) + (f"; ... {len(errs) - 6} more" if len(errs) > 6 else ""))
         return 1
     print(f"PASS  source links: every link that opens a PDF carries the PDF tag on the map, and no other link does; every "
-          f"PDF edition ends in .pdf  ({len(recs)} links, {n_pdf} open a PDF)")
+          f"PDF edition ends in .pdf  ({len(recs)} links, {n_pdf} open a PDF; and {len(extra)} links in the framework files, "
+          f"{sum(1 for r in extra if r[2])} of which open a PDF)")
     return 0
 
 

@@ -1,0 +1,77 @@
+{
+  "id": "sp800-207",
+  "entityId": "sp800-207",
+  "name": "NIST SP 800-207, Zero Trust Architecture",
+  "shortName": "SP 800-207",
+  "group": "zero-trust",
+  "kind": "Definition",
+  "compliance": true,
+  "symbol": "point.3.connected.trianglepath.dotted",
+  "color": {
+    "light": "#006C8F",
+    "dark": "#5CCBEE"
+  },
+  "purpose": "The definition of zero trust that the federal memos and the {{dow}} strategy both point to.",
+  "what": "Seven tenets and a logical architecture: a policy engine decides every request and a policy enforcement point carries it out.",
+  "binds": {
+    "short": "No one directly",
+    "line": "A definition, not a mandate. It binds through the documents that cite it."
+  },
+  "verifiedBy": {
+    "short": "Not assessed",
+    "line": "Nothing certifies an architecture against it. Maturity models and overlays turn it into things that can be checked."
+  },
+  "size": [
+    {
+      "count": 7,
+      "unit": "Tenets"
+    }
+  ],
+  "sits": {
+    "layers": [
+      "l2"
+    ],
+    "line": "Layer 2. It says what zero trust is; the target states sit one layer down."
+  },
+  "sources": [
+    {
+      "id": "sp800-207-pdf",
+      "publisher": "NIST",
+      "title": "Zero Trust Architecture",
+      "edition": "NIST SP 800-207",
+      "date": "2020-08",
+      "url": "https://csrc.nist.gov/pubs/sp/800/207/final",
+      "pdf": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-207.pdf",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "The PDF was read on 14 November 2026: section 2.1, Tenets of Zero Trust, numbers seven tenets.",
+        "recheckAfter": "2027-02-12"
+      }
+    }
+  ],
+  "terms": {
+    "basis": "us-government-work",
+    "shows": "structure",
+    "line": "A work of the United States government. This round shows the card; the full structure follows in a later round.",
+    "notice": null,
+    "url": null
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "dod-zt",
+      "line": "The {{dow}} strategy turns the definition into pillars, capabilities and a deadline."
+    },
+    {
+      "id": "cisa-ztmm",
+      "line": "The CISA model turns it into maturity stages for civilian agencies."
+    }
+  ],
+  "depth": null,
+  "levels": [],
+  "nodes": [],
+  "sets": [],
+  "crosswalks": []
+}

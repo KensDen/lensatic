@@ -1,0 +1,2062 @@
+{
+  "id": "attack",
+  "name": "MITRE ATT&CK®",
+  "shortName": "ATT&CK",
+  "group": "adversary",
+  "kind": "Adversary Knowledge Base",
+  "compliance": false,
+  "symbol": "scope",
+  "color": {
+    "light": "#A32222",
+    "dark": "#FF9C94"
+  },
+  "purpose": "A shared map of how real attackers behave, so defenders can test, detect and talk about the same things.",
+  "what": "Enterprise ATT&CK v20.1 holds 15 tactics, 227 techniques and 479 sub-techniques, drawn from observed intrusions.",
+  "binds": {
+    "short": "No one",
+    "line": "Nobody is bound by it, and nothing is audited against it."
+  },
+  "verifiedBy": {
+    "short": "Not a compliance check",
+    "line": "There is no certification. MITRE says that covering its techniques ‘will not guarantee full defensive coverage’."
+  },
+  "size": [
+    {
+      "count": 15,
+      "unit": "Tactics"
+    },
+    {
+      "count": 227,
+      "unit": "Techniques"
+    },
+    {
+      "count": 479,
+      "unit": "Sub-Techniques"
+    }
+  ],
+  "sits": {
+    "layers": [],
+    "line": "Beside the stack, not on it. The adversary column describes the threat the layers answer."
+  },
+  "sources": [
+    {
+      "id": "attack-stix",
+      "publisher": "The MITRE Corporation",
+      "title": "Enterprise ATT&CK, STIX 2.1 data",
+      "edition": "ATT&CK v20.1",
+      "date": "2026-11-05",
+      "url": "https://github.com/mitre-attack/attack-stix-data",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "The bundle enterprise-attack-20.1.json was fetched on 14 November 2026. Leaving out revoked and deprecated objects it holds 15 tactics, 227 techniques and 479 sub-techniques, the same counts the v20 release notes and the site’s list pages print. Since v19, of 28 April 2026, Enterprise has no Defense Evasion tactic: TA0005 is Stealth and TA0112 is Defense Impairment.",
+        "recheckAfter": "2027-01-15"
+      }
+    },
+    {
+      "id": "attack-versions",
+      "publisher": "The MITRE Corporation",
+      "title": "ATT&CK Version History",
+      "edition": "ATT&CK v20.1",
+      "date": "2026-11-05",
+      "url": "https://attack.mitre.org/resources/versions/",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026: the page lists v20.1 as current, from 13 October 2026, the day v20 was released; the v20.1 data itself is dated 5 November 2026 in MITRE’s repository. The site describes ATT&CK as a ‘knowledge base of adversary tactics and techniques based on real-world observations’.",
+        "recheckAfter": "2027-01-15"
+      }
+    },
+    {
+      "id": "attack-terms",
+      "publisher": "The MITRE Corporation",
+      "title": "ATT&CK Terms of Use",
+      "edition": "Web page",
+      "date": "2026",
+      "url": "https://attack.mitre.org/resources/legal-and-branding/terms-of-use/",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026. The license and the copyright designation it requires in any copy are reproduced in this entry’s terms. The same page says that covering ATT&CK’s techniques ‘will not guarantee full defensive coverage’.",
+        "recheckAfter": "2027-02-12"
+      }
+    }
+  ],
+  "terms": {
+    "basis": "mitre",
+    "shows": "titles",
+    "line": "Used under MITRE’s ATT&CK Terms of Use. Lensatic lists MITRE’s identifiers and names; descriptions, detections and mitigations are at the source. MITRE ATT&CK® and ATT&CK® are registered trademarks of The MITRE Corporation, and their use here implies no endorsement by MITRE.",
+    "notice": "© 2026 The MITRE Corporation. This work is reproduced and distributed with the permission of The MITRE Corporation. The MITRE Corporation (MITRE) hereby grants you a non-exclusive, royalty-free license to use ATT&CK® for research, development, and commercial purposes. Any copy you make for such purposes is authorized provided that you reproduce MITRE’s copyright designation and this license in any such copy.",
+    "url": "https://attack.mitre.org/resources/legal-and-branding/terms-of-use/"
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "d3fend",
+      "line": "D3FEND catalogs the countermeasures that answer these techniques."
+    }
+  ],
+  "depth": {
+    "shown": 227,
+    "of": 706,
+    "unit": "techniques and sub-techniques",
+    "why": "The techniques are listed by identifier and name. Sub-techniques, descriptions, detections and mitigations are at the source."
+  },
+  "levels": [
+    {
+      "id": "tactic",
+      "name": "Tactic",
+      "plural": "Tactics"
+    },
+    {
+      "id": "technique",
+      "name": "Technique",
+      "plural": "Techniques"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "TA0043",
+      "level": "tactic",
+      "parents": [],
+      "title": "Reconnaissance"
+    },
+    {
+      "id": "TA0042",
+      "level": "tactic",
+      "parents": [],
+      "title": "Resource Development"
+    },
+    {
+      "id": "TA0001",
+      "level": "tactic",
+      "parents": [],
+      "title": "Initial Access"
+    },
+    {
+      "id": "TA0002",
+      "level": "tactic",
+      "parents": [],
+      "title": "Execution"
+    },
+    {
+      "id": "TA0003",
+      "level": "tactic",
+      "parents": [],
+      "title": "Persistence"
+    },
+    {
+      "id": "TA0004",
+      "level": "tactic",
+      "parents": [],
+      "title": "Privilege Escalation"
+    },
+    {
+      "id": "TA0005",
+      "level": "tactic",
+      "parents": [],
+      "title": "Stealth"
+    },
+    {
+      "id": "TA0112",
+      "level": "tactic",
+      "parents": [],
+      "title": "Defense Impairment"
+    },
+    {
+      "id": "TA0006",
+      "level": "tactic",
+      "parents": [],
+      "title": "Credential Access"
+    },
+    {
+      "id": "TA0007",
+      "level": "tactic",
+      "parents": [],
+      "title": "Discovery"
+    },
+    {
+      "id": "TA0008",
+      "level": "tactic",
+      "parents": [],
+      "title": "Lateral Movement"
+    },
+    {
+      "id": "TA0009",
+      "level": "tactic",
+      "parents": [],
+      "title": "Collection"
+    },
+    {
+      "id": "TA0011",
+      "level": "tactic",
+      "parents": [],
+      "title": "Command and Control"
+    },
+    {
+      "id": "TA0010",
+      "level": "tactic",
+      "parents": [],
+      "title": "Exfiltration"
+    },
+    {
+      "id": "TA0040",
+      "level": "tactic",
+      "parents": [],
+      "title": "Impact"
+    },
+    {
+      "id": "T1001",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Data Obfuscation"
+    },
+    {
+      "id": "T1003",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "OS Credential Dumping"
+    },
+    {
+      "id": "T1005",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Data from Local System"
+    },
+    {
+      "id": "T1006",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Direct Volume Access"
+    },
+    {
+      "id": "T1007",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "System Service Discovery"
+    },
+    {
+      "id": "T1008",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Fallback Channels"
+    },
+    {
+      "id": "T1010",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Application Window Discovery"
+    },
+    {
+      "id": "T1011",
+      "level": "technique",
+      "parents": [
+        "TA0010"
+      ],
+      "title": "Exfiltration Over Other Network Medium"
+    },
+    {
+      "id": "T1012",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Query Registry"
+    },
+    {
+      "id": "T1014",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Rootkit"
+    },
+    {
+      "id": "T1016",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "System Network Configuration Discovery"
+    },
+    {
+      "id": "T1018",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Remote System Discovery"
+    },
+    {
+      "id": "T1020",
+      "level": "technique",
+      "parents": [
+        "TA0010"
+      ],
+      "title": "Automated Exfiltration"
+    },
+    {
+      "id": "T1021",
+      "level": "technique",
+      "parents": [
+        "TA0008"
+      ],
+      "title": "Remote Services"
+    },
+    {
+      "id": "T1025",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Data from Removable Media"
+    },
+    {
+      "id": "T1027",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Obfuscated Files or Information"
+    },
+    {
+      "id": "T1029",
+      "level": "technique",
+      "parents": [
+        "TA0010"
+      ],
+      "title": "Scheduled Transfer"
+    },
+    {
+      "id": "T1030",
+      "level": "technique",
+      "parents": [
+        "TA0010"
+      ],
+      "title": "Data Transfer Size Limits"
+    },
+    {
+      "id": "T1033",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "System Owner/User Discovery"
+    },
+    {
+      "id": "T1036",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Masquerading"
+    },
+    {
+      "id": "T1037",
+      "level": "technique",
+      "parents": [
+        "TA0003",
+        "TA0004"
+      ],
+      "title": "Boot or Logon Initialization Scripts"
+    },
+    {
+      "id": "T1039",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Data from Network Shared Drive"
+    },
+    {
+      "id": "T1040",
+      "level": "technique",
+      "parents": [
+        "TA0006",
+        "TA0007"
+      ],
+      "title": "Network Sniffing"
+    },
+    {
+      "id": "T1041",
+      "level": "technique",
+      "parents": [
+        "TA0010"
+      ],
+      "title": "Exfiltration Over C2 Channel"
+    },
+    {
+      "id": "T1046",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Network Service Discovery"
+    },
+    {
+      "id": "T1047",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Windows Management Instrumentation"
+    },
+    {
+      "id": "T1048",
+      "level": "technique",
+      "parents": [
+        "TA0010"
+      ],
+      "title": "Exfiltration Over Alternative Protocol"
+    },
+    {
+      "id": "T1049",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "System Network Connections Discovery"
+    },
+    {
+      "id": "T1052",
+      "level": "technique",
+      "parents": [
+        "TA0010"
+      ],
+      "title": "Exfiltration Over Physical Medium"
+    },
+    {
+      "id": "T1053",
+      "level": "technique",
+      "parents": [
+        "TA0002",
+        "TA0003",
+        "TA0004"
+      ],
+      "title": "Scheduled Task/Job"
+    },
+    {
+      "id": "T1055",
+      "level": "technique",
+      "parents": [
+        "TA0004",
+        "TA0005"
+      ],
+      "title": "Process Injection"
+    },
+    {
+      "id": "T1056",
+      "level": "technique",
+      "parents": [
+        "TA0006",
+        "TA0009"
+      ],
+      "title": "Input Capture"
+    },
+    {
+      "id": "T1057",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Process Discovery"
+    },
+    {
+      "id": "T1059",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Command and Scripting Interpreter"
+    },
+    {
+      "id": "T1068",
+      "level": "technique",
+      "parents": [
+        "TA0004"
+      ],
+      "title": "Exploitation for Privilege Escalation"
+    },
+    {
+      "id": "T1069",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Permission Groups Discovery"
+    },
+    {
+      "id": "T1070",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Indicator Removal"
+    },
+    {
+      "id": "T1071",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Application Layer Protocol"
+    },
+    {
+      "id": "T1072",
+      "level": "technique",
+      "parents": [
+        "TA0002",
+        "TA0008"
+      ],
+      "title": "Software Deployment Tools"
+    },
+    {
+      "id": "T1074",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Data Staged"
+    },
+    {
+      "id": "T1078",
+      "level": "technique",
+      "parents": [
+        "TA0001",
+        "TA0003",
+        "TA0004",
+        "TA0005"
+      ],
+      "title": "Valid Accounts"
+    },
+    {
+      "id": "T1080",
+      "level": "technique",
+      "parents": [
+        "TA0008"
+      ],
+      "title": "Taint Shared Content"
+    },
+    {
+      "id": "T1082",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "System Information Discovery"
+    },
+    {
+      "id": "T1083",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "File and Directory Discovery"
+    },
+    {
+      "id": "T1087",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Account Discovery"
+    },
+    {
+      "id": "T1090",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Proxy"
+    },
+    {
+      "id": "T1091",
+      "level": "technique",
+      "parents": [
+        "TA0001",
+        "TA0008"
+      ],
+      "title": "Replication Through Removable Media"
+    },
+    {
+      "id": "T1092",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Communication Through Removable Media"
+    },
+    {
+      "id": "T1095",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Non-Application Layer Protocol"
+    },
+    {
+      "id": "T1098",
+      "level": "technique",
+      "parents": [
+        "TA0003",
+        "TA0004"
+      ],
+      "title": "Account Manipulation"
+    },
+    {
+      "id": "T1102",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Web Service"
+    },
+    {
+      "id": "T1104",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Multi-Stage Channels"
+    },
+    {
+      "id": "T1105",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Ingress Tool Transfer"
+    },
+    {
+      "id": "T1106",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Native API"
+    },
+    {
+      "id": "T1110",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "Brute Force"
+    },
+    {
+      "id": "T1111",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "Multi-Factor Authentication Interception"
+    },
+    {
+      "id": "T1112",
+      "level": "technique",
+      "parents": [
+        "TA0003",
+        "TA0112"
+      ],
+      "title": "Modify Registry"
+    },
+    {
+      "id": "T1113",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Screen Capture"
+    },
+    {
+      "id": "T1114",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Email Collection"
+    },
+    {
+      "id": "T1115",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Clipboard Data"
+    },
+    {
+      "id": "T1119",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Automated Collection"
+    },
+    {
+      "id": "T1120",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Peripheral Device Discovery"
+    },
+    {
+      "id": "T1123",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Audio Capture"
+    },
+    {
+      "id": "T1124",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "System Time Discovery"
+    },
+    {
+      "id": "T1125",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Video Capture"
+    },
+    {
+      "id": "T1127",
+      "level": "technique",
+      "parents": [
+        "TA0002",
+        "TA0005"
+      ],
+      "title": "Trusted Developer Utilities Proxy Execution"
+    },
+    {
+      "id": "T1129",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Shared Modules"
+    },
+    {
+      "id": "T1132",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Data Encoding"
+    },
+    {
+      "id": "T1133",
+      "level": "technique",
+      "parents": [
+        "TA0001",
+        "TA0003"
+      ],
+      "title": "External Remote Services"
+    },
+    {
+      "id": "T1134",
+      "level": "technique",
+      "parents": [
+        "TA0004",
+        "TA0005"
+      ],
+      "title": "Access Token Manipulation"
+    },
+    {
+      "id": "T1135",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Network Share Discovery"
+    },
+    {
+      "id": "T1136",
+      "level": "technique",
+      "parents": [
+        "TA0003"
+      ],
+      "title": "Create Account"
+    },
+    {
+      "id": "T1137",
+      "level": "technique",
+      "parents": [
+        "TA0003"
+      ],
+      "title": "Office Application Startup"
+    },
+    {
+      "id": "T1140",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Deobfuscate/Decode Files or Information"
+    },
+    {
+      "id": "T1176",
+      "level": "technique",
+      "parents": [
+        "TA0003"
+      ],
+      "title": "Software Extensions"
+    },
+    {
+      "id": "T1185",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Browser Session Hijacking"
+    },
+    {
+      "id": "T1187",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "Forced Authentication"
+    },
+    {
+      "id": "T1189",
+      "level": "technique",
+      "parents": [
+        "TA0001"
+      ],
+      "title": "Drive-by Compromise"
+    },
+    {
+      "id": "T1190",
+      "level": "technique",
+      "parents": [
+        "TA0001"
+      ],
+      "title": "Exploit Public-Facing Application"
+    },
+    {
+      "id": "T1195",
+      "level": "technique",
+      "parents": [
+        "TA0001"
+      ],
+      "title": "Supply Chain Compromise"
+    },
+    {
+      "id": "T1197",
+      "level": "technique",
+      "parents": [
+        "TA0002",
+        "TA0003",
+        "TA0005"
+      ],
+      "title": "BITS Jobs"
+    },
+    {
+      "id": "T1199",
+      "level": "technique",
+      "parents": [
+        "TA0001"
+      ],
+      "title": "Trusted Relationship"
+    },
+    {
+      "id": "T1200",
+      "level": "technique",
+      "parents": [
+        "TA0001"
+      ],
+      "title": "Hardware Additions"
+    },
+    {
+      "id": "T1201",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Password Policy Discovery"
+    },
+    {
+      "id": "T1202",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Indirect Command Execution"
+    },
+    {
+      "id": "T1203",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Exploitation for Client Execution"
+    },
+    {
+      "id": "T1204",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "User Execution"
+    },
+    {
+      "id": "T1205",
+      "level": "technique",
+      "parents": [
+        "TA0003",
+        "TA0005",
+        "TA0011"
+      ],
+      "title": "Traffic Signaling"
+    },
+    {
+      "id": "T1207",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Rogue Domain Controller"
+    },
+    {
+      "id": "T1210",
+      "level": "technique",
+      "parents": [
+        "TA0008"
+      ],
+      "title": "Exploitation of Remote Services"
+    },
+    {
+      "id": "T1211",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Exploitation for Stealth"
+    },
+    {
+      "id": "T1212",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "Exploitation for Credential Access"
+    },
+    {
+      "id": "T1213",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Data from Information Repositories"
+    },
+    {
+      "id": "T1216",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "System Script Proxy Execution"
+    },
+    {
+      "id": "T1217",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Browser Information Discovery"
+    },
+    {
+      "id": "T1218",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "System Binary Proxy Execution"
+    },
+    {
+      "id": "T1219",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Remote Access Tools"
+    },
+    {
+      "id": "T1220",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "XSL Script Processing"
+    },
+    {
+      "id": "T1221",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Template Injection"
+    },
+    {
+      "id": "T1222",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "File and Directory Permissions Modification"
+    },
+    {
+      "id": "T1480",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Execution Guardrails"
+    },
+    {
+      "id": "T1482",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Domain Trust Discovery"
+    },
+    {
+      "id": "T1484",
+      "level": "technique",
+      "parents": [
+        "TA0004",
+        "TA0112"
+      ],
+      "title": "Domain or Tenant Policy Modification"
+    },
+    {
+      "id": "T1485",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Data Destruction"
+    },
+    {
+      "id": "T1486",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Data Encrypted for Impact"
+    },
+    {
+      "id": "T1489",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Service Stop"
+    },
+    {
+      "id": "T1490",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Inhibit System Recovery"
+    },
+    {
+      "id": "T1491",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Defacement"
+    },
+    {
+      "id": "T1495",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Firmware Corruption"
+    },
+    {
+      "id": "T1496",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Resource Hijacking"
+    },
+    {
+      "id": "T1497",
+      "level": "technique",
+      "parents": [
+        "TA0005",
+        "TA0007"
+      ],
+      "title": "Virtualization/Sandbox Evasion"
+    },
+    {
+      "id": "T1498",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Network Denial of Service"
+    },
+    {
+      "id": "T1499",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Endpoint Denial of Service"
+    },
+    {
+      "id": "T1505",
+      "level": "technique",
+      "parents": [
+        "TA0003"
+      ],
+      "title": "Server Software Component"
+    },
+    {
+      "id": "T1518",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Software Discovery"
+    },
+    {
+      "id": "T1525",
+      "level": "technique",
+      "parents": [
+        "TA0003"
+      ],
+      "title": "Implant Internal Image"
+    },
+    {
+      "id": "T1526",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Cloud Service Discovery"
+    },
+    {
+      "id": "T1528",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "Steal Application Access Token"
+    },
+    {
+      "id": "T1529",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "System Shutdown/Reboot"
+    },
+    {
+      "id": "T1530",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Data from Cloud Storage"
+    },
+    {
+      "id": "T1531",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Account Access Removal"
+    },
+    {
+      "id": "T1534",
+      "level": "technique",
+      "parents": [
+        "TA0008"
+      ],
+      "title": "Internal Spearphishing"
+    },
+    {
+      "id": "T1535",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Unused/Unsupported Cloud Regions"
+    },
+    {
+      "id": "T1537",
+      "level": "technique",
+      "parents": [
+        "TA0010"
+      ],
+      "title": "Transfer Data to Cloud Account"
+    },
+    {
+      "id": "T1538",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Cloud Service Dashboard"
+    },
+    {
+      "id": "T1539",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "Steal Web Session Cookie"
+    },
+    {
+      "id": "T1542",
+      "level": "technique",
+      "parents": [
+        "TA0003",
+        "TA0005"
+      ],
+      "title": "Pre-OS Boot"
+    },
+    {
+      "id": "T1543",
+      "level": "technique",
+      "parents": [
+        "TA0003",
+        "TA0004"
+      ],
+      "title": "Create or Modify System Process"
+    },
+    {
+      "id": "T1546",
+      "level": "technique",
+      "parents": [
+        "TA0003",
+        "TA0004"
+      ],
+      "title": "Event Triggered Execution"
+    },
+    {
+      "id": "T1547",
+      "level": "technique",
+      "parents": [
+        "TA0003",
+        "TA0004"
+      ],
+      "title": "Boot or Logon Autostart Execution"
+    },
+    {
+      "id": "T1548",
+      "level": "technique",
+      "parents": [
+        "TA0004"
+      ],
+      "title": "Abuse Elevation Control Mechanism"
+    },
+    {
+      "id": "T1550",
+      "level": "technique",
+      "parents": [
+        "TA0008"
+      ],
+      "title": "Use Alternate Authentication Material"
+    },
+    {
+      "id": "T1552",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "Unsecured Credentials"
+    },
+    {
+      "id": "T1553",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Subvert Trust Controls"
+    },
+    {
+      "id": "T1554",
+      "level": "technique",
+      "parents": [
+        "TA0003"
+      ],
+      "title": "Compromise Host Software Binary"
+    },
+    {
+      "id": "T1555",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "Credentials from Password Stores"
+    },
+    {
+      "id": "T1556",
+      "level": "technique",
+      "parents": [
+        "TA0003",
+        "TA0112",
+        "TA0006"
+      ],
+      "title": "Modify Authentication Process"
+    },
+    {
+      "id": "T1557",
+      "level": "technique",
+      "parents": [
+        "TA0006",
+        "TA0009"
+      ],
+      "title": "Adversary-in-the-Middle"
+    },
+    {
+      "id": "T1558",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "Steal or Forge Kerberos Tickets"
+    },
+    {
+      "id": "T1559",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Inter-Process Communication"
+    },
+    {
+      "id": "T1560",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Archive Collected Data"
+    },
+    {
+      "id": "T1561",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Disk Wipe"
+    },
+    {
+      "id": "T1563",
+      "level": "technique",
+      "parents": [
+        "TA0008"
+      ],
+      "title": "Remote Service Session Hijacking"
+    },
+    {
+      "id": "T1564",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Hide Artifacts"
+    },
+    {
+      "id": "T1565",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Data Manipulation"
+    },
+    {
+      "id": "T1566",
+      "level": "technique",
+      "parents": [
+        "TA0001"
+      ],
+      "title": "Phishing"
+    },
+    {
+      "id": "T1567",
+      "level": "technique",
+      "parents": [
+        "TA0010"
+      ],
+      "title": "Exfiltration Over Web Service"
+    },
+    {
+      "id": "T1568",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Dynamic Resolution"
+    },
+    {
+      "id": "T1569",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "System Services"
+    },
+    {
+      "id": "T1570",
+      "level": "technique",
+      "parents": [
+        "TA0008"
+      ],
+      "title": "Lateral Tool Transfer"
+    },
+    {
+      "id": "T1571",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Non-Standard Port"
+    },
+    {
+      "id": "T1572",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Protocol Tunneling"
+    },
+    {
+      "id": "T1573",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Encrypted Channel"
+    },
+    {
+      "id": "T1574",
+      "level": "technique",
+      "parents": [
+        "TA0002",
+        "TA0005"
+      ],
+      "title": "Hijack Execution Flow"
+    },
+    {
+      "id": "T1578",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Modify Cloud Compute Infrastructure"
+    },
+    {
+      "id": "T1580",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Cloud Infrastructure Discovery"
+    },
+    {
+      "id": "T1583",
+      "level": "technique",
+      "parents": [
+        "TA0042"
+      ],
+      "title": "Acquire Infrastructure"
+    },
+    {
+      "id": "T1584",
+      "level": "technique",
+      "parents": [
+        "TA0042"
+      ],
+      "title": "Compromise Infrastructure"
+    },
+    {
+      "id": "T1585",
+      "level": "technique",
+      "parents": [
+        "TA0042"
+      ],
+      "title": "Establish Accounts"
+    },
+    {
+      "id": "T1586",
+      "level": "technique",
+      "parents": [
+        "TA0042"
+      ],
+      "title": "Compromise Accounts"
+    },
+    {
+      "id": "T1587",
+      "level": "technique",
+      "parents": [
+        "TA0042"
+      ],
+      "title": "Develop Capabilities"
+    },
+    {
+      "id": "T1588",
+      "level": "technique",
+      "parents": [
+        "TA0042"
+      ],
+      "title": "Obtain Capabilities"
+    },
+    {
+      "id": "T1589",
+      "level": "technique",
+      "parents": [
+        "TA0043"
+      ],
+      "title": "Gather Victim Identity Information"
+    },
+    {
+      "id": "T1590",
+      "level": "technique",
+      "parents": [
+        "TA0043"
+      ],
+      "title": "Gather Victim Network Information"
+    },
+    {
+      "id": "T1591",
+      "level": "technique",
+      "parents": [
+        "TA0043"
+      ],
+      "title": "Gather Victim Org Information"
+    },
+    {
+      "id": "T1592",
+      "level": "technique",
+      "parents": [
+        "TA0043"
+      ],
+      "title": "Gather Victim Host Information"
+    },
+    {
+      "id": "T1593",
+      "level": "technique",
+      "parents": [
+        "TA0043"
+      ],
+      "title": "Search Open Websites/Domains"
+    },
+    {
+      "id": "T1594",
+      "level": "technique",
+      "parents": [
+        "TA0043"
+      ],
+      "title": "Search Victim-Owned Websites"
+    },
+    {
+      "id": "T1595",
+      "level": "technique",
+      "parents": [
+        "TA0043"
+      ],
+      "title": "Active Scanning"
+    },
+    {
+      "id": "T1596",
+      "level": "technique",
+      "parents": [
+        "TA0043"
+      ],
+      "title": "Search Open Technical Databases"
+    },
+    {
+      "id": "T1597",
+      "level": "technique",
+      "parents": [
+        "TA0043"
+      ],
+      "title": "Search Closed Sources"
+    },
+    {
+      "id": "T1598",
+      "level": "technique",
+      "parents": [
+        "TA0043"
+      ],
+      "title": "Phishing for Information"
+    },
+    {
+      "id": "T1599",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Network Boundary Bridging"
+    },
+    {
+      "id": "T1600",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Weaken Encryption"
+    },
+    {
+      "id": "T1601",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Modify System Image"
+    },
+    {
+      "id": "T1602",
+      "level": "technique",
+      "parents": [
+        "TA0009"
+      ],
+      "title": "Data from Configuration Repository"
+    },
+    {
+      "id": "T1606",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "Forge Web Credentials"
+    },
+    {
+      "id": "T1608",
+      "level": "technique",
+      "parents": [
+        "TA0042"
+      ],
+      "title": "Stage Capabilities"
+    },
+    {
+      "id": "T1609",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Container Administration Command"
+    },
+    {
+      "id": "T1610",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Deploy Container"
+    },
+    {
+      "id": "T1611",
+      "level": "technique",
+      "parents": [
+        "TA0004"
+      ],
+      "title": "Escape to Host"
+    },
+    {
+      "id": "T1612",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Build Image on Host"
+    },
+    {
+      "id": "T1613",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Container and Resource Discovery"
+    },
+    {
+      "id": "T1614",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "System Location Discovery"
+    },
+    {
+      "id": "T1615",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Group Policy Discovery"
+    },
+    {
+      "id": "T1619",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Cloud Storage Object Discovery"
+    },
+    {
+      "id": "T1620",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Reflective Code Loading"
+    },
+    {
+      "id": "T1621",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "Multi-Factor Authentication Request Generation"
+    },
+    {
+      "id": "T1622",
+      "level": "technique",
+      "parents": [
+        "TA0005",
+        "TA0007"
+      ],
+      "title": "Debugger Evasion"
+    },
+    {
+      "id": "T1647",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Plist File Modification"
+    },
+    {
+      "id": "T1648",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Serverless Execution"
+    },
+    {
+      "id": "T1649",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "Steal or Forge Authentication Certificates"
+    },
+    {
+      "id": "T1650",
+      "level": "technique",
+      "parents": [
+        "TA0042"
+      ],
+      "title": "Acquire Access"
+    },
+    {
+      "id": "T1651",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Cloud Administration Command"
+    },
+    {
+      "id": "T1652",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Device Driver Discovery"
+    },
+    {
+      "id": "T1653",
+      "level": "technique",
+      "parents": [
+        "TA0003"
+      ],
+      "title": "Power Settings"
+    },
+    {
+      "id": "T1654",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Log Enumeration"
+    },
+    {
+      "id": "T1657",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Financial Theft"
+    },
+    {
+      "id": "T1659",
+      "level": "technique",
+      "parents": [
+        "TA0001",
+        "TA0011"
+      ],
+      "title": "Content Injection"
+    },
+    {
+      "id": "T1665",
+      "level": "technique",
+      "parents": [
+        "TA0011"
+      ],
+      "title": "Hide Infrastructure"
+    },
+    {
+      "id": "T1666",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Modify Cloud Resource Hierarchy"
+    },
+    {
+      "id": "T1667",
+      "level": "technique",
+      "parents": [
+        "TA0040"
+      ],
+      "title": "Email Bombing"
+    },
+    {
+      "id": "T1668",
+      "level": "technique",
+      "parents": [
+        "TA0003"
+      ],
+      "title": "Exclusive Control"
+    },
+    {
+      "id": "T1669",
+      "level": "technique",
+      "parents": [
+        "TA0001"
+      ],
+      "title": "Wi-Fi Networks"
+    },
+    {
+      "id": "T1671",
+      "level": "technique",
+      "parents": [
+        "TA0003"
+      ],
+      "title": "Cloud Application Integration"
+    },
+    {
+      "id": "T1673",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Virtual Machine Discovery"
+    },
+    {
+      "id": "T1674",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Input Injection"
+    },
+    {
+      "id": "T1675",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "ESXi Administration Command"
+    },
+    {
+      "id": "T1677",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Poisoned Pipeline Execution"
+    },
+    {
+      "id": "T1678",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Delay Execution"
+    },
+    {
+      "id": "T1679",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Selective Exclusion"
+    },
+    {
+      "id": "T1680",
+      "level": "technique",
+      "parents": [
+        "TA0007"
+      ],
+      "title": "Local Storage Discovery"
+    },
+    {
+      "id": "T1681",
+      "level": "technique",
+      "parents": [
+        "TA0043"
+      ],
+      "title": "Search Threat Vendor Data"
+    },
+    {
+      "id": "T1682",
+      "level": "technique",
+      "parents": [
+        "TA0043"
+      ],
+      "title": "Query Public AI Services"
+    },
+    {
+      "id": "T1683",
+      "level": "technique",
+      "parents": [
+        "TA0042"
+      ],
+      "title": "Generate Content"
+    },
+    {
+      "id": "T1684",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Social Engineering"
+    },
+    {
+      "id": "T1685",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Disable or Modify Tools"
+    },
+    {
+      "id": "T1686",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Disable or Modify System Firewall"
+    },
+    {
+      "id": "T1687",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Exploitation for Defense Impairment"
+    },
+    {
+      "id": "T1688",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Safe Mode Boot"
+    },
+    {
+      "id": "T1689",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Downgrade Attack"
+    },
+    {
+      "id": "T1690",
+      "level": "technique",
+      "parents": [
+        "TA0112"
+      ],
+      "title": "Prevent Command History Logging"
+    },
+    {
+      "id": "T1696",
+      "level": "technique",
+      "parents": [
+        "TA0005"
+      ],
+      "title": "Anti-Automation Evasion"
+    },
+    {
+      "id": "T1697",
+      "level": "technique",
+      "parents": [
+        "TA0006"
+      ],
+      "title": "Steal Application Specific Passwords"
+    },
+    {
+      "id": "T1698",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Indirect Prompt Injection"
+    },
+    {
+      "id": "T1699",
+      "level": "technique",
+      "parents": [
+        "TA0002"
+      ],
+      "title": "Direct Prompt Injection"
+    },
+    {
+      "id": "T1700",
+      "level": "technique",
+      "parents": [
+        "TA0010"
+      ],
+      "title": "AI-Enabled Exfiltration"
+    }
+  ],
+  "sets": [],
+  "crosswalks": []
+}

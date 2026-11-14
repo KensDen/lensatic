@@ -1,0 +1,9292 @@
+{
+  "id": "sp800-53",
+  "entityId": "sp800-53",
+  "name": "NIST SP 800-53",
+  "shortName": "SP 800-53",
+  "group": "controls",
+  "kind": "Control Catalog",
+  "compliance": true,
+  "symbol": "slider.horizontal.3",
+  "color": {
+    "light": "#3B3F9E",
+    "dark": "#A9B0FF"
+  },
+  "purpose": "The catalog that federal systems choose their security and privacy controls from.",
+  "what": "20 families of controls and enhancements, with Low, Moderate, High and Privacy baselines in SP 800-53B.",
+  "binds": {
+    "short": "Federal systems",
+    "line": "Federal information systems select from it under FISMA and OMB Circular A-130. Anyone else may use it."
+  },
+  "verifiedBy": {
+    "short": "Assessed in the RMF",
+    "line": "Assessors test the chosen controls with SP 800-53A procedures, and an authorizing official decides."
+  },
+  "size": [
+    {
+      "count": 20,
+      "unit": "Families"
+    },
+    {
+      "count": 300,
+      "unit": "Controls"
+    },
+    {
+      "count": 714,
+      "unit": "Enhancements"
+    }
+  ],
+  "sits": {
+    "layers": [
+      "l4"
+    ],
+    "line": "Layer 4. Outcomes and zero trust capabilities above it point into these controls."
+  },
+  "sources": [
+    {
+      "id": "sp800-53-oscal",
+      "publisher": "NIST",
+      "title": "Electronic (OSCAL) Version of NIST SP 800-53 Rev 5.2.0 Controls and SP 800-53A Rev 5.2.0 Assessment Procedures",
+      "edition": "Release 5.2.0 (OSCAL content v1.6.0, 22 October 2026)",
+      "date": "2026-10-22",
+      "url": "https://github.com/usnistgov/oscal-content/tree/main/nist.gov/SP800-53/rev5",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "The catalog was fetched from NIST’s oscal-content repository on 14 November 2026 (release v1.6.0, published 22 October 2026; the catalog’s own version is 5.2.0). Leaving out withdrawn entries, it holds 20 families, 300 controls and 714 enhancements, 1,014 in all. Identifiers are the catalog’s printed labels, such as AC-2(1); the same catalog also gives each a zero-padded form, AC-02(01), which the CSF 2.0 references use.",
+        "recheckAfter": "2027-02-12"
+      }
+    },
+    {
+      "id": "sp800-53b-oscal",
+      "publisher": "NIST",
+      "title": "Electronic (OSCAL) Version of NIST SP 800-53B: the Low, Moderate, High and Privacy baselines",
+      "edition": "Release 5.2.0 (OSCAL content v1.6.0, 22 October 2026)",
+      "date": "2026-10-22",
+      "url": "https://github.com/usnistgov/oscal-content/tree/main/nist.gov/SP800-53/rev5/json",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "The four baseline profiles were fetched on 14 November 2026: Low selects 149 controls and enhancements, Moderate 287, High 370 and Privacy 96. The High profile’s title still says Revision 5.1.1 while its version field says 5.2.0.",
+        "recheckAfter": "2027-02-12"
+      }
+    }
+  ],
+  "terms": {
+    "basis": "us-government-work",
+    "shows": "titles",
+    "line": "A work of the United States government. Lensatic lists NIST’s identifiers and titles; the control text is at the source.",
+    "notice": null,
+    "url": null
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "csf20",
+      "line": "CSF 2.0 Subcategories point into these controls."
+    },
+    {
+      "id": "fedramp",
+      "line": "The FedRAMP baselines are selections from this catalog."
+    },
+    {
+      "id": "rmf",
+      "line": "The RMF is the process that selects, assesses and authorizes them."
+    }
+  ],
+  "depth": {
+    "shown": 1014,
+    "of": 1014,
+    "unit": "controls and enhancements",
+    "why": "Each is listed by its identifier and title. The control statements, discussions and parameters are at the source."
+  },
+  "levels": [
+    {
+      "id": "family",
+      "name": "Family",
+      "plural": "Families"
+    },
+    {
+      "id": "control",
+      "name": "Control",
+      "plural": "Controls"
+    },
+    {
+      "id": "enhancement",
+      "name": "Enhancement",
+      "plural": "Enhancements"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "AC",
+      "level": "family",
+      "parents": [],
+      "title": "Access Control"
+    },
+    {
+      "id": "AC-1",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "AC-2",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Account Management"
+    },
+    {
+      "id": "AC-2(1)",
+      "level": "enhancement",
+      "parents": [
+        "AC-2"
+      ],
+      "title": "Automated System Account Management"
+    },
+    {
+      "id": "AC-2(2)",
+      "level": "enhancement",
+      "parents": [
+        "AC-2"
+      ],
+      "title": "Automated Temporary and Emergency Account Management"
+    },
+    {
+      "id": "AC-2(3)",
+      "level": "enhancement",
+      "parents": [
+        "AC-2"
+      ],
+      "title": "Disable Accounts"
+    },
+    {
+      "id": "AC-2(4)",
+      "level": "enhancement",
+      "parents": [
+        "AC-2"
+      ],
+      "title": "Automated Audit Actions"
+    },
+    {
+      "id": "AC-2(5)",
+      "level": "enhancement",
+      "parents": [
+        "AC-2"
+      ],
+      "title": "Inactivity Logout"
+    },
+    {
+      "id": "AC-2(6)",
+      "level": "enhancement",
+      "parents": [
+        "AC-2"
+      ],
+      "title": "Dynamic Privilege Management"
+    },
+    {
+      "id": "AC-2(7)",
+      "level": "enhancement",
+      "parents": [
+        "AC-2"
+      ],
+      "title": "Privileged User Accounts"
+    },
+    {
+      "id": "AC-2(8)",
+      "level": "enhancement",
+      "parents": [
+        "AC-2"
+      ],
+      "title": "Dynamic Account Management"
+    },
+    {
+      "id": "AC-2(9)",
+      "level": "enhancement",
+      "parents": [
+        "AC-2"
+      ],
+      "title": "Restrictions on Use of Shared and Group Accounts"
+    },
+    {
+      "id": "AC-2(11)",
+      "level": "enhancement",
+      "parents": [
+        "AC-2"
+      ],
+      "title": "Usage Conditions"
+    },
+    {
+      "id": "AC-2(12)",
+      "level": "enhancement",
+      "parents": [
+        "AC-2"
+      ],
+      "title": "Account Monitoring for Atypical Usage"
+    },
+    {
+      "id": "AC-2(13)",
+      "level": "enhancement",
+      "parents": [
+        "AC-2"
+      ],
+      "title": "Disable Accounts for High-risk Individuals"
+    },
+    {
+      "id": "AC-3",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Access Enforcement"
+    },
+    {
+      "id": "AC-3(2)",
+      "level": "enhancement",
+      "parents": [
+        "AC-3"
+      ],
+      "title": "Dual Authorization"
+    },
+    {
+      "id": "AC-3(3)",
+      "level": "enhancement",
+      "parents": [
+        "AC-3"
+      ],
+      "title": "Mandatory Access Control"
+    },
+    {
+      "id": "AC-3(4)",
+      "level": "enhancement",
+      "parents": [
+        "AC-3"
+      ],
+      "title": "Discretionary Access Control"
+    },
+    {
+      "id": "AC-3(5)",
+      "level": "enhancement",
+      "parents": [
+        "AC-3"
+      ],
+      "title": "Security-relevant Information"
+    },
+    {
+      "id": "AC-3(7)",
+      "level": "enhancement",
+      "parents": [
+        "AC-3"
+      ],
+      "title": "Role-based Access Control"
+    },
+    {
+      "id": "AC-3(8)",
+      "level": "enhancement",
+      "parents": [
+        "AC-3"
+      ],
+      "title": "Revocation of Access Authorizations"
+    },
+    {
+      "id": "AC-3(9)",
+      "level": "enhancement",
+      "parents": [
+        "AC-3"
+      ],
+      "title": "Controlled Release"
+    },
+    {
+      "id": "AC-3(10)",
+      "level": "enhancement",
+      "parents": [
+        "AC-3"
+      ],
+      "title": "Audited Override of Access Control Mechanisms"
+    },
+    {
+      "id": "AC-3(11)",
+      "level": "enhancement",
+      "parents": [
+        "AC-3"
+      ],
+      "title": "Restrict Access to Specific Information Types"
+    },
+    {
+      "id": "AC-3(12)",
+      "level": "enhancement",
+      "parents": [
+        "AC-3"
+      ],
+      "title": "Assert and Enforce Application Access"
+    },
+    {
+      "id": "AC-3(13)",
+      "level": "enhancement",
+      "parents": [
+        "AC-3"
+      ],
+      "title": "Attribute-based Access Control"
+    },
+    {
+      "id": "AC-3(14)",
+      "level": "enhancement",
+      "parents": [
+        "AC-3"
+      ],
+      "title": "Individual Access"
+    },
+    {
+      "id": "AC-3(15)",
+      "level": "enhancement",
+      "parents": [
+        "AC-3"
+      ],
+      "title": "Discretionary and Mandatory Access Control"
+    },
+    {
+      "id": "AC-4",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Information Flow Enforcement"
+    },
+    {
+      "id": "AC-4(1)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Object Security and Privacy Attributes"
+    },
+    {
+      "id": "AC-4(2)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Processing Domains"
+    },
+    {
+      "id": "AC-4(3)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Dynamic Information Flow Control"
+    },
+    {
+      "id": "AC-4(4)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Flow Control of Encrypted Information"
+    },
+    {
+      "id": "AC-4(5)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Embedded Data Types"
+    },
+    {
+      "id": "AC-4(6)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Metadata"
+    },
+    {
+      "id": "AC-4(7)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "One-way Flow Mechanisms"
+    },
+    {
+      "id": "AC-4(8)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Security and Privacy Policy Filters"
+    },
+    {
+      "id": "AC-4(9)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Human Reviews"
+    },
+    {
+      "id": "AC-4(10)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Enable and Disable Security or Privacy Policy Filters"
+    },
+    {
+      "id": "AC-4(11)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Configuration of Security or Privacy Policy Filters"
+    },
+    {
+      "id": "AC-4(12)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Data Type Identifiers"
+    },
+    {
+      "id": "AC-4(13)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Decomposition into Policy-relevant Subcomponents"
+    },
+    {
+      "id": "AC-4(14)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Security or Privacy Policy Filter Constraints"
+    },
+    {
+      "id": "AC-4(15)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Detection of Unsanctioned Information"
+    },
+    {
+      "id": "AC-4(17)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Domain Authentication"
+    },
+    {
+      "id": "AC-4(19)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Validation of Metadata"
+    },
+    {
+      "id": "AC-4(20)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Approved Solutions"
+    },
+    {
+      "id": "AC-4(21)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Physical or Logical Separation of Information Flows"
+    },
+    {
+      "id": "AC-4(22)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Access Only"
+    },
+    {
+      "id": "AC-4(23)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Modify Non-releasable Information"
+    },
+    {
+      "id": "AC-4(24)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Internal Normalized Format"
+    },
+    {
+      "id": "AC-4(25)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Data Sanitization"
+    },
+    {
+      "id": "AC-4(26)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Audit Filtering Actions"
+    },
+    {
+      "id": "AC-4(27)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Redundant/Independent Filtering Mechanisms"
+    },
+    {
+      "id": "AC-4(28)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Linear Filter Pipelines"
+    },
+    {
+      "id": "AC-4(29)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Filter Orchestration Engines"
+    },
+    {
+      "id": "AC-4(30)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Filter Mechanisms Using Multiple Processes"
+    },
+    {
+      "id": "AC-4(31)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Failed Content Transfer Prevention"
+    },
+    {
+      "id": "AC-4(32)",
+      "level": "enhancement",
+      "parents": [
+        "AC-4"
+      ],
+      "title": "Process Requirements for Information Transfer"
+    },
+    {
+      "id": "AC-5",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Separation of Duties"
+    },
+    {
+      "id": "AC-6",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Least Privilege"
+    },
+    {
+      "id": "AC-6(1)",
+      "level": "enhancement",
+      "parents": [
+        "AC-6"
+      ],
+      "title": "Authorize Access to Security Functions"
+    },
+    {
+      "id": "AC-6(2)",
+      "level": "enhancement",
+      "parents": [
+        "AC-6"
+      ],
+      "title": "Non-privileged Access for Nonsecurity Functions"
+    },
+    {
+      "id": "AC-6(3)",
+      "level": "enhancement",
+      "parents": [
+        "AC-6"
+      ],
+      "title": "Network Access to Privileged Commands"
+    },
+    {
+      "id": "AC-6(4)",
+      "level": "enhancement",
+      "parents": [
+        "AC-6"
+      ],
+      "title": "Separate Processing Domains"
+    },
+    {
+      "id": "AC-6(5)",
+      "level": "enhancement",
+      "parents": [
+        "AC-6"
+      ],
+      "title": "Privileged Accounts"
+    },
+    {
+      "id": "AC-6(6)",
+      "level": "enhancement",
+      "parents": [
+        "AC-6"
+      ],
+      "title": "Privileged Access by Non-organizational Users"
+    },
+    {
+      "id": "AC-6(7)",
+      "level": "enhancement",
+      "parents": [
+        "AC-6"
+      ],
+      "title": "Review of User Privileges"
+    },
+    {
+      "id": "AC-6(8)",
+      "level": "enhancement",
+      "parents": [
+        "AC-6"
+      ],
+      "title": "Privilege Levels for Code Execution"
+    },
+    {
+      "id": "AC-6(9)",
+      "level": "enhancement",
+      "parents": [
+        "AC-6"
+      ],
+      "title": "Log Use of Privileged Functions"
+    },
+    {
+      "id": "AC-6(10)",
+      "level": "enhancement",
+      "parents": [
+        "AC-6"
+      ],
+      "title": "Prohibit Non-privileged Users from Executing Privileged Functions"
+    },
+    {
+      "id": "AC-7",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Unsuccessful Logon Attempts"
+    },
+    {
+      "id": "AC-7(2)",
+      "level": "enhancement",
+      "parents": [
+        "AC-7"
+      ],
+      "title": "Purge or Wipe Mobile Device"
+    },
+    {
+      "id": "AC-7(3)",
+      "level": "enhancement",
+      "parents": [
+        "AC-7"
+      ],
+      "title": "Biometric Attempt Limiting"
+    },
+    {
+      "id": "AC-7(4)",
+      "level": "enhancement",
+      "parents": [
+        "AC-7"
+      ],
+      "title": "Use of Alternate Authentication Factor"
+    },
+    {
+      "id": "AC-8",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "System Use Notification"
+    },
+    {
+      "id": "AC-9",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Previous Logon Notification"
+    },
+    {
+      "id": "AC-9(1)",
+      "level": "enhancement",
+      "parents": [
+        "AC-9"
+      ],
+      "title": "Unsuccessful Logons"
+    },
+    {
+      "id": "AC-9(2)",
+      "level": "enhancement",
+      "parents": [
+        "AC-9"
+      ],
+      "title": "Successful and Unsuccessful Logons"
+    },
+    {
+      "id": "AC-9(3)",
+      "level": "enhancement",
+      "parents": [
+        "AC-9"
+      ],
+      "title": "Notification of Account Changes"
+    },
+    {
+      "id": "AC-9(4)",
+      "level": "enhancement",
+      "parents": [
+        "AC-9"
+      ],
+      "title": "Additional Logon Information"
+    },
+    {
+      "id": "AC-10",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Concurrent Session Control"
+    },
+    {
+      "id": "AC-11",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Device Lock"
+    },
+    {
+      "id": "AC-11(1)",
+      "level": "enhancement",
+      "parents": [
+        "AC-11"
+      ],
+      "title": "Pattern-hiding Displays"
+    },
+    {
+      "id": "AC-12",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Session Termination"
+    },
+    {
+      "id": "AC-12(1)",
+      "level": "enhancement",
+      "parents": [
+        "AC-12"
+      ],
+      "title": "User-initiated Logouts"
+    },
+    {
+      "id": "AC-12(2)",
+      "level": "enhancement",
+      "parents": [
+        "AC-12"
+      ],
+      "title": "Termination Message"
+    },
+    {
+      "id": "AC-12(3)",
+      "level": "enhancement",
+      "parents": [
+        "AC-12"
+      ],
+      "title": "Timeout Warning Message"
+    },
+    {
+      "id": "AC-14",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Permitted Actions Without Identification or Authentication"
+    },
+    {
+      "id": "AC-16",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Security and Privacy Attributes"
+    },
+    {
+      "id": "AC-16(1)",
+      "level": "enhancement",
+      "parents": [
+        "AC-16"
+      ],
+      "title": "Dynamic Attribute Association"
+    },
+    {
+      "id": "AC-16(2)",
+      "level": "enhancement",
+      "parents": [
+        "AC-16"
+      ],
+      "title": "Attribute Value Changes by Authorized Individuals"
+    },
+    {
+      "id": "AC-16(3)",
+      "level": "enhancement",
+      "parents": [
+        "AC-16"
+      ],
+      "title": "Maintenance of Attribute Associations by System"
+    },
+    {
+      "id": "AC-16(4)",
+      "level": "enhancement",
+      "parents": [
+        "AC-16"
+      ],
+      "title": "Association of Attributes by Authorized Individuals"
+    },
+    {
+      "id": "AC-16(5)",
+      "level": "enhancement",
+      "parents": [
+        "AC-16"
+      ],
+      "title": "Attribute Displays on Objects to Be Output"
+    },
+    {
+      "id": "AC-16(6)",
+      "level": "enhancement",
+      "parents": [
+        "AC-16"
+      ],
+      "title": "Maintenance of Attribute Association"
+    },
+    {
+      "id": "AC-16(7)",
+      "level": "enhancement",
+      "parents": [
+        "AC-16"
+      ],
+      "title": "Consistent Attribute Interpretation"
+    },
+    {
+      "id": "AC-16(8)",
+      "level": "enhancement",
+      "parents": [
+        "AC-16"
+      ],
+      "title": "Association Techniques and Technologies"
+    },
+    {
+      "id": "AC-16(9)",
+      "level": "enhancement",
+      "parents": [
+        "AC-16"
+      ],
+      "title": "Attribute Reassignment - Regrading Mechanisms"
+    },
+    {
+      "id": "AC-16(10)",
+      "level": "enhancement",
+      "parents": [
+        "AC-16"
+      ],
+      "title": "Attribute Configuration by Authorized Individuals"
+    },
+    {
+      "id": "AC-17",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Remote Access"
+    },
+    {
+      "id": "AC-17(1)",
+      "level": "enhancement",
+      "parents": [
+        "AC-17"
+      ],
+      "title": "Monitoring and Control"
+    },
+    {
+      "id": "AC-17(2)",
+      "level": "enhancement",
+      "parents": [
+        "AC-17"
+      ],
+      "title": "Protection of Confidentiality and Integrity Using Encryption"
+    },
+    {
+      "id": "AC-17(3)",
+      "level": "enhancement",
+      "parents": [
+        "AC-17"
+      ],
+      "title": "Managed Access Control Points"
+    },
+    {
+      "id": "AC-17(4)",
+      "level": "enhancement",
+      "parents": [
+        "AC-17"
+      ],
+      "title": "Privileged Commands and Access"
+    },
+    {
+      "id": "AC-17(6)",
+      "level": "enhancement",
+      "parents": [
+        "AC-17"
+      ],
+      "title": "Protection of Mechanism Information"
+    },
+    {
+      "id": "AC-17(9)",
+      "level": "enhancement",
+      "parents": [
+        "AC-17"
+      ],
+      "title": "Disconnect or Disable Access"
+    },
+    {
+      "id": "AC-17(10)",
+      "level": "enhancement",
+      "parents": [
+        "AC-17"
+      ],
+      "title": "Authenticate Remote Commands"
+    },
+    {
+      "id": "AC-18",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Wireless Access"
+    },
+    {
+      "id": "AC-18(1)",
+      "level": "enhancement",
+      "parents": [
+        "AC-18"
+      ],
+      "title": "Authentication and Encryption"
+    },
+    {
+      "id": "AC-18(3)",
+      "level": "enhancement",
+      "parents": [
+        "AC-18"
+      ],
+      "title": "Disable Wireless Networking"
+    },
+    {
+      "id": "AC-18(4)",
+      "level": "enhancement",
+      "parents": [
+        "AC-18"
+      ],
+      "title": "Restrict Configurations by Users"
+    },
+    {
+      "id": "AC-18(5)",
+      "level": "enhancement",
+      "parents": [
+        "AC-18"
+      ],
+      "title": "Antennas and Transmission Power Levels"
+    },
+    {
+      "id": "AC-19",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Access Control for Mobile Devices"
+    },
+    {
+      "id": "AC-19(4)",
+      "level": "enhancement",
+      "parents": [
+        "AC-19"
+      ],
+      "title": "Restrictions for Classified Information"
+    },
+    {
+      "id": "AC-19(5)",
+      "level": "enhancement",
+      "parents": [
+        "AC-19"
+      ],
+      "title": "Full Device or Container-based Encryption"
+    },
+    {
+      "id": "AC-20",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Use of External Systems"
+    },
+    {
+      "id": "AC-20(1)",
+      "level": "enhancement",
+      "parents": [
+        "AC-20"
+      ],
+      "title": "Limits on Authorized Use"
+    },
+    {
+      "id": "AC-20(2)",
+      "level": "enhancement",
+      "parents": [
+        "AC-20"
+      ],
+      "title": "Portable Storage Devices - Restricted Use"
+    },
+    {
+      "id": "AC-20(3)",
+      "level": "enhancement",
+      "parents": [
+        "AC-20"
+      ],
+      "title": "Non-organizationally Owned Systems - Restricted Use"
+    },
+    {
+      "id": "AC-20(4)",
+      "level": "enhancement",
+      "parents": [
+        "AC-20"
+      ],
+      "title": "Network Accessible Storage Devices - Prohibited Use"
+    },
+    {
+      "id": "AC-20(5)",
+      "level": "enhancement",
+      "parents": [
+        "AC-20"
+      ],
+      "title": "Portable Storage Devices - Prohibited Use"
+    },
+    {
+      "id": "AC-21",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Information Sharing"
+    },
+    {
+      "id": "AC-21(1)",
+      "level": "enhancement",
+      "parents": [
+        "AC-21"
+      ],
+      "title": "Automated Decision Support"
+    },
+    {
+      "id": "AC-21(2)",
+      "level": "enhancement",
+      "parents": [
+        "AC-21"
+      ],
+      "title": "Information Search and Retrieval"
+    },
+    {
+      "id": "AC-22",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Publicly Accessible Content"
+    },
+    {
+      "id": "AC-23",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Data Mining Protection"
+    },
+    {
+      "id": "AC-24",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Access Control Decisions"
+    },
+    {
+      "id": "AC-24(1)",
+      "level": "enhancement",
+      "parents": [
+        "AC-24"
+      ],
+      "title": "Transmit Access Authorization Information"
+    },
+    {
+      "id": "AC-24(2)",
+      "level": "enhancement",
+      "parents": [
+        "AC-24"
+      ],
+      "title": "No User or Process Identity"
+    },
+    {
+      "id": "AC-25",
+      "level": "control",
+      "parents": [
+        "AC"
+      ],
+      "title": "Reference Monitor"
+    },
+    {
+      "id": "AT",
+      "level": "family",
+      "parents": [],
+      "title": "Awareness and Training"
+    },
+    {
+      "id": "AT-1",
+      "level": "control",
+      "parents": [
+        "AT"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "AT-2",
+      "level": "control",
+      "parents": [
+        "AT"
+      ],
+      "title": "Literacy Training and Awareness"
+    },
+    {
+      "id": "AT-2(1)",
+      "level": "enhancement",
+      "parents": [
+        "AT-2"
+      ],
+      "title": "Practical Exercises"
+    },
+    {
+      "id": "AT-2(2)",
+      "level": "enhancement",
+      "parents": [
+        "AT-2"
+      ],
+      "title": "Insider Threat"
+    },
+    {
+      "id": "AT-2(3)",
+      "level": "enhancement",
+      "parents": [
+        "AT-2"
+      ],
+      "title": "Social Engineering and Mining"
+    },
+    {
+      "id": "AT-2(4)",
+      "level": "enhancement",
+      "parents": [
+        "AT-2"
+      ],
+      "title": "Suspicious Communications and Anomalous System Behavior"
+    },
+    {
+      "id": "AT-2(5)",
+      "level": "enhancement",
+      "parents": [
+        "AT-2"
+      ],
+      "title": "Advanced Persistent Threat"
+    },
+    {
+      "id": "AT-2(6)",
+      "level": "enhancement",
+      "parents": [
+        "AT-2"
+      ],
+      "title": "Cyber Threat Environment"
+    },
+    {
+      "id": "AT-3",
+      "level": "control",
+      "parents": [
+        "AT"
+      ],
+      "title": "Role-based Training"
+    },
+    {
+      "id": "AT-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "AT-3"
+      ],
+      "title": "Environmental Controls"
+    },
+    {
+      "id": "AT-3(2)",
+      "level": "enhancement",
+      "parents": [
+        "AT-3"
+      ],
+      "title": "Physical Security Controls"
+    },
+    {
+      "id": "AT-3(3)",
+      "level": "enhancement",
+      "parents": [
+        "AT-3"
+      ],
+      "title": "Practical Exercises"
+    },
+    {
+      "id": "AT-3(5)",
+      "level": "enhancement",
+      "parents": [
+        "AT-3"
+      ],
+      "title": "Processing Personally Identifiable Information"
+    },
+    {
+      "id": "AT-4",
+      "level": "control",
+      "parents": [
+        "AT"
+      ],
+      "title": "Training Records"
+    },
+    {
+      "id": "AT-6",
+      "level": "control",
+      "parents": [
+        "AT"
+      ],
+      "title": "Training Feedback"
+    },
+    {
+      "id": "AU",
+      "level": "family",
+      "parents": [],
+      "title": "Audit and Accountability"
+    },
+    {
+      "id": "AU-1",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "AU-2",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Event Logging"
+    },
+    {
+      "id": "AU-3",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Content of Audit Records"
+    },
+    {
+      "id": "AU-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "AU-3"
+      ],
+      "title": "Additional Audit Information"
+    },
+    {
+      "id": "AU-3(3)",
+      "level": "enhancement",
+      "parents": [
+        "AU-3"
+      ],
+      "title": "Limit Personally Identifiable Information Elements"
+    },
+    {
+      "id": "AU-4",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Audit Log Storage Capacity"
+    },
+    {
+      "id": "AU-4(1)",
+      "level": "enhancement",
+      "parents": [
+        "AU-4"
+      ],
+      "title": "Transfer to Alternate Storage"
+    },
+    {
+      "id": "AU-5",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Response to Audit Logging Process Failures"
+    },
+    {
+      "id": "AU-5(1)",
+      "level": "enhancement",
+      "parents": [
+        "AU-5"
+      ],
+      "title": "Storage Capacity Warning"
+    },
+    {
+      "id": "AU-5(2)",
+      "level": "enhancement",
+      "parents": [
+        "AU-5"
+      ],
+      "title": "Real-time Alerts"
+    },
+    {
+      "id": "AU-5(3)",
+      "level": "enhancement",
+      "parents": [
+        "AU-5"
+      ],
+      "title": "Configurable Traffic Volume Thresholds"
+    },
+    {
+      "id": "AU-5(4)",
+      "level": "enhancement",
+      "parents": [
+        "AU-5"
+      ],
+      "title": "Shutdown on Failure"
+    },
+    {
+      "id": "AU-5(5)",
+      "level": "enhancement",
+      "parents": [
+        "AU-5"
+      ],
+      "title": "Alternate Audit Logging Capability"
+    },
+    {
+      "id": "AU-6",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Audit Record Review, Analysis, and Reporting"
+    },
+    {
+      "id": "AU-6(1)",
+      "level": "enhancement",
+      "parents": [
+        "AU-6"
+      ],
+      "title": "Automated Process Integration"
+    },
+    {
+      "id": "AU-6(3)",
+      "level": "enhancement",
+      "parents": [
+        "AU-6"
+      ],
+      "title": "Correlate Audit Record Repositories"
+    },
+    {
+      "id": "AU-6(4)",
+      "level": "enhancement",
+      "parents": [
+        "AU-6"
+      ],
+      "title": "Central Review and Analysis"
+    },
+    {
+      "id": "AU-6(5)",
+      "level": "enhancement",
+      "parents": [
+        "AU-6"
+      ],
+      "title": "Integrated Analysis of Audit Records"
+    },
+    {
+      "id": "AU-6(6)",
+      "level": "enhancement",
+      "parents": [
+        "AU-6"
+      ],
+      "title": "Correlation with Physical Monitoring"
+    },
+    {
+      "id": "AU-6(7)",
+      "level": "enhancement",
+      "parents": [
+        "AU-6"
+      ],
+      "title": "Permitted Actions"
+    },
+    {
+      "id": "AU-6(8)",
+      "level": "enhancement",
+      "parents": [
+        "AU-6"
+      ],
+      "title": "Full Text Analysis of Privileged Commands"
+    },
+    {
+      "id": "AU-6(9)",
+      "level": "enhancement",
+      "parents": [
+        "AU-6"
+      ],
+      "title": "Correlation with Information from Nontechnical Sources"
+    },
+    {
+      "id": "AU-7",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Audit Record Reduction and Report Generation"
+    },
+    {
+      "id": "AU-7(1)",
+      "level": "enhancement",
+      "parents": [
+        "AU-7"
+      ],
+      "title": "Automatic Processing"
+    },
+    {
+      "id": "AU-8",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Time Stamps"
+    },
+    {
+      "id": "AU-9",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Protection of Audit Information"
+    },
+    {
+      "id": "AU-9(1)",
+      "level": "enhancement",
+      "parents": [
+        "AU-9"
+      ],
+      "title": "Hardware Write-once Media"
+    },
+    {
+      "id": "AU-9(2)",
+      "level": "enhancement",
+      "parents": [
+        "AU-9"
+      ],
+      "title": "Store on Separate Physical Systems or Components"
+    },
+    {
+      "id": "AU-9(3)",
+      "level": "enhancement",
+      "parents": [
+        "AU-9"
+      ],
+      "title": "Cryptographic Protection"
+    },
+    {
+      "id": "AU-9(4)",
+      "level": "enhancement",
+      "parents": [
+        "AU-9"
+      ],
+      "title": "Access by Subset of Privileged Users"
+    },
+    {
+      "id": "AU-9(5)",
+      "level": "enhancement",
+      "parents": [
+        "AU-9"
+      ],
+      "title": "Dual Authorization"
+    },
+    {
+      "id": "AU-9(6)",
+      "level": "enhancement",
+      "parents": [
+        "AU-9"
+      ],
+      "title": "Read-only Access"
+    },
+    {
+      "id": "AU-9(7)",
+      "level": "enhancement",
+      "parents": [
+        "AU-9"
+      ],
+      "title": "Store on Component with Different Operating System"
+    },
+    {
+      "id": "AU-10",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Non-repudiation"
+    },
+    {
+      "id": "AU-10(1)",
+      "level": "enhancement",
+      "parents": [
+        "AU-10"
+      ],
+      "title": "Association of Identities"
+    },
+    {
+      "id": "AU-10(2)",
+      "level": "enhancement",
+      "parents": [
+        "AU-10"
+      ],
+      "title": "Validate Binding of Information Producer Identity"
+    },
+    {
+      "id": "AU-10(3)",
+      "level": "enhancement",
+      "parents": [
+        "AU-10"
+      ],
+      "title": "Chain of Custody"
+    },
+    {
+      "id": "AU-10(4)",
+      "level": "enhancement",
+      "parents": [
+        "AU-10"
+      ],
+      "title": "Validate Binding of Information Reviewer Identity"
+    },
+    {
+      "id": "AU-11",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Audit Record Retention"
+    },
+    {
+      "id": "AU-11(1)",
+      "level": "enhancement",
+      "parents": [
+        "AU-11"
+      ],
+      "title": "Long-term Retrieval Capability"
+    },
+    {
+      "id": "AU-12",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Audit Record Generation"
+    },
+    {
+      "id": "AU-12(1)",
+      "level": "enhancement",
+      "parents": [
+        "AU-12"
+      ],
+      "title": "System-wide and Time-correlated Audit Trail"
+    },
+    {
+      "id": "AU-12(2)",
+      "level": "enhancement",
+      "parents": [
+        "AU-12"
+      ],
+      "title": "Standardized Formats"
+    },
+    {
+      "id": "AU-12(3)",
+      "level": "enhancement",
+      "parents": [
+        "AU-12"
+      ],
+      "title": "Changes by Authorized Individuals"
+    },
+    {
+      "id": "AU-12(4)",
+      "level": "enhancement",
+      "parents": [
+        "AU-12"
+      ],
+      "title": "Query Parameter Audits of Personally Identifiable Information"
+    },
+    {
+      "id": "AU-13",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Monitoring for Information Disclosure"
+    },
+    {
+      "id": "AU-13(1)",
+      "level": "enhancement",
+      "parents": [
+        "AU-13"
+      ],
+      "title": "Use of Automated Tools"
+    },
+    {
+      "id": "AU-13(2)",
+      "level": "enhancement",
+      "parents": [
+        "AU-13"
+      ],
+      "title": "Review of Monitored Sites"
+    },
+    {
+      "id": "AU-13(3)",
+      "level": "enhancement",
+      "parents": [
+        "AU-13"
+      ],
+      "title": "Unauthorized Replication of Information"
+    },
+    {
+      "id": "AU-14",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Session Audit"
+    },
+    {
+      "id": "AU-14(1)",
+      "level": "enhancement",
+      "parents": [
+        "AU-14"
+      ],
+      "title": "System Start-up"
+    },
+    {
+      "id": "AU-14(3)",
+      "level": "enhancement",
+      "parents": [
+        "AU-14"
+      ],
+      "title": "Remote Viewing and Listening"
+    },
+    {
+      "id": "AU-16",
+      "level": "control",
+      "parents": [
+        "AU"
+      ],
+      "title": "Cross-organizational Audit Logging"
+    },
+    {
+      "id": "AU-16(1)",
+      "level": "enhancement",
+      "parents": [
+        "AU-16"
+      ],
+      "title": "Identity Preservation"
+    },
+    {
+      "id": "AU-16(2)",
+      "level": "enhancement",
+      "parents": [
+        "AU-16"
+      ],
+      "title": "Sharing of Audit Information"
+    },
+    {
+      "id": "AU-16(3)",
+      "level": "enhancement",
+      "parents": [
+        "AU-16"
+      ],
+      "title": "Disassociability"
+    },
+    {
+      "id": "CA",
+      "level": "family",
+      "parents": [],
+      "title": "Assessment, Authorization, and Monitoring"
+    },
+    {
+      "id": "CA-1",
+      "level": "control",
+      "parents": [
+        "CA"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "CA-2",
+      "level": "control",
+      "parents": [
+        "CA"
+      ],
+      "title": "Control Assessments"
+    },
+    {
+      "id": "CA-2(1)",
+      "level": "enhancement",
+      "parents": [
+        "CA-2"
+      ],
+      "title": "Independent Assessors"
+    },
+    {
+      "id": "CA-2(2)",
+      "level": "enhancement",
+      "parents": [
+        "CA-2"
+      ],
+      "title": "Specialized Assessments"
+    },
+    {
+      "id": "CA-2(3)",
+      "level": "enhancement",
+      "parents": [
+        "CA-2"
+      ],
+      "title": "Leveraging Results from External Organizations"
+    },
+    {
+      "id": "CA-3",
+      "level": "control",
+      "parents": [
+        "CA"
+      ],
+      "title": "Information Exchange"
+    },
+    {
+      "id": "CA-3(6)",
+      "level": "enhancement",
+      "parents": [
+        "CA-3"
+      ],
+      "title": "Transfer Authorizations"
+    },
+    {
+      "id": "CA-3(7)",
+      "level": "enhancement",
+      "parents": [
+        "CA-3"
+      ],
+      "title": "Transitive Information Exchanges"
+    },
+    {
+      "id": "CA-5",
+      "level": "control",
+      "parents": [
+        "CA"
+      ],
+      "title": "Plan of Action and Milestones"
+    },
+    {
+      "id": "CA-5(1)",
+      "level": "enhancement",
+      "parents": [
+        "CA-5"
+      ],
+      "title": "Automation Support for Accuracy and Currency"
+    },
+    {
+      "id": "CA-6",
+      "level": "control",
+      "parents": [
+        "CA"
+      ],
+      "title": "Authorization"
+    },
+    {
+      "id": "CA-6(1)",
+      "level": "enhancement",
+      "parents": [
+        "CA-6"
+      ],
+      "title": "Joint Authorization - Intra-organization"
+    },
+    {
+      "id": "CA-6(2)",
+      "level": "enhancement",
+      "parents": [
+        "CA-6"
+      ],
+      "title": "Joint Authorization - Inter-organization"
+    },
+    {
+      "id": "CA-7",
+      "level": "control",
+      "parents": [
+        "CA"
+      ],
+      "title": "Continuous Monitoring"
+    },
+    {
+      "id": "CA-7(1)",
+      "level": "enhancement",
+      "parents": [
+        "CA-7"
+      ],
+      "title": "Independent Assessment"
+    },
+    {
+      "id": "CA-7(3)",
+      "level": "enhancement",
+      "parents": [
+        "CA-7"
+      ],
+      "title": "Trend Analyses"
+    },
+    {
+      "id": "CA-7(4)",
+      "level": "enhancement",
+      "parents": [
+        "CA-7"
+      ],
+      "title": "Risk Monitoring"
+    },
+    {
+      "id": "CA-7(5)",
+      "level": "enhancement",
+      "parents": [
+        "CA-7"
+      ],
+      "title": "Consistency Analysis"
+    },
+    {
+      "id": "CA-7(6)",
+      "level": "enhancement",
+      "parents": [
+        "CA-7"
+      ],
+      "title": "Automation Support for Monitoring"
+    },
+    {
+      "id": "CA-8",
+      "level": "control",
+      "parents": [
+        "CA"
+      ],
+      "title": "Penetration Testing"
+    },
+    {
+      "id": "CA-8(1)",
+      "level": "enhancement",
+      "parents": [
+        "CA-8"
+      ],
+      "title": "Independent Penetration Testing Agent or Team"
+    },
+    {
+      "id": "CA-8(2)",
+      "level": "enhancement",
+      "parents": [
+        "CA-8"
+      ],
+      "title": "Red Team Exercises"
+    },
+    {
+      "id": "CA-8(3)",
+      "level": "enhancement",
+      "parents": [
+        "CA-8"
+      ],
+      "title": "Facility Penetration Testing"
+    },
+    {
+      "id": "CA-9",
+      "level": "control",
+      "parents": [
+        "CA"
+      ],
+      "title": "Internal System Connections"
+    },
+    {
+      "id": "CA-9(1)",
+      "level": "enhancement",
+      "parents": [
+        "CA-9"
+      ],
+      "title": "Compliance Checks"
+    },
+    {
+      "id": "CM",
+      "level": "family",
+      "parents": [],
+      "title": "Configuration Management"
+    },
+    {
+      "id": "CM-1",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "CM-2",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "Baseline Configuration"
+    },
+    {
+      "id": "CM-2(2)",
+      "level": "enhancement",
+      "parents": [
+        "CM-2"
+      ],
+      "title": "Automation Support for Accuracy and Currency"
+    },
+    {
+      "id": "CM-2(3)",
+      "level": "enhancement",
+      "parents": [
+        "CM-2"
+      ],
+      "title": "Retention of Previous Configurations"
+    },
+    {
+      "id": "CM-2(6)",
+      "level": "enhancement",
+      "parents": [
+        "CM-2"
+      ],
+      "title": "Development and Test Environments"
+    },
+    {
+      "id": "CM-2(7)",
+      "level": "enhancement",
+      "parents": [
+        "CM-2"
+      ],
+      "title": "Configure Systems and Components for High-risk Areas"
+    },
+    {
+      "id": "CM-3",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "Configuration Change Control"
+    },
+    {
+      "id": "CM-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "CM-3"
+      ],
+      "title": "Automated Documentation, Notification, and Prohibition of Changes"
+    },
+    {
+      "id": "CM-3(2)",
+      "level": "enhancement",
+      "parents": [
+        "CM-3"
+      ],
+      "title": "Testing, Validation, and Documentation of Changes"
+    },
+    {
+      "id": "CM-3(3)",
+      "level": "enhancement",
+      "parents": [
+        "CM-3"
+      ],
+      "title": "Automated Change Implementation"
+    },
+    {
+      "id": "CM-3(4)",
+      "level": "enhancement",
+      "parents": [
+        "CM-3"
+      ],
+      "title": "Security and Privacy Representatives"
+    },
+    {
+      "id": "CM-3(5)",
+      "level": "enhancement",
+      "parents": [
+        "CM-3"
+      ],
+      "title": "Automated Security Response"
+    },
+    {
+      "id": "CM-3(6)",
+      "level": "enhancement",
+      "parents": [
+        "CM-3"
+      ],
+      "title": "Cryptography Management"
+    },
+    {
+      "id": "CM-3(7)",
+      "level": "enhancement",
+      "parents": [
+        "CM-3"
+      ],
+      "title": "Review System Changes"
+    },
+    {
+      "id": "CM-3(8)",
+      "level": "enhancement",
+      "parents": [
+        "CM-3"
+      ],
+      "title": "Prevent or Restrict Configuration Changes"
+    },
+    {
+      "id": "CM-4",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "Impact Analyses"
+    },
+    {
+      "id": "CM-4(1)",
+      "level": "enhancement",
+      "parents": [
+        "CM-4"
+      ],
+      "title": "Separate Test Environments"
+    },
+    {
+      "id": "CM-4(2)",
+      "level": "enhancement",
+      "parents": [
+        "CM-4"
+      ],
+      "title": "Verification of Controls"
+    },
+    {
+      "id": "CM-5",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "Access Restrictions for Change"
+    },
+    {
+      "id": "CM-5(1)",
+      "level": "enhancement",
+      "parents": [
+        "CM-5"
+      ],
+      "title": "Automated Access Enforcement and Audit Records"
+    },
+    {
+      "id": "CM-5(4)",
+      "level": "enhancement",
+      "parents": [
+        "CM-5"
+      ],
+      "title": "Dual Authorization"
+    },
+    {
+      "id": "CM-5(5)",
+      "level": "enhancement",
+      "parents": [
+        "CM-5"
+      ],
+      "title": "Privilege Limitation for Production and Operation"
+    },
+    {
+      "id": "CM-5(6)",
+      "level": "enhancement",
+      "parents": [
+        "CM-5"
+      ],
+      "title": "Limit Library Privileges"
+    },
+    {
+      "id": "CM-6",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "Configuration Settings"
+    },
+    {
+      "id": "CM-6(1)",
+      "level": "enhancement",
+      "parents": [
+        "CM-6"
+      ],
+      "title": "Automated Management, Application, and Verification"
+    },
+    {
+      "id": "CM-6(2)",
+      "level": "enhancement",
+      "parents": [
+        "CM-6"
+      ],
+      "title": "Respond to Unauthorized Changes"
+    },
+    {
+      "id": "CM-7",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "Least Functionality"
+    },
+    {
+      "id": "CM-7(1)",
+      "level": "enhancement",
+      "parents": [
+        "CM-7"
+      ],
+      "title": "Periodic Review"
+    },
+    {
+      "id": "CM-7(2)",
+      "level": "enhancement",
+      "parents": [
+        "CM-7"
+      ],
+      "title": "Prevent Program Execution"
+    },
+    {
+      "id": "CM-7(3)",
+      "level": "enhancement",
+      "parents": [
+        "CM-7"
+      ],
+      "title": "Registration Compliance"
+    },
+    {
+      "id": "CM-7(4)",
+      "level": "enhancement",
+      "parents": [
+        "CM-7"
+      ],
+      "title": "Unauthorized Software - Deny-by-exception"
+    },
+    {
+      "id": "CM-7(5)",
+      "level": "enhancement",
+      "parents": [
+        "CM-7"
+      ],
+      "title": "Authorized Software - Allow-by-exception"
+    },
+    {
+      "id": "CM-7(6)",
+      "level": "enhancement",
+      "parents": [
+        "CM-7"
+      ],
+      "title": "Confined Environments with Limited Privileges"
+    },
+    {
+      "id": "CM-7(7)",
+      "level": "enhancement",
+      "parents": [
+        "CM-7"
+      ],
+      "title": "Code Execution in Protected Environments"
+    },
+    {
+      "id": "CM-7(8)",
+      "level": "enhancement",
+      "parents": [
+        "CM-7"
+      ],
+      "title": "Binary or Machine Executable Code"
+    },
+    {
+      "id": "CM-7(9)",
+      "level": "enhancement",
+      "parents": [
+        "CM-7"
+      ],
+      "title": "Prohibiting The Use of Unauthorized Hardware"
+    },
+    {
+      "id": "CM-8",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "System Component Inventory"
+    },
+    {
+      "id": "CM-8(1)",
+      "level": "enhancement",
+      "parents": [
+        "CM-8"
+      ],
+      "title": "Updates During Installation and Removal"
+    },
+    {
+      "id": "CM-8(2)",
+      "level": "enhancement",
+      "parents": [
+        "CM-8"
+      ],
+      "title": "Automated Maintenance"
+    },
+    {
+      "id": "CM-8(3)",
+      "level": "enhancement",
+      "parents": [
+        "CM-8"
+      ],
+      "title": "Automated Unauthorized Component Detection"
+    },
+    {
+      "id": "CM-8(4)",
+      "level": "enhancement",
+      "parents": [
+        "CM-8"
+      ],
+      "title": "Accountability Information"
+    },
+    {
+      "id": "CM-8(6)",
+      "level": "enhancement",
+      "parents": [
+        "CM-8"
+      ],
+      "title": "Assessed Configurations and Approved Deviations"
+    },
+    {
+      "id": "CM-8(7)",
+      "level": "enhancement",
+      "parents": [
+        "CM-8"
+      ],
+      "title": "Centralized Repository"
+    },
+    {
+      "id": "CM-8(8)",
+      "level": "enhancement",
+      "parents": [
+        "CM-8"
+      ],
+      "title": "Automated Location Tracking"
+    },
+    {
+      "id": "CM-8(9)",
+      "level": "enhancement",
+      "parents": [
+        "CM-8"
+      ],
+      "title": "Assignment of Components to Systems"
+    },
+    {
+      "id": "CM-9",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "Configuration Management Plan"
+    },
+    {
+      "id": "CM-9(1)",
+      "level": "enhancement",
+      "parents": [
+        "CM-9"
+      ],
+      "title": "Assignment of Responsibility"
+    },
+    {
+      "id": "CM-10",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "Software Usage Restrictions"
+    },
+    {
+      "id": "CM-10(1)",
+      "level": "enhancement",
+      "parents": [
+        "CM-10"
+      ],
+      "title": "Open-source Software"
+    },
+    {
+      "id": "CM-11",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "User-installed Software"
+    },
+    {
+      "id": "CM-11(2)",
+      "level": "enhancement",
+      "parents": [
+        "CM-11"
+      ],
+      "title": "Software Installation with Privileged Status"
+    },
+    {
+      "id": "CM-11(3)",
+      "level": "enhancement",
+      "parents": [
+        "CM-11"
+      ],
+      "title": "Automated Enforcement and Monitoring"
+    },
+    {
+      "id": "CM-12",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "Information Location"
+    },
+    {
+      "id": "CM-12(1)",
+      "level": "enhancement",
+      "parents": [
+        "CM-12"
+      ],
+      "title": "Automated Tools to Support Information Location"
+    },
+    {
+      "id": "CM-13",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "Data Action Mapping"
+    },
+    {
+      "id": "CM-14",
+      "level": "control",
+      "parents": [
+        "CM"
+      ],
+      "title": "Signed Components"
+    },
+    {
+      "id": "CP",
+      "level": "family",
+      "parents": [],
+      "title": "Contingency Planning"
+    },
+    {
+      "id": "CP-1",
+      "level": "control",
+      "parents": [
+        "CP"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "CP-2",
+      "level": "control",
+      "parents": [
+        "CP"
+      ],
+      "title": "Contingency Plan"
+    },
+    {
+      "id": "CP-2(1)",
+      "level": "enhancement",
+      "parents": [
+        "CP-2"
+      ],
+      "title": "Coordinate with Related Plans"
+    },
+    {
+      "id": "CP-2(2)",
+      "level": "enhancement",
+      "parents": [
+        "CP-2"
+      ],
+      "title": "Capacity Planning"
+    },
+    {
+      "id": "CP-2(3)",
+      "level": "enhancement",
+      "parents": [
+        "CP-2"
+      ],
+      "title": "Resume Mission and Business Functions"
+    },
+    {
+      "id": "CP-2(5)",
+      "level": "enhancement",
+      "parents": [
+        "CP-2"
+      ],
+      "title": "Continue Mission and Business Functions"
+    },
+    {
+      "id": "CP-2(6)",
+      "level": "enhancement",
+      "parents": [
+        "CP-2"
+      ],
+      "title": "Alternate Processing and Storage Sites"
+    },
+    {
+      "id": "CP-2(7)",
+      "level": "enhancement",
+      "parents": [
+        "CP-2"
+      ],
+      "title": "Coordinate with External Service Providers"
+    },
+    {
+      "id": "CP-2(8)",
+      "level": "enhancement",
+      "parents": [
+        "CP-2"
+      ],
+      "title": "Identify Critical Assets"
+    },
+    {
+      "id": "CP-3",
+      "level": "control",
+      "parents": [
+        "CP"
+      ],
+      "title": "Contingency Training"
+    },
+    {
+      "id": "CP-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "CP-3"
+      ],
+      "title": "Simulated Events"
+    },
+    {
+      "id": "CP-3(2)",
+      "level": "enhancement",
+      "parents": [
+        "CP-3"
+      ],
+      "title": "Mechanisms Used in Training Environments"
+    },
+    {
+      "id": "CP-4",
+      "level": "control",
+      "parents": [
+        "CP"
+      ],
+      "title": "Contingency Plan Testing"
+    },
+    {
+      "id": "CP-4(1)",
+      "level": "enhancement",
+      "parents": [
+        "CP-4"
+      ],
+      "title": "Coordinate with Related Plans"
+    },
+    {
+      "id": "CP-4(2)",
+      "level": "enhancement",
+      "parents": [
+        "CP-4"
+      ],
+      "title": "Alternate Processing Site"
+    },
+    {
+      "id": "CP-4(3)",
+      "level": "enhancement",
+      "parents": [
+        "CP-4"
+      ],
+      "title": "Automated Testing"
+    },
+    {
+      "id": "CP-4(4)",
+      "level": "enhancement",
+      "parents": [
+        "CP-4"
+      ],
+      "title": "Full Recovery and Reconstitution"
+    },
+    {
+      "id": "CP-4(5)",
+      "level": "enhancement",
+      "parents": [
+        "CP-4"
+      ],
+      "title": "Self-challenge"
+    },
+    {
+      "id": "CP-6",
+      "level": "control",
+      "parents": [
+        "CP"
+      ],
+      "title": "Alternate Storage Site"
+    },
+    {
+      "id": "CP-6(1)",
+      "level": "enhancement",
+      "parents": [
+        "CP-6"
+      ],
+      "title": "Separation from Primary Site"
+    },
+    {
+      "id": "CP-6(2)",
+      "level": "enhancement",
+      "parents": [
+        "CP-6"
+      ],
+      "title": "Recovery Time and Recovery Point Objectives"
+    },
+    {
+      "id": "CP-6(3)",
+      "level": "enhancement",
+      "parents": [
+        "CP-6"
+      ],
+      "title": "Accessibility"
+    },
+    {
+      "id": "CP-7",
+      "level": "control",
+      "parents": [
+        "CP"
+      ],
+      "title": "Alternate Processing Site"
+    },
+    {
+      "id": "CP-7(1)",
+      "level": "enhancement",
+      "parents": [
+        "CP-7"
+      ],
+      "title": "Separation from Primary Site"
+    },
+    {
+      "id": "CP-7(2)",
+      "level": "enhancement",
+      "parents": [
+        "CP-7"
+      ],
+      "title": "Accessibility"
+    },
+    {
+      "id": "CP-7(3)",
+      "level": "enhancement",
+      "parents": [
+        "CP-7"
+      ],
+      "title": "Priority of Service"
+    },
+    {
+      "id": "CP-7(4)",
+      "level": "enhancement",
+      "parents": [
+        "CP-7"
+      ],
+      "title": "Preparation for Use"
+    },
+    {
+      "id": "CP-7(6)",
+      "level": "enhancement",
+      "parents": [
+        "CP-7"
+      ],
+      "title": "Inability to Return to Primary Site"
+    },
+    {
+      "id": "CP-8",
+      "level": "control",
+      "parents": [
+        "CP"
+      ],
+      "title": "Telecommunications Services"
+    },
+    {
+      "id": "CP-8(1)",
+      "level": "enhancement",
+      "parents": [
+        "CP-8"
+      ],
+      "title": "Priority of Service Provisions"
+    },
+    {
+      "id": "CP-8(2)",
+      "level": "enhancement",
+      "parents": [
+        "CP-8"
+      ],
+      "title": "Single Points of Failure"
+    },
+    {
+      "id": "CP-8(3)",
+      "level": "enhancement",
+      "parents": [
+        "CP-8"
+      ],
+      "title": "Separation of Primary and Alternate Providers"
+    },
+    {
+      "id": "CP-8(4)",
+      "level": "enhancement",
+      "parents": [
+        "CP-8"
+      ],
+      "title": "Provider Contingency Plan"
+    },
+    {
+      "id": "CP-8(5)",
+      "level": "enhancement",
+      "parents": [
+        "CP-8"
+      ],
+      "title": "Alternate Telecommunication Service Testing"
+    },
+    {
+      "id": "CP-9",
+      "level": "control",
+      "parents": [
+        "CP"
+      ],
+      "title": "System Backup"
+    },
+    {
+      "id": "CP-9(1)",
+      "level": "enhancement",
+      "parents": [
+        "CP-9"
+      ],
+      "title": "Testing for Reliability and Integrity"
+    },
+    {
+      "id": "CP-9(2)",
+      "level": "enhancement",
+      "parents": [
+        "CP-9"
+      ],
+      "title": "Test Restoration Using Sampling"
+    },
+    {
+      "id": "CP-9(3)",
+      "level": "enhancement",
+      "parents": [
+        "CP-9"
+      ],
+      "title": "Separate Storage for Critical Information"
+    },
+    {
+      "id": "CP-9(5)",
+      "level": "enhancement",
+      "parents": [
+        "CP-9"
+      ],
+      "title": "Transfer to Alternate Storage Site"
+    },
+    {
+      "id": "CP-9(6)",
+      "level": "enhancement",
+      "parents": [
+        "CP-9"
+      ],
+      "title": "Redundant Secondary System"
+    },
+    {
+      "id": "CP-9(7)",
+      "level": "enhancement",
+      "parents": [
+        "CP-9"
+      ],
+      "title": "Dual Authorization for Deletion or Destruction"
+    },
+    {
+      "id": "CP-9(8)",
+      "level": "enhancement",
+      "parents": [
+        "CP-9"
+      ],
+      "title": "Cryptographic Protection"
+    },
+    {
+      "id": "CP-10",
+      "level": "control",
+      "parents": [
+        "CP"
+      ],
+      "title": "System Recovery and Reconstitution"
+    },
+    {
+      "id": "CP-10(2)",
+      "level": "enhancement",
+      "parents": [
+        "CP-10"
+      ],
+      "title": "Transaction Recovery"
+    },
+    {
+      "id": "CP-10(4)",
+      "level": "enhancement",
+      "parents": [
+        "CP-10"
+      ],
+      "title": "Restore Within Time Period"
+    },
+    {
+      "id": "CP-10(6)",
+      "level": "enhancement",
+      "parents": [
+        "CP-10"
+      ],
+      "title": "Component Protection"
+    },
+    {
+      "id": "CP-11",
+      "level": "control",
+      "parents": [
+        "CP"
+      ],
+      "title": "Alternate Communications Protocols"
+    },
+    {
+      "id": "CP-12",
+      "level": "control",
+      "parents": [
+        "CP"
+      ],
+      "title": "Safe Mode"
+    },
+    {
+      "id": "CP-13",
+      "level": "control",
+      "parents": [
+        "CP"
+      ],
+      "title": "Alternative Security Mechanisms"
+    },
+    {
+      "id": "IA",
+      "level": "family",
+      "parents": [],
+      "title": "Identification and Authentication"
+    },
+    {
+      "id": "IA-1",
+      "level": "control",
+      "parents": [
+        "IA"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "IA-2",
+      "level": "control",
+      "parents": [
+        "IA"
+      ],
+      "title": "Identification and Authentication (Organizational Users)"
+    },
+    {
+      "id": "IA-2(1)",
+      "level": "enhancement",
+      "parents": [
+        "IA-2"
+      ],
+      "title": "Multi-factor Authentication to Privileged Accounts"
+    },
+    {
+      "id": "IA-2(2)",
+      "level": "enhancement",
+      "parents": [
+        "IA-2"
+      ],
+      "title": "Multi-factor Authentication to Non-privileged Accounts"
+    },
+    {
+      "id": "IA-2(5)",
+      "level": "enhancement",
+      "parents": [
+        "IA-2"
+      ],
+      "title": "Individual Authentication with Group Authentication"
+    },
+    {
+      "id": "IA-2(6)",
+      "level": "enhancement",
+      "parents": [
+        "IA-2"
+      ],
+      "title": "Access to Accounts - separate Device"
+    },
+    {
+      "id": "IA-2(8)",
+      "level": "enhancement",
+      "parents": [
+        "IA-2"
+      ],
+      "title": "Access to Accounts - Replay Resistant"
+    },
+    {
+      "id": "IA-2(10)",
+      "level": "enhancement",
+      "parents": [
+        "IA-2"
+      ],
+      "title": "Single Sign-on"
+    },
+    {
+      "id": "IA-2(12)",
+      "level": "enhancement",
+      "parents": [
+        "IA-2"
+      ],
+      "title": "Acceptance of PIV Credentials"
+    },
+    {
+      "id": "IA-2(13)",
+      "level": "enhancement",
+      "parents": [
+        "IA-2"
+      ],
+      "title": "Out-of-band Authentication"
+    },
+    {
+      "id": "IA-3",
+      "level": "control",
+      "parents": [
+        "IA"
+      ],
+      "title": "Device Identification and Authentication"
+    },
+    {
+      "id": "IA-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "IA-3"
+      ],
+      "title": "Cryptographic Bidirectional Authentication"
+    },
+    {
+      "id": "IA-3(3)",
+      "level": "enhancement",
+      "parents": [
+        "IA-3"
+      ],
+      "title": "Dynamic Address Allocation"
+    },
+    {
+      "id": "IA-3(4)",
+      "level": "enhancement",
+      "parents": [
+        "IA-3"
+      ],
+      "title": "Device Attestation"
+    },
+    {
+      "id": "IA-4",
+      "level": "control",
+      "parents": [
+        "IA"
+      ],
+      "title": "Identifier Management"
+    },
+    {
+      "id": "IA-4(1)",
+      "level": "enhancement",
+      "parents": [
+        "IA-4"
+      ],
+      "title": "Prohibit Account Identifiers as Public Identifiers"
+    },
+    {
+      "id": "IA-4(4)",
+      "level": "enhancement",
+      "parents": [
+        "IA-4"
+      ],
+      "title": "Identify User Status"
+    },
+    {
+      "id": "IA-4(5)",
+      "level": "enhancement",
+      "parents": [
+        "IA-4"
+      ],
+      "title": "Dynamic Management"
+    },
+    {
+      "id": "IA-4(6)",
+      "level": "enhancement",
+      "parents": [
+        "IA-4"
+      ],
+      "title": "Cross-organization Management"
+    },
+    {
+      "id": "IA-4(8)",
+      "level": "enhancement",
+      "parents": [
+        "IA-4"
+      ],
+      "title": "Pairwise Pseudonymous Identifiers"
+    },
+    {
+      "id": "IA-4(9)",
+      "level": "enhancement",
+      "parents": [
+        "IA-4"
+      ],
+      "title": "Attribute Maintenance and Protection"
+    },
+    {
+      "id": "IA-5",
+      "level": "control",
+      "parents": [
+        "IA"
+      ],
+      "title": "Authenticator Management"
+    },
+    {
+      "id": "IA-5(1)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "Password-based Authentication"
+    },
+    {
+      "id": "IA-5(2)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "Public Key-based Authentication"
+    },
+    {
+      "id": "IA-5(5)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "Change Authenticators Prior to Delivery"
+    },
+    {
+      "id": "IA-5(6)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "Protection of Authenticators"
+    },
+    {
+      "id": "IA-5(7)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "No Embedded Unencrypted Static Authenticators"
+    },
+    {
+      "id": "IA-5(8)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "Multiple System Accounts"
+    },
+    {
+      "id": "IA-5(9)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "Federated Credential Management"
+    },
+    {
+      "id": "IA-5(10)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "Dynamic Credential Binding"
+    },
+    {
+      "id": "IA-5(12)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "Biometric Authentication Performance"
+    },
+    {
+      "id": "IA-5(13)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "Expiration of Cached Authenticators"
+    },
+    {
+      "id": "IA-5(14)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "Managing Content of PKI Trust Stores"
+    },
+    {
+      "id": "IA-5(15)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "GSA-approved Products and Services"
+    },
+    {
+      "id": "IA-5(16)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "In-person or Trusted External Party Authenticator Issuance"
+    },
+    {
+      "id": "IA-5(17)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "Presentation Attack Detection for Biometric Authenticators"
+    },
+    {
+      "id": "IA-5(18)",
+      "level": "enhancement",
+      "parents": [
+        "IA-5"
+      ],
+      "title": "Password Managers"
+    },
+    {
+      "id": "IA-6",
+      "level": "control",
+      "parents": [
+        "IA"
+      ],
+      "title": "Authentication Feedback"
+    },
+    {
+      "id": "IA-7",
+      "level": "control",
+      "parents": [
+        "IA"
+      ],
+      "title": "Cryptographic Module Authentication"
+    },
+    {
+      "id": "IA-8",
+      "level": "control",
+      "parents": [
+        "IA"
+      ],
+      "title": "Identification and Authentication (Non-organizational Users)"
+    },
+    {
+      "id": "IA-8(1)",
+      "level": "enhancement",
+      "parents": [
+        "IA-8"
+      ],
+      "title": "Acceptance of PIV Credentials from Other Agencies"
+    },
+    {
+      "id": "IA-8(2)",
+      "level": "enhancement",
+      "parents": [
+        "IA-8"
+      ],
+      "title": "Acceptance of External Authenticators"
+    },
+    {
+      "id": "IA-8(4)",
+      "level": "enhancement",
+      "parents": [
+        "IA-8"
+      ],
+      "title": "Use of Defined Profiles"
+    },
+    {
+      "id": "IA-8(5)",
+      "level": "enhancement",
+      "parents": [
+        "IA-8"
+      ],
+      "title": "Acceptance of PIV-I Credentials"
+    },
+    {
+      "id": "IA-8(6)",
+      "level": "enhancement",
+      "parents": [
+        "IA-8"
+      ],
+      "title": "Disassociability"
+    },
+    {
+      "id": "IA-9",
+      "level": "control",
+      "parents": [
+        "IA"
+      ],
+      "title": "Service Identification and Authentication"
+    },
+    {
+      "id": "IA-10",
+      "level": "control",
+      "parents": [
+        "IA"
+      ],
+      "title": "Adaptive Authentication"
+    },
+    {
+      "id": "IA-11",
+      "level": "control",
+      "parents": [
+        "IA"
+      ],
+      "title": "Re-authentication"
+    },
+    {
+      "id": "IA-12",
+      "level": "control",
+      "parents": [
+        "IA"
+      ],
+      "title": "Identity Proofing"
+    },
+    {
+      "id": "IA-12(1)",
+      "level": "enhancement",
+      "parents": [
+        "IA-12"
+      ],
+      "title": "Supervisor Authorization"
+    },
+    {
+      "id": "IA-12(2)",
+      "level": "enhancement",
+      "parents": [
+        "IA-12"
+      ],
+      "title": "Identity Evidence"
+    },
+    {
+      "id": "IA-12(3)",
+      "level": "enhancement",
+      "parents": [
+        "IA-12"
+      ],
+      "title": "Identity Evidence Validation and Verification"
+    },
+    {
+      "id": "IA-12(4)",
+      "level": "enhancement",
+      "parents": [
+        "IA-12"
+      ],
+      "title": "In-person Validation and Verification"
+    },
+    {
+      "id": "IA-12(5)",
+      "level": "enhancement",
+      "parents": [
+        "IA-12"
+      ],
+      "title": "Address Confirmation"
+    },
+    {
+      "id": "IA-12(6)",
+      "level": "enhancement",
+      "parents": [
+        "IA-12"
+      ],
+      "title": "Accept Externally-proofed Identities"
+    },
+    {
+      "id": "IA-13",
+      "level": "control",
+      "parents": [
+        "IA"
+      ],
+      "title": "Identity Providers and Authorization Servers"
+    },
+    {
+      "id": "IA-13(1)",
+      "level": "enhancement",
+      "parents": [
+        "IA-13"
+      ],
+      "title": "Protection of Cryptographic Keys"
+    },
+    {
+      "id": "IA-13(2)",
+      "level": "enhancement",
+      "parents": [
+        "IA-13"
+      ],
+      "title": "Verification of Identity Assertions and Access Tokens"
+    },
+    {
+      "id": "IA-13(3)",
+      "level": "enhancement",
+      "parents": [
+        "IA-13"
+      ],
+      "title": "Token Management"
+    },
+    {
+      "id": "IR",
+      "level": "family",
+      "parents": [],
+      "title": "Incident Response"
+    },
+    {
+      "id": "IR-1",
+      "level": "control",
+      "parents": [
+        "IR"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "IR-2",
+      "level": "control",
+      "parents": [
+        "IR"
+      ],
+      "title": "Incident Response Training"
+    },
+    {
+      "id": "IR-2(1)",
+      "level": "enhancement",
+      "parents": [
+        "IR-2"
+      ],
+      "title": "Simulated Events"
+    },
+    {
+      "id": "IR-2(2)",
+      "level": "enhancement",
+      "parents": [
+        "IR-2"
+      ],
+      "title": "Automated Training Environments"
+    },
+    {
+      "id": "IR-2(3)",
+      "level": "enhancement",
+      "parents": [
+        "IR-2"
+      ],
+      "title": "Breach"
+    },
+    {
+      "id": "IR-3",
+      "level": "control",
+      "parents": [
+        "IR"
+      ],
+      "title": "Incident Response Testing"
+    },
+    {
+      "id": "IR-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "IR-3"
+      ],
+      "title": "Automated Testing"
+    },
+    {
+      "id": "IR-3(2)",
+      "level": "enhancement",
+      "parents": [
+        "IR-3"
+      ],
+      "title": "Coordination with Related Plans"
+    },
+    {
+      "id": "IR-3(3)",
+      "level": "enhancement",
+      "parents": [
+        "IR-3"
+      ],
+      "title": "Continuous Improvement"
+    },
+    {
+      "id": "IR-4",
+      "level": "control",
+      "parents": [
+        "IR"
+      ],
+      "title": "Incident Handling"
+    },
+    {
+      "id": "IR-4(1)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Automated Incident Handling Processes"
+    },
+    {
+      "id": "IR-4(2)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Dynamic Reconfiguration"
+    },
+    {
+      "id": "IR-4(3)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Continuity of Operations"
+    },
+    {
+      "id": "IR-4(4)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Information Correlation"
+    },
+    {
+      "id": "IR-4(5)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Automatic Disabling of System"
+    },
+    {
+      "id": "IR-4(6)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Insider Threats"
+    },
+    {
+      "id": "IR-4(7)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Insider Threats - Intra-organization Coordination"
+    },
+    {
+      "id": "IR-4(8)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Correlation with External Organizations"
+    },
+    {
+      "id": "IR-4(9)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Dynamic Response Capability"
+    },
+    {
+      "id": "IR-4(10)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Supply Chain Coordination"
+    },
+    {
+      "id": "IR-4(11)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Integrated Incident Response Team"
+    },
+    {
+      "id": "IR-4(12)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Malicious Code and Forensic Analysis"
+    },
+    {
+      "id": "IR-4(13)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Behavior Analysis"
+    },
+    {
+      "id": "IR-4(14)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Security Operations Center"
+    },
+    {
+      "id": "IR-4(15)",
+      "level": "enhancement",
+      "parents": [
+        "IR-4"
+      ],
+      "title": "Public Relations and Reputation Repair"
+    },
+    {
+      "id": "IR-5",
+      "level": "control",
+      "parents": [
+        "IR"
+      ],
+      "title": "Incident Monitoring"
+    },
+    {
+      "id": "IR-5(1)",
+      "level": "enhancement",
+      "parents": [
+        "IR-5"
+      ],
+      "title": "Automated Tracking, Data Collection, and Analysis"
+    },
+    {
+      "id": "IR-6",
+      "level": "control",
+      "parents": [
+        "IR"
+      ],
+      "title": "Incident Reporting"
+    },
+    {
+      "id": "IR-6(1)",
+      "level": "enhancement",
+      "parents": [
+        "IR-6"
+      ],
+      "title": "Automated Reporting"
+    },
+    {
+      "id": "IR-6(2)",
+      "level": "enhancement",
+      "parents": [
+        "IR-6"
+      ],
+      "title": "Vulnerabilities Related to Incidents"
+    },
+    {
+      "id": "IR-6(3)",
+      "level": "enhancement",
+      "parents": [
+        "IR-6"
+      ],
+      "title": "Supply Chain Coordination"
+    },
+    {
+      "id": "IR-7",
+      "level": "control",
+      "parents": [
+        "IR"
+      ],
+      "title": "Incident Response Assistance"
+    },
+    {
+      "id": "IR-7(1)",
+      "level": "enhancement",
+      "parents": [
+        "IR-7"
+      ],
+      "title": "Automation Support for Availability of Information and Support"
+    },
+    {
+      "id": "IR-7(2)",
+      "level": "enhancement",
+      "parents": [
+        "IR-7"
+      ],
+      "title": "Coordination with External Providers"
+    },
+    {
+      "id": "IR-8",
+      "level": "control",
+      "parents": [
+        "IR"
+      ],
+      "title": "Incident Response Plan"
+    },
+    {
+      "id": "IR-8(1)",
+      "level": "enhancement",
+      "parents": [
+        "IR-8"
+      ],
+      "title": "Breaches"
+    },
+    {
+      "id": "IR-9",
+      "level": "control",
+      "parents": [
+        "IR"
+      ],
+      "title": "Information Spillage Response"
+    },
+    {
+      "id": "IR-9(2)",
+      "level": "enhancement",
+      "parents": [
+        "IR-9"
+      ],
+      "title": "Training"
+    },
+    {
+      "id": "IR-9(3)",
+      "level": "enhancement",
+      "parents": [
+        "IR-9"
+      ],
+      "title": "Post-spill Operations"
+    },
+    {
+      "id": "IR-9(4)",
+      "level": "enhancement",
+      "parents": [
+        "IR-9"
+      ],
+      "title": "Exposure to Unauthorized Personnel"
+    },
+    {
+      "id": "MA",
+      "level": "family",
+      "parents": [],
+      "title": "Maintenance"
+    },
+    {
+      "id": "MA-1",
+      "level": "control",
+      "parents": [
+        "MA"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "MA-2",
+      "level": "control",
+      "parents": [
+        "MA"
+      ],
+      "title": "Controlled Maintenance"
+    },
+    {
+      "id": "MA-2(2)",
+      "level": "enhancement",
+      "parents": [
+        "MA-2"
+      ],
+      "title": "Automated Maintenance Activities"
+    },
+    {
+      "id": "MA-3",
+      "level": "control",
+      "parents": [
+        "MA"
+      ],
+      "title": "Maintenance Tools"
+    },
+    {
+      "id": "MA-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "MA-3"
+      ],
+      "title": "Inspect Tools"
+    },
+    {
+      "id": "MA-3(2)",
+      "level": "enhancement",
+      "parents": [
+        "MA-3"
+      ],
+      "title": "Inspect Media"
+    },
+    {
+      "id": "MA-3(3)",
+      "level": "enhancement",
+      "parents": [
+        "MA-3"
+      ],
+      "title": "Prevent Unauthorized Removal"
+    },
+    {
+      "id": "MA-3(4)",
+      "level": "enhancement",
+      "parents": [
+        "MA-3"
+      ],
+      "title": "Restricted Tool Use"
+    },
+    {
+      "id": "MA-3(5)",
+      "level": "enhancement",
+      "parents": [
+        "MA-3"
+      ],
+      "title": "Execution with Privilege"
+    },
+    {
+      "id": "MA-3(6)",
+      "level": "enhancement",
+      "parents": [
+        "MA-3"
+      ],
+      "title": "Software Updates and Patches"
+    },
+    {
+      "id": "MA-4",
+      "level": "control",
+      "parents": [
+        "MA"
+      ],
+      "title": "Nonlocal Maintenance"
+    },
+    {
+      "id": "MA-4(1)",
+      "level": "enhancement",
+      "parents": [
+        "MA-4"
+      ],
+      "title": "Logging and Review"
+    },
+    {
+      "id": "MA-4(3)",
+      "level": "enhancement",
+      "parents": [
+        "MA-4"
+      ],
+      "title": "Comparable Security and Sanitization"
+    },
+    {
+      "id": "MA-4(4)",
+      "level": "enhancement",
+      "parents": [
+        "MA-4"
+      ],
+      "title": "Authentication and Separation of Maintenance Sessions"
+    },
+    {
+      "id": "MA-4(5)",
+      "level": "enhancement",
+      "parents": [
+        "MA-4"
+      ],
+      "title": "Approvals and Notifications"
+    },
+    {
+      "id": "MA-4(6)",
+      "level": "enhancement",
+      "parents": [
+        "MA-4"
+      ],
+      "title": "Cryptographic Protection"
+    },
+    {
+      "id": "MA-4(7)",
+      "level": "enhancement",
+      "parents": [
+        "MA-4"
+      ],
+      "title": "Disconnect Verification"
+    },
+    {
+      "id": "MA-5",
+      "level": "control",
+      "parents": [
+        "MA"
+      ],
+      "title": "Maintenance Personnel"
+    },
+    {
+      "id": "MA-5(1)",
+      "level": "enhancement",
+      "parents": [
+        "MA-5"
+      ],
+      "title": "Individuals Without Appropriate Access"
+    },
+    {
+      "id": "MA-5(2)",
+      "level": "enhancement",
+      "parents": [
+        "MA-5"
+      ],
+      "title": "Security Clearances for Classified Systems"
+    },
+    {
+      "id": "MA-5(3)",
+      "level": "enhancement",
+      "parents": [
+        "MA-5"
+      ],
+      "title": "Citizenship Requirements for Classified Systems"
+    },
+    {
+      "id": "MA-5(4)",
+      "level": "enhancement",
+      "parents": [
+        "MA-5"
+      ],
+      "title": "Foreign Nationals"
+    },
+    {
+      "id": "MA-5(5)",
+      "level": "enhancement",
+      "parents": [
+        "MA-5"
+      ],
+      "title": "Non-system Maintenance"
+    },
+    {
+      "id": "MA-6",
+      "level": "control",
+      "parents": [
+        "MA"
+      ],
+      "title": "Timely Maintenance"
+    },
+    {
+      "id": "MA-6(1)",
+      "level": "enhancement",
+      "parents": [
+        "MA-6"
+      ],
+      "title": "Preventive Maintenance"
+    },
+    {
+      "id": "MA-6(2)",
+      "level": "enhancement",
+      "parents": [
+        "MA-6"
+      ],
+      "title": "Predictive Maintenance"
+    },
+    {
+      "id": "MA-6(3)",
+      "level": "enhancement",
+      "parents": [
+        "MA-6"
+      ],
+      "title": "Automated Support for Predictive Maintenance"
+    },
+    {
+      "id": "MA-7",
+      "level": "control",
+      "parents": [
+        "MA"
+      ],
+      "title": "Field Maintenance"
+    },
+    {
+      "id": "MP",
+      "level": "family",
+      "parents": [],
+      "title": "Media Protection"
+    },
+    {
+      "id": "MP-1",
+      "level": "control",
+      "parents": [
+        "MP"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "MP-2",
+      "level": "control",
+      "parents": [
+        "MP"
+      ],
+      "title": "Media Access"
+    },
+    {
+      "id": "MP-3",
+      "level": "control",
+      "parents": [
+        "MP"
+      ],
+      "title": "Media Marking"
+    },
+    {
+      "id": "MP-4",
+      "level": "control",
+      "parents": [
+        "MP"
+      ],
+      "title": "Media Storage"
+    },
+    {
+      "id": "MP-4(2)",
+      "level": "enhancement",
+      "parents": [
+        "MP-4"
+      ],
+      "title": "Automated Restricted Access"
+    },
+    {
+      "id": "MP-5",
+      "level": "control",
+      "parents": [
+        "MP"
+      ],
+      "title": "Media Transport"
+    },
+    {
+      "id": "MP-5(3)",
+      "level": "enhancement",
+      "parents": [
+        "MP-5"
+      ],
+      "title": "Custodians"
+    },
+    {
+      "id": "MP-6",
+      "level": "control",
+      "parents": [
+        "MP"
+      ],
+      "title": "Media Sanitization"
+    },
+    {
+      "id": "MP-6(1)",
+      "level": "enhancement",
+      "parents": [
+        "MP-6"
+      ],
+      "title": "Review, Approve, Track, Document, and Verify"
+    },
+    {
+      "id": "MP-6(2)",
+      "level": "enhancement",
+      "parents": [
+        "MP-6"
+      ],
+      "title": "Equipment Testing"
+    },
+    {
+      "id": "MP-6(3)",
+      "level": "enhancement",
+      "parents": [
+        "MP-6"
+      ],
+      "title": "Nondestructive Techniques"
+    },
+    {
+      "id": "MP-6(7)",
+      "level": "enhancement",
+      "parents": [
+        "MP-6"
+      ],
+      "title": "Dual Authorization"
+    },
+    {
+      "id": "MP-6(8)",
+      "level": "enhancement",
+      "parents": [
+        "MP-6"
+      ],
+      "title": "Remote Purging or Wiping of Information"
+    },
+    {
+      "id": "MP-7",
+      "level": "control",
+      "parents": [
+        "MP"
+      ],
+      "title": "Media Use"
+    },
+    {
+      "id": "MP-7(2)",
+      "level": "enhancement",
+      "parents": [
+        "MP-7"
+      ],
+      "title": "Prohibit Use of Sanitization-resistant Media"
+    },
+    {
+      "id": "MP-8",
+      "level": "control",
+      "parents": [
+        "MP"
+      ],
+      "title": "Media Downgrading"
+    },
+    {
+      "id": "MP-8(1)",
+      "level": "enhancement",
+      "parents": [
+        "MP-8"
+      ],
+      "title": "Documentation of Process"
+    },
+    {
+      "id": "MP-8(2)",
+      "level": "enhancement",
+      "parents": [
+        "MP-8"
+      ],
+      "title": "Equipment Testing"
+    },
+    {
+      "id": "MP-8(3)",
+      "level": "enhancement",
+      "parents": [
+        "MP-8"
+      ],
+      "title": "Controlled Unclassified Information"
+    },
+    {
+      "id": "MP-8(4)",
+      "level": "enhancement",
+      "parents": [
+        "MP-8"
+      ],
+      "title": "Classified Information"
+    },
+    {
+      "id": "PE",
+      "level": "family",
+      "parents": [],
+      "title": "Physical and Environmental Protection"
+    },
+    {
+      "id": "PE-1",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "PE-2",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Physical Access Authorizations"
+    },
+    {
+      "id": "PE-2(1)",
+      "level": "enhancement",
+      "parents": [
+        "PE-2"
+      ],
+      "title": "Access by Position or Role"
+    },
+    {
+      "id": "PE-2(2)",
+      "level": "enhancement",
+      "parents": [
+        "PE-2"
+      ],
+      "title": "Two Forms of Identification"
+    },
+    {
+      "id": "PE-2(3)",
+      "level": "enhancement",
+      "parents": [
+        "PE-2"
+      ],
+      "title": "Restrict Unescorted Access"
+    },
+    {
+      "id": "PE-3",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Physical Access Control"
+    },
+    {
+      "id": "PE-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "PE-3"
+      ],
+      "title": "System Access"
+    },
+    {
+      "id": "PE-3(2)",
+      "level": "enhancement",
+      "parents": [
+        "PE-3"
+      ],
+      "title": "Facility and Systems"
+    },
+    {
+      "id": "PE-3(3)",
+      "level": "enhancement",
+      "parents": [
+        "PE-3"
+      ],
+      "title": "Continuous Guards"
+    },
+    {
+      "id": "PE-3(4)",
+      "level": "enhancement",
+      "parents": [
+        "PE-3"
+      ],
+      "title": "Lockable Casings"
+    },
+    {
+      "id": "PE-3(5)",
+      "level": "enhancement",
+      "parents": [
+        "PE-3"
+      ],
+      "title": "Tamper Protection"
+    },
+    {
+      "id": "PE-3(7)",
+      "level": "enhancement",
+      "parents": [
+        "PE-3"
+      ],
+      "title": "Physical Barriers"
+    },
+    {
+      "id": "PE-3(8)",
+      "level": "enhancement",
+      "parents": [
+        "PE-3"
+      ],
+      "title": "Access Control Vestibules"
+    },
+    {
+      "id": "PE-4",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Access Control for Transmission"
+    },
+    {
+      "id": "PE-5",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Access Control for Output Devices"
+    },
+    {
+      "id": "PE-5(2)",
+      "level": "enhancement",
+      "parents": [
+        "PE-5"
+      ],
+      "title": "Link to Individual Identity"
+    },
+    {
+      "id": "PE-6",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Monitoring Physical Access"
+    },
+    {
+      "id": "PE-6(1)",
+      "level": "enhancement",
+      "parents": [
+        "PE-6"
+      ],
+      "title": "Intrusion Alarms and Surveillance Equipment"
+    },
+    {
+      "id": "PE-6(2)",
+      "level": "enhancement",
+      "parents": [
+        "PE-6"
+      ],
+      "title": "Automated Intrusion Recognition and Responses"
+    },
+    {
+      "id": "PE-6(3)",
+      "level": "enhancement",
+      "parents": [
+        "PE-6"
+      ],
+      "title": "Video Surveillance"
+    },
+    {
+      "id": "PE-6(4)",
+      "level": "enhancement",
+      "parents": [
+        "PE-6"
+      ],
+      "title": "Monitoring Physical Access to Systems"
+    },
+    {
+      "id": "PE-8",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Visitor Access Records"
+    },
+    {
+      "id": "PE-8(1)",
+      "level": "enhancement",
+      "parents": [
+        "PE-8"
+      ],
+      "title": "Automated Records Maintenance and Review"
+    },
+    {
+      "id": "PE-8(3)",
+      "level": "enhancement",
+      "parents": [
+        "PE-8"
+      ],
+      "title": "Limit Personally Identifiable Information Elements"
+    },
+    {
+      "id": "PE-9",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Power Equipment and Cabling"
+    },
+    {
+      "id": "PE-9(1)",
+      "level": "enhancement",
+      "parents": [
+        "PE-9"
+      ],
+      "title": "Redundant Cabling"
+    },
+    {
+      "id": "PE-9(2)",
+      "level": "enhancement",
+      "parents": [
+        "PE-9"
+      ],
+      "title": "Automatic Voltage Controls"
+    },
+    {
+      "id": "PE-10",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Emergency Shutoff"
+    },
+    {
+      "id": "PE-11",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Emergency Power"
+    },
+    {
+      "id": "PE-11(1)",
+      "level": "enhancement",
+      "parents": [
+        "PE-11"
+      ],
+      "title": "Alternate Power Supply - Minimal Operational Capability"
+    },
+    {
+      "id": "PE-11(2)",
+      "level": "enhancement",
+      "parents": [
+        "PE-11"
+      ],
+      "title": "Alternate Power Supply - Self-contained"
+    },
+    {
+      "id": "PE-12",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Emergency Lighting"
+    },
+    {
+      "id": "PE-12(1)",
+      "level": "enhancement",
+      "parents": [
+        "PE-12"
+      ],
+      "title": "Essential Mission and Business Functions"
+    },
+    {
+      "id": "PE-13",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Fire Protection"
+    },
+    {
+      "id": "PE-13(1)",
+      "level": "enhancement",
+      "parents": [
+        "PE-13"
+      ],
+      "title": "Detection Systems - Automatic Activation and Notification"
+    },
+    {
+      "id": "PE-13(2)",
+      "level": "enhancement",
+      "parents": [
+        "PE-13"
+      ],
+      "title": "Suppression Systems - Automatic Activation and Notification"
+    },
+    {
+      "id": "PE-13(4)",
+      "level": "enhancement",
+      "parents": [
+        "PE-13"
+      ],
+      "title": "Inspections"
+    },
+    {
+      "id": "PE-14",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Environmental Controls"
+    },
+    {
+      "id": "PE-14(1)",
+      "level": "enhancement",
+      "parents": [
+        "PE-14"
+      ],
+      "title": "Automatic Controls"
+    },
+    {
+      "id": "PE-14(2)",
+      "level": "enhancement",
+      "parents": [
+        "PE-14"
+      ],
+      "title": "Monitoring with Alarms and Notifications"
+    },
+    {
+      "id": "PE-15",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Water Damage Protection"
+    },
+    {
+      "id": "PE-15(1)",
+      "level": "enhancement",
+      "parents": [
+        "PE-15"
+      ],
+      "title": "Automation Support"
+    },
+    {
+      "id": "PE-16",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Delivery and Removal"
+    },
+    {
+      "id": "PE-17",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Alternate Work Site"
+    },
+    {
+      "id": "PE-18",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Location of System Components"
+    },
+    {
+      "id": "PE-19",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Information Leakage"
+    },
+    {
+      "id": "PE-19(1)",
+      "level": "enhancement",
+      "parents": [
+        "PE-19"
+      ],
+      "title": "National Emissions Policies and Procedures"
+    },
+    {
+      "id": "PE-20",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Asset Monitoring and Tracking"
+    },
+    {
+      "id": "PE-21",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Electromagnetic Pulse Protection"
+    },
+    {
+      "id": "PE-22",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Component Marking"
+    },
+    {
+      "id": "PE-23",
+      "level": "control",
+      "parents": [
+        "PE"
+      ],
+      "title": "Facility Location"
+    },
+    {
+      "id": "PL",
+      "level": "family",
+      "parents": [],
+      "title": "Planning"
+    },
+    {
+      "id": "PL-1",
+      "level": "control",
+      "parents": [
+        "PL"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "PL-2",
+      "level": "control",
+      "parents": [
+        "PL"
+      ],
+      "title": "System Security and Privacy Plans"
+    },
+    {
+      "id": "PL-4",
+      "level": "control",
+      "parents": [
+        "PL"
+      ],
+      "title": "Rules of Behavior"
+    },
+    {
+      "id": "PL-4(1)",
+      "level": "enhancement",
+      "parents": [
+        "PL-4"
+      ],
+      "title": "Social Media and External Site/Application Usage Restrictions"
+    },
+    {
+      "id": "PL-7",
+      "level": "control",
+      "parents": [
+        "PL"
+      ],
+      "title": "Concept of Operations"
+    },
+    {
+      "id": "PL-8",
+      "level": "control",
+      "parents": [
+        "PL"
+      ],
+      "title": "Security and Privacy Architectures"
+    },
+    {
+      "id": "PL-8(1)",
+      "level": "enhancement",
+      "parents": [
+        "PL-8"
+      ],
+      "title": "Defense in Depth"
+    },
+    {
+      "id": "PL-8(2)",
+      "level": "enhancement",
+      "parents": [
+        "PL-8"
+      ],
+      "title": "Supplier Diversity"
+    },
+    {
+      "id": "PL-9",
+      "level": "control",
+      "parents": [
+        "PL"
+      ],
+      "title": "Central Management"
+    },
+    {
+      "id": "PL-10",
+      "level": "control",
+      "parents": [
+        "PL"
+      ],
+      "title": "Baseline Selection"
+    },
+    {
+      "id": "PL-11",
+      "level": "control",
+      "parents": [
+        "PL"
+      ],
+      "title": "Baseline Tailoring"
+    },
+    {
+      "id": "PM",
+      "level": "family",
+      "parents": [],
+      "title": "Program Management"
+    },
+    {
+      "id": "PM-1",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Information Security Program Plan"
+    },
+    {
+      "id": "PM-2",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Information Security Program Leadership Role"
+    },
+    {
+      "id": "PM-3",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Information Security and Privacy Resources"
+    },
+    {
+      "id": "PM-4",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Plan of Action and Milestones Process"
+    },
+    {
+      "id": "PM-5",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "System Inventory"
+    },
+    {
+      "id": "PM-5(1)",
+      "level": "enhancement",
+      "parents": [
+        "PM-5"
+      ],
+      "title": "Inventory of Personally Identifiable Information"
+    },
+    {
+      "id": "PM-6",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Measures of Performance"
+    },
+    {
+      "id": "PM-7",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Enterprise Architecture"
+    },
+    {
+      "id": "PM-7(1)",
+      "level": "enhancement",
+      "parents": [
+        "PM-7"
+      ],
+      "title": "Offloading"
+    },
+    {
+      "id": "PM-8",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Critical Infrastructure Plan"
+    },
+    {
+      "id": "PM-9",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Risk Management Strategy"
+    },
+    {
+      "id": "PM-10",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Authorization Process"
+    },
+    {
+      "id": "PM-11",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Mission and Business Process Definition"
+    },
+    {
+      "id": "PM-12",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Insider Threat Program"
+    },
+    {
+      "id": "PM-13",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Security and Privacy Workforce"
+    },
+    {
+      "id": "PM-14",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Testing, Training, and Monitoring"
+    },
+    {
+      "id": "PM-15",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Security and Privacy Groups and Associations"
+    },
+    {
+      "id": "PM-16",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Threat Awareness Program"
+    },
+    {
+      "id": "PM-16(1)",
+      "level": "enhancement",
+      "parents": [
+        "PM-16"
+      ],
+      "title": "Automated Means for Sharing Threat Intelligence"
+    },
+    {
+      "id": "PM-17",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Protecting Controlled Unclassified Information on External Systems"
+    },
+    {
+      "id": "PM-18",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Privacy Program Plan"
+    },
+    {
+      "id": "PM-19",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Privacy Program Leadership Role"
+    },
+    {
+      "id": "PM-20",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Dissemination of Privacy Program Information"
+    },
+    {
+      "id": "PM-20(1)",
+      "level": "enhancement",
+      "parents": [
+        "PM-20"
+      ],
+      "title": "Privacy Policies on Websites, Applications, and Digital Services"
+    },
+    {
+      "id": "PM-21",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Accounting of Disclosures"
+    },
+    {
+      "id": "PM-22",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Personally Identifiable Information Quality Management"
+    },
+    {
+      "id": "PM-23",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Data Governance Body"
+    },
+    {
+      "id": "PM-24",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Data Integrity Board"
+    },
+    {
+      "id": "PM-25",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Minimization of Personally Identifiable Information Used in Testing, Training, and Research"
+    },
+    {
+      "id": "PM-26",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Complaint Management"
+    },
+    {
+      "id": "PM-27",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Privacy Reporting"
+    },
+    {
+      "id": "PM-28",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Risk Framing"
+    },
+    {
+      "id": "PM-29",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Risk Management Program Leadership Roles"
+    },
+    {
+      "id": "PM-30",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Supply Chain Risk Management Strategy"
+    },
+    {
+      "id": "PM-30(1)",
+      "level": "enhancement",
+      "parents": [
+        "PM-30"
+      ],
+      "title": "Suppliers of Critical or Mission-essential Items"
+    },
+    {
+      "id": "PM-31",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Continuous Monitoring Strategy"
+    },
+    {
+      "id": "PM-32",
+      "level": "control",
+      "parents": [
+        "PM"
+      ],
+      "title": "Purposing"
+    },
+    {
+      "id": "PS",
+      "level": "family",
+      "parents": [],
+      "title": "Personnel Security"
+    },
+    {
+      "id": "PS-1",
+      "level": "control",
+      "parents": [
+        "PS"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "PS-2",
+      "level": "control",
+      "parents": [
+        "PS"
+      ],
+      "title": "Position Risk Designation"
+    },
+    {
+      "id": "PS-3",
+      "level": "control",
+      "parents": [
+        "PS"
+      ],
+      "title": "Personnel Screening"
+    },
+    {
+      "id": "PS-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "PS-3"
+      ],
+      "title": "Classified Information"
+    },
+    {
+      "id": "PS-3(2)",
+      "level": "enhancement",
+      "parents": [
+        "PS-3"
+      ],
+      "title": "Formal Indoctrination"
+    },
+    {
+      "id": "PS-3(3)",
+      "level": "enhancement",
+      "parents": [
+        "PS-3"
+      ],
+      "title": "Information Requiring Special Protective Measures"
+    },
+    {
+      "id": "PS-3(4)",
+      "level": "enhancement",
+      "parents": [
+        "PS-3"
+      ],
+      "title": "Citizenship Requirements"
+    },
+    {
+      "id": "PS-4",
+      "level": "control",
+      "parents": [
+        "PS"
+      ],
+      "title": "Personnel Termination"
+    },
+    {
+      "id": "PS-4(1)",
+      "level": "enhancement",
+      "parents": [
+        "PS-4"
+      ],
+      "title": "Post-employment Requirements"
+    },
+    {
+      "id": "PS-4(2)",
+      "level": "enhancement",
+      "parents": [
+        "PS-4"
+      ],
+      "title": "Automated Actions"
+    },
+    {
+      "id": "PS-5",
+      "level": "control",
+      "parents": [
+        "PS"
+      ],
+      "title": "Personnel Transfer"
+    },
+    {
+      "id": "PS-6",
+      "level": "control",
+      "parents": [
+        "PS"
+      ],
+      "title": "Access Agreements"
+    },
+    {
+      "id": "PS-6(2)",
+      "level": "enhancement",
+      "parents": [
+        "PS-6"
+      ],
+      "title": "Classified Information Requiring Special Protection"
+    },
+    {
+      "id": "PS-6(3)",
+      "level": "enhancement",
+      "parents": [
+        "PS-6"
+      ],
+      "title": "Post-employment Requirements"
+    },
+    {
+      "id": "PS-7",
+      "level": "control",
+      "parents": [
+        "PS"
+      ],
+      "title": "External Personnel Security"
+    },
+    {
+      "id": "PS-8",
+      "level": "control",
+      "parents": [
+        "PS"
+      ],
+      "title": "Personnel Sanctions"
+    },
+    {
+      "id": "PS-9",
+      "level": "control",
+      "parents": [
+        "PS"
+      ],
+      "title": "Position Descriptions"
+    },
+    {
+      "id": "PT",
+      "level": "family",
+      "parents": [],
+      "title": "Personally Identifiable Information Processing and Transparency"
+    },
+    {
+      "id": "PT-1",
+      "level": "control",
+      "parents": [
+        "PT"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "PT-2",
+      "level": "control",
+      "parents": [
+        "PT"
+      ],
+      "title": "Authority to Process Personally Identifiable Information"
+    },
+    {
+      "id": "PT-2(1)",
+      "level": "enhancement",
+      "parents": [
+        "PT-2"
+      ],
+      "title": "Data Tagging"
+    },
+    {
+      "id": "PT-2(2)",
+      "level": "enhancement",
+      "parents": [
+        "PT-2"
+      ],
+      "title": "Automation"
+    },
+    {
+      "id": "PT-3",
+      "level": "control",
+      "parents": [
+        "PT"
+      ],
+      "title": "Personally Identifiable Information Processing Purposes"
+    },
+    {
+      "id": "PT-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "PT-3"
+      ],
+      "title": "Data Tagging"
+    },
+    {
+      "id": "PT-3(2)",
+      "level": "enhancement",
+      "parents": [
+        "PT-3"
+      ],
+      "title": "Automation"
+    },
+    {
+      "id": "PT-4",
+      "level": "control",
+      "parents": [
+        "PT"
+      ],
+      "title": "Consent"
+    },
+    {
+      "id": "PT-4(1)",
+      "level": "enhancement",
+      "parents": [
+        "PT-4"
+      ],
+      "title": "Tailored Consent"
+    },
+    {
+      "id": "PT-4(2)",
+      "level": "enhancement",
+      "parents": [
+        "PT-4"
+      ],
+      "title": "Just-in-time Consent"
+    },
+    {
+      "id": "PT-4(3)",
+      "level": "enhancement",
+      "parents": [
+        "PT-4"
+      ],
+      "title": "Revocation"
+    },
+    {
+      "id": "PT-5",
+      "level": "control",
+      "parents": [
+        "PT"
+      ],
+      "title": "Privacy Notice"
+    },
+    {
+      "id": "PT-5(1)",
+      "level": "enhancement",
+      "parents": [
+        "PT-5"
+      ],
+      "title": "Just-in-time Notice"
+    },
+    {
+      "id": "PT-5(2)",
+      "level": "enhancement",
+      "parents": [
+        "PT-5"
+      ],
+      "title": "Privacy Act Statements"
+    },
+    {
+      "id": "PT-6",
+      "level": "control",
+      "parents": [
+        "PT"
+      ],
+      "title": "System of Records Notice"
+    },
+    {
+      "id": "PT-6(1)",
+      "level": "enhancement",
+      "parents": [
+        "PT-6"
+      ],
+      "title": "Routine Uses"
+    },
+    {
+      "id": "PT-6(2)",
+      "level": "enhancement",
+      "parents": [
+        "PT-6"
+      ],
+      "title": "Exemption Rules"
+    },
+    {
+      "id": "PT-7",
+      "level": "control",
+      "parents": [
+        "PT"
+      ],
+      "title": "Specific Categories of Personally Identifiable Information"
+    },
+    {
+      "id": "PT-7(1)",
+      "level": "enhancement",
+      "parents": [
+        "PT-7"
+      ],
+      "title": "Social Security Numbers"
+    },
+    {
+      "id": "PT-7(2)",
+      "level": "enhancement",
+      "parents": [
+        "PT-7"
+      ],
+      "title": "First Amendment Information"
+    },
+    {
+      "id": "PT-8",
+      "level": "control",
+      "parents": [
+        "PT"
+      ],
+      "title": "Computer Matching Requirements"
+    },
+    {
+      "id": "RA",
+      "level": "family",
+      "parents": [],
+      "title": "Risk Assessment"
+    },
+    {
+      "id": "RA-1",
+      "level": "control",
+      "parents": [
+        "RA"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "RA-2",
+      "level": "control",
+      "parents": [
+        "RA"
+      ],
+      "title": "Security Categorization"
+    },
+    {
+      "id": "RA-2(1)",
+      "level": "enhancement",
+      "parents": [
+        "RA-2"
+      ],
+      "title": "Impact-level Prioritization"
+    },
+    {
+      "id": "RA-3",
+      "level": "control",
+      "parents": [
+        "RA"
+      ],
+      "title": "Risk Assessment"
+    },
+    {
+      "id": "RA-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "RA-3"
+      ],
+      "title": "Supply Chain Risk Assessment"
+    },
+    {
+      "id": "RA-3(2)",
+      "level": "enhancement",
+      "parents": [
+        "RA-3"
+      ],
+      "title": "Use of All-source Intelligence"
+    },
+    {
+      "id": "RA-3(3)",
+      "level": "enhancement",
+      "parents": [
+        "RA-3"
+      ],
+      "title": "Dynamic Threat Awareness"
+    },
+    {
+      "id": "RA-3(4)",
+      "level": "enhancement",
+      "parents": [
+        "RA-3"
+      ],
+      "title": "Predictive Cyber Analytics"
+    },
+    {
+      "id": "RA-5",
+      "level": "control",
+      "parents": [
+        "RA"
+      ],
+      "title": "Vulnerability Monitoring and Scanning"
+    },
+    {
+      "id": "RA-5(2)",
+      "level": "enhancement",
+      "parents": [
+        "RA-5"
+      ],
+      "title": "Update Vulnerabilities to Be Scanned"
+    },
+    {
+      "id": "RA-5(3)",
+      "level": "enhancement",
+      "parents": [
+        "RA-5"
+      ],
+      "title": "Breadth and Depth of Coverage"
+    },
+    {
+      "id": "RA-5(4)",
+      "level": "enhancement",
+      "parents": [
+        "RA-5"
+      ],
+      "title": "Discoverable Information"
+    },
+    {
+      "id": "RA-5(5)",
+      "level": "enhancement",
+      "parents": [
+        "RA-5"
+      ],
+      "title": "Privileged Access"
+    },
+    {
+      "id": "RA-5(6)",
+      "level": "enhancement",
+      "parents": [
+        "RA-5"
+      ],
+      "title": "Automated Trend Analyses"
+    },
+    {
+      "id": "RA-5(8)",
+      "level": "enhancement",
+      "parents": [
+        "RA-5"
+      ],
+      "title": "Review Historic Audit Logs"
+    },
+    {
+      "id": "RA-5(10)",
+      "level": "enhancement",
+      "parents": [
+        "RA-5"
+      ],
+      "title": "Correlate Scanning Information"
+    },
+    {
+      "id": "RA-5(11)",
+      "level": "enhancement",
+      "parents": [
+        "RA-5"
+      ],
+      "title": "Public Disclosure Program"
+    },
+    {
+      "id": "RA-6",
+      "level": "control",
+      "parents": [
+        "RA"
+      ],
+      "title": "Technical Surveillance Countermeasures Survey"
+    },
+    {
+      "id": "RA-7",
+      "level": "control",
+      "parents": [
+        "RA"
+      ],
+      "title": "Risk Response"
+    },
+    {
+      "id": "RA-8",
+      "level": "control",
+      "parents": [
+        "RA"
+      ],
+      "title": "Privacy Impact Assessments"
+    },
+    {
+      "id": "RA-9",
+      "level": "control",
+      "parents": [
+        "RA"
+      ],
+      "title": "Criticality Analysis"
+    },
+    {
+      "id": "RA-10",
+      "level": "control",
+      "parents": [
+        "RA"
+      ],
+      "title": "Threat Hunting"
+    },
+    {
+      "id": "SA",
+      "level": "family",
+      "parents": [],
+      "title": "System and Services Acquisition"
+    },
+    {
+      "id": "SA-1",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "SA-2",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Allocation of Resources"
+    },
+    {
+      "id": "SA-3",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "System Development Life Cycle"
+    },
+    {
+      "id": "SA-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "SA-3"
+      ],
+      "title": "Manage Preproduction Environment"
+    },
+    {
+      "id": "SA-3(2)",
+      "level": "enhancement",
+      "parents": [
+        "SA-3"
+      ],
+      "title": "Use of Live or Operational Data"
+    },
+    {
+      "id": "SA-3(3)",
+      "level": "enhancement",
+      "parents": [
+        "SA-3"
+      ],
+      "title": "Technology Refresh"
+    },
+    {
+      "id": "SA-4",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Acquisition Process"
+    },
+    {
+      "id": "SA-4(1)",
+      "level": "enhancement",
+      "parents": [
+        "SA-4"
+      ],
+      "title": "Functional Properties of Controls"
+    },
+    {
+      "id": "SA-4(2)",
+      "level": "enhancement",
+      "parents": [
+        "SA-4"
+      ],
+      "title": "Design and Implementation Information for Controls"
+    },
+    {
+      "id": "SA-4(3)",
+      "level": "enhancement",
+      "parents": [
+        "SA-4"
+      ],
+      "title": "Development Methods, Techniques, and Practices"
+    },
+    {
+      "id": "SA-4(5)",
+      "level": "enhancement",
+      "parents": [
+        "SA-4"
+      ],
+      "title": "System, Component, and Service Configurations"
+    },
+    {
+      "id": "SA-4(6)",
+      "level": "enhancement",
+      "parents": [
+        "SA-4"
+      ],
+      "title": "Use of Information Assurance Products"
+    },
+    {
+      "id": "SA-4(7)",
+      "level": "enhancement",
+      "parents": [
+        "SA-4"
+      ],
+      "title": "NIAP-approved Protection Profiles"
+    },
+    {
+      "id": "SA-4(8)",
+      "level": "enhancement",
+      "parents": [
+        "SA-4"
+      ],
+      "title": "Continuous Monitoring Plan for Controls"
+    },
+    {
+      "id": "SA-4(9)",
+      "level": "enhancement",
+      "parents": [
+        "SA-4"
+      ],
+      "title": "Functions, Ports, Protocols, and Services in Use"
+    },
+    {
+      "id": "SA-4(10)",
+      "level": "enhancement",
+      "parents": [
+        "SA-4"
+      ],
+      "title": "Use of Approved PIV Products"
+    },
+    {
+      "id": "SA-4(11)",
+      "level": "enhancement",
+      "parents": [
+        "SA-4"
+      ],
+      "title": "System of Records"
+    },
+    {
+      "id": "SA-4(12)",
+      "level": "enhancement",
+      "parents": [
+        "SA-4"
+      ],
+      "title": "Data Ownership"
+    },
+    {
+      "id": "SA-5",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "System Documentation"
+    },
+    {
+      "id": "SA-8",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Security and Privacy Engineering Principles"
+    },
+    {
+      "id": "SA-8(1)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Clear Abstractions"
+    },
+    {
+      "id": "SA-8(2)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Least Common Mechanism"
+    },
+    {
+      "id": "SA-8(3)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Modularity and Layering"
+    },
+    {
+      "id": "SA-8(4)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Partially Ordered Dependencies"
+    },
+    {
+      "id": "SA-8(5)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Efficiently Mediated Access"
+    },
+    {
+      "id": "SA-8(6)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Minimized Sharing"
+    },
+    {
+      "id": "SA-8(7)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Reduced Complexity"
+    },
+    {
+      "id": "SA-8(8)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Secure Evolvability"
+    },
+    {
+      "id": "SA-8(9)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Trusted Components"
+    },
+    {
+      "id": "SA-8(10)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Hierarchical Trust"
+    },
+    {
+      "id": "SA-8(11)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Inverse Modification Threshold"
+    },
+    {
+      "id": "SA-8(12)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Hierarchical Protection"
+    },
+    {
+      "id": "SA-8(13)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Minimized Security Elements"
+    },
+    {
+      "id": "SA-8(14)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Least Privilege"
+    },
+    {
+      "id": "SA-8(15)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Predicate Permission"
+    },
+    {
+      "id": "SA-8(16)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Self-reliant Trustworthiness"
+    },
+    {
+      "id": "SA-8(17)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Secure Distributed Composition"
+    },
+    {
+      "id": "SA-8(18)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Trusted Communications Channels"
+    },
+    {
+      "id": "SA-8(19)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Continuous Protection"
+    },
+    {
+      "id": "SA-8(20)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Secure Metadata Management"
+    },
+    {
+      "id": "SA-8(21)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Self-analysis"
+    },
+    {
+      "id": "SA-8(22)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Accountability and Traceability"
+    },
+    {
+      "id": "SA-8(23)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Secure Defaults"
+    },
+    {
+      "id": "SA-8(24)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Secure Failure and Recovery"
+    },
+    {
+      "id": "SA-8(25)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Economic Security"
+    },
+    {
+      "id": "SA-8(26)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Performance Security"
+    },
+    {
+      "id": "SA-8(27)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Human Factored Security"
+    },
+    {
+      "id": "SA-8(28)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Acceptable Security"
+    },
+    {
+      "id": "SA-8(29)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Repeatable and Documented Procedures"
+    },
+    {
+      "id": "SA-8(30)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Procedural Rigor"
+    },
+    {
+      "id": "SA-8(31)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Secure System Modification"
+    },
+    {
+      "id": "SA-8(32)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Sufficient Documentation"
+    },
+    {
+      "id": "SA-8(33)",
+      "level": "enhancement",
+      "parents": [
+        "SA-8"
+      ],
+      "title": "Minimization"
+    },
+    {
+      "id": "SA-9",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "External System Services"
+    },
+    {
+      "id": "SA-9(1)",
+      "level": "enhancement",
+      "parents": [
+        "SA-9"
+      ],
+      "title": "Risk Assessments and Organizational Approvals"
+    },
+    {
+      "id": "SA-9(2)",
+      "level": "enhancement",
+      "parents": [
+        "SA-9"
+      ],
+      "title": "Identification of Functions, Ports, Protocols, and Services"
+    },
+    {
+      "id": "SA-9(3)",
+      "level": "enhancement",
+      "parents": [
+        "SA-9"
+      ],
+      "title": "Establish and Maintain Trust Relationship with Providers"
+    },
+    {
+      "id": "SA-9(4)",
+      "level": "enhancement",
+      "parents": [
+        "SA-9"
+      ],
+      "title": "Consistent Interests of Consumers and Providers"
+    },
+    {
+      "id": "SA-9(5)",
+      "level": "enhancement",
+      "parents": [
+        "SA-9"
+      ],
+      "title": "Processing, Storage, and Service Location"
+    },
+    {
+      "id": "SA-9(6)",
+      "level": "enhancement",
+      "parents": [
+        "SA-9"
+      ],
+      "title": "Organization-controlled Cryptographic Keys"
+    },
+    {
+      "id": "SA-9(7)",
+      "level": "enhancement",
+      "parents": [
+        "SA-9"
+      ],
+      "title": "Organization-controlled Integrity Checking"
+    },
+    {
+      "id": "SA-9(8)",
+      "level": "enhancement",
+      "parents": [
+        "SA-9"
+      ],
+      "title": "Processing and Storage Location - U.S. Jurisdiction"
+    },
+    {
+      "id": "SA-10",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Developer Configuration Management"
+    },
+    {
+      "id": "SA-10(1)",
+      "level": "enhancement",
+      "parents": [
+        "SA-10"
+      ],
+      "title": "Software and Firmware Integrity Verification"
+    },
+    {
+      "id": "SA-10(2)",
+      "level": "enhancement",
+      "parents": [
+        "SA-10"
+      ],
+      "title": "Alternative Configuration Management Processes"
+    },
+    {
+      "id": "SA-10(3)",
+      "level": "enhancement",
+      "parents": [
+        "SA-10"
+      ],
+      "title": "Hardware Integrity Verification"
+    },
+    {
+      "id": "SA-10(4)",
+      "level": "enhancement",
+      "parents": [
+        "SA-10"
+      ],
+      "title": "Trusted Generation"
+    },
+    {
+      "id": "SA-10(5)",
+      "level": "enhancement",
+      "parents": [
+        "SA-10"
+      ],
+      "title": "Mapping Integrity for Version Control"
+    },
+    {
+      "id": "SA-10(6)",
+      "level": "enhancement",
+      "parents": [
+        "SA-10"
+      ],
+      "title": "Trusted Distribution"
+    },
+    {
+      "id": "SA-10(7)",
+      "level": "enhancement",
+      "parents": [
+        "SA-10"
+      ],
+      "title": "Security and Privacy Representatives"
+    },
+    {
+      "id": "SA-11",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Developer Testing and Evaluation"
+    },
+    {
+      "id": "SA-11(1)",
+      "level": "enhancement",
+      "parents": [
+        "SA-11"
+      ],
+      "title": "Static Code Analysis"
+    },
+    {
+      "id": "SA-11(2)",
+      "level": "enhancement",
+      "parents": [
+        "SA-11"
+      ],
+      "title": "Threat Modeling and Vulnerability Analyses"
+    },
+    {
+      "id": "SA-11(3)",
+      "level": "enhancement",
+      "parents": [
+        "SA-11"
+      ],
+      "title": "Independent Verification of Assessment Plans and Evidence"
+    },
+    {
+      "id": "SA-11(4)",
+      "level": "enhancement",
+      "parents": [
+        "SA-11"
+      ],
+      "title": "Manual Code Reviews"
+    },
+    {
+      "id": "SA-11(5)",
+      "level": "enhancement",
+      "parents": [
+        "SA-11"
+      ],
+      "title": "Penetration Testing"
+    },
+    {
+      "id": "SA-11(6)",
+      "level": "enhancement",
+      "parents": [
+        "SA-11"
+      ],
+      "title": "Attack Surface Reviews"
+    },
+    {
+      "id": "SA-11(7)",
+      "level": "enhancement",
+      "parents": [
+        "SA-11"
+      ],
+      "title": "Verify Scope of Testing and Evaluation"
+    },
+    {
+      "id": "SA-11(8)",
+      "level": "enhancement",
+      "parents": [
+        "SA-11"
+      ],
+      "title": "Dynamic Code Analysis"
+    },
+    {
+      "id": "SA-11(9)",
+      "level": "enhancement",
+      "parents": [
+        "SA-11"
+      ],
+      "title": "Interactive Application Security Testing"
+    },
+    {
+      "id": "SA-15",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Development Process, Standards, and Tools"
+    },
+    {
+      "id": "SA-15(1)",
+      "level": "enhancement",
+      "parents": [
+        "SA-15"
+      ],
+      "title": "Quality Metrics"
+    },
+    {
+      "id": "SA-15(2)",
+      "level": "enhancement",
+      "parents": [
+        "SA-15"
+      ],
+      "title": "Security and Privacy Tracking Tools"
+    },
+    {
+      "id": "SA-15(3)",
+      "level": "enhancement",
+      "parents": [
+        "SA-15"
+      ],
+      "title": "Criticality Analysis"
+    },
+    {
+      "id": "SA-15(5)",
+      "level": "enhancement",
+      "parents": [
+        "SA-15"
+      ],
+      "title": "Attack Surface Reduction"
+    },
+    {
+      "id": "SA-15(6)",
+      "level": "enhancement",
+      "parents": [
+        "SA-15"
+      ],
+      "title": "Continuous Improvement"
+    },
+    {
+      "id": "SA-15(7)",
+      "level": "enhancement",
+      "parents": [
+        "SA-15"
+      ],
+      "title": "Automated Vulnerability Analysis"
+    },
+    {
+      "id": "SA-15(8)",
+      "level": "enhancement",
+      "parents": [
+        "SA-15"
+      ],
+      "title": "Reuse of Threat and Vulnerability Information"
+    },
+    {
+      "id": "SA-15(10)",
+      "level": "enhancement",
+      "parents": [
+        "SA-15"
+      ],
+      "title": "Incident Response Plan"
+    },
+    {
+      "id": "SA-15(11)",
+      "level": "enhancement",
+      "parents": [
+        "SA-15"
+      ],
+      "title": "Archive System or Component"
+    },
+    {
+      "id": "SA-15(12)",
+      "level": "enhancement",
+      "parents": [
+        "SA-15"
+      ],
+      "title": "Minimize Personally Identifiable Information"
+    },
+    {
+      "id": "SA-15(13)",
+      "level": "enhancement",
+      "parents": [
+        "SA-15"
+      ],
+      "title": "Logging Syntax"
+    },
+    {
+      "id": "SA-16",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Developer-provided Training"
+    },
+    {
+      "id": "SA-17",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Developer Security and Privacy Architecture and Design"
+    },
+    {
+      "id": "SA-17(1)",
+      "level": "enhancement",
+      "parents": [
+        "SA-17"
+      ],
+      "title": "Formal Policy Model"
+    },
+    {
+      "id": "SA-17(2)",
+      "level": "enhancement",
+      "parents": [
+        "SA-17"
+      ],
+      "title": "Security-relevant Components"
+    },
+    {
+      "id": "SA-17(3)",
+      "level": "enhancement",
+      "parents": [
+        "SA-17"
+      ],
+      "title": "Formal Correspondence"
+    },
+    {
+      "id": "SA-17(4)",
+      "level": "enhancement",
+      "parents": [
+        "SA-17"
+      ],
+      "title": "Informal Correspondence"
+    },
+    {
+      "id": "SA-17(5)",
+      "level": "enhancement",
+      "parents": [
+        "SA-17"
+      ],
+      "title": "Conceptually Simple Design"
+    },
+    {
+      "id": "SA-17(6)",
+      "level": "enhancement",
+      "parents": [
+        "SA-17"
+      ],
+      "title": "Structure for Testing"
+    },
+    {
+      "id": "SA-17(7)",
+      "level": "enhancement",
+      "parents": [
+        "SA-17"
+      ],
+      "title": "Structure for Least Privilege"
+    },
+    {
+      "id": "SA-17(8)",
+      "level": "enhancement",
+      "parents": [
+        "SA-17"
+      ],
+      "title": "Orchestration"
+    },
+    {
+      "id": "SA-17(9)",
+      "level": "enhancement",
+      "parents": [
+        "SA-17"
+      ],
+      "title": "Design Diversity"
+    },
+    {
+      "id": "SA-20",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Customized Development of Critical Components"
+    },
+    {
+      "id": "SA-21",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Developer Screening"
+    },
+    {
+      "id": "SA-22",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Unsupported System Components"
+    },
+    {
+      "id": "SA-23",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Specialization"
+    },
+    {
+      "id": "SA-24",
+      "level": "control",
+      "parents": [
+        "SA"
+      ],
+      "title": "Design For Cyber Resiliency"
+    },
+    {
+      "id": "SC",
+      "level": "family",
+      "parents": [],
+      "title": "System and Communications Protection"
+    },
+    {
+      "id": "SC-1",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "SC-2",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Separation of System and User Functionality"
+    },
+    {
+      "id": "SC-2(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-2"
+      ],
+      "title": "Interfaces for Non-privileged Users"
+    },
+    {
+      "id": "SC-2(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-2"
+      ],
+      "title": "Disassociability"
+    },
+    {
+      "id": "SC-3",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Security Function Isolation"
+    },
+    {
+      "id": "SC-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-3"
+      ],
+      "title": "Hardware Separation"
+    },
+    {
+      "id": "SC-3(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-3"
+      ],
+      "title": "Access and Flow Control Functions"
+    },
+    {
+      "id": "SC-3(3)",
+      "level": "enhancement",
+      "parents": [
+        "SC-3"
+      ],
+      "title": "Minimize Nonsecurity Functionality"
+    },
+    {
+      "id": "SC-3(4)",
+      "level": "enhancement",
+      "parents": [
+        "SC-3"
+      ],
+      "title": "Module Coupling and Cohesiveness"
+    },
+    {
+      "id": "SC-3(5)",
+      "level": "enhancement",
+      "parents": [
+        "SC-3"
+      ],
+      "title": "Layered Structures"
+    },
+    {
+      "id": "SC-4",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Information in Shared System Resources"
+    },
+    {
+      "id": "SC-4(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-4"
+      ],
+      "title": "Multilevel or Periods Processing"
+    },
+    {
+      "id": "SC-5",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Denial-of-service Protection"
+    },
+    {
+      "id": "SC-5(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-5"
+      ],
+      "title": "Restrict Ability to Attack Other Systems"
+    },
+    {
+      "id": "SC-5(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-5"
+      ],
+      "title": "Capacity, Bandwidth, and Redundancy"
+    },
+    {
+      "id": "SC-5(3)",
+      "level": "enhancement",
+      "parents": [
+        "SC-5"
+      ],
+      "title": "Detection and Monitoring"
+    },
+    {
+      "id": "SC-6",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Resource Availability"
+    },
+    {
+      "id": "SC-7",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Boundary Protection"
+    },
+    {
+      "id": "SC-7(3)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Access Points"
+    },
+    {
+      "id": "SC-7(4)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "External Telecommunications Services"
+    },
+    {
+      "id": "SC-7(5)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Deny by Default - Allow by Exception"
+    },
+    {
+      "id": "SC-7(7)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Split Tunneling for Remote Devices"
+    },
+    {
+      "id": "SC-7(8)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Route Traffic to Authenticated Proxy Servers"
+    },
+    {
+      "id": "SC-7(9)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Restrict Threatening Outgoing Communications Traffic"
+    },
+    {
+      "id": "SC-7(10)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Prevent Exfiltration"
+    },
+    {
+      "id": "SC-7(11)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Restrict Incoming Communications Traffic"
+    },
+    {
+      "id": "SC-7(12)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Host-based Protection"
+    },
+    {
+      "id": "SC-7(13)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Isolation of Security Tools, Mechanisms, and Support Components"
+    },
+    {
+      "id": "SC-7(14)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Protect Against Unauthorized Physical Connections"
+    },
+    {
+      "id": "SC-7(15)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Networked Privileged Accesses"
+    },
+    {
+      "id": "SC-7(16)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Prevent Discovery of System Components"
+    },
+    {
+      "id": "SC-7(17)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Automated Enforcement of Protocol Formats"
+    },
+    {
+      "id": "SC-7(18)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Fail Secure"
+    },
+    {
+      "id": "SC-7(19)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Block Communication from Non-organizationally Configured Hosts"
+    },
+    {
+      "id": "SC-7(20)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Dynamic Isolation and Segregation"
+    },
+    {
+      "id": "SC-7(21)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Isolation of System Components"
+    },
+    {
+      "id": "SC-7(22)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Separate Subnets for Connecting to Different Security Domains"
+    },
+    {
+      "id": "SC-7(23)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Disable Sender Feedback on Protocol Validation Failure"
+    },
+    {
+      "id": "SC-7(24)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Personally Identifiable Information"
+    },
+    {
+      "id": "SC-7(25)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Unclassified National Security System Connections"
+    },
+    {
+      "id": "SC-7(26)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Classified National Security System Connections"
+    },
+    {
+      "id": "SC-7(27)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Unclassified Non-national Security System Connections"
+    },
+    {
+      "id": "SC-7(28)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Connections to Public Networks"
+    },
+    {
+      "id": "SC-7(29)",
+      "level": "enhancement",
+      "parents": [
+        "SC-7"
+      ],
+      "title": "Separate Subnets to Isolate Functions"
+    },
+    {
+      "id": "SC-8",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Transmission Confidentiality and Integrity"
+    },
+    {
+      "id": "SC-8(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-8"
+      ],
+      "title": "Cryptographic Protection"
+    },
+    {
+      "id": "SC-8(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-8"
+      ],
+      "title": "Pre- and Post-transmission Handling"
+    },
+    {
+      "id": "SC-8(3)",
+      "level": "enhancement",
+      "parents": [
+        "SC-8"
+      ],
+      "title": "Cryptographic Protection for Message Externals"
+    },
+    {
+      "id": "SC-8(4)",
+      "level": "enhancement",
+      "parents": [
+        "SC-8"
+      ],
+      "title": "Conceal or Randomize Communications"
+    },
+    {
+      "id": "SC-8(5)",
+      "level": "enhancement",
+      "parents": [
+        "SC-8"
+      ],
+      "title": "Protected Distribution System"
+    },
+    {
+      "id": "SC-10",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Network Disconnect"
+    },
+    {
+      "id": "SC-11",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Trusted Path"
+    },
+    {
+      "id": "SC-11(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-11"
+      ],
+      "title": "Irrefutable Communications Path"
+    },
+    {
+      "id": "SC-12",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Cryptographic Key Establishment and Management"
+    },
+    {
+      "id": "SC-12(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-12"
+      ],
+      "title": "Availability"
+    },
+    {
+      "id": "SC-12(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-12"
+      ],
+      "title": "Symmetric Keys"
+    },
+    {
+      "id": "SC-12(3)",
+      "level": "enhancement",
+      "parents": [
+        "SC-12"
+      ],
+      "title": "Asymmetric Keys"
+    },
+    {
+      "id": "SC-12(6)",
+      "level": "enhancement",
+      "parents": [
+        "SC-12"
+      ],
+      "title": "Physical Control of Keys"
+    },
+    {
+      "id": "SC-13",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Cryptographic Protection"
+    },
+    {
+      "id": "SC-15",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Collaborative Computing Devices and Applications"
+    },
+    {
+      "id": "SC-15(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-15"
+      ],
+      "title": "Physical or Logical Disconnect"
+    },
+    {
+      "id": "SC-15(3)",
+      "level": "enhancement",
+      "parents": [
+        "SC-15"
+      ],
+      "title": "Disabling and Removal in Secure Work Areas"
+    },
+    {
+      "id": "SC-15(4)",
+      "level": "enhancement",
+      "parents": [
+        "SC-15"
+      ],
+      "title": "Explicitly Indicate Current Participants"
+    },
+    {
+      "id": "SC-16",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Transmission of Security and Privacy Attributes"
+    },
+    {
+      "id": "SC-16(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-16"
+      ],
+      "title": "Integrity Verification"
+    },
+    {
+      "id": "SC-16(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-16"
+      ],
+      "title": "Anti-spoofing Mechanisms"
+    },
+    {
+      "id": "SC-16(3)",
+      "level": "enhancement",
+      "parents": [
+        "SC-16"
+      ],
+      "title": "Cryptographic Binding"
+    },
+    {
+      "id": "SC-17",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Public Key Infrastructure Certificates"
+    },
+    {
+      "id": "SC-18",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Mobile Code"
+    },
+    {
+      "id": "SC-18(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-18"
+      ],
+      "title": "Identify Unacceptable Code and Take Corrective Actions"
+    },
+    {
+      "id": "SC-18(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-18"
+      ],
+      "title": "Acquisition, Development, and Use"
+    },
+    {
+      "id": "SC-18(3)",
+      "level": "enhancement",
+      "parents": [
+        "SC-18"
+      ],
+      "title": "Prevent Downloading and Execution"
+    },
+    {
+      "id": "SC-18(4)",
+      "level": "enhancement",
+      "parents": [
+        "SC-18"
+      ],
+      "title": "Prevent Automatic Execution"
+    },
+    {
+      "id": "SC-18(5)",
+      "level": "enhancement",
+      "parents": [
+        "SC-18"
+      ],
+      "title": "Allow Execution Only in Confined Environments"
+    },
+    {
+      "id": "SC-20",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Secure Name/Address Resolution Service (Authoritative Source)"
+    },
+    {
+      "id": "SC-20(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-20"
+      ],
+      "title": "Data Origin and Integrity"
+    },
+    {
+      "id": "SC-21",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Secure Name/Address Resolution Service (Recursive or Caching Resolver)"
+    },
+    {
+      "id": "SC-22",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Architecture and Provisioning for Name/Address Resolution Service"
+    },
+    {
+      "id": "SC-23",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Session Authenticity"
+    },
+    {
+      "id": "SC-23(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-23"
+      ],
+      "title": "Invalidate Session Identifiers at Logout"
+    },
+    {
+      "id": "SC-23(3)",
+      "level": "enhancement",
+      "parents": [
+        "SC-23"
+      ],
+      "title": "Unique System-generated Session Identifiers"
+    },
+    {
+      "id": "SC-23(5)",
+      "level": "enhancement",
+      "parents": [
+        "SC-23"
+      ],
+      "title": "Allowed Certificate Authorities"
+    },
+    {
+      "id": "SC-24",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Fail in Known State"
+    },
+    {
+      "id": "SC-25",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Thin Nodes"
+    },
+    {
+      "id": "SC-26",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Decoys"
+    },
+    {
+      "id": "SC-27",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Platform-independent Applications"
+    },
+    {
+      "id": "SC-28",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Protection of Information at Rest"
+    },
+    {
+      "id": "SC-28(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-28"
+      ],
+      "title": "Cryptographic Protection"
+    },
+    {
+      "id": "SC-28(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-28"
+      ],
+      "title": "Offline Storage"
+    },
+    {
+      "id": "SC-28(3)",
+      "level": "enhancement",
+      "parents": [
+        "SC-28"
+      ],
+      "title": "Cryptographic Keys"
+    },
+    {
+      "id": "SC-29",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Heterogeneity"
+    },
+    {
+      "id": "SC-29(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-29"
+      ],
+      "title": "Virtualization Techniques"
+    },
+    {
+      "id": "SC-30",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Concealment and Misdirection"
+    },
+    {
+      "id": "SC-30(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-30"
+      ],
+      "title": "Randomness"
+    },
+    {
+      "id": "SC-30(3)",
+      "level": "enhancement",
+      "parents": [
+        "SC-30"
+      ],
+      "title": "Change Processing and Storage Locations"
+    },
+    {
+      "id": "SC-30(4)",
+      "level": "enhancement",
+      "parents": [
+        "SC-30"
+      ],
+      "title": "Misleading Information"
+    },
+    {
+      "id": "SC-30(5)",
+      "level": "enhancement",
+      "parents": [
+        "SC-30"
+      ],
+      "title": "Concealment of System Components"
+    },
+    {
+      "id": "SC-31",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Covert Channel Analysis"
+    },
+    {
+      "id": "SC-31(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-31"
+      ],
+      "title": "Test Covert Channels for Exploitability"
+    },
+    {
+      "id": "SC-31(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-31"
+      ],
+      "title": "Maximum Bandwidth"
+    },
+    {
+      "id": "SC-31(3)",
+      "level": "enhancement",
+      "parents": [
+        "SC-31"
+      ],
+      "title": "Measure Bandwidth in Operational Environments"
+    },
+    {
+      "id": "SC-32",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "System Partitioning"
+    },
+    {
+      "id": "SC-32(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-32"
+      ],
+      "title": "Separate Physical Domains for Privileged Functions"
+    },
+    {
+      "id": "SC-34",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Non-modifiable Executable Programs"
+    },
+    {
+      "id": "SC-34(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-34"
+      ],
+      "title": "No Writable Storage"
+    },
+    {
+      "id": "SC-34(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-34"
+      ],
+      "title": "Integrity Protection on Read-only Media"
+    },
+    {
+      "id": "SC-35",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "External Malicious Code Identification"
+    },
+    {
+      "id": "SC-36",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Distributed Processing and Storage"
+    },
+    {
+      "id": "SC-36(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-36"
+      ],
+      "title": "Polling Techniques"
+    },
+    {
+      "id": "SC-36(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-36"
+      ],
+      "title": "Synchronization"
+    },
+    {
+      "id": "SC-37",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Out-of-band Channels"
+    },
+    {
+      "id": "SC-37(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-37"
+      ],
+      "title": "Ensure Delivery and Transmission"
+    },
+    {
+      "id": "SC-38",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Operations Security"
+    },
+    {
+      "id": "SC-39",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Process Isolation"
+    },
+    {
+      "id": "SC-39(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-39"
+      ],
+      "title": "Hardware Separation"
+    },
+    {
+      "id": "SC-39(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-39"
+      ],
+      "title": "Separate Execution Domain Per Thread"
+    },
+    {
+      "id": "SC-40",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Wireless Link Protection"
+    },
+    {
+      "id": "SC-40(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-40"
+      ],
+      "title": "Electromagnetic Interference"
+    },
+    {
+      "id": "SC-40(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-40"
+      ],
+      "title": "Reduce Detection Potential"
+    },
+    {
+      "id": "SC-40(3)",
+      "level": "enhancement",
+      "parents": [
+        "SC-40"
+      ],
+      "title": "Imitative or Manipulative Communications Deception"
+    },
+    {
+      "id": "SC-40(4)",
+      "level": "enhancement",
+      "parents": [
+        "SC-40"
+      ],
+      "title": "Signal Parameter Identification"
+    },
+    {
+      "id": "SC-41",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Port and I/O Device Access"
+    },
+    {
+      "id": "SC-42",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Sensor Capability and Data"
+    },
+    {
+      "id": "SC-42(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-42"
+      ],
+      "title": "Reporting to Authorized Individuals or Roles"
+    },
+    {
+      "id": "SC-42(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-42"
+      ],
+      "title": "Authorized Use"
+    },
+    {
+      "id": "SC-42(4)",
+      "level": "enhancement",
+      "parents": [
+        "SC-42"
+      ],
+      "title": "Notice of Collection"
+    },
+    {
+      "id": "SC-42(5)",
+      "level": "enhancement",
+      "parents": [
+        "SC-42"
+      ],
+      "title": "Collection Minimization"
+    },
+    {
+      "id": "SC-43",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Usage Restrictions"
+    },
+    {
+      "id": "SC-44",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Detonation Chambers"
+    },
+    {
+      "id": "SC-45",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "System Time Synchronization"
+    },
+    {
+      "id": "SC-45(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-45"
+      ],
+      "title": "Synchronization with Authoritative Time Source"
+    },
+    {
+      "id": "SC-45(2)",
+      "level": "enhancement",
+      "parents": [
+        "SC-45"
+      ],
+      "title": "Secondary Authoritative Time Source"
+    },
+    {
+      "id": "SC-46",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Cross Domain Policy Enforcement"
+    },
+    {
+      "id": "SC-47",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Alternate Communications Paths"
+    },
+    {
+      "id": "SC-48",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Sensor Relocation"
+    },
+    {
+      "id": "SC-48(1)",
+      "level": "enhancement",
+      "parents": [
+        "SC-48"
+      ],
+      "title": "Dynamic Relocation of Sensors or Monitoring Capabilities"
+    },
+    {
+      "id": "SC-49",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Hardware-enforced Separation and Policy Enforcement"
+    },
+    {
+      "id": "SC-50",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Software-enforced Separation and Policy Enforcement"
+    },
+    {
+      "id": "SC-51",
+      "level": "control",
+      "parents": [
+        "SC"
+      ],
+      "title": "Hardware-based Protection"
+    },
+    {
+      "id": "SI",
+      "level": "family",
+      "parents": [],
+      "title": "System and Information Integrity"
+    },
+    {
+      "id": "SI-1",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "SI-2",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Flaw Remediation"
+    },
+    {
+      "id": "SI-2(2)",
+      "level": "enhancement",
+      "parents": [
+        "SI-2"
+      ],
+      "title": "Automated Flaw Remediation Status"
+    },
+    {
+      "id": "SI-2(3)",
+      "level": "enhancement",
+      "parents": [
+        "SI-2"
+      ],
+      "title": "Time to Remediate Flaws and Benchmarks for Corrective Actions"
+    },
+    {
+      "id": "SI-2(4)",
+      "level": "enhancement",
+      "parents": [
+        "SI-2"
+      ],
+      "title": "Automated Patch Management Tools"
+    },
+    {
+      "id": "SI-2(5)",
+      "level": "enhancement",
+      "parents": [
+        "SI-2"
+      ],
+      "title": "Automatic Software and Firmware Updates"
+    },
+    {
+      "id": "SI-2(6)",
+      "level": "enhancement",
+      "parents": [
+        "SI-2"
+      ],
+      "title": "Removal of Previous Versions of Software and Firmware"
+    },
+    {
+      "id": "SI-2(7)",
+      "level": "enhancement",
+      "parents": [
+        "SI-2"
+      ],
+      "title": "Root Cause Analysis"
+    },
+    {
+      "id": "SI-3",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Malicious Code Protection"
+    },
+    {
+      "id": "SI-3(4)",
+      "level": "enhancement",
+      "parents": [
+        "SI-3"
+      ],
+      "title": "Updates Only by Privileged Users"
+    },
+    {
+      "id": "SI-3(6)",
+      "level": "enhancement",
+      "parents": [
+        "SI-3"
+      ],
+      "title": "Testing and Verification"
+    },
+    {
+      "id": "SI-3(8)",
+      "level": "enhancement",
+      "parents": [
+        "SI-3"
+      ],
+      "title": "Detect Unauthorized Commands"
+    },
+    {
+      "id": "SI-3(10)",
+      "level": "enhancement",
+      "parents": [
+        "SI-3"
+      ],
+      "title": "Malicious Code Analysis"
+    },
+    {
+      "id": "SI-4",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "System Monitoring"
+    },
+    {
+      "id": "SI-4(1)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "System-wide Intrusion Detection System"
+    },
+    {
+      "id": "SI-4(2)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Automated Tools and Mechanisms for Real-time Analysis"
+    },
+    {
+      "id": "SI-4(3)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Automated Tool and Mechanism Integration"
+    },
+    {
+      "id": "SI-4(4)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Inbound and Outbound Communications Traffic"
+    },
+    {
+      "id": "SI-4(5)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "System-generated Alerts"
+    },
+    {
+      "id": "SI-4(7)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Automated Response to Suspicious Events"
+    },
+    {
+      "id": "SI-4(9)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Testing of Monitoring Tools and Mechanisms"
+    },
+    {
+      "id": "SI-4(10)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Visibility of Encrypted Communications"
+    },
+    {
+      "id": "SI-4(11)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Analyze Communications Traffic Anomalies"
+    },
+    {
+      "id": "SI-4(12)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Automated Organization-generated Alerts"
+    },
+    {
+      "id": "SI-4(13)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Analyze Traffic and Event Patterns"
+    },
+    {
+      "id": "SI-4(14)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Wireless Intrusion Detection"
+    },
+    {
+      "id": "SI-4(15)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Wireless to Wireline Communications"
+    },
+    {
+      "id": "SI-4(16)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Correlate Monitoring Information"
+    },
+    {
+      "id": "SI-4(17)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Integrated Situational Awareness"
+    },
+    {
+      "id": "SI-4(18)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Analyze Traffic and Covert Exfiltration"
+    },
+    {
+      "id": "SI-4(19)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Risk for Individuals"
+    },
+    {
+      "id": "SI-4(20)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Privileged Users"
+    },
+    {
+      "id": "SI-4(21)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Probationary Periods"
+    },
+    {
+      "id": "SI-4(22)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Unauthorized Network Services"
+    },
+    {
+      "id": "SI-4(23)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Host-based Devices"
+    },
+    {
+      "id": "SI-4(24)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Indicators of Compromise"
+    },
+    {
+      "id": "SI-4(25)",
+      "level": "enhancement",
+      "parents": [
+        "SI-4"
+      ],
+      "title": "Optimize Network Traffic Analysis"
+    },
+    {
+      "id": "SI-5",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Security Alerts, Advisories, and Directives"
+    },
+    {
+      "id": "SI-5(1)",
+      "level": "enhancement",
+      "parents": [
+        "SI-5"
+      ],
+      "title": "Automated Alerts and Advisories"
+    },
+    {
+      "id": "SI-6",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Security and Privacy Function Verification"
+    },
+    {
+      "id": "SI-6(2)",
+      "level": "enhancement",
+      "parents": [
+        "SI-6"
+      ],
+      "title": "Automation Support for Distributed Testing"
+    },
+    {
+      "id": "SI-6(3)",
+      "level": "enhancement",
+      "parents": [
+        "SI-6"
+      ],
+      "title": "Report Verification Results"
+    },
+    {
+      "id": "SI-7",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Software, Firmware, and Information Integrity"
+    },
+    {
+      "id": "SI-7(1)",
+      "level": "enhancement",
+      "parents": [
+        "SI-7"
+      ],
+      "title": "Integrity Checks"
+    },
+    {
+      "id": "SI-7(2)",
+      "level": "enhancement",
+      "parents": [
+        "SI-7"
+      ],
+      "title": "Automated Notifications of Integrity Violations"
+    },
+    {
+      "id": "SI-7(3)",
+      "level": "enhancement",
+      "parents": [
+        "SI-7"
+      ],
+      "title": "Centrally Managed Integrity Tools"
+    },
+    {
+      "id": "SI-7(5)",
+      "level": "enhancement",
+      "parents": [
+        "SI-7"
+      ],
+      "title": "Automated Response to Integrity Violations"
+    },
+    {
+      "id": "SI-7(6)",
+      "level": "enhancement",
+      "parents": [
+        "SI-7"
+      ],
+      "title": "Cryptographic Protection"
+    },
+    {
+      "id": "SI-7(7)",
+      "level": "enhancement",
+      "parents": [
+        "SI-7"
+      ],
+      "title": "Integration of Detection and Response"
+    },
+    {
+      "id": "SI-7(8)",
+      "level": "enhancement",
+      "parents": [
+        "SI-7"
+      ],
+      "title": "Auditing Capability for Significant Events"
+    },
+    {
+      "id": "SI-7(9)",
+      "level": "enhancement",
+      "parents": [
+        "SI-7"
+      ],
+      "title": "Verify Boot Process"
+    },
+    {
+      "id": "SI-7(10)",
+      "level": "enhancement",
+      "parents": [
+        "SI-7"
+      ],
+      "title": "Protection of Boot Firmware"
+    },
+    {
+      "id": "SI-7(12)",
+      "level": "enhancement",
+      "parents": [
+        "SI-7"
+      ],
+      "title": "Integrity Verification"
+    },
+    {
+      "id": "SI-7(15)",
+      "level": "enhancement",
+      "parents": [
+        "SI-7"
+      ],
+      "title": "Code Authentication"
+    },
+    {
+      "id": "SI-7(16)",
+      "level": "enhancement",
+      "parents": [
+        "SI-7"
+      ],
+      "title": "Time Limit on Process Execution Without Supervision"
+    },
+    {
+      "id": "SI-7(17)",
+      "level": "enhancement",
+      "parents": [
+        "SI-7"
+      ],
+      "title": "Runtime Application Self-protection"
+    },
+    {
+      "id": "SI-8",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Spam Protection"
+    },
+    {
+      "id": "SI-8(2)",
+      "level": "enhancement",
+      "parents": [
+        "SI-8"
+      ],
+      "title": "Automatic Updates"
+    },
+    {
+      "id": "SI-8(3)",
+      "level": "enhancement",
+      "parents": [
+        "SI-8"
+      ],
+      "title": "Continuous Learning Capability"
+    },
+    {
+      "id": "SI-10",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Information Input Validation"
+    },
+    {
+      "id": "SI-10(1)",
+      "level": "enhancement",
+      "parents": [
+        "SI-10"
+      ],
+      "title": "Manual Override Capability"
+    },
+    {
+      "id": "SI-10(2)",
+      "level": "enhancement",
+      "parents": [
+        "SI-10"
+      ],
+      "title": "Review and Resolve Errors"
+    },
+    {
+      "id": "SI-10(3)",
+      "level": "enhancement",
+      "parents": [
+        "SI-10"
+      ],
+      "title": "Predictable Behavior"
+    },
+    {
+      "id": "SI-10(4)",
+      "level": "enhancement",
+      "parents": [
+        "SI-10"
+      ],
+      "title": "Timing Interactions"
+    },
+    {
+      "id": "SI-10(5)",
+      "level": "enhancement",
+      "parents": [
+        "SI-10"
+      ],
+      "title": "Restrict Inputs to Trusted Sources and Approved Formats"
+    },
+    {
+      "id": "SI-10(6)",
+      "level": "enhancement",
+      "parents": [
+        "SI-10"
+      ],
+      "title": "Injection Prevention"
+    },
+    {
+      "id": "SI-11",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Error Handling"
+    },
+    {
+      "id": "SI-12",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Information Management and Retention"
+    },
+    {
+      "id": "SI-12(1)",
+      "level": "enhancement",
+      "parents": [
+        "SI-12"
+      ],
+      "title": "Limit Personally Identifiable Information Elements"
+    },
+    {
+      "id": "SI-12(2)",
+      "level": "enhancement",
+      "parents": [
+        "SI-12"
+      ],
+      "title": "Minimize Personally Identifiable Information in Testing, Training, and Research"
+    },
+    {
+      "id": "SI-12(3)",
+      "level": "enhancement",
+      "parents": [
+        "SI-12"
+      ],
+      "title": "Information Disposal"
+    },
+    {
+      "id": "SI-13",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Predictable Failure Prevention"
+    },
+    {
+      "id": "SI-13(1)",
+      "level": "enhancement",
+      "parents": [
+        "SI-13"
+      ],
+      "title": "Transferring Component Responsibilities"
+    },
+    {
+      "id": "SI-13(3)",
+      "level": "enhancement",
+      "parents": [
+        "SI-13"
+      ],
+      "title": "Manual Transfer Between Components"
+    },
+    {
+      "id": "SI-13(4)",
+      "level": "enhancement",
+      "parents": [
+        "SI-13"
+      ],
+      "title": "Standby Component Installation and Notification"
+    },
+    {
+      "id": "SI-13(5)",
+      "level": "enhancement",
+      "parents": [
+        "SI-13"
+      ],
+      "title": "Failover Capability"
+    },
+    {
+      "id": "SI-14",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Non-persistence"
+    },
+    {
+      "id": "SI-14(1)",
+      "level": "enhancement",
+      "parents": [
+        "SI-14"
+      ],
+      "title": "Refresh from Trusted Sources"
+    },
+    {
+      "id": "SI-14(2)",
+      "level": "enhancement",
+      "parents": [
+        "SI-14"
+      ],
+      "title": "Non-persistent Information"
+    },
+    {
+      "id": "SI-14(3)",
+      "level": "enhancement",
+      "parents": [
+        "SI-14"
+      ],
+      "title": "Non-persistent Connectivity"
+    },
+    {
+      "id": "SI-15",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Information Output Filtering"
+    },
+    {
+      "id": "SI-16",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Memory Protection"
+    },
+    {
+      "id": "SI-17",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Fail-safe Procedures"
+    },
+    {
+      "id": "SI-18",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Personally Identifiable Information Quality Operations"
+    },
+    {
+      "id": "SI-18(1)",
+      "level": "enhancement",
+      "parents": [
+        "SI-18"
+      ],
+      "title": "Automation Support"
+    },
+    {
+      "id": "SI-18(2)",
+      "level": "enhancement",
+      "parents": [
+        "SI-18"
+      ],
+      "title": "Data Tags"
+    },
+    {
+      "id": "SI-18(3)",
+      "level": "enhancement",
+      "parents": [
+        "SI-18"
+      ],
+      "title": "Collection"
+    },
+    {
+      "id": "SI-18(4)",
+      "level": "enhancement",
+      "parents": [
+        "SI-18"
+      ],
+      "title": "Individual Requests"
+    },
+    {
+      "id": "SI-18(5)",
+      "level": "enhancement",
+      "parents": [
+        "SI-18"
+      ],
+      "title": "Notice of Correction or Deletion"
+    },
+    {
+      "id": "SI-19",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "De-identification"
+    },
+    {
+      "id": "SI-19(1)",
+      "level": "enhancement",
+      "parents": [
+        "SI-19"
+      ],
+      "title": "Collection"
+    },
+    {
+      "id": "SI-19(2)",
+      "level": "enhancement",
+      "parents": [
+        "SI-19"
+      ],
+      "title": "Archiving"
+    },
+    {
+      "id": "SI-19(3)",
+      "level": "enhancement",
+      "parents": [
+        "SI-19"
+      ],
+      "title": "Release"
+    },
+    {
+      "id": "SI-19(4)",
+      "level": "enhancement",
+      "parents": [
+        "SI-19"
+      ],
+      "title": "Removal, Masking, Encryption, Hashing, or Replacement of Direct Identifiers"
+    },
+    {
+      "id": "SI-19(5)",
+      "level": "enhancement",
+      "parents": [
+        "SI-19"
+      ],
+      "title": "Statistical Disclosure Control"
+    },
+    {
+      "id": "SI-19(6)",
+      "level": "enhancement",
+      "parents": [
+        "SI-19"
+      ],
+      "title": "Differential Privacy"
+    },
+    {
+      "id": "SI-19(7)",
+      "level": "enhancement",
+      "parents": [
+        "SI-19"
+      ],
+      "title": "Validated Algorithms and Software"
+    },
+    {
+      "id": "SI-19(8)",
+      "level": "enhancement",
+      "parents": [
+        "SI-19"
+      ],
+      "title": "Motivated Intruder"
+    },
+    {
+      "id": "SI-20",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Tainting"
+    },
+    {
+      "id": "SI-21",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Information Refresh"
+    },
+    {
+      "id": "SI-22",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Information Diversity"
+    },
+    {
+      "id": "SI-23",
+      "level": "control",
+      "parents": [
+        "SI"
+      ],
+      "title": "Information Fragmentation"
+    },
+    {
+      "id": "SR",
+      "level": "family",
+      "parents": [],
+      "title": "Supply Chain Risk Management"
+    },
+    {
+      "id": "SR-1",
+      "level": "control",
+      "parents": [
+        "SR"
+      ],
+      "title": "Policy and Procedures"
+    },
+    {
+      "id": "SR-2",
+      "level": "control",
+      "parents": [
+        "SR"
+      ],
+      "title": "Supply Chain Risk Management Plan"
+    },
+    {
+      "id": "SR-2(1)",
+      "level": "enhancement",
+      "parents": [
+        "SR-2"
+      ],
+      "title": "Establish SCRM Team"
+    },
+    {
+      "id": "SR-3",
+      "level": "control",
+      "parents": [
+        "SR"
+      ],
+      "title": "Supply Chain Controls and Processes"
+    },
+    {
+      "id": "SR-3(1)",
+      "level": "enhancement",
+      "parents": [
+        "SR-3"
+      ],
+      "title": "Diverse Supply Base"
+    },
+    {
+      "id": "SR-3(2)",
+      "level": "enhancement",
+      "parents": [
+        "SR-3"
+      ],
+      "title": "Limitation of Harm"
+    },
+    {
+      "id": "SR-3(3)",
+      "level": "enhancement",
+      "parents": [
+        "SR-3"
+      ],
+      "title": "Sub-tier Flow Down"
+    },
+    {
+      "id": "SR-4",
+      "level": "control",
+      "parents": [
+        "SR"
+      ],
+      "title": "Provenance"
+    },
+    {
+      "id": "SR-4(1)",
+      "level": "enhancement",
+      "parents": [
+        "SR-4"
+      ],
+      "title": "Identity"
+    },
+    {
+      "id": "SR-4(2)",
+      "level": "enhancement",
+      "parents": [
+        "SR-4"
+      ],
+      "title": "Track and Trace"
+    },
+    {
+      "id": "SR-4(3)",
+      "level": "enhancement",
+      "parents": [
+        "SR-4"
+      ],
+      "title": "Validate as Genuine and Not Altered"
+    },
+    {
+      "id": "SR-4(4)",
+      "level": "enhancement",
+      "parents": [
+        "SR-4"
+      ],
+      "title": "Supply Chain Integrity - Pedigree"
+    },
+    {
+      "id": "SR-5",
+      "level": "control",
+      "parents": [
+        "SR"
+      ],
+      "title": "Acquisition Strategies, Tools, and Methods"
+    },
+    {
+      "id": "SR-5(1)",
+      "level": "enhancement",
+      "parents": [
+        "SR-5"
+      ],
+      "title": "Adequate Supply"
+    },
+    {
+      "id": "SR-5(2)",
+      "level": "enhancement",
+      "parents": [
+        "SR-5"
+      ],
+      "title": "Assessments Prior to Selection, Acceptance, Modification, or Update"
+    },
+    {
+      "id": "SR-6",
+      "level": "control",
+      "parents": [
+        "SR"
+      ],
+      "title": "Supplier Assessments and Reviews"
+    },
+    {
+      "id": "SR-6(1)",
+      "level": "enhancement",
+      "parents": [
+        "SR-6"
+      ],
+      "title": "Testing and Analysis"
+    },
+    {
+      "id": "SR-7",
+      "level": "control",
+      "parents": [
+        "SR"
+      ],
+      "title": "Supply Chain Operations Security"
+    },
+    {
+      "id": "SR-8",
+      "level": "control",
+      "parents": [
+        "SR"
+      ],
+      "title": "Notification Agreements"
+    },
+    {
+      "id": "SR-9",
+      "level": "control",
+      "parents": [
+        "SR"
+      ],
+      "title": "Tamper Resistance and Detection"
+    },
+    {
+      "id": "SR-9(1)",
+      "level": "enhancement",
+      "parents": [
+        "SR-9"
+      ],
+      "title": "Multiple Stages of System Development Life Cycle"
+    },
+    {
+      "id": "SR-10",
+      "level": "control",
+      "parents": [
+        "SR"
+      ],
+      "title": "Inspection of Systems or Components"
+    },
+    {
+      "id": "SR-11",
+      "level": "control",
+      "parents": [
+        "SR"
+      ],
+      "title": "Component Authenticity"
+    },
+    {
+      "id": "SR-11(1)",
+      "level": "enhancement",
+      "parents": [
+        "SR-11"
+      ],
+      "title": "Anti-counterfeit Training"
+    },
+    {
+      "id": "SR-11(2)",
+      "level": "enhancement",
+      "parents": [
+        "SR-11"
+      ],
+      "title": "Configuration Control for Component Service and Repair"
+    },
+    {
+      "id": "SR-11(3)",
+      "level": "enhancement",
+      "parents": [
+        "SR-11"
+      ],
+      "title": "Anti-counterfeit Scanning"
+    },
+    {
+      "id": "SR-12",
+      "level": "control",
+      "parents": [
+        "SR"
+      ],
+      "title": "Component Disposal"
+    }
+  ],
+  "sets": [
+    {
+      "id": "low",
+      "name": "Low",
+      "of": "sp800-53",
+      "sourceId": "sp800-53b-oscal",
+      "members": [
+        "AC-1",
+        "AC-2",
+        "AC-3",
+        "AC-7",
+        "AC-8",
+        "AC-14",
+        "AC-17",
+        "AC-18",
+        "AC-19",
+        "AC-20",
+        "AC-22",
+        "AT-1",
+        "AT-2",
+        "AT-2(2)",
+        "AT-3",
+        "AT-4",
+        "AU-1",
+        "AU-2",
+        "AU-3",
+        "AU-4",
+        "AU-5",
+        "AU-6",
+        "AU-8",
+        "AU-9",
+        "AU-11",
+        "AU-12",
+        "CA-1",
+        "CA-2",
+        "CA-3",
+        "CA-5",
+        "CA-6",
+        "CA-7",
+        "CA-7(4)",
+        "CA-9",
+        "CM-1",
+        "CM-2",
+        "CM-4",
+        "CM-5",
+        "CM-6",
+        "CM-7",
+        "CM-8",
+        "CM-10",
+        "CM-11",
+        "CP-1",
+        "CP-2",
+        "CP-3",
+        "CP-4",
+        "CP-9",
+        "CP-10",
+        "IA-1",
+        "IA-2",
+        "IA-2(1)",
+        "IA-2(2)",
+        "IA-2(8)",
+        "IA-2(12)",
+        "IA-4",
+        "IA-5",
+        "IA-5(1)",
+        "IA-6",
+        "IA-7",
+        "IA-8",
+        "IA-8(1)",
+        "IA-8(2)",
+        "IA-8(4)",
+        "IA-11",
+        "IR-1",
+        "IR-2",
+        "IR-4",
+        "IR-5",
+        "IR-6",
+        "IR-7",
+        "IR-8",
+        "MA-1",
+        "MA-2",
+        "MA-4",
+        "MA-5",
+        "MP-1",
+        "MP-2",
+        "MP-6",
+        "MP-7",
+        "PE-1",
+        "PE-2",
+        "PE-3",
+        "PE-6",
+        "PE-8",
+        "PE-12",
+        "PE-13",
+        "PE-14",
+        "PE-15",
+        "PE-16",
+        "PL-1",
+        "PL-2",
+        "PL-4",
+        "PL-4(1)",
+        "PL-10",
+        "PL-11",
+        "PS-1",
+        "PS-2",
+        "PS-3",
+        "PS-4",
+        "PS-5",
+        "PS-6",
+        "PS-7",
+        "PS-8",
+        "PS-9",
+        "RA-1",
+        "RA-2",
+        "RA-3",
+        "RA-3(1)",
+        "RA-5",
+        "RA-5(2)",
+        "RA-5(11)",
+        "RA-7",
+        "SA-1",
+        "SA-2",
+        "SA-3",
+        "SA-4",
+        "SA-4(10)",
+        "SA-5",
+        "SA-8",
+        "SA-9",
+        "SA-22",
+        "SC-1",
+        "SC-5",
+        "SC-7",
+        "SC-12",
+        "SC-13",
+        "SC-15",
+        "SC-20",
+        "SC-21",
+        "SC-22",
+        "SC-39",
+        "SI-1",
+        "SI-2",
+        "SI-3",
+        "SI-4",
+        "SI-5",
+        "SI-12",
+        "SR-1",
+        "SR-2",
+        "SR-2(1)",
+        "SR-3",
+        "SR-5",
+        "SR-8",
+        "SR-10",
+        "SR-11",
+        "SR-11(1)",
+        "SR-11(2)",
+        "SR-12"
+      ]
+    },
+    {
+      "id": "moderate",
+      "name": "Moderate",
+      "of": "sp800-53",
+      "sourceId": "sp800-53b-oscal",
+      "members": [
+        "AC-1",
+        "AC-2",
+        "AC-2(1)",
+        "AC-2(2)",
+        "AC-2(3)",
+        "AC-2(4)",
+        "AC-2(5)",
+        "AC-2(13)",
+        "AC-3",
+        "AC-4",
+        "AC-5",
+        "AC-6",
+        "AC-6(1)",
+        "AC-6(2)",
+        "AC-6(5)",
+        "AC-6(7)",
+        "AC-6(9)",
+        "AC-6(10)",
+        "AC-7",
+        "AC-8",
+        "AC-11",
+        "AC-11(1)",
+        "AC-12",
+        "AC-14",
+        "AC-17",
+        "AC-17(1)",
+        "AC-17(2)",
+        "AC-17(3)",
+        "AC-17(4)",
+        "AC-18",
+        "AC-18(1)",
+        "AC-18(3)",
+        "AC-19",
+        "AC-19(5)",
+        "AC-20",
+        "AC-20(1)",
+        "AC-20(2)",
+        "AC-21",
+        "AC-22",
+        "AT-1",
+        "AT-2",
+        "AT-2(2)",
+        "AT-2(3)",
+        "AT-3",
+        "AT-4",
+        "AU-1",
+        "AU-2",
+        "AU-3",
+        "AU-3(1)",
+        "AU-4",
+        "AU-5",
+        "AU-6",
+        "AU-6(1)",
+        "AU-6(3)",
+        "AU-7",
+        "AU-7(1)",
+        "AU-8",
+        "AU-9",
+        "AU-9(4)",
+        "AU-11",
+        "AU-12",
+        "CA-1",
+        "CA-2",
+        "CA-2(1)",
+        "CA-3",
+        "CA-5",
+        "CA-6",
+        "CA-7",
+        "CA-7(1)",
+        "CA-7(4)",
+        "CA-9",
+        "CM-1",
+        "CM-2",
+        "CM-2(2)",
+        "CM-2(3)",
+        "CM-2(7)",
+        "CM-3",
+        "CM-3(2)",
+        "CM-3(4)",
+        "CM-4",
+        "CM-4(2)",
+        "CM-5",
+        "CM-6",
+        "CM-7",
+        "CM-7(1)",
+        "CM-7(2)",
+        "CM-7(5)",
+        "CM-8",
+        "CM-8(1)",
+        "CM-8(3)",
+        "CM-9",
+        "CM-10",
+        "CM-11",
+        "CM-12",
+        "CM-12(1)",
+        "CP-1",
+        "CP-2",
+        "CP-2(1)",
+        "CP-2(3)",
+        "CP-2(8)",
+        "CP-3",
+        "CP-4",
+        "CP-4(1)",
+        "CP-6",
+        "CP-6(1)",
+        "CP-6(3)",
+        "CP-7",
+        "CP-7(1)",
+        "CP-7(2)",
+        "CP-7(3)",
+        "CP-8",
+        "CP-8(1)",
+        "CP-8(2)",
+        "CP-9",
+        "CP-9(1)",
+        "CP-9(8)",
+        "CP-10",
+        "CP-10(2)",
+        "IA-1",
+        "IA-2",
+        "IA-2(1)",
+        "IA-2(2)",
+        "IA-2(8)",
+        "IA-2(12)",
+        "IA-3",
+        "IA-4",
+        "IA-4(4)",
+        "IA-5",
+        "IA-5(1)",
+        "IA-5(2)",
+        "IA-5(6)",
+        "IA-6",
+        "IA-7",
+        "IA-8",
+        "IA-8(1)",
+        "IA-8(2)",
+        "IA-8(4)",
+        "IA-11",
+        "IA-12",
+        "IA-12(2)",
+        "IA-12(3)",
+        "IA-12(5)",
+        "IR-1",
+        "IR-2",
+        "IR-3",
+        "IR-3(2)",
+        "IR-4",
+        "IR-4(1)",
+        "IR-5",
+        "IR-6",
+        "IR-6(1)",
+        "IR-6(3)",
+        "IR-7",
+        "IR-7(1)",
+        "IR-8",
+        "MA-1",
+        "MA-2",
+        "MA-3",
+        "MA-3(1)",
+        "MA-3(2)",
+        "MA-3(3)",
+        "MA-4",
+        "MA-5",
+        "MA-6",
+        "MP-1",
+        "MP-2",
+        "MP-3",
+        "MP-4",
+        "MP-5",
+        "MP-6",
+        "MP-7",
+        "PE-1",
+        "PE-2",
+        "PE-3",
+        "PE-4",
+        "PE-5",
+        "PE-6",
+        "PE-6(1)",
+        "PE-8",
+        "PE-9",
+        "PE-10",
+        "PE-11",
+        "PE-12",
+        "PE-13",
+        "PE-13(1)",
+        "PE-14",
+        "PE-15",
+        "PE-16",
+        "PE-17",
+        "PL-1",
+        "PL-2",
+        "PL-4",
+        "PL-4(1)",
+        "PL-8",
+        "PL-10",
+        "PL-11",
+        "PS-1",
+        "PS-2",
+        "PS-3",
+        "PS-4",
+        "PS-5",
+        "PS-6",
+        "PS-7",
+        "PS-8",
+        "PS-9",
+        "RA-1",
+        "RA-2",
+        "RA-3",
+        "RA-3(1)",
+        "RA-5",
+        "RA-5(2)",
+        "RA-5(5)",
+        "RA-5(11)",
+        "RA-7",
+        "RA-9",
+        "SA-1",
+        "SA-2",
+        "SA-3",
+        "SA-4",
+        "SA-4(1)",
+        "SA-4(2)",
+        "SA-4(9)",
+        "SA-4(10)",
+        "SA-5",
+        "SA-8",
+        "SA-9",
+        "SA-9(2)",
+        "SA-10",
+        "SA-11",
+        "SA-15",
+        "SA-15(3)",
+        "SA-22",
+        "SC-1",
+        "SC-2",
+        "SC-4",
+        "SC-5",
+        "SC-7",
+        "SC-7(3)",
+        "SC-7(4)",
+        "SC-7(5)",
+        "SC-7(7)",
+        "SC-7(8)",
+        "SC-8",
+        "SC-8(1)",
+        "SC-10",
+        "SC-12",
+        "SC-13",
+        "SC-15",
+        "SC-17",
+        "SC-18",
+        "SC-20",
+        "SC-21",
+        "SC-22",
+        "SC-23",
+        "SC-28",
+        "SC-28(1)",
+        "SC-39",
+        "SI-1",
+        "SI-2",
+        "SI-2(2)",
+        "SI-3",
+        "SI-4",
+        "SI-4(2)",
+        "SI-4(4)",
+        "SI-4(5)",
+        "SI-5",
+        "SI-7",
+        "SI-7(1)",
+        "SI-7(7)",
+        "SI-8",
+        "SI-8(2)",
+        "SI-10",
+        "SI-11",
+        "SI-12",
+        "SI-16",
+        "SR-1",
+        "SR-2",
+        "SR-2(1)",
+        "SR-3",
+        "SR-5",
+        "SR-6",
+        "SR-8",
+        "SR-10",
+        "SR-11",
+        "SR-11(1)",
+        "SR-11(2)",
+        "SR-12"
+      ]
+    },
+    {
+      "id": "high",
+      "name": "High",
+      "of": "sp800-53",
+      "sourceId": "sp800-53b-oscal",
+      "members": [
+        "AC-1",
+        "AC-2",
+        "AC-2(1)",
+        "AC-2(2)",
+        "AC-2(3)",
+        "AC-2(4)",
+        "AC-2(5)",
+        "AC-2(11)",
+        "AC-2(12)",
+        "AC-2(13)",
+        "AC-3",
+        "AC-4",
+        "AC-4(4)",
+        "AC-5",
+        "AC-6",
+        "AC-6(1)",
+        "AC-6(2)",
+        "AC-6(3)",
+        "AC-6(5)",
+        "AC-6(7)",
+        "AC-6(9)",
+        "AC-6(10)",
+        "AC-7",
+        "AC-8",
+        "AC-10",
+        "AC-11",
+        "AC-11(1)",
+        "AC-12",
+        "AC-14",
+        "AC-17",
+        "AC-17(1)",
+        "AC-17(2)",
+        "AC-17(3)",
+        "AC-17(4)",
+        "AC-18",
+        "AC-18(1)",
+        "AC-18(3)",
+        "AC-18(4)",
+        "AC-18(5)",
+        "AC-19",
+        "AC-19(5)",
+        "AC-20",
+        "AC-20(1)",
+        "AC-20(2)",
+        "AC-21",
+        "AC-22",
+        "AT-1",
+        "AT-2",
+        "AT-2(2)",
+        "AT-2(3)",
+        "AT-3",
+        "AT-4",
+        "AU-1",
+        "AU-2",
+        "AU-3",
+        "AU-3(1)",
+        "AU-4",
+        "AU-5",
+        "AU-5(1)",
+        "AU-5(2)",
+        "AU-6",
+        "AU-6(1)",
+        "AU-6(3)",
+        "AU-6(5)",
+        "AU-6(6)",
+        "AU-7",
+        "AU-7(1)",
+        "AU-8",
+        "AU-9",
+        "AU-9(2)",
+        "AU-9(3)",
+        "AU-9(4)",
+        "AU-10",
+        "AU-11",
+        "AU-12",
+        "AU-12(1)",
+        "AU-12(3)",
+        "CA-1",
+        "CA-2",
+        "CA-2(1)",
+        "CA-2(2)",
+        "CA-3",
+        "CA-3(6)",
+        "CA-5",
+        "CA-6",
+        "CA-7",
+        "CA-7(1)",
+        "CA-7(4)",
+        "CA-8",
+        "CA-8(1)",
+        "CA-9",
+        "CM-1",
+        "CM-2",
+        "CM-2(2)",
+        "CM-2(3)",
+        "CM-2(7)",
+        "CM-3",
+        "CM-3(1)",
+        "CM-3(2)",
+        "CM-3(4)",
+        "CM-3(6)",
+        "CM-4",
+        "CM-4(1)",
+        "CM-4(2)",
+        "CM-5",
+        "CM-5(1)",
+        "CM-6",
+        "CM-6(1)",
+        "CM-6(2)",
+        "CM-7",
+        "CM-7(1)",
+        "CM-7(2)",
+        "CM-7(5)",
+        "CM-8",
+        "CM-8(1)",
+        "CM-8(2)",
+        "CM-8(3)",
+        "CM-8(4)",
+        "CM-9",
+        "CM-10",
+        "CM-11",
+        "CM-12",
+        "CM-12(1)",
+        "CP-1",
+        "CP-2",
+        "CP-2(1)",
+        "CP-2(2)",
+        "CP-2(3)",
+        "CP-2(5)",
+        "CP-2(8)",
+        "CP-3",
+        "CP-3(1)",
+        "CP-4",
+        "CP-4(1)",
+        "CP-4(2)",
+        "CP-6",
+        "CP-6(1)",
+        "CP-6(2)",
+        "CP-6(3)",
+        "CP-7",
+        "CP-7(1)",
+        "CP-7(2)",
+        "CP-7(3)",
+        "CP-7(4)",
+        "CP-8",
+        "CP-8(1)",
+        "CP-8(2)",
+        "CP-8(3)",
+        "CP-8(4)",
+        "CP-9",
+        "CP-9(1)",
+        "CP-9(2)",
+        "CP-9(3)",
+        "CP-9(5)",
+        "CP-9(8)",
+        "CP-10",
+        "CP-10(2)",
+        "CP-10(4)",
+        "IA-1",
+        "IA-2",
+        "IA-2(1)",
+        "IA-2(2)",
+        "IA-2(5)",
+        "IA-2(8)",
+        "IA-2(12)",
+        "IA-3",
+        "IA-4",
+        "IA-4(4)",
+        "IA-5",
+        "IA-5(1)",
+        "IA-5(2)",
+        "IA-5(6)",
+        "IA-6",
+        "IA-7",
+        "IA-8",
+        "IA-8(1)",
+        "IA-8(2)",
+        "IA-8(4)",
+        "IA-11",
+        "IA-12",
+        "IA-12(2)",
+        "IA-12(3)",
+        "IA-12(4)",
+        "IA-12(5)",
+        "IR-1",
+        "IR-2",
+        "IR-2(1)",
+        "IR-2(2)",
+        "IR-3",
+        "IR-3(2)",
+        "IR-4",
+        "IR-4(1)",
+        "IR-4(4)",
+        "IR-4(11)",
+        "IR-5",
+        "IR-5(1)",
+        "IR-6",
+        "IR-6(1)",
+        "IR-6(3)",
+        "IR-7",
+        "IR-7(1)",
+        "IR-8",
+        "MA-1",
+        "MA-2",
+        "MA-2(2)",
+        "MA-3",
+        "MA-3(1)",
+        "MA-3(2)",
+        "MA-3(3)",
+        "MA-4",
+        "MA-4(3)",
+        "MA-5",
+        "MA-5(1)",
+        "MA-6",
+        "MP-1",
+        "MP-2",
+        "MP-3",
+        "MP-4",
+        "MP-5",
+        "MP-6",
+        "MP-6(1)",
+        "MP-6(2)",
+        "MP-6(3)",
+        "MP-7",
+        "PE-1",
+        "PE-2",
+        "PE-3",
+        "PE-3(1)",
+        "PE-4",
+        "PE-5",
+        "PE-6",
+        "PE-6(1)",
+        "PE-6(4)",
+        "PE-8",
+        "PE-8(1)",
+        "PE-9",
+        "PE-10",
+        "PE-11",
+        "PE-11(1)",
+        "PE-12",
+        "PE-13",
+        "PE-13(1)",
+        "PE-13(2)",
+        "PE-14",
+        "PE-15",
+        "PE-15(1)",
+        "PE-16",
+        "PE-17",
+        "PE-18",
+        "PL-1",
+        "PL-2",
+        "PL-4",
+        "PL-4(1)",
+        "PL-8",
+        "PL-10",
+        "PL-11",
+        "PS-1",
+        "PS-2",
+        "PS-3",
+        "PS-4",
+        "PS-4(2)",
+        "PS-5",
+        "PS-6",
+        "PS-7",
+        "PS-8",
+        "PS-9",
+        "RA-1",
+        "RA-2",
+        "RA-3",
+        "RA-3(1)",
+        "RA-5",
+        "RA-5(2)",
+        "RA-5(4)",
+        "RA-5(5)",
+        "RA-5(11)",
+        "RA-7",
+        "RA-9",
+        "SA-1",
+        "SA-2",
+        "SA-3",
+        "SA-4",
+        "SA-4(1)",
+        "SA-4(2)",
+        "SA-4(5)",
+        "SA-4(9)",
+        "SA-4(10)",
+        "SA-5",
+        "SA-8",
+        "SA-9",
+        "SA-9(2)",
+        "SA-10",
+        "SA-11",
+        "SA-15",
+        "SA-15(3)",
+        "SA-16",
+        "SA-17",
+        "SA-21",
+        "SA-22",
+        "SC-1",
+        "SC-2",
+        "SC-3",
+        "SC-4",
+        "SC-5",
+        "SC-7",
+        "SC-7(3)",
+        "SC-7(4)",
+        "SC-7(5)",
+        "SC-7(7)",
+        "SC-7(8)",
+        "SC-7(18)",
+        "SC-7(21)",
+        "SC-8",
+        "SC-8(1)",
+        "SC-10",
+        "SC-12",
+        "SC-12(1)",
+        "SC-13",
+        "SC-15",
+        "SC-17",
+        "SC-18",
+        "SC-20",
+        "SC-21",
+        "SC-22",
+        "SC-23",
+        "SC-24",
+        "SC-28",
+        "SC-28(1)",
+        "SC-39",
+        "SI-1",
+        "SI-2",
+        "SI-2(2)",
+        "SI-3",
+        "SI-4",
+        "SI-4(2)",
+        "SI-4(4)",
+        "SI-4(5)",
+        "SI-4(10)",
+        "SI-4(12)",
+        "SI-4(14)",
+        "SI-4(20)",
+        "SI-4(22)",
+        "SI-5",
+        "SI-5(1)",
+        "SI-6",
+        "SI-7",
+        "SI-7(1)",
+        "SI-7(2)",
+        "SI-7(5)",
+        "SI-7(7)",
+        "SI-7(15)",
+        "SI-8",
+        "SI-8(2)",
+        "SI-10",
+        "SI-11",
+        "SI-12",
+        "SI-16",
+        "SR-1",
+        "SR-2",
+        "SR-2(1)",
+        "SR-3",
+        "SR-5",
+        "SR-6",
+        "SR-8",
+        "SR-9",
+        "SR-9(1)",
+        "SR-10",
+        "SR-11",
+        "SR-11(1)",
+        "SR-11(2)",
+        "SR-12"
+      ]
+    },
+    {
+      "id": "privacy",
+      "name": "Privacy",
+      "of": "sp800-53",
+      "sourceId": "sp800-53b-oscal",
+      "members": [
+        "AC-1",
+        "AC-3(14)",
+        "AT-1",
+        "AT-2",
+        "AT-3",
+        "AT-3(5)",
+        "AT-4",
+        "AU-1",
+        "AU-2",
+        "AU-3(3)",
+        "AU-11",
+        "CA-1",
+        "CA-2",
+        "CA-5",
+        "CA-6",
+        "CA-7",
+        "CA-7(4)",
+        "CM-1",
+        "CM-4",
+        "IR-1",
+        "IR-2",
+        "IR-2(3)",
+        "IR-3",
+        "IR-4",
+        "IR-5",
+        "IR-6",
+        "IR-7",
+        "IR-8",
+        "IR-8(1)",
+        "MP-1",
+        "MP-6",
+        "PE-8(3)",
+        "PL-1",
+        "PL-2",
+        "PL-4",
+        "PL-4(1)",
+        "PL-8",
+        "PL-9",
+        "PM-3",
+        "PM-4",
+        "PM-5(1)",
+        "PM-6",
+        "PM-7",
+        "PM-8",
+        "PM-9",
+        "PM-10",
+        "PM-11",
+        "PM-13",
+        "PM-14",
+        "PM-17",
+        "PM-18",
+        "PM-19",
+        "PM-20",
+        "PM-20(1)",
+        "PM-21",
+        "PM-22",
+        "PM-24",
+        "PM-25",
+        "PM-26",
+        "PM-27",
+        "PM-28",
+        "PM-31",
+        "PS-6",
+        "PT-1",
+        "PT-2",
+        "PT-3",
+        "PT-4",
+        "PT-5",
+        "PT-5(2)",
+        "PT-6",
+        "PT-6(1)",
+        "PT-6(2)",
+        "PT-7",
+        "PT-7(1)",
+        "PT-7(2)",
+        "PT-8",
+        "RA-1",
+        "RA-3",
+        "RA-7",
+        "RA-8",
+        "SA-1",
+        "SA-2",
+        "SA-3",
+        "SA-4",
+        "SA-8(33)",
+        "SA-9",
+        "SA-11",
+        "SC-7(24)",
+        "SI-1",
+        "SI-12",
+        "SI-12(1)",
+        "SI-12(2)",
+        "SI-12(3)",
+        "SI-18",
+        "SI-18(4)",
+        "SI-19"
+      ]
+    }
+  ],
+  "crosswalks": []
+}

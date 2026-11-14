@@ -1,0 +1,92 @@
+{
+  "id": "d3fend",
+  "name": "MITRE D3FEND™",
+  "shortName": "D3FEND",
+  "group": "adversary",
+  "kind": "Countermeasure Knowledge Base",
+  "compliance": false,
+  "symbol": "shield.checkered",
+  "color": {
+    "light": "#17695A",
+    "dark": "#7FDCC8"
+  },
+  "purpose": "A common vocabulary for defensive techniques, tied to the attacker techniques they answer.",
+  "what": "D3FEND 1.6.0 is a knowledge graph of countermeasures under seven tactics: Model, Harden, Detect, Isolate, Deceive, Evict and Restore.",
+  "binds": {
+    "short": "No one",
+    "line": "Nobody is bound by it, and nothing is audited against it."
+  },
+  "verifiedBy": {
+    "short": "Not a compliance check",
+    "line": "D3FEND says it ‘does not prescribe specific countermeasures, it does not prioritize them, and it does not characterize their effectiveness’."
+  },
+  "size": [
+    {
+      "count": 7,
+      "unit": "Tactics"
+    },
+    {
+      "count": 271,
+      "unit": "Defensive Techniques"
+    }
+  ],
+  "sits": {
+    "layers": [],
+    "line": "Beside the stack, in the adversary column: the defender’s half of the same map."
+  },
+  "sources": [
+    {
+      "id": "d3fend-site",
+      "publisher": "The MITRE Corporation",
+      "title": "D3FEND: A Knowledge Graph of Cybersecurity Countermeasures",
+      "edition": "D3FEND 1.6.0",
+      "date": "2026-08-31",
+      "url": "https://d3fend.mitre.org/",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026. Version 1.6.0 is dated 31 August 2026. The matrix has seven tactics. The site prints no total of techniques: 271 is a count, made that day, of the entries in D3FEND’s own technique list (https://d3fend.mitre.org/api/technique/all.json). Release 1.6.0 tracks ATT&CK v19.0, not v20.",
+        "recheckAfter": "2026-12-15"
+      }
+    },
+    {
+      "id": "d3fend-faq",
+      "publisher": "The MITRE Corporation",
+      "title": "D3FEND Frequently Asked Questions",
+      "edition": "Web page",
+      "date": "2026",
+      "url": "https://d3fend.mitre.org/faq/",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026: ‘D3FEND is a knowledge base, but more specifically a knowledge graph, of cybersecurity countermeasure techniques’, and the sentence quoted on this card.",
+        "recheckAfter": "2027-02-12"
+      }
+    }
+  ],
+  "terms": {
+    "basis": "mitre",
+    "shows": "structure",
+    "line": "Used under MITRE’s D3FEND Terms of Use, whose license has the same form as ATT&CK’s. This round shows the card. MITRE D3FEND™ is a trademark of The MITRE Corporation.",
+    "notice": null,
+    "url": "https://d3fend.mitre.org/tou/"
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "attack",
+      "line": "Each countermeasure is tied to the ATT&CK techniques it answers."
+    },
+    {
+      "id": "sp800-53",
+      "line": "A control says what must be done; D3FEND names the technique that does it."
+    }
+  ],
+  "depth": null,
+  "levels": [],
+  "nodes": [],
+  "sets": [],
+  "crosswalks": []
+}

@@ -1,0 +1,159 @@
+{
+  "id": "check-csf20",
+  "frameworkId": "csf20",
+  "title": "CSF 2.0 Readiness Check",
+  "line": "22 questions, one for each Category. About five minutes.",
+  "honest": "A self-check. Your answers stay on this device and nobody else sees them. It is not an assessment, an audit or a CSF Organizational Profile.",
+  "answers": [
+    {
+      "id": "no",
+      "label": "Not Yet",
+      "value": 0
+    },
+    {
+      "id": "partly",
+      "label": "Partly",
+      "value": 1
+    },
+    {
+      "id": "yes",
+      "label": "In Place",
+      "value": 2
+    }
+  ],
+  "items": [
+    {
+      "id": "GV.OC",
+      "nodeId": "GV.OC",
+      "question": "Do the people who run security know what the mission depends on, and which laws and contracts apply?",
+      "next": "Write one page: what the mission depends on, and the legal, regulatory and contractual requirements that apply."
+    },
+    {
+      "id": "GV.RM",
+      "nodeId": "GV.RM",
+      "question": "Has leadership said how much cyber risk it will accept, in writing?",
+      "next": "Get leadership to put its risk appetite in writing, and use it to settle priorities."
+    },
+    {
+      "id": "GV.RR",
+      "nodeId": "GV.RR",
+      "question": "Is one named person accountable for cyber risk, with the authority and resources to match?",
+      "next": "Name who is accountable for cyber risk, and give the security roles the authority and resources they need."
+    },
+    {
+      "id": "GV.PO",
+      "nodeId": "GV.PO",
+      "question": "Is there a current security policy that leadership approved and staff can find?",
+      "next": "Issue or refresh the security policy, have leadership approve it, and tell people where it is."
+    },
+    {
+      "id": "GV.OV",
+      "nodeId": "GV.OV",
+      "question": "Does leadership review how the security strategy is working, and change it?",
+      "next": "Put a security review on leadership’s calendar and act on what it finds."
+    },
+    {
+      "id": "GV.SC",
+      "nodeId": "GV.SC",
+      "question": "Do you know your critical suppliers, and do their contracts carry security requirements?",
+      "next": "List the suppliers you depend on most and add security requirements to their contracts."
+    },
+    {
+      "id": "ID.AM",
+      "nodeId": "ID.AM",
+      "question": "Is there a current inventory of your hardware, software, services and data?",
+      "next": "Build or refresh the inventory of hardware, software, services and data, and name an owner for each."
+    },
+    {
+      "id": "ID.RA",
+      "nodeId": "ID.RA",
+      "question": "Do you find vulnerabilities and threats, and rank the risks they create?",
+      "next": "Run a risk assessment: find the vulnerabilities, weigh the threats, and rank what to fix first."
+    },
+    {
+      "id": "ID.IM",
+      "nodeId": "ID.IM",
+      "question": "Do tests, exercises and incidents lead to changes?",
+      "next": "After each test, exercise or incident, record what to change and see it through."
+    },
+    {
+      "id": "PR.AA",
+      "nodeId": "PR.AA",
+      "question": "Does every person, service and device get only the access it needs, behind strong authentication?",
+      "next": "Turn on multi-factor authentication and cut access back to what each identity needs."
+    },
+    {
+      "id": "PR.AT",
+      "nodeId": "PR.AT",
+      "question": "Do staff, and people in privileged roles, get security training that fits their work?",
+      "next": "Train everyone on the basics, and give privileged roles training for the work they do."
+    },
+    {
+      "id": "PR.DS",
+      "nodeId": "PR.DS",
+      "question": "Is data protected where it is stored, sent and used, with backups you have tested?",
+      "next": "Encrypt sensitive data where it is stored and sent, and test that a backup restores."
+    },
+    {
+      "id": "PR.PS",
+      "nodeId": "PR.PS",
+      "question": "Are systems configured securely, patched and logged?",
+      "next": "Set secure configurations, patch on a schedule, and turn on logging."
+    },
+    {
+      "id": "PR.IR",
+      "nodeId": "PR.IR",
+      "question": "Are networks protected from unauthorized access, with capacity to keep services running?",
+      "next": "Segment the network, protect it from unauthorized access, and plan for capacity and failure."
+    },
+    {
+      "id": "DE.CM",
+      "nodeId": "DE.CM",
+      "question": "Are networks, systems and user activity watched for signs of trouble?",
+      "next": "Monitor networks, devices and accounts, and make sure someone sees the alerts."
+    },
+    {
+      "id": "DE.AE",
+      "nodeId": "DE.AE",
+      "question": "When something odd happens, is it analyzed and, if it is serious, declared an incident?",
+      "next": "Set out how events are triaged, correlated and declared incidents."
+    },
+    {
+      "id": "RS.MA",
+      "nodeId": "RS.MA",
+      "question": "Is there an incident response plan that people have practiced?",
+      "next": "Write the incident response plan and run an exercise against it."
+    },
+    {
+      "id": "RS.AN",
+      "nodeId": "RS.AN",
+      "question": "Are incidents investigated to find what happened and why, with records kept?",
+      "next": "Set out how incidents are investigated and how evidence and records are kept."
+    },
+    {
+      "id": "RS.CO",
+      "nodeId": "RS.CO",
+      "question": "Do you know who must be told about an incident, inside and outside, and by when?",
+      "next": "List who must be told about an incident, with contact details and deadlines."
+    },
+    {
+      "id": "RS.MI",
+      "nodeId": "RS.MI",
+      "question": "Can you contain an incident and remove its cause?",
+      "next": "Prepare containment and eradication steps for the incidents you are most likely to face."
+    },
+    {
+      "id": "RC.RP",
+      "nodeId": "RC.RP",
+      "question": "Can you restore systems in a set order and confirm they are sound?",
+      "next": "Write recovery steps in priority order, and test a restore from start to finish."
+    },
+    {
+      "id": "RC.CO",
+      "nodeId": "RC.CO",
+      "question": "Is there a plan for keeping staff, partners and the public informed during recovery?",
+      "next": "Decide who speaks during recovery and what each audience is told."
+    }
+  ],
+  "nextCount": 5
+}

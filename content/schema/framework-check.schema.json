@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:lensatic:framework-check.schema:2.0.0-r1",
+  "title": "A Lensatic readiness check",
+  "description": "Schema for content/frameworks/check-<id>.json: questions tied to a framework's nodes, the answers, and what to do next for each. A self-check; the honest line says so.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "frameworkId",
+    "title",
+    "line",
+    "honest",
+    "answers",
+    "items",
+    "nextCount"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "frameworkId": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "line": {
+      "type": "string",
+      "minLength": 1
+    },
+    "honest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "answers": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]*$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 14
+          },
+          "value": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "nodeId",
+          "question",
+          "next"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "nodeId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "question": {
+            "type": "string",
+            "pattern": "\\?$"
+          },
+          "next": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "nextCount": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    }
+  }
+}

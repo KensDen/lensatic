@@ -1,0 +1,68 @@
+{
+  "id": "cisa-ztmm",
+  "entityId": "cisa-ztmm",
+  "name": "CISA Zero Trust Maturity Model",
+  "shortName": "CISA ZTMM",
+  "group": "zero-trust",
+  "kind": "Maturity Model",
+  "compliance": true,
+  "symbol": "chart.bar.fill",
+  "color": {
+    "light": "#37607A",
+    "dark": "#9CC7E0"
+  },
+  "purpose": "A way for a civilian agency to say how far along zero trust it is, and what the next stage looks like.",
+  "what": "Five pillars, three cross-cutting capabilities and four stages: Traditional, Initial, Advanced and Optimal.",
+  "binds": {
+    "short": "Federal civilian agencies",
+    "line": "Written for federal civilian agencies. It binds only through OMB M-22-09, whose goals it organizes."
+  },
+  "verifiedBy": {
+    "short": "Self-assessed",
+    "line": "Agencies place themselves on the stages. The memo, not the model, carried the deadline, which passed in 2024."
+  },
+  "size": [
+    {
+      "count": 5,
+      "unit": "Pillars"
+    },
+    {
+      "count": 3,
+      "unit": "Cross-Cutting Capabilities"
+    },
+    {
+      "count": 4,
+      "unit": "Stages"
+    }
+  ],
+  "sits": {
+    "layers": [
+      "l3"
+    ],
+    "line": "Layer 3. A maturity model: it describes the target state in stages."
+  },
+  "sources": [],
+  "terms": {
+    "basis": "us-government-work",
+    "shows": "structure",
+    "line": "A work of the United States government. This round shows the card; the full structure follows in a later round.",
+    "notice": null,
+    "url": null
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "sp800-207",
+      "line": "The model builds on SP 800-207’s definition."
+    },
+    {
+      "id": "dod-zt",
+      "line": "The {{dow}} counterpart: seven pillars and a dated Target Level."
+    }
+  ],
+  "depth": null,
+  "levels": [],
+  "nodes": [],
+  "sets": [],
+  "crosswalks": []
+}

@@ -1,0 +1,109 @@
+{
+  "id": "govramp",
+  "name": "GovRAMP (formerly StateRAMP)",
+  "shortName": "GovRAMP",
+  "group": "state-local",
+  "kind": "Cloud Verification",
+  "compliance": true,
+  "symbol": "building.columns",
+  "color": {
+    "light": "#1F6B2E",
+    "dark": "#86D99A"
+  },
+  "purpose": "One cloud security verification that state and local governments can share, modeled on FedRAMP.",
+  "what": "A nonprofit, renamed from StateRAMP in February 2025. Four verified statuses, Core, Ready, Provisional and Authorized, on SP 800-53 Revision 5 at Low, Moderate or High.",
+  "binds": {
+    "short": "Voluntary",
+    "line": "A membership nonprofit, not a law. Its site lists 72 participating government organizations."
+  },
+  "verifiedBy": {
+    "short": "Assessor and program office",
+    "line": "A third-party assessor assesses Ready and Authorized, the program office validates, and a government sponsor or the Approvals Committee approves Authorized."
+  },
+  "size": [
+    {
+      "count": 4,
+      "unit": "Statuses"
+    }
+  ],
+  "sits": {
+    "layers": [
+      "l5"
+    ],
+    "line": "Layer 5. It verifies cloud products against selections from SP 800-53."
+  },
+  "sources": [
+    {
+      "id": "govramp-program",
+      "publisher": "GovRAMP",
+      "title": "GovRAMP Security Program Overview",
+      "edition": "Web page",
+      "date": "2026",
+      "url": "https://govramp.org/security-program",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026, with https://govramp.org/authorized: the statuses are Core, Ready, Provisional and Authorized, on NIST SP 800-53 Revision 5 at a Low, Moderate or High impact level. Authorized needs a security assessment report from a third-party assessor and ‘Government sponsorship or approval through the GovRAMP Approvals Committee’.",
+        "recheckAfter": "2027-01-15"
+      }
+    },
+    {
+      "id": "govramp-rebrand",
+      "publisher": "GovRAMP",
+      "title": "StateRAMP Announces Rebrand to GovRAMP",
+      "edition": "Press release",
+      "date": "2025-02-14",
+      "url": "https://govramp.org/news/blog/stateramp-announces-rebrand-to-govramp-reflecting-mission-to-unite-public-and-private-sectors-in-advancing-cybersecurity",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026: the rebrand was announced on 14 February 2025. StateRAMP remains the legal name.",
+        "recheckAfter": "2027-02-12"
+      }
+    },
+    {
+      "id": "govramp-faq",
+      "publisher": "GovRAMP",
+      "title": "GovRAMP Frequently Asked Questions",
+      "edition": "Web page",
+      "date": "2026",
+      "url": "https://govramp.org/faqs",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026: ‘GovRAMP operates as a 501(c)(6) nonprofit organization governed by a Board of Directors composed primarily of state and local government officials.’ The participating governments page (https://govramp.org/participating-government-organizations) printed 72 that day; the home page says 70+.",
+        "recheckAfter": "2027-01-15"
+      }
+    }
+  ],
+  "terms": {
+    "basis": "publisher",
+    "shows": "structure",
+    "line": "GovRAMP’s own material. Lensatic describes the program in its own words and links to GovRAMP’s pages.",
+    "notice": null,
+    "url": null
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "fedramp",
+      "line": "GovRAMP’s Fast Track reuses FedRAMP packages, and FedRAMP’s Class A rules accept a GovRAMP assessment."
+    },
+    {
+      "id": "cjis",
+      "line": "GovRAMP publishes an overlay aligned to the CJIS Security Policy."
+    },
+    {
+      "id": "sp800-53",
+      "line": "Its baselines select from SP 800-53 Revision 5."
+    }
+  ],
+  "depth": null,
+  "levels": [],
+  "nodes": [],
+  "sets": [],
+  "crosswalks": []
+}
