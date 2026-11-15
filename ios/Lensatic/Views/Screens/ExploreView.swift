@@ -223,6 +223,20 @@ struct StackView: View {
         if sizeClass != .regular, let column = screen.column {
             SwiftUI.Section { columnLink(column).listRowBackground(Palette.secPurple.opacity(0.18)) }
         }
+        // the adversary column (Round 2): the knowledge bases the Frameworks tab places beside the stack, reached from
+        // the stack as well, so both tabs draw one map
+        let L = model.frameworks
+        if !L.adversary.isEmpty, let group = L.adversary.first.flatMap({ L.group($0.group) }) {
+            SwiftUI.Section {
+                NavigationLink(value: Nav.group(group.id)) {
+                    TileRow(icon: ("exclamationmark.shield.fill", .pink), title: L.label("adversaryColumn"), subtitle: L.label("adversaryLine"),
+                            value: L.adversary.count == 1 ? "1 \(L.label("knowledgeBase"))" : "\(L.adversary.count) \(L.label("knowledgeBases"))")
+                }
+                .accessibilityIdentifier("layer-adversary")
+            } footer: {
+                ListNote(L.label("stackAgrees"))
+            }
+        }
     }
 
     /// The section's footer, with the number of layers counted from the content.
@@ -232,7 +246,9 @@ struct StackView: View {
     }
 
     private func layerRow(_ layer: Layer, onPath: String?) -> TileRow {
-        let n = layer.frameworkIds.count
+        // the stack's own frameworks on the layer and the navigator's cards that sit on it, each counted once
+        let own = Set(layer.frameworkIds)
+        let n = own.count + model.frameworks.frameworks(onLayer: layer.id).filter { f in f.entityId.map { !own.contains($0) } ?? true }.count
         return TileRow(icon: RowIcon.layer(layer.order), title: TitleCase.apply(layer.name), subtitle: layer.shortQuestion,
                        note: layer.id == onPath ? "On your path" : nil, value: n == 1 ? "1 framework" : "\(n) frameworks")
     }
@@ -468,6 +484,19 @@ struct LayerView: View {
                     .padding(.vertical, 4)
                 }
                 entries(layer.isColumn ? "In the column" : "On this layer", screen.entryIds)
+                // one layer model (Round 2): every card of the Frameworks tab that sits here and is not one of the entries above
+                let listed = Set(screen.entryIds)
+                let more = model.frameworks.frameworks(onLayer: id).filter { f in f.entityId.map { !listed.contains($0) } ?? true }
+                if !more.isEmpty {
+                    SwiftUI.Section {
+                        ForEach(more) { f in FrameworkRow(framework: f, line: f.purpose) }
+                    } header: {
+                        ListNote(model.frameworks.label(layer.isColumn ? "alsoInColumn" : "alsoOnLayer"))
+                    } footer: {
+                        ListNote(model.frameworks.label("alsoOnLayerLine"))
+                    }
+                    .accessibilityIdentifier("layer-frameworks")
+                }
                 if !screen.solutionIds.isEmpty { entries("Validated solutions", screen.solutionIds) }
                 if let title = screen.socTitle {
                     SwiftUI.Section {

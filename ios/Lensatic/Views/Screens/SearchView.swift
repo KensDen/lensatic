@@ -224,6 +224,7 @@ struct SearchView: View {
     private func title(_ kind: SearchIndex.Kind) -> String {
         switch kind {
         case .framework: return "Frameworks"
+        case .element: return model.frameworks.label("elements")
         case .step: return "On Your Path"
         case .guide: return model.library.site.guidesName
         case .play: return model.library.site.playsName

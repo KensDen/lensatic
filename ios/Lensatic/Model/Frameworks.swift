@@ -47,6 +47,9 @@ struct Framework: Decodable, Sendable, Identifiable {
     let nodes: [Node]
     let sets: [NodeSet]
     let crosswalks: [Crosswalk]
+    /// The heading over the sets, and the line under them, where they are not baselines on another catalog (CMMC's levels).
+    let setsTitle: String?
+    let setsLine: String?
 
     /// The framework's one colour, as a pair: its light value on paper and its dark value on the dial. The battery holds
     /// each to 4.5:1 on the app's two surfaces (tools/check_frameworks.py).
@@ -124,6 +127,9 @@ struct Framework: Decodable, Sendable, Identifiable {
         let id: String
         let name: String
         let plural: String
+        /// False where the publisher gives this level no identifiers (the RMF's steps, the CISA model's functions): a
+        /// node's id is then the file's own key, and the app shows the title alone. Round 2.
+        let identified: Bool?
     }
 
     /// One element of the structure, with the publisher's identifier. A node names its parents, so the same list holds a
@@ -148,6 +154,8 @@ struct Framework: Decodable, Sendable, Identifiable {
         let members: [String]
         /// A line in Lensatic's words on why the count is what it is.
         let line: String?
+        /// The set's screen title where it is not a baseline (CMMC Level 2, Target Level).
+        let title: String?
     }
 
     /// Links from this framework's nodes to another's, as a source publishes them.
@@ -159,6 +167,14 @@ struct Framework: Decodable, Sendable, Identifiable {
         /// Targets the source lists that the other framework's current edition no longer holds.
         let unresolved: [String]
         let map: [String: [String]]
+        /// False where the targets are identifiers of a framework whose elements Lensatic does not list (a copyrighted
+        /// standard): the app shows and counts the identifiers as the source prints them, and opens nothing. Round 2.
+        let listed: Bool?
+        /// The relation's plural where adding an s does not make it.
+        let plural: String?
+
+        var isListed: Bool { listed ?? true }
+        func relations(_ n: Int) -> String { n == 1 ? relation : (plural ?? relation + "s") }
     }
 }
 
@@ -201,11 +217,16 @@ struct Comparison: Decodable, Sendable, Identifiable {
     let id: String
     let a: String
     let b: String
+    /// Each side's name where both are parts of one framework (FedRAMP 20x, FedRAMP Rev5). Round 2.
+    let aName: String?
+    let bName: String?
+    let title: String?
     let verdict: String
     let rows: [Row]
     let connect: String
     let noScore: String
-    let overlapLine: String
+    /// The line over the counted overlap; none where no publisher prints a crosswalk between the two.
+    let overlapLine: String?
 
     struct Row: Decodable, Sendable, Hashable {
         let label: String
@@ -226,6 +247,12 @@ struct ReadinessCheck: Decodable, Sendable, Identifiable {
     let items: [Item]
     /// How many next steps the result lists.
     let nextCount: Int
+    /// The trailheads the check belongs to: My Path offers it to a reader on one of them. Round 2.
+    let doors: [String]?
+    /// "parent" groups the questions under each question's own parent (a level's domains); the default is the top level.
+    let groupBy: String?
+    /// The check's name on a button or a row.
+    let short: String?
 
     struct Answer: Decodable, Sendable, Hashable, Identifiable {
         let id: String
@@ -325,6 +352,8 @@ final class FrameworkLibrary: Sendable {
                 guard let host = graphs[c.to], let own = graphs[f.id] else { throw LoadError.invalid("\(f.id): a crosswalk to \(c.to), which is not a framework") }
                 for (from, targets) in c.map {
                     guard own.node(from) != nil else { throw LoadError.invalid("\(f.id): the crosswalk names \(from), which it does not hold") }
+                    // identifiers of a framework Lensatic does not list resolve to nothing, by design
+                    guard c.isListed else { continue }
                     if let bad = targets.first(where: { host.node($0) == nil && !c.unresolved.contains($0) }) {
                         throw LoadError.invalid("\(f.id): \(from) points at \(bad), which \(c.to) does not hold")
                     }
@@ -332,6 +361,9 @@ final class FrameworkLibrary: Sendable {
             }
         }
         for c in compares where byId[c.a] == nil || byId[c.b] == nil { throw LoadError.invalid("comparison \(c.id) names a framework that is not there") }
+        for c in compares where c.a == c.b && (c.aName == nil || c.bName == nil) { throw LoadError.invalid("comparison \(c.id) sets one framework beside itself and does not name the two sides") }
+        let doors = Set(Door.ID.allCases.map(\.rawValue))
+        for c in checks { if let bad = (c.doors ?? []).first(where: { !doors.contains($0) }) { throw LoadError.invalid("check \(c.id) names the trailhead \(bad), which is not one") } }
         for c in checks {
             guard let g = graphs[c.frameworkId] else { throw LoadError.invalid("check \(c.id) is on \(c.frameworkId), which is not a framework") }
             if let bad = c.items.first(where: { g.node($0.nodeId) == nil }) { throw LoadError.invalid("check \(c.id): \(bad.nodeId) is not in \(c.frameworkId)") }
@@ -411,29 +443,83 @@ final class FrameworkLibrary: Sendable {
     }
 
     /// The overlap of two frameworks by a published crosswalk from one to the other, for a comparison: for each
-    /// top-level node of the source, how many of its leaves carry a link and how many distinct targets they reach, and
-    /// in all how many of the target's nodes are reached.
-    func overlap(_ c: Comparison) -> Overlap? {
-        for (from, to) in [(c.a, c.b), (c.b, c.a)] {
+    /// top-level node of the source that holds linked elements, how many of its elements carry a link and how many
+    /// distinct targets they reach, and in all how many of the target's nodes are reached. The elements counted are the
+    /// level the crosswalk starts from (CSF's Subcategories; SP 800-171's Revision 3 requirements).
+    func overlap(_ c: Comparison) -> Overlap? { overlap(c.a, c.b) }
+
+    func overlap(_ a: String, _ b: String) -> Overlap? {
+        guard a != b else { return nil }
+        for (from, to) in [(a, b), (b, a)] {
             guard let f = byId[from], let g = graphs[from], let host = graphs[to], let walk = f.crosswalks.first(where: { $0.to == to }) else { continue }
-            let leafLevel = f.levels.last?.id
-            let rows = g.roots.map { root -> Overlap.Row in
-                let leaves = g.descendants(of: root.id).filter { $0.level == leafLevel }
+            let levels = Set(walk.map.keys.compactMap { g.node($0)?.level })
+            let rows = g.roots.compactMap { root -> Overlap.Row? in
+                let leaves = g.descendants(of: root.id).filter { levels.contains($0.level) }
                 let linked = leaves.filter { !(walk.map[$0.id] ?? []).isEmpty }
+                guard !linked.isEmpty else { return nil }
                 let targets = Set(linked.flatMap { walk.map[$0.id] ?? [] })
                 var families: [String: Int] = [:]
-                for t in targets { if let top = host.top(of: t) { families[top, default: 0] += 1 } }
+                if walk.isListed { for t in targets { if let top = host.top(of: t) { families[top, default: 0] += 1 } } }
                 let lead = families.sorted { $0.value != $1.value ? $0.value > $1.value : $0.key < $1.key }.prefix(3).map(\.key)
-                return Overlap.Row(node: root, leaves: leaves.count, linked: linked.count, targets: targets.count, leading: Array(lead))
+                return Overlap.Row(node: root, leaves: leaves.count, linked: linked.count, targets: targets.count,
+                                   leading: lead.compactMap { id in host.node(id).map { host.identified($0) ? id : host.line($0) } })
             }
-            // a reference to a whole family (NIST prints a few) is not one of the family's controls, so it is not counted
+            let unit = (f.levels.first { levels.contains($0.id) })?.plural ?? ""
+            let all = Set(walk.map.values.flatMap { $0 })
+            guard walk.isListed else {
+                return Overlap(from: f, to: host.framework, crosswalk: walk, rows: rows, unit: unit, reached: all.count, of: 0)
+            }
+            // a reference to a whole family (NIST prints a few) is not one of the family's controls, so it is not counted;
+            // the target's elements are the levels the crosswalk lands on, in the target's edition it names
+            let targetLevels = Set(all.compactMap { host.node($0)?.level })
             let top = host.framework.levels.first?.id
-            let reached = Set(walk.map.values.flatMap { $0 }).filter { id in host.node(id).map { $0.level != top } ?? false }
-            let hostLeaves = host.order.filter { id in host.node(id).map { $0.level != top } ?? false }
-            return Overlap(from: f, to: host.framework, crosswalk: walk, rows: rows, reached: reached.count, of: hostLeaves.count)
+            let counted = targetLevels.subtracting(targetLevels.count > 1 ? [top ?? ""] : [])
+            let scope = Set(all.compactMap { host.top(of: $0) })
+            let reached = all.filter { id in host.node(id).map { counted.contains($0.level) } ?? false }
+            let hostLeaves = host.order.filter { id in host.node(id).map { counted.contains($0.level) } ?? false && scope.contains(host.top(of: id) ?? "") }
+            return Overlap(from: f, to: host.framework, crosswalk: walk, rows: rows, unit: unit, reached: reached.count, of: hostLeaves.count)
         }
         return nil
     }
+
+    /// Two parts of one framework set side by side (FedRAMP's 20x indicators and its Rev5 baselines): for each of the
+    /// framework's sets, how many of its members the framework's own crosswalk also names.
+    func setOverlap(_ f: Framework) -> [SetOverlap] {
+        f.sets.compactMap { set in
+            guard let walk = f.crosswalks.first(where: { $0.to == set.of }) else { return nil }
+            let named = Set(walk.map.values.flatMap { $0 })
+            return SetOverlap(selection: set, named: set.members.filter(named.contains).count, linking: walk.map.count)
+        }
+    }
+
+    struct SetOverlap: Sendable, Identifiable {
+        let selection: Framework.NodeSet
+        /// How many of the set's members the crosswalk names, and how many of the framework's elements carry a link.
+        let named: Int
+        let linking: Int
+        var id: String { selection.id }
+    }
+
+    /// The comparison the content writes for two frameworks, in either order.
+    func named(_ a: String, _ b: String) -> Comparison? {
+        compares.first { ($0.a == a && $0.b == b) || ($0.a == b && $0.b == a) }
+    }
+
+    /// The readiness checks a trailhead's readers are offered on My Path.
+    func checks(for door: Door.ID) -> [ReadinessCheck] { checks.filter { ($0.doors ?? []).contains(door.rawValue) } }
+    func checks(on framework: String) -> [ReadinessCheck] { checks.filter { $0.frameworkId == framework } }
+
+    // MARK: one layer model (Round 2)
+
+    /// The cards that sit on a layer of the stack, in the catalog's order: Explore's layer screens list them, so the
+    /// stack and the Frameworks tab are one map.
+    func frameworks(onLayer id: String) -> [Framework] { frameworks.filter { $0.sits.layers.contains(id) } }
+
+    /// The cards of the adversary column: the knowledge bases, which sit beside the stack.
+    var adversary: [Framework] { frameworks.filter { !$0.compliance } }
+
+    /// The card that is a stack entry's own, where the navigator has one.
+    func framework(forEntity id: String) -> Framework? { frameworks.first { $0.entityId == id } }
 
     struct Overlap: Sendable {
         struct Row: Sendable, Identifiable {
@@ -450,7 +536,10 @@ final class FrameworkLibrary: Sendable {
         let to: Framework
         let crosswalk: Framework.Crosswalk
         let rows: [Row]
-        /// How many of the target's nodes below its top level the crosswalk reaches, and of how many.
+        /// The source's elements that are counted, in the publisher's word (Subcategories, Requirements).
+        let unit: String
+        /// How many of the target's elements the crosswalk reaches, and of how many; `of` is zero where the target's
+        /// elements are not listed, and `reached` is then the number of distinct identifiers named.
         let reached: Int
         let of: Int
     }
@@ -474,6 +563,14 @@ final class FrameworkLibrary: Sendable {
         }
 
         func node(_ id: String) -> Framework.Node? { byId[id] }
+        /// Whether a node's id is the publisher's own identifier, to show, or the file's key for a level the publisher
+        /// does not number.
+        func identified(_ n: Framework.Node) -> Bool { level(n.level)?.identified ?? true }
+        /// A node's name in running text: "AC-2 Account Management", "PR.AA-01", or a title alone where there is no identifier.
+        func name(_ n: Framework.Node) -> String {
+            guard identified(n) else { return n.title ?? n.text ?? "" }
+            return n.title.map { "\(n.id) \($0)" } ?? n.id
+        }
         func children(of id: String) -> [Framework.Node] { (kids[id] ?? []).compactMap { byId[$0] } }
         func level(_ id: String) -> Framework.Level? { framework.levels.first { $0.id == id } }
 

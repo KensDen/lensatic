@@ -36,7 +36,7 @@ final class Library: Sendable {
         switch door {
         case .dow: id = "dow"
         case .federalCivilian: id = "federal-civilian"
-        case .defenseContractor, .stateLocal, .industryAcademia: id = "private-sector"
+        case .defenseContractor, .cloudProvider, .stateLocal, .industryAcademia: id = "private-sector"
         }
         return guide.tracks.first { $0.id == id } ?? guide.tracks.first
     }

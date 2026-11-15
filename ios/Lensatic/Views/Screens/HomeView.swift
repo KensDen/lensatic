@@ -131,8 +131,11 @@ struct HomeView: View {
     }
 
     /// Lensatic 2.0, above the doors: the countdown to the next dated zero trust deadline, as a bearing on the compass,
-    /// which opens the framework that sets it; and the frameworks card, with its three ways in: Browse, Compare and Check
-    /// Yourself. Side by side on the iPad, one under the other on a phone.
+    /// which opens the framework that sets it; and the frameworks card. Side by side on the iPad, with the card's three
+    /// ways in (Browse, Compare and the self-checks). On a phone both are compact, one under the other, so that all three
+    /// doors are on the first screen of the smallest current iPhone at the default text size (Ken's ruling 7, 14 November
+    /// 2026): the countdown is one row, and the frameworks card is its name and the row of frameworks to open; Compare
+    /// and the self-checks are one tap on, in the Frameworks tab.
     @ViewBuilder private var lead: some View {
         let L = model.frameworks
         let wide = sizeClass == .regular && !typeSize.isAccessibilitySize
@@ -140,13 +143,13 @@ struct HomeView: View {
         (wide ? AnyLayout(HStackLayout(alignment: .top, spacing: 12)) : AnyLayout(VStackLayout(spacing: 10))) {
             if let d = model.zeroTrustCountdown(today: today), let days = d.days(from: today), let f = L.byId[d.frameworkId] {
                 Button { model.show(.framework(f.id)) } label: {
-                    CountdownCard(deadline: d, days: days, tone: f.tone, eyebrow: L.label("countdown"), chevron: true, tall: wide)
+                    CountdownCard(deadline: d, days: days, tone: f.tone, eyebrow: L.label("countdown"), chevron: true, tall: wide, compact: !wide)
                 }
                 .buttonStyle(.plain)
                 .accessibilityHint(L.label("countdownHint"))
                 .accessibilityIdentifier("home-countdown")
             }
-            HomeFrameworks(tall: wide)
+            HomeFrameworks(tall: wide, compact: !wide && !typeSize.isAccessibilitySize)
         }
         .fixedSize(horizontal: false, vertical: true)
     }
@@ -184,7 +187,7 @@ struct HomeView: View {
     /// Saved items grouped by type, in the order frameworks, steps, plays, each group keeping its newest-first order.
     static func byType(_ items: [SavedItem]) -> [SavedItem] {
         func rank(_ i: SavedItem) -> Int {
-            switch i { case .entity: return 0; case .step: return 1; case .play: return 2 }
+            switch i { case .entity, .framework: return 0; case .step: return 1; case .play: return 2 }
         }
         return items.enumerated().sorted { a, b in rank(a.element) != rank(b.element) ? rank(a.element) < rank(b.element) : a.offset < b.offset }.map(\.element)
     }
@@ -293,6 +296,8 @@ struct HomeFrameworks: View {
     @Environment(AppModel.self) private var model
     @Environment(\.dynamicTypeSize) private var typeSize
     var tall = false
+    /// A phone at the standard text sizes: the card's name and the row of frameworks, without the line and the buttons.
+    var compact = false
 
     var body: some View {
         let L = model.frameworks
@@ -304,8 +309,10 @@ struct HomeFrameworks: View {
                         Eyebrow(text: AppTab.frameworks.title, color: Palette.link, small: true)
                         Text(L.label("homeFrameworksTitle").replacingOccurrences(of: "{count}", with: "\(L.frameworks.count)"))
                             .font(DS.style(.headline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
-                        Text(L.label("homeFrameworksLine")).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2)
-                            .fixedSize(horizontal: false, vertical: true)
+                        if !compact {
+                            Text(L.label("homeFrameworksLine")).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .multilineTextAlignment(.leading)
@@ -341,17 +348,19 @@ struct HomeFrameworks: View {
                 }
             }
             .accessibilityIdentifier("home-featured")
-            (typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 8)) : AnyLayout(HStackLayout(spacing: 8))) {
-                action(L.label("browse"), "home-frameworks-browse") { model.showFrameworks(.browse) }
-                action(L.label("compare"), "home-frameworks-compare") { model.showFrameworks(.compare) }
-                if let check = L.checks.first {
-                    action(L.label("homeCheck"), "home-frameworks-check") { model.show(.check(check.id)) }
+            if !compact {
+                (typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 8)) : AnyLayout(HStackLayout(spacing: 8))) {
+                    action(L.label("browse"), "home-frameworks-browse") { model.showFrameworks(.browse) }
+                    action(L.label("compare"), "home-frameworks-compare") { model.showFrameworks(.compare) }
+                    if !L.checks.isEmpty {
+                        action(L.label("homeCheck"), "home-frameworks-check") { model.showFrameworks(.checks) }
+                    }
                 }
             }
             if tall { Spacer(minLength: 0) }
         }
         .frame(maxHeight: tall ? .infinity : nil, alignment: .topLeading)
-        .lxCard(radius: LxCard.inList(18, inset: 4), tint: Palette.link)
+        .lxCard(radius: LxCard.inList(18, inset: 4), tint: Palette.link, vertical: compact ? 12 : 16)
     }
 
     private func action(_ title: String, _ id: String, _ run: @escaping () -> Void) -> some View {

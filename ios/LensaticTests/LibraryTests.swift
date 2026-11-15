@@ -288,21 +288,22 @@ final class LibraryTests: XCTestCase {
     /// reaching every kind of result: a framework, a step on the path, a guide chapter, a play and a glossary term.
     func testEveryStarterFindsSomethingAndTheyReachEveryKind() throws {
         let starters = store.content.ui.search.starters
-        XCTAssertTrue((8...10).contains(starters.count), "\(starters.count) starters")
+        XCTAssertTrue((8...12).contains(starters.count), "\(starters.count) starters")
         var kinds = Set<SearchIndex.Kind>()
         for q in starters {
             let groups = index.search(q)
             XCTAssertFalse(groups.isEmpty, "\(q) finds nothing")
             kinds.formUnion(groups.map(\.kind))
         }
-        XCTAssertEqual(kinds, Set(SearchIndex.Kind.allCases), "the starters reach \(kinds)")
+        // every kind but one: an element is found by its identifier (AC-2), which no starter is
+        XCTAssertEqual(kinds, Set(SearchIndex.Kind.allCases).subtracting([.element]), "the starters reach \(kinds)")
     }
 
     /// Build 6 (Ken, 10 November 2026): the Start With chips read in Title Case, and search ignores case, so each chip
     /// finds exactly what its lower-case form found before, in the same order.
     func testTheStartersAreInTitleCaseAndSearchIgnoresCase() throws {
         XCTAssertEqual(store.content.ui.search.starters,
-                       ["Zero Trust", "CMMC", "800-53", "800-207", "CISA ZTMM", "AI Agents", "Overlays", "Deadline", "Target Level", "RMF"])
+                       ["Zero Trust", "CMMC", "ISO/IEC 27001", "FedRAMP", "800-53", "800-207", "CISA ZTMM", "AI Agents", "Overlays", "Deadline", "Target Level", "RMF"])
         for q in store.content.ui.search.starters {
             func ids(_ query: String) -> [[String]] { index.search(query).map { $0.results.map(\.id) } }
             XCTAssertEqual(ids(q), ids(q.lowercased()), "\(q) finds what \(q.lowercased()) finds")

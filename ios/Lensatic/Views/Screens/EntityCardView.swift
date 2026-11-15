@@ -108,6 +108,26 @@ struct EntityCardView: View {
                             .lxCard(radius: 14)
                         }
                     }
+                    // one layer model (Round 2): the same framework's card in the Frameworks tab, with its structure
+                    if let f = model.frameworks.framework(forEntity: e.id) {
+                        Button { model.show(.framework(f.id)) } label: {
+                            HStack(spacing: 12) {
+                                FrameworkTile(framework: f, base: 30)
+                                VStack(alignment: .leading, spacing: 1) {
+                                    Text(model.frameworks.label("inFrameworks")).font(DS.style(.body)).foregroundStyle(.primary)
+                                    Text(f.nodes.isEmpty ? f.kind : FrameworkCard.sizeShort(f)).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
+                            }
+                            .frame(minHeight: 44)
+                            .padding(.vertical, -8)
+                            .lxCard(radius: 14)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityElement(children: .combine)
+                        .accessibilityIdentifier("card-framework")
+                    }
                     if typeSize.isAccessibilitySize { footer(e, facts).padding(.horizontal, -20) }
                 }
                 .padding(.horizontal, 20)

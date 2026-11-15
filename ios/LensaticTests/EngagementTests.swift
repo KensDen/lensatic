@@ -236,7 +236,11 @@ final class EngagementTests: XCTestCase {
         XCTAssertTrue(NextStepIntent.answer(today: Date(), url: tempURL()).contains("not picked a trailhead"))
 
         let items = LensaticItem.all(url: url)
-        let keys = Set(Spotlight.entries(store: store, library: library, door: try door(.dow)).map(\.id))
+        // Lensatic 2.0: the navigator's frameworks are in iOS search and open from Siri too
+        let navigator = try FrameworkLibrary.bundled(Bundle.main, department: store.content.orgs.dow.fields)
+        let keys = Set(Spotlight.entries(store: store, library: library, door: try door(.dow), frameworks: navigator).map(\.id))
+        XCTAssertTrue(keys.contains("framework:attack") && keys.contains("framework:iso27001"))
+        XCTAssertFalse(keys.contains("framework:csf20"), "a framework the stack holds is listed once, as its entry")
         XCTAssertEqual(Set(items.map(\.id)), keys, "the intents' items are iOS search's")
         XCTAssertTrue(items.contains { $0.id == "step:dow:2" })
         let found = LensaticItemQuery.matching("zero trust overlays", in: items)

@@ -7,7 +7,7 @@ import UniformTypeIdentifiers
 /// content is indexed, never what the reader checked or saved. Each item's identifier is the key a saved item uses
 /// (entity:id, step:door:order, play:id), so a tap in iOS search opens the same screen a saved item does.
 enum Spotlight {
-    static let entities = "entities", steps = "steps", plays = "plays"
+    static let entities = "entities", steps = "steps", plays = "plays", frameworks = "frameworks"
 
     struct Entry: Sendable, Equatable {
         let id: String
@@ -18,8 +18,13 @@ enum Spotlight {
     }
 
     /// What the index holds for this content and this trailhead: every entry, the trailhead's steps and every play.
-    static func entries(store: ContentStore, library: Library, door: Door?) -> [Entry] {
+    static func entries(store: ContentStore, library: Library, door: Door?, frameworks: FrameworkLibrary? = nil) -> [Entry] {
         var out: [Entry] = []
+        // Lensatic 2.0: the navigator's frameworks the stack does not already hold as entries, each by its saved-item key
+        for f in frameworks?.frameworks ?? [] where f.entityId == nil {
+            out.append(Entry(id: SavedItem.framework(f.id).key, domain: Spotlight.frameworks, title: f.name, detail: f.purpose,
+                             keywords: [f.shortName, f.kind] + (f.aliases ?? [])))
+        }
         for e in store.frameworks + store.sources + store.solutions {
             out.append(Entry(id: SavedItem.entity(e.id).key, domain: entities, title: e.displayName, detail: e.shortSummary,
                              keywords: [e.shortName, e.publisher]))
@@ -41,7 +46,7 @@ enum Spotlight {
     /// Replace the app's items in the on-device index with these. The steps are replaced whole, so a change of
     /// trailhead leaves no step of the last one behind.
     static func index(_ entries: [Entry]) {
-        CSSearchableIndex.default().deleteSearchableItems(withDomainIdentifiers: [entities, steps, plays]) { _ in
+        CSSearchableIndex.default().deleteSearchableItems(withDomainIdentifiers: [entities, steps, plays, frameworks]) { _ in
             CSSearchableIndex.default().indexSearchableItems(entries.map(item)) { _ in }
         }
     }

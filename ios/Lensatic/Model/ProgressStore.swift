@@ -30,6 +30,8 @@ final class ProgressStore {
         /// The readiness checks' answers (Lensatic 2.0): for each check, the answer picked for each of its items. A
         /// self-check, kept here and nowhere else.
         var readiness: [String: [String: String]] = [:]
+        /// The Frameworks list as compact rows in place of cards (Round 2): the reader's choice of view.
+        var frameworksCompact = false
 
         struct ChangesViewed: Codable, Equatable, Sendable {
             /// The content release the list was cleared at (contentVersion): items of later releases are new.
@@ -40,7 +42,7 @@ final class ProgressStore {
 
         init(door: String? = nil, checked: [String: [Int]] = [:], saved: [String] = [], weeks: [String: [Int]] = [:],
              changesViewed: ChangesViewed? = nil, playsRead: [String] = [], recent: [String] = [],
-             readiness: [String: [String: String]] = [:]) {
+             readiness: [String: [String: String]] = [:], frameworksCompact: Bool = false) {
             self.door = door
             self.checked = checked
             self.saved = saved
@@ -49,9 +51,10 @@ final class ProgressStore {
             self.playsRead = playsRead
             self.recent = recent
             self.readiness = readiness
+            self.frameworksCompact = frameworksCompact
         }
 
-        private enum CodingKeys: String, CodingKey { case door, checked, saved, weeks, changesViewed, playsRead, recent, readiness }
+        private enum CodingKeys: String, CodingKey { case door, checked, saved, weeks, changesViewed, playsRead, recent, readiness, frameworksCompact }
 
         /// A file from before saved items and weeks (R1), or before What Changed (R2), reads with none of them.
         init(from decoder: Decoder) throws {
@@ -64,6 +67,7 @@ final class ProgressStore {
             playsRead = try c.decodeIfPresent([String].self, forKey: .playsRead) ?? []
             recent = try c.decodeIfPresent([String].self, forKey: .recent) ?? []
             readiness = try c.decodeIfPresent([String: [String: String]].self, forKey: .readiness) ?? [:]
+            frameworksCompact = try c.decodeIfPresent(Bool.self, forKey: .frameworksCompact) ?? false
         }
     }
 
@@ -221,6 +225,16 @@ final class ProgressStore {
         save()
     }
 
+    // MARK: the Frameworks list's view
+
+    var frameworksCompact: Bool { state.frameworksCompact }
+
+    func setFrameworksCompact(_ on: Bool) {
+        guard state.frameworksCompact != on else { return }
+        state.frameworksCompact = on
+        save()
+    }
+
     // MARK: What Changed
 
     /// Clear What Changed: the reader has seen everything up to this content release, on this day.
@@ -261,14 +275,17 @@ final class ProgressStore {
     }
 }
 
-/// Something the reader saved: an entry (its card), a step on a trailhead, or a play. Kept in the file by its key.
+/// Something the reader saved: an entry (its card), a step on a trailhead, a play, or since Lensatic 2.0 a framework of
+/// the navigator. Kept in the file by its key.
 enum SavedItem: Hashable, Sendable {
     case entity(String)
     case step(Door.ID, Int)
     case play(String)
+    case framework(String)
 
     var key: String {
         switch self {
+        case .framework(let id): return "framework:\(id)"
         case .entity(let id): return "entity:\(id)"
         case .step(let door, let order): return "step:\(door.rawValue):\(order)"
         case .play(let id): return "play:\(id)"
@@ -280,6 +297,7 @@ enum SavedItem: Hashable, Sendable {
         switch (parts.first, parts.count) {
         case ("entity", 2) where !parts[1].isEmpty: self = .entity(parts[1])
         case ("play", 2) where !parts[1].isEmpty: self = .play(parts[1])
+        case ("framework", 2) where !parts[1].isEmpty: self = .framework(parts[1])
         case ("step", 3):
             guard let door = Door.ID(rawValue: parts[1]), let order = Int(parts[2]) else { return nil }
             self = .step(door, order)

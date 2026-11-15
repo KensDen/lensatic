@@ -182,6 +182,7 @@ struct Authority: Decodable, Sendable {
         case federalCivilian = "federal-civilian", dowComponents = "dow-components"
         case defenseContractorsCUI = "defense-contractors-cui", defenseContractorsFCICUI = "defense-contractors-fci-cui"
         case voluntaryAll = "voluntary-all", adopters
+        case cloudProviders = "cloud-providers"
     }
 
     struct Deadline: Decodable, Sendable {
@@ -465,8 +466,10 @@ enum PillarView: String, Decodable, Sendable, Hashable, CaseIterable {
 }
 
 struct Door: Decodable, Sendable {
-    enum ID: String, Decodable, Sendable {
+    enum ID: String, Decodable, Sendable, CaseIterable {
         case federalCivilian = "federal-civilian", dow, defenseContractor = "defense-contractor"
+        /// A cloud provider selling to government (Lensatic 2.0, Round 2, content 1.4.0): the sixth trailhead.
+        case cloudProvider = "cloud-provider"
         /// Everyone Else until content 1.2.21 (R5), now two trailheads; a progress file that names it re-picks.
         case stateLocal = "state-local", industryAcademia = "industry-academia"
     }

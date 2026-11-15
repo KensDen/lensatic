@@ -156,9 +156,11 @@ final class FrameworkTests: XCTestCase {
         for tactic in one.parents { XCTAssertTrue(g.children(of: tactic).contains { $0.id == one.id }, "\(one.id) shows under \(tactic)") }
         XCTAssertNil(g.roots.first { $0.title == "Defense Evasion" }, "ATT&CK split Defense Evasion in v19")
         let depth = try XCTUnwrap(f.depth.value)
-        XCTAssertEqual(depth.shown, 227)
+        // Round 2: the sub-techniques are listed too, each under the technique whose identifier it extends
+        XCTAssertEqual(f.nodes.filter { $0.level == "subtechnique" }.count, 479)
+        XCTAssertEqual(g.node("T1059.001")?.parents, ["T1059"])
+        XCTAssertEqual(depth.shown, 227 + 479)
         XCTAssertEqual(depth.of, 227 + 479)
-        XCTAssertNotNil(depth.why.value, "a subset says why")
         XCTAssertEqual(f.terms.basis, .mitre)
         XCTAssertTrue(try XCTUnwrap(f.terms.notice.value).contains("reproduced and distributed with the permission of The MITRE Corporation"))
         XCTAssertTrue(f.nodes.allSatisfy { $0.text == nil }, "names only")
@@ -222,7 +224,7 @@ final class FrameworkTests: XCTestCase {
         XCTAssertEqual(targets.filter { host.node($0) == nil }, ["RA-4"])
         // and back: a control knows the outcomes that point at it
         let back = lib.referrers(to: "AC-2", in: "sp800-53")
-        XCTAssertEqual(back.map(\.framework.id).sorted(), ["csf20", "fedramp"])
+        XCTAssertEqual(back.map(\.framework.id).sorted(), ["csf20", "fedramp", "sp800-171"])
         XCTAssertTrue(try XCTUnwrap(back.first { $0.framework.id == "csf20" }).nodes.contains("PR.AA-01"))
     }
 
@@ -238,7 +240,7 @@ final class FrameworkTests: XCTestCase {
         XCTAssertEqual(o.reached, 209, "213 distinct references: one is the withdrawn RA-4 and three name a whole family")
         XCTAssertTrue(o.rows.allSatisfy { !$0.leading.isEmpty && $0.leading.count <= 3 })
         XCTAssertFalse(c.rows.contains { $0.label.lowercased().contains("strict") })
-        XCTAssertEqual(lib.comparisons(with: "csf20").map(\.id), [c.id])
+        XCTAssertEqual(lib.comparisons(with: "csf20").map(\.id), [c.id, "compare-csf20-iso27001"])
         XCTAssertEqual(CompareView.reachedLine(o, labels: lib), "In all, the references reach 209 of the 1,014 controls and enhancements in SP 800-53.")
     }
 
@@ -359,7 +361,7 @@ final class FrameworkTests: XCTestCase {
         XCTAssertEqual(Rules.grouped(106), "106")
         XCTAssertEqual(FrameworkDetailView.depthLine(try XCTUnwrap(csf.depth.value), labels: lib), "Lensatic shows 106 of 106 Subcategories.")
         let fed = try XCTUnwrap(lib.byId["fedramp"])
-        XCTAssertEqual(BaselineView.countLine(fed.sets[2], host: try XCTUnwrap(lib.byId["sp800-53"]), labels: lib),
+        XCTAssertEqual(BaselineView.countLine(fed.sets[2], host: try XCTUnwrap(lib.byId["sp800-53"]), graph: try XCTUnwrap(lib.graphs[try XCTUnwrap(lib.byId["sp800-53"]).id]), labels: lib),
                        "409 of the 1,014 controls and enhancements in SP 800-53")
         let d = try XCTUnwrap(lib.zeroTrustCountdown(store: store, today: day("2026-11-14")))
         XCTAssertTrue(CountdownCard.spoken(d, days: 320, labels: lib).hasPrefix("320 days: Target Level zero trust, 30 Sep 2027, "))
@@ -374,15 +376,16 @@ final class FrameworkTests: XCTestCase {
     func testSearchFindsTheNewFrameworks() throws {
         let index = SearchIndex(store: store, library: try Library.bundled(), door: nil, labels: .init(), frameworks: lib)
         func first(_ q: String) -> SearchIndex.Opens? { index.search(q).first?.results.first?.opens }
-        XCTAssertEqual(first("FedRAMP"), .nav(.framework("fedramp")))
+        // FedRAMP joined the stack in content 1.4.0, so it is found as its entry, whose card leads to the framework
+        XCTAssertEqual(first("FedRAMP"), .nav(.entity("fedramp")))
         XCTAssertEqual(first("ISO 27001"), .nav(.framework("iso27001")))
         XCTAssertEqual(first("ATT&CK"), .nav(.framework("attack")))
         XCTAssertEqual(first("CJIS"), .nav(.framework("cjis")))
         XCTAssertEqual(first("SOC 2"), .nav(.landing("soc2")))
         XCTAssertEqual(first("PCI DSS"), .nav(.landing("pci-dss")))
         // the words a reader still uses lead to the framework that replaced them
-        XCTAssertEqual(first("3PAO"), .nav(.framework("fedramp")))
-        XCTAssertEqual(first("POA&M"), .nav(.framework("fedramp")))
+        XCTAssertEqual(first("3PAO"), .nav(.entity("fedramp")))
+        XCTAssertEqual(first("POA&M"), .nav(.entity("fedramp")))
         XCTAssertEqual(first("27002"), .nav(.framework("iso27001")))
         XCTAssertEqual(first("Statement of Applicability"), .nav(.framework("iso27001")))
         XCTAssertEqual(first("CSF 2.0"), .nav(.entity("csf20")))
@@ -405,5 +408,166 @@ final class FrameworkTests: XCTestCase {
         XCTAssertEqual(model.frameworksMode, .compare)
         model.show(.check("check-csf20"))
         XCTAssertEqual(model.paths[.frameworks], [.check("check-csf20")])
+    }
+
+    // MARK: Round 2: depth, and the routes in
+
+    func testTheNewStructuresHoldWhatTheirPublishersCount() throws {
+        func count(_ id: String, _ level: String) -> Int { lib.byId[id]?.nodes.filter { $0.level == level }.count ?? -1 }
+        // SP 800-171: both editions, each under its own heading, with identifiers as each edition prints them
+        let g171 = try XCTUnwrap(lib.graphs["sp800-171"])
+        XCTAssertEqual(g171.roots.map(\.title), ["Revision 2", "Revision 3"])
+        XCTAssertFalse(g171.identified(try XCTUnwrap(g171.roots.first)), "a revision has no identifier of its own")
+        XCTAssertEqual(g171.descendants(of: "rev2").filter { $0.level == "requirement" }.count, 110)
+        XCTAssertEqual(g171.descendants(of: "rev3").filter { $0.level == "requirement" }.count, 97)
+        XCTAssertEqual(g171.node("03.01.01")?.title, "Account Management")
+        XCTAssertNil(g171.node("03.01.13"), "a withdrawn number is not listed")
+        XCTAssertNil(g171.node("3.1.1")?.title, "Revision 2 gives a requirement a statement and no title")
+        // CMMC: the two levels the rule states itself, and Level 2 as a set on SP 800-171 Revision 2
+        let cmmc = try XCTUnwrap(lib.byId["cmmc"]), gc = try XCTUnwrap(lib.graphs["cmmc"])
+        XCTAssertEqual(gc.descendants(of: "level-1").filter { $0.level == "requirement" }.count, 15)
+        XCTAssertEqual(gc.descendants(of: "level-3").filter { $0.level == "requirement" }.count, 24)
+        let two = try XCTUnwrap(cmmc.sets.first { $0.id == "level-2" })
+        XCTAssertEqual(two.members.count, 110)
+        XCTAssertEqual(BaselineView.countLine(two, host: try XCTUnwrap(lib.byId["sp800-171"]), graph: g171, labels: lib),
+                       "110 of the 110 requirements in SP 800-171 Revision 2")
+        XCTAssertEqual(cmmc.crosswalks.first?.map["PE.L1-b.1.ix"], ["3.10.3", "3.10.4", "3.10.5"], "one requirement is three in SP 800-171's numbering")
+        // the RMF, the AI RMF, the CISA model and the department's activities
+        XCTAssertEqual([count("rmf", "step"), count("rmf", "task")], [7, 47])
+        XCTAssertEqual(lib.graphs["rmf"]?.node("R-5")?.parents, ["authorize"])
+        XCTAssertEqual(lib.graphs["ai-rmf"]?.roots.map(\.id), ["GOVERN", "MAP", "MEASURE", "MANAGE"], "the publication's order, not the alphabet's")
+        XCTAssertEqual([count("ai-rmf", "category"), count("ai-rmf", "subcategory")], [19, 72])
+        XCTAssertEqual([count("cisa-ztmm", "pillar"), count("cisa-ztmm", "stage")], [5, 160])
+        let gz = try XCTUnwrap(lib.graphs["cisa-ztmm"])
+        XCTAssertEqual(gz.children(of: "identity/authentication").map(\.title), ["Traditional", "Initial", "Advanced", "Optimal"])
+        XCTAssertEqual(gz.name(try XCTUnwrap(gz.node("identity/authentication"))), "Authentication", "CISA numbers nothing, so no identifier is shown")
+        let zt = try XCTUnwrap(lib.byId["dod-zt"])
+        XCTAssertEqual([count("dod-zt", "pillar"), count("dod-zt", "capability"), count("dod-zt", "activity")], [7, 45, 152])
+        XCTAssertEqual(zt.sets.map(\.members.count), [91, 61])
+        XCTAssertEqual(lib.graphs["dod-zt"]?.roots.map(\.title).last, "Visibility & Analytics")
+        // the adversary column: all three knowledge bases by identifier and name, each with its notice
+        XCTAssertEqual(count("d3fend", "technique"), 271)
+        XCTAssertEqual(lib.byId["d3fend"]?.depth.value?.of, 272)
+        XCTAssertEqual([count("aml", "tactic"), count("aml", "technique"), count("aml", "subtechnique")], [16, 129, 92])
+        for id in ["attack", "d3fend", "aml"] { XCTAssertNotNil(lib.byId[id]?.terms.notice.value, "\(id) carries its publisher's notice") }
+    }
+
+    func testAnyTwoCardsCompareAndOnlyAPublishedCrosswalkIsCounted() throws {
+        XCTAssertEqual(lib.compares.count, 5)
+        XCTAssertEqual(lib.named("sp800-53", "csf20")?.id, "compare-csf20-sp800-53", "a named comparison is found in either order")
+        XCTAssertNil(lib.named("cjis", "attack"))
+        // no publisher prints a crosswalk between these two, so nothing is counted
+        XCTAssertNil(lib.overlap("fedramp", "govramp"))
+        XCTAssertNil(lib.overlap("cjis", "attack"))
+        // NIST's references to a standard Lensatic does not list: identifiers are counted, and nothing of ISO's is shown
+        let iso = try XCTUnwrap(lib.overlap("iso27001", "csf20"))
+        XCTAssertEqual(iso.from.id, "csf20")
+        XCTAssertFalse(iso.crosswalk.isListed)
+        XCTAssertEqual(iso.of, 0)
+        XCTAssertEqual(CompareView.reachedLine(iso, labels: lib), "In all, the references name \(iso.reached) identifiers of ISO/IEC 27001. Lensatic does not list that standard\u{2019}s elements.")
+        XCTAssertTrue(try XCTUnwrap(lib.byId["iso27001"]).nodes.isEmpty)
+        XCTAssertTrue(Set(iso.crosswalk.map.values.flatMap { $0 }).allSatisfy { $0.hasPrefix("Clause ") || $0.hasPrefix("Annex A ") })
+        // SP 800-171 Revision 3 names its source controls; only Revision 3's requirements are counted
+        let o = try XCTUnwrap(lib.overlap("sp800-171", "sp800-53"))
+        XCTAssertEqual(o.rows.map(\.node.id), ["rev3"])
+        XCTAssertEqual(o.rows.first?.leaves, 97)
+        XCTAssertEqual(o.unit, "Requirements")
+        // two parts of one framework: how much of each Rev5 baseline the indicators name
+        let fed = try XCTUnwrap(lib.byId["fedramp"])
+        let sets = lib.setOverlap(fed)
+        XCTAssertEqual(sets.map(\.selection.id), ["rev5-class-b", "rev5-class-c", "rev5-class-d"])
+        XCTAssertTrue(sets.allSatisfy { $0.named > 0 && $0.named <= $0.selection.members.count })
+        let same = try XCTUnwrap(lib.comparison("compare-fedramp-20x-rev5"))
+        XCTAssertEqual([same.a, same.b, same.aName, same.bName], ["fedramp", "fedramp", "FedRAMP 20x", "FedRAMP Rev5"])
+        // no comparison has a field a score could go in, and none uses the word
+        for c in lib.compares { XCTAssertFalse((c.rows.map(\.label) + [c.verdict]).contains { $0.lowercased().contains("score") }, c.id) }
+    }
+
+    func testEachTrailheadHasItsReadinessCheck() throws {
+        XCTAssertEqual(lib.checks.map(\.id), ["check-csf20", "check-fedramp", "check-cmmc-l1", "check-dod-zt"])
+        XCTAssertEqual(lib.checks(for: .cloudProvider).map(\.id), ["check-fedramp"])
+        XCTAssertEqual(lib.checks(for: .defenseContractor).map(\.id), ["check-cmmc-l1"])
+        XCTAssertEqual(lib.checks(for: .dow).map(\.id), ["check-dod-zt"])
+        XCTAssertTrue(lib.checks(for: .stateLocal).isEmpty)
+        let l1 = try XCTUnwrap(lib.check("check-cmmc-l1")), gc = try XCTUnwrap(lib.graphs["cmmc"])
+        XCTAssertEqual(l1.items.count, 15)
+        let groups = ReadinessView.groups(l1, gc)
+        XCTAssertEqual(groups.compactMap { $0.node?.title }, ["Access Control (AC)", "Identification and Authentication (IA)", "Media Protection (MP)",
+                                                             "Physical Protection (PE)", "System and Communications Protection (SC)", "System and Information Integrity (SI)"])
+        XCTAssertEqual(groups.map(\.items.count), [4, 2, 1, 2, 2, 4])
+        let zt = try XCTUnwrap(lib.check("check-dod-zt")), gz = try XCTUnwrap(lib.graphs["dod-zt"])
+        XCTAssertEqual(zt.items.map(\.nodeId), ["1", "2", "3", "4", "5", "6", "7"])
+        XCTAssertEqual(ReadinessView.groups(zt, gz).count, 1, "seven questions stand in one group")
+        XCTAssertTrue(try XCTUnwrap(zt.items.first).question.contains("13 Target Level activities of the User pillar"))
+        for c in lib.checks { XCTAssertTrue(c.honest.contains("stay on this device"), c.id) }
+    }
+
+    func testSearchFindsAnElementByItsIdentifier() throws {
+        let index = SearchIndex(store: store, library: try Library.bundled(), door: nil, labels: .init(), frameworks: lib)
+        func elements(_ q: String) -> [SearchIndex.Opens] { index.search(q).first { $0.kind == .element }?.results.map(\.opens) ?? [] }
+        XCTAssertEqual(Array(elements("AC-2").prefix(2)), [.nav(.node("sp800-53", "AC-2")), .nav(.node("sp800-53", "AC-2(1)"))])
+        XCTAssertEqual(elements("pr.aa-01"), [.nav(.node("csf20", "PR.AA-01"))])
+        XCTAssertEqual(elements("T1059.001"), [.nav(.node("attack", "T1059.001"))])
+        XCTAssertEqual(elements("03.01.01").first, .nav(.node("sp800-171", "03.01.01")))
+        XCTAssertEqual(elements("KSI-IAM").first, .nav(.node("fedramp", "KSI-IAM")))
+        XCTAssertTrue(elements("zero trust").isEmpty)
+        XCTAssertLessThanOrEqual(elements("AC").count, 1, "two letters find the identifier itself, not everything it begins")
+        // a short word matches a whole word or the start of one, never the inside of a longer word
+        let file = SearchIndex.Item(kind: .term, id: "x", title: "A file profile", subtitle: "", aliases: [], body: "", opens: .glossary("x"))
+        XCTAssertNil(SearchIndex.score(file, words: ["il"], phrase: "il"))
+        XCTAssertNotNil(SearchIndex.score(file, words: ["fil"], phrase: "fil"))
+        XCTAssertNotNil(SearchIndex.score(file, words: ["rofile"], phrase: "rofile"), "a longer word still matches inside one")
+    }
+
+    func testTheStackAndTheFrameworksTabAreOneMap() throws {
+        let model = AppModel(store: store, library: try Library.bundled(), progress: ProgressStore(url: nil), frameworks: lib)
+        for layer in store.content.layers {
+            let cards = lib.frameworks(onLayer: layer.id)
+            XCTAssertFalse(cards.isEmpty, "\(layer.id) holds a card")
+            for f in cards { XCTAssertTrue(model.sitsLabel(f).contains(layer.isColumn ? layer.name : "\(layer.order)"), "\(f.id) says it sits on \(layer.id)") }
+        }
+        // a card that is a stack entry's own sits on that entry's layer, so the two tabs cannot disagree
+        for f in lib.frameworks {
+            guard let e = f.entityId.flatMap({ store.entities[$0] }), let layer = e.layerId else { continue }
+            XCTAssertTrue(f.sits.layers.contains(layer), "\(f.id) sits on \(f.sits.layers), its entry on \(layer)")
+        }
+        XCTAssertEqual(lib.adversary.map(\.id), ["attack", "d3fend", "aml"])
+        XCTAssertEqual(lib.framework(forEntity: "fedramp")?.id, "fedramp")
+        XCTAssertEqual(lib.frameworks(onLayer: "l5").map(\.id).contains("fedramp"), true)
+        // a framework is saved, described and opened by its own key
+        let item = try XCTUnwrap(SavedItem(key: "framework:iso27001"))
+        XCTAssertEqual(item, .framework("iso27001"))
+        XCTAssertTrue(model.exists(item))
+        XCTAssertEqual(model.describe(item)?.title, "ISO/IEC 27001:2022")
+        XCTAssertFalse(model.exists(.framework("nope")))
+        XCTAssertTrue(model.openSpotlight("framework:iso27001"))
+        XCTAssertEqual(model.tab, .frameworks)
+        XCTAssertEqual(model.paths[.frameworks], [.framework("iso27001")])
+        XCTAssertEqual(Nav(pathParts: ["pair", "fedramp", "govramp"]), .pair("fedramp", "govramp"))
+        XCTAssertEqual(Nav.group("adversary").pathParts, ["group", "adversary"])
+    }
+
+    func testTheSixthTrailheadCountsDownToFedRAMPsRules() throws {
+        let door = try XCTUnwrap(store.content.doors.first { $0.id == .cloudProvider })
+        XCTAssertEqual(door.steps.count, 7)
+        XCTAssertEqual(Door.ID.welcomeOrder.count, store.content.doors.count)
+        let plan = PathPlan(door: door, entities: store.entities)
+        XCTAssertEqual(plan.deadlines.map(\.due.date), ["2027-01-01"])
+        XCTAssertEqual(plan.upcoming(today: day("2026-11-14")).flatMap { PathPlan.days(from: day("2026-11-14"), to: $0.day) }, 48)
+        // the card's dates and the entry's date are one list, none twice
+        let fed = try XCTUnwrap(lib.byId["fedramp"])
+        XCTAssertEqual(lib.deadlines(fed, store: store).map(\.date), ["2027-01-01", "2027-06-11", "2028-02-01"])
+        // the contractor's path is not bound by it
+        XCTAssertTrue(PathPlan(door: try XCTUnwrap(store.content.doors.first { $0.id == .defenseContractor }), entities: store.entities).deadlines.isEmpty)
+    }
+
+    func testTheCompactListIsKeptWithTheProgress() throws {
+        let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("lensatic-tests-\(UUID().uuidString)").appendingPathComponent("progress.json")
+        let p = ProgressStore(url: url)
+        XCTAssertFalse(p.frameworksCompact)
+        p.setFrameworksCompact(true)
+        XCTAssertTrue(ProgressStore(url: url).frameworksCompact)
+        // a file from before Round 2 reads as cards
+        XCTAssertFalse(ProgressStore.state(from: Data(#"{"door":"dow"}"#.utf8)).frameworksCompact)
     }
 }

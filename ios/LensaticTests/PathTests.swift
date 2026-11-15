@@ -146,7 +146,7 @@ final class PathTests: XCTestCase {
 
     func testTheTrailheadNamesAreInTitleCase() throws {
         XCTAssertEqual(store.content.doors.map(\.shortTitle),
-                       ["Department of War Component", "Federal Civilian Agency", "Defense Contractor with CUI",
+                       ["Department of War Component", "Federal Civilian Agency", "Defense Contractor with CUI", "Cloud Provider",
                         "State and Local Government", "Industry and Academia"])
         for d in store.content.doors {
             XCTAssertEqual(TitleCase.apply(d.shortTitle), d.shortTitle, d.id.rawValue)
@@ -252,8 +252,12 @@ final class PathTests: XCTestCase {
         p.toggleSaved(.entity("sp800-207"))
         p.toggleWeek("core", 1)
         let json = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
-        // Lensatic 2.0 adds the readiness checks' answers; the privacy page has to name them before 2.0 ships
-        XCTAssertEqual(Set(json.keys), ["door", "checked", "saved", "weeks", "playsRead", "recent", "readiness"])
+        // Lensatic 2.0 adds the readiness checks' answers and the view chosen for the Frameworks list; the privacy page
+        // names both since content 1.4.0
+        XCTAssertEqual(Set(json.keys), ["door", "checked", "saved", "weeks", "playsRead", "recent", "readiness", "frameworksCompact"])
+        XCTAssertEqual(json["frameworksCompact"] as? Bool, false)
+        let kept = try XCTUnwrap(store.content.pages.privacy.paragraphs.first { $0.contains("The iOS app keeps, on your device only") })
+        for word in ["readiness check", "view you chose for the Frameworks list"] { XCTAssertTrue(kept.contains(word), word) }
         XCTAssertEqual(json["readiness"] as? [String: [String: String]], [:])
         XCTAssertEqual(json["playsRead"] as? [String], [])
         XCTAssertEqual(json["recent"] as? [String], [])

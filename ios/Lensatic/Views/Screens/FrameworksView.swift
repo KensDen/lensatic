@@ -24,8 +24,10 @@ struct FrameworksView: View {
                 switch model.frameworksMode {
                 case .browse:
                     jumpRow(proxy)
+                    densityRow
                     browse
                 case .compare: compare
+                case .checks: checks
                 }
             }
             .padding(.horizontal, 20)
@@ -70,6 +72,34 @@ struct FrameworksView: View {
     /// One column on a phone and at the accessibility sizes, two or three where the width allows.
     private var grid: CardGrid { CardGrid(minimum: typeSize.isAccessibilitySize ? 560 : 330, spacing: 12) }
 
+    /// Cards or a compact list (Round 2): the same frameworks, a card each or a row each, nine or ten rows to a phone
+    /// screen. The choice is kept with the reader's progress on the device.
+    private var densityRow: some View {
+        let L = model.frameworks
+        let compact = model.progress.frameworksCompact
+        return HStack(spacing: 8) {
+            Text(L.label(compact ? "viewList" : "viewCards")).font(DS.caption).foregroundStyle(Palette.fg2)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityHidden(true)
+            ForEach([false, true], id: \.self) { list in
+                Button { model.progress.setFrameworksCompact(list) } label: {
+                    Image(systemName: list ? "list.bullet" : "rectangle.grid.1x2")
+                        .font(.body.weight(.semibold))
+                        .foregroundStyle(compact == list ? Palette.bg2 : Palette.fg)
+                        .frame(width: 44, height: 36)
+                        .background(compact == list ? Palette.link : Palette.bg3, in: RoundedRectangle(cornerRadius: 10, style: .continuous))
+                        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous).strokeBorder(compact == list ? Palette.link : Palette.line, lineWidth: 1))
+                        .frame(minHeight: 44)
+                        .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(L.label(list ? "viewList" : "viewCards"))
+                .accessibilityAddTraits(compact == list ? [.isSelected, .isButton] : .isButton)
+                .accessibilityIdentifier(list ? "frameworks-view-list" : "frameworks-view-cards")
+            }
+        }
+    }
+
     @ViewBuilder private var browse: some View {
         let L = model.frameworks
         ForEach(L.catalog.groups) { group in
@@ -82,11 +112,24 @@ struct FrameworksView: View {
                 .padding(.top, 6)
                 .id("group-\(group.id)")
                 .accessibilityIdentifier("framework-group-\(group.id)")
-                grid {
-                    ForEach(cards) { f in
-                        Button { model.push(.framework(f.id)) } label: { FrameworkCard(framework: f) }
-                            .buttonStyle(.plain)
-                            .accessibilityIdentifier("framework-card-\(f.id)")
+                if model.progress.frameworksCompact {
+                    VStack(spacing: 0) {
+                        ForEach(cards) { f in
+                            Button { model.push(.framework(f.id)) } label: { CompactFrameworkRow(framework: f) }
+                                .buttonStyle(.plain)
+                                .accessibilityIdentifier("framework-card-\(f.id)")
+                            if f.id != cards.last?.id { Divider().overlay(Palette.line).padding(.leading, 14) }
+                        }
+                    }
+                    .background(Palette.bg2, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Palette.line, lineWidth: 1))
+                } else {
+                    grid {
+                        ForEach(cards) { f in
+                            Button { model.push(.framework(f.id)) } label: { FrameworkCard(framework: f) }
+                                .buttonStyle(.plain)
+                                .accessibilityIdentifier("framework-card-\(f.id)")
+                        }
                     }
                 }
             }
@@ -112,6 +155,30 @@ struct FrameworksView: View {
     @ViewBuilder private var compare: some View {
         let L = model.frameworks
         Text(L.label("compareIntro")).font(DS.step).foregroundStyle(Palette.fg).fixedSize(horizontal: false, vertical: true)
+        // Round 2: any two cards. Two menus and a button; the named comparisons follow
+        VStack(alignment: .leading, spacing: 10) {
+            SectionLabel(text: L.label("compareAny"))
+            (typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8)) : AnyLayout(HStackLayout(spacing: 8))) {
+                pick(L.label("compareFirst"), model.compareA, "compare-pick-a") { model.compareA = $0 }
+                pick(L.label("compareSecond"), model.compareB, "compare-pick-b") { model.compareB = $0 }
+            }
+            let ready = model.compareA != nil && model.compareB != nil && model.compareA != model.compareB
+            Button {
+                if let a = model.compareA, let b = model.compareB, a != b { model.push(.pair(a, b)) }
+            } label: {
+                Text(L.label("compareOpen")).font(DS.style(.subheadline).weight(.semibold))
+                    .foregroundStyle(ready ? Palette.bg2 : Palette.fg2)
+                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .background(ready ? Palette.link : Palette.bg3, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .disabled(!ready)
+            .accessibilityHint(ready ? "" : L.label("compareHint"))
+            .accessibilityIdentifier("compare-open")
+        }
+        .lxCard(radius: 18)
+        SectionLabel(text: L.label("compareNamed")).padding(.top, 6)
         ForEach(L.compares) { c in
             if let a = L.byId[c.a], let b = L.byId[c.b] {
                 Button { model.push(.compare(c.id)) } label: { ComparisonCard(comparison: c, a: a, b: b) }
@@ -121,6 +188,68 @@ struct FrameworksView: View {
         }
         Text(L.label("compareMore")).font(DS.caption).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
             .accessibilityIdentifier("compare-more")
+    }
+
+    /// One of Compare's two menus: every card, by group, with the one picked named on the control.
+    private func pick(_ prompt: String, _ picked: String?, _ id: String, _ set: @escaping (String) -> Void) -> some View {
+        let L = model.frameworks
+        return Menu {
+            ForEach(L.catalog.groups) { g in
+                SwiftUI.Section(g.name) {
+                    ForEach(L.frameworks(in: g.id)) { f in Button(f.shortName) { set(f.id) } }
+                }
+            }
+        } label: {
+            HStack(spacing: 8) {
+                if let f = picked.flatMap({ L.byId[$0] }) {
+                    Circle().fill(f.tone).frame(width: 8, height: 8).accessibilityHidden(true)
+                    Text(keepDesignations(f.shortName)).font(DS.style(.subheadline).weight(.semibold)).foregroundStyle(.primary)
+                } else {
+                    Text(prompt).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2)
+                }
+                Spacer(minLength: 4)
+                Image(systemName: "chevron.up.chevron.down").font(.footnote.weight(.semibold)).foregroundStyle(Palette.fg2).accessibilityHidden(true)
+            }
+            .padding(.horizontal, 12)
+            .frame(maxWidth: .infinity, minHeight: 44)
+            .background(Palette.bg3, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Palette.line, lineWidth: 1))
+            .contentShape(Rectangle())
+        }
+        .accessibilityLabel(picked.flatMap { L.byId[$0]?.shortName }.map { "\(prompt): \($0)" } ?? prompt)
+        .accessibilityIdentifier(id)
+    }
+
+    /// The self-checks (Round 2): each a card that says what it checks and how far along the reader is.
+    @ViewBuilder private var checks: some View {
+        let L = model.frameworks
+        Text(L.label("checksIntro")).font(DS.step).foregroundStyle(Palette.fg).fixedSize(horizontal: false, vertical: true)
+        ForEach(L.checks) { check in
+            if let f = L.byId[check.frameworkId] {
+                let result = check.result(model.progress.answers(check.id))
+                Button { model.push(.check(check.id)) } label: {
+                    HStack(alignment: .top, spacing: 12) {
+                        FrameworkTile(framework: f)
+                        VStack(alignment: .leading, spacing: 3) {
+                            Eyebrow(text: f.shortName, color: f.tone, small: true)
+                            Text(check.title).font(DS.style(.headline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                            Text(check.line).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                            Text(L.label("answered").replacingOccurrences(of: "{n}", with: "\(result.answered)").replacingOccurrences(of: "{m}", with: "\(result.total)"))
+                                .font(DS.style(.footnote).weight(.semibold)).foregroundStyle(.primary).padding(.top, 2)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .multilineTextAlignment(.leading)
+                        Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).padding(.top, 8).accessibilityHidden(true)
+                    }
+                    .lxCard(radius: 18)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityAddTraits(.isButton)
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("check-card-\(check.id)")
+            }
+        }
+        Text(L.label("checkNotAssessment")).font(DS.caption).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
     }
 }
 
@@ -165,7 +294,7 @@ struct ComparisonCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            ComparePair(a: a, b: b)
+            ComparePair(a: a, b: b, nameA: comparison.aName, nameB: comparison.bName)
             Text(comparison.verdict).font(DS.style(.subheadline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
         }
         .multilineTextAlignment(.leading)
@@ -181,28 +310,31 @@ struct ComparePair: View {
     @Environment(\.dynamicTypeSize) private var typeSize
     let a: Framework
     let b: Framework
+    /// Each side's own name where both are parts of one framework (FedRAMP 20x, FedRAMP Rev5).
+    var nameA: String?
+    var nameB: String?
 
     var body: some View {
         let stacked = typeSize.isAccessibilitySize
         (stacked ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8)) : AnyLayout(HStackLayout(alignment: .center, spacing: 10))) {
-            side(a)
+            side(a, nameA)
             Text(model.frameworks.label("with")).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
-            side(b)
+            side(b, nameB)
         }
     }
 
-    private func side(_ f: Framework) -> some View {
+    private func side(_ f: Framework, _ name: String?) -> some View {
         HStack(spacing: 8) {
             FrameworkTile(framework: f, base: 30)
             VStack(alignment: .leading, spacing: 0) {
-                Text(keepDesignations(f.shortName)).font(DS.style(.headline)).foregroundStyle(.primary)
+                Text(keepDesignations(name ?? f.shortName)).font(DS.style(.headline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
                 Eyebrow(text: f.kind, color: f.tone, small: true)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         // one element, read as a name and what it is: "CSF 2.0, Outcomes"
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("\(f.shortName), \(f.kind)")
+        .accessibilityLabel("\(name ?? f.shortName), \(f.kind)")
     }
 }
 
@@ -316,5 +448,67 @@ struct SourceRows: View {
         let status = store.content.ui.status[v.status.rawValue] ?? v.status.rawValue
         guard let on = v.verifiedOn else { return status }
         return dotted([status, "\(store.label("verifiedOn")) \(Rules.formatDate(on))"], separator: store.label("metaSeparator"))
+    }
+}
+
+/// A framework as one compact row (Round 2; the density of the Ledger direction): a square of its colour, its short
+/// name and kind, its size, and the days to its next dated deadline. One control; VoiceOver hears the card's sentence.
+struct CompactFrameworkRow: View {
+    @Environment(AppModel.self) private var model
+    @Environment(\.dynamicTypeSize) private var typeSize
+    let framework: Framework
+    var today = Date()
+
+    var body: some View {
+        let f = framework, L = model.frameworks
+        let deadline = L.upcoming(f, store: model.store, today: today)
+        let days = deadline.flatMap { $0.days(from: today) }
+        HStack(alignment: .firstTextBaseline, spacing: 10) {
+            RoundedRectangle(cornerRadius: 3, style: .continuous).fill(f.tone).frame(width: 10, height: 10).accessibilityHidden(true)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(keepDesignations(f.shortName)).font(DS.style(.body).weight(.semibold)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                ViewThatFits(in: .horizontal) {
+                    Text(dotted([f.kind, FrameworkCard.sizeShort(f)], separator: model.store.label("metaSeparator"))).lineLimit(1)
+                    Text(FrameworkCard.sizeShort(f)).lineLimit(1)
+                    Text(FrameworkCard.sizeShort(f)).fixedSize(horizontal: false, vertical: true)
+                }
+                .font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            if let days, !typeSize.isAccessibilitySize {
+                Text(CountdownCard.count(days, labels: L)).font(DS.style(.footnote).weight(.semibold)).foregroundStyle(f.tone)
+            }
+            Text(model.sitsShort(f)).font(DS.eyebrowSmall).foregroundStyle(Palette.fg2).lineLimit(1)
+            Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
+        }
+        .multilineTextAlignment(.leading)
+        .padding(.horizontal, 14).padding(.vertical, 9)
+        .frame(minHeight: 44)
+        .contentShape(Rectangle())
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(FrameworkCard.spoken(f, model: model, deadline: deadline, days: days))
+        .accessibilityAddTraits(.isButton)
+    }
+}
+
+/// A group of cards as a screen of its own (Round 2): Explore's adversary column opens it, so the knowledge bases that
+/// sit beside the stack are reached from the stack too.
+struct FrameworkGroupView: View {
+    @Environment(AppModel.self) private var model
+    let id: String
+
+    var body: some View {
+        let L = model.frameworks
+        if let group = L.group(id) {
+            ListScreen(eyebrow: AppTab.frameworks.title, eyebrowColor: Palette.link, title: group.name, identifier: "group-screen") {
+                SwiftUI.Section {
+                    Text(group.line).font(DS.style(.subheadline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                        .padding(.vertical, 2)
+                }
+                SwiftUI.Section {
+                    ForEach(L.frameworks(in: id)) { f in FrameworkRow(framework: f, line: f.purpose) }
+                }
+            }
+        }
     }
 }

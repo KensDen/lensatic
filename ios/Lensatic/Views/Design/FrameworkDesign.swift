@@ -113,7 +113,9 @@ struct CountdownDial: View {
     }
 }
 
-/// The countdown card: the dial, then what is due, who it binds and the day. One control when it opens something.
+/// The countdown card: the dial, then what is due, who it binds and the day. One control when it opens something. On a
+/// phone's Home it is one compact row (Round 2, ruling 7), so the three doors under it stay on the first screen: a small
+/// dial, what is due, and the count, the day and who it binds on one line.
 struct CountdownCard: View {
     @Environment(AppModel.self) private var model
     @Environment(\.dynamicTypeSize) private var typeSize
@@ -126,27 +128,52 @@ struct CountdownCard: View {
     var tall = false
     /// The card's corner: a card in a system list's row takes the list's own (LxCard.inList).
     var radius: CGFloat = 18
+    /// One row: Home on a phone at the standard text sizes.
+    var compact = false
 
     var body: some View {
         let L = model.frameworks
         let stacked = typeSize.isAccessibilitySize
-        (stacked ? AnyLayout(VStackLayout(alignment: .leading, spacing: 10)) : AnyLayout(HStackLayout(alignment: .center, spacing: 14))) {
-            CountdownDial(days: days, tone: tone)
-            VStack(alignment: .leading, spacing: 2) {
-                // the count again in words beside the dial, then what is due as a line of its own
-                Eyebrow(text: dotted([eyebrow, CountdownCard.count(days, labels: L)].compactMap { $0 }, separator: model.store.label("metaSeparator")), color: tone, small: true)
-                Text(deadline.label).font(DS.style(.headline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
-                Text(dotted([unbroken(Rules.formatDate(deadline.date)), deadline.binds], separator: model.store.label("metaSeparator")))
-                    .font(DS.style(.footnote)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .multilineTextAlignment(.leading)
-            if chevron, !stacked {
-                Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
+        let sep = model.store.label("metaSeparator")
+        Group {
+            if compact, !stacked {
+                HStack(alignment: .center, spacing: 12) {
+                    CountdownDial(days: days, tone: tone, base: 46)
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(deadline.label).font(DS.style(.headline)).foregroundStyle(.primary).lineLimit(1).minimumScaleFactor(0.85)
+                        // the count, the day and who it binds on one line where they fit; else the count and the day
+                        ViewThatFits(in: .horizontal) {
+                            Text(dotted([CountdownCard.count(days, labels: L), unbroken(Rules.formatDate(deadline.date)), deadline.binds], separator: sep)).lineLimit(1)
+                            Text(dotted([CountdownCard.count(days, labels: L), unbroken(Rules.formatDate(deadline.date))], separator: sep)).lineLimit(1)
+                        }
+                        .font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    if chevron {
+                        Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
+                    }
+                }
+                .lxCard(radius: radius, tint: tone, vertical: 10)
+            } else {
+                (stacked ? AnyLayout(VStackLayout(alignment: .leading, spacing: 10)) : AnyLayout(HStackLayout(alignment: .center, spacing: 14))) {
+                    CountdownDial(days: days, tone: tone)
+                    VStack(alignment: .leading, spacing: 2) {
+                        // the count again in words beside the dial, then what is due as a line of its own
+                        Eyebrow(text: dotted([eyebrow, CountdownCard.count(days, labels: L)].compactMap { $0 }, separator: sep), color: tone, small: true)
+                        Text(deadline.label).font(DS.style(.headline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                        Text(dotted([unbroken(Rules.formatDate(deadline.date)), deadline.binds], separator: sep))
+                            .font(DS.style(.footnote)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    if chevron, !stacked {
+                        Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
+                    }
+                }
+                .frame(maxHeight: tall ? .infinity : nil, alignment: .leading)
+                .lxCard(radius: radius, tint: tone)
             }
         }
-        .frame(maxHeight: tall ? .infinity : nil, alignment: .leading)
-        .lxCard(radius: radius, tint: tone)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(CountdownCard.spoken(deadline, days: days, labels: L))
     }

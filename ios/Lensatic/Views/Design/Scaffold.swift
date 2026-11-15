@@ -65,6 +65,8 @@ struct ListScreen<Body: View>: View {
     var eyebrowColor: Color = Palette.secMaps
     let title: String
     var identifier: String
+    /// What the bookmark beside the way back saves (Lensatic 2.0, Round 2: a framework's screen); none on most screens.
+    var saves: SavedItem?
     @ViewBuilder var sections: Body
     @Environment(\.dismiss) private var dismiss
 
@@ -73,10 +75,14 @@ struct ListScreen<Body: View>: View {
             Group {
                 SwiftUI.Section {
                     VStack(alignment: .leading, spacing: 12) {
-                        Button { dismiss() } label: { CircleIconLabel(icon: .chevronLeft) }
-                            .buttonStyle(.plain)
-                            .accessibilityLabel("Back")
-                            .accessibilityIdentifier("back")
+                        HStack(spacing: 12) {
+                            Button { dismiss() } label: { CircleIconLabel(icon: .chevronLeft) }
+                                .buttonStyle(.plain)
+                                .accessibilityLabel("Back")
+                                .accessibilityIdentifier("back")
+                            Spacer()
+                            if let saves { BookmarkButton(item: saves) }
+                        }
                         VStack(alignment: .leading, spacing: 4) {
                             // the section's place in the system's own type (section 7.4: the mono eyebrow is for hero cards)
                             if let eyebrow { Text(eyebrow).font(DS.style(.subheadline).weight(.semibold)).foregroundStyle(eyebrowColor) }

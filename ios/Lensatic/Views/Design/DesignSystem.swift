@@ -574,11 +574,14 @@ extension DS {
 struct LxCard: ViewModifier {
     var radius: CGFloat = 18
     var tint: Color?
+    /// The space inside the card: 16 points, or less up and down where a card is one compact row (Home's countdown on a phone).
+    var vertical: CGFloat = 16
 
     // the modifier's content type spelled out: the app's own Content (the content model) shadows the protocol's name
     func body(content: _ViewModifier_Content<LxCard>) -> some View {
         content
-            .padding(16)
+            .padding(.horizontal, 16)
+            .padding(.vertical, vertical)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background {
                 let shape = RoundedRectangle(cornerRadius: radius, style: .continuous)
@@ -599,7 +602,9 @@ struct LxCard: ViewModifier {
 
 extension View {
     /// The one card style (LxCard).
-    func lxCard(radius: CGFloat = 18, tint: Color? = nil) -> some View { modifier(LxCard(radius: radius, tint: tint)) }
+    func lxCard(radius: CGFloat = 18, tint: Color? = nil, vertical: CGFloat = 16) -> some View {
+        modifier(LxCard(radius: radius, tint: tint, vertical: vertical))
+    }
 }
 
 extension LxCard {

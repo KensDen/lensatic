@@ -49,17 +49,14 @@ struct ReadinessView: View {
                 } footer: {
                     ListNote(L.label("checkNotAssessment"))
                 }
-                // the questions, under the framework's top-level nodes, in the framework's order
-                ForEach(graph.roots) { root in
-                    let items = check.items.filter { graph.top(of: $0.nodeId) == root.id }
-                    if !items.isEmpty {
-                        SwiftUI.Section {
-                            ForEach(items) { item in
-                                ReadinessItemRow(check: check, item: item, framework: f, picked: given[item.id])
-                            }
-                        } header: {
-                            ListNote("\(root.id) \(root.title ?? "")")
+                // the questions, under the framework's top-level nodes (or each question's own parent), in the framework's order
+                ForEach(ReadinessView.groups(check, graph), id: \.id) { group in
+                    SwiftUI.Section {
+                        ForEach(group.items) { item in
+                            ReadinessItemRow(check: check, item: item, framework: f, picked: given[item.id], named: group.node == nil)
                         }
+                    } header: {
+                        ListNote(group.node.map(graph.name) ?? L.label("questions"))
                     }
                 }
                 if result.answered > 0 {
@@ -74,7 +71,7 @@ struct ReadinessView: View {
                                         Text("\(i + 1)").font(DS.style(.headline)).foregroundStyle(f.tone).frame(minWidth: 18, alignment: .leading)
                                         VStack(alignment: .leading, spacing: 3) {
                                             Text(item.next).font(DS.style(.body)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
-                                            NodeBadge(id: item.nodeId, tone: f.tone)
+                                            if graph.node(item.nodeId).map(graph.identified) ?? true { NodeBadge(id: item.nodeId, tone: f.tone) }
                                         }
                                     }
                                     .padding(.vertical, 2)
@@ -107,6 +104,23 @@ struct ReadinessView: View {
     }
 }
 
+extension ReadinessView {
+    /// The questions in groups: under the framework's top-level node each belongs to, or, for a check that asks for it,
+    /// under each question's own parent (a level's domains). A question tied to a top-level node stands under that node.
+    static func groups(_ check: ReadinessCheck, _ graph: FrameworkLibrary.Graph) -> [(id: String, node: Framework.Node?, items: [ReadinessCheck.Item])] {
+        // a short check with a question for each top-level node is one group: a heading over every question would repeat it
+        if check.groupBy == "none" { return [("all", nil, check.items)] }
+        var order: [String] = [], by: [String: [ReadinessCheck.Item]] = [:]
+        for item in check.items {
+            let key = check.groupBy == "parent" ? (graph.node(item.nodeId)?.parents.first ?? item.nodeId) : (graph.top(of: item.nodeId) ?? item.nodeId)
+            if by[key] == nil { order.append(key) }
+            by[key, default: []].append(item)
+        }
+        let rank = Dictionary(uniqueKeysWithValues: graph.order.enumerated().map { ($1, $0) })
+        return order.sorted { (rank[$0] ?? 0) < (rank[$1] ?? 0) }.compactMap { k in graph.node(k).map { (k, $0, by[k] ?? []) } }
+    }
+}
+
 /// One question and its three answers. The answers are buttons at least 44 points tall, side by side where they fit and
 /// one under the other at the accessibility sizes; the one picked is filled in the framework's colour and says so to
 /// VoiceOver. Picking it again takes the answer back.
@@ -117,12 +131,20 @@ struct ReadinessItemRow: View {
     let item: ReadinessCheck.Item
     let framework: Framework
     let picked: String?
+    /// In a check that is one group, each question names the element it is about beside its identifier.
+    var named = false
 
     var body: some View {
-        let name = model.frameworks.graphs[framework.id]?.node(item.nodeId)?.title ?? item.nodeId
+        let graph = model.frameworks.graphs[framework.id]
+        let node = graph?.node(item.nodeId)
+        let name = node?.title ?? item.nodeId
         VStack(alignment: .leading, spacing: 8) {
             // VoiceOver hears the element's name, not its code: the identifier is for the eye
-            NodeBadge(id: item.nodeId, tone: framework.tone).accessibilityHidden(true)
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                if node.map({ graph?.identified($0) ?? true }) ?? true { NodeBadge(id: item.nodeId, tone: framework.tone) }
+                if named, let title = node?.title { Text(title).font(DS.style(.footnote).weight(.semibold)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true) }
+            }
+            .accessibilityHidden(true)
             Text(item.question).font(DS.style(.body)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
                 .accessibilityLabel("\(name): \(item.question)")
                 .accessibilityIdentifier("check-question-\(item.id)")

@@ -112,7 +112,9 @@ struct Shell: View {
         case .framework(let id): FrameworkDetailView(id: id)
         case .node(let f, let n): NodeView(frameworkId: f, nodeId: n)
         case .baseline(let f, let s): BaselineView(frameworkId: f, setId: s)
-        case .compare(let id): CompareView(id: id)
+        case .compare(let id): CompareView(id: id, in: model.frameworks)
+        case .pair(let a, let b): CompareView(a: a, b: b, in: model.frameworks)
+        case .group(let id): FrameworkGroupView(id: id)
         case .check(let id): ReadinessView(id: id)
         case .landing(let id): LandingView(id: id)
         }

@@ -14,6 +14,9 @@ final class AppModel {
     let frameworks: FrameworkLibrary
     /// The Frameworks tab's two views of the cards.
     var frameworksMode: FrameworksMode = .browse
+    /// Compare's two picks (Round 2): any two cards.
+    var compareA: String?
+    var compareB: String?
     /// The app opens on Home (build 6), on first launch and after.
     var tab: AppTab = .home
     var paths: [AppTab: [Nav]] = [:]
@@ -171,6 +174,7 @@ final class AppModel {
         switch item {
         case .entity(let id): push(.entity(id))
         case .play(let id): push(.play(id))
+        case .framework(let id): push(.framework(id))
         case .step(let door, let order): showStep(door, order)
         }
     }
@@ -191,6 +195,7 @@ final class AppModel {
         switch item {
         case .entity(let id): show(.entity(id))
         case .play(let id): show(.play(id))
+        case .framework(let id): show(.framework(id))
         case .step(let door, let order): showStep(door, order)
         }
         return true
@@ -200,6 +205,7 @@ final class AppModel {
         switch item {
         case .entity(let id): return store.entities[id] != nil
         case .play(let id): return library.play(id) != nil
+        case .framework(let id): return frameworks.byId[id] != nil
         case .step(let door, let order): return self.door(door)?.steps.contains(where: { $0.order == order }) == true
         }
     }
@@ -297,6 +303,9 @@ final class AppModel {
         case .play(let id):
             guard let p = library.play(id) else { return nil }
             return (p.name, [library.site.playsName, library.group(of: id)?.label].compactMap { $0 }.joined(separator: sep), "playbook")
+        case .framework(let id):
+            guard let f = frameworks.byId[id] else { return nil }
+            return (f.name, [f.kind, frameworks.group(f.group)?.name].compactMap { $0 }.joined(separator: sep), "maps")
         case .step(let d, let order):
             guard let door = door(d), let step = door.steps.first(where: { $0.order == order }) else { return nil }
             return (step.title, "Step \(order)\(sep)\(door.shortTitle)", "path")
@@ -314,7 +323,7 @@ final class AppModel {
     // MARK: iOS search
 
     func indexForSpotlight() {
-        Spotlight.index(Spotlight.entries(store: store, library: library, door: door))
+        Spotlight.index(Spotlight.entries(store: store, library: library, door: door, frameworks: frameworks))
     }
 
     #if DEBUG
@@ -351,6 +360,8 @@ final class AppModel {
         // -LensaticFrameworks <browse|compare> picks the Frameworks tab's view; -LensaticAnswers <check>:<answer,answer>
         // answers that check's items in order with those answer ids, repeating the list (the readiness captures)
         if let m = value("-LensaticFrameworks").flatMap(FrameworksMode.init(rawValue:)) { frameworksMode = m }
+        // -LensaticCompact shows the Frameworks list as compact rows (the captures)
+        if args.contains("-LensaticCompact") { progress.setFrameworksCompact(true) }
         if let spec = value("-LensaticAnswers")?.split(separator: ":", maxSplits: 1).map(String.init), spec.count == 2,
            let check = frameworks.check(spec[0]) {
             let given = spec[1].split(separator: ",").map(String.init)

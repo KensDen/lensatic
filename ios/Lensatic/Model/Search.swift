@@ -5,7 +5,8 @@ import Foundation
 /// order, and ranked inside each group.
 struct SearchIndex: Sendable {
     enum Kind: Int, CaseIterable, Sendable, Comparable {
-        case framework, step, guide, play, term
+        /// `element` (Round 2): one element of a framework, found by its identifier (AC-2, PR.AA-01, T1059).
+        case framework, element, step, guide, play, term
 
         static func < (a: Kind, b: Kind) -> Bool { a.rawValue < b.rawValue }
     }
@@ -60,8 +61,25 @@ struct SearchIndex: Sendable {
     }
 
     let items: [Item]
+    /// Every element the publishers give an identifier, for the search by identifier (Round 2): the identifier folded as a
+    /// query is, and what it takes to make the result.
+    let elements: [Element]
 
-    init(items: [Item]) { self.items = items }
+    struct Element: Sendable {
+        let folded: String
+        let framework: String
+        let node: String
+        let title: String
+        let subtitle: String
+    }
+
+    /// How many elements one query lists: the exact identifier first, then the ones it begins.
+    static let elementLimit = 24
+
+    init(items: [Item], elements: [Element] = []) {
+        self.items = items
+        self.elements = elements
+    }
 
     /// Every searchable item: the entries, the steps of the reader's trailhead, the guide's chapters, the plays and
     /// the glossary's terms.
@@ -81,8 +99,9 @@ struct SearchIndex: Sendable {
         }
         for e in store.frameworks + store.sources + store.solutions {
             let lead = store.layerTag(e.layerId) ?? labels.source
+            let card = frameworks?.framework(forEntity: e.id)
             out.append(Item(kind: .framework, id: "entity:\(e.id)", title: e.displayName, subtitle: lead + sep + e.shortSummary,
-                            aliases: [e.shortName, e.title, e.name], body: [e.oneLiner, e.answersQuestion ?? "", e.role ?? "", e.publisher].joined(separator: " "),
+                            aliases: [e.shortName, e.title, e.name] + (card.map { [$0.shortName] + ($0.aliases ?? []) } ?? []), body: [e.oneLiner, e.answersQuestion ?? "", e.role ?? "", e.publisher].joined(separator: " "),
                             opens: .nav(.entity(e.id))))
         }
         if let door {
@@ -110,6 +129,28 @@ struct SearchIndex: Sendable {
                             body: entry.oneLine, opens: .glossary(t.slug)))
         }
         items = out
+        var found: [Element] = []
+        for f in frameworks?.frameworks ?? [] {
+            guard let g = frameworks?.graphs[f.id] else { continue }
+            for n in f.nodes where g.identified(n) {
+                let level = g.level(n.level)?.name ?? ""
+                found.append(Element(folded: SearchIndex.fold(n.id), framework: f.id, node: n.id, title: n.title.map { "\(n.id) \($0)" } ?? n.id,
+                                     subtitle: n.title == nil ? [f.shortName, level, n.text ?? ""].filter { !$0.isEmpty }.joined(separator: sep) : f.shortName + sep + level))
+            }
+        }
+        elements = found
+    }
+
+    /// The elements whose identifier is the query, then those whose identifier the query begins (AC-2, then AC-2(1)
+    /// and on), in the catalog's order, as results. A query of one or two characters finds only the identifier itself.
+    func elements(matching phrase: String) -> [Item] {
+        guard !phrase.isEmpty, !elements.isEmpty else { return [] }
+        let exact = elements.filter { $0.folded == phrase }
+        let begins = phrase.count >= 3 ? elements.filter { $0.folded.hasPrefix(phrase + " ") } : []
+        return (exact + begins).prefix(SearchIndex.elementLimit).map { e in
+            Item(kind: .element, id: "node:\(e.framework):\(e.node)", title: e.title, subtitle: e.subtitle, aliases: [], body: "",
+                 opens: .nav(.node(e.framework, e.node)))
+        }
     }
 
     /// The words a screen needs that are not content: the kind names and the step and source labels.
@@ -157,9 +198,13 @@ struct SearchIndex: Sendable {
         let title = f.title, aliases = f.aliases, subtitle = f.subtitle, body = f.body
         var total = 0
         for w in words {
-            let head = max(match(w, in: title), aliases.map { match(w, in: $0) }.max() ?? 0)
-            let sub = match(w, in: subtitle)
-            let rest = match(w, in: body)
+            // a short word (IL, CM, 3PA) matches a whole word or the start of one, never the inside of a longer word
+            // (Round 2: "il" no longer finds "file")
+            let floor = w.count <= 3 ? 2 : 1
+            func level(_ field: String) -> Int { let m = match(w, in: field); return m >= floor ? m : 0 }
+            let head = max(level(title), aliases.map { level($0) }.max() ?? 0)
+            let sub = level(subtitle)
+            let rest = level(body)
             guard head + sub + rest > 0 else { return nil }
             total += head * 100 + sub * 10 + rest
         }
@@ -220,7 +265,9 @@ struct SearchIndex: Sendable {
         for (i, item) in items.enumerated() {
             if let s = SearchIndex.score(item, words: words, phrase: phrase) { hits.append((item, s, i)) }
         }
+        let byIdentifier = elements(matching: phrase)
         return Kind.allCases.compactMap { kind in
+            if kind == .element { return byIdentifier.isEmpty ? nil : Group(kind: kind, results: byIdentifier) }
             let found = hits.filter { $0.0.kind == kind }.sorted {
                 $0.1 != $1.1 ? $0.1 > $1.1 : $0.0.title.count != $1.0.title.count ? $0.0.title.count < $1.0.title.count : $0.2 < $1.2
             }.map(\.0)

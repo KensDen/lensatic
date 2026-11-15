@@ -50,6 +50,9 @@ enum Nav: Hashable, Sendable {
     case compare(String)
     case check(String)
     case landing(String)
+    /// Round 2: any two cards side by side, and a group of cards opened from Explore (the adversary column).
+    case pair(String, String)
+    case group(String)
 
     /// The screen as the parts of an address (Target.url), and back.
     var pathParts: [String] {
@@ -72,6 +75,8 @@ enum Nav: Hashable, Sendable {
         case .compare(let id): return ["compare", id]
         case .check(let id): return ["check", id]
         case .landing(let id): return ["landing", id]
+        case .pair(let a, let b): return ["pair", a, b]
+        case .group(let id): return ["group", id]
         }
     }
 
@@ -97,6 +102,8 @@ enum Nav: Hashable, Sendable {
         case ("compare", 2): self = .compare(parts[1])
         case ("check", 2): self = .check(parts[1])
         case ("landing", 2): self = .landing(parts[1])
+        case ("pair", 3): self = .pair(parts[1], parts[2])
+        case ("group", 2): self = .group(parts[1])
         default: return nil
         }
     }
@@ -106,14 +113,14 @@ enum Nav: Hashable, Sendable {
         switch self {
         case .entity, .layer, .cell: return .explore
         case .glossary, .sources, .about, .saved, .guide, .chapter, .plays, .play, .changes: return .home
-        case .framework, .node, .baseline, .compare, .check, .landing: return .frameworks
+        case .framework, .node, .baseline, .compare, .check, .landing, .pair, .group: return .frameworks
         }
     }
 }
 
-/// The Frameworks tab's two views (Lensatic 2.0): every card, or two frameworks side by side.
+/// The Frameworks tab's three views (Lensatic 2.0): every card, two frameworks side by side, and the self-checks.
 enum FrameworksMode: String, CaseIterable, Hashable, Sendable {
-    case browse, compare
+    case browse, compare, checks
 }
 
 /// Explore's three views of the map.

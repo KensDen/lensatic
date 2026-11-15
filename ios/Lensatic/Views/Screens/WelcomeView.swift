@@ -116,7 +116,7 @@ extension Door.ID {
     /// The welcome screen's order, the brief's: the department, civilian agencies, contractors, then state and local
     /// governments and industry and academia (R5, where Everyone Else stood). The content keeps the web's order
     /// (civilian agencies first) for the map's own trailheads.
-    static let welcomeOrder: [Door.ID] = [.dow, .federalCivilian, .defenseContractor, .stateLocal, .industryAcademia]
+    static let welcomeOrder: [Door.ID] = [.dow, .federalCivilian, .defenseContractor, .cloudProvider, .stateLocal, .industryAcademia]
 
     /// Each trailhead's mark on the welcome screen, as the mockup draws it; the colours only mark, the name says it.
     var icon: IconName {
@@ -124,6 +124,7 @@ extension Door.ID {
         case .dow: return .shield
         case .federalCivilian: return .building
         case .defenseContractor: return .briefcase
+        case .cloudProvider: return .layers
         case .stateLocal: return .landmark
         case .industryAcademia: return .globe
         }
@@ -134,7 +135,8 @@ extension Door.ID {
         case .dow: return Palette.secMaps
         case .federalCivilian: return Palette.accent
         case .defenseContractor: return Palette.secGuides
-        case .stateLocal: return Palette.link
+        case .cloudProvider: return Palette.link
+        case .stateLocal: return Palette.accent
         case .industryAcademia: return Palette.secPurple
         }
     }

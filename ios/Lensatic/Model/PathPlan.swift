@@ -81,6 +81,7 @@ extension Door.ID {
         case .federalCivilian: return [.federalCivilian]
         case .dow: return [.dowComponents]
         case .defenseContractor: return [.defenseContractorsCUI, .defenseContractorsFCICUI]
+        case .cloudProvider: return [.cloudProviders]
         case .stateLocal, .industryAcademia: return []
         }
     }

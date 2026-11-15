@@ -13,7 +13,7 @@ struct FrameworkDetailView: View {
         let L = model.frameworks
         if let f = L.byId[id], let graph = L.graphs[id] {
             let deadline = L.upcoming(f, store: model.store, today: today)
-            ListScreen(eyebrow: L.group(f.group)?.name, eyebrowColor: f.tone, title: f.name, identifier: "framework-screen") {
+            ListScreen(eyebrow: L.group(f.group)?.name, eyebrowColor: f.tone, title: f.name, identifier: "framework-screen", saves: .framework(f.id)) {
                 SwiftUI.Section {
                     VStack(alignment: .leading, spacing: 8) {
                         HStack(alignment: .center, spacing: 10) {
@@ -58,6 +58,15 @@ struct FrameworkDetailView: View {
                         StackGlyph(framework: f, width: 34).padding(.top, 4)
                     }
                     .accessibilityElement(children: .combine)
+                    // one layer model (Round 2): each layer it sits on opens that layer of the map, where this card is listed too
+                    ForEach(model.store.content.layers.filter { f.sits.layers.contains($0.id) }.sorted { $0.order < $1.order }, id: \.id) { layer in
+                        NavigationLink(value: Nav.layer(layer.id)) {
+                            TileRow(icon: layer.isColumn ? RowIcon.aiColumn : RowIcon.layer(layer.order),
+                                    title: layer.isColumn ? TitleCase.apply(layer.name) : "\(model.store.label("layer")) \(layer.order): \(TitleCase.apply(layer.name))",
+                                    subtitle: L.label("onTheStack"))
+                        }
+                        .accessibilityIdentifier("framework-layer-\(layer.id)")
+                    }
                 } header: {
                     ListNote(L.label("atAGlance"))
                 }
@@ -80,8 +89,8 @@ struct FrameworkDetailView: View {
                         ForEach(f.sets) { set in
                             NavigationLink(value: Nav.baseline(f.id, set.id)) {
                                 VStack(alignment: .leading, spacing: 2) {
-                                    HStack {
-                                        Text(set.name).font(DS.style(.body)).foregroundStyle(.primary)
+                                    HStack(alignment: .firstTextBaseline) {
+                                        Text(set.name).font(DS.style(.body)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
                                         Spacer()
                                         Text(Rules.grouped(set.members.count)).font(DS.style(.body)).foregroundStyle(Palette.fg2)
                                     }
@@ -94,33 +103,44 @@ struct FrameworkDetailView: View {
                             .accessibilityIdentifier("baseline-row-\(set.id)")
                         }
                     } header: {
-                        ListNote(L.label("baselines"))
+                        ListNote(f.setsTitle ?? L.label("baselines"))
                     } footer: {
-                        if let host = f.sets.first.flatMap({ L.byId[$0.of] }) {
+                        if let line = f.setsLine {
+                            ListNote(line)
+                        } else if let host = f.sets.first.flatMap({ L.byId[$0.of] }) {
                             ListNote(L.label("baselinesOn").replacingOccurrences(of: "{name}", with: host.shortName))
                         }
                     }
                 }
-                let check = L.check(for: f.id), comparisons = L.comparisons(with: f.id)
-                if check != nil || !comparisons.isEmpty {
-                    SwiftUI.Section {
-                        if let check {
-                            NavigationLink(value: Nav.check(check.id)) {
-                                TileRow(icon: ("checklist", .green), title: L.label("checkYourself"), subtitle: check.line)
-                            }
-                            .accessibilityIdentifier("framework-check")
+                let checks = L.checks(on: f.id), comparisons = L.comparisons(with: f.id)
+                SwiftUI.Section {
+                    ForEach(checks) { check in
+                        NavigationLink(value: Nav.check(check.id)) {
+                            TileRow(icon: ("checklist", .green), title: checks.count == 1 ? L.label("checkYourself") : (check.short ?? check.title), subtitle: check.line)
                         }
-                        ForEach(comparisons) { c in
-                            if let other = L.byId[c.a == f.id ? c.b : c.a] {
-                                NavigationLink(value: Nav.compare(c.id)) {
-                                    TileRow(icon: ("rectangle.split.2x1.fill", .indigo), title: "\(L.label("compareWith")) \(other.shortName)")
-                                }
-                                .accessibilityIdentifier("framework-compare-\(c.id)")
-                            }
-                        }
-                    } header: {
-                        ListNote(L.label("useIt"))
+                        .accessibilityIdentifier(checks.count == 1 ? "framework-check" : "framework-check-\(check.id)")
                     }
+                    ForEach(comparisons) { c in
+                        if let other = L.byId[c.a == f.id ? c.b : c.a] {
+                            NavigationLink(value: Nav.compare(c.id)) {
+                                TileRow(icon: ("rectangle.split.2x1.fill", .indigo),
+                                        title: c.a == c.b ? (c.title ?? "\(c.aName ?? "") \(L.label("with")) \(c.bName ?? "")") : "\(L.label("compareWith")) \(other.shortName)")
+                            }
+                            .accessibilityIdentifier("framework-compare-\(c.id)")
+                        }
+                    }
+                    // Round 2: this card beside any other, picked in Compare
+                    Button { model.compareA = f.id; model.compareB = nil; model.showFrameworks(.compare) } label: {
+                        HStack(spacing: 8) {
+                            TileRow(icon: ("rectangle.split.2x1", .indigo), title: L.label("compareAnother"))
+                            Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
+                        }
+                        .contentShape(Rectangle())
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("framework-compare-any")
+                } header: {
+                    ListNote(L.label("useIt"))
                 }
                 if !f.related.isEmpty || f.chapterId != nil {
                     SwiftUI.Section {
@@ -226,9 +246,15 @@ struct NodeRow: View {
         let kids = counts ? graph.children(of: node.id).count : 0
         NavigationLink(value: Nav.node(framework.id, node.id)) {
             (typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(alignment: .leading, spacing: 4)) : AnyLayout(HStackLayout(alignment: .firstTextBaseline, spacing: 10))) {
-                NodeBadge(id: node.id, tone: framework.tone)
-                Text(graph.line(node)).font(DS.style(.body)).foregroundStyle(.primary)
-                    .frame(maxWidth: .infinity, alignment: .leading).fixedSize(horizontal: false, vertical: true)
+                if graph.identified(node) { NodeBadge(id: node.id, tone: framework.tone) }
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(graph.line(node)).font(DS.style(.body)).foregroundStyle(.primary)
+                        .frame(maxWidth: .infinity, alignment: .leading).fixedSize(horizontal: false, vertical: true)
+                    // a row that carries both a title and a note says the note (an activity's level, a task's level)
+                    if let note = node.note, node.title != nil, graph.children(of: node.id).isEmpty {
+                        Text(note).font(DS.style(.footnote)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                    }
+                }
                 if kids > 0, !typeSize.isAccessibilitySize {
                     Text("\(kids)").font(DS.style(.body)).foregroundStyle(Palette.fg2)
                 }
@@ -253,14 +279,22 @@ struct NodeView: View {
         if let f = L.byId[frameworkId], let graph = L.graphs[frameworkId], let node = graph.node(nodeId) {
             let level = graph.level(node.level)
             let kids = graph.children(of: node.id)
-            ListScreen(eyebrow: node.title == nil ? f.shortName : dotted([f.shortName, level?.name ?? ""], separator: model.store.label("metaSeparator")), eyebrowColor: f.tone,
-                       // a node the publisher gives only a sentence is named by its level: "Subcategory GV.OC-01"
-                       title: node.title.map { "\(node.id) \($0)" } ?? "\(level?.name ?? "") \(node.id)", identifier: "node-screen") {
-                if let text = node.text {
+            // where the node sits: the framework, its level, and for a deeper node the one above it ("CISA ZTMM · Stage · Authentication")
+            let parent = node.parents.first.flatMap { graph.node($0) }
+            let above = graph.identified(node) ? nil : parent.flatMap { p in graph.identified(p) ? nil : p.title }
+            ListScreen(eyebrow: dotted([f.shortName, node.title == nil && graph.identified(node) ? nil : level?.name, above].compactMap { $0 }, separator: model.store.label("metaSeparator")),
+                       eyebrowColor: f.tone,
+                       // a node the publisher gives only a sentence is named by its level: "Subcategory GV.OC-01"; one at a
+                       // level the publisher does not number is named by its title alone
+                       title: !graph.identified(node) ? (node.title ?? "") : node.title.map { "\(node.id) \($0)" } ?? "\(level?.name ?? "") \(node.id)",
+                       identifier: "node-screen") {
+                if node.text != nil || node.note != nil {
                     SwiftUI.Section {
                         VStack(alignment: .leading, spacing: 6) {
-                            Text(text).font(DS.style(.body)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
-                                .accessibilityIdentifier("node-text")
+                            if let text = node.text {
+                                Text(text).font(DS.style(.body)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                                    .accessibilityIdentifier("node-text")
+                            }
                             if let note = node.note {
                                 Text(note).font(DS.style(.subheadline).weight(.semibold)).foregroundStyle(f.tone)
                                     .fixedSize(horizontal: false, vertical: true)
@@ -269,7 +303,20 @@ struct NodeView: View {
                         }
                         .padding(.vertical, 4)
                     } footer: {
-                        if let s = f.sources.first { ListNote(dotted([s.publisher, s.edition], separator: model.store.label("metaSeparator"))) }
+                        if node.text != nil, let s = f.sources.first { ListNote(dotted([s.publisher, s.edition], separator: model.store.label("metaSeparator"))) }
+                    }
+                }
+                // a set this node stands for (CMMC's Level 2 is the set of that name): the way to its members
+                ForEach(f.sets.filter { $0.id == node.id }) { set in
+                    SwiftUI.Section {
+                        NavigationLink(value: Nav.baseline(f.id, set.id)) {
+                            HStack {
+                                Text(set.title ?? set.name).font(DS.style(.body)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                                Spacer()
+                                Text(Rules.grouped(set.members.count)).font(DS.style(.body)).foregroundStyle(Palette.fg2)
+                            }
+                        }
+                        .accessibilityIdentifier("node-set-\(set.id)")
                     }
                 }
                 if !kids.isEmpty {
@@ -286,7 +333,25 @@ struct NodeView: View {
                 ForEach(Array(f.crosswalks.enumerated()), id: \.offset) { _, walk in
                     if let targets = walk.map[node.id], let host = L.byId[walk.to], let hostGraph = L.graphs[walk.to] {
                         SwiftUI.Section {
-                            ForEach(targets, id: \.self) { t in
+                            if !walk.isListed {
+                                // identifiers of a standard Lensatic does not list: shown as the source prints them, opening nothing
+                                VStack(alignment: .leading, spacing: 8) {
+                                    FlowBadges(ids: targets, tone: host.tone)
+                                    Text(L.label("unlistedLine").replacingOccurrences(of: "{name}", with: host.shortName))
+                                        .font(DS.style(.footnote)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                                }
+                                .padding(.vertical, 2)
+                                .accessibilityElement(children: .combine)
+                                .accessibilityIdentifier("node-unlisted-\(walk.to)")
+                                NavigationLink(value: Nav.framework(host.id)) {
+                                    HStack(spacing: 12) {
+                                        FrameworkTile(framework: host, base: 30)
+                                        Text(keepDesignations(host.shortName)).font(DS.style(.body)).foregroundStyle(.primary)
+                                    }
+                                }
+                                .accessibilityIdentifier("node-unlisted-open-\(walk.to)")
+                            }
+                            ForEach(walk.isListed ? targets : [], id: \.self) { t in
                                 if let target = hostGraph.node(t) {
                                     NodeRow(framework: host, graph: hostGraph, node: target, counts: false)
                                 } else {
@@ -300,7 +365,7 @@ struct NodeView: View {
                                 }
                             }
                         } header: {
-                            ListNote("\(walk.edition): \(targets.count) \(walk.relation)\(targets.count == 1 ? "" : "s")")
+                            ListNote("\(walk.edition): \(targets.count) \(walk.relations(targets.count))")
                         } footer: {
                             if let s = f.sources.first(where: { $0.id == walk.sourceId }) {
                                 ListNote(dotted([s.publisher, SourceRows.checked(s.verification, store: model.store, labels: L)], separator: model.store.label("metaSeparator")))
@@ -311,7 +376,7 @@ struct NodeView: View {
                 // a node Lensatic lists by title says where its text is, and every node ends in the way to its source
                 if let s = f.sources.first {
                     SwiftUI.Section {
-                        if node.text == nil {
+                        if node.text == nil, f.terms.shows == .titles, graph.identified(node) {
                             Text(L.label("textAtSource")).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
                                 .accessibilityIdentifier("node-text-at-source")
                         }
@@ -327,14 +392,14 @@ struct NodeView: View {
                             NavigationLink(value: Nav.baseline(m.framework.id, m.set.id)) {
                                 HStack(spacing: 12) {
                                     FrameworkTile(framework: m.framework, base: 30)
-                                    Text("\(m.framework.shortName) \(m.set.name)").font(DS.style(.body)).foregroundStyle(.primary)
+                                    Text(m.set.title ?? "\(m.framework.shortName) \(m.set.name)").font(DS.style(.body)).foregroundStyle(.primary)
                                         .fixedSize(horizontal: false, vertical: true)
                                 }
                             }
                             .accessibilityIdentifier("membership-\(m.framework.id)-\(m.set.id)")
                         }
                     } header: {
-                        ListNote(L.label("inBaselines"))
+                        ListNote(memberships.allSatisfy { $0.set.title == nil } ? L.label("inBaselines") : L.label("inSets"))
                     }
                 }
                 ForEach(Array(L.referrers(to: node.id, in: f.id).enumerated()), id: \.offset) { _, r in
@@ -362,10 +427,10 @@ struct BaselineView: View {
         let L = model.frameworks
         if let f = L.byId[frameworkId], let set = f.sets.first(where: { $0.id == setId }), let host = L.byId[set.of], let graph = L.graphs[set.of] {
             let groups = graph.grouped(set.members)
-            ListScreen(eyebrow: f.shortName, eyebrowColor: f.tone, title: "\(set.name) \(L.label("baseline"))", identifier: "baseline-screen") {
+            ListScreen(eyebrow: f.shortName, eyebrowColor: f.tone, title: set.title ?? "\(set.name) \(L.label("baseline"))", identifier: "baseline-screen") {
                 SwiftUI.Section {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text(BaselineView.countLine(set, host: host, labels: L)).font(DS.style(.headline)).foregroundStyle(.primary)
+                        Text(BaselineView.countLine(set, host: host, graph: graph, labels: L)).font(DS.style(.headline)).foregroundStyle(.primary)
                             .fixedSize(horizontal: false, vertical: true)
                             .accessibilityIdentifier("baseline-count")
                         if let line = set.line {
@@ -383,7 +448,7 @@ struct BaselineView: View {
                     SwiftUI.Section {
                         ForEach(group.nodes) { NodeRow(framework: host, graph: graph, node: $0, counts: false) }
                     } header: {
-                        ListNote("\(group.top.id) \(graph.line(group.top)): \(group.nodes.count)")
+                        ListNote("\(graph.name(group.top)): \(group.nodes.count)")
                             .accessibilityIdentifier("baseline-group-\(group.top.id)")
                     }
                 }
@@ -392,10 +457,31 @@ struct BaselineView: View {
     }
 
     /// "410 of 1,014 controls and enhancements in SP 800-53".
-    static func countLine(_ set: Framework.NodeSet, host: Framework, labels L: FrameworkLibrary) -> String {
+    static func countLine(_ set: Framework.NodeSet, host: Framework, graph: FrameworkLibrary.Graph, labels L: FrameworkLibrary) -> String {
         guard let depth = host.depth.value else { return Rules.grouped(set.members.count) }
+        var of = depth.of, name = host.shortName
+        // a set drawn from one edition of its host (CMMC's levels, from SP 800-171 Revision 2) is counted against that
+        // edition, not against every edition the file holds
+        let tops = Set(set.members.compactMap { graph.top(of: $0) })
+        if tops.count == 1, let top = tops.first.flatMap({ graph.node($0) }), !graph.identified(top), let title = top.title {
+            let levels = Set(set.members.compactMap { graph.node($0)?.level })
+            of = graph.descendants(of: top.id).filter { levels.contains($0.level) }.count
+            name = "\(host.shortName) \(title)"
+        }
         return L.label("baselineCount").replacingOccurrences(of: "{n}", with: Rules.grouped(set.members.count))
-            .replacingOccurrences(of: "{of}", with: Rules.grouped(depth.of)).replacingOccurrences(of: "{unit}", with: depth.unit)
-            .replacingOccurrences(of: "{name}", with: host.shortName)
+            .replacingOccurrences(of: "{of}", with: Rules.grouped(of)).replacingOccurrences(of: "{unit}", with: depth.unit)
+            .replacingOccurrences(of: "{name}", with: name)
+    }
+}
+
+/// Identifiers as chips that wrap onto as many lines as they need (the references to a standard Lensatic does not list).
+struct FlowBadges: View {
+    let ids: [String]
+    let tone: Color
+
+    var body: some View {
+        FlowLayout {
+            ForEach(ids, id: \.self) { NodeBadge(id: $0, tone: tone) }
+        }
     }
 }

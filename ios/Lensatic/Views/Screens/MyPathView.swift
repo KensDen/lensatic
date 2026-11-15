@@ -49,6 +49,31 @@ struct MyPathView: View {
                     .accessibilityIdentifier("change-door")
                 }
                 hero(door, plan, checked)
+                // Round 2: the self-check that goes with this trailhead
+                ForEach(model.frameworks.checks(for: door.id)) { check in
+                    if let f = model.frameworks.byId[check.frameworkId] {
+                        let result = check.result(model.progress.answers(check.id))
+                        Button { model.push(.check(check.id)) } label: {
+                            HStack(spacing: 12) {
+                                FrameworkTile(framework: f)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Eyebrow(text: model.frameworks.label("selfCheck"), color: f.tone, small: true)
+                                    Text(check.title).font(DS.style(.headline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                                    Text(model.frameworks.label("answered").replacingOccurrences(of: "{n}", with: "\(result.answered)").replacingOccurrences(of: "{m}", with: "\(result.total)"))
+                                        .font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .multilineTextAlignment(.leading)
+                                Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
+                            }
+                            .lxCard(radius: 16, tint: f.tone)
+                            .accessibilityElement(children: .combine)
+                            .accessibilityAddTraits(.isButton)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityIdentifier("path-check-\(check.id)")
+                    }
+                }
                 if plan.steps.isEmpty {
                     noPath(door)
                 } else {

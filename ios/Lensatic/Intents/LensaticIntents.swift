@@ -11,6 +11,12 @@ enum IntentContent {
         guard let store = try? ContentStore.bundled(), let library = try? Library.bundled() else { return nil }
         return (store, library)
     }()
+
+    /// The navigator's frameworks (Lensatic 2.0), so Siri and Shortcuts can open one by name.
+    static let frameworks: FrameworkLibrary? = {
+        guard let store = shared?.store else { return nil }
+        return try? FrameworkLibrary.bundled(department: store.content.orgs.dow.fields)
+    }()
 }
 
 /// Hands an intent's link to the app: at once when the app is running, or when its model is made.
@@ -74,8 +80,9 @@ struct LensaticItem: AppEntity {
         guard let (store, library) = IntentContent.shared else { return [] }
         let state = ProgressStore.state(from: url.flatMap { try? Data(contentsOf: $0) })
         let door = state.door.flatMap(Door.ID.init(rawValue:)).flatMap { id in store.content.doors.first { $0.id == id } }
-        return Spotlight.entries(store: store, library: library, door: door).map {
-            LensaticItem(id: $0.id, title: $0.title, kind: $0.domain == Spotlight.entities ? "Framework" : $0.domain == Spotlight.steps ? "Step" : "Play")
+        return Spotlight.entries(store: store, library: library, door: door, frameworks: IntentContent.frameworks).map {
+            LensaticItem(id: $0.id, title: $0.title,
+                         kind: $0.domain == Spotlight.entities || $0.domain == Spotlight.frameworks ? "Framework" : $0.domain == Spotlight.steps ? "Step" : "Play")
         }
     }
 }
