@@ -45,9 +45,9 @@ TINTS = (0.07, 0.10)
 DASHES = {"—": "em dash", "–": "en dash"}
 EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
 # the one publisher's name the owner's ruling lets through the sweep, and the only forms it may take: the name itself in
-# capitals, and MITRE's own addresses for it
+# capitals, MITRE's own addresses for it, and the ids the web page gives its glossary entry
 RULED_NAME = re.compile(r"atlas", re.I)
-RULED_FORMS = re.compile(r"\bATLAS\b|atlas\.mitre\.org|mitre-atlas|atlas-data")
+RULED_FORMS = re.compile(r"\bATLAS\b|atlas\.mitre\.org|mitre-atlas|atlas-data|\bglx?-atlas\b")
 
 
 def load(p: Path):
@@ -168,6 +168,14 @@ def main() -> int:
                 continue
             host = nodes[c["to"]]
             errs += [f"{i}: the crosswalk starts at {k!r}, which the file does not hold" for k in c["map"] if k not in own]
+            if c.get("listed") is False:
+                # identifiers of a framework whose elements Lensatic does not list: nothing to resolve, and that
+                # framework's file must hold no structure and show structure only
+                if host or fws[c["to"]]["terms"]["shows"] != "structure" or c["unresolved"]:
+                    errs.append(f"{i}: an unlisted crosswalk to {c['to']}, which lists elements or names unresolved targets")
+                errs += [f"{i}: the unlisted crosswalk names {t!r}, which is not an identifier" for v in c["map"].values() for t in v
+                         if not re.fullmatch(r"(?:Clause |Annex A )?\d+(?:\.\d+)*", t)][:3]
+                continue
             bad = sorted({t for v in c["map"].values() for t in v if t not in host and t not in c["unresolved"]})
             errs += [f"{i}: the crosswalk points at {bad[:5]}, which {c['to']} does not hold and the file does not list as unresolved"] if bad else []
             errs += [f"{i}: {t} is listed as unresolved but {c['to']} holds it" for t in c["unresolved"] if t in host]
@@ -182,8 +190,11 @@ def main() -> int:
         c = docs.get(n, {})
         if c and (c["a"] not in fws or c["b"] not in fws):
             errs.append(f"{n}: compares a framework that is not there")
-        elif c and not any(w["to"] == y for x, y in ((c["a"], c["b"]), (c["b"], c["a"])) for w in fws[x]["crosswalks"]):
-            errs.append(f"{n}: no published crosswalk joins {c['a']} and {c['b']}, so there is no overlap to count")
+        elif c and "overlapLine" in c and not any(w["to"] == y for x, y in ((c["a"], c["b"]), (c["b"], c["a"])) for w in fws[x]["crosswalks"]) \
+                and not (c["a"] == c["b"] and fws[c["a"]]["crosswalks"] and fws[c["a"]]["sets"]):
+            errs.append(f"{n}: an overlap line, but no published crosswalk joins {c['a']} and {c['b']}, so there is no overlap to count")
+        elif c and c["a"] == c["b"] and not (c.get("aName") and c.get("bName")):
+            errs.append(f"{n}: one framework beside itself, and the two sides are not named")
     for n in catalog.get("checks", []):
         c = docs.get(n, {})
         if not c:

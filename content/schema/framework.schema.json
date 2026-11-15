@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:lensatic:framework.schema:2.0.0-r1",
+  "$id": "urn:lensatic:framework.schema:2.0.0-r2",
   "title": "A Lensatic framework file",
   "description": "Schema for content/frameworks/<id>.json: the card (what the framework is for, who it binds, how it is verified, how big it is, where it sits), its sources and terms, and its structure: levels, nodes that name their parents, sets that select another framework's nodes, and crosswalks a source publishes.",
   "type": "object",
@@ -326,6 +326,10 @@
           "plural": {
             "type": "string",
             "minLength": 1
+          },
+          "identified": {
+            "type": "boolean",
+            "description": "False where the publisher gives this level no identifiers (the RMF's steps, the CISA model's functions). A node at such a level has an id of the file's own, which the app never shows: it shows the title alone."
           }
         }
       }
@@ -413,6 +417,12 @@
           "line": {
             "type": "string",
             "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60,
+            "description": "The set's screen title where it is not a baseline (CMMC Level 2, Target Level)."
           }
         }
       }
@@ -465,6 +475,15 @@
               },
               "uniqueItems": true
             }
+          },
+          "listed": {
+            "type": "boolean",
+            "description": "False where the targets are identifiers of a framework whose elements Lensatic does not list (a copyrighted standard). The app then shows the identifiers as the source prints them and counts them; it opens nothing and shows no title."
+          },
+          "plural": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The relation's plural where adding an s does not make it (References)."
           }
         }
       }
@@ -490,6 +509,17 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 40
+    },
+    "setsTitle": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "description": "The heading over this framework's sets where they are not baselines (Levels)."
+    },
+    "setsLine": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The line under the sets where they are not selections of another framework's controls."
     }
   },
   "$defs": {

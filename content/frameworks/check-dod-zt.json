@@ -1,0 +1,74 @@
+{
+  "id": "check-dod-zt",
+  "frameworkId": "dod-zt",
+  "title": "Target Level Readiness Check",
+  "short": "Target Level Check",
+  "line": "7 questions, one for each pillar. About two minutes.",
+  "honest": "A self-check. Your answers stay on this device and nobody else sees them. It is not an assessment of your component, and it is not a report to the portfolio office.",
+  "answers": [
+    {
+      "id": "no",
+      "label": "Not Yet",
+      "value": 0
+    },
+    {
+      "id": "partly",
+      "label": "Partly",
+      "value": 1
+    },
+    {
+      "id": "yes",
+      "label": "In Place",
+      "value": 2
+    }
+  ],
+  "nextCount": 7,
+  "doors": [
+    "dow"
+  ],
+  "groupBy": "none",
+  "items": [
+    {
+      "id": "1",
+      "nodeId": "1",
+      "question": "Are the 13 Target Level activities of the User pillar done, or dated and resourced to finish by 30 September 2027?",
+      "next": "Open the User pillar, list its Target Level activities that are not done, and put an owner and a date on each."
+    },
+    {
+      "id": "2",
+      "nodeId": "2",
+      "question": "Are the 14 Target Level activities of the Device pillar done, or dated and resourced to finish by 30 September 2027?",
+      "next": "Open the Device pillar, list its Target Level activities that are not done, and put an owner and a date on each."
+    },
+    {
+      "id": "3",
+      "nodeId": "3",
+      "question": "Are the 12 Target Level activities of the Application & Workload pillar done, or dated and resourced to finish by 30 September 2027?",
+      "next": "Open the Application & Workload pillar, list its Target Level activities that are not done, and put an owner and a date on each."
+    },
+    {
+      "id": "4",
+      "nodeId": "4",
+      "question": "Are the 17 Target Level activities of the Data pillar done, or dated and resourced to finish by 30 September 2027?",
+      "next": "Open the Data pillar, list its Target Level activities that are not done, and put an owner and a date on each."
+    },
+    {
+      "id": "5",
+      "nodeId": "5",
+      "question": "Are the 10 Target Level activities of the Network & Environment pillar done, or dated and resourced to finish by 30 September 2027?",
+      "next": "Open the Network & Environment pillar, list its Target Level activities that are not done, and put an owner and a date on each."
+    },
+    {
+      "id": "6",
+      "nodeId": "6",
+      "question": "Are the 13 Target Level activities of the Automation & Orchestration pillar done, or dated and resourced to finish by 30 September 2027?",
+      "next": "Open the Automation & Orchestration pillar, list its Target Level activities that are not done, and put an owner and a date on each."
+    },
+    {
+      "id": "7",
+      "nodeId": "7",
+      "question": "Are the 12 Target Level activities of the Visibility & Analytics pillar done, or dated and resourced to finish by 30 September 2027?",
+      "next": "Open the Visibility & Analytics pillar, list its Target Level activities that are not done, and put an owner and a date on each."
+    }
+  ]
+}

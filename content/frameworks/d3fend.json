@@ -46,7 +46,7 @@
         "status": "verified",
         "verifiedOn": "2026-11-14",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026. Version 1.6.0 is dated 31 August 2026. The matrix has seven tactics. The site prints no total of techniques: 271 is a count, made that day, of the entries in D3FEND’s own technique list (https://d3fend.mitre.org/api/technique/all.json). Release 1.6.0 tracks ATT&CK v19.0, not v20.",
+        "note": "Read on 14 November 2026. Version 1.6.0 is dated 31 August 2026 and was still current; its files were fetched twice that day and did not change. The matrix file (https://d3fend.mitre.org/api/matrix.json) holds seven tactics and 272 techniques nested up to five deep; 271 carry an identifier, and one, Particle Radiation Hardening, has none in this release. The matrix is listed in the order the site shows it, by name at each level. Release 1.6.0 tracks ATT&CK v19.0, not v20.",
         "recheckAfter": "2026-12-15"
       }
     },
@@ -64,13 +64,28 @@
         "note": "Read on 14 November 2026: ‘D3FEND is a knowledge base, but more specifically a knowledge graph, of cybersecurity countermeasure techniques’, and the sentence quoted on this card.",
         "recheckAfter": "2027-02-12"
       }
+    },
+    {
+      "id": "d3fend-terms",
+      "publisher": "The MITRE Corporation",
+      "title": "D3FEND Terms of Use",
+      "edition": "Web page",
+      "date": "2025",
+      "url": "https://d3fend.mitre.org/tou/",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026. The license paragraph grants use ‘for research, development, and commercial purposes’ provided a copy reproduces ‘MITRE’s copyright designation and this license’. The page prints no designation sentence for D3FEND; its footer reads ‘© 2025 The MITRE Corporation.’ The ontology’s file and repository declare the MIT License, ‘Copyright (c) 2022 The MITRE Corporation’ (https://github.com/d3fend/d3fend-ontology/blob/develop/LICENSE.md). Which line MITRE means by its designation is not stated anywhere read, so all of them are reproduced. Every page writes the name with the trademark sign; none says it is registered.",
+        "recheckAfter": "2027-02-12"
+      }
     }
   ],
   "terms": {
     "basis": "mitre",
-    "shows": "structure",
-    "line": "Used under MITRE’s D3FEND Terms of Use, whose license has the same form as ATT&CK’s. Lensatic shows the card only for now. MITRE D3FEND™ is a trademark of The MITRE Corporation.",
-    "notice": null,
+    "shows": "titles",
+    "line": "Used under MITRE’s D3FEND Terms of Use and the MIT License of its ontology. Lensatic lists MITRE’s identifiers and names; definitions and the links to attacker techniques are at the source. The terms ask any copy to carry MITRE’s copyright designation and the license but print no designation, so every copyright line and license MITRE publishes for D3FEND is reproduced below. MITRE D3FEND™ is a trademark of The MITRE Corporation, and its use here implies no endorsement by MITRE.",
+    "notice": "© 2025 The MITRE Corporation. The MITRE Corporation (MITRE) hereby grants you a non-exclusive, royalty-free license to use D3FEND for research, development, and commercial purposes. Any copy you make for such purposes is authorized provided that you reproduce MITRE’s copyright designation and this license in any such copy. The ontology’s data: MIT License. Copyright (c) 2022 The MITRE Corporation. Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
     "url": "https://d3fend.mitre.org/tou/"
   },
   "deadlines": [],
@@ -84,9 +99,2238 @@
       "line": "A control says what must be done; D3FEND names the technique that does it."
     }
   ],
-  "depth": null,
-  "levels": [],
-  "nodes": [],
+  "depth": {
+    "shown": 271,
+    "of": 272,
+    "unit": "defensive techniques",
+    "why": "Each is listed by identifier and name. Particle Radiation Hardening is in the matrix without an identifier in this release and is left out. Definitions and the links to attacker techniques are at the source."
+  },
+  "levels": [
+    {
+      "id": "tactic",
+      "name": "Tactic",
+      "plural": "Tactics",
+      "identified": false
+    },
+    {
+      "id": "technique",
+      "name": "Defensive Technique",
+      "plural": "Defensive Techniques"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "model",
+      "level": "tactic",
+      "parents": [],
+      "title": "Model"
+    },
+    {
+      "id": "D3-AI",
+      "level": "technique",
+      "parents": [
+        "model"
+      ],
+      "title": "Asset Inventory"
+    },
+    {
+      "id": "D3-AVE",
+      "level": "technique",
+      "parents": [
+        "D3-AI"
+      ],
+      "title": "Asset Vulnerability Enumeration"
+    },
+    {
+      "id": "D3-CIA",
+      "level": "technique",
+      "parents": [
+        "D3-AVE"
+      ],
+      "title": "Container Image Analysis"
+    },
+    {
+      "id": "D3-CI",
+      "level": "technique",
+      "parents": [
+        "D3-AI"
+      ],
+      "title": "Configuration Inventory"
+    },
+    {
+      "id": "D3-DI",
+      "level": "technique",
+      "parents": [
+        "D3-AI"
+      ],
+      "title": "Data Inventory"
+    },
+    {
+      "id": "D3-HCI",
+      "level": "technique",
+      "parents": [
+        "D3-AI"
+      ],
+      "title": "Hardware Component Inventory"
+    },
+    {
+      "id": "D3-NNI",
+      "level": "technique",
+      "parents": [
+        "D3-AI"
+      ],
+      "title": "Network Node Inventory"
+    },
+    {
+      "id": "D3-SWI",
+      "level": "technique",
+      "parents": [
+        "D3-AI"
+      ],
+      "title": "Software Inventory"
+    },
+    {
+      "id": "D3-NM",
+      "level": "technique",
+      "parents": [
+        "model"
+      ],
+      "title": "Network Mapping"
+    },
+    {
+      "id": "D3-LLM",
+      "level": "technique",
+      "parents": [
+        "D3-NM"
+      ],
+      "title": "Logical Link Mapping"
+    },
+    {
+      "id": "D3-ALLM",
+      "level": "technique",
+      "parents": [
+        "D3-LLM"
+      ],
+      "title": "Active Logical Link Mapping"
+    },
+    {
+      "id": "D3-PLLM",
+      "level": "technique",
+      "parents": [
+        "D3-LLM"
+      ],
+      "title": "Passive Logical Link Mapping"
+    },
+    {
+      "id": "D3-NTPM",
+      "level": "technique",
+      "parents": [
+        "D3-NM"
+      ],
+      "title": "Network Traffic Policy Mapping"
+    },
+    {
+      "id": "D3-NVA",
+      "level": "technique",
+      "parents": [
+        "D3-NM"
+      ],
+      "title": "Network Vulnerability Assessment"
+    },
+    {
+      "id": "D3-PLM",
+      "level": "technique",
+      "parents": [
+        "D3-NM"
+      ],
+      "title": "Physical Link Mapping"
+    },
+    {
+      "id": "D3-APLM",
+      "level": "technique",
+      "parents": [
+        "D3-PLM"
+      ],
+      "title": "Active Physical Link Mapping"
+    },
+    {
+      "id": "D3-DPLM",
+      "level": "technique",
+      "parents": [
+        "D3-PLM"
+      ],
+      "title": "Direct Physical Link Mapping"
+    },
+    {
+      "id": "D3-OAM",
+      "level": "technique",
+      "parents": [
+        "model"
+      ],
+      "title": "Operational Activity Mapping"
+    },
+    {
+      "id": "D3-AM",
+      "level": "technique",
+      "parents": [
+        "D3-OAM"
+      ],
+      "title": "Access Modeling"
+    },
+    {
+      "id": "D3-ODM",
+      "level": "technique",
+      "parents": [
+        "D3-OAM"
+      ],
+      "title": "Operational Dependency Mapping"
+    },
+    {
+      "id": "D3-ORA",
+      "level": "technique",
+      "parents": [
+        "D3-OAM"
+      ],
+      "title": "Operational Risk Assessment"
+    },
+    {
+      "id": "D3-OM",
+      "level": "technique",
+      "parents": [
+        "D3-OAM"
+      ],
+      "title": "Organization Mapping"
+    },
+    {
+      "id": "D3-SYSM",
+      "level": "technique",
+      "parents": [
+        "model"
+      ],
+      "title": "System Mapping"
+    },
+    {
+      "id": "D3-DEM",
+      "level": "technique",
+      "parents": [
+        "D3-SYSM"
+      ],
+      "title": "Data Exchange Mapping"
+    },
+    {
+      "id": "D3-SVCDM",
+      "level": "technique",
+      "parents": [
+        "D3-SYSM"
+      ],
+      "title": "Service Dependency Mapping"
+    },
+    {
+      "id": "D3-SYSDM",
+      "level": "technique",
+      "parents": [
+        "D3-SYSM"
+      ],
+      "title": "System Dependency Mapping"
+    },
+    {
+      "id": "D3-SYSVA",
+      "level": "technique",
+      "parents": [
+        "D3-SYSM"
+      ],
+      "title": "System Vulnerability Assessment"
+    },
+    {
+      "id": "harden",
+      "level": "tactic",
+      "parents": [],
+      "title": "Harden"
+    },
+    {
+      "id": "D3-AA",
+      "level": "technique",
+      "parents": [
+        "harden"
+      ],
+      "title": "Agent Authentication"
+    },
+    {
+      "id": "D3-BAN",
+      "level": "technique",
+      "parents": [
+        "D3-AA"
+      ],
+      "title": "Biometric Authentication"
+    },
+    {
+      "id": "D3-CBAN",
+      "level": "technique",
+      "parents": [
+        "D3-AA"
+      ],
+      "title": "Certificate-based Authentication"
+    },
+    {
+      "id": "D3-MFA",
+      "level": "technique",
+      "parents": [
+        "D3-AA"
+      ],
+      "title": "Multi-factor Authentication"
+    },
+    {
+      "id": "D3-PWA",
+      "level": "technique",
+      "parents": [
+        "D3-AA"
+      ],
+      "title": "Password Authentication"
+    },
+    {
+      "id": "D3-TBA",
+      "level": "technique",
+      "parents": [
+        "D3-AA"
+      ],
+      "title": "Token-based Authentication"
+    },
+    {
+      "id": "D3-AH",
+      "level": "technique",
+      "parents": [
+        "harden"
+      ],
+      "title": "Application Hardening"
+    },
+    {
+      "id": "D3-ACH",
+      "level": "technique",
+      "parents": [
+        "D3-AH"
+      ],
+      "title": "Application Configuration Hardening"
+    },
+    {
+      "id": "D3-DRA",
+      "level": "technique",
+      "parents": [
+        "D3-ACH"
+      ],
+      "title": "Disable Remote Access"
+    },
+    {
+      "id": "D3-CFI",
+      "level": "technique",
+      "parents": [
+        "D3-AH"
+      ],
+      "title": "Control Flow Integrity"
+    },
+    {
+      "id": "D3-DCE",
+      "level": "technique",
+      "parents": [
+        "D3-AH"
+      ],
+      "title": "Dead Code Elimination"
+    },
+    {
+      "id": "D3-EHPV",
+      "level": "technique",
+      "parents": [
+        "D3-AH"
+      ],
+      "title": "Exception Handler Pointer Validation"
+    },
+    {
+      "id": "D3-PAN",
+      "level": "technique",
+      "parents": [
+        "D3-AH"
+      ],
+      "title": "Pointer Authentication"
+    },
+    {
+      "id": "D3-PSEP",
+      "level": "technique",
+      "parents": [
+        "D3-AH"
+      ],
+      "title": "Process Segment Execution Prevention"
+    },
+    {
+      "id": "D3-SAOR",
+      "level": "technique",
+      "parents": [
+        "D3-AH"
+      ],
+      "title": "Segment Address Offset Randomization"
+    },
+    {
+      "id": "D3-SFCV",
+      "level": "technique",
+      "parents": [
+        "D3-AH"
+      ],
+      "title": "Stack Frame Canary Validation"
+    },
+    {
+      "id": "D3-CH",
+      "level": "technique",
+      "parents": [
+        "harden"
+      ],
+      "title": "Credential Hardening"
+    },
+    {
+      "id": "D3-CP",
+      "level": "technique",
+      "parents": [
+        "D3-CH"
+      ],
+      "title": "Certificate Pinning"
+    },
+    {
+      "id": "D3-CRO",
+      "level": "technique",
+      "parents": [
+        "D3-CH"
+      ],
+      "title": "Credential Rotation"
+    },
+    {
+      "id": "D3-CERO",
+      "level": "technique",
+      "parents": [
+        "D3-CRO"
+      ],
+      "title": "Certificate Rotation"
+    },
+    {
+      "id": "D3-PR",
+      "level": "technique",
+      "parents": [
+        "D3-CRO"
+      ],
+      "title": "Password Rotation"
+    },
+    {
+      "id": "D3-OTP",
+      "level": "technique",
+      "parents": [
+        "D3-PR"
+      ],
+      "title": "One-time Password"
+    },
+    {
+      "id": "D3-SPP",
+      "level": "technique",
+      "parents": [
+        "D3-CH"
+      ],
+      "title": "Strong Password Policy"
+    },
+    {
+      "id": "D3-CDP",
+      "level": "technique",
+      "parents": [
+        "D3-SPP"
+      ],
+      "title": "Change Default Password"
+    },
+    {
+      "id": "D3-TB",
+      "level": "technique",
+      "parents": [
+        "D3-CH"
+      ],
+      "title": "Token Binding"
+    },
+    {
+      "id": "D3-MH",
+      "level": "technique",
+      "parents": [
+        "harden"
+      ],
+      "title": "Message Hardening"
+    },
+    {
+      "id": "D3-MAN",
+      "level": "technique",
+      "parents": [
+        "D3-MH"
+      ],
+      "title": "Message Authentication"
+    },
+    {
+      "id": "D3-BMA",
+      "level": "technique",
+      "parents": [
+        "D3-MAN"
+      ],
+      "title": "Bus Message Authentication"
+    },
+    {
+      "id": "D3-MENCR",
+      "level": "technique",
+      "parents": [
+        "D3-MH"
+      ],
+      "title": "Message Encryption"
+    },
+    {
+      "id": "D3-TAAN",
+      "level": "technique",
+      "parents": [
+        "D3-MH"
+      ],
+      "title": "Transfer Agent Authentication"
+    },
+    {
+      "id": "D3-PH",
+      "level": "technique",
+      "parents": [
+        "harden"
+      ],
+      "title": "Platform Hardening"
+    },
+    {
+      "id": "D3-BA",
+      "level": "technique",
+      "parents": [
+        "D3-PH"
+      ],
+      "title": "Bootloader Authentication"
+    },
+    {
+      "id": "D3-DENCR",
+      "level": "technique",
+      "parents": [
+        "D3-PH"
+      ],
+      "title": "Disk Encryption"
+    },
+    {
+      "id": "D3-DLIC",
+      "level": "technique",
+      "parents": [
+        "D3-PH"
+      ],
+      "title": "Driver Load Integrity Checking"
+    },
+    {
+      "id": "D3-FE",
+      "level": "technique",
+      "parents": [
+        "D3-PH"
+      ],
+      "title": "File Encryption"
+    },
+    {
+      "id": "D3-HBWP",
+      "level": "technique",
+      "parents": [
+        "D3-PH"
+      ],
+      "title": "Hardware-based Write Protection"
+    },
+    {
+      "id": "D3-PEH",
+      "level": "technique",
+      "parents": [
+        "D3-PH"
+      ],
+      "title": "Physical Enclosure Hardening"
+    },
+    {
+      "id": "D3-RH",
+      "level": "technique",
+      "parents": [
+        "D3-PH"
+      ],
+      "title": "Radiation Hardening"
+    },
+    {
+      "id": "D3-EMH",
+      "level": "technique",
+      "parents": [
+        "D3-RH"
+      ],
+      "title": "Electromagnetic Radiation Hardening"
+    },
+    {
+      "id": "D3-RFS",
+      "level": "technique",
+      "parents": [
+        "D3-EMH"
+      ],
+      "title": "RF Shielding"
+    },
+    {
+      "id": "D3-SU",
+      "level": "technique",
+      "parents": [
+        "D3-PH"
+      ],
+      "title": "Software Update"
+    },
+    {
+      "id": "D3-SCP",
+      "level": "technique",
+      "parents": [
+        "D3-PH"
+      ],
+      "title": "System Configuration Permissions"
+    },
+    {
+      "id": "D3-TBI",
+      "level": "technique",
+      "parents": [
+        "D3-PH"
+      ],
+      "title": "TPM Boot Integrity"
+    },
+    {
+      "id": "D3-SCH",
+      "level": "technique",
+      "parents": [
+        "harden"
+      ],
+      "title": "Source Code Hardening"
+    },
+    {
+      "id": "D3-CS",
+      "level": "technique",
+      "parents": [
+        "D3-SCH"
+      ],
+      "title": "Credential Scrubbing"
+    },
+    {
+      "id": "D3-DLV",
+      "level": "technique",
+      "parents": [
+        "D3-SCH"
+      ],
+      "title": "Domain Logic Validation"
+    },
+    {
+      "id": "D3-OLV",
+      "level": "technique",
+      "parents": [
+        "D3-DLV"
+      ],
+      "title": "Operational Logic Validation"
+    },
+    {
+      "id": "D3-IRV",
+      "level": "technique",
+      "parents": [
+        "D3-SCH"
+      ],
+      "title": "Integer Range Validation"
+    },
+    {
+      "id": "D3-PV",
+      "level": "technique",
+      "parents": [
+        "D3-SCH"
+      ],
+      "title": "Pointer Validation"
+    },
+    {
+      "id": "D3-MBSV",
+      "level": "technique",
+      "parents": [
+        "D3-PV"
+      ],
+      "title": "Memory Block Start Validation"
+    },
+    {
+      "id": "D3-NPC",
+      "level": "technique",
+      "parents": [
+        "D3-PV"
+      ],
+      "title": "Null Pointer Checking"
+    },
+    {
+      "id": "D3-RN",
+      "level": "technique",
+      "parents": [
+        "D3-SCH"
+      ],
+      "title": "Reference Nullification"
+    },
+    {
+      "id": "D3-TL",
+      "level": "technique",
+      "parents": [
+        "D3-SCH"
+      ],
+      "title": "Trusted Library"
+    },
+    {
+      "id": "D3-VI",
+      "level": "technique",
+      "parents": [
+        "D3-SCH"
+      ],
+      "title": "Variable Initialization"
+    },
+    {
+      "id": "D3-VTV",
+      "level": "technique",
+      "parents": [
+        "D3-SCH"
+      ],
+      "title": "Variable Type Validation"
+    },
+    {
+      "id": "detect",
+      "level": "tactic",
+      "parents": [],
+      "title": "Detect"
+    },
+    {
+      "id": "D3-FA",
+      "level": "technique",
+      "parents": [
+        "detect"
+      ],
+      "title": "File Analysis"
+    },
+    {
+      "id": "D3-DA",
+      "level": "technique",
+      "parents": [
+        "D3-FA"
+      ],
+      "title": "Dynamic Analysis"
+    },
+    {
+      "id": "D3-EFA",
+      "level": "technique",
+      "parents": [
+        "D3-FA"
+      ],
+      "title": "Emulated File Analysis"
+    },
+    {
+      "id": "D3-FCOA",
+      "level": "technique",
+      "parents": [
+        "D3-FA"
+      ],
+      "title": "File Content Analysis"
+    },
+    {
+      "id": "D3-FCR",
+      "level": "technique",
+      "parents": [
+        "D3-FCOA"
+      ],
+      "title": "File Content Rules"
+    },
+    {
+      "id": "D3-FH",
+      "level": "technique",
+      "parents": [
+        "D3-FA"
+      ],
+      "title": "File Hashing"
+    },
+    {
+      "id": "D3-ID",
+      "level": "technique",
+      "parents": [
+        "detect"
+      ],
+      "title": "Identifier Analysis"
+    },
+    {
+      "id": "D3-HD",
+      "level": "technique",
+      "parents": [
+        "D3-ID"
+      ],
+      "title": "Homoglyph Detection"
+    },
+    {
+      "id": "D3-IAA",
+      "level": "technique",
+      "parents": [
+        "D3-ID"
+      ],
+      "title": "Identifier Activity Analysis"
+    },
+    {
+      "id": "D3-IRA",
+      "level": "technique",
+      "parents": [
+        "D3-ID"
+      ],
+      "title": "Identifier Reputation Analysis"
+    },
+    {
+      "id": "D3-DNRA",
+      "level": "technique",
+      "parents": [
+        "D3-IRA"
+      ],
+      "title": "Domain Name Reputation Analysis"
+    },
+    {
+      "id": "D3-FHRA",
+      "level": "technique",
+      "parents": [
+        "D3-IRA"
+      ],
+      "title": "File Hash Reputation Analysis"
+    },
+    {
+      "id": "D3-IPRA",
+      "level": "technique",
+      "parents": [
+        "D3-IRA"
+      ],
+      "title": "IP Reputation Analysis"
+    },
+    {
+      "id": "D3-URA",
+      "level": "technique",
+      "parents": [
+        "D3-IRA"
+      ],
+      "title": "URL Reputation Analysis"
+    },
+    {
+      "id": "D3-UA",
+      "level": "technique",
+      "parents": [
+        "D3-ID"
+      ],
+      "title": "URL Analysis"
+    },
+    {
+      "id": "D3-MA",
+      "level": "technique",
+      "parents": [
+        "detect"
+      ],
+      "title": "Message Analysis"
+    },
+    {
+      "id": "D3-SMRA",
+      "level": "technique",
+      "parents": [
+        "D3-MA"
+      ],
+      "title": "Sender MTA Reputation Analysis"
+    },
+    {
+      "id": "D3-SRA",
+      "level": "technique",
+      "parents": [
+        "D3-MA"
+      ],
+      "title": "Sender Reputation Analysis"
+    },
+    {
+      "id": "D3-NTA",
+      "level": "technique",
+      "parents": [
+        "detect"
+      ],
+      "title": "Network Traffic Analysis"
+    },
+    {
+      "id": "D3-ANAA",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "Administrative Network Activity Analysis"
+    },
+    {
+      "id": "D3-APCA",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "Application Protocol Command Analysis"
+    },
+    {
+      "id": "D3-RFUM",
+      "level": "technique",
+      "parents": [
+        "D3-APCA"
+      ],
+      "title": "Remote Firmware Update Monitoring"
+    },
+    {
+      "id": "D3-BSE",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "Byte Sequence Emulation"
+    },
+    {
+      "id": "D3-CA",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "Certificate Analysis"
+    },
+    {
+      "id": "D3-ACA",
+      "level": "technique",
+      "parents": [
+        "D3-CA"
+      ],
+      "title": "Active Certificate Analysis"
+    },
+    {
+      "id": "D3-PCA",
+      "level": "technique",
+      "parents": [
+        "D3-CA"
+      ],
+      "title": "Passive Certificate Analysis"
+    },
+    {
+      "id": "D3-CSPP",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "Client-server Payload Profiling"
+    },
+    {
+      "id": "D3-CAA",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "Connection Attempt Analysis"
+    },
+    {
+      "id": "D3-DNSTA",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "DNS Traffic Analysis"
+    },
+    {
+      "id": "D3-FC",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "File Carving"
+    },
+    {
+      "id": "D3-ISVA",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "Inbound Session Volume Analysis"
+    },
+    {
+      "id": "D3-IPCTA",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "IPC Traffic Analysis"
+    },
+    {
+      "id": "D3-NTCD",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "Network Traffic Community Deviation"
+    },
+    {
+      "id": "D3-NTSA",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "Network Traffic Signature Analysis"
+    },
+    {
+      "id": "D3-PHDURA",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "Per Host Download-Upload Ratio Analysis"
+    },
+    {
+      "id": "D3-PMAD",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "Protocol Metadata Anomaly Detection"
+    },
+    {
+      "id": "D3-RPA",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "Relay Pattern Analysis"
+    },
+    {
+      "id": "D3-RTSD",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "Remote Terminal Session Detection"
+    },
+    {
+      "id": "D3-RTA",
+      "level": "technique",
+      "parents": [
+        "D3-NTA"
+      ],
+      "title": "RPC Traffic Analysis"
+    },
+    {
+      "id": "D3-PHAM",
+      "level": "technique",
+      "parents": [
+        "detect"
+      ],
+      "title": "Physical Access Monitoring"
+    },
+    {
+      "id": "D3-ELM",
+      "level": "technique",
+      "parents": [
+        "D3-PHAM"
+      ],
+      "title": "Electronic Lock Monitoring"
+    },
+    {
+      "id": "D3-MSM",
+      "level": "technique",
+      "parents": [
+        "D3-PHAM"
+      ],
+      "title": "Motion Sensor Monitoring"
+    },
+    {
+      "id": "D3-PSM",
+      "level": "technique",
+      "parents": [
+        "D3-PHAM"
+      ],
+      "title": "Proximity Sensor Monitoring"
+    },
+    {
+      "id": "D3-VS",
+      "level": "technique",
+      "parents": [
+        "D3-PHAM"
+      ],
+      "title": "Video Surveillance"
+    },
+    {
+      "id": "D3-PM",
+      "level": "technique",
+      "parents": [
+        "detect"
+      ],
+      "title": "Platform Monitoring"
+    },
+    {
+      "id": "D3-APM",
+      "level": "technique",
+      "parents": [
+        "D3-PM"
+      ],
+      "title": "Application Performance Monitoring"
+    },
+    {
+      "id": "D3-AEM",
+      "level": "technique",
+      "parents": [
+        "D3-APM"
+      ],
+      "title": "Application Exception Monitoring"
+    },
+    {
+      "id": "D3-FIM",
+      "level": "technique",
+      "parents": [
+        "D3-PM"
+      ],
+      "title": "File Integrity Monitoring"
+    },
+    {
+      "id": "D3-FBA",
+      "level": "technique",
+      "parents": [
+        "D3-PM"
+      ],
+      "title": "Firmware Behavior Analysis"
+    },
+    {
+      "id": "D3-FEMC",
+      "level": "technique",
+      "parents": [
+        "D3-PM"
+      ],
+      "title": "Firmware Embedded Monitoring Code"
+    },
+    {
+      "id": "D3-FV",
+      "level": "technique",
+      "parents": [
+        "D3-PM"
+      ],
+      "title": "Firmware Verification"
+    },
+    {
+      "id": "D3-PFV",
+      "level": "technique",
+      "parents": [
+        "D3-FV"
+      ],
+      "title": "Peripheral Firmware Verification"
+    },
+    {
+      "id": "D3-SFV",
+      "level": "technique",
+      "parents": [
+        "D3-FV"
+      ],
+      "title": "System Firmware Verification"
+    },
+    {
+      "id": "D3-OMM",
+      "level": "technique",
+      "parents": [
+        "D3-PM"
+      ],
+      "title": "Operating Mode Monitoring"
+    },
+    {
+      "id": "D3-OSM",
+      "level": "technique",
+      "parents": [
+        "D3-PM"
+      ],
+      "title": "Operating System Monitoring"
+    },
+    {
+      "id": "D3-EHB",
+      "level": "technique",
+      "parents": [
+        "D3-OSM"
+      ],
+      "title": "Endpoint Health Beacon"
+    },
+    {
+      "id": "D3-IDA",
+      "level": "technique",
+      "parents": [
+        "D3-OSM"
+      ],
+      "title": "Input Device Analysis"
+    },
+    {
+      "id": "D3-MBT",
+      "level": "technique",
+      "parents": [
+        "D3-OSM"
+      ],
+      "title": "Memory Boundary Tracking"
+    },
+    {
+      "id": "D3-SJA",
+      "level": "technique",
+      "parents": [
+        "D3-OSM"
+      ],
+      "title": "Scheduled Job Analysis"
+    },
+    {
+      "id": "D3-SDM",
+      "level": "technique",
+      "parents": [
+        "D3-OSM"
+      ],
+      "title": "System Daemon Monitoring"
+    },
+    {
+      "id": "D3-SFA",
+      "level": "technique",
+      "parents": [
+        "D3-OSM"
+      ],
+      "title": "System File Analysis"
+    },
+    {
+      "id": "D3-SBV",
+      "level": "technique",
+      "parents": [
+        "D3-SFA"
+      ],
+      "title": "Service Binary Verification"
+    },
+    {
+      "id": "D3-SICA",
+      "level": "technique",
+      "parents": [
+        "D3-OSM"
+      ],
+      "title": "System Init Config Analysis"
+    },
+    {
+      "id": "D3-USICA",
+      "level": "technique",
+      "parents": [
+        "D3-OSM"
+      ],
+      "title": "User Session Init Config Analysis"
+    },
+    {
+      "id": "D3-OPM",
+      "level": "technique",
+      "parents": [
+        "D3-PM"
+      ],
+      "title": "Operational Process Monitoring"
+    },
+    {
+      "id": "D3-PUM",
+      "level": "technique",
+      "parents": [
+        "D3-PM"
+      ],
+      "title": "Platform Uptime Monitoring"
+    },
+    {
+      "id": "D3-PA",
+      "level": "technique",
+      "parents": [
+        "detect"
+      ],
+      "title": "Process Analysis"
+    },
+    {
+      "id": "D3-DQSA",
+      "level": "technique",
+      "parents": [
+        "D3-PA"
+      ],
+      "title": "Database Query String Analysis"
+    },
+    {
+      "id": "D3-FAPA",
+      "level": "technique",
+      "parents": [
+        "D3-PA"
+      ],
+      "title": "File Access Pattern Analysis"
+    },
+    {
+      "id": "D3-IBCA",
+      "level": "technique",
+      "parents": [
+        "D3-PA"
+      ],
+      "title": "Indirect Branch Call Analysis"
+    },
+    {
+      "id": "D3-PCSV",
+      "level": "technique",
+      "parents": [
+        "D3-PA"
+      ],
+      "title": "Process Code Segment Verification"
+    },
+    {
+      "id": "D3-PSMD",
+      "level": "technique",
+      "parents": [
+        "D3-PA"
+      ],
+      "title": "Process Self-Modification Detection"
+    },
+    {
+      "id": "D3-PSA",
+      "level": "technique",
+      "parents": [
+        "D3-PA"
+      ],
+      "title": "Process Spawn Analysis"
+    },
+    {
+      "id": "D3-PLA",
+      "level": "technique",
+      "parents": [
+        "D3-PSA"
+      ],
+      "title": "Process Lineage Analysis"
+    },
+    {
+      "id": "D3-SEA",
+      "level": "technique",
+      "parents": [
+        "D3-PA"
+      ],
+      "title": "Script Execution Analysis"
+    },
+    {
+      "id": "D3-SSC",
+      "level": "technique",
+      "parents": [
+        "D3-PA"
+      ],
+      "title": "Shadow Stack Comparisons"
+    },
+    {
+      "id": "D3-SCA",
+      "level": "technique",
+      "parents": [
+        "D3-PA"
+      ],
+      "title": "System Call Analysis"
+    },
+    {
+      "id": "D3-FCA",
+      "level": "technique",
+      "parents": [
+        "D3-SCA"
+      ],
+      "title": "File Creation Analysis"
+    },
+    {
+      "id": "D3-UBA",
+      "level": "technique",
+      "parents": [
+        "detect"
+      ],
+      "title": "User Behavior Analysis"
+    },
+    {
+      "id": "D3-ANET",
+      "level": "technique",
+      "parents": [
+        "D3-UBA"
+      ],
+      "title": "Authentication Event Thresholding"
+    },
+    {
+      "id": "D3-AZET",
+      "level": "technique",
+      "parents": [
+        "D3-UBA"
+      ],
+      "title": "Authorization Event Thresholding"
+    },
+    {
+      "id": "D3-CCSA",
+      "level": "technique",
+      "parents": [
+        "D3-UBA"
+      ],
+      "title": "Credential Compromise Scope Analysis"
+    },
+    {
+      "id": "D3-DAM",
+      "level": "technique",
+      "parents": [
+        "D3-UBA"
+      ],
+      "title": "Domain Account Monitoring"
+    },
+    {
+      "id": "D3-JFAPA",
+      "level": "technique",
+      "parents": [
+        "D3-UBA"
+      ],
+      "title": "Job Function Access Pattern Analysis"
+    },
+    {
+      "id": "D3-LAM",
+      "level": "technique",
+      "parents": [
+        "D3-UBA"
+      ],
+      "title": "Local Account Monitoring"
+    },
+    {
+      "id": "D3-RAPA",
+      "level": "technique",
+      "parents": [
+        "D3-UBA"
+      ],
+      "title": "Resource Access Pattern Analysis"
+    },
+    {
+      "id": "D3-SDA",
+      "level": "technique",
+      "parents": [
+        "D3-UBA"
+      ],
+      "title": "Session Duration Analysis"
+    },
+    {
+      "id": "D3-UDTA",
+      "level": "technique",
+      "parents": [
+        "D3-UBA"
+      ],
+      "title": "User Data Transfer Analysis"
+    },
+    {
+      "id": "D3-UGLPA",
+      "level": "technique",
+      "parents": [
+        "D3-UBA"
+      ],
+      "title": "User Geolocation Logon Pattern Analysis"
+    },
+    {
+      "id": "D3-WSAA",
+      "level": "technique",
+      "parents": [
+        "D3-UBA"
+      ],
+      "title": "Web Session Activity Analysis"
+    },
+    {
+      "id": "isolate",
+      "level": "tactic",
+      "parents": [],
+      "title": "Isolate"
+    },
+    {
+      "id": "D3-AMED",
+      "level": "technique",
+      "parents": [
+        "isolate"
+      ],
+      "title": "Access Mediation"
+    },
+    {
+      "id": "D3-CTS",
+      "level": "technique",
+      "parents": [
+        "D3-AMED"
+      ],
+      "title": "Credential Transmission Scoping"
+    },
+    {
+      "id": "D3-IOPR",
+      "level": "technique",
+      "parents": [
+        "D3-AMED"
+      ],
+      "title": "IO Port Restriction"
+    },
+    {
+      "id": "D3-NAM",
+      "level": "technique",
+      "parents": [
+        "D3-AMED"
+      ],
+      "title": "Network Access Mediation"
+    },
+    {
+      "id": "D3-LAMED",
+      "level": "technique",
+      "parents": [
+        "D3-NAM"
+      ],
+      "title": "LAN Access Mediation"
+    },
+    {
+      "id": "D3-RAM",
+      "level": "technique",
+      "parents": [
+        "D3-NAM"
+      ],
+      "title": "Routing Access Mediation"
+    },
+    {
+      "id": "D3-NRAM",
+      "level": "technique",
+      "parents": [
+        "D3-AMED"
+      ],
+      "title": "Network Resource Access Mediation"
+    },
+    {
+      "id": "D3-RFAM",
+      "level": "technique",
+      "parents": [
+        "D3-NRAM"
+      ],
+      "title": "Remote File Access Mediation"
+    },
+    {
+      "id": "D3-WSAM",
+      "level": "technique",
+      "parents": [
+        "D3-NRAM"
+      ],
+      "title": "Web Session Access Mediation"
+    },
+    {
+      "id": "D3-EBWSAM",
+      "level": "technique",
+      "parents": [
+        "D3-WSAM"
+      ],
+      "title": "Endpoint-based Web Server Access Mediation"
+    },
+    {
+      "id": "D3-PBWSAM",
+      "level": "technique",
+      "parents": [
+        "D3-WSAM"
+      ],
+      "title": "Proxy-based Web Server Access Mediation"
+    },
+    {
+      "id": "D3-OPR",
+      "level": "technique",
+      "parents": [
+        "D3-AMED"
+      ],
+      "title": "Operating Mode Restriction"
+    },
+    {
+      "id": "D3-OVAR",
+      "level": "technique",
+      "parents": [
+        "D3-AMED"
+      ],
+      "title": "OT Variable Access Restriction"
+    },
+    {
+      "id": "D3-PAM",
+      "level": "technique",
+      "parents": [
+        "D3-AMED"
+      ],
+      "title": "Physical Access Mediation"
+    },
+    {
+      "id": "D3-EPL",
+      "level": "technique",
+      "parents": [
+        "D3-PAM"
+      ],
+      "title": "Physical Locking"
+    },
+    {
+      "id": "D3-SCF",
+      "level": "technique",
+      "parents": [
+        "D3-AMED"
+      ],
+      "title": "System Call Filtering"
+    },
+    {
+      "id": "D3-LFAM",
+      "level": "technique",
+      "parents": [
+        "D3-SCF"
+      ],
+      "title": "Local File Access Mediation"
+    },
+    {
+      "id": "D3-APA",
+      "level": "technique",
+      "parents": [
+        "isolate"
+      ],
+      "title": "Access Policy Administration"
+    },
+    {
+      "id": "D3-DTP",
+      "level": "technique",
+      "parents": [
+        "D3-APA"
+      ],
+      "title": "Domain Trust Policy"
+    },
+    {
+      "id": "D3-LFP",
+      "level": "technique",
+      "parents": [
+        "D3-APA"
+      ],
+      "title": "Local File Permissions"
+    },
+    {
+      "id": "D3-UAP",
+      "level": "technique",
+      "parents": [
+        "D3-APA"
+      ],
+      "title": "User Account Permissions"
+    },
+    {
+      "id": "D3-UGPH",
+      "level": "technique",
+      "parents": [
+        "D3-APA"
+      ],
+      "title": "User Group Permissions"
+    },
+    {
+      "id": "D3-CF",
+      "level": "technique",
+      "parents": [
+        "isolate"
+      ],
+      "title": "Content Filtering"
+    },
+    {
+      "id": "D3-CM",
+      "level": "technique",
+      "parents": [
+        "D3-CF"
+      ],
+      "title": "Content Modification"
+    },
+    {
+      "id": "D3-CNE",
+      "level": "technique",
+      "parents": [
+        "D3-CM"
+      ],
+      "title": "Content Excision"
+    },
+    {
+      "id": "D3-CFC",
+      "level": "technique",
+      "parents": [
+        "D3-CM"
+      ],
+      "title": "Content Format Conversion"
+    },
+    {
+      "id": "D3-CNR",
+      "level": "technique",
+      "parents": [
+        "D3-CM"
+      ],
+      "title": "Content Rebuild"
+    },
+    {
+      "id": "D3-CNS",
+      "level": "technique",
+      "parents": [
+        "D3-CM"
+      ],
+      "title": "Content Substitution"
+    },
+    {
+      "id": "D3-CQ",
+      "level": "technique",
+      "parents": [
+        "D3-CF"
+      ],
+      "title": "Content Quarantine"
+    },
+    {
+      "id": "D3-CV",
+      "level": "technique",
+      "parents": [
+        "D3-CF"
+      ],
+      "title": "Content Validation"
+    },
+    {
+      "id": "D3-FFV",
+      "level": "technique",
+      "parents": [
+        "D3-CV"
+      ],
+      "title": "File Format Verification"
+    },
+    {
+      "id": "D3-FCDC",
+      "level": "technique",
+      "parents": [
+        "D3-FFV"
+      ],
+      "title": "File Content Decompression Checking"
+    },
+    {
+      "id": "D3-FISV",
+      "level": "technique",
+      "parents": [
+        "D3-FFV"
+      ],
+      "title": "File Internal Structure Verification"
+    },
+    {
+      "id": "D3-FMCV",
+      "level": "technique",
+      "parents": [
+        "D3-FFV"
+      ],
+      "title": "File Metadata Consistency Validation"
+    },
+    {
+      "id": "D3-FMVV",
+      "level": "technique",
+      "parents": [
+        "D3-FFV"
+      ],
+      "title": "File Metadata Value Verification"
+    },
+    {
+      "id": "D3-FMBV",
+      "level": "technique",
+      "parents": [
+        "D3-FMVV"
+      ],
+      "title": "File Magic Byte Verification"
+    },
+    {
+      "id": "D3-EI",
+      "level": "technique",
+      "parents": [
+        "isolate"
+      ],
+      "title": "Execution Isolation"
+    },
+    {
+      "id": "D3-ABPI",
+      "level": "technique",
+      "parents": [
+        "D3-EI"
+      ],
+      "title": "Application-based Process Isolation"
+    },
+    {
+      "id": "D3-EAL",
+      "level": "technique",
+      "parents": [
+        "D3-EI"
+      ],
+      "title": "Executable Allowlisting"
+    },
+    {
+      "id": "D3-EDL",
+      "level": "technique",
+      "parents": [
+        "D3-EI"
+      ],
+      "title": "Executable Denylisting"
+    },
+    {
+      "id": "D3-HBPI",
+      "level": "technique",
+      "parents": [
+        "D3-EI"
+      ],
+      "title": "Hardware-based Process Isolation"
+    },
+    {
+      "id": "D3-KBPI",
+      "level": "technique",
+      "parents": [
+        "D3-EI"
+      ],
+      "title": "Kernel-based Process Isolation"
+    },
+    {
+      "id": "D3-NI",
+      "level": "technique",
+      "parents": [
+        "isolate"
+      ],
+      "title": "Network Isolation"
+    },
+    {
+      "id": "D3-BDI",
+      "level": "technique",
+      "parents": [
+        "D3-NI"
+      ],
+      "title": "Broadcast Domain Isolation"
+    },
+    {
+      "id": "D3-DNL",
+      "level": "technique",
+      "parents": [
+        "D3-NI"
+      ],
+      "title": "Directional Network Link"
+    },
+    {
+      "id": "D3-DNSAL",
+      "level": "technique",
+      "parents": [
+        "D3-NI"
+      ],
+      "title": "DNS Allowlisting"
+    },
+    {
+      "id": "D3-DNSDL",
+      "level": "technique",
+      "parents": [
+        "D3-NI"
+      ],
+      "title": "DNS Denylisting"
+    },
+    {
+      "id": "D3-FRDDL",
+      "level": "technique",
+      "parents": [
+        "D3-DNSDL"
+      ],
+      "title": "Forward Resolution Domain Denylisting"
+    },
+    {
+      "id": "D3-HDDL",
+      "level": "technique",
+      "parents": [
+        "D3-FRDDL"
+      ],
+      "title": "Hierarchical Domain Denylisting"
+    },
+    {
+      "id": "D3-HDL",
+      "level": "technique",
+      "parents": [
+        "D3-FRDDL"
+      ],
+      "title": "Homoglyph Denylisting"
+    },
+    {
+      "id": "D3-FRIDL",
+      "level": "technique",
+      "parents": [
+        "D3-DNSDL"
+      ],
+      "title": "Forward Resolution IP Denylisting"
+    },
+    {
+      "id": "D3-RRID",
+      "level": "technique",
+      "parents": [
+        "D3-DNSDL"
+      ],
+      "title": "Reverse Resolution IP Denylisting"
+    },
+    {
+      "id": "D3-ET",
+      "level": "technique",
+      "parents": [
+        "D3-NI"
+      ],
+      "title": "Encrypted Tunnels"
+    },
+    {
+      "id": "D3-NTF",
+      "level": "technique",
+      "parents": [
+        "D3-NI"
+      ],
+      "title": "Network Traffic Filtering"
+    },
+    {
+      "id": "D3-ITF",
+      "level": "technique",
+      "parents": [
+        "D3-NTF"
+      ],
+      "title": "Inbound Traffic Filtering"
+    },
+    {
+      "id": "D3-EF",
+      "level": "technique",
+      "parents": [
+        "D3-ITF"
+      ],
+      "title": "Email Filtering"
+    },
+    {
+      "id": "D3-OTF",
+      "level": "technique",
+      "parents": [
+        "D3-NTF"
+      ],
+      "title": "Outbound Traffic Filtering"
+    },
+    {
+      "id": "deceive",
+      "level": "tactic",
+      "parents": [],
+      "title": "Deceive"
+    },
+    {
+      "id": "D3-DE",
+      "level": "technique",
+      "parents": [
+        "deceive"
+      ],
+      "title": "Decoy Environment"
+    },
+    {
+      "id": "D3-CHN",
+      "level": "technique",
+      "parents": [
+        "D3-DE"
+      ],
+      "title": "Connected Honeynet"
+    },
+    {
+      "id": "D3-IHN",
+      "level": "technique",
+      "parents": [
+        "D3-DE"
+      ],
+      "title": "Integrated Honeynet"
+    },
+    {
+      "id": "D3-SHN",
+      "level": "technique",
+      "parents": [
+        "D3-DE"
+      ],
+      "title": "Standalone Honeynet"
+    },
+    {
+      "id": "D3-DO",
+      "level": "technique",
+      "parents": [
+        "deceive"
+      ],
+      "title": "Decoy Object"
+    },
+    {
+      "id": "D3-DF",
+      "level": "technique",
+      "parents": [
+        "D3-DO"
+      ],
+      "title": "Decoy File"
+    },
+    {
+      "id": "D3-DNR",
+      "level": "technique",
+      "parents": [
+        "D3-DO"
+      ],
+      "title": "Decoy Network Resource"
+    },
+    {
+      "id": "D3-DP",
+      "level": "technique",
+      "parents": [
+        "D3-DO"
+      ],
+      "title": "Decoy Persona"
+    },
+    {
+      "id": "D3-DPR",
+      "level": "technique",
+      "parents": [
+        "D3-DO"
+      ],
+      "title": "Decoy Public Release"
+    },
+    {
+      "id": "D3-DST",
+      "level": "technique",
+      "parents": [
+        "D3-DO"
+      ],
+      "title": "Decoy Session Token"
+    },
+    {
+      "id": "D3-DUC",
+      "level": "technique",
+      "parents": [
+        "D3-DO"
+      ],
+      "title": "Decoy User Credential"
+    },
+    {
+      "id": "evict",
+      "level": "tactic",
+      "parents": [],
+      "title": "Evict"
+    },
+    {
+      "id": "D3-CE",
+      "level": "technique",
+      "parents": [
+        "evict"
+      ],
+      "title": "Credential Eviction"
+    },
+    {
+      "id": "D3-AL",
+      "level": "technique",
+      "parents": [
+        "D3-CE"
+      ],
+      "title": "Account Locking"
+    },
+    {
+      "id": "D3-ANCI",
+      "level": "technique",
+      "parents": [
+        "D3-CE"
+      ],
+      "title": "Authentication Cache Invalidation"
+    },
+    {
+      "id": "D3-CR",
+      "level": "technique",
+      "parents": [
+        "D3-CE"
+      ],
+      "title": "Credential Revocation"
+    },
+    {
+      "id": "D3-OE",
+      "level": "technique",
+      "parents": [
+        "evict"
+      ],
+      "title": "Object Eviction"
+    },
+    {
+      "id": "D3-DKF",
+      "level": "technique",
+      "parents": [
+        "D3-OE"
+      ],
+      "title": "Disk Formatting"
+    },
+    {
+      "id": "D3-DKE",
+      "level": "technique",
+      "parents": [
+        "D3-DKF"
+      ],
+      "title": "Disk Erasure"
+    },
+    {
+      "id": "D3-DKP",
+      "level": "technique",
+      "parents": [
+        "D3-DKF"
+      ],
+      "title": "Disk Partitioning"
+    },
+    {
+      "id": "D3-DNSCE",
+      "level": "technique",
+      "parents": [
+        "D3-OE"
+      ],
+      "title": "DNS Cache Eviction"
+    },
+    {
+      "id": "D3-DRT",
+      "level": "technique",
+      "parents": [
+        "D3-OE"
+      ],
+      "title": "Domain Registration Takedown"
+    },
+    {
+      "id": "D3-FEV",
+      "level": "technique",
+      "parents": [
+        "D3-OE"
+      ],
+      "title": "File Eviction"
+    },
+    {
+      "id": "D3-ER",
+      "level": "technique",
+      "parents": [
+        "D3-FEV"
+      ],
+      "title": "Email Removal"
+    },
+    {
+      "id": "D3-RKD",
+      "level": "technique",
+      "parents": [
+        "D3-OE"
+      ],
+      "title": "Registry Key Deletion"
+    },
+    {
+      "id": "D3-PE",
+      "level": "technique",
+      "parents": [
+        "evict"
+      ],
+      "title": "Process Eviction"
+    },
+    {
+      "id": "D3-HS",
+      "level": "technique",
+      "parents": [
+        "D3-PE"
+      ],
+      "title": "Host Shutdown"
+    },
+    {
+      "id": "D3-HR",
+      "level": "technique",
+      "parents": [
+        "D3-HS"
+      ],
+      "title": "Host Reboot"
+    },
+    {
+      "id": "D3-PS",
+      "level": "technique",
+      "parents": [
+        "D3-PE"
+      ],
+      "title": "Process Suspension"
+    },
+    {
+      "id": "D3-PT",
+      "level": "technique",
+      "parents": [
+        "D3-PE"
+      ],
+      "title": "Process Termination"
+    },
+    {
+      "id": "D3-ST",
+      "level": "technique",
+      "parents": [
+        "D3-PE"
+      ],
+      "title": "Session Termination"
+    },
+    {
+      "id": "restore",
+      "level": "tactic",
+      "parents": [],
+      "title": "Restore"
+    },
+    {
+      "id": "D3-RA",
+      "level": "technique",
+      "parents": [
+        "restore"
+      ],
+      "title": "Restore Access"
+    },
+    {
+      "id": "D3-RIC",
+      "level": "technique",
+      "parents": [
+        "D3-RA"
+      ],
+      "title": "Reissue Credential"
+    },
+    {
+      "id": "D3-RNA",
+      "level": "technique",
+      "parents": [
+        "D3-RA"
+      ],
+      "title": "Restore Network Access"
+    },
+    {
+      "id": "D3-RUAA",
+      "level": "technique",
+      "parents": [
+        "D3-RA"
+      ],
+      "title": "Restore User Account Access"
+    },
+    {
+      "id": "D3-ULA",
+      "level": "technique",
+      "parents": [
+        "D3-RUAA"
+      ],
+      "title": "Unlock Account"
+    },
+    {
+      "id": "D3-RO",
+      "level": "technique",
+      "parents": [
+        "restore"
+      ],
+      "title": "Restore Object"
+    },
+    {
+      "id": "D3-RC",
+      "level": "technique",
+      "parents": [
+        "D3-RO"
+      ],
+      "title": "Restore Configuration"
+    },
+    {
+      "id": "D3-RD",
+      "level": "technique",
+      "parents": [
+        "D3-RO"
+      ],
+      "title": "Restore Database"
+    },
+    {
+      "id": "D3-RDI",
+      "level": "technique",
+      "parents": [
+        "D3-RO"
+      ],
+      "title": "Restore Disk Image"
+    },
+    {
+      "id": "D3-RF",
+      "level": "technique",
+      "parents": [
+        "D3-RO"
+      ],
+      "title": "Restore File"
+    },
+    {
+      "id": "D3-RE",
+      "level": "technique",
+      "parents": [
+        "D3-RF"
+      ],
+      "title": "Restore Email"
+    },
+    {
+      "id": "D3-RS",
+      "level": "technique",
+      "parents": [
+        "D3-RO"
+      ],
+      "title": "Restore Software"
+    }
+  ],
   "sets": [],
-  "crosswalks": []
+  "crosswalks": [],
+  "note": "D3FEND nests its techniques up to five deep, so a technique here may open onto narrower ones. Release 1.6.0 was built against ATT&CK v19, not v20."
 }

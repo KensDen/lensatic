@@ -33,11 +33,42 @@
     ],
     "line": "Layer 5. It verifies; the requirements it checks are SP 800-171’s, one layer up."
   },
-  "sources": [],
+  "sources": [
+    {
+      "id": "cmmc-rule",
+      "publisher": "Office of the Federal Register",
+      "title": "32 CFR Part 170: Cybersecurity Maturity Model Certification (CMMC) Program",
+      "edition": "eCFR, current to 12 November 2026",
+      "date": "2026-11-12",
+      "url": "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026 through the eCFR’s own interface: title 32 was current to 12 November 2026 and Part 170 unchanged since 16 December 2024. Section 170.14 states the model: Level 1 is the 15 requirements of FAR 52.204-21(b)(1)(i) to (xv); ‘The security requirements in CMMC Level 2 are identical to the requirements in NIST SP 800-171 R2’; Level 3 adds the 24 requirements in its Table 1, taken from NIST SP 800-172 of February 2021, 16 of them with values the department assigns. The Level 1 identifiers and their SP 800-171 numbers are in Table 2 to section 170.15(c)(1)(ii): 15 requirements, 17 numbers, because one is split in three. The tables were extracted by script and counted. NIST withdrew SP 800-172 of 2021 on 13 May 2026 in favor of Revision 3; the rule still names the 2021 edition.",
+        "recheckAfter": "2026-12-15"
+      }
+    },
+    {
+      "id": "cmmc-far",
+      "publisher": "FAR Council",
+      "title": "FAR 52.204-21 Basic Safeguarding of Covered Contractor Information Systems",
+      "edition": "Clause of November 2021, as shown at acquisition.gov",
+      "date": "2021-11",
+      "url": "https://www.acquisition.gov/far/52.204-21",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026: paragraph (b)(1) lists the 15 safeguarding requirements, and the text of each is the text shown here, word for word the same in the eCFR. The FAR overhaul’s model text carries the same clause as 52.240-93 and reserves this number.",
+        "recheckAfter": "2027-02-12"
+      }
+    }
+  ],
   "terms": {
     "basis": "us-government-work",
-    "shows": "structure",
-    "line": "A work of the United States government. Lensatic shows the card only for now.",
+    "shows": "text",
+    "line": "A work of the United States government. Lensatic shows the rule’s identifiers and requirement text for Levels 1 and 3, from the Code of Federal Regulations and the Federal Acquisition Regulation.",
     "notice": null,
     "url": null
   },
@@ -48,9 +79,709 @@
       "line": "Level 2 assesses the 110 requirements of SP 800-171 Revision 2."
     }
   ],
-  "depth": null,
-  "levels": [],
-  "nodes": [],
-  "sets": [],
-  "crosswalks": []
+  "depth": {
+    "shown": 39,
+    "of": 39,
+    "unit": "requirements the rule states itself",
+    "why": "Level 1’s 15 and Level 3’s 24, in the rule’s own words. Level 2’s 110 are SP 800-171 Revision 2’s and are listed there."
+  },
+  "levels": [
+    {
+      "id": "level",
+      "name": "Level",
+      "plural": "Levels",
+      "identified": false
+    },
+    {
+      "id": "domain",
+      "name": "Domain",
+      "plural": "Domains",
+      "identified": false
+    },
+    {
+      "id": "requirement",
+      "name": "Requirement",
+      "plural": "Requirements"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "level-1",
+      "level": "level",
+      "parents": [],
+      "title": "Level 1",
+      "note": "For federal contract information: the 15 basic safeguarding requirements of FAR 52.204-21, self-assessed every year."
+    },
+    {
+      "id": "l1-access-control-ac",
+      "level": "domain",
+      "parents": [
+        "level-1"
+      ],
+      "title": "Access Control (AC)"
+    },
+    {
+      "id": "AC.L1-b.1.i",
+      "level": "requirement",
+      "parents": [
+        "l1-access-control-ac"
+      ],
+      "text": "Limit information system access to authorized users, processes acting on behalf of authorized users, or devices (including other information systems)."
+    },
+    {
+      "id": "AC.L1-b.1.ii",
+      "level": "requirement",
+      "parents": [
+        "l1-access-control-ac"
+      ],
+      "text": "Limit information system access to the types of transactions and functions that authorized users are permitted to execute."
+    },
+    {
+      "id": "AC.L1-b.1.iii",
+      "level": "requirement",
+      "parents": [
+        "l1-access-control-ac"
+      ],
+      "text": "Verify and control/limit connections to and use of external information systems."
+    },
+    {
+      "id": "AC.L1-b.1.iv",
+      "level": "requirement",
+      "parents": [
+        "l1-access-control-ac"
+      ],
+      "text": "Control information posted or processed on publicly accessible information systems."
+    },
+    {
+      "id": "l1-identification-and-authentication-ia",
+      "level": "domain",
+      "parents": [
+        "level-1"
+      ],
+      "title": "Identification and Authentication (IA)"
+    },
+    {
+      "id": "IA.L1-b.1.v",
+      "level": "requirement",
+      "parents": [
+        "l1-identification-and-authentication-ia"
+      ],
+      "text": "Identify information system users, processes acting on behalf of users, or devices."
+    },
+    {
+      "id": "IA.L1-b.1.vi",
+      "level": "requirement",
+      "parents": [
+        "l1-identification-and-authentication-ia"
+      ],
+      "text": "Authenticate (or verify) the identities of those users, processes, or devices, as a prerequisite to allowing access to organizational information systems."
+    },
+    {
+      "id": "l1-media-protection-mp",
+      "level": "domain",
+      "parents": [
+        "level-1"
+      ],
+      "title": "Media Protection (MP)"
+    },
+    {
+      "id": "MP.L1-b.1.vii",
+      "level": "requirement",
+      "parents": [
+        "l1-media-protection-mp"
+      ],
+      "text": "Sanitize or destroy information system media containing Federal Contract Information before disposal or release for reuse."
+    },
+    {
+      "id": "l1-physical-protection-pe",
+      "level": "domain",
+      "parents": [
+        "level-1"
+      ],
+      "title": "Physical Protection (PE)"
+    },
+    {
+      "id": "PE.L1-b.1.viii",
+      "level": "requirement",
+      "parents": [
+        "l1-physical-protection-pe"
+      ],
+      "text": "Limit physical access to organizational information systems, equipment, and the respective operating environments to authorized individuals."
+    },
+    {
+      "id": "PE.L1-b.1.ix",
+      "level": "requirement",
+      "parents": [
+        "l1-physical-protection-pe"
+      ],
+      "text": "Escort visitors and monitor visitor activity; maintain audit logs of physical access; and control and manage physical access devices."
+    },
+    {
+      "id": "l1-system-and-communications-protection-sc",
+      "level": "domain",
+      "parents": [
+        "level-1"
+      ],
+      "title": "System and Communications Protection (SC)"
+    },
+    {
+      "id": "SC.L1-b.1.x",
+      "level": "requirement",
+      "parents": [
+        "l1-system-and-communications-protection-sc"
+      ],
+      "text": "Monitor, control, and protect organizational communications (i.e., information transmitted or received by organizational information systems) at the external boundaries and key internal boundaries of the information systems."
+    },
+    {
+      "id": "SC.L1-b.1.xi",
+      "level": "requirement",
+      "parents": [
+        "l1-system-and-communications-protection-sc"
+      ],
+      "text": "Implement subnetworks for publicly accessible system components that are physically or logically separated from internal networks."
+    },
+    {
+      "id": "l1-system-and-information-integrity-si",
+      "level": "domain",
+      "parents": [
+        "level-1"
+      ],
+      "title": "System and Information Integrity (SI)"
+    },
+    {
+      "id": "SI.L1-b.1.xii",
+      "level": "requirement",
+      "parents": [
+        "l1-system-and-information-integrity-si"
+      ],
+      "text": "Identify, report, and correct information and information system flaws in a timely manner."
+    },
+    {
+      "id": "SI.L1-b.1.xiii",
+      "level": "requirement",
+      "parents": [
+        "l1-system-and-information-integrity-si"
+      ],
+      "text": "Provide protection from malicious code at appropriate locations within organizational information systems."
+    },
+    {
+      "id": "SI.L1-b.1.xiv",
+      "level": "requirement",
+      "parents": [
+        "l1-system-and-information-integrity-si"
+      ],
+      "text": "Update malicious code protection mechanisms when new releases are available."
+    },
+    {
+      "id": "SI.L1-b.1.xv",
+      "level": "requirement",
+      "parents": [
+        "l1-system-and-information-integrity-si"
+      ],
+      "text": "Perform periodic scans of the information system and real-time scans of files from external sources as files are downloaded, opened, or executed."
+    },
+    {
+      "id": "level-2",
+      "level": "level",
+      "parents": [],
+      "title": "Level 2",
+      "note": "For controlled unclassified information: the 110 requirements of SP 800-171 Revision 2, by self-assessment or by a C3PAO, as the contract says. They are listed under SP 800-171."
+    },
+    {
+      "id": "level-3",
+      "level": "level",
+      "parents": [],
+      "title": "Level 3",
+      "note": "For the highest-priority programs: these 24 requirements from SP 800-172 of February 2021 on top of Level 2, assessed by the department itself."
+    },
+    {
+      "id": "l3-access-control-ac",
+      "level": "domain",
+      "parents": [
+        "level-3"
+      ],
+      "title": "Access Control (AC)"
+    },
+    {
+      "id": "AC.L3-3.1.2e",
+      "level": "requirement",
+      "parents": [
+        "l3-access-control-ac"
+      ],
+      "text": "Restrict access to systems and system components to only those information resources that are owned, provisioned, or issued by the organization."
+    },
+    {
+      "id": "AC.L3-3.1.3e",
+      "level": "requirement",
+      "parents": [
+        "l3-access-control-ac"
+      ],
+      "text": "Employ secure information transfer solutions to control information flows between security domains on connected systems."
+    },
+    {
+      "id": "l3-awareness-and-training-at",
+      "level": "domain",
+      "parents": [
+        "level-3"
+      ],
+      "title": "Awareness and Training (AT)"
+    },
+    {
+      "id": "AT.L3-3.2.1e",
+      "level": "requirement",
+      "parents": [
+        "l3-awareness-and-training-at"
+      ],
+      "text": "Provide awareness training upon initial hire, following a significant cyber event, and at least annually, focused on recognizing and responding to threats from social engineering, advanced persistent threat actors, breaches, and suspicious behaviors; update the training at least annually or when there are significant changes to the threat."
+    },
+    {
+      "id": "AT.L3-3.2.2e",
+      "level": "requirement",
+      "parents": [
+        "l3-awareness-and-training-at"
+      ],
+      "text": "Include practical exercises in awareness training for all users, tailored by roles, to include general users, users with specialized roles, and privileged users, that are aligned with current threat scenarios and provide feedback to individuals involved in the training and their supervisors."
+    },
+    {
+      "id": "l3-configuration-management-cm",
+      "level": "domain",
+      "parents": [
+        "level-3"
+      ],
+      "title": "Configuration Management (CM)"
+    },
+    {
+      "id": "CM.L3-3.4.1e",
+      "level": "requirement",
+      "parents": [
+        "l3-configuration-management-cm"
+      ],
+      "text": "Establish and maintain an authoritative source and repository to provide a trusted source and accountability for approved and implemented system components."
+    },
+    {
+      "id": "CM.L3-3.4.2e",
+      "level": "requirement",
+      "parents": [
+        "l3-configuration-management-cm"
+      ],
+      "text": "Employ automated mechanisms to detect misconfigured or unauthorized system components; after detection, remove the components or place the components in a quarantine or remediation network to facilitate patching, re-configuration, or other mitigations."
+    },
+    {
+      "id": "CM.L3-3.4.3e",
+      "level": "requirement",
+      "parents": [
+        "l3-configuration-management-cm"
+      ],
+      "text": "Employ automated discovery and management tools to maintain an up-to-date, complete, accurate, and readily available inventory of system components."
+    },
+    {
+      "id": "l3-identification-and-authentication-ia",
+      "level": "domain",
+      "parents": [
+        "level-3"
+      ],
+      "title": "Identification and Authentication (IA)"
+    },
+    {
+      "id": "IA.L3-3.5.1e",
+      "level": "requirement",
+      "parents": [
+        "l3-identification-and-authentication-ia"
+      ],
+      "text": "Identify and authenticate systems and system components, where possible, before establishing a network connection using bidirectional authentication that is cryptographically based and replay resistant."
+    },
+    {
+      "id": "IA.L3-3.5.3e",
+      "level": "requirement",
+      "parents": [
+        "l3-identification-and-authentication-ia"
+      ],
+      "text": "Employ automated or manual/procedural mechanisms to prohibit system components from connecting to organizational systems unless the components are known, authenticated, in a properly configured state, or in a trust profile."
+    },
+    {
+      "id": "l3-incident-response-ir",
+      "level": "domain",
+      "parents": [
+        "level-3"
+      ],
+      "title": "Incident Response (IR)"
+    },
+    {
+      "id": "IR.L3-3.6.1e",
+      "level": "requirement",
+      "parents": [
+        "l3-incident-response-ir"
+      ],
+      "text": "Establish and maintain a security operations center capability that operates 24/7, with allowance for remote/on-call staff."
+    },
+    {
+      "id": "IR.L3-3.6.2e",
+      "level": "requirement",
+      "parents": [
+        "l3-incident-response-ir"
+      ],
+      "text": "Establish and maintain a cyber-incident response team that can be deployed by the organization within 24 hours."
+    },
+    {
+      "id": "l3-personnel-security-ps",
+      "level": "domain",
+      "parents": [
+        "level-3"
+      ],
+      "title": "Personnel Security (PS)"
+    },
+    {
+      "id": "PS.L3-3.9.2e",
+      "level": "requirement",
+      "parents": [
+        "l3-personnel-security-ps"
+      ],
+      "text": "Ensure that organizational systems are protected if adverse information develops or is obtained about individuals with access to CUI."
+    },
+    {
+      "id": "l3-risk-assessment-ra",
+      "level": "domain",
+      "parents": [
+        "level-3"
+      ],
+      "title": "Risk Assessment (RA)"
+    },
+    {
+      "id": "RA.L3-3.11.1e",
+      "level": "requirement",
+      "parents": [
+        "l3-risk-assessment-ra"
+      ],
+      "text": "Employ threat intelligence, at a minimum from open or commercial sources, and any DoD-provided sources, as part of a risk assessment to guide and inform the development of organizational systems, security architectures, selection of security solutions, monitoring, threat hunting, and response and recovery activities."
+    },
+    {
+      "id": "RA.L3-3.11.2e",
+      "level": "requirement",
+      "parents": [
+        "l3-risk-assessment-ra"
+      ],
+      "text": "Conduct cyber threat hunting activities on an on-going aperiodic basis or when indications warrant, to search for indicators of compromise in organizational systems and detect, track, and disrupt threats that evade existing controls."
+    },
+    {
+      "id": "RA.L3-3.11.3e",
+      "level": "requirement",
+      "parents": [
+        "l3-risk-assessment-ra"
+      ],
+      "text": "Employ advanced automation and analytics capabilities in support of analysts to predict and identify risks to organizations, systems, and system components."
+    },
+    {
+      "id": "RA.L3-3.11.4e",
+      "level": "requirement",
+      "parents": [
+        "l3-risk-assessment-ra"
+      ],
+      "text": "Document or reference in the system security plan the security solution selected, the rationale for the security solution, and the risk determination."
+    },
+    {
+      "id": "RA.L3-3.11.5e",
+      "level": "requirement",
+      "parents": [
+        "l3-risk-assessment-ra"
+      ],
+      "text": "Assess the effectiveness of security solutions at least annually or upon receipt of relevant cyber threat information, or in response to a relevant cyber incident, to address anticipated risk to organizational systems and the organization based on current and accumulated threat intelligence."
+    },
+    {
+      "id": "RA.L3-3.11.6e",
+      "level": "requirement",
+      "parents": [
+        "l3-risk-assessment-ra"
+      ],
+      "text": "Assess, respond to, and monitor supply chain risks associated with organizational systems and system components."
+    },
+    {
+      "id": "RA.L3-3.11.7e",
+      "level": "requirement",
+      "parents": [
+        "l3-risk-assessment-ra"
+      ],
+      "text": "Develop a plan for managing supply chain risks associated with organizational systems and system components; update the plan at least annually, and upon receipt of relevant cyber threat information, or in response to a relevant cyber incident."
+    },
+    {
+      "id": "l3-security-assessment-ca",
+      "level": "domain",
+      "parents": [
+        "level-3"
+      ],
+      "title": "Security Assessment (CA)"
+    },
+    {
+      "id": "CA.L3-3.12.1e",
+      "level": "requirement",
+      "parents": [
+        "l3-security-assessment-ca"
+      ],
+      "text": "Conduct penetration testing at least annually or when significant security changes are made to the system, leveraging automated scanning tools and ad hoc tests using subject matter experts."
+    },
+    {
+      "id": "l3-system-and-communications-protection-sc",
+      "level": "domain",
+      "parents": [
+        "level-3"
+      ],
+      "title": "System and Communications Protection (SC)"
+    },
+    {
+      "id": "SC.L3-3.13.4e",
+      "level": "requirement",
+      "parents": [
+        "l3-system-and-communications-protection-sc"
+      ],
+      "text": "Employ physical isolation techniques or logical isolation techniques or both in organizational systems and system components."
+    },
+    {
+      "id": "l3-system-and-information-integrity-si",
+      "level": "domain",
+      "parents": [
+        "level-3"
+      ],
+      "title": "System and Information Integrity (SI)"
+    },
+    {
+      "id": "SI.L3-3.14.1e",
+      "level": "requirement",
+      "parents": [
+        "l3-system-and-information-integrity-si"
+      ],
+      "text": "Verify the integrity of security critical and essential software using root of trust mechanisms or cryptographic signatures."
+    },
+    {
+      "id": "SI.L3-3.14.3e",
+      "level": "requirement",
+      "parents": [
+        "l3-system-and-information-integrity-si"
+      ],
+      "text": "Ensure that specialized assets including IoT, IIoT, OT, GFE, Restricted Information Systems, and test equipment are included in the scope of the specified enhanced security requirements or are segregated in purpose-specific networks."
+    },
+    {
+      "id": "SI.L3-3.14.6e",
+      "level": "requirement",
+      "parents": [
+        "l3-system-and-information-integrity-si"
+      ],
+      "text": "Use threat indicator information and effective mitigations obtained from, at a minimum, open or commercial sources, and any DoD-provided sources, to guide and inform intrusion detection and threat hunting."
+    }
+  ],
+  "sets": [
+    {
+      "id": "level-1-in-171",
+      "name": "Level 1 in SP 800-171’s Numbering",
+      "of": "sp800-171",
+      "sourceId": "cmmc-rule",
+      "members": [
+        "3.1.1",
+        "3.1.2",
+        "3.1.20",
+        "3.1.22",
+        "3.5.1",
+        "3.5.2",
+        "3.8.3",
+        "3.10.1",
+        "3.10.3",
+        "3.10.4",
+        "3.10.5",
+        "3.13.1",
+        "3.13.5",
+        "3.14.1",
+        "3.14.2",
+        "3.14.4",
+        "3.14.5"
+      ],
+      "line": "The 15 Level 1 requirements are 17 in SP 800-171’s numbering: the rule’s table splits one of them in three.",
+      "title": "CMMC Level 1 in SP 800-171’s Numbering"
+    },
+    {
+      "id": "level-2",
+      "name": "Level 2",
+      "of": "sp800-171",
+      "sourceId": "cmmc-rule",
+      "members": [
+        "3.1.1",
+        "3.1.2",
+        "3.1.3",
+        "3.1.4",
+        "3.1.5",
+        "3.1.6",
+        "3.1.7",
+        "3.1.8",
+        "3.1.9",
+        "3.1.10",
+        "3.1.11",
+        "3.1.12",
+        "3.1.13",
+        "3.1.14",
+        "3.1.15",
+        "3.1.16",
+        "3.1.17",
+        "3.1.18",
+        "3.1.19",
+        "3.1.20",
+        "3.1.21",
+        "3.1.22",
+        "3.2.1",
+        "3.2.2",
+        "3.2.3",
+        "3.3.1",
+        "3.3.2",
+        "3.3.3",
+        "3.3.4",
+        "3.3.5",
+        "3.3.6",
+        "3.3.7",
+        "3.3.8",
+        "3.3.9",
+        "3.4.1",
+        "3.4.2",
+        "3.4.3",
+        "3.4.4",
+        "3.4.5",
+        "3.4.6",
+        "3.4.7",
+        "3.4.8",
+        "3.4.9",
+        "3.5.1",
+        "3.5.2",
+        "3.5.3",
+        "3.5.4",
+        "3.5.5",
+        "3.5.6",
+        "3.5.7",
+        "3.5.8",
+        "3.5.9",
+        "3.5.10",
+        "3.5.11",
+        "3.6.1",
+        "3.6.2",
+        "3.6.3",
+        "3.7.1",
+        "3.7.2",
+        "3.7.3",
+        "3.7.4",
+        "3.7.5",
+        "3.7.6",
+        "3.8.1",
+        "3.8.2",
+        "3.8.3",
+        "3.8.4",
+        "3.8.5",
+        "3.8.6",
+        "3.8.7",
+        "3.8.8",
+        "3.8.9",
+        "3.9.1",
+        "3.9.2",
+        "3.10.1",
+        "3.10.2",
+        "3.10.3",
+        "3.10.4",
+        "3.10.5",
+        "3.10.6",
+        "3.11.1",
+        "3.11.2",
+        "3.11.3",
+        "3.12.1",
+        "3.12.2",
+        "3.12.3",
+        "3.12.4",
+        "3.13.1",
+        "3.13.2",
+        "3.13.3",
+        "3.13.4",
+        "3.13.5",
+        "3.13.6",
+        "3.13.7",
+        "3.13.8",
+        "3.13.9",
+        "3.13.10",
+        "3.13.11",
+        "3.13.12",
+        "3.13.13",
+        "3.13.14",
+        "3.13.15",
+        "3.13.16",
+        "3.14.1",
+        "3.14.2",
+        "3.14.3",
+        "3.14.4",
+        "3.14.5",
+        "3.14.6",
+        "3.14.7"
+      ],
+      "line": "Identical to SP 800-171 Revision 2: all 110 requirements.",
+      "title": "CMMC Level 2"
+    }
+  ],
+  "crosswalks": [
+    {
+      "to": "sp800-171",
+      "relation": "SP 800-171 Requirement",
+      "edition": "32 CFR 170.15, Table 2",
+      "sourceId": "cmmc-rule",
+      "unresolved": [],
+      "map": {
+        "AC.L1-b.1.i": [
+          "3.1.1"
+        ],
+        "AC.L1-b.1.ii": [
+          "3.1.2"
+        ],
+        "AC.L1-b.1.iii": [
+          "3.1.20"
+        ],
+        "AC.L1-b.1.iv": [
+          "3.1.22"
+        ],
+        "IA.L1-b.1.v": [
+          "3.5.1"
+        ],
+        "IA.L1-b.1.vi": [
+          "3.5.2"
+        ],
+        "MP.L1-b.1.vii": [
+          "3.8.3"
+        ],
+        "PE.L1-b.1.viii": [
+          "3.10.1"
+        ],
+        "PE.L1-b.1.ix": [
+          "3.10.3",
+          "3.10.4",
+          "3.10.5"
+        ],
+        "SC.L1-b.1.x": [
+          "3.13.1"
+        ],
+        "SC.L1-b.1.xi": [
+          "3.13.5"
+        ],
+        "SI.L1-b.1.xii": [
+          "3.14.1"
+        ],
+        "SI.L1-b.1.xiii": [
+          "3.14.2"
+        ],
+        "SI.L1-b.1.xiv": [
+          "3.14.4"
+        ],
+        "SI.L1-b.1.xv": [
+          "3.14.5"
+        ]
+      }
+    }
+  ],
+  "note": "Level 1 and Level 3 are listed in the rule’s own words. Level 2 is SP 800-171 Revision 2, listed under that framework. The rule gives the requirements no short names; those are in the department’s assessment guides.",
+  "aliases": [
+    "Cybersecurity Maturity Model Certification",
+    "C3PAO",
+    "SPRS",
+    "FCI",
+    "32 CFR 170"
+  ],
+  "setsTitle": "Levels on SP 800-171",
+  "setsLine": "Each is a selection of requirements from SP 800-171 Revision 2."
 }

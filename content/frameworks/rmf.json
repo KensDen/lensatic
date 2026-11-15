@@ -12,7 +12,7 @@
     "dark": "#A9BFD4"
   },
   "purpose": "The process that ends with an official deciding a federal system may operate.",
-  "what": "Seven steps, from Prepare to Monitor, that select controls, assess them and produce the evidence for an authorization to operate.",
+  "what": "Seven steps and 47 tasks, from Prepare to Monitor, that select controls, assess them and produce the evidence for an authorization to operate.",
   "binds": {
     "short": "Federal agencies",
     "line": "Mandatory for federal agencies, civilian and {{dow}}, under FISMA and OMB Circular A-130."
@@ -25,6 +25,10 @@
     {
       "count": 7,
       "unit": "Steps"
+    },
+    {
+      "count": 47,
+      "unit": "Tasks"
     }
   ],
   "sits": {
@@ -34,11 +38,28 @@
     ],
     "line": "Layers 4 and 5. Categorize, Select and Implement sit with the controls; Assess, Authorize and Monitor verify."
   },
-  "sources": [],
+  "sources": [
+    {
+      "id": "rmf-sp800-37",
+      "publisher": "NIST",
+      "title": "Risk Management Framework for Information Systems and Organizations: A System Life Cycle Approach for Security and Privacy",
+      "edition": "NIST SP 800-37 Revision 2",
+      "date": "2018-12",
+      "url": "https://csrc.nist.gov/pubs/sp/800/37/r2/final",
+      "pdf": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-37r2.pdf",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026: ‘Date Published: December 2018’, final and current, with no Revision 3 or draft listed. The 47 tasks were extracted by script from the PDF’s summary tables and task headings (https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-37r2.pdf): Prepare 18, of which 7 at the organization level and 11 at the system level, Categorize 3, Select 6, Implement 2, Assess 6, Authorize 5 and Monitor 7. The Authorize tasks are lettered R. NIST’s reference tool also carries the tasks, but its statement for R-5 repeats R-4’s, so the PDF’s text is used.",
+        "recheckAfter": "2027-02-12"
+      }
+    }
+  ],
   "terms": {
     "basis": "us-government-work",
-    "shows": "structure",
-    "line": "A work of the United States government. Lensatic shows the card only for now.",
+    "shows": "text",
+    "line": "A work of the United States government. Lensatic shows NIST’s task identifiers, titles and task statements. NIST prints the titles in capitals; they are in title case here.",
     "notice": null,
     "url": null
   },
@@ -53,9 +74,517 @@
       "line": "FedRAMP applies the same idea to cloud services that many agencies share."
     }
   ],
-  "depth": null,
-  "levels": [],
-  "nodes": [],
+  "depth": {
+    "shown": 47,
+    "of": 47,
+    "unit": "tasks",
+    "why": "Each task is listed by identifier, title and statement. The outcomes, inputs, outputs, roles and discussions are at the source."
+  },
+  "levels": [
+    {
+      "id": "step",
+      "name": "Step",
+      "plural": "Steps",
+      "identified": false
+    },
+    {
+      "id": "task",
+      "name": "Task",
+      "plural": "Tasks"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "prepare",
+      "level": "step",
+      "parents": [],
+      "title": "Prepare"
+    },
+    {
+      "id": "P-1",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Risk Management Roles",
+      "text": "Identify and assign individuals to specific roles associated with security and privacy risk management.",
+      "note": "Organization level."
+    },
+    {
+      "id": "P-2",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Risk Management Strategy",
+      "text": "Establish a risk management strategy for the organization that includes a determination of risk tolerance.",
+      "note": "Organization level."
+    },
+    {
+      "id": "P-3",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Risk Assessment - organization",
+      "text": "Assess organization-wide security and privacy risk and update the risk assessment results on an ongoing basis.",
+      "note": "Organization level."
+    },
+    {
+      "id": "P-4",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Organizationally-Tailored Control Baselines and Cybersecurity Framework Profiles (optional)",
+      "text": "Establish, document, and publish organizationally-tailored control baselines and/or Cybersecurity Framework Profiles.",
+      "note": "Organization level."
+    },
+    {
+      "id": "P-5",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Common Control Identification",
+      "text": "Identify, document, and publish organization-wide common controls that are available for inheritance by organizational systems.",
+      "note": "Organization level."
+    },
+    {
+      "id": "P-6",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Impact-Level Prioritization (optional)",
+      "text": "Prioritize organizational systems with the same impact level.",
+      "note": "Organization level."
+    },
+    {
+      "id": "P-7",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Continuous Monitoring Strategy - organization",
+      "text": "Develop and implement an organization-wide strategy for continuously monitoring control effectiveness.",
+      "note": "Organization level."
+    },
+    {
+      "id": "P-8",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Mission or Business Focus",
+      "text": "Identify the missions, business functions, and mission/business processes that the system is intended to support.",
+      "note": "System level."
+    },
+    {
+      "id": "P-9",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "System Stakeholders",
+      "text": "Identify stakeholders who have an interest in the design, development, implementation, assessment, operation, maintenance, or disposal of the system.",
+      "note": "System level."
+    },
+    {
+      "id": "P-10",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Asset Identification",
+      "text": "Identify assets that require protection.",
+      "note": "System level."
+    },
+    {
+      "id": "P-11",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Authorization Boundary",
+      "text": "Determine the authorization boundary of the system.",
+      "note": "System level."
+    },
+    {
+      "id": "P-12",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Information Types",
+      "text": "Identify the types of information to be processed, stored, and transmitted by the system.",
+      "note": "System level."
+    },
+    {
+      "id": "P-13",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Information Life Cycle",
+      "text": "Identify and understand all stages of the information life cycle for each information type processed, stored, or transmitted by the system.",
+      "note": "System level."
+    },
+    {
+      "id": "P-14",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Risk Assessment - system",
+      "text": "Conduct a system-level risk assessment and update the risk assessment results on an ongoing basis.",
+      "note": "System level."
+    },
+    {
+      "id": "P-15",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Requirements Definition",
+      "text": "Define the security and privacy requirements for the system and the environment of operation.",
+      "note": "System level."
+    },
+    {
+      "id": "P-16",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Enterprise Architecture",
+      "text": "Determine the placement of the system within the enterprise architecture.",
+      "note": "System level."
+    },
+    {
+      "id": "P-17",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "Requirements Allocation",
+      "text": "Allocate security and privacy requirements to the system and to the environment of operation.",
+      "note": "System level."
+    },
+    {
+      "id": "P-18",
+      "level": "task",
+      "parents": [
+        "prepare"
+      ],
+      "title": "System Registration",
+      "text": "Register the system with organizational program or management offices.",
+      "note": "System level."
+    },
+    {
+      "id": "categorize",
+      "level": "step",
+      "parents": [],
+      "title": "Categorize"
+    },
+    {
+      "id": "C-1",
+      "level": "task",
+      "parents": [
+        "categorize"
+      ],
+      "title": "System Description",
+      "text": "Document the characteristics of the system."
+    },
+    {
+      "id": "C-2",
+      "level": "task",
+      "parents": [
+        "categorize"
+      ],
+      "title": "Security Categorization",
+      "text": "Categorize the system and document the security categorization results."
+    },
+    {
+      "id": "C-3",
+      "level": "task",
+      "parents": [
+        "categorize"
+      ],
+      "title": "Security Categorization Review and Approval",
+      "text": "Review and approve the security categorization results and decision."
+    },
+    {
+      "id": "select",
+      "level": "step",
+      "parents": [],
+      "title": "Select"
+    },
+    {
+      "id": "S-1",
+      "level": "task",
+      "parents": [
+        "select"
+      ],
+      "title": "Control Selection",
+      "text": "Select the controls for the system and the environment of operation."
+    },
+    {
+      "id": "S-2",
+      "level": "task",
+      "parents": [
+        "select"
+      ],
+      "title": "Control Tailoring",
+      "text": "Tailor the controls selected for the system and the environment of operation."
+    },
+    {
+      "id": "S-3",
+      "level": "task",
+      "parents": [
+        "select"
+      ],
+      "title": "Control Allocation",
+      "text": "Allocate security and privacy controls to the system and to the environment of operation."
+    },
+    {
+      "id": "S-4",
+      "level": "task",
+      "parents": [
+        "select"
+      ],
+      "title": "Documentation of Planned Control Implementations",
+      "text": "Document the controls for the system and environment of operation in security and privacy plans."
+    },
+    {
+      "id": "S-5",
+      "level": "task",
+      "parents": [
+        "select"
+      ],
+      "title": "Continuous Monitoring Strategy - system",
+      "text": "Develop and implement a system-level strategy for monitoring control effectiveness that is consistent with and supplements the organizational continuous monitoring strategy."
+    },
+    {
+      "id": "S-6",
+      "level": "task",
+      "parents": [
+        "select"
+      ],
+      "title": "Plan Review and Approval",
+      "text": "Review and approve the security and privacy plans for the system and the environment of operation."
+    },
+    {
+      "id": "implement",
+      "level": "step",
+      "parents": [],
+      "title": "Implement"
+    },
+    {
+      "id": "I-1",
+      "level": "task",
+      "parents": [
+        "implement"
+      ],
+      "title": "Control Implementation",
+      "text": "Implement the controls in the security and privacy plans."
+    },
+    {
+      "id": "I-2",
+      "level": "task",
+      "parents": [
+        "implement"
+      ],
+      "title": "Update Control Implementation Information",
+      "text": "Document changes to planned control implementations based on the “as-implemented” state of controls."
+    },
+    {
+      "id": "assess",
+      "level": "step",
+      "parents": [],
+      "title": "Assess"
+    },
+    {
+      "id": "A-1",
+      "level": "task",
+      "parents": [
+        "assess"
+      ],
+      "title": "Assessor Selection",
+      "text": "Select the appropriate assessor or assessment team for the type of control assessment to be conducted."
+    },
+    {
+      "id": "A-2",
+      "level": "task",
+      "parents": [
+        "assess"
+      ],
+      "title": "Assessment Plan",
+      "text": "Develop, review, and approve plans to assess implemented controls."
+    },
+    {
+      "id": "A-3",
+      "level": "task",
+      "parents": [
+        "assess"
+      ],
+      "title": "Control Assessments",
+      "text": "Assess the controls in accordance with the assessment procedures described in assessment plans."
+    },
+    {
+      "id": "A-4",
+      "level": "task",
+      "parents": [
+        "assess"
+      ],
+      "title": "Assessment Reports",
+      "text": "Prepare the assessment reports documenting the findings and recommendations from the control assessments."
+    },
+    {
+      "id": "A-5",
+      "level": "task",
+      "parents": [
+        "assess"
+      ],
+      "title": "Remediation Actions",
+      "text": "Conduct initial remediation actions on the controls and reassess remediated controls."
+    },
+    {
+      "id": "A-6",
+      "level": "task",
+      "parents": [
+        "assess"
+      ],
+      "title": "Plan of Action and Milestones",
+      "text": "Prepare the plan of action and milestones based on the findings and recommendations of the assessment reports."
+    },
+    {
+      "id": "authorize",
+      "level": "step",
+      "parents": [],
+      "title": "Authorize"
+    },
+    {
+      "id": "R-1",
+      "level": "task",
+      "parents": [
+        "authorize"
+      ],
+      "title": "Authorization Package",
+      "text": "Assemble the authorization package and submit the package to the authorizing official for an authorization decision."
+    },
+    {
+      "id": "R-2",
+      "level": "task",
+      "parents": [
+        "authorize"
+      ],
+      "title": "Risk Analysis and Determination",
+      "text": "Analyze and determine the risk from the operation or use of the system or the provision of common controls."
+    },
+    {
+      "id": "R-3",
+      "level": "task",
+      "parents": [
+        "authorize"
+      ],
+      "title": "Risk Response",
+      "text": "Identify and implement a preferred course of action in response to the risk determined."
+    },
+    {
+      "id": "R-4",
+      "level": "task",
+      "parents": [
+        "authorize"
+      ],
+      "title": "Authorization Decision",
+      "text": "Determine if the risk from the operation or use of the information system or the provision or use of common controls is acceptable."
+    },
+    {
+      "id": "R-5",
+      "level": "task",
+      "parents": [
+        "authorize"
+      ],
+      "title": "Authorization Reporting",
+      "text": "Report the authorization decision and any deficiencies in controls that represent significant security or privacy risk."
+    },
+    {
+      "id": "monitor",
+      "level": "step",
+      "parents": [],
+      "title": "Monitor"
+    },
+    {
+      "id": "M-1",
+      "level": "task",
+      "parents": [
+        "monitor"
+      ],
+      "title": "System and Environment Changes",
+      "text": "Monitor the information system and its environment of operation for changes that impact the security and privacy posture of the system."
+    },
+    {
+      "id": "M-2",
+      "level": "task",
+      "parents": [
+        "monitor"
+      ],
+      "title": "Ongoing Assessments",
+      "text": "Assess the controls implemented within and inherited by the system in accordance with the continuous monitoring strategy."
+    },
+    {
+      "id": "M-3",
+      "level": "task",
+      "parents": [
+        "monitor"
+      ],
+      "title": "Ongoing Risk Response",
+      "text": "Respond to risk based on the results of ongoing monitoring activities, risk assessments, and outstanding items in plans of action and milestones."
+    },
+    {
+      "id": "M-4",
+      "level": "task",
+      "parents": [
+        "monitor"
+      ],
+      "title": "Authorization Package Updates",
+      "text": "Update plans, assessment reports, and plans of action and milestones based on the results of the continuous monitoring process."
+    },
+    {
+      "id": "M-5",
+      "level": "task",
+      "parents": [
+        "monitor"
+      ],
+      "title": "Security and Privacy Reporting",
+      "text": "Report the security and privacy posture of the system to the authorizing official and other organizational officials on an ongoing basis in accordance with the organizational continuous monitoring strategy."
+    },
+    {
+      "id": "M-6",
+      "level": "task",
+      "parents": [
+        "monitor"
+      ],
+      "title": "Ongoing Authorization",
+      "text": "Review the security and privacy posture of the system on an ongoing basis to determine whether the risk remains acceptable."
+    },
+    {
+      "id": "M-7",
+      "level": "task",
+      "parents": [
+        "monitor"
+      ],
+      "title": "System Disposal",
+      "text": "Implement a system disposal strategy and execute required actions when a system is removed from operation."
+    }
+  ],
   "sets": [],
-  "crosswalks": []
+  "crosswalks": [],
+  "aliases": [
+    "Risk Management Framework",
+    "SP 800-37",
+    "800-37",
+    "ATO",
+    "authorization to operate"
+  ]
 }

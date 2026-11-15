@@ -1,0 +1,92 @@
+{
+  "id": "check-fedramp",
+  "frameworkId": "fedramp",
+  "title": "FedRAMP 20x Readiness Check",
+  "short": "FedRAMP 20x Check",
+  "line": "10 questions, one for each theme of the Key Security Indicators. About three minutes.",
+  "honest": "A self-check. Your answers stay on this device and nobody else sees them. It is not a FedRAMP assessment, and it does not stand in for a FedRAMP Recognized assessor.",
+  "answers": [
+    {
+      "id": "no",
+      "label": "Not Yet",
+      "value": 0
+    },
+    {
+      "id": "partly",
+      "label": "Partly",
+      "value": 1
+    },
+    {
+      "id": "yes",
+      "label": "In Place",
+      "value": 2
+    }
+  ],
+  "nextCount": 5,
+  "doors": [
+    "cloud-provider"
+  ],
+  "groupBy": "none",
+  "items": [
+    {
+      "id": "KSI-CED",
+      "nodeId": "KSI-CED",
+      "question": "Does everyone who works on the service get security training, and is all of that training reviewed and kept current?",
+      "next": "Review all security training on a schedule, and keep the record of each review."
+    },
+    {
+      "id": "KSI-CMT",
+      "nodeId": "KSI-CMT",
+      "question": "Is every change to the service logged and validated on its way to production, by redeploying where you can instead of modifying in place?",
+      "next": "Log every change, validate it throughout deployment, and prefer redeploying to modifying."
+    },
+    {
+      "id": "KSI-CNA",
+      "nodeId": "KSI-CNA",
+      "question": "Does each part of the service have a defined function and privileges, with network traffic restricted and the intended state enforced?",
+      "next": "Define each component’s function and privileges, restrict the traffic between them, and enforce the intended state."
+    },
+    {
+      "id": "KSI-IAM",
+      "nodeId": "KSI-IAM",
+      "question": "Do accounts follow least privilege, with passwordless sign-in where you can, just-in-time authorization and secured authentication for what is not a person?",
+      "next": "Automate account management, adopt passwordless methods, and authorize privileged access just in time."
+    },
+    {
+      "id": "KSI-INR",
+      "nodeId": "KSI-INR",
+      "question": "Do you review your incident response procedures and your past incidents, and write an after action report for each incident?",
+      "next": "Review the incident response procedures and past incidents, and write an after action report for the next one."
+    },
+    {
+      "id": "KSI-MLA",
+      "nodeId": "KSI-MLA",
+      "question": "Are the event types that matter logged, reviewed and sent to a security information and event management capability, with access to the logs authorized?",
+      "next": "Decide which event types to log, send them to one place, review them, and authorize who may read them."
+    },
+    {
+      "id": "KSI-PIY",
+      "nodeId": "KSI-PIY",
+      "question": "Do you keep current inventories, and can you show executive support, investment in security, security in the development life cycle and a way to receive vulnerability disclosures?",
+      "next": "Generate the inventories, then gather what shows executive support, investment and security in the development life cycle."
+    },
+    {
+      "id": "KSI-RPL",
+      "nodeId": "KSI-RPL",
+      "question": "Are recovery objectives set and reviewed, backups aligned to them, and recovery tested?",
+      "next": "Set the recovery objectives, align the backups and the recovery plan to them, and test a recovery."
+    },
+    {
+      "id": "KSI-SCR",
+      "nodeId": "KSI-SCR",
+      "question": "Do you monitor the risk your suppliers bring and act to reduce it?",
+      "next": "List the suppliers the service depends on, and decide how you monitor and reduce the risk from each."
+    },
+    {
+      "id": "KSI-SVC",
+      "nodeId": "KSI-SVC",
+      "question": "Are configuration and secrets managed by automation, communications and resources validated, and unwanted data removed?",
+      "next": "Automate configuration and secret management, validate communications and resource integrity, and remove data you do not need."
+    }
+  ]
+}

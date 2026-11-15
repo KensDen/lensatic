@@ -1,0 +1,31 @@
+{
+  "id": "compare-sp800-171-sp800-53",
+  "a": "sp800-171",
+  "b": "sp800-53",
+  "verdict": "Parent and child. SP 800-171 is a set of requirements for nonfederal systems, drawn from the controls of SP 800-53.",
+  "rows": [
+    {
+      "label": "Purpose",
+      "a": "What a company outside government must do to protect controlled unclassified information.",
+      "b": "The catalog that federal systems choose their security and privacy controls from."
+    },
+    {
+      "label": "Who Must Follow It",
+      "a": "Binds contractors through DFARS 252.204-7012, which a class deviation pins to Revision 2, and through CMMC.",
+      "b": "Federal information systems select from it under FISMA and OMB Circular A-130. Anyone else may use it."
+    },
+    {
+      "label": "How It Is Assessed",
+      "a": "On its own it is self-attested. CMMC Level 2 assesses its 110 requirements.",
+      "b": "Assessors test the chosen controls with SP 800-53A procedures, and an authorizing official decides."
+    },
+    {
+      "label": "Its Unit",
+      "a": "A requirement such as 03.01.01 in Revision 3, or 3.1.1 in Revision 2.",
+      "b": "A control such as AC-2, and enhancements such as AC-2(1)."
+    }
+  ],
+  "connect": "For each Revision 3 requirement NIST names the SP 800-53 controls it was drawn from. The count below is Revision 3’s: NIST’s export of Revision 2, the edition contracts still use, carries no such references.",
+  "noScore": "Lensatic gives no strictness score here. One is a tailored selection of the other for a different kind of system, so neither is stricter in general.",
+  "overlapLine": "Counted from NIST’s own references in Revision 3. Open a family to follow them down to each control."
+}

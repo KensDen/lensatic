@@ -50,7 +50,7 @@
         "status": "verified",
         "verifiedOn": "2026-11-14",
         "method": "primary-fetch",
-        "note": "The bundle enterprise-attack-20.1.json was fetched on 14 November 2026. Leaving out revoked and deprecated objects it holds 15 tactics, 227 techniques and 479 sub-techniques, the same counts the v20 release notes and the site’s list pages print. Since v19, of 28 April 2026, Enterprise has no Defense Evasion tactic: TA0005 is Stealth and TA0112 is Defense Impairment.",
+        "note": "The bundle enterprise-attack-20.1.json was fetched on 14 November 2026. Leaving out revoked and deprecated objects it holds 15 tactics, 227 techniques and 479 sub-techniques, the same counts the v20 release notes and the site’s list pages print. Since v19, of 28 April 2026, Enterprise has no Defense Evasion tactic: TA0005 is Stealth and TA0112 is Defense Impairment. Each sub-technique names its parent twice, by a relationship and by its identifier (T1059.001 under T1059), and the two agree for all 479. The bundle was fetched again later that day and was the same file.",
         "recheckAfter": "2027-01-15"
       }
     },
@@ -88,7 +88,7 @@
   "terms": {
     "basis": "mitre",
     "shows": "titles",
-    "line": "Used under MITRE’s ATT&CK Terms of Use. Lensatic lists MITRE’s identifiers and names; descriptions, detections and mitigations are at the source. MITRE ATT&CK® and ATT&CK® are registered trademarks of The MITRE Corporation, and their use here implies no endorsement by MITRE.",
+    "line": "Used under MITRE’s ATT&CK Terms of Use. Lensatic lists MITRE’s identifiers and names for tactics, techniques and sub-techniques; descriptions, detections and mitigations are at the source. MITRE ATT&CK® and ATT&CK® are registered trademarks of The MITRE Corporation, and their use here implies no endorsement by MITRE.",
     "notice": "© 2026 The MITRE Corporation. This work is reproduced and distributed with the permission of The MITRE Corporation. The MITRE Corporation (MITRE) hereby grants you a non-exclusive, royalty-free license to use ATT&CK® for research, development, and commercial purposes. Any copy you make for such purposes is authorized provided that you reproduce MITRE’s copyright designation and this license in any such copy.",
     "url": "https://attack.mitre.org/resources/legal-and-branding/terms-of-use/"
   },
@@ -104,10 +104,10 @@
     }
   ],
   "depth": {
-    "shown": 227,
+    "shown": 706,
     "of": 706,
     "unit": "techniques and sub-techniques",
-    "why": "The techniques are listed by identifier and name. Sub-techniques, descriptions, detections and mitigations are at the source."
+    "why": "Each is listed by identifier and name. Descriptions, detections and mitigations are at the source."
   },
   "levels": [
     {
@@ -119,6 +119,11 @@
       "id": "technique",
       "name": "Technique",
       "plural": "Techniques"
+    },
+    {
+      "id": "subtechnique",
+      "name": "Sub-Technique",
+      "plural": "Sub-Techniques"
     }
   ],
   "nodes": [
@@ -2059,6 +2064,3838 @@
         "TA0010"
       ],
       "title": "AI-Enabled Exfiltration"
+    },
+    {
+      "id": "T1001.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1001"
+      ],
+      "title": "Junk Data"
+    },
+    {
+      "id": "T1001.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1001"
+      ],
+      "title": "Steganography"
+    },
+    {
+      "id": "T1001.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1001"
+      ],
+      "title": "Protocol or Service Impersonation"
+    },
+    {
+      "id": "T1003.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1003"
+      ],
+      "title": "LSASS Memory"
+    },
+    {
+      "id": "T1003.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1003"
+      ],
+      "title": "Security Account Manager"
+    },
+    {
+      "id": "T1003.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1003"
+      ],
+      "title": "NTDS"
+    },
+    {
+      "id": "T1003.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1003"
+      ],
+      "title": "LSA Secrets"
+    },
+    {
+      "id": "T1003.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1003"
+      ],
+      "title": "Cached Domain Credentials"
+    },
+    {
+      "id": "T1003.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1003"
+      ],
+      "title": "DCSync"
+    },
+    {
+      "id": "T1003.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1003"
+      ],
+      "title": "Proc Filesystem"
+    },
+    {
+      "id": "T1003.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1003"
+      ],
+      "title": "/etc/passwd and /etc/shadow"
+    },
+    {
+      "id": "T1011.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1011"
+      ],
+      "title": "Exfiltration Over Bluetooth"
+    },
+    {
+      "id": "T1016.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1016"
+      ],
+      "title": "Internet Connection Discovery"
+    },
+    {
+      "id": "T1016.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1016"
+      ],
+      "title": "Wi-Fi Discovery"
+    },
+    {
+      "id": "T1020.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1020"
+      ],
+      "title": "Traffic Duplication"
+    },
+    {
+      "id": "T1021.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1021"
+      ],
+      "title": "Remote Desktop Protocol"
+    },
+    {
+      "id": "T1021.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1021"
+      ],
+      "title": "SMB/Windows Admin Shares"
+    },
+    {
+      "id": "T1021.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1021"
+      ],
+      "title": "Distributed Component Object Model"
+    },
+    {
+      "id": "T1021.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1021"
+      ],
+      "title": "SSH"
+    },
+    {
+      "id": "T1021.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1021"
+      ],
+      "title": "VNC"
+    },
+    {
+      "id": "T1021.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1021"
+      ],
+      "title": "Windows Remote Management"
+    },
+    {
+      "id": "T1021.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1021"
+      ],
+      "title": "Cloud Services"
+    },
+    {
+      "id": "T1021.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1021"
+      ],
+      "title": "Direct Cloud VM Connections"
+    },
+    {
+      "id": "T1027.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Binary Padding"
+    },
+    {
+      "id": "T1027.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Software Packing"
+    },
+    {
+      "id": "T1027.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Steganography"
+    },
+    {
+      "id": "T1027.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Compile After Delivery"
+    },
+    {
+      "id": "T1027.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Indicator Removal from Tools"
+    },
+    {
+      "id": "T1027.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "HTML Smuggling"
+    },
+    {
+      "id": "T1027.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Dynamic API Resolution"
+    },
+    {
+      "id": "T1027.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Stripped Payloads"
+    },
+    {
+      "id": "T1027.009",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Embedded Payloads"
+    },
+    {
+      "id": "T1027.010",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Command Obfuscation"
+    },
+    {
+      "id": "T1027.011",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Fileless Storage"
+    },
+    {
+      "id": "T1027.012",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "LNK Icon Smuggling"
+    },
+    {
+      "id": "T1027.013",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Encrypted/Encoded File"
+    },
+    {
+      "id": "T1027.014",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Polymorphic Code"
+    },
+    {
+      "id": "T1027.015",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Compression"
+    },
+    {
+      "id": "T1027.016",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Junk Code Insertion"
+    },
+    {
+      "id": "T1027.017",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "SVG Smuggling"
+    },
+    {
+      "id": "T1027.018",
+      "level": "subtechnique",
+      "parents": [
+        "T1027"
+      ],
+      "title": "Invisible Unicode"
+    },
+    {
+      "id": "T1036.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1036"
+      ],
+      "title": "Invalid Code Signature"
+    },
+    {
+      "id": "T1036.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1036"
+      ],
+      "title": "Right-to-Left Override"
+    },
+    {
+      "id": "T1036.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1036"
+      ],
+      "title": "Rename Legitimate Utilities"
+    },
+    {
+      "id": "T1036.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1036"
+      ],
+      "title": "Masquerade Task or Service"
+    },
+    {
+      "id": "T1036.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1036"
+      ],
+      "title": "Match Legitimate Resource Name or Location"
+    },
+    {
+      "id": "T1036.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1036"
+      ],
+      "title": "Space after Filename"
+    },
+    {
+      "id": "T1036.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1036"
+      ],
+      "title": "Double File Extension"
+    },
+    {
+      "id": "T1036.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1036"
+      ],
+      "title": "Masquerade File Type"
+    },
+    {
+      "id": "T1036.009",
+      "level": "subtechnique",
+      "parents": [
+        "T1036"
+      ],
+      "title": "Break Process Trees"
+    },
+    {
+      "id": "T1036.010",
+      "level": "subtechnique",
+      "parents": [
+        "T1036"
+      ],
+      "title": "Masquerade Account Name"
+    },
+    {
+      "id": "T1036.011",
+      "level": "subtechnique",
+      "parents": [
+        "T1036"
+      ],
+      "title": "Overwrite Process Arguments"
+    },
+    {
+      "id": "T1036.012",
+      "level": "subtechnique",
+      "parents": [
+        "T1036"
+      ],
+      "title": "Browser Fingerprint"
+    },
+    {
+      "id": "T1037.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1037"
+      ],
+      "title": "Logon Script (Windows)"
+    },
+    {
+      "id": "T1037.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1037"
+      ],
+      "title": "Login Hook"
+    },
+    {
+      "id": "T1037.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1037"
+      ],
+      "title": "Network Logon Script"
+    },
+    {
+      "id": "T1037.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1037"
+      ],
+      "title": "RC Scripts"
+    },
+    {
+      "id": "T1037.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1037"
+      ],
+      "title": "Startup Items"
+    },
+    {
+      "id": "T1048.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1048"
+      ],
+      "title": "Exfiltration Over Symmetric Encrypted Non-C2 Protocol"
+    },
+    {
+      "id": "T1048.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1048"
+      ],
+      "title": "Exfiltration Over Asymmetric Encrypted Non-C2 Protocol"
+    },
+    {
+      "id": "T1048.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1048"
+      ],
+      "title": "Exfiltration Over Unencrypted Non-C2 Protocol"
+    },
+    {
+      "id": "T1052.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1052"
+      ],
+      "title": "Exfiltration over USB"
+    },
+    {
+      "id": "T1053.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1053"
+      ],
+      "title": "At"
+    },
+    {
+      "id": "T1053.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1053"
+      ],
+      "title": "Cron"
+    },
+    {
+      "id": "T1053.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1053"
+      ],
+      "title": "Scheduled Task"
+    },
+    {
+      "id": "T1053.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1053"
+      ],
+      "title": "Systemd Timers"
+    },
+    {
+      "id": "T1053.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1053"
+      ],
+      "title": "Container Orchestration Job"
+    },
+    {
+      "id": "T1055.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1055"
+      ],
+      "title": "Dynamic-link Library Injection"
+    },
+    {
+      "id": "T1055.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1055"
+      ],
+      "title": "Portable Executable Injection"
+    },
+    {
+      "id": "T1055.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1055"
+      ],
+      "title": "Thread Execution Hijacking"
+    },
+    {
+      "id": "T1055.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1055"
+      ],
+      "title": "Asynchronous Procedure Call"
+    },
+    {
+      "id": "T1055.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1055"
+      ],
+      "title": "Thread Local Storage"
+    },
+    {
+      "id": "T1055.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1055"
+      ],
+      "title": "Ptrace System Calls"
+    },
+    {
+      "id": "T1055.009",
+      "level": "subtechnique",
+      "parents": [
+        "T1055"
+      ],
+      "title": "Proc Memory"
+    },
+    {
+      "id": "T1055.011",
+      "level": "subtechnique",
+      "parents": [
+        "T1055"
+      ],
+      "title": "Extra Window Memory Injection"
+    },
+    {
+      "id": "T1055.012",
+      "level": "subtechnique",
+      "parents": [
+        "T1055"
+      ],
+      "title": "Process Hollowing"
+    },
+    {
+      "id": "T1055.013",
+      "level": "subtechnique",
+      "parents": [
+        "T1055"
+      ],
+      "title": "Process Doppelgänging"
+    },
+    {
+      "id": "T1055.014",
+      "level": "subtechnique",
+      "parents": [
+        "T1055"
+      ],
+      "title": "VDSO Hijacking"
+    },
+    {
+      "id": "T1055.015",
+      "level": "subtechnique",
+      "parents": [
+        "T1055"
+      ],
+      "title": "ListPlanting"
+    },
+    {
+      "id": "T1056.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1056"
+      ],
+      "title": "Keylogging"
+    },
+    {
+      "id": "T1056.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1056"
+      ],
+      "title": "GUI Input Capture"
+    },
+    {
+      "id": "T1056.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1056"
+      ],
+      "title": "Web Portal Capture"
+    },
+    {
+      "id": "T1056.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1056"
+      ],
+      "title": "Credential API Hooking"
+    },
+    {
+      "id": "T1059.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1059"
+      ],
+      "title": "PowerShell"
+    },
+    {
+      "id": "T1059.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1059"
+      ],
+      "title": "AppleScript"
+    },
+    {
+      "id": "T1059.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1059"
+      ],
+      "title": "Windows Command Shell"
+    },
+    {
+      "id": "T1059.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1059"
+      ],
+      "title": "Unix Shell"
+    },
+    {
+      "id": "T1059.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1059"
+      ],
+      "title": "Visual Basic"
+    },
+    {
+      "id": "T1059.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1059"
+      ],
+      "title": "Python"
+    },
+    {
+      "id": "T1059.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1059"
+      ],
+      "title": "JavaScript"
+    },
+    {
+      "id": "T1059.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1059"
+      ],
+      "title": "Network Device CLI"
+    },
+    {
+      "id": "T1059.009",
+      "level": "subtechnique",
+      "parents": [
+        "T1059"
+      ],
+      "title": "Cloud API"
+    },
+    {
+      "id": "T1059.010",
+      "level": "subtechnique",
+      "parents": [
+        "T1059"
+      ],
+      "title": "AutoHotKey & AutoIT"
+    },
+    {
+      "id": "T1059.011",
+      "level": "subtechnique",
+      "parents": [
+        "T1059"
+      ],
+      "title": "Lua"
+    },
+    {
+      "id": "T1059.012",
+      "level": "subtechnique",
+      "parents": [
+        "T1059"
+      ],
+      "title": "Hypervisor CLI"
+    },
+    {
+      "id": "T1059.013",
+      "level": "subtechnique",
+      "parents": [
+        "T1059"
+      ],
+      "title": "Container CLI/API"
+    },
+    {
+      "id": "T1069.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1069"
+      ],
+      "title": "Local Groups"
+    },
+    {
+      "id": "T1069.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1069"
+      ],
+      "title": "Domain Groups"
+    },
+    {
+      "id": "T1069.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1069"
+      ],
+      "title": "Cloud Groups"
+    },
+    {
+      "id": "T1070.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1070"
+      ],
+      "title": "Clear Command History"
+    },
+    {
+      "id": "T1070.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1070"
+      ],
+      "title": "File Deletion"
+    },
+    {
+      "id": "T1070.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1070"
+      ],
+      "title": "Network Share Connection Removal"
+    },
+    {
+      "id": "T1070.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1070"
+      ],
+      "title": "Timestomp"
+    },
+    {
+      "id": "T1070.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1070"
+      ],
+      "title": "Clear Network Connection History and Configurations"
+    },
+    {
+      "id": "T1070.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1070"
+      ],
+      "title": "Clear Mailbox Data"
+    },
+    {
+      "id": "T1070.009",
+      "level": "subtechnique",
+      "parents": [
+        "T1070"
+      ],
+      "title": "Clear Persistence"
+    },
+    {
+      "id": "T1070.010",
+      "level": "subtechnique",
+      "parents": [
+        "T1070"
+      ],
+      "title": "Relocate Malware"
+    },
+    {
+      "id": "T1071.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1071"
+      ],
+      "title": "Web Protocols"
+    },
+    {
+      "id": "T1071.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1071"
+      ],
+      "title": "File Transfer Protocols"
+    },
+    {
+      "id": "T1071.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1071"
+      ],
+      "title": "Mail Protocols"
+    },
+    {
+      "id": "T1071.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1071"
+      ],
+      "title": "DNS"
+    },
+    {
+      "id": "T1071.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1071"
+      ],
+      "title": "Publish/Subscribe Protocols"
+    },
+    {
+      "id": "T1074.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1074"
+      ],
+      "title": "Local Data Staging"
+    },
+    {
+      "id": "T1074.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1074"
+      ],
+      "title": "Remote Data Staging"
+    },
+    {
+      "id": "T1078.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1078"
+      ],
+      "title": "Default Accounts"
+    },
+    {
+      "id": "T1078.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1078"
+      ],
+      "title": "Domain Accounts"
+    },
+    {
+      "id": "T1078.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1078"
+      ],
+      "title": "Local Accounts"
+    },
+    {
+      "id": "T1078.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1078"
+      ],
+      "title": "Cloud Accounts"
+    },
+    {
+      "id": "T1087.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1087"
+      ],
+      "title": "Local Account"
+    },
+    {
+      "id": "T1087.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1087"
+      ],
+      "title": "Domain Account"
+    },
+    {
+      "id": "T1087.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1087"
+      ],
+      "title": "Email Account"
+    },
+    {
+      "id": "T1087.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1087"
+      ],
+      "title": "Cloud Account"
+    },
+    {
+      "id": "T1090.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1090"
+      ],
+      "title": "Internal Proxy"
+    },
+    {
+      "id": "T1090.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1090"
+      ],
+      "title": "External Proxy"
+    },
+    {
+      "id": "T1090.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1090"
+      ],
+      "title": "Multi-hop Proxy"
+    },
+    {
+      "id": "T1090.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1090"
+      ],
+      "title": "Domain Fronting"
+    },
+    {
+      "id": "T1098.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1098"
+      ],
+      "title": "Additional Cloud Credentials"
+    },
+    {
+      "id": "T1098.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1098"
+      ],
+      "title": "Additional Email Delegate Permissions"
+    },
+    {
+      "id": "T1098.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1098"
+      ],
+      "title": "Additional Cloud Roles"
+    },
+    {
+      "id": "T1098.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1098"
+      ],
+      "title": "SSH Authorized Keys"
+    },
+    {
+      "id": "T1098.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1098"
+      ],
+      "title": "Device Registration"
+    },
+    {
+      "id": "T1098.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1098"
+      ],
+      "title": "Additional Container Cluster Roles"
+    },
+    {
+      "id": "T1098.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1098"
+      ],
+      "title": "Additional Local or Domain Groups"
+    },
+    {
+      "id": "T1102.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1102"
+      ],
+      "title": "Dead Drop Resolver"
+    },
+    {
+      "id": "T1102.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1102"
+      ],
+      "title": "Bidirectional Communication"
+    },
+    {
+      "id": "T1102.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1102"
+      ],
+      "title": "One-Way Communication"
+    },
+    {
+      "id": "T1110.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1110"
+      ],
+      "title": "Password Guessing"
+    },
+    {
+      "id": "T1110.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1110"
+      ],
+      "title": "Password Cracking"
+    },
+    {
+      "id": "T1110.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1110"
+      ],
+      "title": "Password Spraying"
+    },
+    {
+      "id": "T1110.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1110"
+      ],
+      "title": "Credential Stuffing"
+    },
+    {
+      "id": "T1114.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1114"
+      ],
+      "title": "Local Email Collection"
+    },
+    {
+      "id": "T1114.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1114"
+      ],
+      "title": "Remote Email Collection"
+    },
+    {
+      "id": "T1114.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1114"
+      ],
+      "title": "Email Forwarding Rule"
+    },
+    {
+      "id": "T1127.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1127"
+      ],
+      "title": "MSBuild"
+    },
+    {
+      "id": "T1127.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1127"
+      ],
+      "title": "ClickOnce"
+    },
+    {
+      "id": "T1127.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1127"
+      ],
+      "title": "JamPlus"
+    },
+    {
+      "id": "T1132.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1132"
+      ],
+      "title": "Standard Encoding"
+    },
+    {
+      "id": "T1132.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1132"
+      ],
+      "title": "Non-Standard Encoding"
+    },
+    {
+      "id": "T1134.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1134"
+      ],
+      "title": "Token Impersonation/Theft"
+    },
+    {
+      "id": "T1134.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1134"
+      ],
+      "title": "Create Process with Token"
+    },
+    {
+      "id": "T1134.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1134"
+      ],
+      "title": "Make and Impersonate Token"
+    },
+    {
+      "id": "T1134.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1134"
+      ],
+      "title": "Parent PID Spoofing"
+    },
+    {
+      "id": "T1134.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1134"
+      ],
+      "title": "SID-History Injection"
+    },
+    {
+      "id": "T1136.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1136"
+      ],
+      "title": "Local Account"
+    },
+    {
+      "id": "T1136.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1136"
+      ],
+      "title": "Domain Account"
+    },
+    {
+      "id": "T1136.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1136"
+      ],
+      "title": "Cloud Account"
+    },
+    {
+      "id": "T1137.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1137"
+      ],
+      "title": "Office Template Macros"
+    },
+    {
+      "id": "T1137.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1137"
+      ],
+      "title": "Office Test"
+    },
+    {
+      "id": "T1137.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1137"
+      ],
+      "title": "Outlook Forms"
+    },
+    {
+      "id": "T1137.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1137"
+      ],
+      "title": "Outlook Home Page"
+    },
+    {
+      "id": "T1137.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1137"
+      ],
+      "title": "Outlook Rules"
+    },
+    {
+      "id": "T1137.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1137"
+      ],
+      "title": "Add-ins"
+    },
+    {
+      "id": "T1176.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1176"
+      ],
+      "title": "Browser Extensions"
+    },
+    {
+      "id": "T1176.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1176"
+      ],
+      "title": "IDE Extensions"
+    },
+    {
+      "id": "T1195.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1195"
+      ],
+      "title": "Compromise Software Dependencies and Development Tools"
+    },
+    {
+      "id": "T1195.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1195"
+      ],
+      "title": "Compromise Software Supply Chain"
+    },
+    {
+      "id": "T1195.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1195"
+      ],
+      "title": "Compromise Hardware Supply Chain"
+    },
+    {
+      "id": "T1204.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1204"
+      ],
+      "title": "Malicious Link"
+    },
+    {
+      "id": "T1204.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1204"
+      ],
+      "title": "Malicious File"
+    },
+    {
+      "id": "T1204.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1204"
+      ],
+      "title": "Malicious Image"
+    },
+    {
+      "id": "T1204.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1204"
+      ],
+      "title": "Malicious Copy and Paste"
+    },
+    {
+      "id": "T1204.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1204"
+      ],
+      "title": "Malicious Library"
+    },
+    {
+      "id": "T1205.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1205"
+      ],
+      "title": "Port Knocking"
+    },
+    {
+      "id": "T1205.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1205"
+      ],
+      "title": "Socket Filters"
+    },
+    {
+      "id": "T1213.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1213"
+      ],
+      "title": "Confluence"
+    },
+    {
+      "id": "T1213.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1213"
+      ],
+      "title": "Sharepoint"
+    },
+    {
+      "id": "T1213.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1213"
+      ],
+      "title": "Code Repositories"
+    },
+    {
+      "id": "T1213.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1213"
+      ],
+      "title": "Customer Relationship Management Software"
+    },
+    {
+      "id": "T1213.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1213"
+      ],
+      "title": "Messaging Applications"
+    },
+    {
+      "id": "T1213.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1213"
+      ],
+      "title": "Databases"
+    },
+    {
+      "id": "T1216.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1216"
+      ],
+      "title": "PubPrn"
+    },
+    {
+      "id": "T1216.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1216"
+      ],
+      "title": "SyncAppvPublishingServer"
+    },
+    {
+      "id": "T1218.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "Compiled HTML File"
+    },
+    {
+      "id": "T1218.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "Control Panel"
+    },
+    {
+      "id": "T1218.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "CMSTP"
+    },
+    {
+      "id": "T1218.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "InstallUtil"
+    },
+    {
+      "id": "T1218.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "Mshta"
+    },
+    {
+      "id": "T1218.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "Msiexec"
+    },
+    {
+      "id": "T1218.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "Odbcconf"
+    },
+    {
+      "id": "T1218.009",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "Regsvcs/Regasm"
+    },
+    {
+      "id": "T1218.010",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "Regsvr32"
+    },
+    {
+      "id": "T1218.011",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "Rundll32"
+    },
+    {
+      "id": "T1218.012",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "Verclsid"
+    },
+    {
+      "id": "T1218.013",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "Mavinject"
+    },
+    {
+      "id": "T1218.014",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "MMC"
+    },
+    {
+      "id": "T1218.015",
+      "level": "subtechnique",
+      "parents": [
+        "T1218"
+      ],
+      "title": "Electron Applications"
+    },
+    {
+      "id": "T1219.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1219"
+      ],
+      "title": "IDE Tunneling"
+    },
+    {
+      "id": "T1219.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1219"
+      ],
+      "title": "Remote Desktop Software"
+    },
+    {
+      "id": "T1219.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1219"
+      ],
+      "title": "Remote Access Hardware"
+    },
+    {
+      "id": "T1222.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1222"
+      ],
+      "title": "Windows Permissions"
+    },
+    {
+      "id": "T1222.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1222"
+      ],
+      "title": "Linux and Mac Permissions"
+    },
+    {
+      "id": "T1480.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1480"
+      ],
+      "title": "Environmental Keying"
+    },
+    {
+      "id": "T1480.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1480"
+      ],
+      "title": "Mutual Exclusion"
+    },
+    {
+      "id": "T1484.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1484"
+      ],
+      "title": "Group Policy Modification"
+    },
+    {
+      "id": "T1484.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1484"
+      ],
+      "title": "Trust Modification"
+    },
+    {
+      "id": "T1485.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1485"
+      ],
+      "title": "Lifecycle-Triggered Deletion"
+    },
+    {
+      "id": "T1491.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1491"
+      ],
+      "title": "Internal Defacement"
+    },
+    {
+      "id": "T1491.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1491"
+      ],
+      "title": "External Defacement"
+    },
+    {
+      "id": "T1496.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1496"
+      ],
+      "title": "Compute Hijacking"
+    },
+    {
+      "id": "T1496.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1496"
+      ],
+      "title": "Bandwidth Hijacking"
+    },
+    {
+      "id": "T1496.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1496"
+      ],
+      "title": "SMS Pumping"
+    },
+    {
+      "id": "T1496.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1496"
+      ],
+      "title": "Cloud Service Hijacking"
+    },
+    {
+      "id": "T1497.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1497"
+      ],
+      "title": "System Checks"
+    },
+    {
+      "id": "T1497.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1497"
+      ],
+      "title": "User Activity Based Checks"
+    },
+    {
+      "id": "T1497.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1497"
+      ],
+      "title": "Time Based Checks"
+    },
+    {
+      "id": "T1498.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1498"
+      ],
+      "title": "Direct Network Flood"
+    },
+    {
+      "id": "T1498.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1498"
+      ],
+      "title": "Reflection Amplification"
+    },
+    {
+      "id": "T1499.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1499"
+      ],
+      "title": "OS Exhaustion Flood"
+    },
+    {
+      "id": "T1499.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1499"
+      ],
+      "title": "Service Exhaustion Flood"
+    },
+    {
+      "id": "T1499.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1499"
+      ],
+      "title": "Application Exhaustion Flood"
+    },
+    {
+      "id": "T1499.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1499"
+      ],
+      "title": "Application or System Exploitation"
+    },
+    {
+      "id": "T1505.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1505"
+      ],
+      "title": "SQL Stored Procedures"
+    },
+    {
+      "id": "T1505.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1505"
+      ],
+      "title": "Transport Agent"
+    },
+    {
+      "id": "T1505.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1505"
+      ],
+      "title": "Web Shell"
+    },
+    {
+      "id": "T1505.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1505"
+      ],
+      "title": "IIS Components"
+    },
+    {
+      "id": "T1505.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1505"
+      ],
+      "title": "Terminal Services DLL"
+    },
+    {
+      "id": "T1505.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1505"
+      ],
+      "title": "vSphere Installation Bundles"
+    },
+    {
+      "id": "T1518.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1518"
+      ],
+      "title": "Security Software Discovery"
+    },
+    {
+      "id": "T1518.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1518"
+      ],
+      "title": "Backup Software Discovery"
+    },
+    {
+      "id": "T1542.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1542"
+      ],
+      "title": "System Firmware"
+    },
+    {
+      "id": "T1542.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1542"
+      ],
+      "title": "Component Firmware"
+    },
+    {
+      "id": "T1542.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1542"
+      ],
+      "title": "Bootkit"
+    },
+    {
+      "id": "T1542.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1542"
+      ],
+      "title": "ROMMONkit"
+    },
+    {
+      "id": "T1542.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1542"
+      ],
+      "title": "TFTP Boot"
+    },
+    {
+      "id": "T1543.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1543"
+      ],
+      "title": "Launch Agent"
+    },
+    {
+      "id": "T1543.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1543"
+      ],
+      "title": "Systemd Service"
+    },
+    {
+      "id": "T1543.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1543"
+      ],
+      "title": "Windows Service"
+    },
+    {
+      "id": "T1543.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1543"
+      ],
+      "title": "Launch Daemon"
+    },
+    {
+      "id": "T1543.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1543"
+      ],
+      "title": "Container Service"
+    },
+    {
+      "id": "T1546.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Change Default File Association"
+    },
+    {
+      "id": "T1546.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Screensaver"
+    },
+    {
+      "id": "T1546.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Windows Management Instrumentation Event Subscription"
+    },
+    {
+      "id": "T1546.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Unix Shell Configuration Modification"
+    },
+    {
+      "id": "T1546.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Trap"
+    },
+    {
+      "id": "T1546.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "LC_LOAD_DYLIB Addition"
+    },
+    {
+      "id": "T1546.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Netsh Helper DLL"
+    },
+    {
+      "id": "T1546.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Accessibility Features"
+    },
+    {
+      "id": "T1546.009",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "AppCert DLLs"
+    },
+    {
+      "id": "T1546.010",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "AppInit DLLs"
+    },
+    {
+      "id": "T1546.011",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Application Shimming"
+    },
+    {
+      "id": "T1546.012",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Image File Execution Options Injection"
+    },
+    {
+      "id": "T1546.013",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "PowerShell Profile"
+    },
+    {
+      "id": "T1546.014",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Emond"
+    },
+    {
+      "id": "T1546.015",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Component Object Model Hijacking"
+    },
+    {
+      "id": "T1546.016",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Installer Packages"
+    },
+    {
+      "id": "T1546.017",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Udev Rules"
+    },
+    {
+      "id": "T1546.018",
+      "level": "subtechnique",
+      "parents": [
+        "T1546"
+      ],
+      "title": "Python Startup Hooks"
+    },
+    {
+      "id": "T1547.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "Registry Run Keys / Startup Folder"
+    },
+    {
+      "id": "T1547.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "Authentication Package"
+    },
+    {
+      "id": "T1547.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "Time Providers"
+    },
+    {
+      "id": "T1547.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "Winlogon Helper DLL"
+    },
+    {
+      "id": "T1547.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "Security Support Provider"
+    },
+    {
+      "id": "T1547.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "Kernel Modules and Extensions"
+    },
+    {
+      "id": "T1547.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "Re-opened Applications"
+    },
+    {
+      "id": "T1547.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "LSASS Driver"
+    },
+    {
+      "id": "T1547.009",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "Shortcut Modification"
+    },
+    {
+      "id": "T1547.010",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "Port Monitors"
+    },
+    {
+      "id": "T1547.012",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "Print Processors"
+    },
+    {
+      "id": "T1547.013",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "XDG Autostart Entries"
+    },
+    {
+      "id": "T1547.014",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "Active Setup"
+    },
+    {
+      "id": "T1547.015",
+      "level": "subtechnique",
+      "parents": [
+        "T1547"
+      ],
+      "title": "Login Items"
+    },
+    {
+      "id": "T1548.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1548"
+      ],
+      "title": "Setuid and Setgid"
+    },
+    {
+      "id": "T1548.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1548"
+      ],
+      "title": "Bypass User Account Control"
+    },
+    {
+      "id": "T1548.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1548"
+      ],
+      "title": "Sudo and Sudo Caching"
+    },
+    {
+      "id": "T1548.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1548"
+      ],
+      "title": "Elevated Execution with Prompt"
+    },
+    {
+      "id": "T1548.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1548"
+      ],
+      "title": "Temporary Elevated Cloud Access"
+    },
+    {
+      "id": "T1548.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1548"
+      ],
+      "title": "TCC Manipulation"
+    },
+    {
+      "id": "T1550.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1550"
+      ],
+      "title": "Application Access Token"
+    },
+    {
+      "id": "T1550.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1550"
+      ],
+      "title": "Pass the Hash"
+    },
+    {
+      "id": "T1550.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1550"
+      ],
+      "title": "Pass the Ticket"
+    },
+    {
+      "id": "T1550.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1550"
+      ],
+      "title": "Web Session Cookie"
+    },
+    {
+      "id": "T1552.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1552"
+      ],
+      "title": "Credentials In Files"
+    },
+    {
+      "id": "T1552.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1552"
+      ],
+      "title": "Credentials in Registry"
+    },
+    {
+      "id": "T1552.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1552"
+      ],
+      "title": "Shell History"
+    },
+    {
+      "id": "T1552.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1552"
+      ],
+      "title": "Private Keys"
+    },
+    {
+      "id": "T1552.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1552"
+      ],
+      "title": "Cloud Instance Metadata API"
+    },
+    {
+      "id": "T1552.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1552"
+      ],
+      "title": "Group Policy Preferences"
+    },
+    {
+      "id": "T1552.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1552"
+      ],
+      "title": "Container API"
+    },
+    {
+      "id": "T1552.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1552"
+      ],
+      "title": "Chat Messages"
+    },
+    {
+      "id": "T1553.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1553"
+      ],
+      "title": "Gatekeeper Bypass"
+    },
+    {
+      "id": "T1553.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1553"
+      ],
+      "title": "Code Signing"
+    },
+    {
+      "id": "T1553.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1553"
+      ],
+      "title": "SIP and Trust Provider Hijacking"
+    },
+    {
+      "id": "T1553.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1553"
+      ],
+      "title": "Install Root Certificate"
+    },
+    {
+      "id": "T1553.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1553"
+      ],
+      "title": "Mark-of-the-Web Bypass"
+    },
+    {
+      "id": "T1553.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1553"
+      ],
+      "title": "Code Signing Policy Modification"
+    },
+    {
+      "id": "T1555.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1555"
+      ],
+      "title": "Keychain"
+    },
+    {
+      "id": "T1555.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1555"
+      ],
+      "title": "Securityd Memory"
+    },
+    {
+      "id": "T1555.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1555"
+      ],
+      "title": "Credentials from Web Browsers"
+    },
+    {
+      "id": "T1555.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1555"
+      ],
+      "title": "Windows Credential Manager"
+    },
+    {
+      "id": "T1555.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1555"
+      ],
+      "title": "Password Managers"
+    },
+    {
+      "id": "T1555.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1555"
+      ],
+      "title": "Cloud Secrets Management Stores"
+    },
+    {
+      "id": "T1556.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1556"
+      ],
+      "title": "Domain Controller Authentication"
+    },
+    {
+      "id": "T1556.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1556"
+      ],
+      "title": "Password Filter DLL"
+    },
+    {
+      "id": "T1556.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1556"
+      ],
+      "title": "Pluggable Authentication Modules"
+    },
+    {
+      "id": "T1556.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1556"
+      ],
+      "title": "Network Device Authentication"
+    },
+    {
+      "id": "T1556.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1556"
+      ],
+      "title": "Reversible Encryption"
+    },
+    {
+      "id": "T1556.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1556"
+      ],
+      "title": "Multi-Factor Authentication"
+    },
+    {
+      "id": "T1556.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1556"
+      ],
+      "title": "Hybrid Identity"
+    },
+    {
+      "id": "T1556.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1556"
+      ],
+      "title": "Network Provider DLL"
+    },
+    {
+      "id": "T1556.009",
+      "level": "subtechnique",
+      "parents": [
+        "T1556"
+      ],
+      "title": "Conditional Access Policies"
+    },
+    {
+      "id": "T1557.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1557"
+      ],
+      "title": "Name Resolution Poisoning and SMB Relay"
+    },
+    {
+      "id": "T1557.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1557"
+      ],
+      "title": "ARP Cache Poisoning"
+    },
+    {
+      "id": "T1557.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1557"
+      ],
+      "title": "DHCP Spoofing"
+    },
+    {
+      "id": "T1557.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1557"
+      ],
+      "title": "Evil Twin"
+    },
+    {
+      "id": "T1558.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1558"
+      ],
+      "title": "Golden Ticket"
+    },
+    {
+      "id": "T1558.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1558"
+      ],
+      "title": "Silver Ticket"
+    },
+    {
+      "id": "T1558.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1558"
+      ],
+      "title": "Kerberoasting"
+    },
+    {
+      "id": "T1558.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1558"
+      ],
+      "title": "AS-REP Roasting"
+    },
+    {
+      "id": "T1558.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1558"
+      ],
+      "title": "Ccache Files"
+    },
+    {
+      "id": "T1559.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1559"
+      ],
+      "title": "Component Object Model"
+    },
+    {
+      "id": "T1559.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1559"
+      ],
+      "title": "Dynamic Data Exchange"
+    },
+    {
+      "id": "T1559.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1559"
+      ],
+      "title": "XPC Services"
+    },
+    {
+      "id": "T1560.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1560"
+      ],
+      "title": "Archive via Utility"
+    },
+    {
+      "id": "T1560.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1560"
+      ],
+      "title": "Archive via Library"
+    },
+    {
+      "id": "T1560.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1560"
+      ],
+      "title": "Archive via Custom Method"
+    },
+    {
+      "id": "T1561.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1561"
+      ],
+      "title": "Disk Content Wipe"
+    },
+    {
+      "id": "T1561.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1561"
+      ],
+      "title": "Disk Structure Wipe"
+    },
+    {
+      "id": "T1563.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1563"
+      ],
+      "title": "SSH Hijacking"
+    },
+    {
+      "id": "T1563.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1563"
+      ],
+      "title": "RDP Hijacking"
+    },
+    {
+      "id": "T1564.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "Hidden Files and Directories"
+    },
+    {
+      "id": "T1564.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "Hidden Users"
+    },
+    {
+      "id": "T1564.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "Hidden Window"
+    },
+    {
+      "id": "T1564.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "NTFS File Attributes"
+    },
+    {
+      "id": "T1564.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "Hidden File System"
+    },
+    {
+      "id": "T1564.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "Run Virtual Instance"
+    },
+    {
+      "id": "T1564.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "VBA Stomping"
+    },
+    {
+      "id": "T1564.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "Email Hiding Rules"
+    },
+    {
+      "id": "T1564.009",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "Resource Forking"
+    },
+    {
+      "id": "T1564.010",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "Process Argument Spoofing"
+    },
+    {
+      "id": "T1564.011",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "Ignore Process Interrupts"
+    },
+    {
+      "id": "T1564.012",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "File/Path Exclusions"
+    },
+    {
+      "id": "T1564.013",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "Bind Mounts"
+    },
+    {
+      "id": "T1564.014",
+      "level": "subtechnique",
+      "parents": [
+        "T1564"
+      ],
+      "title": "Extended Attributes"
+    },
+    {
+      "id": "T1565.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1565"
+      ],
+      "title": "Stored Data Manipulation"
+    },
+    {
+      "id": "T1565.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1565"
+      ],
+      "title": "Transmitted Data Manipulation"
+    },
+    {
+      "id": "T1565.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1565"
+      ],
+      "title": "Runtime Data Manipulation"
+    },
+    {
+      "id": "T1566.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1566"
+      ],
+      "title": "Spearphishing Attachment"
+    },
+    {
+      "id": "T1566.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1566"
+      ],
+      "title": "Spearphishing Link"
+    },
+    {
+      "id": "T1566.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1566"
+      ],
+      "title": "Spearphishing via Service"
+    },
+    {
+      "id": "T1566.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1566"
+      ],
+      "title": "Spearphishing Voice"
+    },
+    {
+      "id": "T1567.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1567"
+      ],
+      "title": "Exfiltration to Code Repository"
+    },
+    {
+      "id": "T1567.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1567"
+      ],
+      "title": "Exfiltration to Cloud Storage"
+    },
+    {
+      "id": "T1567.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1567"
+      ],
+      "title": "Exfiltration to Text Storage Sites"
+    },
+    {
+      "id": "T1567.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1567"
+      ],
+      "title": "Exfiltration Over Webhook"
+    },
+    {
+      "id": "T1568.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1568"
+      ],
+      "title": "Fast Flux DNS"
+    },
+    {
+      "id": "T1568.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1568"
+      ],
+      "title": "Domain Generation Algorithms"
+    },
+    {
+      "id": "T1568.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1568"
+      ],
+      "title": "DNS Calculation"
+    },
+    {
+      "id": "T1569.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1569"
+      ],
+      "title": "Launchctl"
+    },
+    {
+      "id": "T1569.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1569"
+      ],
+      "title": "Service Execution"
+    },
+    {
+      "id": "T1569.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1569"
+      ],
+      "title": "Systemctl"
+    },
+    {
+      "id": "T1573.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1573"
+      ],
+      "title": "Symmetric Cryptography"
+    },
+    {
+      "id": "T1573.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1573"
+      ],
+      "title": "Asymmetric Cryptography"
+    },
+    {
+      "id": "T1574.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1574"
+      ],
+      "title": "DLL"
+    },
+    {
+      "id": "T1574.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1574"
+      ],
+      "title": "Dylib Hijacking"
+    },
+    {
+      "id": "T1574.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1574"
+      ],
+      "title": "Executable Installer File Permissions Weakness"
+    },
+    {
+      "id": "T1574.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1574"
+      ],
+      "title": "Dynamic Linker Hijacking"
+    },
+    {
+      "id": "T1574.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1574"
+      ],
+      "title": "Path Interception by PATH Environment Variable"
+    },
+    {
+      "id": "T1574.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1574"
+      ],
+      "title": "Path Interception by Search Order Hijacking"
+    },
+    {
+      "id": "T1574.009",
+      "level": "subtechnique",
+      "parents": [
+        "T1574"
+      ],
+      "title": "Path Interception by Unquoted Path"
+    },
+    {
+      "id": "T1574.010",
+      "level": "subtechnique",
+      "parents": [
+        "T1574"
+      ],
+      "title": "Services File Permissions Weakness"
+    },
+    {
+      "id": "T1574.011",
+      "level": "subtechnique",
+      "parents": [
+        "T1574"
+      ],
+      "title": "Services Registry Permissions Weakness"
+    },
+    {
+      "id": "T1574.012",
+      "level": "subtechnique",
+      "parents": [
+        "T1574"
+      ],
+      "title": "COR_PROFILER"
+    },
+    {
+      "id": "T1574.013",
+      "level": "subtechnique",
+      "parents": [
+        "T1574"
+      ],
+      "title": "KernelCallbackTable"
+    },
+    {
+      "id": "T1574.014",
+      "level": "subtechnique",
+      "parents": [
+        "T1574"
+      ],
+      "title": "AppDomainManager"
+    },
+    {
+      "id": "T1578.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1578"
+      ],
+      "title": "Create Snapshot"
+    },
+    {
+      "id": "T1578.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1578"
+      ],
+      "title": "Create Cloud Instance"
+    },
+    {
+      "id": "T1578.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1578"
+      ],
+      "title": "Delete Cloud Instance"
+    },
+    {
+      "id": "T1578.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1578"
+      ],
+      "title": "Revert Cloud Instance"
+    },
+    {
+      "id": "T1578.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1578"
+      ],
+      "title": "Modify Cloud Compute Configurations"
+    },
+    {
+      "id": "T1583.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1583"
+      ],
+      "title": "Domains"
+    },
+    {
+      "id": "T1583.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1583"
+      ],
+      "title": "DNS Server"
+    },
+    {
+      "id": "T1583.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1583"
+      ],
+      "title": "Virtual Private Server"
+    },
+    {
+      "id": "T1583.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1583"
+      ],
+      "title": "Server"
+    },
+    {
+      "id": "T1583.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1583"
+      ],
+      "title": "Botnet"
+    },
+    {
+      "id": "T1583.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1583"
+      ],
+      "title": "Web Services"
+    },
+    {
+      "id": "T1583.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1583"
+      ],
+      "title": "Serverless"
+    },
+    {
+      "id": "T1583.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1583"
+      ],
+      "title": "Malvertising"
+    },
+    {
+      "id": "T1584.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1584"
+      ],
+      "title": "Domains"
+    },
+    {
+      "id": "T1584.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1584"
+      ],
+      "title": "DNS Server"
+    },
+    {
+      "id": "T1584.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1584"
+      ],
+      "title": "Virtual Private Server"
+    },
+    {
+      "id": "T1584.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1584"
+      ],
+      "title": "Server"
+    },
+    {
+      "id": "T1584.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1584"
+      ],
+      "title": "Botnet"
+    },
+    {
+      "id": "T1584.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1584"
+      ],
+      "title": "Web Services"
+    },
+    {
+      "id": "T1584.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1584"
+      ],
+      "title": "Serverless"
+    },
+    {
+      "id": "T1584.008",
+      "level": "subtechnique",
+      "parents": [
+        "T1584"
+      ],
+      "title": "Network Devices"
+    },
+    {
+      "id": "T1585.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1585"
+      ],
+      "title": "Social Media Accounts"
+    },
+    {
+      "id": "T1585.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1585"
+      ],
+      "title": "Email Accounts"
+    },
+    {
+      "id": "T1585.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1585"
+      ],
+      "title": "Cloud Accounts"
+    },
+    {
+      "id": "T1586.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1586"
+      ],
+      "title": "Social Media Accounts"
+    },
+    {
+      "id": "T1586.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1586"
+      ],
+      "title": "Email Accounts"
+    },
+    {
+      "id": "T1586.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1586"
+      ],
+      "title": "Cloud Accounts"
+    },
+    {
+      "id": "T1587.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1587"
+      ],
+      "title": "Malware"
+    },
+    {
+      "id": "T1587.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1587"
+      ],
+      "title": "Code Signing Certificates"
+    },
+    {
+      "id": "T1587.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1587"
+      ],
+      "title": "Digital Certificates"
+    },
+    {
+      "id": "T1587.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1587"
+      ],
+      "title": "Exploits"
+    },
+    {
+      "id": "T1588.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1588"
+      ],
+      "title": "Malware"
+    },
+    {
+      "id": "T1588.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1588"
+      ],
+      "title": "Tool"
+    },
+    {
+      "id": "T1588.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1588"
+      ],
+      "title": "Code Signing Certificates"
+    },
+    {
+      "id": "T1588.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1588"
+      ],
+      "title": "Digital Certificates"
+    },
+    {
+      "id": "T1588.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1588"
+      ],
+      "title": "Exploits"
+    },
+    {
+      "id": "T1588.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1588"
+      ],
+      "title": "Vulnerabilities"
+    },
+    {
+      "id": "T1588.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1588"
+      ],
+      "title": "Artificial Intelligence"
+    },
+    {
+      "id": "T1589.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1589"
+      ],
+      "title": "Credentials"
+    },
+    {
+      "id": "T1589.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1589"
+      ],
+      "title": "Email Addresses"
+    },
+    {
+      "id": "T1589.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1589"
+      ],
+      "title": "Employee Names"
+    },
+    {
+      "id": "T1590.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1590"
+      ],
+      "title": "Domain Properties"
+    },
+    {
+      "id": "T1590.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1590"
+      ],
+      "title": "DNS"
+    },
+    {
+      "id": "T1590.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1590"
+      ],
+      "title": "Network Trust Dependencies"
+    },
+    {
+      "id": "T1590.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1590"
+      ],
+      "title": "Network Topology"
+    },
+    {
+      "id": "T1590.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1590"
+      ],
+      "title": "IP Addresses"
+    },
+    {
+      "id": "T1590.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1590"
+      ],
+      "title": "Network Security Appliances"
+    },
+    {
+      "id": "T1591.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1591"
+      ],
+      "title": "Determine Physical Locations"
+    },
+    {
+      "id": "T1591.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1591"
+      ],
+      "title": "Business Relationships"
+    },
+    {
+      "id": "T1591.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1591"
+      ],
+      "title": "Identify Business Tempo"
+    },
+    {
+      "id": "T1591.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1591"
+      ],
+      "title": "Identify Roles"
+    },
+    {
+      "id": "T1592.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1592"
+      ],
+      "title": "Hardware"
+    },
+    {
+      "id": "T1592.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1592"
+      ],
+      "title": "Software"
+    },
+    {
+      "id": "T1592.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1592"
+      ],
+      "title": "Firmware"
+    },
+    {
+      "id": "T1592.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1592"
+      ],
+      "title": "Client Configurations"
+    },
+    {
+      "id": "T1593.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1593"
+      ],
+      "title": "Social Media"
+    },
+    {
+      "id": "T1593.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1593"
+      ],
+      "title": "Search Engines"
+    },
+    {
+      "id": "T1593.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1593"
+      ],
+      "title": "Code Repositories"
+    },
+    {
+      "id": "T1595.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1595"
+      ],
+      "title": "Scanning IP Blocks"
+    },
+    {
+      "id": "T1595.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1595"
+      ],
+      "title": "Vulnerability Scanning"
+    },
+    {
+      "id": "T1595.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1595"
+      ],
+      "title": "Wordlist Scanning"
+    },
+    {
+      "id": "T1596.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1596"
+      ],
+      "title": "DNS/Passive DNS"
+    },
+    {
+      "id": "T1596.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1596"
+      ],
+      "title": "WHOIS"
+    },
+    {
+      "id": "T1596.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1596"
+      ],
+      "title": "Digital Certificates"
+    },
+    {
+      "id": "T1596.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1596"
+      ],
+      "title": "CDNs"
+    },
+    {
+      "id": "T1596.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1596"
+      ],
+      "title": "Scan Databases"
+    },
+    {
+      "id": "T1597.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1597"
+      ],
+      "title": "Threat Intel Vendors"
+    },
+    {
+      "id": "T1597.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1597"
+      ],
+      "title": "Purchase Technical Data"
+    },
+    {
+      "id": "T1598.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1598"
+      ],
+      "title": "Spearphishing Service"
+    },
+    {
+      "id": "T1598.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1598"
+      ],
+      "title": "Spearphishing Attachment"
+    },
+    {
+      "id": "T1598.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1598"
+      ],
+      "title": "Spearphishing Link"
+    },
+    {
+      "id": "T1598.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1598"
+      ],
+      "title": "Spearphishing Voice"
+    },
+    {
+      "id": "T1599.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1599"
+      ],
+      "title": "Network Address Translation Traversal"
+    },
+    {
+      "id": "T1600.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1600"
+      ],
+      "title": "Reduce Key Space"
+    },
+    {
+      "id": "T1600.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1600"
+      ],
+      "title": "Disable Crypto Hardware"
+    },
+    {
+      "id": "T1601.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1601"
+      ],
+      "title": "Patch System Image"
+    },
+    {
+      "id": "T1601.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1601"
+      ],
+      "title": "Downgrade System Image"
+    },
+    {
+      "id": "T1602.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1602"
+      ],
+      "title": "SNMP (MIB Dump)"
+    },
+    {
+      "id": "T1602.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1602"
+      ],
+      "title": "Network Device Configuration Dump"
+    },
+    {
+      "id": "T1606.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1606"
+      ],
+      "title": "Web Cookies"
+    },
+    {
+      "id": "T1606.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1606"
+      ],
+      "title": "SAML Tokens"
+    },
+    {
+      "id": "T1608.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1608"
+      ],
+      "title": "Upload Malware"
+    },
+    {
+      "id": "T1608.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1608"
+      ],
+      "title": "Upload Tool"
+    },
+    {
+      "id": "T1608.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1608"
+      ],
+      "title": "Install Digital Certificate"
+    },
+    {
+      "id": "T1608.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1608"
+      ],
+      "title": "Drive-by Target"
+    },
+    {
+      "id": "T1608.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1608"
+      ],
+      "title": "Link Target"
+    },
+    {
+      "id": "T1608.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1608"
+      ],
+      "title": "SEO Poisoning"
+    },
+    {
+      "id": "T1608.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1608"
+      ],
+      "title": "AI Result Poisoning"
+    },
+    {
+      "id": "T1614.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1614"
+      ],
+      "title": "System Language Discovery"
+    },
+    {
+      "id": "T1683.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1683"
+      ],
+      "title": "Written Content"
+    },
+    {
+      "id": "T1683.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1683"
+      ],
+      "title": "Audio-Visual Content"
+    },
+    {
+      "id": "T1684.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1684"
+      ],
+      "title": "Impersonation"
+    },
+    {
+      "id": "T1684.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1684"
+      ],
+      "title": "Email Spoofing"
+    },
+    {
+      "id": "T1685.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1685"
+      ],
+      "title": "Disable or Modify Windows Event Log"
+    },
+    {
+      "id": "T1685.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1685"
+      ],
+      "title": "Disable or Modify Cloud Log"
+    },
+    {
+      "id": "T1685.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1685"
+      ],
+      "title": "Modify or Spoof Tool UI"
+    },
+    {
+      "id": "T1685.004",
+      "level": "subtechnique",
+      "parents": [
+        "T1685"
+      ],
+      "title": "Disable or Modify Linux Audit System Log"
+    },
+    {
+      "id": "T1685.005",
+      "level": "subtechnique",
+      "parents": [
+        "T1685"
+      ],
+      "title": "Clear Windows Event Logs"
+    },
+    {
+      "id": "T1685.006",
+      "level": "subtechnique",
+      "parents": [
+        "T1685"
+      ],
+      "title": "Clear Linux or Mac System Logs"
+    },
+    {
+      "id": "T1685.007",
+      "level": "subtechnique",
+      "parents": [
+        "T1685"
+      ],
+      "title": "Impair Autonomous Defenses"
+    },
+    {
+      "id": "T1686.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1686"
+      ],
+      "title": "Cloud Firewall"
+    },
+    {
+      "id": "T1686.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1686"
+      ],
+      "title": "Network Device Firewall"
+    },
+    {
+      "id": "T1686.003",
+      "level": "subtechnique",
+      "parents": [
+        "T1686"
+      ],
+      "title": "Windows Host Firewall"
+    },
+    {
+      "id": "T1696.001",
+      "level": "subtechnique",
+      "parents": [
+        "T1696"
+      ],
+      "title": "Automate CAPTCHA Completion"
+    },
+    {
+      "id": "T1696.002",
+      "level": "subtechnique",
+      "parents": [
+        "T1696"
+      ],
+      "title": "Avoid CAPTCHA"
     }
   ],
   "sets": [],

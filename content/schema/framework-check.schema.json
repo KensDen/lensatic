@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:lensatic:framework-check.schema:2.0.0-r1",
+  "$id": "urn:lensatic:framework-check.schema:2.0.0-r2",
   "title": "A Lensatic readiness check",
   "description": "Schema for content/frameworks/check-<id>.json: questions tied to a framework's nodes, the answers, and what to do next for each. A self-check; the honest line says so.",
   "type": "object",
@@ -101,6 +101,29 @@
       "type": "integer",
       "minimum": 1,
       "maximum": 7
+    },
+    "doors": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9-]*$"
+      },
+      "uniqueItems": true,
+      "description": "The trailheads this check belongs to: My Path offers it to a reader on one of them."
+    },
+    "groupBy": {
+      "enum": [
+        "top",
+        "parent",
+        "none"
+      ],
+      "description": "How the questions are grouped: under the framework's top-level nodes (the default), under each question's own parent (a level's domains), or in one group (a short check with a question for each top-level node)."
+    },
+    "short": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 28,
+      "description": "The check's name on a button or a row."
     }
   }
 }

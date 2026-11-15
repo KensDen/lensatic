@@ -1,0 +1,31 @@
+{
+  "id": "compare-csf20-iso27001",
+  "a": "csf20",
+  "b": "iso27001",
+  "verdict": "Complementary. CSF 2.0 states outcomes anyone may use; ISO/IEC 27001 is a management system standard that an accredited body certifies.",
+  "rows": [
+    {
+      "label": "Purpose",
+      "a": "One shared language for cybersecurity outcomes, from the board to the operations floor.",
+      "b": "The international standard for running information security as a managed system, and one you can be certified against."
+    },
+    {
+      "label": "Who Must Follow It",
+      "a": "Voluntary by design. Executive Order 13800 directs every federal agency head to use it.",
+      "b": "Voluntary. It binds where a contract, a customer or a regulator asks for conformity or certification."
+    },
+    {
+      "label": "How It Is Assessed",
+      "a": "No certification and no assessor. An organization describes itself with Profiles and Tiers.",
+      "b": "An accredited certification body audits in two stages, then returns for surveillance and recertifies on a three-year cycle."
+    },
+    {
+      "label": "Its Text",
+      "a": "Free from NIST, and shown here in full.",
+      "b": "Sold by ISO and national standards bodies. Lensatic shows its shape and none of its text."
+    }
+  ],
+  "connect": "NIST’s CSF 2.0 Reference Tool prints, beside each Subcategory, the ISO/IEC 27001:2022 clauses and Annex A controls that relate to it. They are NIST’s pointers, not an equivalence, and a certificate does not prove the outcomes.",
+  "noScore": "Lensatic gives no strictness score here. One describes outcomes and the other is certified, so neither is stricter than the other. Many organizations use both.",
+  "overlapLine": "Counted from NIST’s own references. Lensatic shows the identifiers NIST names and none of ISO’s text."
+}

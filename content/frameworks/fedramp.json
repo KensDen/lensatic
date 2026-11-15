@@ -141,13 +141,6 @@
   },
   "deadlines": [
     {
-      "date": "2027-01-01",
-      "label": "The 2026 rules bind new Rev5 applications and active 20x services",
-      "short": "2026 rules in force",
-      "binds": "Cloud providers",
-      "sourceId": "fedramp-deadlines"
-    },
-    {
       "date": "2027-06-11",
       "label": "New Rev5 applications end",
       "short": "New Rev5 ends",
@@ -2368,5 +2361,6 @@
         ]
       }
     }
-  ]
+  ],
+  "entityId": "fedramp"
 }

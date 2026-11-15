@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:lensatic:framework-catalog.schema:2.0.0-r1",
+  "$id": "urn:lensatic:framework-catalog.schema:2.0.0-r2",
   "title": "The Lensatic framework catalog",
   "description": "Schema for content/frameworks/catalog.json: the groups, the order of the cards, where other standards land, the comparison and check files, and the navigator's labels.",
   "type": "object",

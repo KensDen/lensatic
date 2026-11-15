@@ -1,0 +1,34 @@
+{
+  "id": "compare-fedramp-20x-rev5",
+  "a": "fedramp",
+  "b": "fedramp",
+  "aName": "FedRAMP 20x",
+  "bName": "FedRAMP Rev5",
+  "title": "FedRAMP 20x with Rev5",
+  "verdict": "Two routes to one certification. 20x measures outcomes with Key Security Indicators; Rev5 implements a baseline of controls and takes no new applications after 11 June 2027.",
+  "rows": [
+    {
+      "label": "Purpose",
+      "a": "Shows that a cloud service meets FedRAMP’s Key Security Indicators.",
+      "b": "Shows that a cloud service implements a FedRAMP baseline of SP 800-53 controls."
+    },
+    {
+      "label": "Its Unit",
+      "a": "An indicator such as KSI-IAM-ELP, one of 46 in 10 themes.",
+      "b": "A control such as AC-2, one of 155, 322 or 409 in a class’s baseline."
+    },
+    {
+      "label": "Classes",
+      "a": "FedRAMP’s own gloss: Class A for pilots, Class B for low and Class C for moderate.",
+      "b": "Baselines for Classes B, C and D."
+    },
+    {
+      "label": "What Comes Next",
+      "a": "The type FedRAMP builds on. Its rules bind active 20x services from 1 January 2027.",
+      "b": "FedRAMP says Rev5 will be retired. New applications end on 11 June 2027."
+    }
+  ],
+  "connect": "Each Key Security Indicator names the SP 800-53 controls it relates to, so the two types meet in the control catalog. An indicator is not a bundle of controls: it is met by showing the outcome, not control by control.",
+  "noScore": "Lensatic gives no strictness score here. The two types lead to the same FedRAMP Certification, and FedRAMP does not rank one above the other.",
+  "overlapLine": "Counted from FedRAMP’s own rules file: how many of each Rev5 baseline’s controls at least one indicator names."
+}

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:lensatic:framework-compare.schema:2.0.0-r1",
+  "$id": "urn:lensatic:framework-compare.schema:2.0.0-r2",
   "title": "A Lensatic framework comparison",
   "description": "Schema for content/frameworks/compare-<a>-<b>.json: the same questions asked of two frameworks, how they connect, and the line over the overlap the app counts from a published crosswalk. There is no field for a score.",
   "type": "object",
@@ -12,8 +12,7 @@
     "verdict",
     "rows",
     "connect",
-    "noScore",
-    "overlapLine"
+    "noScore"
   ],
   "properties": {
     "id": {
@@ -69,7 +68,26 @@
     },
     "overlapLine": {
       "type": "string",
-      "minLength": 1
+      "minLength": 1,
+      "description": "The line over the overlap the app counts. Left out where no publisher prints a crosswalk between the two: the app then shows the facts side by side and counts nothing."
+    },
+    "aName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 24,
+      "description": "The first side's name where both sides are parts of one framework (FedRAMP 20x)."
+    },
+    "bName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 24,
+      "description": "The second side's name, likewise."
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "description": "The comparison's name in the list where the two short names would not say it."
     }
   }
 }

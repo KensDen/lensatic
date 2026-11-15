@@ -1,0 +1,30 @@
+{
+  "id": "compare-fedramp-govramp",
+  "a": "fedramp",
+  "b": "govramp",
+  "verdict": "One idea, two sets of customers. FedRAMP certifies cloud services for federal agencies; GovRAMP verifies them for state and local governments, on the same control catalog.",
+  "rows": [
+    {
+      "label": "Purpose",
+      "a": "One security certification for a cloud service that every federal agency can reuse.",
+      "b": "One cloud security verification that state and local governments can share, modeled on FedRAMP."
+    },
+    {
+      "label": "Who Must Follow It",
+      "a": "Agencies must favor FedRAMP Certified cloud services where the use is in scope. Providers follow the Consolidated Rules to earn and keep certification.",
+      "b": "A membership nonprofit, not a law. Its site lists 72 participating government organizations."
+    },
+    {
+      "label": "How It Is Assessed",
+      "a": "A FedRAMP Recognized assessor assesses Classes B, C and D at least once a year. Each agency still issues its own authorization to operate.",
+      "b": "A third-party assessor assesses Ready and Authorized, the program office validates, and a government sponsor or the Approvals Committee approves Authorized."
+    },
+    {
+      "label": "What It Grants",
+      "a": "FedRAMP Certified, in Class A, B, C or D.",
+      "b": "One of four verified statuses: Core, Ready, Provisional or Authorized."
+    }
+  ],
+  "connect": "Each takes the other as a start. FedRAMP’s Class A rule accepts a GovRAMP status from the past 12 months, and GovRAMP’s Fast Track reuses FedRAMP packages. Neither publishes a crosswalk to the other.",
+  "noScore": "Lensatic gives no strictness score here. The two serve different governments, and a status in one is not a grade in the other."
+}

@@ -1,5 +1,5 @@
 {
-  "modelVersion": "2.0.0-r1",
+  "modelVersion": "2.0.0-r2",
   "checkedOn": "2026-11-14",
   "intro": "Every framework as a card: what it is for, who it binds, how it is verified, how big it is and where it sits.",
   "groups": [
@@ -145,10 +145,17 @@
     }
   ],
   "compares": [
-    "compare-csf20-sp800-53"
+    "compare-csf20-sp800-53",
+    "compare-fedramp-20x-rev5",
+    "compare-fedramp-govramp",
+    "compare-sp800-171-sp800-53",
+    "compare-csf20-iso27001"
   ],
   "checks": [
-    "check-csf20"
+    "check-csf20",
+    "check-fedramp",
+    "check-cmmc-l1",
+    "check-dod-zt"
   ],
   "labels": {
     "layers": "Layers",
@@ -169,7 +176,7 @@
     "landsLine": "Standards without a full entry here, and the frameworks they meet.",
     "landsOn": "Lands On",
     "compareIntro": "Two frameworks, the same questions. No strictness scores: frameworks on different layers are not stricter or looser than each other.",
-    "compareMore": "One comparison so far. More arrive as each framework gets its full structure.",
+    "compareMore": "Any two cards compare by their facts. An overlap is counted only where a publisher prints a crosswalk between the two.",
     "sources": "Sources",
     "openSource": "Open the Source",
     "openPDF": "Open the PDF",
@@ -200,7 +207,7 @@
     "noScoreTitle": "No Score",
     "openEach": "Open Each",
     "reached": "In all, the references reach {n} of the {of} {unit} in {name}.",
-    "overlapRow": "{linked} of {leaves} {unit} point to {targets} controls in {name}",
+    "overlapRow": "{linked} of {leaves} {unit} point to {targets} {targetUnit} in {name}",
     "mostIn": "Most in",
     "answered": "{n} of {m} answered",
     "whereYouStand": "Where You Stand",
@@ -212,7 +219,7 @@
     "startOver": "Start Over",
     "checkKept": "Your answers are kept on this device only.",
     "homeFrameworksTitle": "{count} frameworks, one map",
-    "homeCheck": "CSF 2.0 Check",
+    "homeCheck": "Self-Checks",
     "cardOnly": "Lensatic shows this one as a card for now. There is no structure to open yet.",
     "textAtSource": "Lensatic lists the identifier and the title. The text is at the source.",
     "landsEyebrow": "Where It Lands",
@@ -220,6 +227,41 @@
     "nextAtEnd": "Your next steps are listed after the questions.",
     "inFieldGuide": "In the Field Guide",
     "jump": "Jump to",
-    "homeFrameworksLine": "Open one, or browse them all."
+    "homeFrameworksLine": "Open one, or browse them all.",
+    "elements": "Framework Elements",
+    "checks": "Self-Checks",
+    "checksIntro": "Self-checks, each tied to one framework. Your answers stay on this device, and none of them is an assessment.",
+    "viewCards": "Cards",
+    "viewList": "Compact List",
+    "compareAny": "Any Two Frameworks",
+    "compareFirst": "First Framework",
+    "compareSecond": "Second Framework",
+    "compareOpen": "Compare These Two",
+    "compareHint": "Pick two different frameworks first",
+    "compareNamed": "Written Comparisons",
+    "comparePurpose": "Purpose",
+    "compareBinds": "Who Must Follow It",
+    "compareAssessed": "How It Is Assessed",
+    "noLink": "Neither card names the other. Lensatic records no direct link between these two.",
+    "overlapGeneric": "Counted from references that {publisher} publishes.",
+    "noCrosswalk": "No publisher prints a crosswalk between these two, so Lensatic counts no overlap.",
+    "noScoreGeneric": "Lensatic gives no strictness score. Two frameworks answer different questions, so neither is stricter than the other.",
+    "openIt": "Open It",
+    "reachedUnlisted": "In all, the references name {n} identifiers of {name}. Lensatic does not list that standard’s elements.",
+    "identifiers": "identifiers",
+    "setOverlapRow": "{n} of its {m} {unit} are named by at least one {level}",
+    "unlistedLine": "Identifiers of {name}, as the reference gives them. Lensatic does not list that standard’s text.",
+    "inSets": "In Levels and Baselines",
+    "onTheStack": "Open this layer of the stack",
+    "inFrameworks": "In Frameworks",
+    "alsoOnLayer": "Also on This Layer",
+    "alsoInColumn": "Also in the Column",
+    "alsoOnLayerLine": "Cards from the Frameworks tab that sit here.",
+    "adversaryLine": "What attackers do, and what defenders answer with",
+    "knowledgeBase": "knowledge base",
+    "knowledgeBases": "knowledge bases",
+    "stackAgrees": "These are the layers and columns every card in the Frameworks tab names.",
+    "compareAnother": "Compare With Any Framework",
+    "questions": "Questions"
   }
 }

@@ -35,7 +35,7 @@
       "unit": "Activities"
     }
   ],
-  "note": "Lensatic does not list the pillars, capabilities and activities on this screen yet. The Field Guide’s quick reference has all seven pillars and every capability.",
+  "note": "Every pillar, capability and activity is listed by number and name. The activities come from the copy of the department’s document saved on 30 September 2026: its library refused a script on 14 November 2026, so this edition could not be read again that day.",
   "chapterId": "qr-dow",
   "sits": {
     "layers": [
@@ -43,11 +43,27 @@
     ],
     "line": "Layer 3. It sets the target state; the zero trust overlays tie it to controls one layer down."
   },
-  "sources": [],
+  "sources": [
+    {
+      "id": "dod-zt-activities",
+      "publisher": "DoD CIO, Zero Trust Portfolio Management Office",
+      "title": "DoD Zero Trust Capabilities and Activities",
+      "edition": "v1.1",
+      "date": "2025-01-22",
+      "url": "https://dowcio.war.gov/Library/",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-09-30",
+        "method": "primary-fetch",
+        "note": "Parsed by script from the copy of this document saved from the CIO library on 30 September 2026: 7 pillars, 45 capabilities and 152 activities, of which the table marks 91 Target Level and 61 Advanced Level, the totals the Zero Trust Execution Roadmap v1.1 prints. Three capabilities hold only Advanced activities (3.5, 6.4 and 7.6), which gives the roadmap’s 42 and 3. The 45 capability names equal the names verified for the map in September. One activity’s name, 6.5.3, differs from the department’s print by one capital letter, which Lensatic’s own naming rule sets in lower case. On 14 November 2026 the library and the document answered a script with 403, so the edition was not read again that day; open the library in a browser to confirm v1.1 is still current.",
+        "recheckAfter": "2026-12-15"
+      }
+    }
+  ],
   "terms": {
     "basis": "us-government-work",
-    "shows": "structure",
-    "line": "A work of the United States government. Lensatic shows the card only for now.",
+    "shows": "titles",
+    "line": "A work of the United States government. Lensatic lists the department’s numbers and names; the descriptions, outcomes and end states are at the source.",
     "notice": null,
     "url": null
   },
@@ -66,9 +82,1985 @@
       "line": "The department’s zero trust overlays select from this catalog."
     }
   ],
-  "depth": null,
-  "levels": [],
-  "nodes": [],
-  "sets": [],
-  "crosswalks": []
+  "depth": {
+    "shown": 152,
+    "of": 152,
+    "unit": "activities",
+    "why": "Each is listed by number and name. The descriptions, outcomes and end states are at the source."
+  },
+  "levels": [
+    {
+      "id": "pillar",
+      "name": "Pillar",
+      "plural": "Pillars"
+    },
+    {
+      "id": "capability",
+      "name": "Capability",
+      "plural": "Capabilities"
+    },
+    {
+      "id": "activity",
+      "name": "Activity",
+      "plural": "Activities"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "1",
+      "level": "pillar",
+      "parents": [],
+      "title": "User"
+    },
+    {
+      "id": "1.1",
+      "level": "capability",
+      "parents": [
+        "1"
+      ],
+      "title": "User Inventory"
+    },
+    {
+      "id": "1.1.1",
+      "level": "activity",
+      "parents": [
+        "1.1"
+      ],
+      "title": "Inventory User",
+      "note": "Target Level."
+    },
+    {
+      "id": "1.2",
+      "level": "capability",
+      "parents": [
+        "1"
+      ],
+      "title": "Conditional User Access"
+    },
+    {
+      "id": "1.2.1",
+      "level": "activity",
+      "parents": [
+        "1.2"
+      ],
+      "title": "Implement App Based Permissions per Enterprise",
+      "note": "Target Level."
+    },
+    {
+      "id": "1.2.2",
+      "level": "activity",
+      "parents": [
+        "1.2"
+      ],
+      "title": "Rule Based Dynamic Access Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "1.2.3",
+      "level": "activity",
+      "parents": [
+        "1.2"
+      ],
+      "title": "Rule Based Dynamic Access Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.2.4",
+      "level": "activity",
+      "parents": [
+        "1.2"
+      ],
+      "title": "Enterprise Gov’t roles and Permissions Pt1",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.2.5",
+      "level": "activity",
+      "parents": [
+        "1.2"
+      ],
+      "title": "Enterprise Gov’t roles and Permissions Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.3",
+      "level": "capability",
+      "parents": [
+        "1"
+      ],
+      "title": "Multi-Factor Authentication (MFA)"
+    },
+    {
+      "id": "1.3.1",
+      "level": "activity",
+      "parents": [
+        "1.3"
+      ],
+      "title": "Organizational MFA/IDP",
+      "note": "Target Level."
+    },
+    {
+      "id": "1.3.2",
+      "level": "activity",
+      "parents": [
+        "1.3"
+      ],
+      "title": "Alternative Flexible MFA Pt1",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.3.3",
+      "level": "activity",
+      "parents": [
+        "1.3"
+      ],
+      "title": "Alternative Flexible MFA Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.4",
+      "level": "capability",
+      "parents": [
+        "1"
+      ],
+      "title": "Privileged Access Management (PAM)"
+    },
+    {
+      "id": "1.4.1",
+      "level": "activity",
+      "parents": [
+        "1.4"
+      ],
+      "title": "Implement System and Migrate Privileged Users Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "1.4.2",
+      "level": "activity",
+      "parents": [
+        "1.4"
+      ],
+      "title": "Implement System and Migrate Privileged Users Pt2",
+      "note": "Target Level."
+    },
+    {
+      "id": "1.4.3",
+      "level": "activity",
+      "parents": [
+        "1.4"
+      ],
+      "title": "Real time Approvals & JIT/JEA Analytics Pt1",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.4.4",
+      "level": "activity",
+      "parents": [
+        "1.4"
+      ],
+      "title": "Real time Approvals & JIT/JEA Analytics Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.5",
+      "level": "capability",
+      "parents": [
+        "1"
+      ],
+      "title": "Identity Federation & User Credentialing"
+    },
+    {
+      "id": "1.5.1",
+      "level": "activity",
+      "parents": [
+        "1.5"
+      ],
+      "title": "Organizational Identity Life- Cycle Management",
+      "note": "Target Level."
+    },
+    {
+      "id": "1.5.2",
+      "level": "activity",
+      "parents": [
+        "1.5"
+      ],
+      "title": "Enterprise Identity Life-Cycle Management Pt 1",
+      "note": "Target Level."
+    },
+    {
+      "id": "1.5.3",
+      "level": "activity",
+      "parents": [
+        "1.5"
+      ],
+      "title": "Enterprise Identity LifeCycle Management Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.5.4",
+      "level": "activity",
+      "parents": [
+        "1.5"
+      ],
+      "title": "Enterprise Identity LifeCycle Management Pt3",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.6",
+      "level": "capability",
+      "parents": [
+        "1"
+      ],
+      "title": "Behavioral, Contextual ID, and Biometrics"
+    },
+    {
+      "id": "1.6.1",
+      "level": "activity",
+      "parents": [
+        "1.6"
+      ],
+      "title": "Implement User & Entity Behavior Activity (UEBA) and User Activity Monitoring (UAM) Tooling",
+      "note": "Target Level."
+    },
+    {
+      "id": "1.6.2",
+      "level": "activity",
+      "parents": [
+        "1.6"
+      ],
+      "title": "User Activity Monitoring Pt1",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.6.3",
+      "level": "activity",
+      "parents": [
+        "1.6"
+      ],
+      "title": "User Activity Monitoring Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.7",
+      "level": "capability",
+      "parents": [
+        "1"
+      ],
+      "title": "Least Privileged Access"
+    },
+    {
+      "id": "1.7.1",
+      "level": "activity",
+      "parents": [
+        "1.7"
+      ],
+      "title": "Deny User by Default Policy",
+      "note": "Target Level."
+    },
+    {
+      "id": "1.8",
+      "level": "capability",
+      "parents": [
+        "1"
+      ],
+      "title": "Continuous Authentication"
+    },
+    {
+      "id": "1.8.1",
+      "level": "activity",
+      "parents": [
+        "1.8"
+      ],
+      "title": "Single Authentication",
+      "note": "Target Level."
+    },
+    {
+      "id": "1.8.2",
+      "level": "activity",
+      "parents": [
+        "1.8"
+      ],
+      "title": "Periodic Authentication",
+      "note": "Target Level."
+    },
+    {
+      "id": "1.8.3",
+      "level": "activity",
+      "parents": [
+        "1.8"
+      ],
+      "title": "Continuous Authentication Pt 1",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.8.4",
+      "level": "activity",
+      "parents": [
+        "1.8"
+      ],
+      "title": "Continuous Authentication Pt 2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.9",
+      "level": "capability",
+      "parents": [
+        "1"
+      ],
+      "title": "Integrated ICAM Platform"
+    },
+    {
+      "id": "1.9.1",
+      "level": "activity",
+      "parents": [
+        "1.9"
+      ],
+      "title": "Enterprise PKI/IDP Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "1.9.2",
+      "level": "activity",
+      "parents": [
+        "1.9"
+      ],
+      "title": "Enterprise PKI/IDP Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "1.9.3",
+      "level": "activity",
+      "parents": [
+        "1.9"
+      ],
+      "title": "Enterprise PKI/IDP Pt3",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "2",
+      "level": "pillar",
+      "parents": [],
+      "title": "Device"
+    },
+    {
+      "id": "2.1",
+      "level": "capability",
+      "parents": [
+        "2"
+      ],
+      "title": "Device Inventory"
+    },
+    {
+      "id": "2.1.1",
+      "level": "activity",
+      "parents": [
+        "2.1"
+      ],
+      "title": "Device Health Tool Gap Analysis",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.1.2",
+      "level": "activity",
+      "parents": [
+        "2.1"
+      ],
+      "title": "NPE/PKI, Device under Management",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.1.3",
+      "level": "activity",
+      "parents": [
+        "2.1"
+      ],
+      "title": "Enterprise IDP Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.1.4",
+      "level": "activity",
+      "parents": [
+        "2.1"
+      ],
+      "title": "Enterprise IDP Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "2.2",
+      "level": "capability",
+      "parents": [
+        "2"
+      ],
+      "title": "Device Detection and Compliance"
+    },
+    {
+      "id": "2.2.1",
+      "level": "activity",
+      "parents": [
+        "2.2"
+      ],
+      "title": "Implement C2C/Compliance Based Network Authorization Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.2.2",
+      "level": "activity",
+      "parents": [
+        "2.2"
+      ],
+      "title": "Implement C2C/Compliance Based Network Authorization Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "2.3",
+      "level": "capability",
+      "parents": [
+        "2"
+      ],
+      "title": "Device Authorization w/ Real Time Inspection"
+    },
+    {
+      "id": "2.3.1",
+      "level": "activity",
+      "parents": [
+        "2.3"
+      ],
+      "title": "Entity Activity Monitoring Pt1",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "2.3.2",
+      "level": "activity",
+      "parents": [
+        "2.3"
+      ],
+      "title": "Entity Activity Monitoring Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "2.3.3",
+      "level": "activity",
+      "parents": [
+        "2.3"
+      ],
+      "title": "Implement Application Control & File Integrity Monitoring (FIM) Tools",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.3.4",
+      "level": "activity",
+      "parents": [
+        "2.3"
+      ],
+      "title": "Integrate NextGen AV Tools with C2C",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.3.5",
+      "level": "activity",
+      "parents": [
+        "2.3"
+      ],
+      "title": "Fully Integrate Device Security stack with C2C as appropriate",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "2.3.6",
+      "level": "activity",
+      "parents": [
+        "2.3"
+      ],
+      "title": "Enterprise PKI Pt1",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "2.3.7",
+      "level": "activity",
+      "parents": [
+        "2.3"
+      ],
+      "title": "Enterprise PKI Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "2.4",
+      "level": "capability",
+      "parents": [
+        "2"
+      ],
+      "title": "Remote Access"
+    },
+    {
+      "id": "2.4.1",
+      "level": "activity",
+      "parents": [
+        "2.4"
+      ],
+      "title": "Deny Device by Default Policy",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.4.2",
+      "level": "activity",
+      "parents": [
+        "2.4"
+      ],
+      "title": "Managed and Limited BYOD & IOT Support",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.4.3",
+      "level": "activity",
+      "parents": [
+        "2.4"
+      ],
+      "title": "Managed and Full BYOD & IOT Support Pt1",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "2.4.4",
+      "level": "activity",
+      "parents": [
+        "2.4"
+      ],
+      "title": "Managed and Full BYOD & IOT Support Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "2.5",
+      "level": "capability",
+      "parents": [
+        "2"
+      ],
+      "title": "Partially & Fully Automated Asset, Vulnerability and Patch Management"
+    },
+    {
+      "id": "2.5.1",
+      "level": "activity",
+      "parents": [
+        "2.5"
+      ],
+      "title": "Implement Asset, Vulnerability and Patch Management Tools",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.6",
+      "level": "capability",
+      "parents": [
+        "2"
+      ],
+      "title": "Unified Endpoint Management (UEM) & Mobile Device Management (MDM)"
+    },
+    {
+      "id": "2.6.1",
+      "level": "activity",
+      "parents": [
+        "2.6"
+      ],
+      "title": "Implement UEDM or equivalent Tools",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.6.2",
+      "level": "activity",
+      "parents": [
+        "2.6"
+      ],
+      "title": "Enterprise Device Management Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.6.3",
+      "level": "activity",
+      "parents": [
+        "2.6"
+      ],
+      "title": "Enterprise Device Management Pt2",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.7",
+      "level": "capability",
+      "parents": [
+        "2"
+      ],
+      "title": "Endpoint & Extended Detection & Response (EDR & XDR)"
+    },
+    {
+      "id": "2.7.1",
+      "level": "activity",
+      "parents": [
+        "2.7"
+      ],
+      "title": "Implement Endpoint Detection & Response (EDR) Tools and Integrate with C2C",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.7.2",
+      "level": "activity",
+      "parents": [
+        "2.7"
+      ],
+      "title": "Implement Extended Detection & Response (XDR) Tools and Integrate with C2C Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "2.7.3",
+      "level": "activity",
+      "parents": [
+        "2.7"
+      ],
+      "title": "Implement Extended Detection & Response (XDR) Tools and Integrate with C2C Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "3",
+      "level": "pillar",
+      "parents": [],
+      "title": "Application & Workload"
+    },
+    {
+      "id": "3.1",
+      "level": "capability",
+      "parents": [
+        "3"
+      ],
+      "title": "Application Inventory"
+    },
+    {
+      "id": "3.1.1",
+      "level": "activity",
+      "parents": [
+        "3.1"
+      ],
+      "title": "Application/Code Identification",
+      "note": "Target Level."
+    },
+    {
+      "id": "3.2",
+      "level": "capability",
+      "parents": [
+        "3"
+      ],
+      "title": "Secure Software Development & Integration"
+    },
+    {
+      "id": "3.2.1",
+      "level": "activity",
+      "parents": [
+        "3.2"
+      ],
+      "title": "Build DevSecOps Software Factory Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "3.2.2",
+      "level": "activity",
+      "parents": [
+        "3.2"
+      ],
+      "title": "Build DevSecOps Software Factory Pt2",
+      "note": "Target Level."
+    },
+    {
+      "id": "3.2.3",
+      "level": "activity",
+      "parents": [
+        "3.2"
+      ],
+      "title": "Automate Application Security & Code Remediation Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "3.2.4",
+      "level": "activity",
+      "parents": [
+        "3.2"
+      ],
+      "title": "Automate Application Security & Code Remediation Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "3.3",
+      "level": "capability",
+      "parents": [
+        "3"
+      ],
+      "title": "Software Risk Management"
+    },
+    {
+      "id": "3.3.1",
+      "level": "activity",
+      "parents": [
+        "3.3"
+      ],
+      "title": "Approved Binaries/Code",
+      "note": "Target Level."
+    },
+    {
+      "id": "3.3.2",
+      "level": "activity",
+      "parents": [
+        "3.3"
+      ],
+      "title": "Vulnerability Management Program Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "3.3.3",
+      "level": "activity",
+      "parents": [
+        "3.3"
+      ],
+      "title": "Vulnerability Management Program Pt2",
+      "note": "Target Level."
+    },
+    {
+      "id": "3.3.4",
+      "level": "activity",
+      "parents": [
+        "3.3"
+      ],
+      "title": "Continual Validation",
+      "note": "Target Level."
+    },
+    {
+      "id": "3.4",
+      "level": "capability",
+      "parents": [
+        "3"
+      ],
+      "title": "Resource Authorization & Integration"
+    },
+    {
+      "id": "3.4.1",
+      "level": "activity",
+      "parents": [
+        "3.4"
+      ],
+      "title": "Resource Authorization Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "3.4.2",
+      "level": "activity",
+      "parents": [
+        "3.4"
+      ],
+      "title": "Resource Authorization Pt2",
+      "note": "Target Level."
+    },
+    {
+      "id": "3.4.3",
+      "level": "activity",
+      "parents": [
+        "3.4"
+      ],
+      "title": "SDC Resource Authorization Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "3.4.4",
+      "level": "activity",
+      "parents": [
+        "3.4"
+      ],
+      "title": "SDC Resource Authorization Pt2",
+      "note": "Target Level."
+    },
+    {
+      "id": "3.4.5",
+      "level": "activity",
+      "parents": [
+        "3.4"
+      ],
+      "title": "Enrich Attributes for Resource Authorization Pt1",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "3.4.6",
+      "level": "activity",
+      "parents": [
+        "3.4"
+      ],
+      "title": "Enrich Attributes for Resource Authorization Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "3.4.7",
+      "level": "activity",
+      "parents": [
+        "3.4"
+      ],
+      "title": "REST API Micro-Segments",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "3.5",
+      "level": "capability",
+      "parents": [
+        "3"
+      ],
+      "title": "Continuous Monitoring and Ongoing Authorizations",
+      "note": "Advanced Level: every activity under it is Advanced."
+    },
+    {
+      "id": "3.5.1",
+      "level": "activity",
+      "parents": [
+        "3.5"
+      ],
+      "title": "Continuous Authorization to Operate (cATO) Pt1",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "3.5.2",
+      "level": "activity",
+      "parents": [
+        "3.5"
+      ],
+      "title": "Continuous Authorization to Operate (cATO) Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4",
+      "level": "pillar",
+      "parents": [],
+      "title": "Data"
+    },
+    {
+      "id": "4.1",
+      "level": "capability",
+      "parents": [
+        "4"
+      ],
+      "title": "Data Catalog Risk Alignment"
+    },
+    {
+      "id": "4.1.1",
+      "level": "activity",
+      "parents": [
+        "4.1"
+      ],
+      "title": "Data Analysis",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.2",
+      "level": "capability",
+      "parents": [
+        "4"
+      ],
+      "title": "DoD Enterprise Data Governance"
+    },
+    {
+      "id": "4.2.1",
+      "level": "activity",
+      "parents": [
+        "4.2"
+      ],
+      "title": "Define Data Tagging Standards",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.2.2",
+      "level": "activity",
+      "parents": [
+        "4.2"
+      ],
+      "title": "Interoperability Standards",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.2.3",
+      "level": "activity",
+      "parents": [
+        "4.2"
+      ],
+      "title": "Develop Software Defined Storage (SDS) Policy",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.3",
+      "level": "capability",
+      "parents": [
+        "4"
+      ],
+      "title": "Data Labeling and Tagging"
+    },
+    {
+      "id": "4.3.1",
+      "level": "activity",
+      "parents": [
+        "4.3"
+      ],
+      "title": "Implement Data Tagging & Classification Tools",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.3.2",
+      "level": "activity",
+      "parents": [
+        "4.3"
+      ],
+      "title": "Manual Data Tagging Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.3.3",
+      "level": "activity",
+      "parents": [
+        "4.3"
+      ],
+      "title": "Manual Data Tagging Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4.3.4",
+      "level": "activity",
+      "parents": [
+        "4.3"
+      ],
+      "title": "Automated Data Tagging & Support Pt1",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4.3.5",
+      "level": "activity",
+      "parents": [
+        "4.3"
+      ],
+      "title": "Automated Data Tagging & Support Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4.4",
+      "level": "capability",
+      "parents": [
+        "4"
+      ],
+      "title": "Data Monitoring and Sensing"
+    },
+    {
+      "id": "4.4.1",
+      "level": "activity",
+      "parents": [
+        "4.4"
+      ],
+      "title": "DLP Enforcement Point Logging and Analysis",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.4.2",
+      "level": "activity",
+      "parents": [
+        "4.4"
+      ],
+      "title": "DRM Enforcement Point Logging and Analysis",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.4.3",
+      "level": "activity",
+      "parents": [
+        "4.4"
+      ],
+      "title": "File Activity Monitoring Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.4.4",
+      "level": "activity",
+      "parents": [
+        "4.4"
+      ],
+      "title": "File Activity Monitoring Pt2",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.4.5",
+      "level": "activity",
+      "parents": [
+        "4.4"
+      ],
+      "title": "Database Activity Monitoring",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4.4.6",
+      "level": "activity",
+      "parents": [
+        "4.4"
+      ],
+      "title": "Comprehensive Data Activity Monitoring",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4.5",
+      "level": "capability",
+      "parents": [
+        "4"
+      ],
+      "title": "Data Encryption & Rights Management"
+    },
+    {
+      "id": "4.5.1",
+      "level": "activity",
+      "parents": [
+        "4.5"
+      ],
+      "title": "Implement DRM and Protection Tools Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.5.2",
+      "level": "activity",
+      "parents": [
+        "4.5"
+      ],
+      "title": "Implement DRM and Protection Tools Pt2",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.5.3",
+      "level": "activity",
+      "parents": [
+        "4.5"
+      ],
+      "title": "DRM Enforcement via Data Tags and Analytics Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.5.4",
+      "level": "activity",
+      "parents": [
+        "4.5"
+      ],
+      "title": "DRM Enforcement via Data Tags and Analytics Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4.5.5",
+      "level": "activity",
+      "parents": [
+        "4.5"
+      ],
+      "title": "DRM Enforcement via Data Tags and Analytics Pt3",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4.6",
+      "level": "capability",
+      "parents": [
+        "4"
+      ],
+      "title": "Data Loss Prevention (DLP)"
+    },
+    {
+      "id": "4.6.1",
+      "level": "activity",
+      "parents": [
+        "4.6"
+      ],
+      "title": "Implement Enforcement Points",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.6.2",
+      "level": "activity",
+      "parents": [
+        "4.6"
+      ],
+      "title": "DLP Enforcement via Data Tags and Analytics Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.6.3",
+      "level": "activity",
+      "parents": [
+        "4.6"
+      ],
+      "title": "DLP Enforcement via Data Tags and Analytics Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4.6.4",
+      "level": "activity",
+      "parents": [
+        "4.6"
+      ],
+      "title": "DLP Enforcement via Data Tags and Analytics Pt3",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4.7",
+      "level": "capability",
+      "parents": [
+        "4"
+      ],
+      "title": "Data Access Control"
+    },
+    {
+      "id": "4.7.1",
+      "level": "activity",
+      "parents": [
+        "4.7"
+      ],
+      "title": "Integrate DAAS Access w/SDS Policy Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.7.2",
+      "level": "activity",
+      "parents": [
+        "4.7"
+      ],
+      "title": "Integrate DAAS Access w/SDS Policy Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4.7.3",
+      "level": "activity",
+      "parents": [
+        "4.7"
+      ],
+      "title": "Integrate DAAS Access w/SDS Policy Pt3",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4.7.4",
+      "level": "activity",
+      "parents": [
+        "4.7"
+      ],
+      "title": "Integrate Solution(s) and Policy with Enterprise IDP Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "4.7.5",
+      "level": "activity",
+      "parents": [
+        "4.7"
+      ],
+      "title": "Integrate Solution(s) and Policy with Enterprise IDP Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4.7.6",
+      "level": "activity",
+      "parents": [
+        "4.7"
+      ],
+      "title": "Implement SDS Tool and/or integrate with DRM Tool Pt1",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "4.7.7",
+      "level": "activity",
+      "parents": [
+        "4.7"
+      ],
+      "title": "Implement SDS Tool and/or integrate with DRM Tool Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "5",
+      "level": "pillar",
+      "parents": [],
+      "title": "Network & Environment"
+    },
+    {
+      "id": "5.1",
+      "level": "capability",
+      "parents": [
+        "5"
+      ],
+      "title": "Data Flow Mapping"
+    },
+    {
+      "id": "5.1.1",
+      "level": "activity",
+      "parents": [
+        "5.1"
+      ],
+      "title": "Define Granular Control Access Rules & Policies Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "5.1.2",
+      "level": "activity",
+      "parents": [
+        "5.1"
+      ],
+      "title": "Define Granular Control Access Rules & Policies Pt2",
+      "note": "Target Level."
+    },
+    {
+      "id": "5.2",
+      "level": "capability",
+      "parents": [
+        "5"
+      ],
+      "title": "Software Defined Networking (SDN)"
+    },
+    {
+      "id": "5.2.1",
+      "level": "activity",
+      "parents": [
+        "5.2"
+      ],
+      "title": "Define SDN APIs",
+      "note": "Target Level."
+    },
+    {
+      "id": "5.2.2",
+      "level": "activity",
+      "parents": [
+        "5.2"
+      ],
+      "title": "Implement SDN Programable Infrastructure",
+      "note": "Target Level."
+    },
+    {
+      "id": "5.2.3",
+      "level": "activity",
+      "parents": [
+        "5.2"
+      ],
+      "title": "Segment Flows into Control, Management, and Data Planes",
+      "note": "Target Level."
+    },
+    {
+      "id": "5.2.4",
+      "level": "activity",
+      "parents": [
+        "5.2"
+      ],
+      "title": "Network Asset Discovery & Optimization",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "5.2.5",
+      "level": "activity",
+      "parents": [
+        "5.2"
+      ],
+      "title": "Real-Time Access Decisions",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "5.3",
+      "level": "capability",
+      "parents": [
+        "5"
+      ],
+      "title": "Macro Segmentation"
+    },
+    {
+      "id": "5.3.1",
+      "level": "activity",
+      "parents": [
+        "5.3"
+      ],
+      "title": "Datacenter Macro segmentation",
+      "note": "Target Level."
+    },
+    {
+      "id": "5.3.2",
+      "level": "activity",
+      "parents": [
+        "5.3"
+      ],
+      "title": "B/C/P/S Macro segmentation",
+      "note": "Target Level."
+    },
+    {
+      "id": "5.4",
+      "level": "capability",
+      "parents": [
+        "5"
+      ],
+      "title": "Micro Segmentation"
+    },
+    {
+      "id": "5.4.1",
+      "level": "activity",
+      "parents": [
+        "5.4"
+      ],
+      "title": "Implement Micro segmentation",
+      "note": "Target Level."
+    },
+    {
+      "id": "5.4.2",
+      "level": "activity",
+      "parents": [
+        "5.4"
+      ],
+      "title": "Application & Device Micro segmentation",
+      "note": "Target Level."
+    },
+    {
+      "id": "5.4.3",
+      "level": "activity",
+      "parents": [
+        "5.4"
+      ],
+      "title": "Process Micro segmentation",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "5.4.4",
+      "level": "activity",
+      "parents": [
+        "5.4"
+      ],
+      "title": "Protect Data In Transit",
+      "note": "Target Level."
+    },
+    {
+      "id": "6",
+      "level": "pillar",
+      "parents": [],
+      "title": "Automation & Orchestration"
+    },
+    {
+      "id": "6.1",
+      "level": "capability",
+      "parents": [
+        "6"
+      ],
+      "title": "Policy Decision Point (PDP) & Policy Orchestration"
+    },
+    {
+      "id": "6.1.1",
+      "level": "activity",
+      "parents": [
+        "6.1"
+      ],
+      "title": "Policy Inventory & Development",
+      "note": "Target Level."
+    },
+    {
+      "id": "6.1.2",
+      "level": "activity",
+      "parents": [
+        "6.1"
+      ],
+      "title": "Organization Access Profile",
+      "note": "Target Level."
+    },
+    {
+      "id": "6.1.3",
+      "level": "activity",
+      "parents": [
+        "6.1"
+      ],
+      "title": "Enterprise Security Profile Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "6.1.4",
+      "level": "activity",
+      "parents": [
+        "6.1"
+      ],
+      "title": "Enterprise Security Profile Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "6.2",
+      "level": "capability",
+      "parents": [
+        "6"
+      ],
+      "title": "Critical Process Automation"
+    },
+    {
+      "id": "6.2.1",
+      "level": "activity",
+      "parents": [
+        "6.2"
+      ],
+      "title": "Task Automation Analysis",
+      "note": "Target Level."
+    },
+    {
+      "id": "6.2.2",
+      "level": "activity",
+      "parents": [
+        "6.2"
+      ],
+      "title": "Enterprise Integration & Workflow Provisioning Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "6.2.3",
+      "level": "activity",
+      "parents": [
+        "6.2"
+      ],
+      "title": "Enterprise Integration & Workflow Provisioning Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "6.3",
+      "level": "capability",
+      "parents": [
+        "6"
+      ],
+      "title": "Machine Learning"
+    },
+    {
+      "id": "6.3.1",
+      "level": "activity",
+      "parents": [
+        "6.3"
+      ],
+      "title": "Implement Data Tagging & Classification ML Tools",
+      "note": "Target Level."
+    },
+    {
+      "id": "6.4",
+      "level": "capability",
+      "parents": [
+        "6"
+      ],
+      "title": "Artificial Intelligence",
+      "note": "Advanced Level: every activity under it is Advanced."
+    },
+    {
+      "id": "6.4.1",
+      "level": "activity",
+      "parents": [
+        "6.4"
+      ],
+      "title": "Implement AI automation tools",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "6.4.2",
+      "level": "activity",
+      "parents": [
+        "6.4"
+      ],
+      "title": "AI Driven by Analytics decides A&O modifications",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "6.5",
+      "level": "capability",
+      "parents": [
+        "6"
+      ],
+      "title": "Security Orchestration, Automation & Response (SOAR)"
+    },
+    {
+      "id": "6.5.1",
+      "level": "activity",
+      "parents": [
+        "6.5"
+      ],
+      "title": "Response Automation Analysis",
+      "note": "Target Level."
+    },
+    {
+      "id": "6.5.2",
+      "level": "activity",
+      "parents": [
+        "6.5"
+      ],
+      "title": "Implement SOAR Tools",
+      "note": "Target Level."
+    },
+    {
+      "id": "6.5.3",
+      "level": "activity",
+      "parents": [
+        "6.5"
+      ],
+      "title": "Implement playbooks",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "6.6",
+      "level": "capability",
+      "parents": [
+        "6"
+      ],
+      "title": "API Standardization"
+    },
+    {
+      "id": "6.6.1",
+      "level": "activity",
+      "parents": [
+        "6.6"
+      ],
+      "title": "Tool Compliance Analysis",
+      "note": "Target Level."
+    },
+    {
+      "id": "6.6.2",
+      "level": "activity",
+      "parents": [
+        "6.6"
+      ],
+      "title": "Standardized API Calls & Schemas Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "6.6.3",
+      "level": "activity",
+      "parents": [
+        "6.6"
+      ],
+      "title": "Standardized API Calls & Schemas Pt2",
+      "note": "Target Level."
+    },
+    {
+      "id": "6.7",
+      "level": "capability",
+      "parents": [
+        "6"
+      ],
+      "title": "Security Operations Center (SOC) & Incident Response (IR)"
+    },
+    {
+      "id": "6.7.1",
+      "level": "activity",
+      "parents": [
+        "6.7"
+      ],
+      "title": "Workflow Enrichment Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "6.7.2",
+      "level": "activity",
+      "parents": [
+        "6.7"
+      ],
+      "title": "Workflow Enrichment Pt2",
+      "note": "Target Level."
+    },
+    {
+      "id": "6.7.3",
+      "level": "activity",
+      "parents": [
+        "6.7"
+      ],
+      "title": "Workflow Enrichment Pt3",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "6.7.4",
+      "level": "activity",
+      "parents": [
+        "6.7"
+      ],
+      "title": "Automated Workflow",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "7",
+      "level": "pillar",
+      "parents": [],
+      "title": "Visibility & Analytics"
+    },
+    {
+      "id": "7.1",
+      "level": "capability",
+      "parents": [
+        "7"
+      ],
+      "title": "Log All Traffic (Network, Data, Apps, Users)"
+    },
+    {
+      "id": "7.1.1",
+      "level": "activity",
+      "parents": [
+        "7.1"
+      ],
+      "title": "Scale Considerations",
+      "note": "Target Level."
+    },
+    {
+      "id": "7.1.2",
+      "level": "activity",
+      "parents": [
+        "7.1"
+      ],
+      "title": "Log Parsing",
+      "note": "Target Level."
+    },
+    {
+      "id": "7.1.3",
+      "level": "activity",
+      "parents": [
+        "7.1"
+      ],
+      "title": "Log Analysis",
+      "note": "Target Level."
+    },
+    {
+      "id": "7.2",
+      "level": "capability",
+      "parents": [
+        "7"
+      ],
+      "title": "Security Information and Event Management (SIEM)"
+    },
+    {
+      "id": "7.2.1",
+      "level": "activity",
+      "parents": [
+        "7.2"
+      ],
+      "title": "Threat Alerting Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "7.2.2",
+      "level": "activity",
+      "parents": [
+        "7.2"
+      ],
+      "title": "Threat Alerting Pt2",
+      "note": "Target Level."
+    },
+    {
+      "id": "7.2.3",
+      "level": "activity",
+      "parents": [
+        "7.2"
+      ],
+      "title": "Threat Alerting Pt3",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "7.2.4",
+      "level": "activity",
+      "parents": [
+        "7.2"
+      ],
+      "title": "Asset ID & Alert Correlation",
+      "note": "Target Level."
+    },
+    {
+      "id": "7.2.5",
+      "level": "activity",
+      "parents": [
+        "7.2"
+      ],
+      "title": "User/Device Baselines",
+      "note": "Target Level."
+    },
+    {
+      "id": "7.3",
+      "level": "capability",
+      "parents": [
+        "7"
+      ],
+      "title": "Common Security and Risk Analytics"
+    },
+    {
+      "id": "7.3.1",
+      "level": "activity",
+      "parents": [
+        "7.3"
+      ],
+      "title": "Implement Analytics Tools",
+      "note": "Target Level."
+    },
+    {
+      "id": "7.3.2",
+      "level": "activity",
+      "parents": [
+        "7.3"
+      ],
+      "title": "Establish User Baseline Behavior",
+      "note": "Target Level."
+    },
+    {
+      "id": "7.4",
+      "level": "capability",
+      "parents": [
+        "7"
+      ],
+      "title": "User and Entity Behavior Analytics"
+    },
+    {
+      "id": "7.4.1",
+      "level": "activity",
+      "parents": [
+        "7.4"
+      ],
+      "title": "Baseline & Profiling Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "7.4.2",
+      "level": "activity",
+      "parents": [
+        "7.4"
+      ],
+      "title": "Baseline & Profiling Pt2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "7.4.3",
+      "level": "activity",
+      "parents": [
+        "7.4"
+      ],
+      "title": "UEBA Baseline Support Pt 1",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "7.4.4",
+      "level": "activity",
+      "parents": [
+        "7.4"
+      ],
+      "title": "UEBA Baseline Support Pt 2",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "7.5",
+      "level": "capability",
+      "parents": [
+        "7"
+      ],
+      "title": "Threat Intelligence Integration"
+    },
+    {
+      "id": "7.5.1",
+      "level": "activity",
+      "parents": [
+        "7.5"
+      ],
+      "title": "Cyber Threat Intelligence Program Pt1",
+      "note": "Target Level."
+    },
+    {
+      "id": "7.5.2",
+      "level": "activity",
+      "parents": [
+        "7.5"
+      ],
+      "title": "Cyber Threat Intelligence Program Pt2",
+      "note": "Target Level."
+    },
+    {
+      "id": "7.6",
+      "level": "capability",
+      "parents": [
+        "7"
+      ],
+      "title": "Automated Dynamic Policies",
+      "note": "Advanced Level: every activity under it is Advanced."
+    },
+    {
+      "id": "7.6.1",
+      "level": "activity",
+      "parents": [
+        "7.6"
+      ],
+      "title": "AI-enabled Network Access",
+      "note": "Advanced Level."
+    },
+    {
+      "id": "7.6.2",
+      "level": "activity",
+      "parents": [
+        "7.6"
+      ],
+      "title": "AI-enabled Dynamic Access Control",
+      "note": "Advanced Level."
+    }
+  ],
+  "sets": [
+    {
+      "id": "target",
+      "name": "Target Level",
+      "of": "dod-zt",
+      "sourceId": "dod-zt-activities",
+      "members": [
+        "1.1.1",
+        "1.2.1",
+        "1.2.2",
+        "1.3.1",
+        "1.4.1",
+        "1.4.2",
+        "1.5.1",
+        "1.5.2",
+        "1.6.1",
+        "1.7.1",
+        "1.8.1",
+        "1.8.2",
+        "1.9.1",
+        "2.1.1",
+        "2.1.2",
+        "2.1.3",
+        "2.2.1",
+        "2.3.3",
+        "2.3.4",
+        "2.4.1",
+        "2.4.2",
+        "2.5.1",
+        "2.6.1",
+        "2.6.2",
+        "2.6.3",
+        "2.7.1",
+        "2.7.2",
+        "3.1.1",
+        "3.2.1",
+        "3.2.2",
+        "3.2.3",
+        "3.3.1",
+        "3.3.2",
+        "3.3.3",
+        "3.3.4",
+        "3.4.1",
+        "3.4.2",
+        "3.4.3",
+        "3.4.4",
+        "4.1.1",
+        "4.2.1",
+        "4.2.2",
+        "4.2.3",
+        "4.3.1",
+        "4.3.2",
+        "4.4.1",
+        "4.4.2",
+        "4.4.3",
+        "4.4.4",
+        "4.5.1",
+        "4.5.2",
+        "4.5.3",
+        "4.6.1",
+        "4.6.2",
+        "4.7.1",
+        "4.7.4",
+        "5.1.1",
+        "5.1.2",
+        "5.2.1",
+        "5.2.2",
+        "5.2.3",
+        "5.3.1",
+        "5.3.2",
+        "5.4.1",
+        "5.4.2",
+        "5.4.4",
+        "6.1.1",
+        "6.1.2",
+        "6.1.3",
+        "6.2.1",
+        "6.2.2",
+        "6.3.1",
+        "6.5.1",
+        "6.5.2",
+        "6.6.1",
+        "6.6.2",
+        "6.6.3",
+        "6.7.1",
+        "6.7.2",
+        "7.1.1",
+        "7.1.2",
+        "7.1.3",
+        "7.2.1",
+        "7.2.2",
+        "7.2.4",
+        "7.2.5",
+        "7.3.1",
+        "7.3.2",
+        "7.4.1",
+        "7.5.1",
+        "7.5.2"
+      ],
+      "line": "The 91 activities a component is to complete by the end of fiscal year 2027.",
+      "title": "Target Level Activities"
+    },
+    {
+      "id": "advanced",
+      "name": "Advanced Level",
+      "of": "dod-zt",
+      "sourceId": "dod-zt-activities",
+      "members": [
+        "1.2.3",
+        "1.2.4",
+        "1.2.5",
+        "1.3.2",
+        "1.3.3",
+        "1.4.3",
+        "1.4.4",
+        "1.5.3",
+        "1.5.4",
+        "1.6.2",
+        "1.6.3",
+        "1.8.3",
+        "1.8.4",
+        "1.9.2",
+        "1.9.3",
+        "2.1.4",
+        "2.2.2",
+        "2.3.1",
+        "2.3.2",
+        "2.3.5",
+        "2.3.6",
+        "2.3.7",
+        "2.4.3",
+        "2.4.4",
+        "2.7.3",
+        "3.2.4",
+        "3.4.5",
+        "3.4.6",
+        "3.4.7",
+        "3.5.1",
+        "3.5.2",
+        "4.3.3",
+        "4.3.4",
+        "4.3.5",
+        "4.4.5",
+        "4.4.6",
+        "4.5.4",
+        "4.5.5",
+        "4.6.3",
+        "4.6.4",
+        "4.7.2",
+        "4.7.3",
+        "4.7.5",
+        "4.7.6",
+        "4.7.7",
+        "5.2.4",
+        "5.2.5",
+        "5.4.3",
+        "6.1.4",
+        "6.2.3",
+        "6.4.1",
+        "6.4.2",
+        "6.5.3",
+        "6.7.3",
+        "6.7.4",
+        "7.2.3",
+        "7.4.2",
+        "7.4.3",
+        "7.4.4",
+        "7.6.1",
+        "7.6.2"
+      ],
+      "line": "The 61 activities beyond Target Level. The department has set no date for them.",
+      "title": "Advanced Level Activities"
+    }
+  ],
+  "crosswalks": [],
+  "aliases": [
+    "Target Level",
+    "Advanced Level",
+    "ZT activities",
+    "Zero Trust Execution Roadmap"
+  ],
+  "setsTitle": "Levels",
+  "setsLine": "Each is a selection of this strategy’s own activities."
 }
