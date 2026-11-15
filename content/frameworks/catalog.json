@@ -286,6 +286,10 @@
     "pageDeeper": "The iOS app goes deeper: {elements} elements across these {count} frameworks, each by its publisher’s identifier, with the links a publisher prints between them.",
     "pageSourcesChecked": "Sources last checked",
     "pageOn": "On this page",
-    "pageChecksLine": "Self-checks, each tied to one framework. They are in the iOS app, where your answers stay on your device."
+    "pageChecksLine": "Self-checks, each tied to one framework. They are in the iOS app, where your answers stay on your device.",
+    "playsInWhole": "{n} elements in {m} frameworks, and {w} more as a whole",
+    "playsInWholeOnly": "{w} frameworks as a whole",
+    "playsOnLineOne": "{n} of the {m} plays touches it",
+    "and": "and"
   }
 }

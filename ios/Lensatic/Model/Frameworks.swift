@@ -579,19 +579,33 @@ final class FrameworkLibrary: Sendable {
         (playLinks?.plays ?? []).compactMap { e in e.links.first { $0.frameworkId == framework }.map { (e.playId, $0) } }
     }
 
-    /// The plays that name one element of a framework, in the plays' own order.
-    func plays(touching node: String, in framework: String) -> [String] {
-        (playLinks?.plays ?? []).filter { e in e.links.contains { $0.frameworkId == framework && $0.nodeIds.contains(node) } }.map(\.playId)
+    /// The plays that name one element of a framework, in the plays' own order, each with the link that names it, so a
+    /// screen can say why the play is there.
+    func plays(touching node: String, in framework: String) -> [(playId: String, link: PlayLinks.Link)] {
+        (playLinks?.plays ?? []).compactMap { e in e.links.first { $0.frameworkId == framework && $0.nodeIds.contains(node) }.map { (e.playId, $0) } }
     }
 
-    /// The count of what a link names, in the publisher's word where every element is at one level ("5 Techniques"),
-    /// else in the content's word for elements.
+    /// How many elements a play's links name and in how many frameworks, and how many frameworks it touches as a whole
+    /// with no element named: "47 elements in 8 frameworks, and 1 more as a whole".
+    func linkLine(forPlay id: String) -> String {
+        let links = links(forPlay: id)
+        let with = links.filter { !$0.nodeIds.isEmpty }, whole = links.count - with.count
+        let n = with.reduce(0) { $0 + $1.nodeIds.count }
+        let key = with.isEmpty ? "playsInWholeOnly" : whole == 0 ? "playsInLine" : "playsInWhole"
+        return label(key).replacingOccurrences(of: "{n}", with: "\(n)").replacingOccurrences(of: "{m}", with: "\(with.count)")
+            .replacingOccurrences(of: "{w}", with: "\(whole)")
+    }
+
+    /// The count of what a link names, in the publisher's own words for the levels the elements are at, in the
+    /// framework's order: "5 Techniques", "12 Controls and Enhancements".
     func countLine(_ link: PlayLinks.Link) -> String? {
         guard !link.nodeIds.isEmpty, let g = graphs[link.frameworkId] else { return nil }
-        let levels = Set(link.nodeIds.compactMap { g.node($0)?.level })
+        let at = Set(link.nodeIds.compactMap { g.node($0)?.level })
+        let levels = g.framework.levels.filter { at.contains($0.id) }
         let n = link.nodeIds.count
-        if levels.count == 1, let level = levels.first.flatMap({ g.level($0) }) { return "\(n) \(n == 1 ? level.name : level.plural)" }
-        return "\(n) \(label(n == 1 ? "element" : "elementsWord"))"
+        if n == 1, let level = levels.first { return "1 \(level.name)" }
+        guard !levels.isEmpty else { return "\(n) \(label("elementsWord"))" }
+        return "\(n) " + levels.map(\.plural).joined(separator: " \(label("and")) ")
     }
 
     // MARK: one layer model (Round 2)

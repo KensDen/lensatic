@@ -70,6 +70,19 @@ final class AppModel {
     /// The countdown Home leads with and the widget falls back to: the next dated zero trust deadline.
     func zeroTrustCountdown(today: Date = Date()) -> DatedDeadline? { frameworks.zeroTrustCountdown(store: store, today: today) }
 
+    /// The countdown Home shows (Round 3, from the fresh-eyes review: a cloud provider who had picked a trailhead still
+    /// saw the department's date on Home). Once a trailhead is picked, its own next dated deadline, on the framework that
+    /// carries it, the same one My Path counts down to; before a pick, and on a trailhead with no dated deadline ahead,
+    /// the next zero trust deadline.
+    func homeCountdown(today: Date = Date()) -> DatedDeadline? {
+        if let door, let mine = plan(door).upcoming(today: today) {
+            for f in frameworks.frameworks {
+                if let hit = frameworks.deadlines(f, store: store).first(where: { $0.date == mine.due.date }) { return hit }
+            }
+        }
+        return zeroTrustCountdown(today: today)
+    }
+
     /// The Frameworks tab at its top, in Browse or Compare.
     func showFrameworks(_ mode: FrameworksMode = .browse) {
         glossaryEntry = nil

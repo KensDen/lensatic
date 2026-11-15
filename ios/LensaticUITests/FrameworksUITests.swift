@@ -14,6 +14,9 @@ extension LensaticUITests {
         (["-LensaticNav", "baseline/fedramp/rev5-class-b"], "baseline-screen"),
         (["-LensaticNav", "compare/compare-csf20-sp800-53"], "compare-screen"),
         (["-LensaticNav", "check/check-csf20", "-LensaticAnswers", "check-csf20:yes,partly,no"], "check-screen"),
+        // Round 3: the plays that touch a framework, and an element with its plays and its bookmark
+        (["-LensaticNav", "plays-on/d3fend"], "plays-on-screen"),
+        (["-LensaticNav", "node/aml/AML.T0080"], "node-screen"),
     ]
 
     /// The pushed screen's title as its words: the app keeps a designation and its number on one line with a no-break space.

@@ -403,10 +403,11 @@ struct NodeView: View {
                     }
                 }
                 // Round 3: the plays that name this element
-                let plays = L.plays(touching: node.id, in: f.id).compactMap { model.library.play($0) }
+                let plays = L.plays(touching: node.id, in: f.id).compactMap { hit in model.library.play(hit.playId).map { (play: $0, link: hit.link) } }
                 if !plays.isEmpty {
                     SwiftUI.Section {
-                        ForEach(plays) { PlayLinkRow(play: $0, line: $0.summary) }
+                        // each play with the line that says why it touches this framework (the fresh-eyes review, P5-7)
+                        ForEach(plays, id: \.play.id) { PlayLinkRow(play: $0.play, line: $0.link.line) }
                     } header: {
                         // the identifier sits on the header: one on the section would replace its rows' own
                         ListNote("\(L.label("playsThatTouch")): \(plays.count)").accessibilityIdentifier("node-plays")

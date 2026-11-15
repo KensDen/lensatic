@@ -16,26 +16,26 @@ struct PlayLinksSection: View {
         let L = model.frameworks
         let links = L.links(forPlay: playId)
         if !links.isEmpty {
-            let counts = L.linkCounts(forPlay: playId)
             VStack(alignment: .leading, spacing: 8) {
                 VStack(alignment: .leading, spacing: 2) {
                     SectionLabel(text: L.label("playsIn"))
-                    Text(L.label("playsInLine").replacingOccurrences(of: "{n}", with: "\(counts.elements)").replacingOccurrences(of: "{m}", with: "\(counts.frameworks)"))
+                    Text(L.linkLine(forPlay: playId))
                         .font(DS.caption).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
                         .accessibilityIdentifier("play-links-count")
                 }
                 .accessibilityElement(children: .combine)
                 .accessibilityAddTraits(.isHeader)
+                // whose judgment the links are, said before the first of them (the fresh-eyes review, P5-3)
+                if let basis = L.playLinks?.basis {
+                    Text(basis).font(DS.caption).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                        .accessibilityIdentifier("play-links-basis")
+                }
                 ForEach(links) { link in
                     if let f = L.byId[link.frameworkId], let graph = L.graphs[link.frameworkId] {
                         PlayLinkCard(framework: f, graph: graph, link: link, isOpen: open.contains(link.frameworkId)) {
                             if open.contains(link.frameworkId) { open.remove(link.frameworkId) } else { open.insert(link.frameworkId) }
                         }
                     }
-                }
-                if let basis = L.playLinks?.basis {
-                    Text(basis).font(DS.caption).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
-                        .accessibilityIdentifier("play-links-basis")
                 }
             }
             .accessibilityElement(children: .contain)
@@ -167,9 +167,9 @@ struct PlaysOnFrameworkView: View {
         }
     }
 
-    /// "8 of the 35 plays touch it".
+    /// "8 of the 35 plays touch it", "1 of the 35 plays touches it".
     static func countLine(_ n: Int, of m: Int, labels L: FrameworkLibrary) -> String {
-        L.label("playsOnLine").replacingOccurrences(of: "{n}", with: "\(n)").replacingOccurrences(of: "{m}", with: "\(m)")
+        L.label(n == 1 ? "playsOnLineOne" : "playsOnLine").replacingOccurrences(of: "{n}", with: "\(n)").replacingOccurrences(of: "{m}", with: "\(m)")
     }
 }
 

@@ -38,7 +38,7 @@
    "path": "playbook/",
    "hero": "Playbook holds Agentic SecOps, a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI.",
    "line": "Agentic SecOps: a tradecraft playbook for red, blue and purple teaming in the age of Agentic AI.",
-   "intro": "For SOC leads, security engineers and the people who fund them: how to put AI agents to work in red, blue and purple teaming without losing command. Start with the Executive Summary; the {actions} actions, the maturity ladder and the roadmap are behind it.",
+   "intro": "For SOC leads, security engineers and the people who fund them: how to put AI agents to work in red, blue and purple teaming without losing command. In the plays below: the {actions} actions, the maturity ladder and the roadmap.",
    "open": "Open the Playbook"
   }
  ],

@@ -122,7 +122,7 @@ class Page:
         touching = [p for p in self.links["plays"] if any(l["frameworkId"] == f["id"] for l in p["links"])]
         if touching:
             out.append(f'<p class="fw-plays"><span class="ref">{self.label("playsOn")}</span> '
-                       f'{self.label("playsOnLine", n=len(touching), m=self.play_count)}.</p>')
+                       f'{self.label("playsOnLineOne" if len(touching) == 1 else "playsOnLine", n=len(touching), m=self.play_count)}.</p>')
         # the stack entry's own citation first, in the same shape, as the app's screen has it
         srcs = []
         e = self.entities.get(f.get("entityId", ""))

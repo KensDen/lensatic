@@ -333,7 +333,8 @@ final class FrameworkTests: XCTestCase {
                     "checkNotAssessment", "startOver", "checkKept", "homeFrameworksTitle", "homeFrameworksLine", "homeCheck",
                     // Round 3: the plays' links, a saved element's screen and the two-pane screen
                     "playsIn", "playsInLine", "playsThatTouch", "playsOn", "playsOnLine", "wholeFramework", "element", "elementsWord",
-                    "storyAll", "storyStart", "showElements", "hideElements", "spelledOut", "openIt"] {
+                    "storyAll", "storyStart", "showElements", "hideElements", "spelledOut", "openIt", "playsInWhole", "playsInWholeOnly",
+                    "playsOnLineOne", "and"] {
             XCTAssertNotNil(lib.catalog.labels[key], key)
         }
     }
@@ -643,18 +644,35 @@ final class FrameworkTests: XCTestCase {
             XCTAssertEqual(counts.elements, own.reduce(0) { $0 + $1.nodeIds.count })
         }
         // the way back: the plays that touch an element, and a framework
-        XCTAssertTrue(lib.plays(touching: "AC-6", in: "sp800-53").contains("insiders"))
-        XCTAssertTrue(lib.plays(touching: "AML.T0051", in: "aml").contains("containment"))
+        XCTAssertTrue(lib.plays(touching: "AC-6", in: "sp800-53").map(\.playId).contains("insiders"))
+        XCTAssertTrue(lib.plays(touching: "AML.T0051", in: "aml").map(\.playId).contains("containment"))
+        // an element's screen says why each play is there: the play's own line for that framework
+        XCTAssertEqual(lib.plays(touching: "AC-6", in: "sp800-53").first { $0.playId == "insiders" }?.link.line,
+                       lib.links(forPlay: "insiders").first { $0.frameworkId == "sp800-53" }?.line)
         XCTAssertTrue(lib.plays(touching: "AC-6", in: "csf20").isEmpty, "an identifier is its own framework's")
         XCTAssertEqual(lib.plays(touching: "aml").map(\.playId), links.plays.filter { e in e.links.contains { $0.frameworkId == "aml" } }.map(\.playId))
         XCTAssertTrue(lib.links(forPlay: "nothing").isEmpty)
-        // a count is in the publisher's word where every element is at one level, and there is none for a whole framework
+        // a count is in the publisher's own words for the levels its elements are at, and there is none for a whole framework
         let csf = try XCTUnwrap(lib.links(forPlay: "insiders").first { $0.frameworkId == "csf20" })
         XCTAssertEqual(lib.countLine(csf), "\(csf.nodeIds.count) Subcategories")
         let mixed = try XCTUnwrap(lib.links(forPlay: "insiders").first { $0.frameworkId == "sp800-53" })
-        XCTAssertEqual(lib.countLine(mixed), "\(mixed.nodeIds.count) elements")
+        XCTAssertEqual(lib.countLine(mixed), "\(mixed.nodeIds.count) Controls and Enhancements")
+        XCTAssertEqual(lib.countLine(PlayLinks.Link(frameworkId: "sp800-53", nodeIds: ["AC-6"], line: ".")), "1 Control")
         XCTAssertNil(lib.countLine(try XCTUnwrap(lib.links(forPlay: "resources").first)))
         XCTAssertEqual(PlaysOnFrameworkView.countLine(3, of: 35, labels: lib), "3 of the 35 plays touch it")
+        XCTAssertEqual(PlaysOnFrameworkView.countLine(1, of: 35, labels: lib), "1 of the 35 plays touches it")
+        // the line over a play's links counts the frameworks that hold elements, and says how many more it touches whole
+        let own = lib.links(forPlay: "insiders")
+        let with = own.filter { !$0.nodeIds.isEmpty }
+        XCTAssertEqual(with.count, own.count - 1, "the play touches SP 800-207 as a whole")
+        XCTAssertEqual(lib.linkLine(forPlay: "insiders"), "\(with.reduce(0) { $0 + $1.nodeIds.count }) elements in \(with.count) frameworks, and 1 more as a whole")
+        XCTAssertEqual(lib.linkLine(forPlay: "containment"), "\(lib.linkCounts(forPlay: "containment").elements) elements in \(lib.linkCounts(forPlay: "containment").frameworks) frameworks")
+        XCTAssertEqual(lib.linkLine(forPlay: "resources"), "\(lib.links(forPlay: "resources").count) frameworks as a whole")
+        // elements are listed in the publisher's own order
+        for entry in links.plays { for link in entry.links {
+            let order = lib.graphs[link.frameworkId]?.order ?? []
+            XCTAssertEqual(link.nodeIds, order.filter(link.nodeIds.contains), "\(entry.playId) \(link.frameworkId)")
+        } }
         // a link to an element that is not there fails the load
         XCTAssertThrowsError(try library(editing: "play-links") { tree in
             var plays = tree["plays"] as! [[String: Any]]
@@ -665,6 +683,34 @@ final class FrameworkTests: XCTestCase {
         })
         XCTAssertEqual(Nav(pathParts: Nav.playsOn("aml").pathParts), .playsOn("aml"))
         XCTAssertEqual(Nav.playsOn("aml").home, .frameworks)
+    }
+
+    /// Home's countdown follows the reader (Round 3): before a trailhead is picked it is the next zero trust deadline;
+    /// on a trailhead with a dated deadline of its own ahead it is that one, on the framework that carries it, the same
+    /// day My Path counts down to; on a trailhead with none it is the zero trust deadline again.
+    func testHomesCountdownFollowsTheTrailhead() throws {
+        let today = day("2026-11-15")
+        let progress = ProgressStore(url: nil)
+        let model = AppModel(store: store, library: try Library.bundled(), progress: progress, frameworks: lib)
+        XCTAssertEqual(model.homeCountdown(today: today), model.zeroTrustCountdown(today: today))
+        XCTAssertEqual(model.homeCountdown(today: today)?.frameworkId, "dod-zt")
+        model.choose(.cloudProvider)
+        let cloud = try XCTUnwrap(model.homeCountdown(today: today))
+        XCTAssertEqual(cloud.frameworkId, "fedramp")
+        XCTAssertEqual(cloud.date, "2027-01-01")
+        XCTAssertEqual(cloud.date, model.plan(try XCTUnwrap(model.door)).upcoming(today: today)?.due.date, "the day My Path counts down to")
+        XCTAssertEqual(cloud.days(from: today), 47)
+        model.choose(.dow)
+        XCTAssertEqual(model.homeCountdown(today: today)?.frameworkId, "dod-zt")
+        for id in Door.ID.allCases {
+            model.choose(id)
+            let home = try XCTUnwrap(model.homeCountdown(today: today), id.rawValue)
+            if let mine = model.plan(try XCTUnwrap(model.door)).upcoming(today: today) {
+                XCTAssertEqual(home.date, mine.due.date, "\(id.rawValue): the trailhead's own deadline")
+            } else {
+                XCTAssertEqual(home, model.zeroTrustCountdown(today: today), "\(id.rawValue): no dated deadline of its own")
+            }
+        }
     }
 
     /// A single element is saved, described and opened by its own key (Round 3), an identifier with a space or a

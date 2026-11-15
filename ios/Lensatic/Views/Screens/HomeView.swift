@@ -168,8 +168,8 @@ struct HomeView: View {
         let L = model.frameworks
         let wide = sizeClass == .regular && !typeSize.isAccessibilitySize
         let today = Date()
-        (wide ? AnyLayout(HStackLayout(alignment: .top, spacing: 12)) : AnyLayout(VStackLayout(spacing: 10))) {
-            if let d = model.zeroTrustCountdown(today: today), let days = d.days(from: today), let f = L.byId[d.frameworkId] {
+        (wide ? AnyLayout(HStackLayout(alignment: .top, spacing: 12)) : AnyLayout(VStackLayout(spacing: 8))) {
+            if let d = model.homeCountdown(today: today), let days = d.days(from: today), let f = L.byId[d.frameworkId] {
                 Button { model.show(.framework(f.id)) } label: {
                     CountdownCard(deadline: d, days: days, tone: f.tone, eyebrow: L.label("countdown"), chevron: true, tall: wide, compact: !wide)
                 }

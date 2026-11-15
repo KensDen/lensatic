@@ -28,6 +28,9 @@
 # taken twice fails). The images stay out of the repository.
 # LENSATIC_SHOTS_ONLY="question state-search-fresh ..." (build 6) limits a run to those screens and states, to retake a
 # few after a fix; the devices and the four variants are as in a full run.
+# LENSATIC_SHOTS_BESIDE="<udid> ..." (Lensatic 2.0, Round 3) names simulators that someone else booted and that stay
+# booted beside this run: the run does not count them as its own, and never touches them. Every other simulator must
+# still be shut down first, and no test may be running.
 # Usage: tools/ios_shots.sh [output folder]           (default handoffs/session8-work/shots)
 #        tools/ios_shots.sh --states [output folder]  (the empty states only; default handoffs/session8-work/shots)
 #        tools/ios_shots.sh --store [output folder]   (default handoffs/session9-work/store-shots)
@@ -208,7 +211,9 @@ for kind in $KINDS; do
   else read -r UDID NAME <<< "$(pick $kind)"; fi
   [ -n "$UDID" ] || exit 1  # pick has said why on stderr
   # one device at a time: none booted and no test process left over before this one boots
-  if xcrun simctl list devices booted | grep -qE "iPhone|iPad" || pgrep -x xcodebuild >/dev/null || ps -Ao args | grep -q "[s]imruntime.*testmanagerd"; then
+  OTHERS="$(xcrun simctl list devices booted | grep -E "iPhone|iPad" || true)"
+  for beside in ${LENSATIC_SHOTS_BESIDE:-}; do OTHERS="$(printf '%s\n' "$OTHERS" | grep -v "$beside" || true)"; done
+  if [ -n "$OTHERS" ] || pgrep -x xcodebuild >/dev/null || ps -Ao args | grep -q "[s]imruntime.*testmanagerd"; then
     echo "another simulator or a test process is still running; shut it down first" >&2
     exit 1
   fi

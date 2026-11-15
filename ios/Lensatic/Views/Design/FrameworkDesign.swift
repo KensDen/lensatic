@@ -141,12 +141,11 @@ struct CountdownCard: View {
                     CountdownDial(days: days, tone: tone, base: 46)
                     VStack(alignment: .leading, spacing: 1) {
                         Text(deadline.label).font(DS.style(.headline)).foregroundStyle(.primary).lineLimit(1).minimumScaleFactor(0.85)
-                        // the count, the day and who it binds on one line where they fit; else the count and the day
-                        ViewThatFits(in: .horizontal) {
-                            Text(dotted([CountdownCard.count(days, labels: L), unbroken(Rules.formatDate(deadline.date)), deadline.binds], separator: sep)).lineLimit(1)
-                            Text(dotted([CountdownCard.count(days, labels: L), unbroken(Rules.formatDate(deadline.date))], separator: sep)).lineLimit(1)
-                        }
-                        .font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                        // the count, the day and who it binds: on one line where they fit, else on two, each part whole.
+                        // Round 3 (the fresh-eyes review, P1-1): who it binds is never dropped, since without it a
+                        // stranger cannot tell whose deadline this is
+                        Text(dotted([CountdownCard.count(days, labels: L), unbroken(Rules.formatDate(deadline.date)), unbroken(deadline.binds)], separator: sep))
+                            .font(DS.style(.footnote)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     if chevron {
