@@ -32,6 +32,9 @@ final class ProgressStore {
         var readiness: [String: [String: String]] = [:]
         /// The Frameworks list as compact rows in place of cards (Round 2): the reader's choice of view.
         var frameworksCompact = false
+        /// The deadline the reader chose for the widget to count down to, by its entry's id (Round 2, ruling 8); nil is
+        /// Automatic, build 6's behaviour.
+        var widgetDeadline: String?
 
         struct ChangesViewed: Codable, Equatable, Sendable {
             /// The content release the list was cleared at (contentVersion): items of later releases are new.
@@ -42,7 +45,7 @@ final class ProgressStore {
 
         init(door: String? = nil, checked: [String: [Int]] = [:], saved: [String] = [], weeks: [String: [Int]] = [:],
              changesViewed: ChangesViewed? = nil, playsRead: [String] = [], recent: [String] = [],
-             readiness: [String: [String: String]] = [:], frameworksCompact: Bool = false) {
+             readiness: [String: [String: String]] = [:], frameworksCompact: Bool = false, widgetDeadline: String? = nil) {
             self.door = door
             self.checked = checked
             self.saved = saved
@@ -52,9 +55,10 @@ final class ProgressStore {
             self.recent = recent
             self.readiness = readiness
             self.frameworksCompact = frameworksCompact
+            self.widgetDeadline = widgetDeadline
         }
 
-        private enum CodingKeys: String, CodingKey { case door, checked, saved, weeks, changesViewed, playsRead, recent, readiness, frameworksCompact }
+        private enum CodingKeys: String, CodingKey { case door, checked, saved, weeks, changesViewed, playsRead, recent, readiness, frameworksCompact, widgetDeadline }
 
         /// A file from before saved items and weeks (R1), or before What Changed (R2), reads with none of them.
         init(from decoder: Decoder) throws {
@@ -68,6 +72,7 @@ final class ProgressStore {
             recent = try c.decodeIfPresent([String].self, forKey: .recent) ?? []
             readiness = try c.decodeIfPresent([String: [String: String]].self, forKey: .readiness) ?? [:]
             frameworksCompact = try c.decodeIfPresent(Bool.self, forKey: .frameworksCompact) ?? false
+            widgetDeadline = try c.decodeIfPresent(String.self, forKey: .widgetDeadline)
         }
     }
 
@@ -232,6 +237,15 @@ final class ProgressStore {
     func setFrameworksCompact(_ on: Bool) {
         guard state.frameworksCompact != on else { return }
         state.frameworksCompact = on
+        save()
+    }
+
+    // MARK: the widget's deadline
+
+    /// The reader's choice of deadline for the widget; nil is Automatic. Saving reloads the widget.
+    func setWidgetDeadline(_ id: String?) {
+        guard state.widgetDeadline != id else { return }
+        state.widgetDeadline = id
         save()
     }
 

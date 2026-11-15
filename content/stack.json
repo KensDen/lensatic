@@ -235,7 +235,7 @@
       {
         "version": "1.4.0",
         "date": "2026-11-15",
-        "summary": "Lensatic 2.0, the framework navigator. A sixth trailhead, for a cloud provider selling to government: seven steps from what FedRAMP certifies now, through its classes, its Key Security Indicators and each agency’s own authorization, to zero trust and CSF 2.0. FedRAMP joins the stack at Layer 5 as the certification layer for that trailhead, from its Consolidated Rules for 2026, with the day its rules come into force, 1 January 2027. The glossary adds KSI, 3PAO, POA&M, CJIS, D3FEND, ATLAS, TTP, TEVV and ODP, each read at its publisher on 14 November 2026. Search’s starting chips add FedRAMP and ISO/IEC 27001. The privacy page lists two more things the iOS app keeps on the device, the answers you give in a readiness check and the view you chose for the Frameworks list, and says a readiness check is a self-check whose answers are never sent anywhere. It also says that a deadline chosen for the widget is kept by iOS with the widget, on the device. Nothing else on the stack changes."
+        "summary": "Lensatic 2.0, the framework navigator. A sixth trailhead, for a cloud provider selling to government: seven steps from what FedRAMP certifies now, through its classes, its Key Security Indicators and each agency’s own authorization, to zero trust and CSF 2.0. FedRAMP joins the stack at Layer 5 as the certification layer for that trailhead, from its Consolidated Rules for 2026, with the day its rules come into force, 1 January 2027. The glossary adds KSI, 3PAO, POA&M, CJIS, D3FEND, ATLAS, TTP, TEVV, ODP, SOC 2 and GovRAMP, each read at its publisher on 14 November 2026. Search’s starting chips add FedRAMP and ISO/IEC 27001. The privacy page lists three more things the iOS app keeps on the device, the answers you give in a readiness check, the view you chose for the Frameworks list and the deadline you chose for the widget, and says a readiness check is a self-check whose answers are never sent anywhere. Nothing else on the stack changes."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -1728,7 +1728,7 @@
       "oneLiner": "FedRAMP is the government-wide program that certifies a cloud service once, in Class A to D, so that every federal agency can reuse the evidence when it authorizes its own use of that service.",
       "shortSummary": "Certifies a cloud service once, in Class A to D, so every agency can reuse the evidence.",
       "role": "Certification layer for the cloud provider trailhead.",
-      "publisher": "GSA",
+      "publisher": "General Services Administration",
       "title": "FedRAMP Consolidated Rules for 2026",
       "edition": "Version 2026.11.02.01",
       "date": "2026-11-02",
@@ -1737,7 +1737,7 @@
         "status": "verified",
         "verifiedOn": "2026-11-14",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026 at fedramp.gov and in FedRAMP’s machine-readable rules file (https://github.com/FedRAMP/rules/blob/main/fedramp-consolidated-rules.json), fetched twice that day: the Consolidated Rules for 2026 launched on 24 June 2026 and stood at version 2026.11.02.01. An authorization is now a FedRAMP Certification, in Class A, B, C or D, of the 20x type (46 Key Security Indicators in 10 themes) or the Rev5 type (SP 800-53 baselines of 155, 322 and 409 controls for Classes B, C and D). Rule FRC-CLA-ASF names the ways into Class A: FedRAMP Rev5, including FedRAMP Ready; SOC 2 Type II; and GovRAMP, each within the past 12 months. Rule MKT-IIP-DLA gives two years from the first Marketplace listing to schedule a Class B, C or D assessment. Rule AGU-USE-ABU: ‘Agencies MUST complete the Authorization to Operate process for federal information systems that use FedRAMP Certified cloud service offerings.’",
+        "note": "Read on 14 November 2026 at fedramp.gov and in FedRAMP’s machine-readable rules file (https://github.com/FedRAMP/rules/blob/main/fedramp-consolidated-rules.json), fetched twice that day: the Consolidated Rules for 2026 launched on 24 June 2026 and stood at version 2026.11.02.01. An authorization is now a FedRAMP Certification, in Class A, B, C or D, of the 20x type (46 Key Security Indicators in 10 themes) or the Rev5 type (SP 800-53 baselines of 155, 322 and 409 controls for Classes B, C and D). The rule on approved alternative security frameworks names the ways into Class A: FedRAMP Rev5, including FedRAMP Ready; SOC 2 Type II; and GovRAMP, each within the past 12 months. The Marketplace rule on the deadline for assessment gives two years from the first listing to schedule a Class B, C or D assessment. The rule for agencies on authorization before use has each agency complete its own authorization to operate for a system that uses a certified service.",
         "recheckAfter": "2026-12-15"
       },
       "authority": {
@@ -6435,7 +6435,7 @@
         "CJIS"
       ],
       "expansion": "Criminal Justice Information Services",
-      "oneLine": "The FBI division whose Security Policy sets the rules for anyone who touches criminal justice information from the FBI’s systems.",
+      "oneLine": "The division of the Federal Bureau of Investigation whose Security Policy sets the rules for anyone who touches criminal justice information from the bureau’s systems.",
       "entityIds": [],
       "verification": {
         "status": "verified",
@@ -6523,6 +6523,43 @@
         "verifiedOn": "2026-11-14",
         "method": "primary-fetch",
         "note": "Read on 14 November 2026 in the CSRC glossary (https://csrc.nist.gov/glossary/term/odp) and in Appendix A of SP 800-171 Revision 3, which prints Organization-Defined Parameter."
+      }
+    },
+    {
+      "term": "SOC 2",
+      "forms": [
+        "SOC 2"
+      ],
+      "notAbbreviation": true,
+      "expansion": null,
+      "oneLine": "System and Organization Controls 2: an examination by an independent accountant of a service organization’s controls, which ends in a report. FedRAMP’s Class A accepts a SOC 2 Type II report as a way in.",
+      "entityIds": [
+        "fedramp"
+      ],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026 on the AICPA’s page, System and Organization Controls: SOC Suite of Services (https://www.aicpa-cima.com/resources/landing/system-and-organization-controls-soc-suite-of-services); FedRAMP’s rule on approved alternative security frameworks, read the same day, lists SOC 2 Type II. The entry is the report’s name, linked without an expansion, so the SOC in it is not read as a security operations center."
+      }
+    },
+    {
+      "term": "GovRAMP",
+      "forms": [
+        "GovRAMP",
+        "StateRAMP"
+      ],
+      "notAbbreviation": true,
+      "expansion": null,
+      "oneLine": "The nonprofit, formerly StateRAMP, that verifies cloud services for state and local governments; FedRAMP’s Class A accepts a GovRAMP status as a way in.",
+      "entityIds": [
+        "fedramp"
+      ],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026 at govramp.org: the program’s overview (https://govramp.org/security-program) and its announcement of 14 February 2025 that StateRAMP was renamed GovRAMP. The name is not spelled out; it is linked without an expansion."
       }
     }
   ],
@@ -6882,7 +6919,7 @@
         "Framework Maps runs entirely on your device. The iOS app and the web page carry all of their content with them. Once open, the web page needs no connection, and a saved copy works offline.",
         "Framework Maps makes no network requests. Once the web page is open it loads no scripts, fonts, images or data from anywhere, and the iOS app itself does not connect to the internet: a link you open in it loads in Safari’s viewer, as the paragraph on outside links says.",
         "There is no account and nothing to sign in to.",
-        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web pages keep is your theme choice (system, light or dark), saved in your browser’s local storage under the one key lensatic-theme, on your device and never sent anywhere. The iOS app keeps, on your device only, the trailhead you picked, the steps you checked off, the items you saved, the guide weeks you marked done, the plays you opened, your last five searches, the answers you give in a readiness check, the view you chose for the Frameworks list, and the day you last viewed What Changed with the content release it then showed. They sit in one file in a space on the device that only the app and its own home screen widget can open (an App Group), and the file is never sent anywhere. A readiness check is a self-check: your answers are for you. They are kept in that one file with the rest, they are never sent anywhere, nobody else can see them, and starting a check over removes them. The widget reads that file to show your next step and your next deadline. If you choose a deadline for the widget to count down to, iOS keeps that choice with the widget, on your device. If you ask Siri or Shortcuts for your next step, the app answers from the same file, and Siri’s own handling of your request is under Apple’s privacy policy. The app lists its frameworks, plays and your trailhead’s steps in your device’s own search (Spotlight), which also stays on the device, and it follows your device’s light or dark setting. A share card you make goes only where you send it from the share sheet.",
+        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web pages keep is your theme choice (system, light or dark), saved in your browser’s local storage under the one key lensatic-theme, on your device and never sent anywhere. The iOS app keeps, on your device only, the trailhead you picked, the steps you checked off, the items you saved, the guide weeks you marked done, the plays you opened, your last five searches, the answers you give in a readiness check, the view you chose for the Frameworks list, the deadline you chose for the widget to count down to, and the day you last viewed What Changed with the content release it then showed. They sit in one file in a space on the device that only the app and its own home screen widget can open (an App Group), and the file is never sent anywhere. A readiness check is a self-check: your answers are for you. They are kept in that one file with the rest, they are never sent anywhere, nobody else can see them, and starting a check over removes them. The widget reads that file to show your next step and your next deadline. If you ask Siri or Shortcuts for your next step, the app answers from the same file, and Siri’s own handling of your request is under Apple’s privacy policy. The app lists its frameworks, plays and your trailhead’s steps in your device’s own search (Spotlight), which also stays on the device, and it follows your device’s light or dark setting. A share card you make goes only where you send it from the share sheet.",
         "Lensatic holds nothing about you. Deleting the iOS app removes your trailhead, checked steps, saved items, marked weeks, readiness answers and the day you last viewed What Changed, its widget, and its entries in your device’s search; clearing this site’s data in your browser removes the saved theme choice.",
         "There are no third-party software development kits (SDKs), no analytics and no advertising.",
         "In the web page and the iOS app, the only outside links go to the public documents cited in Sources, in the guide and in the playbook, and to the source repository on GitHub; both also link to this policy and the support page. The web page opens them in your browser. The iOS app opens them in Safari’s viewer inside the app (SFSafariViewController): Safari loads the page, and the app cannot see the page or what you do on it. Either way the sites open under their own privacy policies. This page and the support page also link to GitHub.",

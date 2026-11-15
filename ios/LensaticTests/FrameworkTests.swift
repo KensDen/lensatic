@@ -577,8 +577,8 @@ final class FrameworkTests: XCTestCase {
     }
 
     /// The widget's choice of deadline (ruling 8): Automatic is build 6's behaviour, a deadline only where one binds the
-    /// reader's trailhead (and the zero trust countdown before a trailhead is picked); a deadline the reader picks in the
-    /// widget's settings is counted down to whatever the trailhead, until it passes.
+    /// reader's trailhead (and the zero trust countdown before a trailhead is picked); a deadline the reader picks on
+    /// Home is counted down to whatever the trailhead, until it passes.
     func testTheWidgetCountsDownToTheDeadlineTheReaderChooses() throws {
         let today = day("2026-11-14")
         XCTAssertEqual(Glance.choices(store: store, today: today).map(\.id), ["fedramp", "dod-zt-strategy"])
@@ -597,5 +597,15 @@ final class FrameworkTests: XCTestCase {
         // a chosen deadline that has passed, or a choice the content no longer has, falls back to Automatic
         XCTAssertEqual(Glance(store: store, state: dow, today: day("2027-01-02"), deadline: "fedramp").countdown?.label, "Target Level")
         XCTAssertNil(Glance(store: store, state: contractor, today: today, deadline: "nope").countdown)
+        // the choice is made in the app and kept in the progress file, which the widget reads
+        let url = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("lensatic-tests-\(UUID().uuidString)").appendingPathComponent("progress.json")
+        let p = ProgressStore(url: url)
+        p.choose(.defenseContractor)
+        p.setWidgetDeadline("fedramp")
+        let kept = ProgressStore(url: url).state
+        XCTAssertEqual(kept.widgetDeadline, "fedramp")
+        XCTAssertEqual(Glance(store: store, state: kept, today: today).countdown?.label, "FedRAMP 2026 rules")
+        p.setWidgetDeadline(nil)
+        XCTAssertNil(Glance(store: store, state: ProgressStore(url: url).state, today: today).countdown, "Automatic again")
     }
 }

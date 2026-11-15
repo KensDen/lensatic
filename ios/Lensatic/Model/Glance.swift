@@ -56,7 +56,7 @@ struct Glance: Sendable, Equatable {
     }
 
     /// A dated deadline the widget can be set to count down to (Round 2, ruling 8): the entry that carries it and what
-    /// is due, as the widget's settings name it.
+    /// is due, as Home's Widget Countdown row names it.
     struct Choice: Sendable, Equatable, Identifiable {
         let id: String
         let title: String
@@ -80,11 +80,12 @@ struct Glance: Sendable, Equatable {
         return Countdown(days: days, label: c.label, sourceId: c.id)
     }
 
-    /// The glance for a progress state on a day. `deadline` is the reader's own choice in the widget's settings: when
-    /// it names a deadline that has not passed, the widget counts down to that one, whatever the trailhead; with no
-    /// choice the widget does what build 6 does, a deadline only where one binds the reader's trailhead.
+    /// The glance for a progress state on a day. The state may hold the reader's own choice of deadline for the widget
+    /// (`deadline` stands in for it in a test): when it names a deadline that has not passed, the widget counts down to
+    /// that one, whatever the trailhead; with no choice the widget does what build 6 does, a deadline only where one
+    /// binds the reader's trailhead.
     init(store: ContentStore, state: ProgressStore.State, today: Date, calendar: Calendar = .lensatic, deadline: String? = nil) {
-        let picked = Glance.chosen(deadline, store: store, today: today, calendar: calendar)
+        let picked = Glance.chosen(deadline ?? state.widgetDeadline, store: store, today: today, calendar: calendar)
         guard let id = state.door.flatMap(Door.ID.init(rawValue:)), let door = store.content.doors.first(where: { $0.id == id }) else {
             // Lensatic 2.0: before a trailhead is picked the widget still counts down to the next dated zero trust
             // deadline on the stack; once one is picked, only a deadline that binds that trailhead shows (PathPlan)

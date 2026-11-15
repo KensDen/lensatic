@@ -262,6 +262,9 @@
     "knowledgeBases": "knowledge bases",
     "stackAgrees": "These are the layers and columns every card in the Frameworks tab names.",
     "compareAnother": "Compare With Any Framework",
-    "questions": "Questions"
+    "questions": "Questions",
+    "widgetDeadline": "Widget Countdown",
+    "widgetAutomatic": "Automatic",
+    "widgetAutomaticLine": "The deadline on your path"
   }
 }

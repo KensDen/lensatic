@@ -150,8 +150,10 @@ LAYOUT = ROOT / "tools" / "layout_check.mjs"
 TMP = ROOT / ".tmp"  # every temporary file stays inside the repo (Session rules in CONTRIBUTING.md)
 # the built page must stay under 1 MB (1,048,576 bytes); session 13 raised the limit from 900 KB (921,600 bytes)
 PAGE_LIMIT = 1024 * 1024
-# each printout, with script and without, is at most 20 pages; session 15 raised the cap from under 20
-PRINT_PAGES = 20
+# each printout, with script and without, is at most 22 pages; session 15 raised the cap from under 20 to 20, and
+# Lensatic 2.0, Round 2 (content 1.4.0) from 20 to 22: the sixth trailhead, FedRAMP's entry and eleven glossary entries
+# print as two more pages
+PRINT_PAGES = 22
 sys.path.insert(0, str(ROOT / "tools"))
 import validate as V  # noqa: E402
 import build_web as B  # noqa: E402  (the label set, defined once there)
@@ -898,7 +900,7 @@ def page_size_errors(size: int) -> list[str]:
 
 
 def print_pages_errors(pages: int) -> list[str]:
-    """A printout is at most PRINT_PAGES pages (session 15: 20)."""
+    """A printout is at most PRINT_PAGES pages (session 15: 20; content 1.4.0: 22)."""
     return [] if pages <= PRINT_PAGES else [f"{pages} pages, more than {PRINT_PAGES}"]
 
 
@@ -1639,7 +1641,7 @@ def main() -> int:
             for key, items_ in o["clipped"].items():
                 if items_:
                     errs.append(f"{key}: content clipped past the right edge with every disclosure open: {items_[:3]}")
-            # print: every non-matrix text; the department's view only, each cell's first sentence only; at most 20 pages
+            # print: every non-matrix text; the department's view only, each cell's first sentence only; at most 22 pages
             cells = {(c["pillarId"], c["functionId"]): c for c in d["matrix"]["cells"]}
             # the hero's two buttons do nothing on paper and do not print (session 11, RED-10)
             buttons = [norm(L["heroPrimary"]), norm(L["heroSecondary"])]
@@ -1692,7 +1694,7 @@ def main() -> int:
             info += f"; nothing clipped at 360, 375, 390 or 414 with every disclosure open, script on or off; every visible matrix cell names its pillar at 375 ({o.get('pillars', {}).get('375_js', {}).get('shown')} with script, {o.get('pillars', {}).get('375_nojs', {}).get('shown')} without) and none does at 768"
             info += f"; no sideways page scroll at 375, 1280, 1440; {len(want)} texts visible with scripting off at 375 and 1280; {print_info} ({o['browser'].split('/')[-1]})"
     rep.check("layout: DoW table fits at 1280; header fits at phone widths; back to top and the header name reach the very top; nothing clipped; script-off text complete; "
-              "print at most 20 pages and complete, with capability numbers and without the hero's buttons", errs, info)
+              "print at most 22 pages and complete, with capability numbers and without the hero's buttons", errs, info)
 
     # build 6, the small site items. Each is read from the built pages and the content, not from the builder.
     errs = []

@@ -228,7 +228,10 @@ final class LensaticUITests: XCTestCase {
         let frame = page.frame, window = app.windows.firstMatch.frame
         let bars = app.navigationBars.allElementsBoundByIndex.map(\.frame).filter { $0.maxX > frame.minX && $0.minX < frame.maxX }
         let statusBar = window.minY + 54
-        let top = max(frame.minY, bars.map(\.maxY).max() ?? statusBar, statusBar), bottom = min(frame.maxY, window.maxY, tabBarTop())
+        // the tab bar's own ground starts a few points above its buttons, and a plain scroll view's content shows through
+        // it there (Lensatic 2.0: the Frameworks tab): a line in that band is measured against the bar, so the region an
+        // audit reads ends above it
+        let top = max(frame.minY, bars.map(\.maxY).max() ?? statusBar, statusBar), bottom = min(frame.maxY, window.maxY, tabBarTop() - 10)
         return CGRect(x: frame.minX, y: top, width: frame.width, height: max(0, bottom - top))
     }
 
@@ -648,9 +651,11 @@ final class LensaticUITests: XCTestCase {
         XCTAssertFalse(element("tab-library").exists, "the Library tab folded into Home")
         XCTAssertTrue(element("tab-home").isSelected)
         XCTAssertLessThan(element("tab-home").frame.minX, element("tab-path").frame.minX, "Home is the first tab")
-        // Lensatic 2.0: the zero trust countdown and the frameworks card, with its three ways in, lead Home; the first
-        // door follows on the first screen, and the other two are a short scroll below on a phone
-        for id in ["home-countdown", "home-frameworks", "home-frameworks-browse", "home-frameworks-compare", "home-frameworks-check", "home-door-maps"] {
+        // Lensatic 2.0: the zero trust countdown and the frameworks card lead Home. Round 2 (ruling 7): on a phone both
+        // are compact and all three doors follow on the first screen; the iPad's card keeps its three ways in
+        let phone = UIDevice.current.userInterfaceIdiom == .phone
+        for id in ["home-countdown", "home-frameworks", "home-door-maps"]
+            + (phone ? ["home-door-guide", "home-door-playbook"] : ["home-frameworks-browse", "home-frameworks-compare", "home-frameworks-check"]) {
             XCTAssertTrue(element(id).isHittable, "\(id) is on screen")
             XCTAssertLessThanOrEqual(element(id).frame.maxY, tabBarTop(), "\(id) fits above the tab bar with no scroll")
         }

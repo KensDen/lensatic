@@ -357,6 +357,14 @@ extension LensaticUITests {
         XCTAssertTrue(element("bookmark").isSelected)
         showTab("tab-home")
         XCTAssertTrue(reveal("saved-framework:fedramp", in: "home").label.contains("FedRAMP"), "Home keeps the saved framework")
+        // the widget's countdown is chosen on Home (ruling 8): Automatic until the reader picks a deadline
+        let countdown = reveal("home-widget-deadline", in: "home")
+        XCTAssertTrue(countdown.label.contains("Automatic"), countdown.label)
+        countdown.tap()
+        let choice = app.buttons.matching(NSPredicate(format: "label CONTAINS 'Target Level zero trust'")).firstMatch
+        XCTAssertTrue(choice.waitForExistence(timeout: 5), "the menu offers the dated deadlines")
+        choice.tap()
+        XCTAssertTrue(element("home-widget-deadline").label.contains("Target Level"), element("home-widget-deadline").label)
         // the adversary column, from the stack
         launch(door: "cloud-provider", ["-LensaticTab", "explore"])
         XCTAssertTrue(element("explore").waitForExistence(timeout: 10))

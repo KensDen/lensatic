@@ -68,6 +68,7 @@ struct HomeView: View {
                                  nav: .sources, id: "home-sources")
                     ReferenceRow(icon: RowIcon.changes, title: "What Changed", detail: Rules.shortDate(model.store.content.meta.builtOn),
                                  nav: .changes, id: "home-changes")
+                    widgetDeadlineRow
                 } header: {
                     ListNote("Reference")
                 }
@@ -108,6 +109,24 @@ struct HomeView: View {
         // -LensaticStory opens the story of the name at launch, for the tests and screenshots
         .onAppear { if CommandLine.arguments.contains("-LensaticStory") { showStory = true } }
         #endif
+    }
+
+    /// The widget's countdown (Round 2, ruling 8): Automatic, which is build 6's behaviour (a deadline only where one
+    /// binds the reader's trailhead), or a dated deadline from the stack, counted down to whatever the trailhead. One
+    /// control, a menu; the choice is kept in the progress file, which the widget reads.
+    private var widgetDeadlineRow: some View {
+        let L = model.frameworks
+        let choices = Glance.choices(store: model.store, today: Date())
+        let picked = choices.first { $0.id == model.progress.state.widgetDeadline }
+        return Menu {
+            Button(L.label("widgetAutomatic")) { model.progress.setWidgetDeadline(nil) }
+            ForEach(choices) { c in Button(c.title) { model.progress.setWidgetDeadline(c.id) } }
+        } label: {
+            TileRow(icon: ("timer", .teal), title: L.label("widgetDeadline"), subtitle: picked == nil ? L.label("widgetAutomaticLine") : nil,
+                    value: picked?.label ?? L.label("widgetAutomatic"))
+                .contentShape(Rectangle())
+        }
+        .accessibilityIdentifier("home-widget-deadline")
     }
 
     /// The compass tile (its tap opens the story of the name, as on the trailhead question) and the LENSATIC eyebrow, then
