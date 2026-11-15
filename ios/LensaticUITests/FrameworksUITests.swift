@@ -133,12 +133,12 @@ extension LensaticUITests {
         return nil
     }
 
-    /// Presses an arrow key and gives the pick's new place. A key pressed while a screen is still arriving is lost, so
-    /// the screen is let come to rest first and the press is tried again, three times at most.
+    /// Presses Command and an arrow key and gives the pick's new place. A key pressed while a screen is still arriving
+    /// is lost, so the screen is let come to rest first and the press is tried again, three times at most.
     func press(_ key: XCUIKeyboardKey, from old: Int) -> Int? {
         for _ in 0..<3 {
             settle()
-            app.typeKey(key, modifierFlags: [])
+            app.typeKey(key, modifierFlags: .command)
             if let at = pickedFramework(after: old) { return at }
         }
         return nil
@@ -156,8 +156,8 @@ extension LensaticUITests {
 
     /// Frameworks on the iPad (Round 3): two panes. The sidebar lists the frameworks and marks the pick; the detail pane
     /// shows it with no way back, and a screen opened from it pushes inside the pane with one. Compare and the self-checks
-    /// work the same way. With a keyboard the arrows move the pick, Command and a number changes tab, and Command-[ goes
-    /// back. Runs on an iPad; a phone has one column, which the other tests walk.
+    /// work the same way. With a keyboard Command-Down and Command-Up move the pick, Command and a number changes tab, and
+    /// Command-[ goes back. Runs on an iPad; a phone has one column, which the other tests walk.
     func testTheIPadShowsFrameworksInTwoPanes() throws {
         try XCTSkipUnless(UIDevice.current.userInterfaceIdiom == .pad, "two panes are the iPad's layout")
         launch(door: nil, ["-LensaticTab", "frameworks"])
@@ -183,13 +183,15 @@ extension LensaticUITests {
         // the keyboard: Command-[ goes back, the arrows move the pick, Command and a number changes tab
         app.typeKey("[", modifierFlags: .command)
         XCTAssertTrue(element("framework-screen").waitForExistence(timeout: 5), "Command-[ goes back")
-        // a key held by the test runner can repeat, as a reader's does, so the pick is read by where it went
+        // Command-Down and Command-Up move the pick wherever the keyboard's focus is (the plain arrows only while the
+        // sidebar holds it, which a pushed and popped screen can end). A key held by the test runner can repeat, as a
+        // reader's does, so the pick is read by where it went
         let start = try XCTUnwrap(pickedFramework())
         XCTAssertEqual(Self.frameworkIds[start], "dod-zt")
         let down = try XCTUnwrap(press(.downArrow, from: start))
-        XCTAssertGreaterThan(down, start, "the down arrow moves the pick down the list")
+        XCTAssertGreaterThan(down, start, "Command-Down moves the pick down the list")
         let up = try XCTUnwrap(press(.upArrow, from: down))
-        XCTAssertLessThan(up, down, "the up arrow moves it back up")
+        XCTAssertLessThan(up, down, "Command-Up moves it back up")
         XCTAssertEqual(title(), try XCTUnwrap(Self.frameworkNames[Self.frameworkIds[up]]), "the detail pane follows the pick")
         app.typeKey("1", modifierFlags: .command)
         XCTAssertTrue(element("home").waitForExistence(timeout: 5), "Command-1 opens Home")
