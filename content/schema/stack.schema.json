@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:lensatic:stack.schema:1.3.0",
+  "$id": "urn:lensatic:stack.schema:1.4.0",
   "title": "Lensatic content model",
   "description": "Schema for content/stack.json, the single source of truth for Lensatic. Every rendered string lives in that file once. Prose refers to the department only through the tokens {{dow}} and {{dow.<field>}}, which render from orgs.dow.",
   "type": "object",
@@ -361,8 +361,8 @@
     },
     "doors": {
       "type": "array",
-      "minItems": 5,
-      "maxItems": 5,
+      "minItems": 6,
+      "maxItems": 6,
       "items": {
         "$ref": "#/$defs/door"
       }
@@ -557,7 +557,7 @@
             "starters": {
               "type": "array",
               "minItems": 8,
-              "maxItems": 10,
+              "maxItems": 12,
               "uniqueItems": true,
               "items": {
                 "type": "string",
@@ -704,6 +704,7 @@
               "dow-components",
               "defense-contractors-cui",
               "defense-contractors-fci-cui",
+              "cloud-providers",
               "voluntary-all",
               "adopters"
             ]
@@ -1488,6 +1489,7 @@
             "federal-civilian",
             "dow",
             "defense-contractor",
+            "cloud-provider",
             "state-local",
             "industry-academia"
           ]

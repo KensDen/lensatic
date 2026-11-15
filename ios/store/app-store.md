@@ -41,7 +41,7 @@ Lensatic Cyber turns that map into a path. Tell it where you stand and it lists 
 
 What’s Inside
 - Home: three doors, to Framework Maps, the field guide and the playbook, each chapter and play summary first, with your saved items
-- My Path: pick one of five trailheads (Department of War Component, Federal Civilian Agency, Defense Contractor with CUI, State and Local Government, or Industry and Academia) and get your frameworks in order, as steps you check off
+- My Path: pick one of six trailheads (Department of War Component, Federal Civilian Agency, Defense Contractor with CUI, Cloud Provider, State and Local Government, or Industry and Academia) and get your frameworks in order, as steps you check off
 - Countdown: the days to your next deadline where a source dates one, each date taken from that source
 - What Changed: new documents, links and deadlines in the frameworks, newest first, with each source check a tap away
 - Explore: the stack in five layers beside the AI column, the matrix of pillars and functions, and the six functions
@@ -57,7 +57,7 @@ No account. No data collected.
 Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework publisher.
 ```
 
-2550 characters (limit 4,000)
+2565 characters (limit 4,000)
 
 ## Keywords (`keywords`)
 

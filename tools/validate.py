@@ -93,7 +93,7 @@ BINARY_SUFFIXES = {".png", ".jpg", ".jpeg", ".gif", ".pdf", ".ico", ".icns", ".z
 
 FUNCTION_IDS = ["GV", "ID", "PR", "DE", "RS", "RC"]
 # content 1.2.21 (R5, item 16): Everyone Else became State and Local Government and Industry and Academia
-DOOR_IDS = ["dow", "federal-civilian", "defense-contractor", "state-local", "industry-academia"]
+DOOR_IDS = ["dow", "federal-civilian", "defense-contractor", "cloud-provider", "state-local", "industry-academia"]
 # the fewest ordered steps a trailhead may have: every door is a real path, never padded (R5, item 16)
 MIN_DOOR_STEPS = 4
 DOW_REQUIRED = ["current", "abbr", "statutory", "basis", "verifiedOn", "renderRule", "statusNote"]
@@ -765,7 +765,7 @@ def main() -> int:
         for s in steps:
             if "when" in s and not s["when"].startswith("If "):
                 errs.append(f"door {d.get('id')} step {s.get('order')}: when must start with If")
-    rep.check("doors: the five trailheads, four to seven steps each, every entityId and layerId resolves; short titles in Title Case, step titles distinct", errs)
+    rep.check("doors: the six trailheads, four to seven steps each, every entityId and layerId resolves; short titles in Title Case, step titles distinct", errs)
 
     # 9. sweep (plain and rot13 forms)
     terms, source_desc = load_sweep_terms()

@@ -1,8 +1,8 @@
 {
   "meta": {
     "name": "Lensatic",
-    "contentVersion": "1.3.0",
-    "builtOn": "2026-11-07",
+    "contentVersion": "1.4.0",
+    "builtOn": "2026-11-15",
     "sources": [
       "csf20",
       "sp800-207",
@@ -28,7 +28,8 @@
       "sp1800-35",
       "omb-m2521",
       "thunderdome",
-      "flank-speed"
+      "flank-speed",
+      "fedramp"
     ],
     "changelog": [
       {
@@ -230,6 +231,11 @@
         "version": "1.3.0",
         "date": "2026-11-07",
         "summary": "Zero trust leads: a sentence after the tagline says it is the spine the other frameworks hang off, in the map’s plain definition. Source links go to each publication’s web page first, with the PDF kept beside it and every PDF link tagged; the department’s basis and the portfolio office link to their pages. Every glossary spell-out is in Title Case, with “and” for “&”. The website’s own wording moves into the content, so the app and the site read the same words: the trailheads in the welcome screen’s order, Title Case buttons, About Maps and the plain pages’ tab titles. The State and Local and Industry and Academia trailheads each say their five shared steps for their own readers; who should start at another trailhead moves out of who each trailhead is for, after the steps; on the app’s welcome screen each trailhead says in one line who it is for; five lines that echoed CSF 2.0’s one-liner each say it their own way. Search gets starting queries, and the privacy page lists the plays opened and the last five searches the app keeps. CMMC and NIST SP 1353 are rechecked on 10 November 2026: Phase 2 was still suspended, with no new date, and SP 1353 is still the initial public draft. For the app’s launch build, four trailhead steps and one answer name the document they cite where they said the document, the memo or the roadmap; each type of document gets a one-line meaning; the app’s Home, its finished path and the Start With chips get their labels; the pages’ footer reads Content updated and the map’s front door Sources last checked; and About Maps says what Unverified usually means. The glossary adds SI, the federal executive branch’s term for AI since Executive Order 14434, and COSIS, the new name of NIST’s control overlays project, which the Cyber AI Profile’s note now uses. CMMC’s note says that NIST superseded the 2021 edition of SP 800-172, which the rule still cites, and four DFARS addresses in the notes point at the regulation’s part pages. Nothing else on the stack changes."
+      },
+      {
+        "version": "1.4.0",
+        "date": "2026-11-15",
+        "summary": "Lensatic 2.0, the framework navigator. A sixth trailhead, for a cloud provider selling to government: seven steps from what FedRAMP certifies now, through its classes, its Key Security Indicators and each agency’s own authorization, to zero trust and CSF 2.0. FedRAMP joins the stack at Layer 5 as the certification layer for that trailhead, from its Consolidated Rules for 2026, with the day its rules come into force, 1 January 2027. The glossary adds KSI, 3PAO, POA&M, CJIS, D3FEND, ATLAS, TTP, TEVV and ODP, each read at its publisher on 14 November 2026. Search’s starting chips add FedRAMP and ISO/IEC 27001. The privacy page lists two more things the iOS app keeps on the device, the answers you give in a readiness check and the view you chose for the Frameworks list, and says a readiness check is a self-check whose answers are never sent anywhere. Nothing else on the stack changes."
       }
     ],
     "description": "A guide to the United States public sector cybersecurity frameworks: what each one is for, how they fit together, who each one binds, and where zero trust and AI land.",
@@ -1713,6 +1719,54 @@
       },
       "note": "Governance outside the cybersecurity stack: it tells agencies how to govern their use of AI, not how to secure it, which is why it is listed with the column as governance rather than as a framework on it.",
       "shortNote": "Governance, not security: it tells agencies how to govern their use of AI, so it sits beside the column rather than on it."
+    },
+    {
+      "id": "fedramp",
+      "layerId": "l5",
+      "name": "Federal Risk and Authorization Management Program (FedRAMP)",
+      "shortName": "FedRAMP",
+      "oneLiner": "FedRAMP is the government-wide program that certifies a cloud service once, in Class A to D, so that every federal agency can reuse the evidence when it authorizes its own use of that service.",
+      "shortSummary": "Certifies a cloud service once, in Class A to D, so every agency can reuse the evidence.",
+      "role": "Certification layer for the cloud provider trailhead.",
+      "publisher": "GSA",
+      "title": "FedRAMP Consolidated Rules for 2026",
+      "edition": "Version 2026.11.02.01",
+      "date": "2026-11-02",
+      "url": "https://www.fedramp.gov/2026/",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026 at fedramp.gov and in FedRAMP’s machine-readable rules file (https://github.com/FedRAMP/rules/blob/main/fedramp-consolidated-rules.json), fetched twice that day: the Consolidated Rules for 2026 launched on 24 June 2026 and stood at version 2026.11.02.01. An authorization is now a FedRAMP Certification, in Class A, B, C or D, of the 20x type (46 Key Security Indicators in 10 themes) or the Rev5 type (SP 800-53 baselines of 155, 322 and 409 controls for Classes B, C and D). Rule FRC-CLA-ASF names the ways into Class A: FedRAMP Rev5, including FedRAMP Ready; SOC 2 Type II; and GovRAMP, each within the past 12 months. Rule MKT-IIP-DLA gives two years from the first Marketplace listing to schedule a Class B, C or D assessment. Rule AGU-USE-ABU: ‘Agencies MUST complete the Authorization to Operate process for federal information systems that use FedRAMP Certified cloud service offerings.’",
+        "recheckAfter": "2026-12-15"
+      },
+      "authority": {
+        "nature": "assessment",
+        "binds": [
+          "federal-civilian",
+          "dow-components",
+          "cloud-providers"
+        ],
+        "deadline": {
+          "text": "FedRAMP’s 2026 rules bind new Rev5 applications and active 20x services from 1 January 2027; new Rev5 applications end on 11 June 2027, and every grace period ends on 1 February 2028",
+          "sourceId": "fedramp",
+          "due": {
+            "date": "2027-01-01",
+            "label": "FedRAMP’s 2026 rules in force",
+            "short": "2026 rules"
+          }
+        },
+        "note": "Agencies must favor FedRAMP Certified cloud services where the use is in scope, under the FedRAMP Authorization Act and OMB Memorandum M-24-15; a provider follows the rules to earn and keep a certification.",
+        "verification": {
+          "status": "verified",
+          "verifiedOn": "2026-11-14",
+          "method": "primary-fetch",
+          "note": "Read on 14 November 2026: the dates are on FedRAMP’s Important Deadlines page (https://www.fedramp.gov/2026/providers/updating/deadlines/), the agency duty on its page of the law (https://www.fedramp.gov/2026/authority/law/agencies/), which quotes 44 U.S.C. 3613, and the memorandum on https://www.fedramp.gov/2026/authority/m-24-15/.",
+          "recheckAfter": "2026-12-15"
+        }
+      },
+      "shortNote": "Rebuilt in mid 2026: an authorization is now a FedRAMP Certification, in Classes A to D.",
+      "note": "Rebuilt in mid 2026. What was a FedRAMP authorization is a FedRAMP Certification; Low, Moderate and High gave way to Classes A to D, which FedRAMP says are not one-for-one replacements; a third-party assessment organization is a FedRAMP Recognized assessor; and continuous monitoring is Ongoing Certification. The Frameworks tab lists its Key Security Indicators and its baselines."
     }
   ],
   "solutions": [
@@ -4034,6 +4088,165 @@
       }
     },
     {
+      "id": "cloud-provider",
+      "title": "Cloud provider selling to government",
+      "shortTitle": "Cloud Provider",
+      "whoYouAre": "You build or run a cloud service and want federal agencies to be able to use it.",
+      "welcomeLine": "Cloud services sold to agencies",
+      "notYours": "If you handle controlled unclassified information under a {{dow}} contract, the contractor trailhead is also yours. A cloud service the department buys needs, as well as this path, a provisional authorization at an Impact Level from the Defense Information Systems Agency, which the Frameworks tab describes; and state and local customers may ask for GovRAMP, which is there too.",
+      "cardLine": "FedRAMP, SP 800-53",
+      "pillarView": "cisa",
+      "paragraph": null,
+      "steps": [
+        {
+          "order": 1,
+          "title": "Learn what FedRAMP certifies now",
+          "layerId": "l5",
+          "entityIds": [
+            "fedramp"
+          ],
+          "text": "Start with the Federal Risk and Authorization Management Program (FedRAMP) as it has stood since June 2026. What was a FedRAMP authorization is a FedRAMP Certification, in Class A, B, C or D. It is earned by one of two types: 20x, measured by Key Security Indicators, or Rev5, built on baselines of security controls. New Rev5 applications end on 11 June 2027, so a provider starting now should look at 20x first.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "fedramp"
+            ],
+            "note": "Owner’s synthesis of the cited entries’ direction into one step (Lensatic 2.0, Round 2, 14 November 2026). The FedRAMP facts are the FedRAMP entry’s, read that day."
+          }
+        },
+        {
+          "order": 2,
+          "title": "Pick a class and get listed",
+          "layerId": "l5",
+          "entityIds": [
+            "fedramp"
+          ],
+          "text": "Choose the class your customers need. FedRAMP describes Class A as for pilots and uses of negligible risk, Class B for most low-impact agency systems, Class C for most low or moderate ones and Class D for most systems. Class A is the way in for a provider new to federal work: it accepts a SOC 2 Type II report, a GovRAMP status or an earlier FedRAMP Rev5 result from the past 12 months. List the service on the FedRAMP Marketplace in its Initial Implementation phase; from that listing you have two years to schedule an assessment for Class B, C or D.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "fedramp"
+            ],
+            "note": "Owner’s synthesis of the cited entries’ direction into one step (Lensatic 2.0, Round 2, 14 November 2026). The FedRAMP facts are the FedRAMP entry’s, read that day."
+          }
+        },
+        {
+          "order": 3,
+          "title": "Build to the indicators, or to a baseline",
+          "layerId": "l4",
+          "entityIds": [
+            "fedramp",
+            "sp800-53"
+          ],
+          "text": "Under 20x you show that the service meets FedRAMP’s 46 Key Security Indicators, in 10 themes, each tied to the controls it draws on in Special Publication (SP) 800-53 from the National Institute of Standards and Technology (NIST). Under Rev5 you implement a baseline of those controls: 155 for Class B, 322 for Class C and 409 for Class D.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "fedramp",
+              "sp800-53"
+            ],
+            "note": "Owner’s synthesis of the cited entries’ direction into one step (Lensatic 2.0, Round 2, 14 November 2026). The FedRAMP facts are the FedRAMP entry’s, read that day."
+          }
+        },
+        {
+          "order": 4,
+          "title": "Get assessed and keep the certification",
+          "layerId": "l5",
+          "entityIds": [
+            "fedramp"
+          ],
+          "text": "A FedRAMP Recognized assessor, the kind of firm once called a third-party assessment organization, assesses Classes B, C and D at least once a year. A certification is kept, not just won: the rules’ Ongoing Certification duties replace what was called continuous monitoring.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "fedramp"
+            ],
+            "note": "Owner’s synthesis of the cited entries’ direction into one step (Lensatic 2.0, Round 2, 14 November 2026). The FedRAMP facts are the FedRAMP entry’s, read that day."
+          }
+        },
+        {
+          "order": 5,
+          "title": "Expect each agency’s own authorization",
+          "layerId": "l5",
+          "entityIds": [
+            "rmf-ato",
+            "fedramp"
+          ],
+          "text": "A FedRAMP Certification is not a government-wide approval. Each agency still completes its own authorization to operate (ATO) for the system that uses your service, through the Risk Management Framework (RMF), and it may reuse your FedRAMP package to do so. Make that package easy to reuse.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "rmf-ato",
+              "fedramp"
+            ],
+            "note": "Owner’s synthesis of the cited entries’ direction into one step (Lensatic 2.0, Round 2, 14 November 2026). The FedRAMP facts are the FedRAMP entry’s, read that day."
+          }
+        },
+        {
+          "order": 6,
+          "title": "Speak your customers’ zero trust language",
+          "layerId": "l3",
+          "entityIds": [
+            "sp800-207",
+            "cisa-ztmm"
+          ],
+          "text": "Your federal customers are building toward zero trust. Use SP 800-207 for what the term means, and the Zero Trust Maturity Model from the Cybersecurity and Infrastructure Security Agency (CISA) to say which pillar and which stage your service helps them reach.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "sp800-207",
+              "cisa-ztmm"
+            ],
+            "note": "Owner’s synthesis of the cited entries’ direction into one step (Lensatic 2.0, Round 2, 14 November 2026). The FedRAMP facts are the FedRAMP entry’s, read that day."
+          }
+        },
+        {
+          "order": 7,
+          "title": "Report where you stand with CSF 2.0",
+          "layerId": "l1",
+          "entityIds": [
+            "csf20"
+          ],
+          "text": "Use the Cybersecurity Framework (CSF) 2.0 to tell customers and your own leadership where you are and where you are going: its outcomes are the words agencies report in.",
+          "verification": {
+            "status": "authored",
+            "verifiedOn": null,
+            "method": "synthesis",
+            "basisIds": [
+              "csf20"
+            ],
+            "note": "Owner’s synthesis of the cited entries’ direction into one step (Lensatic 2.0, Round 2, 14 November 2026). The FedRAMP facts are the FedRAMP entry’s, read that day."
+          }
+        }
+      ],
+      "verification": {
+        "status": "authored",
+        "verifiedOn": null,
+        "method": "synthesis",
+        "basisIds": [
+          "fedramp",
+          "sp800-53",
+          "rmf-ato",
+          "sp800-207",
+          "cisa-ztmm",
+          "csf20"
+        ],
+        "note": "Synthesis of who the trailhead is for and the order of its steps (Lensatic 2.0, Round 2, 14 November 2026), from the FedRAMP entry’s rules, read that day: FedRAMP certifies cloud services for federal agencies, and each agency still authorizes its own use."
+      }
+    },
+    {
       "id": "state-local",
       "title": "State and local government",
       "shortTitle": "State and Local Government",
@@ -6160,6 +6373,157 @@
         "method": "primary-fetch",
         "note": "Read on 17 September 2026 in CSF 2.0 (NIST CSWP 29), section 3.1, printed page 6, and its glossary entry CSF Community Profile, printed page 26 (https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf)."
       }
+    },
+    {
+      "term": "KSI",
+      "forms": [
+        "KSI",
+        "KSIs"
+      ],
+      "expansion": "Key Security Indicator",
+      "oneLine": "One of the 46 security outcomes, in 10 themes, that FedRAMP’s 20x certification type measures a cloud service against.",
+      "entityIds": [
+        "fedramp"
+      ],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Expansion and meaning read on 14 November 2026 in FedRAMP’s Consolidated Rules for 2026, version 2026.11.02.01 (https://www.fedramp.gov/2026/), whose rules file holds the Key Security Indicators under the key KSI."
+      }
+    },
+    {
+      "term": "3PAO",
+      "forms": [
+        "3PAO",
+        "3PAOs"
+      ],
+      "expansion": "Third-Party Assessment Organization",
+      "oneLine": "FedRAMP’s former name for the independent firm that assesses a cloud service; the 2026 rules call it a FedRAMP Recognized assessor.",
+      "entityIds": [
+        "fedramp"
+      ],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026 in the definition of Assessor in FedRAMP’s rules file (FRD-ASR, https://github.com/FedRAMP/rules/blob/main/fedramp-consolidated-rules.json), whose note says FedRAMP has moved on from the historical term Third-Party Assessment Organization (3PAO)."
+      }
+    },
+    {
+      "term": "POA&M",
+      "forms": [
+        "POA&M",
+        "POA&Ms",
+        "POAM"
+      ],
+      "expansion": "Plan of Action and Milestones",
+      "oneLine": "A dated list of the requirements not yet met and how each will be closed. CMMC allows one only for some requirements and for a limited time; NIST now writes POAM.",
+      "entityIds": [
+        "cmmc20"
+      ],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Expansion read on 14 November 2026 in the CMMC rule’s acronym list, 32 CFR 170.4(a), through the eCFR, current to 12 November 2026 (https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170); its conditions are in 32 CFR 170.21. SP 800-171 Revision 3 prints ‘plan of action and milestones (POAM)’."
+      }
+    },
+    {
+      "term": "CJIS",
+      "forms": [
+        "CJIS"
+      ],
+      "expansion": "Criminal Justice Information Services",
+      "oneLine": "The FBI division whose Security Policy sets the rules for anyone who touches criminal justice information from the FBI’s systems.",
+      "entityIds": [],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Expansion read on 14 November 2026 in the title of the Criminal Justice Information Services (CJIS) Security Policy, version 6.1 (https://le.fbi.gov/file-repository/cjis_security_policy_v6-1_20260625.pdf)."
+      }
+    },
+    {
+      "term": "D3FEND",
+      "forms": [
+        "D3FEND"
+      ],
+      "expansion": "Detection, Denial, and Disruption Framework Empowering Network Defense",
+      "oneLine": "MITRE’s knowledge graph of defensive techniques, each tied to the attacker techniques it answers.",
+      "entityIds": [],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026 in D3FEND’s list of frequent questions (https://d3fend.mitre.org/faq/): ‘What does D3FEND stand for? Detection, Denial, and Disruption Framework Empowering Network Defense.’"
+      }
+    },
+    {
+      "term": "ATLAS",
+      "forms": [
+        "ATLAS"
+      ],
+      "expansion": "Adversarial Threat Landscape for AI Systems",
+      "oneLine": "MITRE’s knowledge base of tactics and techniques used against AI systems, in ATT&CK’s shape.",
+      "entityIds": [],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026 in the data file and the README of MITRE’s repository (https://github.com/mitre-atlas/atlas-data), which print ‘Adversarial Threat Landscape for AI Systems’; the site’s suggested citation writes Artificial-Intelligence Systems."
+      }
+    },
+    {
+      "term": "TTP",
+      "forms": [
+        "TTP",
+        "TTPs"
+      ],
+      "expansion": "Tactics, Techniques, and Procedures",
+      "oneLine": "How an adversary works: the goal of a step, the way it is done and the detail of doing it. ATT&CK and ATLAS catalog the first two.",
+      "entityIds": [],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026 in ATT&CK’s list of frequent questions (https://attack.mitre.org/resources/faq/): ‘common tactics, techniques, and procedures (TTPs) that advanced persistent threats use’."
+      }
+    },
+    {
+      "term": "TEVV",
+      "forms": [
+        "TEVV"
+      ],
+      "expansion": "Test, Evaluation, Verification, and Validation",
+      "oneLine": "The testing and checking of an AI system across its life, which the AI RMF’s Measure function relies on.",
+      "entityIds": [
+        "ai-rmf"
+      ],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026 in NIST AI 100-1, section 2 (https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf): ‘test, evaluation, verification, and validation (TEVV) processes’. NIST AI 600-1 prints the last two words the other way round."
+      }
+    },
+    {
+      "term": "ODP",
+      "forms": [
+        "ODP",
+        "ODPs"
+      ],
+      "expansion": "Organization-Defined Parameter",
+      "oneLine": "A value a requirement leaves open for an organization to set, such as how often something is reviewed. In CMMC Level 3 the department sets them.",
+      "entityIds": [
+        "sp800-171"
+      ],
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026 in the CSRC glossary (https://csrc.nist.gov/glossary/term/odp) and in Appendix A of SP 800-171 Revision 3, which prints Organization-Defined Parameter."
+      }
     }
   ],
   "ai": {
@@ -6456,7 +6820,8 @@
       "defense-contractors-cui": "Defense contractors handling CUI",
       "defense-contractors-fci-cui": "Defense contractors handling FCI or CUI",
       "voluntary-all": "Voluntary for all",
-      "adopters": "Organizations that adopt it"
+      "adopters": "Organizations that adopt it",
+      "cloud-providers": "Cloud providers selling to federal agencies"
     },
     "nature": {
       "mandate": "Mandate",
@@ -6484,6 +6849,8 @@
       "starters": [
         "Zero Trust",
         "CMMC",
+        "ISO/IEC 27001",
+        "FedRAMP",
         "800-53",
         "800-207",
         "CISA ZTMM",
@@ -6515,8 +6882,8 @@
         "Framework Maps runs entirely on your device. The iOS app and the web page carry all of their content with them. Once open, the web page needs no connection, and a saved copy works offline.",
         "Framework Maps makes no network requests. Once the web page is open it loads no scripts, fonts, images or data from anywhere, and the iOS app itself does not connect to the internet: a link you open in it loads in Safari’s viewer, as the paragraph on outside links says.",
         "There is no account and nothing to sign in to.",
-        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web pages keep is your theme choice (system, light or dark), saved in your browser’s local storage under the one key lensatic-theme, on your device and never sent anywhere. The iOS app keeps, on your device only, the trailhead you picked, the steps you checked off, the items you saved, the guide weeks you marked done, the plays you opened, your last five searches, and the day you last viewed What Changed with the content release it then showed. They sit in one file in a space on the device that only the app and its own home screen widget can open (an App Group), and the file is never sent anywhere. The widget reads it to show your next step and your next deadline; if you ask Siri or Shortcuts for your next step, the app answers from the same file, and Siri’s own handling of your request is under Apple’s privacy policy. The app lists its frameworks, plays and your trailhead’s steps in your device’s own search (Spotlight), which also stays on the device, and it follows your device’s light or dark setting. A share card you make goes only where you send it from the share sheet.",
-        "Lensatic holds nothing about you. Deleting the iOS app removes your trailhead, checked steps, saved items, marked weeks and the day you last viewed What Changed, its widget, and its entries in your device’s search; clearing this site’s data in your browser removes the saved theme choice.",
+        "Lensatic collects no personal data, usage data, identifiers or diagnostics, and stores or transmits none. The one thing the web pages keep is your theme choice (system, light or dark), saved in your browser’s local storage under the one key lensatic-theme, on your device and never sent anywhere. The iOS app keeps, on your device only, the trailhead you picked, the steps you checked off, the items you saved, the guide weeks you marked done, the plays you opened, your last five searches, the answers you give in a readiness check, the view you chose for the Frameworks list, and the day you last viewed What Changed with the content release it then showed. They sit in one file in a space on the device that only the app and its own home screen widget can open (an App Group), and the file is never sent anywhere. A readiness check is a self-check: your answers are for you. They are kept in that one file with the rest, they are never sent anywhere, nobody else can see them, and starting a check over removes them. The widget reads that file to show your next step and your next deadline; if you ask Siri or Shortcuts for your next step, the app answers from the same file, and Siri’s own handling of your request is under Apple’s privacy policy. The app lists its frameworks, plays and your trailhead’s steps in your device’s own search (Spotlight), which also stays on the device, and it follows your device’s light or dark setting. A share card you make goes only where you send it from the share sheet.",
+        "Lensatic holds nothing about you. Deleting the iOS app removes your trailhead, checked steps, saved items, marked weeks, readiness answers and the day you last viewed What Changed, its widget, and its entries in your device’s search; clearing this site’s data in your browser removes the saved theme choice.",
         "There are no third-party software development kits (SDKs), no analytics and no advertising.",
         "In the web page and the iOS app, the only outside links go to the public documents cited in Sources, in the guide and in the playbook, and to the source repository on GitHub; both also link to this policy and the support page. The web page opens them in your browser. The iOS app opens them in Safari’s viewer inside the app (SFSafariViewController): Safari loads the page, and the app cannot see the page or what you do on it. Either way the sites open under their own privacy policies. This page and the support page also link to GitHub.",
         "The Zero Trust page and the Agentic SecOps app share that one theme choice with the other Lensatic pages. A choice either of them saved earlier under its own key (ztfg-theme or playbook-theme) moves to lensatic-theme once, and the old key is removed. Both link out to their public sources.",
