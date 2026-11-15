@@ -27,5 +27,5 @@
   ],
   "connect": "NIST’s CSF 2.0 Reference Tool prints, beside each Subcategory, the ISO/IEC 27001:2022 clauses and Annex A controls that relate to it. They are NIST’s pointers, not an equivalence, and a certificate does not prove the outcomes.",
   "noScore": "Lensatic gives no strictness score here. One describes outcomes and the other is certified, so neither is stricter than the other. Many organizations use both.",
-  "overlapLine": "Counted from NIST’s own references. Lensatic shows the identifiers NIST names and none of ISO’s text."
+  "overlapLine": "Counted from NIST’s own references. Open a Function, then a Category and a Subcategory, to see the identifiers NIST names. Lensatic shows none of ISO’s text."
 }

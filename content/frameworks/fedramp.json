@@ -34,7 +34,7 @@
       "unit": "Key Security Indicators"
     }
   ],
-  "note": "If you know the old words: FedRAMP Certified was FedRAMP Authorized. Class B takes in the Low and LI-SaaS baselines, Class C the Moderate and Class D the High, though FedRAMP says a class is not an impact level. A FedRAMP Recognized assessor was a 3PAO. Ongoing Certification was continuous monitoring.",
+  "note": "If you know the old words: FedRAMP Certified was FedRAMP Authorized. Class B takes in the Low and LI-SaaS baselines, Class C the Moderate and Class D the High, though FedRAMP says a class is not an impact level. A FedRAMP Recognized assessor was a 3PAO. Ongoing Certification was continuous monitoring. Class A is new: pilots and uses of negligible risk. The Joint Authorization Board (JAB) path is gone.",
   "aliases": [
     "3PAO",
     "POA&M",
@@ -140,6 +140,13 @@
     "url": "https://www.fedramp.gov/disclaimers/"
   },
   "deadlines": [
+    {
+      "date": "2027-01-01",
+      "label": "The 2026 rules bind new Rev5 applications and active 20x services",
+      "short": "2026 rules in force",
+      "binds": "Cloud providers",
+      "sourceId": "fedramp-deadlines"
+    },
     {
       "date": "2027-06-11",
       "label": "New Rev5 applications end",

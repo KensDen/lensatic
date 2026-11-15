@@ -594,13 +594,13 @@ def ztmm(args) -> None:
     nodes = []
 
     def function(parent: str, f: dict) -> None:
-        fid = f"{parent}/{slug(f['name'])}"
+        fid = f"{parent}.{slug(f['name'])}"  # a key of the file's own, with no slash, so a screen's address can carry it
         node = {"id": fid, "level": "function", "parents": [parent], "title": prose(f["name"])}
         if f.get("kind", "").startswith("cross-cutting") and parent != "cross-cutting":
             node["note"] = "A cross-cutting capability, as it applies in this pillar."
         nodes.append(node)
         for stage in d["stages"]:
-            nodes.append({"id": f"{fid}/{slug(stage)}", "level": "stage", "parents": [fid], "title": stage, "text": prose(f["stages"][stage], dash=True)})
+            nodes.append({"id": f"{fid}.{slug(stage)}", "level": "stage", "parents": [fid], "title": stage, "text": prose(f["stages"][stage], dash=True)})
 
     for p in d["pillars"]:
         nodes.append({"id": p["id"], "level": "pillar", "parents": [], "title": prose(p["name"])})

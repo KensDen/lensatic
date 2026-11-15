@@ -117,7 +117,7 @@
       "title": "Identity"
     },
     {
-      "id": "identity/authentication",
+      "id": "identity.authentication",
       "level": "function",
       "parents": [
         "identity"
@@ -125,43 +125,43 @@
       "title": "Authentication"
     },
     {
-      "id": "identity/authentication/traditional",
+      "id": "identity.authentication.traditional",
       "level": "stage",
       "parents": [
-        "identity/authentication"
+        "identity.authentication"
       ],
       "title": "Traditional",
       "text": "Agency authenticates identity using either passwords or multi-factor authentication (MFA) with static access for entity identity."
     },
     {
-      "id": "identity/authentication/initial",
+      "id": "identity.authentication.initial",
       "level": "stage",
       "parents": [
-        "identity/authentication"
+        "identity.authentication"
       ],
       "title": "Initial",
       "text": "Agency authenticates identity using MFA, which may include passwords as one factor and requires validation of multiple entity attributes (e.g., locale or activity)."
     },
     {
-      "id": "identity/authentication/advanced",
+      "id": "identity.authentication.advanced",
       "level": "stage",
       "parents": [
-        "identity/authentication"
+        "identity.authentication"
       ],
       "title": "Advanced",
       "text": "Agency begins to authenticate all identity using phishing-resistant MFA and attributes, including initial implementation of password-less MFA via FIDO2 or PIV."
     },
     {
-      "id": "identity/authentication/optimal",
+      "id": "identity.authentication.optimal",
       "level": "stage",
       "parents": [
-        "identity/authentication"
+        "identity.authentication"
       ],
       "title": "Optimal",
       "text": "Agency continuously validates identity with phishing-resistant MFA, not just when access is initially granted."
     },
     {
-      "id": "identity/identity-stores",
+      "id": "identity.identity-stores",
       "level": "function",
       "parents": [
         "identity"
@@ -169,43 +169,43 @@
       "title": "Identity Stores"
     },
     {
-      "id": "identity/identity-stores/traditional",
+      "id": "identity.identity-stores.traditional",
       "level": "stage",
       "parents": [
-        "identity/identity-stores"
+        "identity.identity-stores"
       ],
       "title": "Traditional",
       "text": "Agency only uses self-managed, on-premises (i.e., planned, deployed, and maintained by agency) identity stores."
     },
     {
-      "id": "identity/identity-stores/initial",
+      "id": "identity.identity-stores.initial",
       "level": "stage",
       "parents": [
-        "identity/identity-stores"
+        "identity.identity-stores"
       ],
       "title": "Initial",
       "text": "Agency has a combination of self-managed identity stores and hosted identity store(s) (e.g., cloud or other agency) with minimal integration between the store(s) (e.g., Single Sign-on.)."
     },
     {
-      "id": "identity/identity-stores/advanced",
+      "id": "identity.identity-stores.advanced",
       "level": "stage",
       "parents": [
-        "identity/identity-stores"
+        "identity.identity-stores"
       ],
       "title": "Advanced",
       "text": "Agency begins to securely consolidate and integrate some self-managed and hosted identity stores."
     },
     {
-      "id": "identity/identity-stores/optimal",
+      "id": "identity.identity-stores.optimal",
       "level": "stage",
       "parents": [
-        "identity/identity-stores"
+        "identity.identity-stores"
       ],
       "title": "Optimal",
       "text": "Agency securely integrates their identity stores across all partners and environments as appropriate."
     },
     {
-      "id": "identity/risk-assessments",
+      "id": "identity.risk-assessments",
       "level": "function",
       "parents": [
         "identity"
@@ -213,43 +213,43 @@
       "title": "Risk Assessments"
     },
     {
-      "id": "identity/risk-assessments/traditional",
+      "id": "identity.risk-assessments.traditional",
       "level": "stage",
       "parents": [
-        "identity/risk-assessments"
+        "identity.risk-assessments"
       ],
       "title": "Traditional",
       "text": "Agency makes limited determinations for identity risk (i.e., likelihood that an identity is compromised)."
     },
     {
-      "id": "identity/risk-assessments/initial",
+      "id": "identity.risk-assessments.initial",
       "level": "stage",
       "parents": [
-        "identity/risk-assessments"
+        "identity.risk-assessments"
       ],
       "title": "Initial",
       "text": "Agency determines identity risk using manual methods and static rules to support visibility."
     },
     {
-      "id": "identity/risk-assessments/advanced",
+      "id": "identity.risk-assessments.advanced",
       "level": "stage",
       "parents": [
-        "identity/risk-assessments"
+        "identity.risk-assessments"
       ],
       "title": "Advanced",
       "text": "Agency determines identity risk with some automated analysis and dynamic rules to inform access decisions and response activities."
     },
     {
-      "id": "identity/risk-assessments/optimal",
+      "id": "identity.risk-assessments.optimal",
       "level": "stage",
       "parents": [
-        "identity/risk-assessments"
+        "identity.risk-assessments"
       ],
       "title": "Optimal",
       "text": "Agency determines identity risk in real time based on continuous analysis and dynamic rules to deliver ongoing protection."
     },
     {
-      "id": "identity/access-management",
+      "id": "identity.access-management",
       "level": "function",
       "parents": [
         "identity"
@@ -257,43 +257,43 @@
       "title": "Access Management"
     },
     {
-      "id": "identity/access-management/traditional",
+      "id": "identity.access-management.traditional",
       "level": "stage",
       "parents": [
-        "identity/access-management"
+        "identity.access-management"
       ],
       "title": "Traditional",
       "text": "Agency authorizes permanent access with periodic review for both privileged and unprivileged accounts."
     },
     {
-      "id": "identity/access-management/initial",
+      "id": "identity.access-management.initial",
       "level": "stage",
       "parents": [
-        "identity/access-management"
+        "identity.access-management"
       ],
       "title": "Initial",
       "text": "Agency authorizes access, including for privileged access requests, that expires with automated review."
     },
     {
-      "id": "identity/access-management/advanced",
+      "id": "identity.access-management.advanced",
       "level": "stage",
       "parents": [
-        "identity/access-management"
+        "identity.access-management"
       ],
       "title": "Advanced",
       "text": "Agency authorizes need-based and session-based access, including for privileged access request, that is tailored to actions and resources."
     },
     {
-      "id": "identity/access-management/optimal",
+      "id": "identity.access-management.optimal",
       "level": "stage",
       "parents": [
-        "identity/access-management"
+        "identity.access-management"
       ],
       "title": "Optimal",
       "text": "Agency uses automation to authorize just-in-time and just-enough access tailored to individual actions and individual resource needs."
     },
     {
-      "id": "identity/visibility-and-analytics-capability",
+      "id": "identity.visibility-and-analytics-capability",
       "level": "function",
       "parents": [
         "identity"
@@ -302,43 +302,43 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "identity/visibility-and-analytics-capability/traditional",
+      "id": "identity.visibility-and-analytics-capability.traditional",
       "level": "stage",
       "parents": [
-        "identity/visibility-and-analytics-capability"
+        "identity.visibility-and-analytics-capability"
       ],
       "title": "Traditional",
       "text": "Agency collects user and entity activity logs, especially for privileged credentials, and performs some routine manual analysis."
     },
     {
-      "id": "identity/visibility-and-analytics-capability/initial",
+      "id": "identity.visibility-and-analytics-capability.initial",
       "level": "stage",
       "parents": [
-        "identity/visibility-and-analytics-capability"
+        "identity.visibility-and-analytics-capability"
       ],
       "title": "Initial",
       "text": "Agency collects user and entity activity logs and performs routine manual analysis and some automated analysis, with limited correlation between log types."
     },
     {
-      "id": "identity/visibility-and-analytics-capability/advanced",
+      "id": "identity.visibility-and-analytics-capability.advanced",
       "level": "stage",
       "parents": [
-        "identity/visibility-and-analytics-capability"
+        "identity.visibility-and-analytics-capability"
       ],
       "title": "Advanced",
       "text": "Agency performs automated analysis across some user and entity activity log types and augments collection to address gaps in visibility."
     },
     {
-      "id": "identity/visibility-and-analytics-capability/optimal",
+      "id": "identity.visibility-and-analytics-capability.optimal",
       "level": "stage",
       "parents": [
-        "identity/visibility-and-analytics-capability"
+        "identity.visibility-and-analytics-capability"
       ],
       "title": "Optimal",
       "text": "Agency maintains comprehensive visibility and situational awareness across enterprise by performing automated analysis over user activity log types, including behavior-based analytics."
     },
     {
-      "id": "identity/automation-and-orchestration-capability",
+      "id": "identity.automation-and-orchestration-capability",
       "level": "function",
       "parents": [
         "identity"
@@ -347,43 +347,43 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "identity/automation-and-orchestration-capability/traditional",
+      "id": "identity.automation-and-orchestration-capability.traditional",
       "level": "stage",
       "parents": [
-        "identity/automation-and-orchestration-capability"
+        "identity.automation-and-orchestration-capability"
       ],
       "title": "Traditional",
       "text": "Agency manually orchestrates (onboards, offboards, and disables) self-managed identities (users and entities), with little integration, and performs regular review."
     },
     {
-      "id": "identity/automation-and-orchestration-capability/initial",
+      "id": "identity.automation-and-orchestration-capability.initial",
       "level": "stage",
       "parents": [
-        "identity/automation-and-orchestration-capability"
+        "identity.automation-and-orchestration-capability"
       ],
       "title": "Initial",
       "text": "Agency manually orchestrates privileged and external identities and automates orchestration of non-privileged users and of self-managed entities."
     },
     {
-      "id": "identity/automation-and-orchestration-capability/advanced",
+      "id": "identity.automation-and-orchestration-capability.advanced",
       "level": "stage",
       "parents": [
-        "identity/automation-and-orchestration-capability"
+        "identity.automation-and-orchestration-capability"
       ],
       "title": "Advanced",
       "text": "Agency manually orchestrates privileged user identities and automates orchestration of all identities with integration across all environments."
     },
     {
-      "id": "identity/automation-and-orchestration-capability/optimal",
+      "id": "identity.automation-and-orchestration-capability.optimal",
       "level": "stage",
       "parents": [
-        "identity/automation-and-orchestration-capability"
+        "identity.automation-and-orchestration-capability"
       ],
       "title": "Optimal",
       "text": "Agency automates orchestration of all identities with full integration across all environments based on behaviors, enrollments, and deployment needs."
     },
     {
-      "id": "identity/governance-capability",
+      "id": "identity.governance-capability",
       "level": "function",
       "parents": [
         "identity"
@@ -392,37 +392,37 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "identity/governance-capability/traditional",
+      "id": "identity.governance-capability.traditional",
       "level": "stage",
       "parents": [
-        "identity/governance-capability"
+        "identity.governance-capability"
       ],
       "title": "Traditional",
       "text": "Agency implements identity policies (authentication, credentials, access, lifecycle, etc.) with enforcement via static technical mechanisms and manual review."
     },
     {
-      "id": "identity/governance-capability/initial",
+      "id": "identity.governance-capability.initial",
       "level": "stage",
       "parents": [
-        "identity/governance-capability"
+        "identity.governance-capability"
       ],
       "title": "Initial",
       "text": "Agency defines and begins implementing identity policies for enterprise-wide enforcement with minimal automation and manual updates."
     },
     {
-      "id": "identity/governance-capability/advanced",
+      "id": "identity.governance-capability.advanced",
       "level": "stage",
       "parents": [
-        "identity/governance-capability"
+        "identity.governance-capability"
       ],
       "title": "Advanced",
       "text": "Agency implements identity policies for enterprise-wide enforcement with automation and updates policies periodically."
     },
     {
-      "id": "identity/governance-capability/optimal",
+      "id": "identity.governance-capability.optimal",
       "level": "stage",
       "parents": [
-        "identity/governance-capability"
+        "identity.governance-capability"
       ],
       "title": "Optimal",
       "text": "Agency implements and fully automates enterprise-wide identity policies for all users and entities across all systems with continuous enforcement and dynamic updates."
@@ -434,7 +434,7 @@
       "title": "Devices"
     },
     {
-      "id": "devices/policy-enforcement-compliance-monitoring",
+      "id": "devices.policy-enforcement-compliance-monitoring",
       "level": "function",
       "parents": [
         "devices"
@@ -442,43 +442,43 @@
       "title": "Policy Enforcement & Compliance Monitoring"
     },
     {
-      "id": "devices/policy-enforcement-compliance-monitoring/traditional",
+      "id": "devices.policy-enforcement-compliance-monitoring.traditional",
       "level": "stage",
       "parents": [
-        "devices/policy-enforcement-compliance-monitoring"
+        "devices.policy-enforcement-compliance-monitoring"
       ],
       "title": "Traditional",
       "text": "Agency has limited, if any, visibility (i.e., ability to inspect device behavior) into device compliance with few methods of enforcing policies or managing software, configurations, or vulnerabilities."
     },
     {
-      "id": "devices/policy-enforcement-compliance-monitoring/initial",
+      "id": "devices.policy-enforcement-compliance-monitoring.initial",
       "level": "stage",
       "parents": [
-        "devices/policy-enforcement-compliance-monitoring"
+        "devices.policy-enforcement-compliance-monitoring"
       ],
       "title": "Initial",
       "text": "Agency receives self-reported device characteristics (e.g., keys, tokens, users, etc., on the device) but has limited enforcement mechanisms. Agency has a preliminary, basic process in place to approve software use and push updates and configuration changes to devices."
     },
     {
-      "id": "devices/policy-enforcement-compliance-monitoring/advanced",
+      "id": "devices.policy-enforcement-compliance-monitoring.advanced",
       "level": "stage",
       "parents": [
-        "devices/policy-enforcement-compliance-monitoring"
+        "devices.policy-enforcement-compliance-monitoring"
       ],
       "title": "Advanced",
       "text": "Agency has verified insights (i.e., an administrator can inspect and verify the data on device) on initial access to device and enforces compliance for most devices and virtual assets. Agency uses automated methods to manage devices and virtual assets, approve software, and identify vulnerabilities and install patches."
     },
     {
-      "id": "devices/policy-enforcement-compliance-monitoring/optimal",
+      "id": "devices.policy-enforcement-compliance-monitoring.optimal",
       "level": "stage",
       "parents": [
-        "devices/policy-enforcement-compliance-monitoring"
+        "devices.policy-enforcement-compliance-monitoring"
       ],
       "title": "Optimal",
       "text": "Agency continuously verifies insights and enforces compliance throughout the lifetime of devices and virtual assets. Agency integrates device, software, configuration, and vulnerability management across all agency environments, including for virtual assets."
     },
     {
-      "id": "devices/asset-supply-chain-risk-management",
+      "id": "devices.asset-supply-chain-risk-management",
       "level": "function",
       "parents": [
         "devices"
@@ -486,43 +486,43 @@
       "title": "Asset & Supply Chain Risk Management"
     },
     {
-      "id": "devices/asset-supply-chain-risk-management/traditional",
+      "id": "devices.asset-supply-chain-risk-management.traditional",
       "level": "stage",
       "parents": [
-        "devices/asset-supply-chain-risk-management"
+        "devices.asset-supply-chain-risk-management"
       ],
       "title": "Traditional",
       "text": "Agency does not track physical or virtual assets in an enterprise-wide or cross-vendor manner and manages its own supply chain acquisition of devices and services in ad hoc fashion with a limited view of enterprise risks."
     },
     {
-      "id": "devices/asset-supply-chain-risk-management/initial",
+      "id": "devices.asset-supply-chain-risk-management.initial",
       "level": "stage",
       "parents": [
-        "devices/asset-supply-chain-risk-management"
+        "devices.asset-supply-chain-risk-management"
       ],
       "title": "Initial",
       "text": "Agency tracks all physical and some virtual assets and manages supply chain risks by establishing policies and control baselines according to federal recommendations using a robust framework, (e.g., NIST SCRM.)"
     },
     {
-      "id": "devices/asset-supply-chain-risk-management/advanced",
+      "id": "devices.asset-supply-chain-risk-management.advanced",
       "level": "stage",
       "parents": [
-        "devices/asset-supply-chain-risk-management"
+        "devices.asset-supply-chain-risk-management"
       ],
       "title": "Advanced",
       "text": "Agency begins to develop a comprehensive enterprise view of physical and virtual assets via automated processes that can function across multiple vendors to verify acquisitions, track development cycles, and provide third-party assessments."
     },
     {
-      "id": "devices/asset-supply-chain-risk-management/optimal",
+      "id": "devices.asset-supply-chain-risk-management.optimal",
       "level": "stage",
       "parents": [
-        "devices/asset-supply-chain-risk-management"
+        "devices.asset-supply-chain-risk-management"
       ],
       "title": "Optimal",
       "text": "Agency has a comprehensive, at- or near-real-time view of all assets across vendors and service providers, automates its supply chain risk management as applicable, builds operations that tolerate supply chain failures, and incorporates best practices."
     },
     {
-      "id": "devices/resource-access",
+      "id": "devices.resource-access",
       "level": "function",
       "parents": [
         "devices"
@@ -530,43 +530,43 @@
       "title": "Resource Access"
     },
     {
-      "id": "devices/resource-access/traditional",
+      "id": "devices.resource-access.traditional",
       "level": "stage",
       "parents": [
-        "devices/resource-access"
+        "devices.resource-access"
       ],
       "title": "Traditional",
       "text": "Agency does not require visibility into devices or virtual assets used to access resources."
     },
     {
-      "id": "devices/resource-access/initial",
+      "id": "devices.resource-access.initial",
       "level": "stage",
       "parents": [
-        "devices/resource-access"
+        "devices.resource-access"
       ],
       "title": "Initial",
       "text": "Agency requires some devices or virtual assets to report characteristics then use this information to approve resource access."
     },
     {
-      "id": "devices/resource-access/advanced",
+      "id": "devices.resource-access.advanced",
       "level": "stage",
       "parents": [
-        "devices/resource-access"
+        "devices.resource-access"
       ],
       "title": "Advanced",
       "text": "Agency’s initial resource access considers verified device or virtual asset insights."
     },
     {
-      "id": "devices/resource-access/optimal",
+      "id": "devices.resource-access.optimal",
       "level": "stage",
       "parents": [
-        "devices/resource-access"
+        "devices.resource-access"
       ],
       "title": "Optimal",
       "text": "Agency’s resource access considers real-time risk analytics within devices and virtual assets."
     },
     {
-      "id": "devices/device-threat-protection",
+      "id": "devices.device-threat-protection",
       "level": "function",
       "parents": [
         "devices"
@@ -574,43 +574,43 @@
       "title": "Device Threat Protection"
     },
     {
-      "id": "devices/device-threat-protection/traditional",
+      "id": "devices.device-threat-protection.traditional",
       "level": "stage",
       "parents": [
-        "devices/device-threat-protection"
+        "devices.device-threat-protection"
       ],
       "title": "Traditional",
       "text": "Agency manually deploys threat protection capabilities to some devices."
     },
     {
-      "id": "devices/device-threat-protection/initial",
+      "id": "devices.device-threat-protection.initial",
       "level": "stage",
       "parents": [
-        "devices/device-threat-protection"
+        "devices.device-threat-protection"
       ],
       "title": "Initial",
       "text": "Agency has some automated processes for deploying and updating threat protection capabilities to devices and to virtual assets with limited policy enforcement and compliance monitoring integration."
     },
     {
-      "id": "devices/device-threat-protection/advanced",
+      "id": "devices.device-threat-protection.advanced",
       "level": "stage",
       "parents": [
-        "devices/device-threat-protection"
+        "devices.device-threat-protection"
       ],
       "title": "Advanced",
       "text": "Agency begins to consolidate threat protection capabilities to centralized solutions for devices and virtual assets and integrates most of these capabilities with policy enforcement and compliance monitoring."
     },
     {
-      "id": "devices/device-threat-protection/optimal",
+      "id": "devices.device-threat-protection.optimal",
       "level": "stage",
       "parents": [
-        "devices/device-threat-protection"
+        "devices.device-threat-protection"
       ],
       "title": "Optimal",
       "text": "Agency has a centralized threat protection security solution(s) deployed with advanced capabilities for all devices and virtual assets and a unified approach for device threat protection, policy enforcement, and compliance monitoring."
     },
     {
-      "id": "devices/visibility-and-analytics-capability",
+      "id": "devices.visibility-and-analytics-capability",
       "level": "function",
       "parents": [
         "devices"
@@ -619,43 +619,43 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "devices/visibility-and-analytics-capability/traditional",
+      "id": "devices.visibility-and-analytics-capability.traditional",
       "level": "stage",
       "parents": [
-        "devices/visibility-and-analytics-capability"
+        "devices.visibility-and-analytics-capability"
       ],
       "title": "Traditional",
       "text": "Agency uses a physically labeled inventory and limited software monitoring to review devices on a regular basis with some manual analysis."
     },
     {
-      "id": "devices/visibility-and-analytics-capability/initial",
+      "id": "devices.visibility-and-analytics-capability.initial",
       "level": "stage",
       "parents": [
-        "devices/visibility-and-analytics-capability"
+        "devices.visibility-and-analytics-capability"
       ],
       "title": "Initial",
       "text": "Agency uses digital identifiers (e.g., interface addresses, digital tags) alongside a manual inventory and endpoint monitoring of devices when available. Some agency devices and virtual assets are under automated analysis (e.g., software-based scanning) for anomaly detection based on risk."
     },
     {
-      "id": "devices/visibility-and-analytics-capability/advanced",
+      "id": "devices.visibility-and-analytics-capability.advanced",
       "level": "stage",
       "parents": [
-        "devices/visibility-and-analytics-capability"
+        "devices.visibility-and-analytics-capability"
       ],
       "title": "Advanced",
       "text": "Agency automates both inventory collection (including endpoint monitoring on all standard user devices, e.g., desktops and laptops, mobile phones, tablets, and their virtual assets) and anomaly detection to detect unauthorized devices."
     },
     {
-      "id": "devices/visibility-and-analytics-capability/optimal",
+      "id": "devices.visibility-and-analytics-capability.optimal",
       "level": "stage",
       "parents": [
-        "devices/visibility-and-analytics-capability"
+        "devices.visibility-and-analytics-capability"
       ],
       "title": "Optimal",
       "text": "Agency automates status collection of all network-connected devices and virtual assets while correlating with identities, conducting endpoint monitoring, and performing anomaly detection to inform resource access. Agency tracks patterns of provisioning and/or de-provisioning of virtual assets for anomalies."
     },
     {
-      "id": "devices/automation-and-orchestration-capability",
+      "id": "devices.automation-and-orchestration-capability",
       "level": "function",
       "parents": [
         "devices"
@@ -664,43 +664,43 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "devices/automation-and-orchestration-capability/traditional",
+      "id": "devices.automation-and-orchestration-capability.traditional",
       "level": "stage",
       "parents": [
-        "devices/automation-and-orchestration-capability"
+        "devices.automation-and-orchestration-capability"
       ],
       "title": "Traditional",
       "text": "Agency manually provisions, configures, and/or registers devices within the enterprise."
     },
     {
-      "id": "devices/automation-and-orchestration-capability/initial",
+      "id": "devices.automation-and-orchestration-capability.initial",
       "level": "stage",
       "parents": [
-        "devices/automation-and-orchestration-capability"
+        "devices.automation-and-orchestration-capability"
       ],
       "title": "Initial",
       "text": "Agency begins to use tools and scripts to automate the process of provisioning, configuration, registration, and/or deprovisioning for devices and virtual assets."
     },
     {
-      "id": "devices/automation-and-orchestration-capability/advanced",
+      "id": "devices.automation-and-orchestration-capability.advanced",
       "level": "stage",
       "parents": [
-        "devices/automation-and-orchestration-capability"
+        "devices.automation-and-orchestration-capability"
       ],
       "title": "Advanced",
       "text": "Agency has implemented monitoring and enforcement mechanisms to identify and manually disconnect or isolate non-compliant (vulnerable, unverified certificate; unregistered mac address) devices and virtual assets."
     },
     {
-      "id": "devices/automation-and-orchestration-capability/optimal",
+      "id": "devices.automation-and-orchestration-capability.optimal",
       "level": "stage",
       "parents": [
-        "devices/automation-and-orchestration-capability"
+        "devices.automation-and-orchestration-capability"
       ],
       "title": "Optimal",
       "text": "Agency has fully automated processes for provisioning, registering, monitoring, isolating, remediating, and deprovisioning devices and virtual assets."
     },
     {
-      "id": "devices/governance-capability",
+      "id": "devices.governance-capability",
       "level": "function",
       "parents": [
         "devices"
@@ -709,37 +709,37 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "devices/governance-capability/traditional",
+      "id": "devices.governance-capability.traditional",
       "level": "stage",
       "parents": [
-        "devices/governance-capability"
+        "devices.governance-capability"
       ],
       "title": "Traditional",
       "text": "Agency sets some policies for the lifecycle of their traditional and peripheral computing devices and relies on manual processes to maintain (e.g., update, patch, sanitize) these devices."
     },
     {
-      "id": "devices/governance-capability/initial",
+      "id": "devices.governance-capability.initial",
       "level": "stage",
       "parents": [
-        "devices/governance-capability"
+        "devices.governance-capability"
       ],
       "title": "Initial",
       "text": "Agency sets and enforces policies for the procurement of new devices, the lifecycle of non-traditional computing devices and virtual assets, and for regularly conducting monitoring and scanning of devices."
     },
     {
-      "id": "devices/governance-capability/advanced",
+      "id": "devices.governance-capability.advanced",
       "level": "stage",
       "parents": [
-        "devices/governance-capability"
+        "devices.governance-capability"
       ],
       "title": "Advanced",
       "text": "Agency sets enterprise-wide policies for the lifecycle of devices and virtual assets, including their enumeration and accountability, with some automated enforcement mechanisms."
     },
     {
-      "id": "devices/governance-capability/optimal",
+      "id": "devices.governance-capability.optimal",
       "level": "stage",
       "parents": [
-        "devices/governance-capability"
+        "devices.governance-capability"
       ],
       "title": "Optimal",
       "text": "Agency automates policies for the lifecycle of all network-connected devices and virtual assets across the enterprise."
@@ -751,7 +751,7 @@
       "title": "Networks"
     },
     {
-      "id": "networks/network-segmentation",
+      "id": "networks.network-segmentation",
       "level": "function",
       "parents": [
         "networks"
@@ -759,43 +759,43 @@
       "title": "Network Segmentation"
     },
     {
-      "id": "networks/network-segmentation/traditional",
+      "id": "networks.network-segmentation.traditional",
       "level": "stage",
       "parents": [
-        "networks/network-segmentation"
+        "networks.network-segmentation"
       ],
       "title": "Traditional",
       "text": "Agency defines their network architecture using large perimeter/macro-segmentation with minimal restrictions on reachability within network segments. Agency may also rely on multi-service interconnections (e.g., bulk traffic VPN tunnels)."
     },
     {
-      "id": "networks/network-segmentation/initial",
+      "id": "networks.network-segmentation.initial",
       "level": "stage",
       "parents": [
-        "networks/network-segmentation"
+        "networks.network-segmentation"
       ],
       "title": "Initial",
       "text": "Agency begins to deploy network architecture with the isolation of critical workloads, constraining connectivity to least function principles, and a transition toward service-specific interconnections."
     },
     {
-      "id": "networks/network-segmentation/advanced",
+      "id": "networks.network-segmentation.advanced",
       "level": "stage",
       "parents": [
-        "networks/network-segmentation"
+        "networks.network-segmentation"
       ],
       "title": "Advanced",
       "text": "Agency expands deployment of endpoint and application profile isolation mechanisms to more of their network architecture with ingress/egress micro-perimeters and service-specific interconnections."
     },
     {
-      "id": "networks/network-segmentation/optimal",
+      "id": "networks.network-segmentation.optimal",
       "level": "stage",
       "parents": [
-        "networks/network-segmentation"
+        "networks.network-segmentation"
       ],
       "title": "Optimal",
       "text": "Agency network architecture consists of fully distributed ingress/egress micro-perimeters and extensive micro-segmentation based around application profiles with dynamic just-in-time and just-enough connectivity for service-specific interconnections."
     },
     {
-      "id": "networks/network-traffic-management",
+      "id": "networks.network-traffic-management",
       "level": "function",
       "parents": [
         "networks"
@@ -803,43 +803,43 @@
       "title": "Network Traffic Management"
     },
     {
-      "id": "networks/network-traffic-management/traditional",
+      "id": "networks.network-traffic-management.traditional",
       "level": "stage",
       "parents": [
-        "networks/network-traffic-management"
+        "networks.network-traffic-management"
       ],
       "title": "Traditional",
       "text": "Agency manually implements static network rules and configurations to manage traffic at service provisioning, with limited monitoring capabilities (e.g., application performance monitoring or anomaly detection) and manual audits and reviews of profile changes for mission critical applications."
     },
     {
-      "id": "networks/network-traffic-management/initial",
+      "id": "networks.network-traffic-management.initial",
       "level": "stage",
       "parents": [
-        "networks/network-traffic-management"
+        "networks.network-traffic-management"
       ],
       "title": "Initial",
       "text": "Agency establishes application profiles with distinct traffic management features and begins to map all applications to these profiles. Agency expands application of static rules to all applications and performs periodic manual audits of application profile assessments."
     },
     {
-      "id": "networks/network-traffic-management/advanced",
+      "id": "networks.network-traffic-management.advanced",
       "level": "stage",
       "parents": [
-        "networks/network-traffic-management"
+        "networks.network-traffic-management"
       ],
       "title": "Advanced",
       "text": "Agency implements dynamic network rules and configurations for resource optimization that are periodically adapted based upon automated risk-aware and risk-responsive application profile assessments and monitoring."
     },
     {
-      "id": "networks/network-traffic-management/optimal",
+      "id": "networks.network-traffic-management.optimal",
       "level": "stage",
       "parents": [
-        "networks/network-traffic-management"
+        "networks.network-traffic-management"
       ],
       "title": "Optimal",
       "text": "Agency implements dynamic network rules and configurations that continuously evolve to meet application profile needs and reprioritize applications based on mission criticality, risk, etc."
     },
     {
-      "id": "networks/traffic-encryption",
+      "id": "networks.traffic-encryption",
       "level": "function",
       "parents": [
         "networks"
@@ -847,43 +847,43 @@
       "title": "Traffic Encryption"
     },
     {
-      "id": "networks/traffic-encryption/traditional",
+      "id": "networks.traffic-encryption.traditional",
       "level": "stage",
       "parents": [
-        "networks/traffic-encryption"
+        "networks.traffic-encryption"
       ],
       "title": "Traditional",
       "text": "Agency encrypts minimal traffic and relies on manual or ad hoc processes to manage and secure encryption keys."
     },
     {
-      "id": "networks/traffic-encryption/initial",
+      "id": "networks.traffic-encryption.initial",
       "level": "stage",
       "parents": [
-        "networks/traffic-encryption"
+        "networks.traffic-encryption"
       ],
       "title": "Initial",
       "text": "Agency begins to encrypt all traffic to internal applications, to prefer encryption for traffic to external applications, to formalize key management policies, and to secure server/service encryption keys."
     },
     {
-      "id": "networks/traffic-encryption/advanced",
+      "id": "networks.traffic-encryption.advanced",
       "level": "stage",
       "parents": [
-        "networks/traffic-encryption"
+        "networks.traffic-encryption"
       ],
       "title": "Advanced",
       "text": "Agency ensures encryption for all applicable internal and external traffic protocols, manages issuance and rotation of keys and certificates, and begins to incorporate best practices for cryptographic agility."
     },
     {
-      "id": "networks/traffic-encryption/optimal",
+      "id": "networks.traffic-encryption.optimal",
       "level": "stage",
       "parents": [
-        "networks/traffic-encryption"
+        "networks.traffic-encryption"
       ],
       "title": "Optimal",
       "text": "Agency continues to encrypt traffic as appropriate, enforces least privilege principles for secure key management enterprise-wide, and incorporates best practices for cryptographic agility as widely as possible."
     },
     {
-      "id": "networks/network-resilience",
+      "id": "networks.network-resilience",
       "level": "function",
       "parents": [
         "networks"
@@ -891,43 +891,43 @@
       "title": "Network Resilience"
     },
     {
-      "id": "networks/network-resilience/traditional",
+      "id": "networks.network-resilience.traditional",
       "level": "stage",
       "parents": [
-        "networks/network-resilience"
+        "networks.network-resilience"
       ],
       "title": "Traditional",
       "text": "Agency configures network capabilities on a case-by-case basis to only match individual application availability demands with limited resilience mechanisms for workloads not deemed mission critical."
     },
     {
-      "id": "networks/network-resilience/initial",
+      "id": "networks.network-resilience.initial",
       "level": "stage",
       "parents": [
-        "networks/network-resilience"
+        "networks.network-resilience"
       ],
       "title": "Initial",
       "text": "Agency begins to configure network capabilities to manage availability demands for additional applications and expand resilience mechanisms for workloads not deemed mission critical."
     },
     {
-      "id": "networks/network-resilience/advanced",
+      "id": "networks.network-resilience.advanced",
       "level": "stage",
       "parents": [
-        "networks/network-resilience"
+        "networks.network-resilience"
       ],
       "title": "Advanced",
       "text": "Agency has configured network capabilities to dynamically manage the availability demands and resilience mechanisms for the majority of their applications."
     },
     {
-      "id": "networks/network-resilience/optimal",
+      "id": "networks.network-resilience.optimal",
       "level": "stage",
       "parents": [
-        "networks/network-resilience"
+        "networks.network-resilience"
       ],
       "title": "Optimal",
       "text": "Agency integrates holistic delivery and awareness in adapting to changes in availability demands for all workloads and provides proportionate resilience."
     },
     {
-      "id": "networks/visibility-and-analytics-capability",
+      "id": "networks.visibility-and-analytics-capability",
       "level": "function",
       "parents": [
         "networks"
@@ -936,43 +936,43 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "networks/visibility-and-analytics-capability/traditional",
+      "id": "networks.visibility-and-analytics-capability.traditional",
       "level": "stage",
       "parents": [
-        "networks/visibility-and-analytics-capability"
+        "networks.visibility-and-analytics-capability"
       ],
       "title": "Traditional",
       "text": "Agency incorporates limited boundary-focused network monitoring capabilities with minimal analysis to start developing centralized situational awareness."
     },
     {
-      "id": "networks/visibility-and-analytics-capability/initial",
+      "id": "networks.visibility-and-analytics-capability.initial",
       "level": "stage",
       "parents": [
-        "networks/visibility-and-analytics-capability"
+        "networks.visibility-and-analytics-capability"
       ],
       "title": "Initial",
       "text": "Agency employs network monitoring capabilities based on known indicators of compromise (including network enumeration) to develop situational awareness in each environment and begins to correlate telemetry across traffic types and environments for analysis and threat hunting activities."
     },
     {
-      "id": "networks/visibility-and-analytics-capability/advanced",
+      "id": "networks.visibility-and-analytics-capability.advanced",
       "level": "stage",
       "parents": [
-        "networks/visibility-and-analytics-capability"
+        "networks.visibility-and-analytics-capability"
       ],
       "title": "Advanced",
       "text": "Agency deploys anomaly-based network detection capabilities to develop situational awareness across all environments, begins to correlate telemetry from multiple sources for analysis, and incorporates automated processes for robust threat hunting activities."
     },
     {
-      "id": "networks/visibility-and-analytics-capability/optimal",
+      "id": "networks.visibility-and-analytics-capability.optimal",
       "level": "stage",
       "parents": [
-        "networks/visibility-and-analytics-capability"
+        "networks.visibility-and-analytics-capability"
       ],
       "title": "Optimal",
       "text": "Agency maintains visibility into communication across all agency networks and environments while enabling enterprise-wide situational awareness and advanced monitoring capabilities that automate telemetry correlation across all detection sources."
     },
     {
-      "id": "networks/automation-and-orchestration-capability",
+      "id": "networks.automation-and-orchestration-capability",
       "level": "function",
       "parents": [
         "networks"
@@ -981,43 +981,43 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "networks/automation-and-orchestration-capability/traditional",
+      "id": "networks.automation-and-orchestration-capability.traditional",
       "level": "stage",
       "parents": [
-        "networks/automation-and-orchestration-capability"
+        "networks.automation-and-orchestration-capability"
       ],
       "title": "Traditional",
       "text": "Agency uses manual processes to manage the configuration and resource lifecycle for agency networks and environments with periodic integration of policy requirements and situational awareness."
     },
     {
-      "id": "networks/automation-and-orchestration-capability/initial",
+      "id": "networks.automation-and-orchestration-capability.initial",
       "level": "stage",
       "parents": [
-        "networks/automation-and-orchestration-capability"
+        "networks.automation-and-orchestration-capability"
       ],
       "title": "Initial",
       "text": "Agency begins using automated methods to manage the configuration and resource lifecycle for some agency networks or environments and ensures that all resources have a defined lifetime based on policies and telemetry."
     },
     {
-      "id": "networks/automation-and-orchestration-capability/advanced",
+      "id": "networks.automation-and-orchestration-capability.advanced",
       "level": "stage",
       "parents": [
-        "networks/automation-and-orchestration-capability"
+        "networks.automation-and-orchestration-capability"
       ],
       "title": "Advanced",
       "text": "Agency uses automated change management methods (e.g., CI/CD) to manage the configuration and resource lifecycle for all agency networks and environments, responding to and enforcing policies and protections against perceived risks."
     },
     {
-      "id": "networks/automation-and-orchestration-capability/optimal",
+      "id": "networks.automation-and-orchestration-capability.optimal",
       "level": "stage",
       "parents": [
-        "networks/automation-and-orchestration-capability"
+        "networks.automation-and-orchestration-capability"
       ],
       "title": "Optimal",
       "text": "Agency networks and environments are defined using infrastructure-as-code managed by automated change management methods, including automated initiation and expiration to align with changing needs."
     },
     {
-      "id": "networks/governance-capability",
+      "id": "networks.governance-capability",
       "level": "function",
       "parents": [
         "networks"
@@ -1026,37 +1026,37 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "networks/governance-capability/traditional",
+      "id": "networks.governance-capability.traditional",
       "level": "stage",
       "parents": [
-        "networks/governance-capability"
+        "networks.governance-capability"
       ],
       "title": "Traditional",
       "text": "Agency implements static network policies (access, protocols, segmentation, alerts, and remediation) with an approach focused on perimeter protections."
     },
     {
-      "id": "networks/governance-capability/initial",
+      "id": "networks.governance-capability.initial",
       "level": "stage",
       "parents": [
-        "networks/governance-capability"
+        "networks.governance-capability"
       ],
       "title": "Initial",
       "text": "Agency defines and begins to implement policies tailored to individual network segments and resources while also inheriting corporate-wide rules as appropriate."
     },
     {
-      "id": "networks/governance-capability/advanced",
+      "id": "networks.governance-capability.advanced",
       "level": "stage",
       "parents": [
-        "networks/governance-capability"
+        "networks.governance-capability"
       ],
       "title": "Advanced",
       "text": "Agency incorporates automation in implementing tailored policies and facilitates the transition from perimeter-focused protections."
     },
     {
-      "id": "networks/governance-capability/optimal",
+      "id": "networks.governance-capability.optimal",
       "level": "stage",
       "parents": [
-        "networks/governance-capability"
+        "networks.governance-capability"
       ],
       "title": "Optimal",
       "text": "Agency implements enterprise-wide network policies that enable tailored, local controls; dynamic updates; and secure external connections based on application and user workflows."
@@ -1068,7 +1068,7 @@
       "title": "Applications and Workloads"
     },
     {
-      "id": "applications-and-workloads/application-access",
+      "id": "applications-and-workloads.application-access",
       "level": "function",
       "parents": [
         "applications-and-workloads"
@@ -1076,43 +1076,43 @@
       "title": "Application Access"
     },
     {
-      "id": "applications-and-workloads/application-access/traditional",
+      "id": "applications-and-workloads.application-access.traditional",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/application-access"
+        "applications-and-workloads.application-access"
       ],
       "title": "Traditional",
       "text": "Agency authorizes access to applications primarily based on local authorization and static attributes."
     },
     {
-      "id": "applications-and-workloads/application-access/initial",
+      "id": "applications-and-workloads.application-access.initial",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/application-access"
+        "applications-and-workloads.application-access"
       ],
       "title": "Initial",
       "text": "Agency begins to implement authorizing access capabilities to applications that incorporate contextual information (e.g., identity, device compliance, and/or other attributes) per request with expiration."
     },
     {
-      "id": "applications-and-workloads/application-access/advanced",
+      "id": "applications-and-workloads.application-access.advanced",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/application-access"
+        "applications-and-workloads.application-access"
       ],
       "title": "Advanced",
       "text": "Agency automates application access decisions with expanded contextual information and enforced expiration conditions that adhere to least privilege principles."
     },
     {
-      "id": "applications-and-workloads/application-access/optimal",
+      "id": "applications-and-workloads.application-access.optimal",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/application-access"
+        "applications-and-workloads.application-access"
       ],
       "title": "Optimal",
       "text": "Agency continuously authorizes application access, incorporating real-time risk analytics and factors such as behavior or usage patterns."
     },
     {
-      "id": "applications-and-workloads/application-threat-protections",
+      "id": "applications-and-workloads.application-threat-protections",
       "level": "function",
       "parents": [
         "applications-and-workloads"
@@ -1120,43 +1120,43 @@
       "title": "Application Threat Protections"
     },
     {
-      "id": "applications-and-workloads/application-threat-protections/traditional",
+      "id": "applications-and-workloads.application-threat-protections.traditional",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/application-threat-protections"
+        "applications-and-workloads.application-threat-protections"
       ],
       "title": "Traditional",
       "text": "Agency threat protections have minimal integration with application workflows, applying general purpose protections for known threats."
     },
     {
-      "id": "applications-and-workloads/application-threat-protections/initial",
+      "id": "applications-and-workloads.application-threat-protections.initial",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/application-threat-protections"
+        "applications-and-workloads.application-threat-protections"
       ],
       "title": "Initial",
       "text": "Agency integrates threat protections into mission critical application workflows, applying protections against known threats and some application-specific threats."
     },
     {
-      "id": "applications-and-workloads/application-threat-protections/advanced",
+      "id": "applications-and-workloads.application-threat-protections.advanced",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/application-threat-protections"
+        "applications-and-workloads.application-threat-protections"
       ],
       "title": "Advanced",
       "text": "Agency integrates threat protections into all application workflows, protecting against some application-specific and targeted threats."
     },
     {
-      "id": "applications-and-workloads/application-threat-protections/optimal",
+      "id": "applications-and-workloads.application-threat-protections.optimal",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/application-threat-protections"
+        "applications-and-workloads.application-threat-protections"
       ],
       "title": "Optimal",
       "text": "Agency integrates advanced threat protections into all application workflows, offering real-time visibility and content-aware protections against sophisticated attacks tailored to applications."
     },
     {
-      "id": "applications-and-workloads/accessible-applications",
+      "id": "applications-and-workloads.accessible-applications",
       "level": "function",
       "parents": [
         "applications-and-workloads"
@@ -1164,43 +1164,43 @@
       "title": "Accessible Applications"
     },
     {
-      "id": "applications-and-workloads/accessible-applications/traditional",
+      "id": "applications-and-workloads.accessible-applications.traditional",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/accessible-applications"
+        "applications-and-workloads.accessible-applications"
       ],
       "title": "Traditional",
       "text": "Agency makes some mission critical applications available only over private networks and protected public network connections (e.g., VPN) with monitoring."
     },
     {
-      "id": "applications-and-workloads/accessible-applications/initial",
+      "id": "applications-and-workloads.accessible-applications.initial",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/accessible-applications"
+        "applications-and-workloads.accessible-applications"
       ],
       "title": "Initial",
       "text": "Agency makes some of their applicable mission critical applications available over open public networks to authorized users with need via brokered connections."
     },
     {
-      "id": "applications-and-workloads/accessible-applications/advanced",
+      "id": "applications-and-workloads.accessible-applications.advanced",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/accessible-applications"
+        "applications-and-workloads.accessible-applications"
       ],
       "title": "Advanced",
       "text": "Agency makes most of their applicable mission critical applications available over open public network connections to authorized users as needed."
     },
     {
-      "id": "applications-and-workloads/accessible-applications/optimal",
+      "id": "applications-and-workloads.accessible-applications.optimal",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/accessible-applications"
+        "applications-and-workloads.accessible-applications"
       ],
       "title": "Optimal",
       "text": "Agency makes all applicable applications available over open public networks to authorized users and devices, where appropriate, as needed."
     },
     {
-      "id": "applications-and-workloads/secure-application-development-and-deployment-workflow",
+      "id": "applications-and-workloads.secure-application-development-and-deployment-workflow",
       "level": "function",
       "parents": [
         "applications-and-workloads"
@@ -1208,43 +1208,43 @@
       "title": "Secure Application Development and Deployment Workflow"
     },
     {
-      "id": "applications-and-workloads/secure-application-development-and-deployment-workflow/traditional",
+      "id": "applications-and-workloads.secure-application-development-and-deployment-workflow.traditional",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/secure-application-development-and-deployment-workflow"
+        "applications-and-workloads.secure-application-development-and-deployment-workflow"
       ],
       "title": "Traditional",
       "text": "Agency has ad hoc development, testing, and production environments with non-robust code deployment mechanisms."
     },
     {
-      "id": "applications-and-workloads/secure-application-development-and-deployment-workflow/initial",
+      "id": "applications-and-workloads.secure-application-development-and-deployment-workflow.initial",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/secure-application-development-and-deployment-workflow"
+        "applications-and-workloads.secure-application-development-and-deployment-workflow"
       ],
       "title": "Initial",
       "text": "Agency provides infrastructure for development, testing, and production environments (including automation) with formal code deployment mechanisms through CI/CD pipelines and requisite access controls in support of least privilege principles."
     },
     {
-      "id": "applications-and-workloads/secure-application-development-and-deployment-workflow/advanced",
+      "id": "applications-and-workloads.secure-application-development-and-deployment-workflow.advanced",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/secure-application-development-and-deployment-workflow"
+        "applications-and-workloads.secure-application-development-and-deployment-workflow"
       ],
       "title": "Advanced",
       "text": "Agency uses distinct and coordinated teams for development, security, and operations while removing developer access to production environment for code deployment."
     },
     {
-      "id": "applications-and-workloads/secure-application-development-and-deployment-workflow/optimal",
+      "id": "applications-and-workloads.secure-application-development-and-deployment-workflow.optimal",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/secure-application-development-and-deployment-workflow"
+        "applications-and-workloads.secure-application-development-and-deployment-workflow"
       ],
       "title": "Optimal",
       "text": "Agency leverages immutable workloads where feasible, only allowing changes to take effect through redeployment, and removes administrator access to deployment environments in favor of automated processes for code deployment."
     },
     {
-      "id": "applications-and-workloads/application-security-testing",
+      "id": "applications-and-workloads.application-security-testing",
       "level": "function",
       "parents": [
         "applications-and-workloads"
@@ -1252,43 +1252,43 @@
       "title": "Application Security Testing"
     },
     {
-      "id": "applications-and-workloads/application-security-testing/traditional",
+      "id": "applications-and-workloads.application-security-testing.traditional",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/application-security-testing"
+        "applications-and-workloads.application-security-testing"
       ],
       "title": "Traditional",
       "text": "Agency performs application security testing prior to deployment, primarily via manual testing methods."
     },
     {
-      "id": "applications-and-workloads/application-security-testing/initial",
+      "id": "applications-and-workloads.application-security-testing.initial",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/application-security-testing"
+        "applications-and-workloads.application-security-testing"
       ],
       "title": "Initial",
       "text": "Agency begins to use static and dynamic (i.e., application is executing) testing methods to perform security testing, including manual expert analysis, prior to application deployment."
     },
     {
-      "id": "applications-and-workloads/application-security-testing/advanced",
+      "id": "applications-and-workloads.application-security-testing.advanced",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/application-security-testing"
+        "applications-and-workloads.application-security-testing"
       ],
       "title": "Advanced",
       "text": "Agency integrates application security testing into the application development and deployment process, including the use of periodic dynamic testing methods."
     },
     {
-      "id": "applications-and-workloads/application-security-testing/optimal",
+      "id": "applications-and-workloads.application-security-testing.optimal",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/application-security-testing"
+        "applications-and-workloads.application-security-testing"
       ],
       "title": "Optimal",
       "text": "Agency integrates application security testing throughout the software development lifecycle across the enterprise with routine automated testing of deployed applications."
     },
     {
-      "id": "applications-and-workloads/visibility-and-analytics-capability",
+      "id": "applications-and-workloads.visibility-and-analytics-capability",
       "level": "function",
       "parents": [
         "applications-and-workloads"
@@ -1297,43 +1297,43 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "applications-and-workloads/visibility-and-analytics-capability/traditional",
+      "id": "applications-and-workloads.visibility-and-analytics-capability.traditional",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/visibility-and-analytics-capability"
+        "applications-and-workloads.visibility-and-analytics-capability"
       ],
       "title": "Traditional",
       "text": "Agency performs some performance and security monitoring of mission critical applications with limited aggregation and analytics."
     },
     {
-      "id": "applications-and-workloads/visibility-and-analytics-capability/initial",
+      "id": "applications-and-workloads.visibility-and-analytics-capability.initial",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/visibility-and-analytics-capability"
+        "applications-and-workloads.visibility-and-analytics-capability"
       ],
       "title": "Initial",
       "text": "Agency begins to automate application profile (e.g., state, health, and performance) and security monitoring for improved log collection, aggregation, and analytics."
     },
     {
-      "id": "applications-and-workloads/visibility-and-analytics-capability/advanced",
+      "id": "applications-and-workloads.visibility-and-analytics-capability.advanced",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/visibility-and-analytics-capability"
+        "applications-and-workloads.visibility-and-analytics-capability"
       ],
       "title": "Advanced",
       "text": "Agency automates profile and security monitoring for most applications with heuristics to identify application-specific and enterprise-wide trends and refines processes over time to address gaps in visibility."
     },
     {
-      "id": "applications-and-workloads/visibility-and-analytics-capability/optimal",
+      "id": "applications-and-workloads.visibility-and-analytics-capability.optimal",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/visibility-and-analytics-capability"
+        "applications-and-workloads.visibility-and-analytics-capability"
       ],
       "title": "Optimal",
       "text": "Agency performs continuous and dynamic monitoring across all applications to maintain enterprise-wide comprehensive visibility."
     },
     {
-      "id": "applications-and-workloads/automation-and-orchestration-capability",
+      "id": "applications-and-workloads.automation-and-orchestration-capability",
       "level": "function",
       "parents": [
         "applications-and-workloads"
@@ -1342,43 +1342,43 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "applications-and-workloads/automation-and-orchestration-capability/traditional",
+      "id": "applications-and-workloads.automation-and-orchestration-capability.traditional",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/automation-and-orchestration-capability"
+        "applications-and-workloads.automation-and-orchestration-capability"
       ],
       "title": "Traditional",
       "text": "Agency manually establishes static application hosting location and access at provisioning with limited maintenance and review."
     },
     {
-      "id": "applications-and-workloads/automation-and-orchestration-capability/initial",
+      "id": "applications-and-workloads.automation-and-orchestration-capability.initial",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/automation-and-orchestration-capability"
+        "applications-and-workloads.automation-and-orchestration-capability"
       ],
       "title": "Initial",
       "text": "Agency periodically modifies application configurations (including location and access) to meet relevant security and performance goals."
     },
     {
-      "id": "applications-and-workloads/automation-and-orchestration-capability/advanced",
+      "id": "applications-and-workloads.automation-and-orchestration-capability.advanced",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/automation-and-orchestration-capability"
+        "applications-and-workloads.automation-and-orchestration-capability"
       ],
       "title": "Advanced",
       "text": "Agency automates application configurations to respond to operational and environmental changes."
     },
     {
-      "id": "applications-and-workloads/automation-and-orchestration-capability/optimal",
+      "id": "applications-and-workloads.automation-and-orchestration-capability.optimal",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/automation-and-orchestration-capability"
+        "applications-and-workloads.automation-and-orchestration-capability"
       ],
       "title": "Optimal",
       "text": "Agency automates application configurations to continuously optimize for security and performance."
     },
     {
-      "id": "applications-and-workloads/governance-capability",
+      "id": "applications-and-workloads.governance-capability",
       "level": "function",
       "parents": [
         "applications-and-workloads"
@@ -1387,37 +1387,37 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "applications-and-workloads/governance-capability/traditional",
+      "id": "applications-and-workloads.governance-capability.traditional",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/governance-capability"
+        "applications-and-workloads.governance-capability"
       ],
       "title": "Traditional",
       "text": "Agency relies primarily on manual enforcement policies for application access, development, deployment, software asset management, security testing and evaluation (ST&E) at technology insertion, patching, and tracking software dependencies."
     },
     {
-      "id": "applications-and-workloads/governance-capability/initial",
+      "id": "applications-and-workloads.governance-capability.initial",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/governance-capability"
+        "applications-and-workloads.governance-capability"
       ],
       "title": "Initial",
       "text": "Agency begins to automate policy enforcement for application development (including access to development infrastructure), deployment, software asset management, ST&E at technology insertion, patching, and tracking software dependencies based upon mission needs (for example, with Software Bill of Materials)."
     },
     {
-      "id": "applications-and-workloads/governance-capability/advanced",
+      "id": "applications-and-workloads.governance-capability.advanced",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/governance-capability"
+        "applications-and-workloads.governance-capability"
       ],
       "title": "Advanced",
       "text": "Agency implements tiered, tailored policies enterprise-wide for applications and all aspects of the application development and deployment lifecycles and leverages automation, where possible, to support enforcement."
     },
     {
-      "id": "applications-and-workloads/governance-capability/optimal",
+      "id": "applications-and-workloads.governance-capability.optimal",
       "level": "stage",
       "parents": [
-        "applications-and-workloads/governance-capability"
+        "applications-and-workloads.governance-capability"
       ],
       "title": "Optimal",
       "text": "Agency fully automates policies governing applications development and deployment, including incorporating dynamic updates for applications through the CI/CD pipeline."
@@ -1429,7 +1429,7 @@
       "title": "Data"
     },
     {
-      "id": "data/data-inventory-management",
+      "id": "data.data-inventory-management",
       "level": "function",
       "parents": [
         "data"
@@ -1437,43 +1437,43 @@
       "title": "Data Inventory Management"
     },
     {
-      "id": "data/data-inventory-management/traditional",
+      "id": "data.data-inventory-management.traditional",
       "level": "stage",
       "parents": [
-        "data/data-inventory-management"
+        "data.data-inventory-management"
       ],
       "title": "Traditional",
       "text": "Agency manually identifies and inventories some agency data (e.g., mission critical data)."
     },
     {
-      "id": "data/data-inventory-management/initial",
+      "id": "data.data-inventory-management.initial",
       "level": "stage",
       "parents": [
-        "data/data-inventory-management"
+        "data.data-inventory-management"
       ],
       "title": "Initial",
       "text": "Agency begins to automate data inventory processes for both on-premises and in cloud environments, covering most agency data, and begins to incorporate protections against data loss."
     },
     {
-      "id": "data/data-inventory-management/advanced",
+      "id": "data.data-inventory-management.advanced",
       "level": "stage",
       "parents": [
-        "data/data-inventory-management"
+        "data.data-inventory-management"
       ],
       "title": "Advanced",
       "text": "Agency automates data inventory and tracking enterprise-wide, covering all applicable agency data, with data loss prevention strategies based upon static attributes and/or labels."
     },
     {
-      "id": "data/data-inventory-management/optimal",
+      "id": "data.data-inventory-management.optimal",
       "level": "stage",
       "parents": [
-        "data/data-inventory-management"
+        "data.data-inventory-management"
       ],
       "title": "Optimal",
       "text": "Agency continuously inventories all applicable agency data and employs robust data loss prevention strategies that dynamically block suspected data exfiltration."
     },
     {
-      "id": "data/data-categorization",
+      "id": "data.data-categorization",
       "level": "function",
       "parents": [
         "data"
@@ -1481,43 +1481,43 @@
       "title": "Data Categorization"
     },
     {
-      "id": "data/data-categorization/traditional",
+      "id": "data.data-categorization.traditional",
       "level": "stage",
       "parents": [
-        "data/data-categorization"
+        "data.data-categorization"
       ],
       "title": "Traditional",
       "text": "Agency employs limited and ad hoc data categorization capabilities."
     },
     {
-      "id": "data/data-categorization/initial",
+      "id": "data.data-categorization.initial",
       "level": "stage",
       "parents": [
-        "data/data-categorization"
+        "data.data-categorization"
       ],
       "title": "Initial",
       "text": "Agency begins to implement a data categorization strategy with defined labels and manual enforcement mechanisms."
     },
     {
-      "id": "data/data-categorization/advanced",
+      "id": "data.data-categorization.advanced",
       "level": "stage",
       "parents": [
-        "data/data-categorization"
+        "data.data-categorization"
       ],
       "title": "Advanced",
       "text": "Agency automates some data categorization and labeling processes in a consistent, tiered, targeted manner with simple, structured formats and regular review."
     },
     {
-      "id": "data/data-categorization/optimal",
+      "id": "data.data-categorization.optimal",
       "level": "stage",
       "parents": [
-        "data/data-categorization"
+        "data.data-categorization"
       ],
       "title": "Optimal",
       "text": "Agency automates data categorization and labeling enterprise-wide with robust techniques; granular, structured formats; and mechanisms to address all data types."
     },
     {
-      "id": "data/data-availability",
+      "id": "data.data-availability",
       "level": "function",
       "parents": [
         "data"
@@ -1525,43 +1525,43 @@
       "title": "Data Availability"
     },
     {
-      "id": "data/data-availability/traditional",
+      "id": "data.data-availability.traditional",
       "level": "stage",
       "parents": [
-        "data/data-availability"
+        "data.data-availability"
       ],
       "title": "Traditional",
       "text": "Agency primarily makes data available from on-premises data stores with some off-site backups."
     },
     {
-      "id": "data/data-availability/initial",
+      "id": "data.data-availability.initial",
       "level": "stage",
       "parents": [
-        "data/data-availability"
+        "data.data-availability"
       ],
       "title": "Initial",
       "text": "Agency makes some data available from redundant, highly available data stores (e.g., cloud) and maintains off-site backups for on-premises data."
     },
     {
-      "id": "data/data-availability/advanced",
+      "id": "data.data-availability.advanced",
       "level": "stage",
       "parents": [
-        "data/data-availability"
+        "data.data-availability"
       ],
       "title": "Advanced",
       "text": "Agency primarily makes data available from redundant, highly available data stores and ensures access to historical data."
     },
     {
-      "id": "data/data-availability/optimal",
+      "id": "data.data-availability.optimal",
       "level": "stage",
       "parents": [
-        "data/data-availability"
+        "data.data-availability"
       ],
       "title": "Optimal",
       "text": "Agency uses dynamic methods to optimize data availability, including historical data, according to user and entity need."
     },
     {
-      "id": "data/data-access",
+      "id": "data.data-access",
       "level": "function",
       "parents": [
         "data"
@@ -1569,43 +1569,43 @@
       "title": "Data Access"
     },
     {
-      "id": "data/data-access/traditional",
+      "id": "data.data-access.traditional",
       "level": "stage",
       "parents": [
-        "data/data-access"
+        "data.data-access"
       ],
       "title": "Traditional",
       "text": "Agency governs user and entity access (e.g., permissions to read, write, copy, grant others access, etc.) to data through static access controls."
     },
     {
-      "id": "data/data-access/initial",
+      "id": "data.data-access.initial",
       "level": "stage",
       "parents": [
-        "data/data-access"
+        "data.data-access"
       ],
       "title": "Initial",
       "text": "Agency begins to deploy automated data access controls that incorporate elements of least privilege across the enterprise."
     },
     {
-      "id": "data/data-access/advanced",
+      "id": "data.data-access.advanced",
       "level": "stage",
       "parents": [
-        "data/data-access"
+        "data.data-access"
       ],
       "title": "Advanced",
       "text": "Agency automates data access controls that consider various attributes such as identity, device risk, application, data category, etc., and are time limited where applicable."
     },
     {
-      "id": "data/data-access/optimal",
+      "id": "data.data-access.optimal",
       "level": "stage",
       "parents": [
-        "data/data-access"
+        "data.data-access"
       ],
       "title": "Optimal",
       "text": "Agency automates dynamic just-in-time and just-enough data access controls enterprise-wide with continuous review of permissions."
     },
     {
-      "id": "data/data-encryption",
+      "id": "data.data-encryption",
       "level": "function",
       "parents": [
         "data"
@@ -1613,43 +1613,43 @@
       "title": "Data Encryption"
     },
     {
-      "id": "data/data-encryption/traditional",
+      "id": "data.data-encryption.traditional",
       "level": "stage",
       "parents": [
-        "data/data-encryption"
+        "data.data-encryption"
       ],
       "title": "Traditional",
       "text": "Agency encrypts minimal agency data at rest and in transit and relies on manual or ad hoc processes to manage and secure encryption keys."
     },
     {
-      "id": "data/data-encryption/initial",
+      "id": "data.data-encryption.initial",
       "level": "stage",
       "parents": [
-        "data/data-encryption"
+        "data.data-encryption"
       ],
       "title": "Initial",
       "text": "Agency encrypts all data in transit and, where feasible, data at rest (e.g., mission critical data and data stored in external environments) and begins to formalize key management policies and secure encryption keys."
     },
     {
-      "id": "data/data-encryption/advanced",
+      "id": "data.data-encryption.advanced",
       "level": "stage",
       "parents": [
-        "data/data-encryption"
+        "data.data-encryption"
       ],
       "title": "Advanced",
       "text": "Agency encrypts all data at rest and in transit across the enterprise to the maximum extent possible, begins to incorporate cryptographic agility, and protects encryption keys (i.e., secrets are not hard coded and are rotated on a regular basis)."
     },
     {
-      "id": "data/data-encryption/optimal",
+      "id": "data.data-encryption.optimal",
       "level": "stage",
       "parents": [
-        "data/data-encryption"
+        "data.data-encryption"
       ],
       "title": "Optimal",
       "text": "Agency encrypts data in use where appropriate, enforces least privilege principles for secure key management enterprise-wide, and applies encryption using up-to-date standards and cryptographic agility to the extent possible."
     },
     {
-      "id": "data/visibility-and-analytics-capability",
+      "id": "data.visibility-and-analytics-capability",
       "level": "function",
       "parents": [
         "data"
@@ -1658,43 +1658,43 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "data/visibility-and-analytics-capability/traditional",
+      "id": "data.visibility-and-analytics-capability.traditional",
       "level": "stage",
       "parents": [
-        "data/visibility-and-analytics-capability"
+        "data.visibility-and-analytics-capability"
       ],
       "title": "Traditional",
       "text": "Agency has limited visibility into data including location, access, and usage, with analysis consisting primarily of manual processes."
     },
     {
-      "id": "data/visibility-and-analytics-capability/initial",
+      "id": "data.visibility-and-analytics-capability.initial",
       "level": "stage",
       "parents": [
-        "data/visibility-and-analytics-capability"
+        "data.visibility-and-analytics-capability"
       ],
       "title": "Initial",
       "text": "Agency obtains visibility based on data inventory management, categorization, encryption, and access attempts, with some automated analysis and correlation."
     },
     {
-      "id": "data/visibility-and-analytics-capability/advanced",
+      "id": "data.visibility-and-analytics-capability.advanced",
       "level": "stage",
       "parents": [
-        "data/visibility-and-analytics-capability"
+        "data.visibility-and-analytics-capability"
       ],
       "title": "Advanced",
       "text": "Agency maintains data visibility in a more comprehensive, enterprise-wide manner with automated analysis and correlation and begins to employ predictive analytics."
     },
     {
-      "id": "data/visibility-and-analytics-capability/optimal",
+      "id": "data.visibility-and-analytics-capability.optimal",
       "level": "stage",
       "parents": [
-        "data/visibility-and-analytics-capability"
+        "data.visibility-and-analytics-capability"
       ],
       "title": "Optimal",
       "text": "Agency has visibility across the full data lifecycle with robust analytics, including predictive analytics, that support comprehensive views of agency data and continuous security posture assessment."
     },
     {
-      "id": "data/automation-and-orchestration-capability",
+      "id": "data.automation-and-orchestration-capability",
       "level": "function",
       "parents": [
         "data"
@@ -1703,43 +1703,43 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "data/automation-and-orchestration-capability/traditional",
+      "id": "data.automation-and-orchestration-capability.traditional",
       "level": "stage",
       "parents": [
-        "data/automation-and-orchestration-capability"
+        "data.automation-and-orchestration-capability"
       ],
       "title": "Traditional",
       "text": "Agency implements data lifecycle and security policies (e.g., access, usage, storage, encryption, configurations, protections, backups, categorization, sanitization) through manual, and potentially ad hoc, processes."
     },
     {
-      "id": "data/automation-and-orchestration-capability/initial",
+      "id": "data.automation-and-orchestration-capability.initial",
       "level": "stage",
       "parents": [
-        "data/automation-and-orchestration-capability"
+        "data.automation-and-orchestration-capability"
       ],
       "title": "Initial",
       "text": "Agency uses some automated processes to implement data lifecycle and security policies."
     },
     {
-      "id": "data/automation-and-orchestration-capability/advanced",
+      "id": "data.automation-and-orchestration-capability.advanced",
       "level": "stage",
       "parents": [
-        "data/automation-and-orchestration-capability"
+        "data.automation-and-orchestration-capability"
       ],
       "title": "Advanced",
       "text": "Agency implements data lifecycle and security policies primarily through automated methods for most agency data in a consistent, tiered, targeted manner across the enterprise."
     },
     {
-      "id": "data/automation-and-orchestration-capability/optimal",
+      "id": "data.automation-and-orchestration-capability.optimal",
       "level": "stage",
       "parents": [
-        "data/automation-and-orchestration-capability"
+        "data.automation-and-orchestration-capability"
       ],
       "title": "Optimal",
       "text": "Agency automates, to the maximum extent possible, data lifecycles and security policies for all agency data across the enterprise."
     },
     {
-      "id": "data/governance-capability",
+      "id": "data.governance-capability",
       "level": "function",
       "parents": [
         "data"
@@ -1748,37 +1748,37 @@
       "note": "A cross-cutting capability, as it applies in this pillar."
     },
     {
-      "id": "data/governance-capability/traditional",
+      "id": "data.governance-capability.traditional",
       "level": "stage",
       "parents": [
-        "data/governance-capability"
+        "data.governance-capability"
       ],
       "title": "Traditional",
       "text": "Agency relies on ad hoc data governance policies (e.g., for protection, categorization, access, inventorying, storage, recovery, removal, etc.) with manual implementation."
     },
     {
-      "id": "data/governance-capability/initial",
+      "id": "data.governance-capability.initial",
       "level": "stage",
       "parents": [
-        "data/governance-capability"
+        "data.governance-capability"
       ],
       "title": "Initial",
       "text": "Agency defines high-level data governance policies and relies primarily on manual, segmented implementation."
     },
     {
-      "id": "data/governance-capability/advanced",
+      "id": "data.governance-capability.advanced",
       "level": "stage",
       "parents": [
-        "data/governance-capability"
+        "data.governance-capability"
       ],
       "title": "Advanced",
       "text": "Agency begins integration of data lifecycle policy enforcement across the enterprise, enabling more unified definitions for data governance policies."
     },
     {
-      "id": "data/governance-capability/optimal",
+      "id": "data.governance-capability.optimal",
       "level": "stage",
       "parents": [
-        "data/governance-capability"
+        "data.governance-capability"
       ],
       "title": "Optimal",
       "text": "Agency data lifecycle policies are unified to the maximum extent possible and dynamically enforced across the enterprise."
@@ -1790,7 +1790,7 @@
       "title": "Cross-Cutting Capabilities"
     },
     {
-      "id": "cross-cutting/visibility-and-analytics",
+      "id": "cross-cutting.visibility-and-analytics",
       "level": "function",
       "parents": [
         "cross-cutting"
@@ -1798,43 +1798,43 @@
       "title": "Visibility and Analytics"
     },
     {
-      "id": "cross-cutting/visibility-and-analytics/traditional",
+      "id": "cross-cutting.visibility-and-analytics.traditional",
       "level": "stage",
       "parents": [
-        "cross-cutting/visibility-and-analytics"
+        "cross-cutting.visibility-and-analytics"
       ],
       "title": "Traditional",
       "text": "Agency manually collects limited logs across their enterprise with low fidelity and minimal analysis."
     },
     {
-      "id": "cross-cutting/visibility-and-analytics/initial",
+      "id": "cross-cutting.visibility-and-analytics.initial",
       "level": "stage",
       "parents": [
-        "cross-cutting/visibility-and-analytics"
+        "cross-cutting.visibility-and-analytics"
       ],
       "title": "Initial",
       "text": "Agency begins to automate the collection and analysis of logs and events for mission critical functions and regularly assesses processes for gaps in visibility."
     },
     {
-      "id": "cross-cutting/visibility-and-analytics/advanced",
+      "id": "cross-cutting.visibility-and-analytics.advanced",
       "level": "stage",
       "parents": [
-        "cross-cutting/visibility-and-analytics"
+        "cross-cutting.visibility-and-analytics"
       ],
       "title": "Advanced",
       "text": "Agency expands the automated collection of logs and events enterprise-wide (including virtual environments) for centralized analysis that correlates across multiple sources."
     },
     {
-      "id": "cross-cutting/visibility-and-analytics/optimal",
+      "id": "cross-cutting.visibility-and-analytics.optimal",
       "level": "stage",
       "parents": [
-        "cross-cutting/visibility-and-analytics"
+        "cross-cutting.visibility-and-analytics"
       ],
       "title": "Optimal",
       "text": "Agency maintains comprehensive visibility enterprise-wide via centralized dynamic monitoring and advanced analysis of logs and events."
     },
     {
-      "id": "cross-cutting/automation-and-orchestration",
+      "id": "cross-cutting.automation-and-orchestration",
       "level": "function",
       "parents": [
         "cross-cutting"
@@ -1842,43 +1842,43 @@
       "title": "Automation and Orchestration"
     },
     {
-      "id": "cross-cutting/automation-and-orchestration/traditional",
+      "id": "cross-cutting.automation-and-orchestration.traditional",
       "level": "stage",
       "parents": [
-        "cross-cutting/automation-and-orchestration"
+        "cross-cutting.automation-and-orchestration"
       ],
       "title": "Traditional",
       "text": "Agency relies on static and manual processes to orchestrate operations and response activities with limited automation."
     },
     {
-      "id": "cross-cutting/automation-and-orchestration/initial",
+      "id": "cross-cutting.automation-and-orchestration.initial",
       "level": "stage",
       "parents": [
-        "cross-cutting/automation-and-orchestration"
+        "cross-cutting.automation-and-orchestration"
       ],
       "title": "Initial",
       "text": "Agency begins automating orchestration and response activities in support of critical mission functions."
     },
     {
-      "id": "cross-cutting/automation-and-orchestration/advanced",
+      "id": "cross-cutting.automation-and-orchestration.advanced",
       "level": "stage",
       "parents": [
-        "cross-cutting/automation-and-orchestration"
+        "cross-cutting.automation-and-orchestration"
       ],
       "title": "Advanced",
       "text": "Agency automates orchestration and response activities enterprise-wide, leveraging contextual information from multiple sources to inform decisions."
     },
     {
-      "id": "cross-cutting/automation-and-orchestration/optimal",
+      "id": "cross-cutting.automation-and-orchestration.optimal",
       "level": "stage",
       "parents": [
-        "cross-cutting/automation-and-orchestration"
+        "cross-cutting.automation-and-orchestration"
       ],
       "title": "Optimal",
       "text": "Agency orchestration and response activities dynamically respond to enterprise-wide changing requirements and environmental changes."
     },
     {
-      "id": "cross-cutting/governance",
+      "id": "cross-cutting.governance",
       "level": "function",
       "parents": [
         "cross-cutting"
@@ -1886,37 +1886,37 @@
       "title": "Governance"
     },
     {
-      "id": "cross-cutting/governance/traditional",
+      "id": "cross-cutting.governance.traditional",
       "level": "stage",
       "parents": [
-        "cross-cutting/governance"
+        "cross-cutting.governance"
       ],
       "title": "Traditional",
       "text": "Agency implements policies in an ad hoc manner across the enterprise, with policies enforced via manual processes or static technical mechanisms."
     },
     {
-      "id": "cross-cutting/governance/initial",
+      "id": "cross-cutting.governance.initial",
       "level": "stage",
       "parents": [
-        "cross-cutting/governance"
+        "cross-cutting.governance"
       ],
       "title": "Initial",
       "text": "Agency defines and begins implementing policies for enterprise-wide enforcement with minimal automation and manual updates."
     },
     {
-      "id": "cross-cutting/governance/advanced",
+      "id": "cross-cutting.governance.advanced",
       "level": "stage",
       "parents": [
-        "cross-cutting/governance"
+        "cross-cutting.governance"
       ],
       "title": "Advanced",
       "text": "Agency implements tiered, tailored policies enterprise-wide and leverages automation where possible to support enforcement. Access policy decisions incorporate contextual information from multiple sources."
     },
     {
-      "id": "cross-cutting/governance/optimal",
+      "id": "cross-cutting.governance.optimal",
       "level": "stage",
       "parents": [
-        "cross-cutting/governance"
+        "cross-cutting.governance"
       ],
       "title": "Optimal",
       "text": "Agency implements and fully automates enterprise-wide policies that enable tailored local controls with continuous enforcement and dynamic updates."

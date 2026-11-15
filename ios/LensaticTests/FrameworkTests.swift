@@ -308,6 +308,7 @@ final class FrameworkTests: XCTestCase {
     func testAFrameworkCardCountsDownToItsOwnNextDeadline() throws {
         let fed = try XCTUnwrap(lib.byId["fedramp"])
         XCTAssertEqual(lib.deadlines(fed, store: store).map(\.date), ["2027-01-01", "2027-06-11", "2028-02-01"])
+        XCTAssertEqual(lib.deadlines(fed, store: store).first?.binds, "Cloud providers", "the card's own words say whom the first date binds")
         XCTAssertEqual(lib.upcoming(fed, store: store, today: day("2026-11-14"))?.days(from: day("2026-11-14")), 48)
         XCTAssertEqual(lib.upcoming(fed, store: store, today: day("2027-01-02"))?.date, "2027-06-11")
         XCTAssertNil(lib.upcoming(fed, store: store, today: day("2028-02-02")))
@@ -440,8 +441,8 @@ final class FrameworkTests: XCTestCase {
         XCTAssertEqual([count("ai-rmf", "category"), count("ai-rmf", "subcategory")], [19, 72])
         XCTAssertEqual([count("cisa-ztmm", "pillar"), count("cisa-ztmm", "stage")], [5, 160])
         let gz = try XCTUnwrap(lib.graphs["cisa-ztmm"])
-        XCTAssertEqual(gz.children(of: "identity/authentication").map(\.title), ["Traditional", "Initial", "Advanced", "Optimal"])
-        XCTAssertEqual(gz.name(try XCTUnwrap(gz.node("identity/authentication"))), "Authentication", "CISA numbers nothing, so no identifier is shown")
+        XCTAssertEqual(gz.children(of: "identity.authentication").map(\.title), ["Traditional", "Initial", "Advanced", "Optimal"])
+        XCTAssertEqual(gz.name(try XCTUnwrap(gz.node("identity.authentication"))), "Authentication", "CISA numbers nothing, so no identifier is shown")
         let zt = try XCTUnwrap(lib.byId["dod-zt"])
         XCTAssertEqual([count("dod-zt", "pillar"), count("dod-zt", "capability"), count("dod-zt", "activity")], [7, 45, 152])
         XCTAssertEqual(zt.sets.map(\.members.count), [91, 61])
@@ -512,6 +513,9 @@ final class FrameworkTests: XCTestCase {
         XCTAssertEqual(elements("03.01.01").first, .nav(.node("sp800-171", "03.01.01")))
         XCTAssertEqual(elements("KSI-IAM").first, .nav(.node("fedramp", "KSI-IAM")))
         XCTAssertTrue(elements("zero trust").isEmpty)
+        // an identifier's own element leads the results; a word that only begins identifiers does not push the rest down
+        XCTAssertEqual(index.search("AC-2").first?.kind, .element)
+        XCTAssertNotEqual(index.search("KSI").first?.kind, .element)
         XCTAssertLessThanOrEqual(elements("AC").count, 1, "two letters find the identifier itself, not everything it begins")
         // a short word matches a whole word or the start of one, never the inside of a longer word
         let file = SearchIndex.Item(kind: .term, id: "x", title: "A file profile", subtitle: "", aliases: [], body: "", opens: .glossary("x"))
@@ -581,7 +585,7 @@ final class FrameworkTests: XCTestCase {
         XCTAssertEqual(Glance.choices(store: store, today: day("2027-01-02")).map(\.id), ["dod-zt-strategy"])
         let none = ProgressStore.State()
         XCTAssertEqual(Glance(store: store, state: none, today: today).countdown?.label, "Target Level")
-        XCTAssertEqual(Glance(store: store, state: none, today: today, deadline: "fedramp").countdown, .init(days: 48, label: "2026 rules", sourceId: "fedramp"))
+        XCTAssertEqual(Glance(store: store, state: none, today: today, deadline: "fedramp").countdown, .init(days: 48, label: "FedRAMP 2026 rules", sourceId: "fedramp"))
         // a contractor's path has no dated deadline: Automatic shows none, as build 6 does; a chosen one shows
         let contractor = ProgressStore.State(door: "defense-contractor")
         XCTAssertNil(Glance(store: store, state: contractor, today: today).countdown)
@@ -589,7 +593,7 @@ final class FrameworkTests: XCTestCase {
         // the department's path keeps its own deadline on Automatic, and takes the reader's choice when there is one
         let dow = ProgressStore.State(door: "dow")
         XCTAssertEqual(Glance(store: store, state: dow, today: today).countdown?.label, "Target Level")
-        XCTAssertEqual(Glance(store: store, state: dow, today: today, deadline: "fedramp").countdown?.label, "2026 rules")
+        XCTAssertEqual(Glance(store: store, state: dow, today: today, deadline: "fedramp").countdown?.label, "FedRAMP 2026 rules")
         // a chosen deadline that has passed, or a choice the content no longer has, falls back to Automatic
         XCTAssertEqual(Glance(store: store, state: dow, today: day("2027-01-02"), deadline: "fedramp").countdown?.label, "Target Level")
         XCTAssertNil(Glance(store: store, state: contractor, today: today, deadline: "nope").countdown)

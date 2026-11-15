@@ -152,6 +152,8 @@ def main() -> int:
             errs += [f"{i}: node {n['id']} names the parent {p!r}, which the file does not hold" for p in n["parents"] if p not in own]
             if "title" not in n and "text" not in n:
                 errs.append(f"{i}: node {n['id']} has neither a title nor a text")
+            if "/" in n["id"]:
+                errs.append(f"{i}: node {n['id']} has a slash in its id, which a screen's address cannot carry")
         for s in f["sets"]:
             if s["sourceId"] not in srcs:
                 errs.append(f"{i}: set {s['id']} cites the source {s['sourceId']!r}, which it does not have")

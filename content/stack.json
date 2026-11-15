@@ -1752,8 +1752,8 @@
           "sourceId": "fedramp",
           "due": {
             "date": "2027-01-01",
-            "label": "FedRAMP’s 2026 rules in force",
-            "short": "2026 rules"
+            "label": "Compliance with FedRAMP’s 2026 rules",
+            "short": "FedRAMP 2026 rules"
           }
         },
         "note": "Agencies must favor FedRAMP Certified cloud services where the use is in scope, under the FedRAMP Authorization Act and OMB Memorandum M-24-15; a provider follows the rules to earn and keep a certification.",
@@ -4093,7 +4093,7 @@
       "shortTitle": "Cloud Provider",
       "whoYouAre": "You build or run a cloud service and want federal agencies to be able to use it.",
       "welcomeLine": "Cloud services sold to agencies",
-      "notYours": "If you handle controlled unclassified information under a {{dow}} contract, the contractor trailhead is also yours. A cloud service the department buys needs, as well as this path, a provisional authorization at an Impact Level from the Defense Information Systems Agency, which the Frameworks tab describes; and state and local customers may ask for GovRAMP, which is there too.",
+      "notYours": "If you hold controlled unclassified information under a {{dow}} contract, start at the contractor trailhead; if what you sell to government is not a cloud service, the Industry and Academia trailhead fits better.",
       "cardLine": "FedRAMP, SP 800-53",
       "pillarView": "cisa",
       "paragraph": null,

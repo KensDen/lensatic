@@ -247,7 +247,9 @@ struct StackView: View {
 
     private func layerRow(_ layer: Layer, onPath: String?) -> TileRow {
         // the stack's own frameworks on the layer and the navigator's cards that sit on it, each counted once
-        let own = Set(layer.frameworkIds)
+        // everything the layer's screen lists, each once: the stack's entries placed on it and the navigator's cards that
+        // sit on it and are not one of those entries
+        let own = Set(StackScreen.entryIds(layer, store: model.store))
         let n = own.count + model.frameworks.frameworks(onLayer: layer.id).filter { f in f.entityId.map { !own.contains($0) } ?? true }.count
         return TileRow(icon: RowIcon.layer(layer.order), title: TitleCase.apply(layer.name), subtitle: layer.shortQuestion,
                        note: layer.id == onPath ? "On your path" : nil, value: n == 1 ? "1 framework" : "\(n) frameworks")

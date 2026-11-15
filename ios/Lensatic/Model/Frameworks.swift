@@ -406,7 +406,10 @@ final class FrameworkLibrary: Sendable {
         var out = f.deadlines.compactMap { d in
             PathPlan.day(d.date).map { DatedDeadline(frameworkId: f.id, date: d.date, label: d.label, short: d.short, binds: d.binds, day: $0) }
         }
-        if let e = f.entityId.flatMap({ store.entities[$0] }), let due = e.authority.deadline.value?.due, let day = PathPlan.day(due.date) {
+        // the entry's own date, unless the card already carries that day in its own words (FedRAMP's first date binds
+        // providers, which the card says and the entry's wider list of who it binds would not)
+        if let e = f.entityId.flatMap({ store.entities[$0] }), let due = e.authority.deadline.value?.due, let day = PathPlan.day(due.date),
+           !out.contains(where: { $0.date == due.date }) {
             let binds = e.authority.binds.compactMap { store.content.ui.binds[$0.rawValue] }.joined(separator: ", ")
             out.append(DatedDeadline(frameworkId: f.id, date: due.date, label: due.label, short: due.short, binds: binds, day: day))
         }

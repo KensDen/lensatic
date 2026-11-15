@@ -15,7 +15,7 @@
     {
       "label": "Its Unit",
       "a": "An indicator such as KSI-IAM-ELP, one of 46 in 10 themes.",
-      "b": "A control such as AC-2, one of 155, 322 or 409 in a class’s baseline."
+      "b": "A control such as AC-2, one of 155, 322 or 409 in a class’s baseline. Each is one fewer than the 156, 323 and 410 of the legacy Low, Moderate and High baselines: the 2026 rules no longer list CA-5."
     },
     {
       "label": "Classes",

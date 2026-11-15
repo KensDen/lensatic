@@ -267,7 +267,10 @@ struct SearchIndex: Sendable {
         }
         let byIdentifier = elements(matching: phrase)
         // a query that is an identifier wants that element: its group comes first, ahead of the words the query also matches
-        let order = byIdentifier.isEmpty ? Kind.allCases : [.element] + Kind.allCases.filter { $0 != .element }
+        // (only when the query is an identifier exactly: "KSI" begins many identifiers and is none, so its glossary entry
+        // and its framework keep their places)
+        let exact = elements.contains { $0.folded == phrase }
+        let order = exact ? [.element] + Kind.allCases.filter { $0 != .element } : Kind.allCases
         return order.compactMap { kind in
             if kind == .element { return byIdentifier.isEmpty ? nil : Group(kind: kind, results: byIdentifier) }
             let found = hits.filter { $0.0.kind == kind }.sorted {

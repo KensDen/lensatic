@@ -250,6 +250,9 @@ struct NodeRow: View {
     /// The count of what the node holds, shown where the row sits in its own structure; a row in a baseline or under a
     /// crosswalk leaves it out, since the number is the catalog's, not the list's.
     var counts = true
+    /// The node's own note under its title; a list whose every row would carry the same note leaves it out (the Target
+    /// Level set's rows are all Target Level).
+    var notes = true
 
     var body: some View {
         let kids = counts ? graph.children(of: node.id).count : 0
@@ -260,7 +263,7 @@ struct NodeRow: View {
                     Text(graph.line(node)).font(DS.style(.body)).foregroundStyle(.primary)
                         .frame(maxWidth: .infinity, alignment: .leading).fixedSize(horizontal: false, vertical: true)
                     // a row that carries both a title and a note says the note (an activity's level, a task's level)
-                    if let note = node.note, node.title != nil, graph.children(of: node.id).isEmpty {
+                    if notes, let note = node.note, node.title != nil, graph.children(of: node.id).isEmpty {
                         Text(note).font(DS.style(.footnote)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
                     }
                 }
@@ -455,7 +458,7 @@ struct BaselineView: View {
                 }
                 ForEach(groups, id: \.top.id) { group in
                     SwiftUI.Section {
-                        ForEach(group.nodes) { NodeRow(framework: host, graph: graph, node: $0, counts: false) }
+                        ForEach(group.nodes) { NodeRow(framework: host, graph: graph, node: $0, counts: false, notes: Set(group.nodes.compactMap(\.note)).count > 1) }
                     } header: {
                         ListNote("\(graph.name(group.top)): \(group.nodes.count)")
                             .accessibilityIdentifier("baseline-group-\(group.top.id)")
