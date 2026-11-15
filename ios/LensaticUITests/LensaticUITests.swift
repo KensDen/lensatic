@@ -1051,19 +1051,37 @@ final class LensaticUITests: XCTestCase {
             let e = q.matching(NSPredicate(format: "label ==[c] %@ OR identifier ==[c] %@ OR label ENDSWITH[c] %@", label, label, " " + label)).firstMatch
             return e.waitForExistence(timeout: t) ? e : nil
         }
+        /// Whether a widget's content has been drawn: it then reads as its glance ("Lensatic, 319 days ..."), where its
+        /// frame alone reads "Lensatic". The content carries the link a tap follows.
+        func drawn(_ e: XCUIElement) -> Bool { e.label.hasPrefix("Lensatic, ") || e.label.hasPrefix("Lensatic. ") }
         func placed() -> XCUIElement? {
-            // the home screen redraws as it settles, so each candidate is read once and a vanished one is passed over
+            // the home screen redraws as it settles, so each candidate is read once and a vanished one is passed over.
+            // A widget whose content is drawn comes before one that is still only a frame (Round 3: with more than one
+            // widget of a size on the home screen, the first found was often a frame, and a tap on it opened the app
+            // without its step)
             let query = home.descendants(matching: .other).matching(NSPredicate(format: "label == 'Lensatic' OR label BEGINSWITH 'Lensatic, ' OR label BEGINSWITH 'Lensatic. '"))
+            var frame: XCUIElement?
             for i in 0..<query.count {
                 let e = query.element(boundBy: i)
                 guard e.exists else { continue }
                 let w = e.frame.width
-                if medium ? w > 300 : (w > 140 && w < 200) { return e }
+                guard medium ? w > 300 : (w > 140 && w < 200) else { continue }
+                if drawn(e) { return e }
+                if frame == nil { frame = e }
             }
-            return nil
+            return frame
+        }
+        /// The placed widget once its content is drawn, waiting a few seconds for it; a widget that stays a frame is
+        /// given back as it is.
+        func settled() -> XCUIElement? {
+            for _ in 0..<8 {
+                if let w = placed(), drawn(w) { return w }
+                sleep(1)
+            }
+            return placed()
         }
         _ = home.wait(for: .runningForeground, timeout: 5)
-        if let w = placed() { return w }
+        if placed() != nil, let w = settled() { return w }
         home.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.7)).press(forDuration: 2.5)
         guard let edit = find(home.buttons, "Edit") else { throw XCTSkip("the home screen's Edit button was not found") }
         edit.tap()
@@ -1087,7 +1105,7 @@ final class LensaticUITests: XCTestCase {
         if let done = find(home.buttons, "Done", 3) { done.tap() }
         var tries = 0
         while placed() == nil, tries < 10 { _ = home.buttons.firstMatch.waitForExistence(timeout: 1); tries += 1 }
-        guard let w = placed() else { throw XCTSkip("the placed widget was not found") }
+        guard let w = settled() else { throw XCTSkip("the placed widget was not found") }
         return w
     }
 
