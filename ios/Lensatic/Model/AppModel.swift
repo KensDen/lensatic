@@ -17,6 +17,9 @@ final class AppModel {
     /// Compare's two picks (Round 2): any two cards.
     var compareA: String?
     var compareB: String?
+    /// The iPad's two panes (Round 3): what the sidebar has picked for the detail pane to show at its root; nil shows the
+    /// first item of the sidebar's list.
+    var frameworksPane: Nav?
     /// The app opens on Home (build 6), on first launch and after.
     var tab: AppTab = .home
     var paths: [AppTab: [Nav]] = [:]
@@ -75,6 +78,68 @@ final class AppModel {
         frameworksMode = mode
         paths[.frameworks] = []
         tab = .frameworks
+    }
+
+    // MARK: the iPad's two panes (Round 3)
+
+    /// What the sidebar lists in a view of the Frameworks tab, in its order: the arrow keys move through these.
+    func paneItems(_ mode: FrameworksMode) -> [Nav] {
+        let L = frameworks
+        switch mode {
+        case .browse: return L.catalog.groups.flatMap { g in L.frameworks(in: g.id).map { Nav.framework($0.id) } } + L.catalog.lands.map { .landing($0.id) }
+        case .compare: return L.compares.map { .compare($0.id) }
+        case .checks: return L.checks.map { .check($0.id) }
+        }
+    }
+
+    /// The view of the Frameworks tab a screen belongs to, where it is one the sidebar can pick.
+    static func paneMode(of nav: Nav) -> FrameworksMode? {
+        switch nav {
+        case .framework, .landing: return .browse
+        case .compare, .pair: return .compare
+        case .check: return .checks
+        default: return nil
+        }
+    }
+
+    /// The detail pane's first screen: the sidebar's pick where it belongs to the view shown, else the view's first item.
+    var paneRoot: Nav? {
+        if let pick = frameworksPane, AppModel.paneMode(of: pick) == frameworksMode { return pick }
+        return paneItems(frameworksMode).first
+    }
+
+    /// Pick a screen in the sidebar: the detail pane shows it, with nothing pushed over it.
+    func selectPane(_ nav: Nav) {
+        glossaryEntry = nil
+        sourcesFor = nil
+        if let mode = AppModel.paneMode(of: nav) { frameworksMode = mode }
+        frameworksPane = nav
+        paths[.frameworks] = []
+    }
+
+    /// The arrow keys: the next or the previous item of the sidebar's list, stopping at its ends.
+    func movePane(by step: Int) {
+        let items = paneItems(frameworksMode)
+        guard !items.isEmpty else { return }
+        guard let at = paneRoot.flatMap({ items.firstIndex(of: $0) }) else { return selectPane(items[0]) }
+        let to = min(max(at + step, 0), items.count - 1)
+        if to != at { selectPane(items[to]) }
+    }
+
+    /// With two panes on screen, a screen of the sidebar's own kind at the bottom of the tab's path (a framework opened
+    /// from Home, or from another framework's Connects To) becomes the sidebar's pick, so the sidebar always shows
+    /// where the reader is. A screen of another view's kind stays pushed, with its way back.
+    func foldPane() {
+        guard let first = paths[.frameworks]?.first, AppModel.paneMode(of: first) == frameworksMode else { return }
+        frameworksPane = first
+        paths[.frameworks]?.removeFirst()
+    }
+
+    /// The way back from the keyboard (Command-[): the screen on top of the open tab leaves.
+    func back() {
+        guard !(paths[tab] ?? []).isEmpty else { return }
+        glossaryEntry = nil
+        paths[tab]?.removeLast()
     }
 
     // MARK: the path
@@ -166,6 +231,9 @@ final class AppModel {
         changingDoor = false
         tab = nav.home
         paths[nav.home] = [nav]
+        // the Frameworks tab's own view follows a screen of its kind, so the way back, and the iPad's sidebar, show the
+        // list that screen belongs to (Round 3)
+        if let mode = AppModel.paneMode(of: nav) { frameworksMode = mode }
     }
 
     /// Open a step on My Path, opened in place and scrolled to.

@@ -726,4 +726,56 @@ final class FrameworkTests: XCTestCase {
         XCTAssertTrue(f.sources.contains { $0.verification.note.contains("as the department publishes it") })
         XCTAssertTrue(lib.frameworks.filter { $0.id != "dod-zt" }.allSatisfy { $0.asPublished == nil })
     }
+
+    /// The iPad's two panes (Round 3): the sidebar's list is the catalog's order, the detail pane opens on its first
+    /// item, a pick shows with nothing over it, the arrow keys move the pick and stop at the ends, a screen of the
+    /// sidebar's own kind opened from elsewhere becomes the pick, and one of another kind stays pushed with its way back.
+    func testTheTwoPanesFollowThePick() throws {
+        let model = AppModel(store: store, library: try Library.bundled(), progress: ProgressStore(url: nil), frameworks: lib)
+        XCTAssertEqual(model.paneItems(.browse), lib.catalog.groups.flatMap { g in lib.frameworks(in: g.id).map { Nav.framework($0.id) } } + lib.catalog.lands.map { .landing($0.id) })
+        XCTAssertEqual(model.paneItems(.compare), lib.compares.map { .compare($0.id) })
+        XCTAssertEqual(model.paneItems(.checks), lib.checks.map { .check($0.id) })
+        XCTAssertEqual(model.paneRoot, .framework("csf20"), "the first framework, before any pick")
+        model.movePane(by: -1)
+        XCTAssertEqual(model.paneRoot, .framework("csf20"), "the list stops at its top")
+        model.movePane(by: 1)
+        XCTAssertEqual(model.paneRoot, .framework("iso27001"))
+        model.showFrameworks(.browse)
+        model.selectPane(.framework("fedramp"))
+        model.push(.node("fedramp", "KSI-IAM"))
+        XCTAssertEqual(model.paths[.frameworks], [.node("fedramp", "KSI-IAM")])
+        model.back()
+        XCTAssertEqual(model.paths[.frameworks], [], "Command-[ takes the top screen off")
+        model.back()
+        XCTAssertEqual(model.paneRoot, .framework("fedramp"), "and does nothing at the pane's first screen")
+        // a framework opened from elsewhere (Home's chip, a card's Connects To) becomes the pick
+        model.show(.framework("cmmc"))
+        model.foldPane()
+        XCTAssertEqual(model.paneRoot, .framework("cmmc"))
+        XCTAssertEqual(model.paths[.frameworks], [])
+        // a check opened from a framework's screen is another view's kind: it stays pushed, with its way back
+        model.push(.check("check-cmmc-l1"))
+        model.foldPane()
+        XCTAssertEqual(model.paths[.frameworks], [.check("check-cmmc-l1")])
+        XCTAssertEqual(model.paneRoot, .framework("cmmc"))
+        // the view follows a screen shown from outside the tab, and each view has its own first item
+        model.show(.check("check-fedramp"))
+        XCTAssertEqual(model.frameworksMode, .checks)
+        model.foldPane()
+        XCTAssertEqual(model.paneRoot, .check("check-fedramp"))
+        model.frameworksMode = .compare
+        XCTAssertEqual(model.paneRoot, lib.compares.first.map { .compare($0.id) }, "a pick of another view is not this view's")
+        model.selectPane(.pair("fedramp", "cmmc"))
+        XCTAssertEqual(model.paneRoot, .pair("fedramp", "cmmc"))
+        let last = try XCTUnwrap(model.paneItems(.compare).last)
+        model.selectPane(last)
+        model.movePane(by: 1)
+        XCTAssertEqual(model.paneRoot, last, "the list stops at its end")
+        // two panes at a regular width and a standard text size only
+        XCTAssertTrue(Shell.twoPanes(.regular, .large))
+        XCTAssertFalse(Shell.twoPanes(.compact, .large))
+        XCTAssertFalse(Shell.twoPanes(.regular, .accessibility2))
+        XCTAssertEqual(FrameworksSplitView<EmptyView>.sidebarWidth(820), 320)
+        XCTAssertEqual(FrameworksSplitView<EmptyView>.sidebarWidth(1366), 400)
+    }
 }

@@ -67,7 +67,8 @@ STACK = ROOT / "content" / "stack.json"
 HTML = ROOT / "web" / "lensatic.html"
 DOCS = ROOT / "docs"
 SOCIAL_NAME = "social-card-v2.png"  # the card's published name, as tools/build_web.py sets it (SOCIAL_NAME there)
-DOC_FILES = ("maps/index.html", "privacy.html", "support.html", SOCIAL_NAME, ".nojekyll")
+FRAMEWORKS_PAGE = "maps/frameworks/index.html"  # Lensatic 2.0, Round 3: the frameworks page (tools/build_frameworks_page.py)
+DOC_FILES = ("maps/index.html", "privacy.html", "support.html", FRAMEWORKS_PAGE, SOCIAL_NAME, ".nojekyll")
 # Lensatic 2.0: the rest of docs/ belongs to the umbrella (tools/build_hub.py writes it, tools/check_umbrella.py checks it)
 UMBRELLA_FILES = ("index.html", "guides/index.html", "sitemap.xml", "shared/lensatic.css", "404.html")  # 404.html since the final gauntlet, question 33
 UMBRELLA_DIRS = ("guides/", "playbook/", "shared/")      # published copies; the moved sections keep their own checks
@@ -154,6 +155,11 @@ PAGE_LIMIT = 1024 * 1024
 # Lensatic 2.0, Round 2 (content 1.4.0) from 20 to 22: the sixth trailhead, FedRAMP's entry and eleven glossary entries
 # print as two more pages
 PRINT_PAGES = 22
+# the frameworks page (Round 3) is a page of its own with a printout of its own, so the map's limit above is not raised
+# for it: 28 pages when it was built, nineteen cards with their sources and terms, five comparisons and three landings.
+# The limit is the measured count; a framework added to the folder is the reason to raise it, and nothing else is
+FRAMEWORKS_PRINT_PAGES = 28
+FRAMEWORKS_CHECK = ROOT / "tools" / "frameworks_page_check.mjs"
 sys.path.insert(0, str(ROOT / "tools"))
 import validate as V  # noqa: E402
 import build_web as B  # noqa: E402  (the label set, defined once there)
@@ -904,6 +910,92 @@ def print_pages_errors(pages: int) -> list[str]:
     return [] if pages <= PRINT_PAGES else [f"{pages} pages, more than {PRINT_PAGES}"]
 
 
+def frameworks_page_errors(d: dict, terms: list[str], node: str | None) -> tuple[list[str], str]:
+    """The frameworks page (Lensatic 2.0, Round 3) against the folder it is built from and the plain pages' rules."""
+    import build_frameworks_page as FP
+    f = DOCS / FRAMEWORKS_PAGE
+    if not f.is_file():
+        return [f"docs/{FRAMEWORKS_PAGE} missing; run tools/build_web.py --pages"], ""
+    page = f.read_text(encoding="utf-8")
+    errs: list[str] = []
+    bare = page.replace(B.theme_head(), "").replace(B.umbrella_bar(B.umbrella(), FP.ROOT_REL, B.MAPS_KEY), "")
+    errs += resource_errors(bare) + storage_errors(bare)
+    if re.search(r"<script\b", bare, re.I):
+        errs.append("a script element besides the umbrella bar's theme scripts")
+    if V.EM_DASH in page or "\u2013" in page:
+        errs.append("an em or en dash")
+    if "{{" in page:
+        errs.append("a leftover placeholder or render token")
+    low = page.lower()
+    errs += [f"sweep term #{terms.index(t) + 1}" for t in terms if t in low or codecs.encode(t, "rot13") in low]
+    if V.FORBIDDEN_WORD in bare:  # the bar names the third section; check_umbrella.py holds it
+        errs.append("forbidden word")
+    if EMAIL_RE.search(bare):
+        errs.append("an email address")
+    tree = parse(page)
+    main_text = norm(text_of(tree.ids["main"][0])) if "main" in tree.ids else ""
+    fw = FP.Page(d)
+    want: list[tuple[str, str]] = [("the intro", fw.cat["intro"]), ("the title", fw.L["pageTitle"])]
+    for i, x in fw.fws.items():
+        want += [(f"{i} name", x["name"]), (f"{i} purpose", x["purpose"]), (f"{i} what", x["what"]), (f"{i} binds", x["binds"]["line"]),
+                 (f"{i} assessment", x["verifiedBy"]["line"]), (f"{i} where it sits", x["sits"]["line"]), (f"{i} terms", x["terms"]["line"])]
+        want += [(f"{i} note", x["note"])] if x.get("note") else []
+        want += [(f"{i} notice", x["terms"]["notice"])] if x["terms"]["notice"] else []
+        want += [(f"{i} source {s['id']}", s["title"]) for s in x["sources"]]
+        want += [(f"{i} top level {n['id']}", n.get("title") or n.get("text") or n["id"]) for n in x["nodes"] if not n["parents"]]
+        if x["terms"]["basis"] == "mitre" and x["terms"]["shows"] != "structure" and not x["terms"]["notice"]:
+            errs.append(f"{i}: MITRE material is listed and its required notice is not on the page")
+    for cid in fw.cat["compares"]:
+        c = FP.load(cid)
+        want += [(f"{cid} verdict", c["verdict"]), (f"{cid} connect", c["connect"]), (f"{cid} no score", c["noScore"])]
+        want += [(f"{cid} row", r[k]) for r in c["rows"] for k in ("a", "b")]
+    for land in fw.cat["lands"]:
+        want += [(f"{land['id']} what", land["what"]), (f"{land['id']} lands", land["lands"]), (f"{land['id']} source", land["source"]["title"])]
+    want += [(f"{cid} title", FP.load(cid)["title"]) for cid in fw.cat["checks"]]
+    lost = [k for k, t in want if norm(tok_dow(d, t)) not in main_text]
+    errs += [f"{len(lost)} texts of the folder are not on the page, first: {lost[:4]}"] if lost else []
+    cards = sum(1 for tag, a in tree.starts if tag == "article" and a.get("id", "").startswith("fw-"))
+    if cards != len(fw.fws):
+        errs.append(f"{cards} framework cards for {len(fw.fws)} frameworks")
+    ids = set(tree.ids)
+    site_links = set(B.umbrella_links(FP.ROOT_REL)) | {"../", f"{FP.ROOT_REL}privacy.html", f"{FP.ROOT_REL}support.html"}
+    for tag, a in tree.starts:
+        href = a.get("href")
+        if tag == "a" and href is not None and not (href in site_links or href.startswith("https://") or (href.startswith("#") and href[1:] in ids)):
+            errs.append(f"link {href!r} is not a site page, a place on the page or an https address")
+    title = re.search(r"<title>(.*?)</title>", page, re.S)
+    if not title or title.group(1) != B.esc(fw.L["pageTabTitle"]):
+        errs.append("the tab title is not the catalog's pageTabTitle")
+    if f'<time datetime="{fw.cat["checkedOn"]}">' not in page:
+        errs.append("the day the sources were last checked is not the catalog's checkedOn")
+    info = f"{cards} cards, {len(want)} texts"
+    if not node or not FRAMEWORKS_CHECK.exists():
+        return errs + ["node or tools/frameworks_page_check.mjs missing"], info
+    proc = subprocess.run([node, str(FRAMEWORKS_CHECK), str(f)], capture_output=True, text=True, timeout=240)
+    try:
+        o = json.loads(proc.stdout.strip().splitlines()[-1])
+    except (ValueError, IndexError):
+        return errs + [f"the page could not be measured: {(proc.stderr or proc.stdout).strip()[:160]}"], info
+    if o.get("error"):
+        return errs + [f"the page could not be measured: {o['error']}"], info
+    errs += [f"the page asks the network for {u[:80]}" for u in o.get("requests", [])[:3]]
+    for w, m in o["widths"].items():
+        if m["scrollWidth"] > m["vw"] + 1:
+            errs.append(f"{w}: the page scrolls sideways ({m['scrollWidth']} in {m['vw']})")
+        errs += [f"{w}: clipped past the right edge: {m['clipped']}"] if m["clipped"] else []
+        errs += [f"{w}: jump links under 44 px: {m['small']}"] if m["small"] else []
+        seen = norm(m["text"]).lower()
+        gone = [k for k, t in want if norm(tok_dow(d, t)).lower() not in seen and "notice" not in k]
+        errs += [f"{w}: {len(gone)} texts are not visible, first: {gone[:3]}"] if gone else []
+    pr = o["print"]
+    printed = norm(pr["text"]).lower()
+    gone = [k for k, t in want if norm(tok_dow(d, t)).lower() not in printed and "notice" not in k]
+    errs += [f"print: {len(gone)} texts do not print, first: {gone[:3]}"] if gone else []
+    if pr["pages"] > FRAMEWORKS_PRINT_PAGES:
+        errs.append(f"print: {pr['pages']} pages, more than the page's own limit of {FRAMEWORKS_PRINT_PAGES}")
+    return errs, info + f", {pr['pages']} printed pages"
+
+
 def main() -> int:
     rep = V.Report()
     if not HTML.exists():
@@ -940,8 +1032,8 @@ def main() -> int:
     errs += [f"docs/{q} is built neither by --pages nor by the umbrella" for q in extra]
     if (DOCS / ".nojekyll").is_file() and (DOCS / ".nojekyll").stat().st_size:
         errs.append("docs/.nojekyll is not empty")
-    rep.check("docs/ matches a fresh --pages build: maps/index.html, privacy, support, the social card, an empty .nojekyll; "
-              "every other file is the umbrella's", errs)
+    rep.check("docs/ matches a fresh --pages build: maps/index.html, privacy, support, the frameworks page, the social card, an "
+              "empty .nojekyll; every other file is the umbrella's", errs)
     ih = hashlib.sha256((DOCS / "maps" / "index.html").read_bytes()).hexdigest() if (DOCS / "maps" / "index.html").is_file() else "missing"
     wh = hashlib.sha256(html).hexdigest()
     rep.check("docs/maps/index.html is web/lensatic.html byte for byte (SHA-256)", [] if ih == wh else [f"{ih[:12]} != {wh[:12]}"], wh[:12])
@@ -1029,6 +1121,11 @@ def main() -> int:
             if tag == "a" and href is not None and not (href in ("./", "privacy.html", "support.html", "./privacy.html", "./support.html")
                                                         or href in B.umbrella_links("./") or href.startswith("https://")):
                 errs.append(f"{key}: link {href!r} is neither a site page nor an https address")
+    errs_fw, info_fw = frameworks_page_errors(d, terms, node)
+    rep.check("the frameworks page (docs/maps/frameworks/): every card's words are the folder's (content/frameworks/), with each "
+              "source, each publisher's terms and every required notice; no script but the bar's, no resource, no storage, no "
+              "dash, sweep clean; links are site pages, places on the page or https addresses; no sideways scroll at 375 and "
+              f"1280; and it prints whole in at most {FRAMEWORKS_PRINT_PAGES} pages, its own limit", errs_fw, info_fw)
     ptext = (DOCS / "privacy.html").read_text(encoding="utf-8") if (DOCS / "privacy.html").is_file() else ""
     if f'<time datetime="{d["meta"]["builtOn"]}">' not in ptext:
         errs.append("privacy: the effective date is not meta.builtOn")

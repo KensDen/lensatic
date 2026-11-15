@@ -39,14 +39,21 @@ Framework Maps is a wayfinder, not a crosswalk. It guides you, showing which fra
 
 Lensatic Cyber turns that map into a path. Tell it where you stand and it lists the frameworks that apply to you, in order, as steps you check off, and counts down to the next deadline wherever a source dates one. Beside the map sit two companions to read on your phone: Zero Trust Study Route, a zero trust field guide, and Agentic SecOps, a playbook of 35 plays.
 
+Version 2.0 adds a framework navigator: 19 frameworks as cards, each opened down to its controls, outcomes or techniques by the publisher’s own identifiers, 3,334 elements in all, with comparisons that give no score and self-checks whose answers stay on your device.
+
 What’s Inside
-- Home: three doors, to Framework Maps, the field guide and the playbook, each chapter and play summary first, with your saved items
+- Frameworks: what each framework is for, who it binds, how it is assessed, how big it is and where it sits, then its structure, its baselines, its sources and its publisher’s terms
+- Compare: any two frameworks side by side, five of them written up; an overlap is counted only where a publisher prints a crosswalk
+- Self-Checks: four short readiness checks, each tied to one framework, ending in what to do next
+- Home: the lead story, Agents are the new insiders, with Agentic Insider Risk and Agent Containment to start; your zero trust countdown; and the doors to Framework Maps and the field guide, with your saved items
+- Plays: each of the 35 plays linked to the controls, outcomes and techniques it touches
 - My Path: pick one of six trailheads (Department of War Component, Federal Civilian Agency, Defense Contractor with CUI, Cloud Provider, State and Local Government, or Industry and Academia) and get your frameworks in order, as steps you check off
 - Countdown: the days to your next deadline where a source dates one, each date taken from that source
 - What Changed: new documents, links and deadlines in the frameworks, newest first, with each source check a tap away
 - Explore: the stack in five layers beside the AI column, the matrix of pillars and functions, and the six functions
-- Search: one search across frameworks, path steps, the field guide, the playbook and the glossary, with results in iOS search too
+- Search: one search across frameworks, their elements by identifier, path steps, the field guide, the playbook and the glossary, with results in iOS search too
 - Sources: every framework with its publisher, edition and date, a link to the primary that opens inside the app, and the date it was last verified
+- iPad: Frameworks in two panes, with keyboard shortcuts and pointer support
 - Home Screen Widget: your countdown and next step, in small and medium sizes
 - Siri and Shortcuts: ask for your next step, open Search, or open any framework, step or play
 - Share: a clean card of a framework or a step, with its source link
@@ -57,7 +64,7 @@ No account. No data collected.
 Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework publisher.
 ```
 
-2565 characters (limit 4,000)
+3522 characters (limit 4,000)
 
 ## Keywords (`keywords`)
 
@@ -172,25 +179,25 @@ usesNonExemptEncryption: false
 ## App Review Notes (`reviewNotes`)
 
 ```text
-No sign-in is needed: the app has no accounts. It works fully offline and makes no network requests. The app summarizes public documents. The frameworks and sources on its stack are each cited in its Sources section: United States government and standards publications, and one privately published framework released under a Creative Commons license. The app is not affiliated with any agency. Outside links open in Safari’s viewer inside the app (SFSafariViewController), which loads the page itself; the app makes no request. What the app keeps (the trailhead picked, the checked steps, saved items, the guide weeks marked done, the plays opened, the last five searches and the day What Changed was last viewed) stays in one file on the device, in an App Group shared with the app’s home screen widget; nothing is sent anywhere. Siri and Shortcuts answer from that file on the device. Share hands a card image and the source link to the system share sheet only when the reader taps it. To see the path, tap Framework Maps on the first screen and pick a trailhead; the department’s trailhead has a dated deadline for the countdown. The privacy policy is linked in About, beside the support page and the source code. Support is through the public issues page linked from the support page, where the app goes by Lensatic, its name outside the App Store; the app collects no data.
+No sign-in is needed: the app has no accounts. It works fully offline and makes no network requests. The app summarizes public documents and, in its framework navigator, lists the identifiers and titles of framework elements from each publisher’s own machine-readable edition. Every framework and source is cited in the app with its publisher, edition, date and the day it was last checked. Licensing position, as each framework’s Terms section in the app states it. The publications of NIST, CISA, FedRAMP and the Department of War, and the federal regulations, are works of the United States government, shown with their own identifiers and text. MITRE ATT&CK, MITRE D3FEND and MITRE ATLAS are shown by identifier and name under MITRE’s terms of use and licenses, and the notice each requires (MITRE’s copyright line and license text) is reproduced in the app on that framework’s own screen. Those notices travel with screenshots: no App Store screenshot shows a list of MITRE’s techniques, and a screenshot that did would carry the notice with it. ISO/IEC 27001 and the CIS Controls are copyrighted or licensed, so the app shows their structure and counts only and none of their text. One privately published framework on the stack is released under a Creative Commons license; it is cited and described, not reproduced. The app is not affiliated with any agency or publisher. The links from the plays to framework elements are the app’s own reading and say so on screen. The readiness checks are self-checks: the answers stay on the device and are not an assessment. Outside links open in Safari’s viewer inside the app (SFSafariViewController), which loads the page itself; the app makes no request. What the app keeps (the trailhead picked, the checked steps, saved items, the guide weeks marked done, the plays opened, the last five searches, the day What Changed was last viewed, the answers to the readiness checks, the view chosen for the Frameworks list and the deadline chosen for the widget) stays in one file on the device, in an App Group shared with the app’s home screen widget; nothing is sent anywhere. Siri and Shortcuts answer from that file on the device. Share hands a card image and the source link to the system share sheet only when the reader taps it. To see the navigator, tap Frameworks in the tab bar; on an iPad it shows two panes. To see the path, tap Framework Maps on the first screen and pick a trailhead; the department’s trailhead has a dated deadline for the countdown. The privacy policy is linked in About, beside the support page and the source code. Support is through the public issues page linked from the support page, where the app goes by Lensatic, its name outside the App Store; the app collects no data.
 ```
 
-1378 characters (limit 4,000)
+2753 characters (limit 4,000)
 
 ## Version (`version`)
 
 ```text
-1.0.1
+2.0
 ```
 
-5 characters
+3 characters
 
 ## What's New in This Version (`whatsNew`)
 
 What changed since the version before; not used for a first version.
 
 ```text
-A new Home with three doors, zero trust front and center, web-first source links, a Title Case glossary, and small fixes.
+Lensatic 2.0 is a framework navigator. Nineteen frameworks open as cards, down to each control, outcome and technique by its publisher’s identifier, with side-by-side comparisons that give no score and self-checks that stay on your device. Every Agentic SecOps play now links to the framework elements it touches, and Home leads with agents as the new insiders. On iPad, Frameworks shows two panes, with keyboard shortcuts and pointer support. A sixth trailhead, Cloud Provider, follows FedRAMP’s 2026 rules.
 ```
 
-121 characters (limit 4,000)
+508 characters (limit 4,000)

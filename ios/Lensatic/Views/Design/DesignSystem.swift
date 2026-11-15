@@ -330,7 +330,7 @@ struct TabBar: View {
 
     var body: some View {
         HStack(spacing: 0) {
-            ForEach(AppTab.allCases, id: \.self) { tab in
+            ForEach(Array(AppTab.allCases.enumerated()), id: \.element) { i, tab in
                 Button { selection = tab } label: {
                     VStack(spacing: 2) {
                         Icon(tab.icon, size: 24, color: selection == tab ? Palette.secMaps : Palette.fg2, relativeTo: .caption)
@@ -346,6 +346,9 @@ struct TabBar: View {
                     .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+                // Round 3: Command-1 to Command-5 with a keyboard, and the pointer's highlight
+                .keyboardShortcut(KeyEquivalent(Character("\(i + 1)")), modifiers: .command)
+                .lxHover()
                 .accessibilityLabel(tab.title)
                 .accessibilityAddTraits(selection == tab ? [.isSelected, .isButton] : .isButton)
                 .accessibilityIdentifier("tab-\(tab.rawValue)")

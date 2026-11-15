@@ -7,6 +7,17 @@ import SwiftUI
 struct FrameworksView: View {
     @Environment(AppModel.self) private var model
     @Environment(\.dynamicTypeSize) private var typeSize
+    /// The iPad's sidebar (Round 3): the same three views in a narrow column beside the detail pane. A tap picks what
+    /// the detail pane shows, the pick is marked, and Browse is always the compact list.
+    var pane = false
+
+    /// Open a screen from the list: pushed on a phone; in the sidebar, picked for the detail pane.
+    private func open(_ nav: Nav) {
+        if pane { model.selectPane(nav) } else { model.push(nav) }
+    }
+
+    /// Whether the detail pane shows this screen at its root.
+    private func picked(_ nav: Nav) -> Bool { pane && model.paneRoot == nav && (model.paths[.frameworks] ?? []).isEmpty }
 
     var body: some View {
         @Bindable var model = model
@@ -23,14 +34,17 @@ struct FrameworksView: View {
                 }
                 switch model.frameworksMode {
                 case .browse:
-                    jumpRow(proxy)
-                    densityRow
+                    // the sidebar is one compact list: no jump row and no choice of view to make
+                    if !pane {
+                        jumpRow(proxy)
+                        densityRow
+                    }
                     browse
                 case .compare: compare
                 case .checks: checks
                 }
             }
-            .padding(.horizontal, 20)
+            .padding(.horizontal, pane ? 16 : 20)
             .padding(.top, 12)
             .padding(.bottom, 28)
             .frame(maxWidth: 1100, alignment: .leading)
@@ -40,6 +54,11 @@ struct FrameworksView: View {
         .hardTopEdge()
         .toolbar(.hidden, for: .navigationBar)
         .accessibilityIdentifier("frameworks")
+        // the sidebar follows the pick: an arrow key, or a framework opened from elsewhere, scrolls its row into view
+        .onChange(of: model.frameworksPane) { _, pick in
+            guard pane, case .framework(let id)? = pick else { return }
+            withAnimation(UIAccessibility.isReduceMotionEnabled ? nil : .easeInOut) { proxy.scrollTo("row-\(id)") }
+        }
         }
     }
 
@@ -112,22 +131,32 @@ struct FrameworksView: View {
                 .padding(.top, 6)
                 .id("group-\(group.id)")
                 .accessibilityIdentifier("framework-group-\(group.id)")
-                if model.progress.frameworksCompact {
+                if pane || model.progress.frameworksCompact {
                     VStack(spacing: 0) {
                         ForEach(cards) { f in
-                            Button { model.push(.framework(f.id)) } label: { CompactFrameworkRow(framework: f) }
+                            let on = picked(.framework(f.id))
+                            Button { open(.framework(f.id)) } label: { CompactFrameworkRow(framework: f, days: !pane, picked: on) }
                                 .buttonStyle(.plain)
+                                // the pick: a wash of the link colour and a bar at the row's leading edge
+                                .background(on ? Palette.link.opacity(0.12) : Color.clear)
+                                .overlay(alignment: .leading) { if on { Rectangle().fill(Palette.link).frame(width: 3).accessibilityHidden(true) } }
+                                .lxHover()
+                                .id("row-\(f.id)")
+                                .accessibilityAddTraits(on ? .isSelected : [])
                                 .accessibilityIdentifier("framework-card-\(f.id)")
                             if f.id != cards.last?.id { Divider().overlay(Palette.line).padding(.leading, 14) }
                         }
                     }
                     .background(Palette.bg2, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                     .overlay(RoundedRectangle(cornerRadius: 14, style: .continuous).strokeBorder(Palette.line, lineWidth: 1))
                 } else {
                     grid {
                         ForEach(cards) { f in
                             Button { model.push(.framework(f.id)) } label: { FrameworkCard(framework: f) }
                                 .buttonStyle(.plain)
+                                .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 18, style: .continuous))
+                                .lxHover()
                                 .accessibilityIdentifier("framework-card-\(f.id)")
                         }
                     }
@@ -142,10 +171,12 @@ struct FrameworksView: View {
             .padding(.top, 6)
             grid {
                 ForEach(L.catalog.lands) { land in
-                    Button { model.push(.landing(land.id)) } label: {
-                        ResultRow(title: land.name, line: land.owner, bar: Palette.lineStrong, trailing: true)
+                    Button { open(.landing(land.id)) } label: {
+                        ResultRow(title: land.name, line: land.owner, bar: picked(.landing(land.id)) ? Palette.link : Palette.lineStrong, trailing: true)
                     }
                     .buttonStyle(.plain)
+                    .lxHover()
+                    .accessibilityAddTraits(picked(.landing(land.id)) ? .isSelected : [])
                     .accessibilityIdentifier("landing-\(land.id)")
                 }
             }
@@ -164,7 +195,7 @@ struct FrameworksView: View {
             }
             let ready = model.compareA != nil && model.compareB != nil && model.compareA != model.compareB
             Button {
-                if let a = model.compareA, let b = model.compareB, a != b { model.push(.pair(a, b)) }
+                if let a = model.compareA, let b = model.compareB, a != b { open(.pair(a, b)) }
             } label: {
                 Text(L.label("compareOpen")).font(DS.style(.subheadline).weight(.semibold))
                     // not yet ready: the page's own text on the quiet fill, with a hairline, so it still reads at full contrast
@@ -184,8 +215,12 @@ struct FrameworksView: View {
         SectionLabel(text: L.label("compareNamed")).padding(.top, 6)
         ForEach(L.compares) { c in
             if let a = L.byId[c.a], let b = L.byId[c.b] {
-                Button { model.push(.compare(c.id)) } label: { ComparisonCard(comparison: c, a: a, b: b) }
+                Button { open(.compare(c.id)) } label: { ComparisonCard(comparison: c, a: a, b: b) }
                     .buttonStyle(.plain)
+                    .overlay { if picked(.compare(c.id)) { RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(Palette.link, lineWidth: 2).accessibilityHidden(true) } }
+                    .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 18, style: .continuous))
+                    .lxHover()
+                    .accessibilityAddTraits(picked(.compare(c.id)) ? .isSelected : [])
                     .accessibilityIdentifier("compare-card-\(c.id)")
             }
         }
@@ -230,7 +265,7 @@ struct FrameworksView: View {
         ForEach(L.checks) { check in
             if let f = L.byId[check.frameworkId] {
                 let result = check.result(model.progress.answers(check.id))
-                Button { model.push(.check(check.id)) } label: {
+                Button { open(.check(check.id)) } label: {
                     HStack(alignment: .top, spacing: 12) {
                         FrameworkTile(framework: f)
                         VStack(alignment: .leading, spacing: 3) {
@@ -249,6 +284,10 @@ struct FrameworksView: View {
                     .accessibilityAddTraits(.isButton)
                 }
                 .buttonStyle(.plain)
+                .overlay { if picked(.check(check.id)) { RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(Palette.link, lineWidth: 2).accessibilityHidden(true) } }
+                .contentShape(.hoverEffect, RoundedRectangle(cornerRadius: 18, style: .continuous))
+                .lxHover()
+                .accessibilityAddTraits(picked(.check(check.id)) ? .isSelected : [])
                 .accessibilityIdentifier("check-card-\(check.id)")
             }
         }
@@ -483,24 +522,33 @@ struct CompactFrameworkRow: View {
     @Environment(\.dynamicTypeSize) private var typeSize
     let framework: Framework
     var today = Date()
+    /// The days to the next dated deadline at the row's end; the iPad's narrow sidebar leaves them to the detail pane.
+    var days = true
+    /// The iPad's sidebar marks the pick with a wash of the link colour: on it the row's second line and its layer take
+    /// the page's own text colour, since the secondary grey falls under the contrast floor there.
+    var picked = false
 
     var body: some View {
         let f = framework, L = model.frameworks
+        let quiet = picked ? Palette.fg : Palette.fg2
         let deadline = L.upcoming(f, store: model.store, today: today)
         let days = deadline.flatMap { $0.days(from: today) }
+        let showDays = self.days
         HStack(alignment: .firstTextBaseline, spacing: 10) {
             RoundedRectangle(cornerRadius: 3, style: .continuous).fill(f.tone).frame(width: 10, height: 10).accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 1) {
                 Text(keepDesignations(f.shortName)).font(DS.style(.body).weight(.semibold)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
                 // the size alone: the kind is on the card, and a second fact would wrap the row at this width
-                Text(FrameworkCard.sizeShort(f)).font(DS.style(.footnote)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                // in the sidebar the second line is a size larger: the rows are the pane's navigation, and on the iPad's
+                // screen the footnote size is thin enough that the contrast audit misreads it (it measures 7.5:1)
+                Text(FrameworkCard.sizeShort(f)).font(DS.style(showDays ? .footnote : .subheadline)).foregroundStyle(quiet).fixedSize(horizontal: false, vertical: true)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            if let days, !typeSize.isAccessibilitySize {
+            if let days, showDays, !typeSize.isAccessibilitySize {
                 Text(CountdownCard.count(days, labels: L)).font(DS.style(.footnote).weight(.semibold)).foregroundStyle(f.tone)
             }
             // never cut short: it keeps its own width, and the name beside it wraps instead
-            Text(model.sitsShort(f)).font(DS.eyebrowSmall).foregroundStyle(Palette.fg2).fixedSize()
+            Text(model.sitsShort(f)).font(DS.eyebrowSmall).foregroundStyle(quiet).fixedSize()
             Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
         }
         .multilineTextAlignment(.leading)

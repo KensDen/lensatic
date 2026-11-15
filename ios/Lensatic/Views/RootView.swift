@@ -47,16 +47,24 @@ extension View {
 /// the app; outside addresses open in the in-app reader (R3).
 struct Shell: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
         @Bindable var model = model
         let tab = model.tab
         VStack(spacing: 0) {
+            // Round 3: on the iPad the Frameworks tab is two panes, a sidebar and a detail pane with its own stack
+            if tab == .frameworks, Shell.twoPanes(sizeClass, typeSize) {
+                FrameworksSplitView { destination($0) }
+                    .id(tab)
+            } else {
             NavigationStack(path: Binding(get: { model.paths[tab] ?? [] }, set: { model.paths[tab] = $0 })) {
                 root(tab)
                     .navigationDestination(for: Nav.self) { destination($0) }
             }
             .id(tab)
+            }
             // a card is a full screen of its own, as the mockup draws it: the tab bar steps aside while it is open
             if !model.cardOnTop {
                 TabBar(selection: Binding(get: { model.tab }, set: { new in
@@ -66,6 +74,15 @@ struct Shell: View {
             }
         }
         .background(Palette.bg)
+        // the keyboard (Round 3; the tab bar's own buttons carry Command-1 to Command-5): Command-F opens Search and
+        // Command-[ goes back. Buttons with no size, so the system lists them while Command is held
+        .background {
+            Group {
+                Button(AppTab.search.title) { model.openSearch() }.keyboardShortcut("f", modifiers: .command)
+                Button("Back") { model.back() }.keyboardShortcut("[", modifiers: .command)
+            }
+            .frame(width: 0, height: 0).opacity(0).accessibilityHidden(true)
+        }
         .opensLinksInApp(model)
         // a slightly darker scrim than the system's behind a sheet (nits v0.3, item 9), so the screen recedes as drawn
         .overlay {
@@ -83,6 +100,12 @@ struct Shell: View {
         .sheet(item: $model.glossaryEntry) { entry in
             GlossarySheetView(slug: entry.slug).environment(model).tint(Palette.link).opensLinksInApp(model)
         }
+    }
+
+    /// Whether the Frameworks tab shows two panes: a regular width (the iPad full screen, or wide in a split) at a
+    /// standard text size. At the accessibility sizes one column keeps the width for the words.
+    static func twoPanes(_ sizeClass: UserInterfaceSizeClass?, _ typeSize: DynamicTypeSize) -> Bool {
+        sizeClass == .regular && !typeSize.isAccessibilitySize
     }
 
     @ViewBuilder private func root(_ tab: AppTab) -> some View {

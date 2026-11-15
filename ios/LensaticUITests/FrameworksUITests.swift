@@ -120,6 +120,99 @@ extension LensaticUITests {
         XCTAssertLessThan(element("plays-story-insiders").frame.minY, element("plays-story-containment").frame.minY)
     }
 
+    /// The framework the sidebar marks as the pick, by its place in the list; with `after`, once the pick has left that
+    /// place (a key press takes a moment to arrive).
+    func pickedFramework(after old: Int? = nil) -> Int? {
+        for _ in 0..<8 {
+            if let at = Self.frameworkIds.firstIndex(where: { element("framework-card-\($0)").isSelected }), at != old { return at }
+            Thread.sleep(forTimeInterval: 0.25)
+        }
+        return nil
+    }
+
+    /// Presses an arrow key and gives the pick's new place. A key pressed while a screen is still arriving is lost, so
+    /// the screen is let come to rest first and the press is tried again, three times at most.
+    func press(_ key: XCUIKeyboardKey, from old: Int) -> Int? {
+        for _ in 0..<3 {
+            settle()
+            app.typeKey(key, modifierFlags: [])
+            if let at = pickedFramework(after: old) { return at }
+        }
+        return nil
+    }
+
+    /// The names the detail pane's title shows for the first frameworks of the list, as their files give them.
+    static let frameworkNames = ["csf20": "NIST Cybersecurity Framework 2.0", "iso27001": "ISO/IEC 27001:2022",
+                                 "sp800-207": "NIST SP 800-207, Zero Trust Architecture", "dod-zt": "DoD Zero Trust Strategy"]
+
+    /// One pane of the iPad's two: contrast alone first, then every other check.
+    func auditPane(_ id: String) throws {
+        try auditScreen(id, types: .contrast)
+        try auditScreen(id, types: XCUIAccessibilityAuditType.all.subtracting(.contrast))
+    }
+
+    /// Frameworks on the iPad (Round 3): two panes. The sidebar lists the frameworks and marks the pick; the detail pane
+    /// shows it with no way back, and a screen opened from it pushes inside the pane with one. Compare and the self-checks
+    /// work the same way. With a keyboard the arrows move the pick, Command and a number changes tab, and Command-[ goes
+    /// back. Runs on an iPad; a phone has one column, which the other tests walk.
+    func testTheIPadShowsFrameworksInTwoPanes() throws {
+        try XCTSkipUnless(UIDevice.current.userInterfaceIdiom == .pad, "two panes are the iPad's layout")
+        launch(door: nil, ["-LensaticTab", "frameworks"])
+        XCTAssertTrue(element("frameworks").waitForExistence(timeout: 10), "the sidebar is the tab's own first screen")
+        XCTAssertTrue(element("framework-screen").waitForExistence(timeout: 5), "and beside it the detail pane opens on the first framework")
+        XCTAssertEqual(title(), "NIST Cybersecurity Framework 2.0")
+        XCTAssertFalse(element("back").exists, "nothing is behind the pane's first screen")
+        XCTAssertTrue(element("framework-card-csf20").isSelected, "the sidebar marks the pick")
+        XCTAssertLessThan(element("framework-card-csf20").frame.maxX, element("screen-title").frame.minX, "the sidebar, then the detail pane")
+        // each pane is read as its own scrolling region, above the tab bar. Contrast first, on its own, with both
+        // panes at rest: the audit's text size check takes the text to the accessibility sizes, where the tab is one
+        // column, so a contrast read after it is of a screen the audit itself has rearranged (the sidebar's second lines
+        // measure 7.5:1 on the card). Every row in view is still read for contrast, and nothing is exempt
+        try auditPane("frameworks")
+        try auditPane("framework-screen")
+        element("framework-card-dod-zt").tap()
+        XCTAssertEqual(title(), "DoD Zero Trust Strategy")
+        XCTAssertTrue(element("framework-card-dod-zt").isSelected && !element("framework-card-csf20").isSelected)
+        // a screen opened from the detail pane pushes inside it, with its way back, and the sidebar stays
+        tap("node-row-1", in: "framework-screen")
+        XCTAssertTrue(element("node-screen").waitForExistence(timeout: 5))
+        XCTAssertTrue(element("back").exists && element("framework-card-csf20").exists)
+        // the keyboard: Command-[ goes back, the arrows move the pick, Command and a number changes tab
+        app.typeKey("[", modifierFlags: .command)
+        XCTAssertTrue(element("framework-screen").waitForExistence(timeout: 5), "Command-[ goes back")
+        // a key held by the test runner can repeat, as a reader's does, so the pick is read by where it went
+        let start = try XCTUnwrap(pickedFramework())
+        XCTAssertEqual(Self.frameworkIds[start], "dod-zt")
+        let down = try XCTUnwrap(press(.downArrow, from: start))
+        XCTAssertGreaterThan(down, start, "the down arrow moves the pick down the list")
+        let up = try XCTUnwrap(press(.upArrow, from: down))
+        XCTAssertLessThan(up, down, "the up arrow moves it back up")
+        XCTAssertEqual(title(), try XCTUnwrap(Self.frameworkNames[Self.frameworkIds[up]]), "the detail pane follows the pick")
+        app.typeKey("1", modifierFlags: .command)
+        XCTAssertTrue(element("home").waitForExistence(timeout: 5), "Command-1 opens Home")
+        // a framework opened from Home becomes the sidebar's pick
+        element("home-framework-fedramp").tap()
+        XCTAssertTrue(element("framework-screen").waitForExistence(timeout: 5))
+        XCTAssertEqual(title(), "Federal Risk and Authorization Management Program (FedRAMP)")
+        XCTAssertFalse(element("back").exists, "opened from Home, it is the pane's first screen")
+        XCTAssertTrue(reveal("framework-card-fedramp", in: "frameworks").isSelected)
+        // Compare and the self-checks in the sidebar, each with its first item in the detail pane
+        segment("frameworks-compare", "Compare").tap()
+        XCTAssertTrue(element("compare-screen").waitForExistence(timeout: 5))
+        XCTAssertTrue(element("compare-card-compare-csf20-sp800-53").isSelected)
+        try auditPane("frameworks")
+        try auditPane("compare-screen")
+        element("compare-card-compare-fedramp-govramp").tap()
+        XCTAssertEqual(title(), "FedRAMP with GovRAMP")
+        segment("frameworks-checks", "Self-Checks").tap()
+        XCTAssertTrue(element("check-screen").waitForExistence(timeout: 5))
+        XCTAssertTrue(element("check-card-check-csf20").isSelected)
+        try auditPane("frameworks")
+        try auditPane("check-screen")
+        app.typeKey("5", modifierFlags: .command)
+        XCTAssertTrue(element("tab-search").isSelected, "Command-5 opens Search")
+    }
+
     /// Browse: every framework is a card that reads as one sentence, grouped the way the stack is ordered; a card with a
     /// dated deadline counts down; the adversary column says it is not compliance; other standards land.
     func testBrowseShowsEveryFrameworkAsACard() throws {

@@ -517,7 +517,7 @@ def umbrella() -> dict:
 def version_line() -> str:
     """The build string on the About pages (R6, the owner's ruling: the current app and content versions, generated, never
     typed): the iOS app's marketing version and build from ios/project.yml, and the content version from
-    content/stack.json, as in "Lensatic app 1.0.1 (6), content 1.3.0"."""
+    content/stack.json, as in "Lensatic app 2.0 (1), content 1.4.0"."""
     yml = (ROOT / "ios" / "project.yml").read_text(encoding="utf-8")
     mv = re.search(r'^\s*MARKETING_VERSION:\s*"?([\d.]+)"?\s*$', yml, re.M).group(1)
     build = re.search(r'^\s*CURRENT_PROJECT_VERSION:\s*"?(\d+)"?\s*$', yml, re.M).group(1)
@@ -1331,11 +1331,15 @@ def social_tags(d: dict) -> str:
 
 
 def build_docs(index: bytes, stack: Path, docs: Path, author: str = "") -> list[Path]:
-    """The project site for GitHub Pages: the app page byte for byte, the two plain pages, the social card, an empty .nojekyll."""
+    """The project site for GitHub Pages: the app page byte for byte, the two plain pages, the frameworks page, the social
+    card, an empty .nojekyll."""
     d = json.loads(stack.read_text(encoding="utf-8"))
     docs.mkdir(parents=True, exist_ok=True)
     files = {f"{MAPS_KEY}/index.html": index, ".nojekyll": b""}
     files.update({f"{k}.html": build_page(d, k, author) for k in PAGES})
+    # Lensatic 2.0, Round 3: the frameworks page, built from content/frameworks/, the folder the app's navigator reads
+    import build_frameworks_page as fp  # here, not at the top: that module imports this one
+    files[fp.PATH] = fp.build(d, author)
     files[SOCIAL_NAME] = SOCIAL_CARD.read_bytes()
     out = []
     for name, data in files.items():

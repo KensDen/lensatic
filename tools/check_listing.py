@@ -202,9 +202,18 @@ def app_facts(d: dict) -> dict:
     site = load(SITE_JSON)
     plays = load(PLAYS)["plays"]
     doors = [resolve(d, x["shortTitle"]) for x in d["doors"]]
+    # Lensatic 2.0: the framework navigator's counts, from its folder (content/frameworks/): the cards, every element
+    # listed, the written comparisons, the self-checks, and the story Home leads with
+    nav = ROOT / "content" / "frameworks"
+    catalog = load(nav / "catalog.json")
+    frameworks = [load(nav / f"{i}.json") for i in catalog["frameworks"]]
+    story = load(nav / f"{catalog['plays']}.json")["story"]
     return {"doors": doors, "layers": sum(1 for x in d["layers"] if not x.get("isColumn")), "functions": len(d["functions"]),
             "guide": site["guides"][0]["title"],  # the guide's title standing alone (6.20: Zero Trust Study Route)
-            "playbook": site["cards"]["playbook"]["title"], "plays": len(plays)}
+            "playbook": site["cards"]["playbook"]["title"], "plays": len(plays),
+            "frameworks": len(frameworks), "elements": sum(len(f["nodes"]) for f in frameworks),
+            "compares": len(catalog["compares"]), "checks": len(catalog["checks"]),
+            "story": story["title"], "storyPlays": [next(p["name"] for p in plays if p["id"] == i) for i in story["playIds"]]}
 
 
 def build_description(d: dict) -> str:
@@ -217,24 +226,36 @@ def build_description(d: dict) -> str:
     path = (f"{STORE_NAME} turns that map into a path. Tell it where you stand and it lists the frameworks that apply to you, in "
             f"order, as steps you check off, and counts down to the next deadline wherever a source dates one. Beside the map sit two companions to read "
             f"on your phone: {f['guide']}, a zero trust field guide, and {f['playbook']}, a playbook of {f['plays']} plays.")
+    # Lensatic 2.0 (Round 3): the framework navigator, said once in a paragraph of its own and first under What's Inside
+    navigator = (f"Version 2.0 adds a framework navigator: {f['frameworks']} frameworks as cards, each opened down to its controls, outcomes "
+                 f"or techniques by the publisher's own identifiers, {f['elements']:,} elements in all, with comparisons that give no "
+                 f"score and self-checks whose answers stay on your device.")
     items = [
-        # build 6: Home is the first tab and holds what the Library tab held
-        ("Home", "three doors, to Framework Maps, the field guide and the playbook, each chapter and play summary first, with your saved items"),
+        ("Frameworks", "what each framework is for, who it binds, how it is assessed, how big it is and where it sits, then its "
+                       "structure, its baselines, its sources and its publisher's terms"),
+        ("Compare", f"any two frameworks side by side, {n(f['compares'])} of them written up; an overlap is counted only where a "
+                    "publisher prints a crosswalk"),
+        ("Self-Checks", f"{n(f['checks'])} short readiness checks, each tied to one framework, ending in what to do next"),
+        # Round 3: Home leads with the story, and every play is tied to the frameworks
+        ("Home", f"the lead story, {f['story']}, with {' and '.join(f['storyPlays'])} to start; your zero trust countdown; and the doors "
+                 "to Framework Maps and the field guide, with your saved items"),
+        ("Plays", f"each of the {f['plays']} plays linked to the controls, outcomes and techniques it touches"),
         ("My Path", f"pick one of {n(len(f['doors']))} trailheads ({doors}) and get your frameworks in order, as steps you check off"),
         ("Countdown", "the days to your next deadline where a source dates one, each date taken from that source"),
         ("What Changed", "new documents, links and deadlines in the frameworks, newest first, with each source check a tap away"),
         ("Explore", f"the stack in {n(f['layers'])} layers beside the AI column, the matrix of pillars and functions, and the "
                     f"{n(f['functions'])} functions"),
-        ("Search", "one search across frameworks, path steps, the field guide, the playbook and the glossary, with results in iOS search too"),
+        ("Search", "one search across frameworks, their elements by identifier, path steps, the field guide, the playbook and the glossary, with results in iOS search too"),
         ("Sources", "every framework with its publisher, edition and date, a link to the primary that opens inside the app, and "
                     "the date it was last verified"),
+        ("iPad", "Frameworks in two panes, with keyboard shortcuts and pointer support"),
         ("Home Screen Widget", "your countdown and next step, in small and medium sizes"),
         ("Siri and Shortcuts", "ask for your next step, open Search, or open any framework, step or play"),
         ("Share", "a clean card of a framework or a step, with its source link"),
         ("Glossary", "every abbreviation spelled out, with a plain sentence on what it is"),
     ]
     inside = "\n".join([WHATS_INSIDE] + [f"- {k}: {v}" for k, v in items])
-    parts = [STORY, OPENING, as_store(resolve(d, meta["wayfinder"])), path, inside,
+    parts = [STORY, OPENING, as_store(resolve(d, meta["wayfinder"])), path, navigator, inside,
              resolve(d, meta["about"]["offline"]), resolve(d, meta["about"]["notAffiliated"])]
     return curl("\n\n".join(parts))  # curly quotes and apostrophes, as on the site and in the app (R6)
 

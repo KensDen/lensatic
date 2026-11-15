@@ -279,6 +279,13 @@
     "storyStart": "Start Here",
     "showElements": "Show the elements",
     "hideElements": "Hide the elements",
-    "spelledOut": "The words in grey are Lensatic’s, from the glossary. The rest is the publisher’s text."
+    "spelledOut": "The words in grey are Lensatic’s, from the glossary. The rest is the publisher’s text.",
+    "pageTitle": "Frameworks",
+    "pageTabTitle": "Lensatic · Frameworks",
+    "pageDescription": "Every framework Lensatic covers as a card: what it is for, who it binds, how it is assessed, how big it is and where it sits, with its sources and its publisher’s terms.",
+    "pageDeeper": "The iOS app goes deeper: {elements} elements across these {count} frameworks, each by its publisher’s identifier, with the links a publisher prints between them.",
+    "pageSourcesChecked": "Sources last checked",
+    "pageOn": "On this page",
+    "pageChecksLine": "Self-checks, each tied to one framework. They are in the iOS app, where your answers stay on your device."
   }
 }

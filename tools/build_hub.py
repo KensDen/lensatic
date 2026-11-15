@@ -58,7 +58,7 @@ DOCS = ROOT / "docs"
 # what each moved section publishes: everything its pages link to, nothing from its build or validation trees
 ZT_FILES = ("index.html", "icon.svg", "icon-512.png", "apple-touch-icon.png", "favicon-32.png", "social-card.png")
 # the pages the sitemap lists, under the site address (privacy and support since gauntlet question 38)
-SITEMAP_PAGES = ("", "maps/", "guides/", "guides/zero-trust/", "playbook/", "playbook/Playbook/", "privacy.html", "support.html")
+SITEMAP_PAGES = ("", "maps/", "maps/frameworks/", "guides/", "guides/zero-trust/", "playbook/", "playbook/Playbook/", "privacy.html", "support.html")
 ZT_PDF = re.compile(r"^\d{8}_ZT_(Study_Guide|Quick_Reference_[A-Za-z_]+)_v\d+\.\d+(?:\.\d+)?\.pdf$")
 PLAYBOOK_FILES = ("index.html", "social-card-v2.png", "Playbook/index.html")  # the card renamed in Lensatic 2.0.2
 PLAYBOOK_DIRS = ("Documents", "Deck", "Diagrams")
@@ -285,7 +285,9 @@ def hub_page(s: dict, d: dict) -> str:
     for x in s["sections"]:
         # 6.13: Framework Maps' card also starts from a question (its Questions section)
         # (above the counts, so the three cards' buttons keep one line at the foot)
+        # Lensatic 2.0, Round 3: and leads to the frameworks page, every framework of the app's navigator as a card
         ask = (f'<p class="lx-ask"><a class="lx-sublink" href="{x["path"]}#view-helper">{esc(s["labels"]["startWithQuestion"])}</a></p>'
+               f'<p class="lx-ask"><a class="lx-sublink" href="{x["path"]}frameworks/">{esc(s["labels"]["allFrameworks"])}</a></p>'
                if x["key"] == "maps" else "")
         tiles.append(f'<li class="lx-tile-card {x["key"]}">{section_icon(x["key"], "lx-icon")}'
                      f'<h3>{esc(x["name"])}</h3><p>{esc(x["line"])}</p>{ask}<p class="lx-count">{count_html(c[x["key"]])}</p>'
@@ -401,7 +403,7 @@ def sitemap(s: dict, d: dict) -> str:
     """Each page's own date (QC rulings, Q20): the content's builtOn for the map and the plain pages, the playbook's release
     date for its landing and app, the site date for the rest."""
     pages = SITEMAP_PAGES
-    own = {"maps/": d["meta"]["builtOn"], "privacy.html": d["meta"]["builtOn"], "support.html": d["meta"]["builtOn"],
+    own = {"maps/": d["meta"]["builtOn"], "maps/frameworks/": d["meta"]["builtOn"], "privacy.html": d["meta"]["builtOn"], "support.html": d["meta"]["builtOn"],
            "playbook/": playbook_date(), "playbook/Playbook/": playbook_date()}
     rows = "".join(f'  <url><loc>{s["site"]}{p}</loc><lastmod>{own.get(p, s["date"])}</lastmod></url>\n' for p in pages)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{rows}</urlset>\n'

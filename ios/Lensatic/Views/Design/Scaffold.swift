@@ -69,19 +69,26 @@ struct ListScreen<Body: View>: View {
     var saves: SavedItem?
     @ViewBuilder var sections: Body
     @Environment(\.dismiss) private var dismiss
+    /// The first screen of the iPad's detail pane (Round 3): there is nothing to go back to, so no way back is drawn.
+    @Environment(\.paneRoot) private var paneRoot
 
     var body: some View {
         List {
             Group {
                 SwiftUI.Section {
                     VStack(alignment: .leading, spacing: 12) {
-                        HStack(spacing: 12) {
-                            Button { dismiss() } label: { CircleIconLabel(icon: .chevronLeft) }
-                                .buttonStyle(.plain)
-                                .accessibilityLabel("Back")
-                                .accessibilityIdentifier("back")
-                            Spacer()
-                            if let saves { BookmarkButton(item: saves) }
+                        if !paneRoot || saves != nil {
+                            HStack(spacing: 12) {
+                                if !paneRoot {
+                                    Button { dismiss() } label: { CircleIconLabel(icon: .chevronLeft) }
+                                        .buttonStyle(.plain)
+                                        .accessibilityLabel("Back")
+                                        .accessibilityIdentifier("back")
+                                        .lxHover()
+                                }
+                                Spacer()
+                                if let saves { BookmarkButton(item: saves) }
+                            }
                         }
                         VStack(alignment: .leading, spacing: 4) {
                             // the section's place in the system's own type (section 7.4: the mono eyebrow is for hero cards)
@@ -116,6 +123,13 @@ struct ListScreen<Body: View>: View {
 /// The scroll view a screen's content sits in, so a control inside it can scroll to a place (the outline, R3).
 extension EnvironmentValues {
     @Entry var scrollProxy: ScrollViewProxy?
+    /// True on the first screen of the iPad's detail pane (Round 3), and only there: a pushed screen sets it back.
+    @Entry var paneRoot: Bool = false
+}
+
+extension View {
+    /// The pointer's highlight on a control (Round 3: the iPad with a trackpad or a mouse); nothing on a touch screen.
+    func lxHover() -> some View { hoverEffect(.highlight) }
 }
 
 extension DetailScreen where Trailing == EmptyView {

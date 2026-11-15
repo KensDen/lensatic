@@ -74,7 +74,8 @@
   "pdfFederalCivilian": "Quick Reference: Federal Civilian (PDF)",
   "pdfPrivateSector": "Quick Reference: Private Sector (PDF)",
   "fontsLine": "Fonts: IBM Plex, SIL Open Font License 1.1",
-  "startWithQuestion": "Start with a question"
+  "startWithQuestion": "Start with a question",
+  "allFrameworks": "Every framework as a card"
  },
  "notFound": {
   "title": "That page isn’t here.",

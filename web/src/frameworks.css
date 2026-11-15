@@ -1,0 +1,74 @@
+/* The frameworks page (Lensatic 2.0, Round 3), over the plain pages' stylesheet: every framework of the app's navigator as
+   a card with a spine in the framework's one colour, as the app draws it (its light value on paper, its dark value on the
+   dial; tools/check_frameworks.py holds each to 4.5:1 on both surfaces). No images, no network, no script of its own. */
+main > :is(.fw-lede, .fw-eyebrow, .small, nav, section) { max-width: none; }
+.fw-eyebrow { margin: 0 0 0.35rem; font-family: var(--mono); font-weight: 700; font-size: 0.8125rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.fw-eyebrow a { text-decoration: none; }
+.fw-lede { font-size: 1.1875rem; line-height: 1.5; max-width: 44rem; }
+.note { color: var(--fg-2); font-size: 0.9375rem; max-width: 44rem; }
+/* a note that closes a group, after its cards or its list, runs the cards' width (the layout guard's rule for closing text) */
+.fw-group > :is(.fw, ul) ~ .note { max-width: none; }
+.fw-jump ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 0.5rem; padding: 0; }
+.fw-jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.875rem; border: 1px solid var(--line); border-radius: 999px; background: var(--bg-2); color: var(--fg); text-decoration: none; font-size: 0.9375rem; font-weight: 600; }
+.fw-jump a:hover { border-color: var(--line-strong); }
+.fw-group { margin-top: 2.25rem; }
+.fw-group > h2 { font-size: 1.5rem; line-height: 1.2; margin: 0 0 0.25rem; text-wrap: balance; }
+.fw-n { font-family: var(--mono); font-size: 0.8125rem; font-weight: 500; color: var(--fg-2); }
+.fw { --spine: var(--tone, var(--line-strong)); margin: 1rem 0; padding: 1.125rem 1.25rem 1.125rem 1.375rem; background: var(--bg-2); border: 1px solid var(--line); border-left: 6px solid var(--spine); border-radius: 14px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .fw { --spine: var(--tone-d, var(--line-strong)); } }
+:root[data-theme="dark"] .fw { --spine: var(--tone-d, var(--line-strong)); }
+.fw h3 { font-size: 1.25rem; line-height: 1.25; margin: 0; text-wrap: balance; }
+.fw h4 { font-family: var(--mono); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-2); margin: 1rem 0 0.35rem; }
+.fw p { max-width: 44rem; }
+.fw-kind { margin: 0.1rem 0 0.6rem; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--spine); }
+.fw-purpose { font-weight: 600; font-size: 1.0625rem; margin-bottom: 0.4rem; }
+.fw-flag { font-weight: 600; font-size: 0.9375rem; color: var(--spine); }
+.fw-due { font-size: 0.9375rem; }
+.fw-due .ref, .fw-plays > .ref:first-child { font-family: var(--mono); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-2); margin-right: 0.35rem; }
+.fw-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem 1.5rem; margin: 0.9rem 0 0; }
+.fw-facts div { min-width: 0; }
+.fw-facts dt { font-size: 0.8125rem; color: var(--fg-2); }
+.fw-facts dd { margin: 0; font-size: 0.9375rem; color: var(--fg-2); }
+.fw-facts dd strong { display: block; color: var(--fg); font-size: 1rem; }
+.fw-nodes, .fw-sets, .fw-sources { list-style: none; margin: 0; padding: 0; }
+.fw-nodes { columns: 2; column-gap: 1.5rem; font-size: 0.9375rem; }
+.fw-nodes li { break-inside: avoid; padding: 0.15rem 0; }
+.fw-id { font-family: var(--mono); font-size: 0.8125rem; font-weight: 500; color: var(--spine); margin-right: 0.3rem; }
+.fw-sets li { padding: 0.2rem 0; font-size: 0.9375rem; }
+.fw-set-line { display: block; color: var(--fg-2); font-size: 0.875rem; }
+.fw-depth { margin: 0.5rem 0 0; font-size: 0.875rem; color: var(--fg-2); }
+.fw-plays { font-size: 0.9375rem; margin: 0.9rem 0 0; }
+.fw-sources li { padding: 0.3rem 0; font-size: 0.9375rem; overflow-wrap: anywhere; }
+.fw-cite, .fw-checked { display: block; font-size: 0.8125rem; color: var(--fg-2); }
+.fw-terms { font-size: 0.9375rem; }
+.fw-notice { font-size: 0.8125rem; color: var(--fg-2); overflow-wrap: anywhere; }
+.fw-terms-link { font-size: 0.9375rem; margin-bottom: 0; }
+.pdf-tag { display: inline-block; margin-left: 0.4em; padding: 0 0.35em; border: 1px solid var(--line-strong); border-radius: 4px; font-family: var(--mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; line-height: 1.5; color: var(--fg-2); vertical-align: 0.1em; white-space: nowrap; text-decoration: none; }
+.fw-scroll { overflow-x: auto; }
+.fw-compare table { border-collapse: collapse; width: 100%; font-size: 0.9375rem; margin: 0.5rem 0; }
+.fw-compare :is(th, td) { text-align: left; vertical-align: top; padding: 0.45rem 0.75rem 0.45rem 0; border-top: 1px solid var(--line); }
+.fw-compare thead :is(th, td) { border-top: 0; }
+.fw-compare tbody th { color: var(--fg-2); font-weight: 600; width: 22%; }
+.fw-checks li { padding: 0.45rem 0; border-top: 1px solid var(--line); }
+.fw-checks li:first-child { border-top: 0; }
+:is(li, td, th, h2, h3) { text-wrap: pretty; }
+@media (max-width: 639.98px) {
+  .fw { padding: 1rem 1rem 1rem 1.125rem; }
+  .fw-facts { grid-template-columns: minmax(0, 1fr); }
+  .fw-nodes { columns: 1; }
+  .fw-compare table { min-width: 34rem; }
+}
+@media print {
+  .fw-jump { display: none; }
+  /* a card may break across pages: kept whole, the long ones left half pages empty and the printout ran a third longer */
+  .fw { border-color: #777; border-left-color: #000; margin: 0.6rem 0; padding: 0.6rem 0.8rem; }
+  .fw :is(h3, h4) { break-after: avoid; }
+  .fw :is(li, dl > div, tr) { break-inside: avoid; }
+  .fw :is(.fw-kind, .fw-flag, .fw-id) { color: #000; }
+  .fw-group { margin-top: 1.2rem; }
+  .fw-group > h2 { break-after: avoid; }
+  .fw-scroll { overflow: visible; }
+  .fw-compare table { min-width: 0; }
+  body { font-size: 0.8125rem; line-height: 1.4; }
+  .fw-sources a[href^="http"]:not(.pdf-tag)::after, .fw-terms-link a::after { content: " (" attr(href) ")"; font-size: 0.85em; color: #333; overflow-wrap: anywhere; }
+}
