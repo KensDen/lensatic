@@ -458,7 +458,9 @@ def cprt171(args) -> None:
         parts = sorted((k for k in kids.get(sr, []) if by[k]["element_type"] == "security_requirement"), key=lambda k: k)
         own = e["text"].strip()
         label = e["title"].strip()
-        lead = f"{label}. " if label and len(label) <= 2 and not sr.count(".") == 2 else ""
+        # a part's label as the publication prints it in the requirement: a letter, or a number without the leading
+        # zero the data file gives it ("01" in the file, "1." in the text)
+        lead = f"{int(label) if label.isdigit() else label}. " if label and len(label) <= 2 else ""
         if not sr.startswith("SR-") or sr.count(".") == 2:
             lead = ""
         body = " ".join(statement(p) for p in parts)

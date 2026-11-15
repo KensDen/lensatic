@@ -269,7 +269,8 @@ final class LensaticUITests: XCTestCase {
             XCTAssertTrue(app.staticTexts["CHOOSE A TRAILHEAD"].exists || app.staticTexts["Choose a trailhead"].exists, "the eyebrow")
             // content release 1.0.1 (6.14, Ken's ruling of 7 November 2026): each trailhead says who it is for in one
             // short line, and all five, with the footer, fit without a scroll at the default size on every phone
-            for id in ["door-dow", "door-federal-civilian", "door-defense-contractor", "door-state-local", "door-industry-academia"] {
+            // Lensatic 2.0, Round 2: six, with the cloud provider's
+            for id in ["door-dow", "door-federal-civilian", "door-defense-contractor", "door-cloud-provider", "door-state-local", "door-industry-academia"] {
                 XCTAssertTrue(element(id).isHittable, "\(id) is on screen")
                 XCTAssertLessThanOrEqual(element(id).frame.maxY, window.maxY, id)
             }
@@ -328,7 +329,7 @@ final class LensaticUITests: XCTestCase {
         }
     }
 
-    func testTheWelcomeScreenOffersTheFiveTrailheads() throws {
+    func testTheWelcomeScreenOffersEveryTrailhead() throws {
         launch(door: nil)
         openQuestion()
         for door in doors {

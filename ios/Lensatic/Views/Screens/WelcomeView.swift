@@ -14,8 +14,9 @@ struct WelcomeView: View {
     var body: some View {
         GeometryReader { geo in
             ScrollView {
-                // five doors, the question and the footer fit 390 x 844 at the default size with nothing to scroll (R5)
-                VStack(alignment: .leading, spacing: 12) {
+                // six doors (Lensatic 2.0, Round 2), the question and the footer fit 390 x 844 at the default size with nothing to
+                // scroll (R5): the rows and the gaps between them are tighter than they were for five
+                VStack(alignment: .leading, spacing: 10) {
                     if isChange {
                         HStack {
                             Spacer()
@@ -51,14 +52,14 @@ struct WelcomeView: View {
                             .font(DS.lede).foregroundStyle(Palette.fg2).lineSpacing(3)
                     }
                     .fixedSize(horizontal: false, vertical: true)
-                    VStack(spacing: 6) {
+                    VStack(spacing: 5) {
                         ForEach(Door.ID.welcomeOrder.compactMap { model.door($0) }, id: \.id) { door in
                             Button { model.choose(door.id) } label: {
                                 ListRow(title: door.shortTitle,
                                         subtitle: keepDesignations(model.plan(door).welcomeLine()),
                                         icon: door.id.icon, iconColor: door.id.color,
                                         highlighted: isChange && model.progress.door == door.id,
-                                        detail: model.plan(door).welcomeCount(labels: model.store.content.ui.labels), verticalPadding: 10)
+                                        detail: model.plan(door).welcomeCount(labels: model.store.content.ui.labels), verticalPadding: 6)
                             }
                             .buttonStyle(.plain)
                             .accessibilityIdentifier("door-\(door.id.rawValue)")
@@ -74,8 +75,8 @@ struct WelcomeView: View {
                         .accessibilityIdentifier("welcome-hint")
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, isChange ? 8 : 16)
-                .padding(.bottom, 16)
+                .padding(.top, isChange ? 8 : 10)
+                .padding(.bottom, 10)
                 .frame(minHeight: geo.size.height, alignment: .top)
             }
             .scrollBounceBehavior(.basedOnSize)

@@ -29,6 +29,7 @@ import re
 import shutil
 import struct
 import subprocess
+import time
 import sys
 from pathlib import Path
 
@@ -50,10 +51,34 @@ MARK = ASSETS / "Mark.imageset" / "mark.svg"
 TMP = ROOT / ".tmp" / "ios-check"
 XCODEGEN = ROOT / ".tmp" / "xcodegen" / "bin" / "xcodegen"
 BATTERY_DERIVED = ROOT / ".tmp" / "DerivedData-battery"
-# seconds: a failing test must turn the battery red, never hang it. Raised from 1800 for Lensatic 2.0, Round 1: build 6's
-# suite ran about 22 minutes after its build, and the navigator's six UI tests and its screens in the two audits add
-# about ten more, so the old limit would stop a passing run
-BUILD_TEST_TIMEOUT = 3600
+# seconds: a failing test must turn the battery red, never hang it. Lensatic 2.0, Round 2: the test stage is split. The
+# app is built once for testing, then the tests run in parts, each a run of its own with this limit: the unit tests, the
+# UI audits, the navigator's UI tests, and every other UI test. Round 1 had raised one limit to 3600 for the whole
+# stage; each part now fits inside the 1800 the stage had before, with room.
+PART_TIMEOUT = 1800
+UITESTS = IOS / "LensaticUITests"
+UI_CLASS = "LensaticUITests/LensaticUITests"
+# the parts of the UI suite. A test named in no part runs in the last one, so a new test is never left out; the static
+# check holds every name below to a test that exists
+UI_AUDITS = ["testEveryScreenPassesTheAuditAtTheLargestTextSize", "testEveryScreensControlsHaveSpokenLabels", "testMyPathsVoiceOverOrder",
+             "testTheWidgetsInBothAppearancesReadAsOneElement", "testWelcomeFitsWithoutScrolling",
+             "testSweep01Stack", "testSweep02Matrix", "testSweep03Functions", "testSweep04AIColumn", "testSweep05Sources",
+             "testSweep06Glossary", "testSweep07About", "testSweep08Chapter"]
+
+
+def ui_tests(path: Path) -> list[str]:
+    """The test methods a UI test file declares."""
+    return re.findall(r"^\s*func (test\w+)\(\)", path.read_text(encoding="utf-8"), re.M) if path.exists() else []
+
+
+def test_parts() -> list[tuple[str, list[str]]]:
+    """The test stage's parts, each as a name and its xcodebuild selectors. Together they run every test once."""
+    navigator = ui_tests(UITESTS / "FrameworksUITests.swift")
+    named = UI_AUDITS + navigator
+    return [("unit tests", ["-only-testing:LensaticTests"]),
+            ("UI tests: the audits", [f"-only-testing:{UI_CLASS}/{t}" for t in UI_AUDITS]),
+            ("UI tests: the navigator", [f"-only-testing:{UI_CLASS}/{t}" for t in navigator]),
+            ("UI tests: the rest", ["-only-testing:LensaticUITests"] + [f"-skip-testing:{UI_CLASS}/{t}" for t in named])]
 
 # IBM's own TrueType faces, byte for byte from IBM's release archives for @ibm/plex-sans 1.1.0 and @ibm/plex-mono
 # 2.5.0 (session 11: nothing converted, subset or renamed; session 8's conversion is retired), and IBM's licence beside them.
@@ -503,30 +528,55 @@ def check_xcode(rep) -> None:
         rep.check("the app builds and its unit and UI tests pass on the newest iPhone simulator", ["no iPhone simulator is available"])
         return
     name, udid = phone
-    results = TMP / "battery.xcresult"
-    shutil.rmtree(results, ignore_errors=True)
     shutil.rmtree(BATTERY_DERIVED, ignore_errors=True)  # a full build every run, so no warning hides in an up-to-date file
     was_booted = udid in run(["xcrun", "simctl", "list", "devices", "booted"]).stdout
     run(["xcrun", "simctl", "boot", udid])
     run(["xcrun", "simctl", "bootstatus", udid, "-b"])
-    cmd = ["xcodebuild", "-project", str(XCODEPROJ), "-scheme", "Lensatic", "-destination", f"platform=iOS Simulator,id={udid}",
-           "-derivedDataPath", str(BATTERY_DERIVED), "-resultBundlePath", str(results), "build", "test"]
-    try:
-        p = run(cmd, timeout=BUILD_TEST_TIMEOUT)
-        log, code = p.stdout + p.stderr, p.returncode
-    except subprocess.TimeoutExpired as exc:
-        run(["pkill", "-f", "xcodebuild -project " + str(XCODEPROJ)])
-        log = (exc.stdout or b"").decode("utf-8", "replace") if isinstance(exc.stdout, bytes) else (exc.stdout or "")
-        code = f"timed out after {BUILD_TEST_TIMEOUT} s"
+    base = ["xcodebuild", "-project", str(XCODEPROJ), "-scheme", "Lensatic", "-destination", f"platform=iOS Simulator,id={udid}",
+            "-derivedDataPath", str(BATTERY_DERIVED)]
+
+    def step(name: str, args: list[str]) -> tuple[str, int | str, float]:
+        """One xcodebuild run with the part's limit: its log, its exit code (or why it stopped) and its seconds."""
+        started = time.monotonic()
+        try:
+            p = run(base + args, timeout=PART_TIMEOUT)
+            return p.stdout + p.stderr, p.returncode, time.monotonic() - started
+        except subprocess.TimeoutExpired as exc:
+            run(["pkill", "-f", "xcodebuild -project " + str(XCODEPROJ)])
+            out = (exc.stdout or b"").decode("utf-8", "replace") if isinstance(exc.stdout, bytes) else (exc.stdout or "")
+            return out, f"timed out after {PART_TIMEOUT} s", time.monotonic() - started
+
+    # built once, then tested in parts (Round 2): no part waits on the build, and each has the stage's old limit to itself
+    log, code, took = step("build", ["build-for-testing"])
+    timings = [f"build {took / 60:.0f} min"]
+    failed = [] if code == 0 else [f"the build: {code if isinstance(code, str) else f'exit {code}'}"]
+    if code == 0:
+        for k, (name, selectors) in enumerate(test_parts(), 1):
+            bundle = TMP / f"battery-{k}.xcresult"
+            shutil.rmtree(bundle, ignore_errors=True)
+            out, rc, took = step(name, ["test-without-building", "-resultBundlePath", str(bundle)] + selectors)
+            log += f"\n===== {name} =====\n" + out
+            timings.append(f"{name} {took / 60:.0f} min")
+            if rc != 0:
+                failed.append(f"{name}: {rc if isinstance(rc, str) else f'exit {rc}'}")
+    code = 0 if not failed else "; ".join(failed)
     if not was_booted:  # a simulator the battery booted is shut down again, so no test process outlives the run
         run(["xcrun", "simctl", "shutdown", udid])
     (TMP / "xcodebuild.log").write_text(log, encoding="utf-8")
     warnings = sorted({l.strip() for l in log.splitlines() if ": warning: " in l and "/ios/Lensatic/" in l})
-    # each test bundle's own summary: the unit tests, then the UI tests
-    bundles = re.findall(r"Test Suite '(Lensatic\w*Tests)\.xctest' (?:passed|failed) at [^\n]*\n\s*Executed (\d+) tests?, with "
-                         r"(?:(\d+) tests? skipped and )?(\d+) failures?", log)
-    summary = "; ".join(f"{b}: {n} tests, {f} failed" + (f", {s} skipped" if s else "") for b, n, s, f in bundles) or "no test summary"
-    errs = [] if code == 0 else [f"xcodebuild: {code if isinstance(code, str) else f'exit {code}'} ({summary}); see .tmp/ios-check/xcodebuild.log"]
+    # each test bundle's own summary, added up over the parts: the unit tests, then the UI tests
+    totals: dict[str, list[int]] = {}
+    for b, n, sk, f in re.findall(r"Test Suite '(Lensatic\w*Tests)\.xctest' (?:passed|failed) at [^\n]*\n\s*Executed (\d+) tests?, with "
+                                  r"(?:(\d+) tests? skipped and )?(\d+) failures?", log):
+        t = totals.setdefault(b, [0, 0, 0])
+        t[0] += int(n); t[1] += int(sk or 0); t[2] += int(f)
+    summary = "; ".join(f"{b}: {n} tests, {f} failed" + (f", {sk} skipped" if sk else "") for b, (n, sk, f) in totals.items()) or "no test summary"
+    summary += " (" + ", ".join(timings) + f"; each part's limit {PART_TIMEOUT // 60} min)"
+    # every UI test the sources declare ran in exactly one part
+    declared = sum(len(ui_tests(p)) for p in sorted(UITESTS.glob("*.swift")))
+    errs = [] if code == 0 else [f"xcodebuild: {code} ({summary}); see .tmp/ios-check/xcodebuild.log"]
+    if code == 0 and totals.get("LensaticUITests", [0])[0] != declared:
+        errs.append(f"the parts ran {totals.get('LensaticUITests', [0])[0]} UI tests and the sources declare {declared}")
     errs += [f"warning in the app target: {w[:160]}" for w in warnings]
     rep.check("the app builds with no warning in the app target and its unit and UI tests pass on the newest iPhone simulator", errs,
               f"{name}: {summary}")
@@ -538,6 +588,13 @@ def main() -> int:
     args = ap.parse_args()
     rep = V.Report()
     check_static(rep)
+    # the test stage's parts (Round 2): every test a part names exists, and no test is named twice
+    declared = [t for p in sorted(UITESTS.glob("*.swift")) for t in ui_tests(p)]
+    errs = [f"{t} is named in the audits part and is not a UI test" for t in UI_AUDITS if t not in declared]
+    errs += [f"{t} is declared twice" for t in sorted(set(declared)) if declared.count(t) > 1]
+    errs += [f"{t} is in two parts" for t in UI_AUDITS if t in ui_tests(UITESTS / "FrameworksUITests.swift")]
+    rep.check("the UI suite's parts: every test a part names exists, none is in two parts, and the last part takes every other test", errs,
+              f"{len(declared)} UI tests in {len(test_parts()) - 1} parts")
     if args.no_xcode:
         rep.lines.append("SKIP  iOS Xcode stage (project generation, build and test): --no-xcode")
     else:

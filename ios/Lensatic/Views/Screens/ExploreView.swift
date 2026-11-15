@@ -495,7 +495,6 @@ struct LayerView: View {
                     } footer: {
                         ListNote(model.frameworks.label("alsoOnLayerLine"))
                     }
-                    .accessibilityIdentifier("layer-frameworks")
                 }
                 if !screen.solutionIds.isEmpty { entries("Validated solutions", screen.solutionIds) }
                 if let title = screen.socTitle {

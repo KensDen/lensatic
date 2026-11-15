@@ -1,10 +1,13 @@
+import AppIntents
 import SwiftUI
 import WidgetKit
 
 /// The home screen widget (the redesign, R3; Widget.dc.html): the days to the next dated deadline on the reader's path
 /// and the next step, or the next step alone when no deadline lies ahead. Small and medium. A tap opens that step on My
 /// Path. It reads the progress file the app keeps in the App Group's container, and the content bundled with it; it
-/// makes no network call.
+/// makes no network call. Since Lensatic 2.0 (Round 2) its settings offer a choice of deadline to count down to: left
+/// on Automatic it behaves as before, and a deadline picked there is counted down to whatever the trailhead. The choice
+/// is kept by iOS with the widget, on the device.
 @main
 struct LensaticWidgets: WidgetBundle {
     var body: some Widget { PathWidget() }
@@ -14,7 +17,7 @@ struct PathWidget: Widget {
     static let kind = "io.github.kensden.lensatic.path"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: PathWidget.kind, provider: PathProvider()) { entry in
+        AppIntentConfiguration(kind: PathWidget.kind, intent: PathWidgetSettings.self, provider: PathProvider()) { entry in
             PathWidgetView(entry: entry)
                 .containerBackground(Palette.bg2, for: .widget)
                 .widgetURL(entry.glance.link)
@@ -36,40 +39,84 @@ struct PathEntry: TimelineEntry {
     let glance: Glance
 }
 
-struct PathProvider: TimelineProvider {
+/// The widget's one setting: which deadline to count down to. None is Automatic.
+struct PathWidgetSettings: WidgetConfigurationIntent {
+    static let title: LocalizedStringResource = "Next Step"
+    static let description = IntentDescription("Choose a deadline for the widget to count down to, or leave it on Automatic.")
+
+    @Parameter(title: "Count Down To")
+    var deadline: DeadlineChoice?
+}
+
+/// A dated deadline from the bundled content, or Automatic.
+struct DeadlineChoice: AppEntity {
+    static let typeDisplayRepresentation: TypeDisplayRepresentation = "Deadline"
+    static let defaultQuery = DeadlineQuery()
+    static let automatic = DeadlineChoice(id: "automatic", title: "Automatic", detail: "The deadline on your path, as before")
+
+    let id: String
+    let title: String
+    let detail: String
+
+    var displayRepresentation: DisplayRepresentation { DisplayRepresentation(title: "\(title)", subtitle: "\(detail)") }
+
+    /// The id the glance takes: nil for Automatic.
+    var chosen: String? { id == DeadlineChoice.automatic.id ? nil : id }
+
+    static func all(today: Date = Date()) -> [DeadlineChoice] {
+        guard let store = try? ContentStore.bundled() else { return [automatic] }
+        return [automatic] + Glance.choices(store: store, today: today).map { c in
+            DeadlineChoice(id: c.id, title: c.title, detail: store.entities[c.id]?.shortName ?? "")
+        }
+    }
+}
+
+struct DeadlineQuery: EntityQuery {
+    func entities(for identifiers: [DeadlineChoice.ID]) async throws -> [DeadlineChoice] {
+        let all = DeadlineChoice.all()
+        return identifiers.compactMap { id in all.first { $0.id == id } }
+    }
+
+    func suggestedEntities() async throws -> [DeadlineChoice] { DeadlineChoice.all() }
+
+    func defaultResult() async -> DeadlineChoice? { DeadlineChoice.automatic }
+}
+
+struct PathProvider: AppIntentTimelineProvider {
     /// The gallery's sample: the department's path from the content, its third step next, as the mockup shows it.
     func placeholder(in context: Context) -> PathEntry {
         PathEntry(date: Date(), glance: PathProvider.sample() ?? Glance(door: nil, done: 0, total: 0, next: nil, countdown: nil))
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (PathEntry) -> Void) {
+    func snapshot(for settings: PathWidgetSettings, in context: Context) async -> PathEntry {
         let now = Date()
-        let live = PathProvider.glance(now)
+        let live = PathProvider.glance(now, deadline: settings.deadline?.chosen)
         // the widget gallery shows the sample until the reader has picked a trailhead
         let shown = context.isPreview && live?.door == nil ? PathProvider.sample() : live
-        completion(PathEntry(date: now, glance: shown ?? placeholder(in: context).glance))
+        return PathEntry(date: now, glance: shown ?? placeholder(in: context).glance)
     }
 
     /// Today's glance, then one at each of the next seven midnights, so the countdown turns over with the day; the app
     /// reloads the timeline whenever the reader checks a step.
-    func getTimeline(in context: Context, completion: @escaping (Timeline<PathEntry>) -> Void) {
+    func timeline(for settings: PathWidgetSettings, in context: Context) async -> Timeline<PathEntry> {
         let cal = Calendar.lensatic
         let now = Date()
+        let chosen = settings.deadline?.chosen
         var entries: [PathEntry] = []
-        if let g = PathProvider.glance(now) { entries.append(PathEntry(date: now, glance: g)) }
+        if let g = PathProvider.glance(now, deadline: chosen) { entries.append(PathEntry(date: now, glance: g)) }
         var day = cal.startOfDay(for: now)
         for _ in 0..<7 {
             guard let next = cal.date(byAdding: .day, value: 1, to: day) else { break }
             day = next
-            if let g = PathProvider.glance(day) { entries.append(PathEntry(date: day, glance: g)) }
+            if let g = PathProvider.glance(day, deadline: chosen) { entries.append(PathEntry(date: day, glance: g)) }
         }
-        completion(Timeline(entries: entries, policy: .after(day)))
+        return Timeline(entries: entries, policy: .after(day))
     }
 
-    static func glance(_ day: Date) -> Glance? {
+    static func glance(_ day: Date, deadline: String? = nil) -> Glance? {
         guard let store = try? ContentStore.bundled() else { return nil }
         let state = ProgressStore.state(from: ProgressStore.sharedURL.flatMap { try? Data(contentsOf: $0) })
-        return Glance(store: store, state: state, today: day)
+        return Glance(store: store, state: state, today: day, deadline: deadline)
     }
 
     static func sample() -> Glance? {

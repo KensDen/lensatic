@@ -167,13 +167,16 @@ struct FrameworksView: View {
                 if let a = model.compareA, let b = model.compareB, a != b { model.push(.pair(a, b)) }
             } label: {
                 Text(L.label("compareOpen")).font(DS.style(.subheadline).weight(.semibold))
-                    .foregroundStyle(ready ? Palette.bg2 : Palette.fg2)
+                    // not yet ready: the page's own text on the quiet fill, with a hairline, so it still reads at full contrast
+                    .foregroundStyle(ready ? Palette.bg2 : Palette.fg)
                     .frame(maxWidth: .infinity, minHeight: 44)
                     .background(ready ? Palette.link : Palette.bg3, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(ready ? Palette.link : Palette.line, lineWidth: 1))
                     .contentShape(Rectangle())
             }
             .buttonStyle(.plain)
-            .disabled(!ready)
+            // not disabled: the system dims a disabled control below the contrast floor. Until two are picked the button
+            // does nothing, looks quiet and says why
             .accessibilityHint(ready ? "" : L.label("compareHint"))
             .accessibilityIdentifier("compare-open")
         }
@@ -452,7 +455,7 @@ struct SourceRows: View {
 }
 
 /// A framework as one compact row (Round 2; the density of the Ledger direction): a square of its colour, its short
-/// name and kind, its size, and the days to its next dated deadline. One control; VoiceOver hears the card's sentence.
+/// name, its size, the days to its next dated deadline and where it sits. One control; VoiceOver hears the card's sentence.
 struct CompactFrameworkRow: View {
     @Environment(AppModel.self) private var model
     @Environment(\.dynamicTypeSize) private var typeSize
@@ -467,18 +470,15 @@ struct CompactFrameworkRow: View {
             RoundedRectangle(cornerRadius: 3, style: .continuous).fill(f.tone).frame(width: 10, height: 10).accessibilityHidden(true)
             VStack(alignment: .leading, spacing: 1) {
                 Text(keepDesignations(f.shortName)).font(DS.style(.body).weight(.semibold)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
-                ViewThatFits(in: .horizontal) {
-                    Text(dotted([f.kind, FrameworkCard.sizeShort(f)], separator: model.store.label("metaSeparator"))).lineLimit(1)
-                    Text(FrameworkCard.sizeShort(f)).lineLimit(1)
-                    Text(FrameworkCard.sizeShort(f)).fixedSize(horizontal: false, vertical: true)
-                }
-                .font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                // the size alone: the kind is on the card, and a second fact would wrap the row at this width
+                Text(FrameworkCard.sizeShort(f)).font(DS.style(.footnote)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             if let days, !typeSize.isAccessibilitySize {
                 Text(CountdownCard.count(days, labels: L)).font(DS.style(.footnote).weight(.semibold)).foregroundStyle(f.tone)
             }
-            Text(model.sitsShort(f)).font(DS.eyebrowSmall).foregroundStyle(Palette.fg2).lineLimit(1)
+            // never cut short: it keeps its own width, and the name beside it wraps instead
+            Text(model.sitsShort(f)).font(DS.eyebrowSmall).foregroundStyle(Palette.fg2).fixedSize()
             Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
         }
         .multilineTextAlignment(.leading)

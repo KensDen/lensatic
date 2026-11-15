@@ -55,12 +55,40 @@ struct Glance: Sendable, Equatable {
         self.countdown = countdown
     }
 
-    /// The glance for a progress state on a day.
-    init(store: ContentStore, state: ProgressStore.State, today: Date, calendar: Calendar = .lensatic) {
+    /// A dated deadline the widget can be set to count down to (Round 2, ruling 8): the entry that carries it and what
+    /// is due, as the widget's settings name it.
+    struct Choice: Sendable, Equatable, Identifiable {
+        let id: String
+        let title: String
+        let label: String
+        let date: String
+    }
+
+    /// Every dated deadline on the stack that has not passed, soonest first: the widget's choices.
+    static func choices(store: ContentStore, today: Date, calendar: Calendar = .lensatic) -> [Choice] {
+        (store.frameworks + store.sources).compactMap { e -> Choice? in
+            guard let due = e.authority.deadline.value?.due, let day = PathPlan.day(due.date),
+                  let days = PathPlan.days(from: today, to: day, calendar: calendar), days >= 0 else { return nil }
+            return Choice(id: e.id, title: "\(due.label), \(Rules.formatDate(due.date))", label: due.short, date: due.date)
+        }.sorted { $0.date < $1.date }
+    }
+
+    /// The countdown to a deadline the reader chose in the widget's settings, while it has not passed.
+    static func chosen(_ id: String?, store: ContentStore, today: Date, calendar: Calendar = .lensatic) -> Countdown? {
+        guard let id, let c = choices(store: store, today: today, calendar: calendar).first(where: { $0.id == id }), let day = PathPlan.day(c.date),
+              let days = PathPlan.days(from: today, to: day, calendar: calendar) else { return nil }
+        return Countdown(days: days, label: c.label, sourceId: c.id)
+    }
+
+    /// The glance for a progress state on a day. `deadline` is the reader's own choice in the widget's settings: when
+    /// it names a deadline that has not passed, the widget counts down to that one, whatever the trailhead; with no
+    /// choice the widget does what build 6 does, a deadline only where one binds the reader's trailhead.
+    init(store: ContentStore, state: ProgressStore.State, today: Date, calendar: Calendar = .lensatic, deadline: String? = nil) {
+        let picked = Glance.chosen(deadline, store: store, today: today, calendar: calendar)
         guard let id = state.door.flatMap(Door.ID.init(rawValue:)), let door = store.content.doors.first(where: { $0.id == id }) else {
             // Lensatic 2.0: before a trailhead is picked the widget still counts down to the next dated zero trust
             // deadline on the stack; once one is picked, only a deadline that binds that trailhead shows (PathPlan)
-            self.init(door: nil, done: 0, total: 0, next: nil, countdown: Glance.general(store: store, today: today, calendar: calendar))
+            self.init(door: nil, done: 0, total: 0, next: nil, countdown: picked ?? Glance.general(store: store, today: today, calendar: calendar))
             return
         }
         let plan = PathPlan(door: door, entities: store.entities)
@@ -71,7 +99,7 @@ struct Glance: Sendable, Equatable {
                  short: step.entityIds.first.flatMap { store.entities[$0]?.shortName } ?? step.title,
                  link: DeepLink.open(.step(id, step.order)))
         }
-        let countdown = plan.upcoming(today: today, calendar: calendar).flatMap { d in
+        let countdown = picked ?? plan.upcoming(today: today, calendar: calendar).flatMap { d in
             PathPlan.days(from: today, to: d.day, calendar: calendar).map { Countdown(days: $0, label: d.due.short, sourceId: d.sourceId) }
         }
         self.init(door: door.shortTitle, done: progress.done, total: progress.total, next: next, countdown: countdown)

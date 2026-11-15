@@ -22,6 +22,16 @@ Source checks, shown only when the reader asks (the app's Show Source Checks):
   recheck    an entry, its authority or one of its          dated the newest of the new verifiedOn dates (the
              documents is re-verified on a later day        verification log)
 
+The framework navigator (Lensatic 2.0, Round 2): the files under content/frameworks/ are compared release by release
+too, each framework by its own sources.
+  edition    a framework's first source moves to a new       dated that edition's own date; news
+             edition (ATT&CK v20.1 to the next)
+  recheck    a framework's sources are checked on a later    dated the newest of its sources' verifiedOn dates; a
+             day, or a framework is in the folder for the     source check, shown only when the reader asks
+             first time, its sources checked then
+A navigator item carries its framework's id (frameworkId), which the app opens, and the framework's own stack entry
+where it has one, so the item still marks the steps on a path that name that entry.
+
 The app's own additions are not news: an entry the map adds that its publisher put out long before, or a date the map
 records for a deadline its source has stated all along, makes no item. Wording and notes, short text for the app, roles
 and publishers' spellings are not items either. Each item names its entry,
@@ -47,6 +57,8 @@ OUT = ROOT / "content" / "changes.json"
 # the first release the list covers: content 1.2.0 made the trailheads and their steps, which the items point into
 FIRST = (1, 2, 0)
 EM_DASH = "—"
+# each release's last commit, filled by releases(); None is the working tree
+COMMITS: dict[str, str | None] = {}
 TOKEN = re.compile(r"\{\{\s*([^}]+?)\s*\}\}")
 
 
@@ -61,6 +73,7 @@ def releases() -> list[dict]:
     if log.returncode:
         sys.exit(f"build_changes: git log failed: {log.stderr.strip()[:200]}")
     by_version: dict[str, dict] = {}
+    COMMITS.clear()
     for commit in log.stdout.split():
         show = subprocess.run(["git", "-C", str(ROOT), "show", f"{commit}:content/stack.json"], capture_output=True, text=True)
         if show.returncode:
@@ -70,9 +83,46 @@ def releases() -> list[dict]:
         except json.JSONDecodeError:
             continue
         by_version[data["meta"]["contentVersion"]] = data
+        COMMITS[data["meta"]["contentVersion"]] = commit
     current = json.loads(STACK.read_text(encoding="utf-8"))
     by_version[current["meta"]["contentVersion"]] = current
+    COMMITS[current["meta"]["contentVersion"]] = None  # the release being built is the working tree
     return [by_version[v] for v in sorted(by_version, key=version)]
+
+
+def frameworks_at(commit: str | None) -> dict[str, dict]:
+    """The navigator's frameworks at a commit (the working tree when None), by id, in the catalog's order; none before
+    the folder existed."""
+    def read(name: str) -> dict | None:
+        if commit is None:
+            p = ROOT / "content" / "frameworks" / name
+            return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
+        show = subprocess.run(["git", "-C", str(ROOT), "show", f"{commit}:content/frameworks/{name}"], capture_output=True, text=True)
+        return json.loads(show.stdout) if show.returncode == 0 else None
+    catalog = read("catalog.json")
+    if not catalog:
+        return {}
+    return {i: f for i in catalog["frameworks"] if (f := read(f"{i}.json"))}
+
+
+def navigator_diff(old: dict[str, dict], new: dict[str, dict], rel: str, day: str) -> list[dict]:
+    items: list[dict] = []
+    for fid, f in new.items():
+        if not f.get("sources"):
+            continue  # a card that rests on its stack entry alone: the entry's own items speak for it
+        short, was = f["shortName"], old.get(fid)
+        def item(kind: str, title: str, date: str) -> None:
+            items.append({"id": f"{rel}/framework:{fid}/{kind}", "release": rel, "released": day, "date": date, "kind": kind,
+                          "entityId": f.get("entityId", ""), "title": title, "frameworkId": fid})
+        first = f["sources"][0]
+        if was and was.get("sources") and was["sources"][0]["edition"] != first["edition"]:
+            item("edition", f"{short} moves to a new edition", first["date"] if len(first["date"]) == 10 else day)
+        checked = sorted(s["verification"]["verifiedOn"] for s in f["sources"] if s["verification"].get("verifiedOn"))
+        before = sorted(s["verification"]["verifiedOn"] for s in (was or {}).get("sources", []) if s["verification"].get("verifiedOn"))
+        if checked and (not before or checked[-1] > before[-1]):
+            item("recheck", f"{short} checked against its source", checked[-1])
+    order = {"edition": 0, "recheck": 1}
+    return sorted(items, key=lambda i: order[i["kind"]])
 
 
 def entities(data: dict) -> dict[str, dict]:
@@ -154,7 +204,9 @@ def build() -> dict:
     items: list[dict] = []
     for old, new in zip(rels, rels[1:]):
         if version(new["meta"]["contentVersion"]) >= FIRST:
-            items = diff(old, new, short_titles) + items
+            nav = navigator_diff(frameworks_at(COMMITS[old["meta"]["contentVersion"]]), frameworks_at(COMMITS[new["meta"]["contentVersion"]]),
+                                 new["meta"]["contentVersion"], new["meta"]["builtOn"])
+            items = diff(old, new, short_titles) + nav + items
     for i in items:
         t = i["title"]
         if EM_DASH in t or "–" in t or t.endswith(".") or len(t) > 60 or not t[:1].isupper():

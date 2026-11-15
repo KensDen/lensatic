@@ -14,6 +14,8 @@ struct Changes: Decodable, Sendable {
     struct Item: Decodable, Sendable, Identifiable, Hashable {
         enum Kind: String, Decodable, Sendable {
             case added, removed, document, deadline, status, link, recheck
+            /// A framework of the navigator moves to a new edition (Lensatic 2.0, Round 2).
+            case edition
 
             /// A check against the source (a recheck, a status it changed), not news: behind Show Source Checks.
             var isCheck: Bool { self == .recheck || self == .status }
@@ -28,6 +30,7 @@ struct Changes: Decodable, Sendable {
                 case .link: return "New link"
                 case .status: return "Status"
                 case .recheck: return "Source check"
+                case .edition: return "New edition"
                 }
             }
         }
@@ -40,6 +43,12 @@ struct Changes: Decodable, Sendable {
         let kind: Kind
         let entityId: String
         let title: String
+        /// The navigator's framework the item is about (Lensatic 2.0, Round 2): the item opens that framework. Its
+        /// `entityId` is then the framework's own stack entry, or empty where it has none.
+        let frameworkId: String?
+
+        /// The screen an item opens: its framework in the navigator, or its entry's card.
+        var opens: Nav { frameworkId.map(Nav.framework) ?? .entity(entityId) }
     }
 
     let contentVersion: String
@@ -113,7 +122,8 @@ struct Changes: Decodable, Sendable {
     /// The line under an item, the same on every row: what kind of change, its day, and its entry's short name
     /// ("New document · 8 Oct 2026 · NSA ZT guidance").
     static func line(_ item: Item, store: ContentStore) -> String {
-        let name = store.entities[item.entityId]?.shortName
+        // a navigator item's title already names its framework; an entry's item adds the entry's short name
+        let name = item.frameworkId == nil ? store.entities[item.entityId]?.shortName : nil
         return [item.kind.label, Rules.formatDate(item.date), name].compactMap { $0 }.joined(separator: store.label("metaSeparator"))
     }
 

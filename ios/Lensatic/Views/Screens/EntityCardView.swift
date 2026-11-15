@@ -57,6 +57,27 @@ struct EntityCardView: View {
                     // the one-liner; the short summary (content 1.2.19) stands for it only where the Read More rule holds,
                     // which no entry meets today (each one-liner adds 4 to 16 words), so the card shows the one-liner whole
                     ExpandableText(short: e.shortSummary, full: e.oneLiner, identifier: "card-summary")
+                    // one layer model (Round 2): the same framework's card in the Frameworks tab, with its structure; under the
+                    // one-liner, so it is on the card's first screen
+                    if let f = model.frameworks.framework(forEntity: e.id) {
+                        Button { model.show(.framework(f.id)) } label: {
+                            HStack(spacing: 12) {
+                                FrameworkTile(framework: f, base: 30)
+                                VStack(alignment: .leading, spacing: 1) {
+                                    Text(model.frameworks.label("inFrameworks")).font(DS.style(.body)).foregroundStyle(.primary)
+                                    Text(f.nodes.isEmpty ? f.kind : FrameworkCard.sizeShort(f)).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
+                            }
+                            .frame(minHeight: 44)
+                            .padding(.vertical, -8)
+                            .lxCard(radius: 14)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityElement(children: .combine)
+                        .accessibilityIdentifier("card-framework")
+                    }
                     StatTileRow {
                         StatTile(label: model.store.label("binds"), value: facts.binds)
                         StatTile(label: "Due", value: facts.due)
@@ -107,26 +128,6 @@ struct EntityCardView: View {
                             .padding(.vertical, -8)
                             .lxCard(radius: 14)
                         }
-                    }
-                    // one layer model (Round 2): the same framework's card in the Frameworks tab, with its structure
-                    if let f = model.frameworks.framework(forEntity: e.id) {
-                        Button { model.show(.framework(f.id)) } label: {
-                            HStack(spacing: 12) {
-                                FrameworkTile(framework: f, base: 30)
-                                VStack(alignment: .leading, spacing: 1) {
-                                    Text(model.frameworks.label("inFrameworks")).font(DS.style(.body)).foregroundStyle(.primary)
-                                    Text(f.nodes.isEmpty ? f.kind : FrameworkCard.sizeShort(f)).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
-                                }
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
-                            }
-                            .frame(minHeight: 44)
-                            .padding(.vertical, -8)
-                            .lxCard(radius: 14)
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityElement(children: .combine)
-                        .accessibilityIdentifier("card-framework")
                     }
                     if typeSize.isAccessibilitySize { footer(e, facts).padding(.horizontal, -20) }
                 }

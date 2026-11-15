@@ -266,7 +266,9 @@ struct SearchIndex: Sendable {
             if let s = SearchIndex.score(item, words: words, phrase: phrase) { hits.append((item, s, i)) }
         }
         let byIdentifier = elements(matching: phrase)
-        return Kind.allCases.compactMap { kind in
+        // a query that is an identifier wants that element: its group comes first, ahead of the words the query also matches
+        let order = byIdentifier.isEmpty ? Kind.allCases : [.element] + Kind.allCases.filter { $0 != .element }
+        return order.compactMap { kind in
             if kind == .element { return byIdentifier.isEmpty ? nil : Group(kind: kind, results: byIdentifier) }
             let found = hits.filter { $0.0.kind == kind }.sorted {
                 $0.1 != $1.1 ? $0.1 > $1.1 : $0.0.title.count != $1.0.title.count ? $0.0.title.count < $1.0.title.count : $0.2 < $1.2

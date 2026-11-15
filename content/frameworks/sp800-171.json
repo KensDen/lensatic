@@ -1152,7 +1152,7 @@
         "03.01"
       ],
       "title": "Account Management",
-      "text": "a. Define the types of system accounts allowed and prohibited. b. Create, enable, modify, disable, and remove system accounts in accordance with policy, procedures, prerequisites, and criteria. c. Specify: 01. Authorized users of the system, 02. Group and role membership, and 03. Access authorizations (i.e., privileges) for each account. d. Authorize access to the system based on: 01. A valid access authorization and 02. Intended system usage. e. Monitor the use of system accounts. f. Disable system accounts when: 01. The accounts have expired, 02. The accounts have been inactive for [Assignment: organization-defined time period], 03. The accounts are no longer associated with a user or individual, 04. The accounts are in violation of organizational policy, or 05. Significant risks associated with individuals are discovered. g. Notify account managers and designated personnel or roles within: 01. [Assignment: organization-defined time period] when accounts are no longer required. 02. [Assignment: organization-defined time period] when users are terminated or transferred. 03. [Assignment: organization-defined time period] when system usage or the need-to-know changes for an individual. h. Require that users log out of the system after [Assignment: organization-defined time period] of expected inactivity or when [Assignment: organization-defined circumstances]."
+      "text": "a. Define the types of system accounts allowed and prohibited. b. Create, enable, modify, disable, and remove system accounts in accordance with policy, procedures, prerequisites, and criteria. c. Specify: 1. Authorized users of the system, 2. Group and role membership, and 3. Access authorizations (i.e., privileges) for each account. d. Authorize access to the system based on: 1. A valid access authorization and 2. Intended system usage. e. Monitor the use of system accounts. f. Disable system accounts when: 1. The accounts have expired, 2. The accounts have been inactive for [Assignment: organization-defined time period], 3. The accounts are no longer associated with a user or individual, 4. The accounts are in violation of organizational policy, or 5. Significant risks associated with individuals are discovered. g. Notify account managers and designated personnel or roles within: 1. [Assignment: organization-defined time period] when accounts are no longer required. 2. [Assignment: organization-defined time period] when users are terminated or transferred. 3. [Assignment: organization-defined time period] when system usage or the need-to-know changes for an individual. h. Require that users log out of the system after [Assignment: organization-defined time period] of expected inactivity or when [Assignment: organization-defined circumstances]."
     },
     {
       "id": "03.01.02",
@@ -1278,7 +1278,7 @@
         "03.01"
       ],
       "title": "Use of External Systems",
-      "text": "a. Prohibit the use of external systems unless the systems are specifically authorized. b. Establish the following security requirements to be satisfied on external systems prior to allowing use of or access to those systems by authorized individuals: [Assignment: organization-defined security requirements]. c. Permit authorized individuals to use external systems to access the organizational system or to process, store, or transmit CUI only after: 01. Verifying that the security requirements on the external systems as specified in the organization’s system security plans have been satisfied and 02. Retaining approved system connection or processing agreements with the organizational entities hosting the external systems. d. Restrict the use of organization-controlled portable storage devices by authorized individuals on external systems."
+      "text": "a. Prohibit the use of external systems unless the systems are specifically authorized. b. Establish the following security requirements to be satisfied on external systems prior to allowing use of or access to those systems by authorized individuals: [Assignment: organization-defined security requirements]. c. Permit authorized individuals to use external systems to access the organizational system or to process, store, or transmit CUI only after: 1. Verifying that the security requirements on the external systems as specified in the organization’s system security plans have been satisfied and 2. Retaining approved system connection or processing agreements with the organizational entities hosting the external systems. d. Restrict the use of organization-controlled portable storage devices by authorized individuals on external systems."
     },
     {
       "id": "03.01.22",
@@ -1304,7 +1304,7 @@
         "03.02"
       ],
       "title": "Literacy Training and Awareness",
-      "text": "a. Provide security literacy training to system users: 01. As part of initial training for new users and [Assignment: organization-defined frequency] thereafter, 02. When required by system changes or following [Assignment: organization-defined events], and 03. On recognizing and reporting indicators of insider threat, social engineering, and social mining. b. Update security literacy training content [Assignment: organization-defined frequency] and following [Assignment: organization-defined events]."
+      "text": "a. Provide security literacy training to system users: 1. As part of initial training for new users and [Assignment: organization-defined frequency] thereafter, 2. When required by system changes or following [Assignment: organization-defined events], and 3. On recognizing and reporting indicators of insider threat, social engineering, and social mining. b. Update security literacy training content [Assignment: organization-defined frequency] and following [Assignment: organization-defined events]."
     },
     {
       "id": "03.02.02",
@@ -1313,7 +1313,7 @@
         "03.02"
       ],
       "title": "Role-Based Training",
-      "text": "a. Provide role-based security training to organizational personnel: 01. Before authorizing access to the system or CUI, before performing assigned duties, and [Assignment: organization-defined frequency] thereafter 02. When required by system changes or following [Assignment: organization-defined events]. b. Update role-based training content [Assignment: organization-defined frequency] and following [Assignment: organization-defined events]."
+      "text": "a. Provide role-based security training to organizational personnel: 1. Before authorizing access to the system or CUI, before performing assigned duties, and [Assignment: organization-defined frequency] thereafter 2. When required by system changes or following [Assignment: organization-defined events]. b. Update role-based training content [Assignment: organization-defined frequency] and following [Assignment: organization-defined events]."
     },
     {
       "id": "03.03",
@@ -1339,7 +1339,7 @@
         "03.03"
       ],
       "title": "Audit Record Content",
-      "text": "a. Include the following content in audit records: 01. What type of event occurred 02. When the event occurred 03. Where the event occurred 04. Source of the event 05. Outcome of the event 06. Identity of the individuals, subjects, objects, or entities associated with the event b. Provide additional information for audit records as needed."
+      "text": "a. Include the following content in audit records: 1. What type of event occurred 2. When the event occurred 3. Where the event occurred 4. Source of the event 5. Outcome of the event 6. Identity of the individuals, subjects, objects, or entities associated with the event b. Provide additional information for audit records as needed."
     },
     {
       "id": "03.03.03",
@@ -1615,7 +1615,7 @@
         "03.06"
       ],
       "title": "Incident Response Training",
-      "text": "a. Provide incident response training to system users consistent with assigned roles and responsibilities: 01. Within [Assignment: organization-defined time period] of assuming an incident response role or responsibility or acquiring system access, 02. When required by system changes, and 03. [Assignment: organization-defined frequency] thereafter. b. Review and update incident response training content [Assignment: organization-defined frequency] and following [Assignment: organization-defined events]."
+      "text": "a. Provide incident response training to system users consistent with assigned roles and responsibilities: 1. Within [Assignment: organization-defined time period] of assuming an incident response role or responsibility or acquiring system access, 2. When required by system changes, and 3. [Assignment: organization-defined frequency] thereafter. b. Review and update incident response training content [Assignment: organization-defined frequency] and following [Assignment: organization-defined events]."
     },
     {
       "id": "03.06.05",
@@ -1624,7 +1624,7 @@
         "03.06"
       ],
       "title": "Incident Response Plan",
-      "text": "a. Develop an incident response plan that: 01. Provides the organization with a roadmap for implementing its incident response capability, 02. Describes the structure and organization of the incident response capability, 03. Provides a high-level approach for how the incident response capability fits into the overall organization, 04. Defines reportable incidents, 05. Addresses the sharing of incident information, and 06. Designates responsibilities to organizational entities, personnel, or roles. b. Distribute copies of the incident response plan to designated incident response personnel (identified by name and/or by role) and organizational elements. c. Update the incident response plan to address system and organizational changes or problems encountered during plan implementation, execution, or testing. d. Protect the incident response plan from unauthorized disclosure."
+      "text": "a. Develop an incident response plan that: 1. Provides the organization with a roadmap for implementing its incident response capability, 2. Describes the structure and organization of the incident response capability, 3. Provides a high-level approach for how the incident response capability fits into the overall organization, 4. Defines reportable incidents, 5. Addresses the sharing of incident information, and 6. Designates responsibilities to organizational entities, personnel, or roles. b. Distribute copies of the incident response plan to designated incident response personnel (identified by name and/or by role) and organizational elements. c. Update the incident response plan to address system and organizational changes or problems encountered during plan implementation, execution, or testing. d. Protect the incident response plan from unauthorized disclosure."
     },
     {
       "id": "03.07",
@@ -1756,7 +1756,7 @@
         "03.09"
       ],
       "title": "Personnel Termination and Transfer",
-      "text": "a. When individual employment is terminated: 01. Disable system access within [Assignment: organization-defined time period], 02. Terminate or revoke authenticators and credentials associated with the individual, and 03. Retrieve security-related system property. b. When individuals are reassigned or transferred to other positions in the organization: 01. Review and confirm the ongoing operational need for current logical and physical access authorizations to the system and facility, and 02. Modify access authorization to correspond with any changes in operational need."
+      "text": "a. When individual employment is terminated: 1. Disable system access within [Assignment: organization-defined time period], 2. Terminate or revoke authenticators and credentials associated with the individual, and 3. Retrieve security-related system property. b. When individuals are reassigned or transferred to other positions in the organization: 1. Review and confirm the ongoing operational need for current logical and physical access authorizations to the system and facility, and 2. Modify access authorization to correspond with any changes in operational need."
     },
     {
       "id": "03.10",
@@ -1800,7 +1800,7 @@
         "03.10"
       ],
       "title": "Physical Access Control",
-      "text": "a. Enforce physical access authorizations at entry and exit points to the facility where the system resides by: 01. Verifying individual physical access authorizations before granting access to the facility and 02. Controlling ingress and egress with physical access control systems, devices, or guards. b. Maintain physical access audit logs for entry or exit points. c. Escort visitors, and control visitor activity. d. Secure keys, combinations, and other physical access devices. e. Control physical access to output devices to prevent unauthorized individuals from obtaining access to CUI."
+      "text": "a. Enforce physical access authorizations at entry and exit points to the facility where the system resides by: 1. Verifying individual physical access authorizations before granting access to the facility and 2. Controlling ingress and egress with physical access control systems, devices, or guards. b. Maintain physical access audit logs for entry or exit points. c. Escort visitors, and control visitor activity. d. Secure keys, combinations, and other physical access devices. e. Control physical access to output devices to prevent unauthorized individuals from obtaining access to CUI."
     },
     {
       "id": "03.10.08",
@@ -1870,7 +1870,7 @@
         "03.12"
       ],
       "title": "Plan of Action and Milestones",
-      "text": "a. Develop a plan of action and milestones for the system: 01. To document the planned remediation actions to correct weaknesses or deficiencies noted during security assessments and 02. To reduce or eliminate known system vulnerabilities. b. Update the existing plan of action and milestones based on the findings from: 01. Security assessments, 02. Audits or reviews, and 03. Continuous monitoring activities."
+      "text": "a. Develop a plan of action and milestones for the system: 1. To document the planned remediation actions to correct weaknesses or deficiencies noted during security assessments and 2. To reduce or eliminate known system vulnerabilities. b. Update the existing plan of action and milestones based on the findings from: 1. Security assessments, 2. Audits or reviews, and 3. Continuous monitoring activities."
     },
     {
       "id": "03.12.03",
@@ -2012,7 +2012,7 @@
         "03.14"
       ],
       "title": "Malicious Code Protection",
-      "text": "a. Implement malicious code protection mechanisms at system entry and exit points to detect and eradicate malicious code. b. Update malicious code protection mechanisms as new releases are available in accordance with configuration management policies and procedures. c. Configure malicious code protection mechanisms to: 01. Perform scans of the system [Assignment: organization-defined frequency] and real-time scans of files from external sources at endpoints or system entry and exit points as the files are downloaded, opened, or executed; and 02. Block malicious code, quarantine malicious code, or take other mitigation actions in response to malicious code detection."
+      "text": "a. Implement malicious code protection mechanisms at system entry and exit points to detect and eradicate malicious code. b. Update malicious code protection mechanisms as new releases are available in accordance with configuration management policies and procedures. c. Configure malicious code protection mechanisms to: 1. Perform scans of the system [Assignment: organization-defined frequency] and real-time scans of files from external sources at endpoints or system entry and exit points as the files are downloaded, opened, or executed; and 2. Block malicious code, quarantine malicious code, or take other mitigation actions in response to malicious code detection."
     },
     {
       "id": "03.14.03",
@@ -2030,7 +2030,7 @@
         "03.14"
       ],
       "title": "System Monitoring",
-      "text": "a. Monitor the system to detect: 01. Attacks and indicators of potential attacks and 02. Unauthorized connections. b. Identify unauthorized use of the system. c. Monitor inbound and outbound communications traffic to detect unusual or unauthorized activities or conditions."
+      "text": "a. Monitor the system to detect: 1. Attacks and indicators of potential attacks and 2. Unauthorized connections. b. Identify unauthorized use of the system. c. Monitor inbound and outbound communications traffic to detect unusual or unauthorized activities or conditions."
     },
     {
       "id": "03.14.08",
@@ -2065,7 +2065,7 @@
         "03.15"
       ],
       "title": "System Security Plan",
-      "text": "a. Develop a system security plan that: 01. Defines the constituent system components; 02. Identifies the information types processed, stored, and transmitted by the system; 03. Describes specific threats to the system that are of concern to the organization; 04. Describes the operational environment for the system and any dependencies on or connections to other systems or system components; 05. Provides an overview of the security requirements for the system; 06. Describes the safeguards in place or planned for meeting the security requirements; 07. Identifies individuals that fulfill system roles and responsibilities; and 08. Includes other relevant information necessary for the protection of CUI. b. Review and update the system security plan [Assignment: organization-defined frequency]. c. Protect the system security plan from unauthorized disclosure."
+      "text": "a. Develop a system security plan that: 1. Defines the constituent system components; 2. Identifies the information types processed, stored, and transmitted by the system; 3. Describes specific threats to the system that are of concern to the organization; 4. Describes the operational environment for the system and any dependencies on or connections to other systems or system components; 5. Provides an overview of the security requirements for the system; 6. Describes the safeguards in place or planned for meeting the security requirements; 7. Identifies individuals that fulfill system roles and responsibilities; and 8. Includes other relevant information necessary for the protection of CUI. b. Review and update the system security plan [Assignment: organization-defined frequency]. c. Protect the system security plan from unauthorized disclosure."
     },
     {
       "id": "03.15.03",

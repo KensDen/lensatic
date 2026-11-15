@@ -447,7 +447,7 @@ struct ChangeRow: View {
 
     var body: some View {
         if inList {
-            NavigationLink(value: Nav.entity(item.entityId)) {
+            NavigationLink(value: item.opens) {
                 HStack(alignment: .firstTextBaseline, spacing: 10) {
                     if isNew { Circle().fill(Palette.accent).frame(width: 8, height: 8).accessibilityHidden(true) }
                     VStack(alignment: .leading, spacing: 2) {
@@ -469,7 +469,7 @@ struct ChangeRow: View {
     }
 
     private var card: some View {
-        Button { model.push(.entity(item.entityId)) } label: {
+        Button { model.push(item.opens) } label: {
             HStack(alignment: .firstTextBaseline, spacing: 10) {
                 if isNew { Circle().fill(Palette.accent).frame(width: 8, height: 8).accessibilityHidden(true) }
                 VStack(alignment: .leading, spacing: 2) {

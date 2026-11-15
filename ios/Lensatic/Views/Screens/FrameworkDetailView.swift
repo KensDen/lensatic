@@ -13,6 +13,9 @@ struct FrameworkDetailView: View {
         let L = model.frameworks
         if let f = L.byId[id], let graph = L.graphs[id] {
             let deadline = L.upcoming(f, store: model.store, today: today)
+            // the screen's running text goes through the map's first-use rule (Round 2): an abbreviation the glossary
+            // holds is spelled out where it first appears on the screen and opens its entry
+            let words = model.screen("framework-prose-\(id)") { FrameworkProse(f, cardOnly: L.label("cardOnly"), rules: model.store.rules) }
             ListScreen(eyebrow: L.group(f.group)?.name, eyebrowColor: f.tone, title: f.name, identifier: "framework-screen", saves: .framework(f.id)) {
                 SwiftUI.Section {
                     VStack(alignment: .leading, spacing: 8) {
@@ -22,11 +25,11 @@ struct FrameworkDetailView: View {
                         }
                         Text(f.purpose).font(DS.style(.headline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
                             .accessibilityIdentifier("framework-purpose")
-                        Text(f.what).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                        ProseText(run: words.prose[words.what], font: DS.style(.subheadline), color: Palette.fg2)
                         // what the screen does not show, said at the top and not left for the reader to find out
-                        if let note = f.note ?? (f.nodes.isEmpty ? L.label("cardOnly") : nil) {
+                        if let note = words.note {
                             Label {
-                                Text(note).font(DS.style(.subheadline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                                ProseText(run: words.prose[note], font: DS.style(.subheadline), color: .primary)
                             } icon: {
                                 Image(systemName: "info.circle").foregroundStyle(f.tone).accessibilityHidden(true)
                             }
@@ -50,8 +53,8 @@ struct FrameworkDetailView: View {
                     }
                 }
                 SwiftUI.Section {
-                    FactRow(label: L.label("binds"), short: f.binds.short, line: f.binds.line)
-                    FactRow(label: L.label("verified"), short: f.verifiedBy.short, line: f.verifiedBy.line)
+                    FactRow(label: L.label("binds"), short: f.binds.short, line: f.binds.line, run: words.prose[words.binds])
+                    FactRow(label: L.label("verified"), short: f.verifiedBy.short, line: f.verifiedBy.line, run: words.prose[words.verified])
                     FactRow(label: L.label("size"), short: f.size.map { "\(Rules.grouped($0.count)) \($0.unit)" }.joined(separator: model.store.label("metaSeparator")), line: nil)
                     HStack(alignment: .top, spacing: 12) {
                         FactRow(label: L.label("sits"), short: model.sitsLabel(f), line: f.sits.line)
@@ -218,12 +221,18 @@ struct FactRow: View {
     let label: String
     let short: String
     let line: String?
+    /// The line as a run of the screen's prose, where the screen spells abbreviations out at first use.
+    var run: Run?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(label).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
             Text(short).font(DS.style(.headline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
-            if let line { Text(line).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true) }
+            if let run {
+                ProseText(run: run, font: DS.style(.subheadline), color: Palette.fg2)
+            } else if let line {
+                Text(line).font(DS.style(.subheadline)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 2)
@@ -282,7 +291,7 @@ struct NodeView: View {
             // where the node sits: the framework, its level, and for a deeper node the one above it ("CISA ZTMM · Stage · Authentication")
             let parent = node.parents.first.flatMap { graph.node($0) }
             let above = graph.identified(node) ? nil : parent.flatMap { p in graph.identified(p) ? nil : p.title }
-            ListScreen(eyebrow: dotted([f.shortName, node.title == nil && graph.identified(node) ? nil : level?.name, above].compactMap { $0 }, separator: model.store.label("metaSeparator")),
+            ListScreen(eyebrow: dotted([f.shortName, level?.name, above].compactMap { $0 }, separator: model.store.label("metaSeparator")),
                        eyebrowColor: f.tone,
                        // a node the publisher gives only a sentence is named by its level: "Subcategory GV.OC-01"; one at a
                        // level the publisher does not number is named by its title alone
@@ -483,5 +492,25 @@ struct FlowBadges: View {
         FlowLayout {
             ForEach(ids, id: \.self) { NodeBadge(id: $0, tone: tone) }
         }
+    }
+}
+
+/// A framework screen's running text, as runs under the map's rules (Round 2): what it is, the note at the top, who it
+/// binds and how it is assessed, in the order they are read, so each abbreviation is spelled out once, where it first
+/// appears, and opens its glossary entry.
+struct FrameworkProse {
+    let prose: Prose
+    let what: Int
+    let note: Int?
+    let binds: Int
+    let verified: Int
+
+    init(_ f: Framework, cardOnly: String, rules: Rules) {
+        var b = ProseBuilder()
+        what = b.text(f.what)
+        note = (f.note ?? (f.nodes.isEmpty ? cardOnly : nil)).map { b.text($0) }
+        binds = b.text(f.binds.line)
+        verified = b.text(f.verifiedBy.line)
+        prose = b.applied(rules)
     }
 }

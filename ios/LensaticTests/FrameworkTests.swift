@@ -423,6 +423,7 @@ final class FrameworkTests: XCTestCase {
         XCTAssertEqual(g171.node("03.01.01")?.title, "Account Management")
         XCTAssertNil(g171.node("03.01.13"), "a withdrawn number is not listed")
         XCTAssertNil(g171.node("3.1.1")?.title, "Revision 2 gives a requirement a statement and no title")
+        XCTAssertTrue(try XCTUnwrap(g171.node("03.09.02")?.text).contains("terminated: 1. Disable system access"), "a numbered part reads as the publication prints it, not as the data file numbers it")
         // CMMC: the two levels the rule states itself, and Level 2 as a set on SP 800-171 Revision 2
         let cmmc = try XCTUnwrap(lib.byId["cmmc"]), gc = try XCTUnwrap(lib.graphs["cmmc"])
         XCTAssertEqual(gc.descendants(of: "level-1").filter { $0.level == "requirement" }.count, 15)
@@ -444,7 +445,7 @@ final class FrameworkTests: XCTestCase {
         let zt = try XCTUnwrap(lib.byId["dod-zt"])
         XCTAssertEqual([count("dod-zt", "pillar"), count("dod-zt", "capability"), count("dod-zt", "activity")], [7, 45, 152])
         XCTAssertEqual(zt.sets.map(\.members.count), [91, 61])
-        XCTAssertEqual(lib.graphs["dod-zt"]?.roots.map(\.title).last, "Visibility & Analytics")
+        XCTAssertEqual(lib.graphs["dod-zt"]?.roots.map(\.title).last, "Visibility and Analytics", "as the department's own table prints it")
         // the adversary column: all three knowledge bases by identifier and name, each with its notice
         XCTAssertEqual(count("d3fend", "technique"), 271)
         XCTAssertEqual(lib.byId["d3fend"]?.depth.value?.of, 272)
@@ -569,5 +570,28 @@ final class FrameworkTests: XCTestCase {
         XCTAssertTrue(ProgressStore(url: url).frameworksCompact)
         // a file from before Round 2 reads as cards
         XCTAssertFalse(ProgressStore.state(from: Data(#"{"door":"dow"}"#.utf8)).frameworksCompact)
+    }
+
+    /// The widget's choice of deadline (ruling 8): Automatic is build 6's behaviour, a deadline only where one binds the
+    /// reader's trailhead (and the zero trust countdown before a trailhead is picked); a deadline the reader picks in the
+    /// widget's settings is counted down to whatever the trailhead, until it passes.
+    func testTheWidgetCountsDownToTheDeadlineTheReaderChooses() throws {
+        let today = day("2026-11-14")
+        XCTAssertEqual(Glance.choices(store: store, today: today).map(\.id), ["fedramp", "dod-zt-strategy"])
+        XCTAssertEqual(Glance.choices(store: store, today: day("2027-01-02")).map(\.id), ["dod-zt-strategy"])
+        let none = ProgressStore.State()
+        XCTAssertEqual(Glance(store: store, state: none, today: today).countdown?.label, "Target Level")
+        XCTAssertEqual(Glance(store: store, state: none, today: today, deadline: "fedramp").countdown, .init(days: 48, label: "2026 rules", sourceId: "fedramp"))
+        // a contractor's path has no dated deadline: Automatic shows none, as build 6 does; a chosen one shows
+        let contractor = ProgressStore.State(door: "defense-contractor")
+        XCTAssertNil(Glance(store: store, state: contractor, today: today).countdown)
+        XCTAssertEqual(Glance(store: store, state: contractor, today: today, deadline: "dod-zt-strategy").countdown?.days, 320)
+        // the department's path keeps its own deadline on Automatic, and takes the reader's choice when there is one
+        let dow = ProgressStore.State(door: "dow")
+        XCTAssertEqual(Glance(store: store, state: dow, today: today).countdown?.label, "Target Level")
+        XCTAssertEqual(Glance(store: store, state: dow, today: today, deadline: "fedramp").countdown?.label, "2026 rules")
+        // a chosen deadline that has passed, or a choice the content no longer has, falls back to Automatic
+        XCTAssertEqual(Glance(store: store, state: dow, today: day("2027-01-02"), deadline: "fedramp").countdown?.label, "Target Level")
+        XCTAssertNil(Glance(store: store, state: contractor, today: today, deadline: "nope").countdown)
     }
 }

@@ -55,7 +55,7 @@
         "status": "verified",
         "verifiedOn": "2026-09-30",
         "method": "primary-fetch",
-        "note": "Parsed by script from the copy of this document saved from the CIO library on 30 September 2026: 7 pillars, 45 capabilities and 152 activities, of which the table marks 91 Target Level and 61 Advanced Level, the totals the Zero Trust Execution Roadmap v1.1 prints. Three capabilities hold only Advanced activities (3.5, 6.4 and 7.6), which gives the roadmap’s 42 and 3. The 45 capability names equal the names verified for the map in September. One activity’s name, 6.5.3, differs from the department’s print by one capital letter, which Lensatic’s own naming rule sets in lower case. On 14 November 2026 the library and the document answered a script with 403, so the edition was not read again that day; open the library in a browser to confirm v1.1 is still current.",
+        "note": "Parsed by script from the copy of this document saved from the CIO library on 30 September 2026: 7 pillars, 45 capabilities and 152 activities, of which the table marks 91 Target Level and 61 Advanced Level, the totals the Zero Trust Execution Roadmap v1.1 prints. Three capabilities hold only Advanced activities (3.5, 6.4 and 7.6), which gives the roadmap’s 42 and 3. The 45 capability names equal the names verified for the map in September. On 14 November 2026 the library and the document answered a script with 403, so the edition was not read again that day; open the library in a browser to confirm v1.1 is still current.",
         "recheckAfter": "2026-12-15"
       }
     }
@@ -718,7 +718,7 @@
       "id": "3",
       "level": "pillar",
       "parents": [],
-      "title": "Application & Workload"
+      "title": "Applications and Workloads"
     },
     {
       "id": "3.1",
@@ -1268,7 +1268,7 @@
       "id": "5",
       "level": "pillar",
       "parents": [],
-      "title": "Network & Environment"
+      "title": "Network and Environment"
     },
     {
       "id": "5.1",
@@ -1423,7 +1423,7 @@
       "id": "6",
       "level": "pillar",
       "parents": [],
-      "title": "Automation & Orchestration"
+      "title": "Automation and Orchestration"
     },
     {
       "id": "6.1",
@@ -1666,7 +1666,7 @@
       "id": "7",
       "level": "pillar",
       "parents": [],
-      "title": "Visibility & Analytics"
+      "title": "Visibility and Analytics"
     },
     {
       "id": "7.1",

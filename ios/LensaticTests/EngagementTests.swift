@@ -25,14 +25,25 @@ final class EngagementTests: XCTestCase {
 
     // MARK: What Changed
 
-    /// The bundled list is the content's own: generated for this release, every item names an entry that exists, is
-    /// dated, keeps the list's writing rules, and runs newest release first.
-    func testTheListIsThisReleasesAndEveryItemNamesAnEntry() {
+    /// The bundled list is the content's own: generated for this release, every item names an entry that exists (or,
+    /// since Lensatic 2.0, a framework of the navigator, which it opens), is dated, keeps the list's writing rules, and
+    /// runs newest release first.
+    func testTheListIsThisReleasesAndEveryItemNamesAnEntry() throws {
         XCTAssertEqual(changes.contentVersion, store.content.meta.contentVersion)
         XCTAssertFalse(changes.items.isEmpty)
+        let navigator = try FrameworkLibrary.bundled(Bundle.main, department: store.content.orgs.dow.fields)
+        XCTAssertTrue(changes.items.contains { $0.frameworkId == "fedramp" && $0.kind == .recheck }, "a framework checked on a day is in the list on that day")
         var last: [Int]?
         for item in changes.items {
-            XCTAssertNotNil(store.entities[item.entityId], item.id)
+            if let fid = item.frameworkId {
+                let f = try XCTUnwrap(navigator.byId[fid], item.id)
+                XCTAssertEqual(item.opens, .framework(fid))
+                XCTAssertEqual(item.entityId, f.entityId ?? "", "\(item.id): its own stack entry, or none")
+                XCTAssertTrue(item.kind.isCheck || item.kind == .edition, item.id)
+            } else {
+                XCTAssertNotNil(store.entities[item.entityId], item.id)
+                XCTAssertEqual(item.opens, .entity(item.entityId))
+            }
             XCTAssertNotNil(PathPlan.day(item.date), "\(item.id): a date")
             XCTAssertFalse(item.title.contains("\u{2014}") || item.title.contains("\u{2013}") || item.title.hasSuffix("."), item.id)
             XCTAssertTrue(item.title.first?.isUppercase ?? false, item.id)
@@ -76,9 +87,10 @@ final class EngagementTests: XCTestCase {
         XCTAssertEqual(Changes.line(nsa, store: store), ["New document", "8 Oct 2026", "NSA ZT guidance"].joined(separator: sep))
         for item in changes.items {
             let parts = Changes.line(item, store: store).components(separatedBy: sep)
-            XCTAssertEqual(parts.count, 3, item.id)
+            // a navigator item's title names its framework, so its line is the kind and the day
+            XCTAssertEqual(parts.count, item.frameworkId == nil ? 3 : 2, item.id)
             XCTAssertEqual(parts[1], Rules.formatDate(item.date), item.id)
-            XCTAssertEqual(parts[2], store.entities[item.entityId]?.shortName, item.id)
+            if item.frameworkId == nil { XCTAssertEqual(parts[2], store.entities[item.entityId]?.shortName, item.id) }
             XCTAssertFalse(parts.joined().contains("Layer") || parts.joined().contains("affects"), item.id)
         }
         let ordered = changes.new(since: nil, door: dow)
