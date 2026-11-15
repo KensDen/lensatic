@@ -17,6 +17,9 @@ nothing else. Each validates against its schema in content/schema/. Then the rul
                card and chip the app draws with it, in light and in dark (the surface tokens come from web/src/styles.css)
   house rules  no em or en dash, no straight quote mark in prose, no forbidden word, no planning vocabulary, no email
                address; card texts end as sentences and stay short
+  one name     the owner ruled one publisher's name fine to include (14 November 2026): MITRE's knowledge base of attacks
+               on AI systems. The local sweep leaves that one word out, so this check holds it to the name: wherever the
+               word appears in what the sweep covers, it is the name in capitals or part of MITRE's own addresses
 
 Usage: python3 tools/check_frameworks.py
 """
@@ -41,6 +44,10 @@ MIN_CONTRAST = 4.5
 TINTS = (0.07, 0.10)
 DASHES = {"—": "em dash", "–": "en dash"}
 EMAIL = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,}")
+# the one publisher's name the owner's ruling lets through the sweep, and the only forms it may take: the name itself in
+# capitals, and MITRE's own addresses for it
+RULED_NAME = re.compile(r"atlas", re.I)
+RULED_FORMS = re.compile(r"\bATLAS\b|atlas\.mitre\.org|mitre-atlas|atlas-data")
 
 
 def load(p: Path):
@@ -302,6 +309,29 @@ def main() -> int:
                 errs.append(f"{i}.{key}: the line is a sentence and the short form is not")
     rep.check("frameworks: no em or en dash, no straight quote mark in prose, no forbidden word, no planning vocabulary, no email "
               "address; card texts are sentences and short forms are not", errs, f"{len(docs)} files")
+
+    # 9. the one ruled name, wherever the validator's sweep looks
+    errs, seen_name = [], 0
+    for scope in V.SWEEP_SCOPES:
+        base = ROOT / scope
+        for p in ([base] if base.is_file() else sorted(x for x in base.rglob("*") if x.is_file()) if base.exists() else []):
+            rel = p.relative_to(ROOT).as_posix()
+            if rel.startswith(V.SWEEP_SKIP):
+                continue
+            if RULED_NAME.search(p.name):
+                errs.append(f"{rel}: the name is in a file name")
+            try:
+                text = p.read_text(encoding="utf-8")
+            except (UnicodeDecodeError, OSError):
+                continue
+            for k, line in enumerate(text.splitlines(), 1):
+                hits = len(RULED_NAME.findall(line))
+                if hits:
+                    seen_name += hits
+                    if hits != len(RULED_FORMS.findall(line)):
+                        errs.append(f"{rel}:{k}: the word is not the knowledge base's name")
+    rep.check("frameworks: the one publisher's name the owner let through the sweep appears only as that name, in capitals or in "
+              "MITRE's own addresses, and in no file name", errs[:12], f"{seen_name} uses")
 
     print("\n".join(rep.lines))
     if rep.failures:

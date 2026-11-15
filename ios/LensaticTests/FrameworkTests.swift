@@ -39,7 +39,7 @@ final class FrameworkTests: XCTestCase {
 
     func testTheBundledFrameworksDecodeStrictlyAndAreTheRepositoryFiles() throws {
         XCTAssertEqual(lib.frameworks.map(\.id), lib.catalog.frameworks)
-        XCTAssertEqual(lib.frameworks.count, 18)
+        XCTAssertEqual(lib.frameworks.count, 19)
         XCTAssertEqual(Set(lib.frameworks.map(\.id)).count, lib.frameworks.count)
         let repo = Bundle(for: FrameworkTests.self)
         for name in ["catalog"] + lib.catalog.frameworks + lib.catalog.compares + lib.catalog.checks {
@@ -47,7 +47,7 @@ final class FrameworkTests: XCTestCase {
         }
         // every framework the brief names is a card
         for id in ["csf20", "sp800-53", "sp800-207", "dod-zt", "cisa-ztmm", "rmf", "cmmc", "sp800-171", "ai-rmf", "ir8596",
-                   "fedramp", "iso27001", "cis", "il", "attack", "d3fend", "govramp", "cjis"] {
+                   "fedramp", "iso27001", "cis", "il", "attack", "d3fend", "aml", "govramp", "cjis"] {
             XCTAssertNotNil(lib.byId[id], id)
         }
         XCTAssertEqual(lib.catalog.lands.map(\.id), ["soc2", "hipaa", "pci-dss"])
@@ -338,6 +338,9 @@ final class FrameworkTests: XCTestCase {
         XCTAssertEqual(model.sitsLabel(try XCTUnwrap(lib.byId["iso27001"])), "Layers 1, 4 and 5")
         XCTAssertEqual(model.sitsLabel(try XCTUnwrap(lib.byId["ai-rmf"])), "AI column")
         XCTAssertEqual(model.sitsLabel(try XCTUnwrap(lib.byId["attack"])), "Adversary column")
+        // the knowledge base of attacks on AI systems sits in both columns: the AI column's threats, in the adversary column
+        XCTAssertEqual(model.sitsLabel(try XCTUnwrap(lib.byId["aml"])), "AI column, Adversary column")
+        XCTAssertEqual(lib.byId["aml"]?.shortName, "ATLAS")
         XCTAssertEqual(model.sitsShort(try XCTUnwrap(lib.byId["iso27001"])), "L1 L4 L5")
         let csf = try XCTUnwrap(lib.byId["csf20"])
         XCTAssertEqual(FrameworkCard.sizeShort(csf), "106 Subcategories")

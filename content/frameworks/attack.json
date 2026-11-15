@@ -97,6 +97,10 @@
     {
       "id": "d3fend",
       "line": "D3FEND catalogs the countermeasures that answer these techniques."
+    },
+    {
+      "id": "aml",
+      "line": "ATLAS applies the same shape to attacks on AI systems."
     }
   ],
   "depth": {

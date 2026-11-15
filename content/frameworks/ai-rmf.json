@@ -50,6 +50,10 @@
     {
       "id": "ir8596",
       "line": "The Cyber AI Profile applies the CSF’s functions to AI."
+    },
+    {
+      "id": "aml",
+      "line": "ATLAS catalogs the attacks on AI systems that these outcomes guard against."
     }
   ],
   "depth": null,

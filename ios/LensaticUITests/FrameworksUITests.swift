@@ -20,7 +20,7 @@ extension LensaticUITests {
     func title() -> String { element("screen-title").label.replacingOccurrences(of: "\u{00A0}", with: " ") }
 
     static let frameworkIds = ["csf20", "iso27001", "sp800-207", "dod-zt", "cisa-ztmm", "sp800-53", "sp800-171", "cis", "rmf", "fedramp", "il", "cmmc",
-                               "govramp", "cjis", "ai-rmf", "ir8596", "attack", "d3fend"]
+                               "govramp", "cjis", "ai-rmf", "ir8596", "attack", "d3fend", "aml"]
 
     /// Home (Lensatic 2.0): the countdown opens the framework that sets it; the frameworks card says how many there are
     /// and its three controls open Browse, Compare and the readiness check.

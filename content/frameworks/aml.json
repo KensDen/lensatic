@@ -1,0 +1,102 @@
+{
+  "id": "aml",
+  "name": "MITRE ATLAS™",
+  "shortName": "ATLAS",
+  "group": "adversary",
+  "kind": "Adversary Knowledge Base",
+  "compliance": false,
+  "symbol": "exclamationmark.triangle",
+  "color": {
+    "light": "#A3264F",
+    "dark": "#FF9DBB"
+  },
+  "purpose": "The attacker’s playbook against AI systems and AI agents, kept current as attacks are observed.",
+  "what": "ATLAS 2026.10 holds 16 tactics, 129 techniques and 92 sub-techniques, with 77 case studies. Many of its newest entries are about AI agents.",
+  "aliases": [
+    "Adversarial Threat Landscape for Artificial-Intelligence Systems",
+    "AML"
+  ],
+  "binds": {
+    "short": "No one",
+    "line": "Nobody is bound by it, and nothing is audited against it."
+  },
+  "verifiedBy": {
+    "short": "Not a compliance check",
+    "line": "A knowledge base built from real attacks and red team demonstrations. There is no certification."
+  },
+  "size": [
+    {
+      "count": 16,
+      "unit": "Tactics"
+    },
+    {
+      "count": 129,
+      "unit": "Techniques"
+    },
+    {
+      "count": 92,
+      "unit": "Sub-Techniques"
+    }
+  ],
+  "sits": {
+    "layers": [
+      "l6"
+    ],
+    "line": "The adversary column, beside the AI column: the threats the AI frameworks answer."
+  },
+  "sources": [
+    {
+      "id": "aml-data",
+      "publisher": "The MITRE Corporation",
+      "title": "ATLAS Data",
+      "edition": "ATLAS 2026.10",
+      "date": "2026-10-28",
+      "url": "https://github.com/mitre-atlas/atlas-data",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026. The changelog for release 2026.10, of 28 October 2026, counts 16 tactics, 129 techniques, 92 sub-techniques, 44 mitigations and 77 case studies, and a count of the data file agrees. The site describes ATLAS as ‘a globally accessible, living knowledge base of adversary tactics and techniques involving AI’.",
+        "recheckAfter": "2026-12-15"
+      }
+    },
+    {
+      "id": "aml-terms",
+      "publisher": "The MITRE Corporation",
+      "title": "ATLAS Data License",
+      "edition": "License file",
+      "date": "2026",
+      "url": "https://github.com/mitre-atlas/atlas-data/blob/main/LICENSE",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-14",
+        "method": "primary-fetch",
+        "note": "Read on 14 November 2026: the data repository’s license file reads Copyright 2021-2026 MITRE, licensed under the Apache License, Version 2.0. The site’s own terms page (atlas.mitre.org/terms) says the same, but it is drawn by script and answers a plain request with 404.",
+        "recheckAfter": "2027-02-12"
+      }
+    }
+  ],
+  "terms": {
+    "basis": "mitre",
+    "shows": "structure",
+    "line": "Licensed by MITRE under the Apache License, Version 2.0. Lensatic shows the card, in its own words. MITRE ATLAS™ is a trademark of The MITRE Corporation.",
+    "notice": "Copyright 2021-2026 MITRE. Licensed under the Apache License, Version 2.0.",
+    "url": "https://github.com/mitre-atlas/atlas-data/blob/main/LICENSE"
+  },
+  "deadlines": [],
+  "related": [
+    {
+      "id": "attack",
+      "line": "ATLAS follows ATT&CK’s shape: tactics, techniques and sub-techniques."
+    },
+    {
+      "id": "ai-rmf",
+      "line": "The AI RMF states the outcomes; ATLAS shows what goes wrong."
+    }
+  ],
+  "depth": null,
+  "levels": [],
+  "nodes": [],
+  "sets": [],
+  "crosswalks": []
+}
