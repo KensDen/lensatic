@@ -131,7 +131,7 @@ final class LensaticUITests: XCTestCase {
     /// bars' own items are always audited. Deferred issues are counted and printed, never failed. With report, every
     /// issue is printed and none fails the test (the sweep below).
     func audit(_ screen: String, region: CGRect? = nil, types: XCUIAccessibilityAuditType = .all, report: Bool = false,
-               systemList: CGRect? = nil) throws {
+               systemList: CGRect? = nil, cutText: (() -> Void)? = nil) throws {
         var bars: [CGRect]?  // the navigation bars' own items, looked up once and only when an issue needs them
         func barItems() -> [CGRect] {
             if bars == nil { bars = app.navigationBars.descendants(matching: .any).allElementsBoundByIndex.map(\.frame) }
@@ -177,33 +177,78 @@ final class LensaticUITests: XCTestCase {
                 print("AUDIT \(screen): \(issue.auditType == .contrast ? "contrast" : "text clipped") with no element (a line across the scrolling edge), deferred")
                 return true
             }
-            if let region, let frame = issue.element?.frame, !region.insetBy(dx: -1, dy: -1).contains(frame),
+            // text the audit finds in the picture with no element to answer for it, and no place given: a line the
+            // scrolling edge cuts through reads as other words than its element's (Round 2: the last line of a question
+            // above the tab bar). The caller reads the screen again a little further on, where a line cut by the edge is
+            // whole or gone and text that truly has no element is still there (auditScreen)
+            if let cutText, region != nil, issue.element == nil, issue.auditType == .elementDetection {
+                print("AUDIT \(screen): text with no element and no place, read again a little further on")
+                cutText()
+                return true
+            }
+            // the element's place is read once, so the decision and the printed line are about the same reading
+            let frame = issue.element?.frame
+            if let region, let frame, !region.insetBy(dx: -1, dy: -1).contains(frame),
                !barItems().contains(where: { same($0, frame) }) {
                 deferred += 1
                 return true
             }
             print("\(report ? "SWEEP" : "AUDIT") \(screen): \(issue.auditType) \(issue.compactDescription): \(issue.element?.label ?? "")"
-                  + " [\(issue.element?.identifier ?? "")] \(issue.element.map { "\($0.elementType.rawValue) \($0.frame)" } ?? "") \(issue.detailedDescription)")
+                  + " [\(issue.element?.identifier ?? "")] \(issue.element.map { "\($0.elementType.rawValue)" } ?? "") \(frame.map { "\($0)" } ?? "") \(issue.detailedDescription)"
+                  + (region.map { " (read within \($0))" } ?? ""))
+            // a failing audit keeps the picture it read, in the result bundle
+            if !report {
+                let shot = XCTAttachment(screenshot: self.app.screenshot())
+                shot.name = "audit \(screen)"
+                shot.lifetime = .keepAlways
+                self.add(shot)
+            }
             return report
         }
         if deferred > 0 { print("AUDIT \(screen): \(deferred) deferred (element not wholly in view here)") }
     }
 
-    /// A screen over the tab bar: the audit reads what its scroll view shows above the tab bar.
+    /// Waits until the screen is at rest: two captures a quarter of a second apart are the same picture (two seconds at
+    /// most). An audit of a screen that is still arriving, or still answering a tap, reads the wrong pixels: Round 2's
+    /// full runs reported a line under the tab bar's edge as in view, and text with no element just after an answer
+    /// was chosen, each once and neither when the test ran on its own.
+    func settle() {
+        var last = app.screenshot().pngRepresentation
+        for _ in 0..<8 {
+            Thread.sleep(forTimeInterval: 0.25)
+            let now = app.screenshot().pngRepresentation
+            if now == last { return }
+            last = now
+        }
+    }
+
+    /// A screen over the tab bar: the audit reads what its scroll view shows above the tab bar, once the screen is at rest.
     func auditScreen(_ id: String, types: XCUIAccessibilityAuditType = .all) throws {
         let page = scroller(id)
         XCTAssertTrue(page.waitForExistence(timeout: 5), id)
+        settle()
         let list = page.elementType == .collectionView
         // on a system list, contrast is read first, on its own, with the list at rest (build 5 found it on Explore's
         // matrix; since build 6 most screens are lists): the audit's text size check resizes the rows and the list does
         // not come back to the same place, and a contrast read after that was reported on text whose colours compute to
         // 6:1 and more (Home's door lines). Every element in view is still read for contrast; nothing is exempt
+        var cut = false
         if list, types.contains(.contrast), types != .contrast {
             try audit(id, region: visibleRegion(page), types: .contrast, systemList: page.frame)
-            try audit(id, region: visibleRegion(page), types: types.subtracting(.contrast), systemList: page.frame)
-            return
+            try audit(id, region: visibleRegion(page), types: types.subtracting(.contrast), systemList: page.frame, cutText: { cut = true })
+        } else {
+            try audit(id, region: visibleRegion(page), types: types, systemList: list ? page.frame : nil, cutText: { cut = true })
         }
-        try audit(id, region: visibleRegion(page), types: types, systemList: list ? page.frame : nil)
+        // text with no element is read again, twice at most, each time with the page moved on by less than two lines
+        // and held still; the last reading fails like any other issue
+        for again in 1...2 where cut {
+            cut = false
+            let from = page.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+            from.press(forDuration: 0.05, thenDragTo: from.withOffset(CGVector(dx: 0, dy: -40)), withVelocity: .slow, thenHoldForDuration: 0.4)
+            settle()
+            try audit("\(id), moved on", region: visibleRegion(page), types: .elementDetection, systemList: list ? page.frame : nil,
+                      cutText: again < 2 ? { cut = true } : nil)
+        }
     }
 
     /// Drag a sheet up by its top edge to its full height, so the audit reads all of it as the text grows.
