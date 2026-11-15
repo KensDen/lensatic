@@ -55,7 +55,7 @@
         "status": "verified",
         "verifiedOn": "2026-09-30",
         "method": "primary-fetch",
-        "note": "Parsed by script from the copy of this document saved from the CIO library on 30 September 2026: 7 pillars, 45 capabilities and 152 activities, of which the table marks 91 Target Level and 61 Advanced Level, the totals the Zero Trust Execution Roadmap v1.1 prints. Three capabilities hold only Advanced activities (3.5, 6.4 and 7.6), which gives the roadmap’s 42 and 3. The 45 capability names equal the names verified for the map in September. On 14 November 2026 the library and the document answered a script with 403, so the edition was not read again that day; open the library in a browser to confirm v1.1 is still current.",
+        "note": "Parsed by script from the copy of this document saved from the CIO library on 30 September 2026: 7 pillars, 45 capabilities and 152 activities, of which the table marks 91 Target Level and 61 Advanced Level, the totals the Zero Trust Execution Roadmap v1.1 prints. Three capabilities hold only Advanced activities (3.5, 6.4 and 7.6), which gives the roadmap’s 42 and 3. The 45 capability names equal the names verified for the map in September. On 14 November 2026 the library and the document answered a script with 403, so the edition was not read again that day; open the library in a browser to confirm v1.1 is still current. Every name is printed as the department publishes it, the capital in the name of activity 6.5.3 included.",
         "recheckAfter": "2026-12-15"
       }
     }
@@ -1580,7 +1580,7 @@
       "parents": [
         "6.5"
       ],
-      "title": "Implement playbooks",
+      "title": "Implement Playbooks",
       "note": "Advanced Level."
     },
     {
@@ -2062,5 +2062,8 @@
     "Zero Trust Execution Roadmap"
   ],
   "setsTitle": "Levels",
-  "setsLine": "Each is a selection of this strategy’s own activities."
+  "setsLine": "Each is a selection of this strategy’s own activities.",
+  "asPublished": [
+    "6.5.3"
+  ]
 }

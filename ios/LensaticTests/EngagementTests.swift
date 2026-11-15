@@ -40,10 +40,16 @@ final class EngagementTests: XCTestCase {
                 XCTAssertEqual(item.opens, .framework(fid))
                 XCTAssertEqual(item.entityId, f.entityId ?? "", "\(item.id): its own stack entry, or none")
                 XCTAssertTrue(item.kind.isCheck || item.kind == .edition, item.id)
+            } else if item.action != nil {
+                // one of Lensatic's own headlines (Round 3): no entry and no framework, and it is news
+                XCTAssertEqual(item.kind, .feature, item.id)
+                XCTAssertEqual(item.entityId, "", item.id)
+                XCTAssertEqual(item.date, item.released, "\(item.id): dated the release day")
             } else {
                 XCTAssertNotNil(store.entities[item.entityId], item.id)
                 XCTAssertEqual(item.opens, .entity(item.entityId))
             }
+            XCTAssertEqual(item.kind == .feature, item.action != nil, "\(item.id): a headline has somewhere to lead, and nothing else does")
             XCTAssertNotNil(PathPlan.day(item.date), "\(item.id): a date")
             XCTAssertFalse(item.title.contains("\u{2014}") || item.title.contains("\u{2013}") || item.title.hasSuffix("."), item.id)
             XCTAssertTrue(item.title.first?.isUppercase ?? false, item.id)
@@ -54,6 +60,27 @@ final class EngagementTests: XCTestCase {
         // the mockup's own item: the NSA sheet on operational technology, dated by the sheet
         let nsa = changes.items.first { $0.kind == .document && $0.entityId == "nsa-zt" }
         XCTAssertEqual(nsa?.date, "2026-10-08")
+    }
+
+    /// Lensatic's own news (Round 3, the owner's ruling of 15 November 2026): content 1.4.0 carries two headlines, the
+    /// sixth trailhead and the framework navigator, from its changelog entry. They are news, each leads somewhere in the
+    /// app, and they come first in their release.
+    func testThisReleaseCarriesItsOwnHeadlines() throws {
+        let entry = try XCTUnwrap(store.content.meta.changelog.first { $0.version == "1.4.0" })
+        let news = try XCTUnwrap(entry.news)
+        let headlines = changes.items.filter { $0.kind == .feature && $0.release == "1.4.0" }
+        XCTAssertEqual(headlines.map(\.title), news.map(\.title))
+        XCTAssertEqual(headlines.map(\.action), [.trailheads, .frameworks])
+        XCTAssertEqual(headlines.map(\.id), news.map { "1.4.0/app:\($0.id)/feature" })
+        XCTAssertEqual(Array(changes.items.filter { $0.release == "1.4.0" }.prefix(2)), headlines, "first in their release")
+        XCTAssertTrue(headlines.allSatisfy { changes.news.contains($0) && $0.title.count <= 60 })
+        XCTAssertEqual(Changes.Item.Kind.feature.label, "New in Lensatic")
+        let model = AppModel(store: store, library: library, changes: changes, progress: ProgressStore(url: nil))
+        model.run(.frameworks)
+        XCTAssertEqual(model.tab, .frameworks)
+        XCTAssertEqual(model.frameworksMode, .browse)
+        model.run(.trailheads)
+        XCTAssertTrue(model.changingDoor)
     }
 
     /// The news is what moved in the world (R5, item 19): a document, a link, a moved deadline. The source checks are
@@ -87,10 +114,12 @@ final class EngagementTests: XCTestCase {
         XCTAssertEqual(Changes.line(nsa, store: store), ["New document", "8 Oct 2026", "NSA ZT guidance"].joined(separator: sep))
         for item in changes.items {
             let parts = Changes.line(item, store: store).components(separatedBy: sep)
-            // a navigator item's title names its framework, so its line is the kind and the day
-            XCTAssertEqual(parts.count, item.frameworkId == nil ? 3 : 2, item.id)
+            // a navigator item's title names its framework, and a headline of Lensatic's own names no entry, so the line
+            // of each is the kind and the day
+            let named = item.frameworkId == nil && item.action == nil
+            XCTAssertEqual(parts.count, named ? 3 : 2, item.id)
             XCTAssertEqual(parts[1], Rules.formatDate(item.date), item.id)
-            if item.frameworkId == nil { XCTAssertEqual(parts[2], store.entities[item.entityId]?.shortName, item.id) }
+            if named { XCTAssertEqual(parts[2], store.entities[item.entityId]?.shortName, item.id) }
             XCTAssertFalse(parts.joined().contains("Layer") || parts.joined().contains("affects"), item.id)
         }
         let ordered = changes.new(since: nil, door: dow)

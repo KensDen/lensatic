@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:lensatic:framework.schema:2.0.0-r2",
+  "$id": "urn:lensatic:framework.schema:2.0.0-r3",
   "title": "A Lensatic framework file",
   "description": "Schema for content/frameworks/<id>.json: the card (what the framework is for, who it binds, how it is verified, how big it is, where it sits), its sources and terms, and its structure: levels, nodes that name their parents, sets that select another framework's nodes, and crosswalks a source publishes.",
   "type": "object",
@@ -520,6 +520,16 @@
       "type": "string",
       "minLength": 1,
       "description": "The line under the sets where they are not selections of another framework's controls."
+    },
+    "asPublished": {
+      "description": "The elements whose title is printed exactly as the publisher prints it although it carries a word the content's house rule otherwise keeps out with a capital (owner's ruling of 15 November 2026: titles as published win). The checks let that title through and nothing else.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
     }
   },
   "$defs": {

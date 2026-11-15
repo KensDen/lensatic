@@ -116,6 +116,14 @@ final class AppModel {
     /// The news newer than the reader's last visit to What Changed: My Path shows it until the reader opens the list.
     var newChanges: [Changes.Item] { changes.new(since: progress.state.changesViewed, door: door) }
 
+    /// One of Lensatic's own headlines in What Changed (Round 3): the trailhead question, or the Frameworks tab.
+    func run(_ action: Changes.Item.Action) {
+        switch action {
+        case .trailheads: changingDoor = true
+        case .frameworks: showFrameworks(.browse)
+        }
+    }
+
     /// The reader has seen the list: everything in this release is no longer new (kept with the day, on the device).
     func markChangesSeen() {
         progress.viewChanges(through: changes.contentVersion, on: Changes.today())
@@ -175,6 +183,7 @@ final class AppModel {
         case .entity(let id): push(.entity(id))
         case .play(let id): push(.play(id))
         case .framework(let id): push(.framework(id))
+        case .node(let f, let n): push(.node(f, n))
         case .step(let door, let order): showStep(door, order)
         }
     }
@@ -196,6 +205,7 @@ final class AppModel {
         case .entity(let id): show(.entity(id))
         case .play(let id): show(.play(id))
         case .framework(let id): show(.framework(id))
+        case .node(let f, let n): show(.node(f, n))
         case .step(let door, let order): showStep(door, order)
         }
         return true
@@ -206,6 +216,7 @@ final class AppModel {
         case .entity(let id): return store.entities[id] != nil
         case .play(let id): return library.play(id) != nil
         case .framework(let id): return frameworks.byId[id] != nil
+        case .node(let f, let n): return frameworks.graphs[f]?.node(n) != nil
         case .step(let door, let order): return self.door(door)?.steps.contains(where: { $0.order == order }) == true
         }
     }
@@ -227,7 +238,8 @@ final class AppModel {
     func open(link url: URL) -> Bool {
         guard url.scheme == DeepLink.scheme else { return false }
         switch url.host() {
-        case "open": return openSpotlight(String(url.path().drop { $0 == "/" }))
+        // the key as it was written: an element's identifier may hold a space or a bracket, which an address escapes
+        case "open": return openSpotlight(String(url.path(percentEncoded: false).drop { $0 == "/" }))
         case "search":
             openSearch()
             return true
@@ -306,6 +318,11 @@ final class AppModel {
         case .framework(let id):
             guard let f = frameworks.byId[id] else { return nil }
             return (f.name, [f.kind, frameworks.group(f.group)?.name].compactMap { $0 }.joined(separator: sep), "maps")
+        case .node(let fid, let nid):
+            // an element by its name as the publisher prints it, under its framework and its level ("SP 800-53 · Control")
+            guard let f = frameworks.byId[fid], let g = frameworks.graphs[fid], let n = g.node(nid) else { return nil }
+            let name = g.name(n)
+            return (name.isEmpty ? nid : name, [f.shortName, g.level(n.level)?.name].compactMap { $0 }.joined(separator: sep), "maps")
         case .step(let d, let order):
             guard let door = door(d), let step = door.steps.first(where: { $0.order == order }) else { return nil }
             return (step.title, "Step \(order)\(sep)\(door.shortTitle)", "path")

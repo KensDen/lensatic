@@ -684,9 +684,10 @@ final class LensaticUITests: XCTestCase {
 
     // MARK: Home (build 6; the Library tab until then)
 
-    /// Home is the first tab and where a fresh install opens: the header, then the three doors in the hub's order, all
-    /// on screen with no scroll at the default text size, each with its status line; the Framework Maps door opens the
-    /// trailhead question until a trailhead is picked, and the playbook door names the play to start with.
+    /// Home is the first tab and where a fresh install opens: the header, then the lead story (Lensatic 2.0, Round 3:
+    /// agents as the new insiders, which is the way into the plays and names the two to start with), the countdown, the
+    /// frameworks and the other two doors, all on screen with no scroll at the default text size, each with its status
+    /// line; the Framework Maps door opens the trailhead question until a trailhead is picked.
     func testHomeOpensOnTheThreeDoors() throws {
         launch(door: nil)
         XCTAssertTrue(element("home").waitForExistence(timeout: 10), "a fresh install opens on Home")
@@ -699,32 +700,35 @@ final class LensaticUITests: XCTestCase {
         // Lensatic 2.0: the zero trust countdown and the frameworks card lead Home. Round 2 (ruling 7): on a phone both
         // are compact and all three doors follow on the first screen; the iPad's card keeps its three ways in
         let phone = UIDevice.current.userInterfaceIdiom == .phone
-        for id in ["home-countdown", "home-frameworks", "home-door-maps"]
-            + (phone ? ["home-door-guide", "home-door-playbook"] : ["home-frameworks-browse", "home-frameworks-compare", "home-frameworks-check"]) {
+        for id in ["home-door-playbook", "home-story-play-insiders", "home-story-play-containment", "home-countdown", "home-frameworks", "home-door-maps"]
+            + (phone ? ["home-door-guide"] : ["home-frameworks-browse", "home-frameworks-compare", "home-frameworks-check"]) {
             XCTAssertTrue(element(id).isHittable, "\(id) is on screen")
             XCTAssertLessThanOrEqual(element(id).frame.maxY, tabBarTop(), "\(id) fits above the tab bar with no scroll")
         }
-        XCTAssertLessThan(element("home-countdown").frame.minY, element("home-door-maps").frame.maxY, "the countdown leads")
-        let ids = ["home-door-maps", "home-door-guide", "home-door-playbook"]
+        XCTAssertLessThan(element("home-countdown").frame.minY, element("home-door-maps").frame.maxY, "the countdown comes before the doors")
+        // Round 3: the lead story is first, and it is the plays' door
+        XCTAssertLessThan(element("home-door-playbook").frame.minY, element("home-countdown").frame.minY, "the story leads")
+        XCTAssertTrue(element("home-door-playbook").label.contains("insiders"), element("home-door-playbook").label)
+        XCTAssertLessThan(element("home-story-play-insiders").frame.minX, element("home-story-play-containment").frame.maxX, "the two plays, in the story's order")
+        let ids = ["home-door-playbook", "home-door-maps", "home-door-guide"]
         for id in ids { XCTAssertTrue(element(id).exists, id) }
+        XCTAssertLessThan(element(ids[0]).frame.minY, element(ids[1]).frame.minY, "the story, then Framework Maps")
         if UIDevice.current.userInterfaceIdiom == .phone {
-            XCTAssertLessThan(element(ids[0]).frame.minY, element(ids[1]).frame.minY, "Framework Maps, then Field Guide")
-            XCTAssertLessThan(element(ids[1]).frame.minY, element(ids[2]).frame.minY, "then the playbook")
+            XCTAssertLessThan(element(ids[1]).frame.minY, element(ids[2]).frame.minY, "then the Field Guide")
         } else {
-            XCTAssertLessThan(element(ids[0]).frame.minX, element(ids[1]).frame.minX, "side by side on the iPad")
-            XCTAssertLessThan(element(ids[1]).frame.minX, element(ids[2]).frame.minX)
+            XCTAssertLessThan(element(ids[1]).frame.minX, element(ids[2]).frame.minX, "side by side on the iPad")
         }
         XCTAssertTrue(element("home-door-maps").label.contains("FRAMEWORK MAPS") || element("home-door-maps").label.contains("Framework Maps"), element("home-door-maps").label)
         XCTAssertTrue(element("home-door-guide").label.contains("8 weeks"), element("home-door-guide").label)
         XCTAssertTrue(element("home-door-playbook").label.contains("0 of"), element("home-door-playbook").label)
         try auditScreen("home")
-        // the playbook door's second control opens the play to start with
-        let start = element("home-door-playbook-start")
+        // the story's own controls open the plays to start with, in its order
+        let start = element("home-story-play-insiders")
         XCTAssertTrue(start.exists)
         let startLabel = start.label
-        XCTAssertTrue(startLabel.hasPrefix("Start here: "), startLabel)
-        tap("home-door-playbook-start", in: "home")
-        XCTAssertTrue(element("play-screen").waitForExistence(timeout: 5), "Start here opens its play")
+        XCTAssertTrue(startLabel.hasPrefix("Start Here 1: "), startLabel)
+        tap("home-story-play-insiders", in: "home")
+        XCTAssertTrue(element("play-screen").waitForExistence(timeout: 5), "the story's first play opens")
         XCTAssertTrue(startLabel.hasSuffix(element("screen-title").label), "the play it names: \(element("screen-title").label)")
         element("back").tap()
         XCTAssertTrue(element("home-door-playbook").label.contains("1 of"), "the play opened counts as read: \(element("home-door-playbook").label)")

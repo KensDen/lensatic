@@ -1,5 +1,5 @@
 {
-  "modelVersion": "2.0.0-r2",
+  "modelVersion": "2.0.0-r3",
   "checkedOn": "2026-11-14",
   "intro": "Every framework as a card: what it is for, who it binds, how it is verified, how big it is and where it sits.",
   "groups": [
@@ -157,6 +157,7 @@
     "check-cmmc-l1",
     "check-dod-zt"
   ],
+  "plays": "play-links",
   "labels": {
     "layers": "Layers",
     "adversaryColumn": "Adversary column",
@@ -265,6 +266,19 @@
     "questions": "Questions",
     "widgetDeadline": "Widget Countdown",
     "widgetAutomatic": "Automatic",
-    "widgetAutomaticLine": "The deadline on your path"
+    "widgetAutomaticLine": "The deadline on your path",
+    "playsIn": "In the Frameworks",
+    "playsInLine": "{n} elements in {m} frameworks",
+    "playsThatTouch": "Plays That Touch It",
+    "playsOn": "In the Plays",
+    "playsOnLine": "{n} of the {m} plays touch it",
+    "wholeFramework": "The framework as a whole",
+    "element": "element",
+    "elementsWord": "elements",
+    "storyAll": "All {count} Plays",
+    "storyStart": "Start Here",
+    "showElements": "Show the elements",
+    "hideElements": "Hide the elements",
+    "spelledOut": "The words in grey are Lensatic’s, from the glossary. The rest is the publisher’s text."
   }
 }

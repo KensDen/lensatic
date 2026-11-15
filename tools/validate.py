@@ -497,6 +497,28 @@ def load_sweep_terms() -> tuple[list[str], str]:
 FORBIDDEN_WORD = local_sweep_source()[1]
 
 
+def published_title_lines() -> set[tuple[str, int]]:
+    """The one exception to the forbidden word (owner's ruling 5 of 15 November 2026: titles as published win). A
+    framework's file under content/frameworks/ may list, in asPublished, the elements whose title is printed exactly as
+    the publisher prints it although it carries the word with its capital. Only the title line of such an element is let
+    through, by file and line number; the word stays out of everything Lensatic writes itself."""
+    allowed: set[tuple[str, int]] = set()
+    folder = CONTENT / "frameworks"
+    for p in sorted(folder.glob("*.json")) if folder.exists() else []:
+        try:
+            doc = json.loads(p.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        if not isinstance(doc, dict) or not doc.get("asPublished"):
+            continue
+        titles = {n.get("title") for n in doc.get("nodes", []) if n.get("id") in doc["asPublished"]}
+        wanted = {'"title": ' + json.dumps(t, ensure_ascii=False) for t in titles if t}
+        for ln, line in enumerate(p.read_text(encoding="utf-8").splitlines(), 1):
+            if line.strip().rstrip(",") in wanted:
+                allowed.add((p.relative_to(ROOT).as_posix(), ln))
+    return allowed
+
+
 # --------------------------------------------------------------------------- checks
 def main() -> int:
     rep = Report()
@@ -819,6 +841,7 @@ def main() -> int:
     errs = []
     lower_hits = []
     process_hits = []
+    as_published, kept_titles = published_title_lines(), 0
     # Lensatic 2.0 (owner's decision 1, 18 October 2026): README.md left this check; content/, critique/, LICENSE and the font
     # licence stay
     for p in list(iter_text_files(CONTENT)) + list(iter_text_files(CRITIQUE)) + [LICENSE_CODE, LICENSE_FONTS]:
@@ -828,7 +851,9 @@ def main() -> int:
         if text is None:
             continue
         for ln, line in enumerate(text.splitlines(), 1):
-            if FORBIDDEN_WORD in line:
+            if FORBIDDEN_WORD in line and (p.relative_to(ROOT).as_posix(), ln) in as_published:
+                kept_titles += 1  # a publisher's title, printed as published (asPublished in the framework's file)
+            elif FORBIDDEN_WORD in line:
                 errs.append(f"{p.relative_to(ROOT)}:{ln}")
             elif FORBIDDEN_WORD.lower() in line.lower():
                 lower_hits.append(f"{p.relative_to(ROOT)}:{ln}")
@@ -836,7 +861,9 @@ def main() -> int:
                 for w in PROCESS_WORDS:
                     if w in line.lower():
                         process_hits.append(f"{p.relative_to(ROOT)}:{ln}: {w!r}")
-    rep.check("no occurrence of the forbidden word in content/, critique/, LICENSE or web/src/fonts/OFL.txt", errs)
+    rep.check("no occurrence of the forbidden word in content/, critique/, LICENSE or web/src/fonts/OFL.txt, but in a "
+              "publisher's title a framework's file lists as printed as published", errs,
+              f"{kept_titles} publisher's title{'' if kept_titles == 1 else 's'} as published")
     if lower_hits:
         rep.info(f"lower-case generic use of the word (allowed) at: {', '.join(lower_hits)}")
     rep.check("no planning vocabulary in content/ or LICENSE", process_hits)

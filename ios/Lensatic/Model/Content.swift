@@ -45,6 +45,15 @@ struct Meta: Decodable, Sendable {
         let version: String
         let date: String
         let summary: String
+        /// What the release adds to Lensatic itself that is news (Round 3): tools/build_changes.py turns each into a
+        /// headline of What Changed. Decoded because the decoding is strict; the app reads the built list.
+        let news: [News]?
+
+        struct News: Decodable, Sendable {
+            let id: String
+            let title: String
+            let opens: String
+        }
     }
 
     struct About: Decodable, Sendable {

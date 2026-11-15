@@ -16,7 +16,12 @@ nothing else. Each validates against its schema in content/schema/. Then the rul
   colour       each framework's one colour reads as text, 4.5:1 or better, on the app's two surfaces and on the tinted
                card and chip the app draws with it, in light and in dark (the surface tokens come from web/src/styles.css)
   house rules  no em or en dash, no straight quote mark in prose, no forbidden word, no planning vocabulary, no email
-               address; card texts end as sentences and stay short
+               address; card texts end as sentences and stay short. One exception to the word (Round 3, ruling 5): an
+               element's title printed exactly as its publisher prints it, where the file lists that element in
+               asPublished and a source note says titles are as published
+  plays        the links from the Agentic SecOps plays (Round 3): every play in playbook/app/plays.json has an entry and
+               every entry is a play; each link names a framework once and elements that framework's file holds; the
+               story's plays exist; and the file says the links are Lensatic's own reading
   one name     the owner ruled one publisher's name fine to include (14 November 2026): MITRE's knowledge base of attacks
                on AI systems. The local sweep leaves that one word out, so this check holds it to the name: wherever the
                word appears in what the sweep covers, it is the name in capitals or part of MITRE's own addresses
@@ -102,6 +107,8 @@ def main() -> int:
     names.update({i: "framework" for i in catalog.get("frameworks", [])})
     names.update({i: "framework-compare" for i in catalog.get("compares", [])})
     names.update({i: "framework-check" for i in catalog.get("checks", [])})
+    if catalog.get("plays"):
+        names[catalog["plays"]] = "framework-plays"
     present = sorted(p.name for p in DIR.iterdir() if p.is_file() and p.name != ".DS_Store")
     errs = [f"{n}.json is named by the catalog and missing" for n in names if f"{n}.json" not in present]
     errs += [f"{n} is in the folder and named by nothing in the catalog" for n in present if n[:-5] not in names or not n.endswith(".json")]
@@ -154,6 +161,8 @@ def main() -> int:
                 errs.append(f"{i}: node {n['id']} has neither a title nor a text")
             if "/" in n["id"]:
                 errs.append(f"{i}: node {n['id']} has a slash in its id, which a screen's address cannot carry")
+            if ":" in n["id"]:
+                errs.append(f"{i}: node {n['id']} has a colon in its id, which a saved element's key cannot carry")
         for s in f["sets"]:
             if s["sourceId"] not in srcs:
                 errs.append(f"{i}: set {s['id']} cites the source {s['sourceId']!r}, which it does not have")
@@ -211,6 +220,38 @@ def main() -> int:
             errs.append(f"{n}: two answers share a value, so the next steps cannot be ordered")
     rep.check("frameworks: every reference resolves (groups, stack entries, layers, sources, parents, set members, crosswalks, "
               "comparisons, check items)", errs, f"{len(fws)} frameworks, {sum(len(n) for n in nodes.values())} nodes")
+
+    # 3b. the plays' links (Round 3)
+    errs, linked = [], 0
+    links = docs.get(catalog.get("plays", ""), {})
+    plays_file = ROOT / "playbook" / "app" / "plays.json"
+    if links and plays_file.exists():
+        play_ids = [p["id"] for p in load(plays_file)["plays"]]
+        seen_plays = [p["playId"] for p in links["plays"]]
+        errs += [f"{x!r} is not a play in playbook/app/plays.json" for x in seen_plays if x not in play_ids]
+        errs += [f"the play {x!r} has no links" for x in play_ids if x not in seen_plays]
+        if seen_plays != [x for x in play_ids if x in seen_plays]:
+            errs.append("the plays are not in the order of playbook/app/plays.json")
+        errs += [f"the story starts with {x!r}, which is not a play" for x in links["story"]["playIds"] if x not in play_ids]
+        if "own reading" not in links["basis"]:
+            errs.append("the basis line does not say the links are Lensatic's own reading")
+        for p in links["plays"]:
+            fw_seen = [l["frameworkId"] for l in p["links"]]
+            errs += [f"{p['playId']}: {x} is linked twice" for x in sorted(set(fw_seen)) if fw_seen.count(x) > 1]
+            for l in p["links"]:
+                if l["frameworkId"] not in fws:
+                    errs.append(f"{p['playId']}: {l['frameworkId']!r} is not a framework")
+                    continue
+                bad = [n for n in l["nodeIds"] if n not in nodes[l["frameworkId"]]]
+                errs += [f"{p['playId']}: {l['frameworkId']} does not hold {bad[:5]}"] if bad else []
+                linked += len(l["nodeIds"])
+                if not l["line"].endswith("."):
+                    errs.append(f"{p['playId']}: the line for {l['frameworkId']} does not end as a sentence")
+    elif catalog.get("plays"):
+        errs.append("the catalog names a plays file, and playbook/app/plays.json or the file itself is missing")
+    rep.check("frameworks: the plays' links: every play has an entry and every entry is a play, in the plays' order; each link "
+              "names a framework once and elements it holds; the story's plays exist; the basis says whose reading it is", errs,
+              f"{len(links.get('plays', []))} plays, {sum(len(p['links']) for p in links.get('plays', []))} links, {linked} elements")
 
     # 4. counts: what a card says equals what the app shows, and a subset says so
     errs, shown = [], []
@@ -300,11 +341,22 @@ def main() -> int:
 
     # 8. house rules
     errs = []
+    as_published = V.published_title_lines()
+    for i, f in fws.items():
+        listed = f.get("asPublished", [])
+        errs += [f"{i}: asPublished names {x!r}, which the file does not hold" for x in listed if x not in nodes[i]]
+        errs += [f"{i}: asPublished names {x}, whose title does not need it" for x in listed
+                 if x in nodes[i] and V.FORBIDDEN_WORD not in nodes[i][x].get("title", "")]
+        if listed and not any("as the" in s["verification"]["note"] and "publishes" in s["verification"]["note"] for s in f["sources"]):
+            errs.append(f"{i}: a title is printed as published, and no source note says so")
     for n, doc in docs.items():
         raw = (DIR / f"{n}.json").read_text(encoding="utf-8")
         for ch, name in DASHES.items():
             errs += [f"{n}.json:{k}: {name}" for k, line in enumerate(raw.splitlines(), 1) if ch in line][:5]
-        errs += [f"{n}.json:{k}: the forbidden word" for k, line in enumerate(raw.splitlines(), 1) if V.FORBIDDEN_WORD in line][:5]
+        # the word stays out of everything Lensatic writes; a publisher's title the file lists in asPublished keeps it
+        # (owner's ruling 5, 15 November 2026: titles as published win)
+        errs += [f"{n}.json:{k}: the forbidden word" for k, line in enumerate(raw.splitlines(), 1)
+                 if V.FORBIDDEN_WORD in line and (f"content/frameworks/{n}.json", k) not in as_published][:5]
         errs += [f"{n}.json {p}: a straight quote mark" for p in typography.straight(doc)][:5]
         for p, s in walk_strings(doc):
             if EMAIL.search(s):

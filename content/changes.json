@@ -4,6 +4,26 @@
  "from": "1.2.0",
  "items": [
   {
+   "id": "1.4.0/app:trailhead-cloud-provider/feature",
+   "release": "1.4.0",
+   "released": "2026-11-15",
+   "date": "2026-11-15",
+   "kind": "feature",
+   "entityId": "",
+   "title": "Cloud Provider joins the trailheads",
+   "action": "trailheads"
+  },
+  {
+   "id": "1.4.0/app:framework-navigator/feature",
+   "release": "1.4.0",
+   "released": "2026-11-15",
+   "date": "2026-11-15",
+   "kind": "feature",
+   "entityId": "",
+   "title": "The framework navigator joins Lensatic",
+   "action": "frameworks"
+  },
+  {
    "id": "1.4.0/framework:csf20/recheck",
    "release": "1.4.0",
    "released": "2026-11-15",

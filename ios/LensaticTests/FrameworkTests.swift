@@ -42,7 +42,7 @@ final class FrameworkTests: XCTestCase {
         XCTAssertEqual(lib.frameworks.count, 19)
         XCTAssertEqual(Set(lib.frameworks.map(\.id)).count, lib.frameworks.count)
         let repo = Bundle(for: FrameworkTests.self)
-        for name in ["catalog"] + lib.catalog.frameworks + lib.catalog.compares + lib.catalog.checks {
+        for name in ["catalog"] + lib.catalog.frameworks + lib.catalog.compares + lib.catalog.checks + [lib.catalog.plays].compactMap({ $0 }) {
             XCTAssertEqual(sha256(try file(name)), sha256(try file(name, in: repo)), "\(name).json is the repository's file")
         }
         // every framework the brief names is a card
@@ -330,7 +330,10 @@ final class FrameworkTests: XCTestCase {
                     "baselinesOn", "baseline", "baselineCount", "useIt", "checkYourself", "compareWith", "connects", "onTheMap", "onTheMapLine",
                     "notInCatalog", "inBaselines", "referencedBy", "sideBySide", "howTheyConnect", "whereTheyOverlap", "noScoreTitle", "openEach",
                     "reached", "overlapRow", "mostIn", "answered", "whereYouStand", "doNext", "checkStart", "checkFinish", "checkAllInPlace", "cardOnly", "textAtSource", "landsEyebrow", "selfCheck", "nextAtEnd", "inFieldGuide", "jump",
-                    "checkNotAssessment", "startOver", "checkKept", "homeFrameworksTitle", "homeFrameworksLine", "homeCheck"] {
+                    "checkNotAssessment", "startOver", "checkKept", "homeFrameworksTitle", "homeFrameworksLine", "homeCheck",
+                    // Round 3: the plays' links, a saved element's screen and the two-pane screen
+                    "playsIn", "playsInLine", "playsThatTouch", "playsOn", "playsOnLine", "wholeFramework", "element", "elementsWord",
+                    "storyAll", "storyStart", "showElements", "hideElements", "spelledOut", "openIt"] {
             XCTAssertNotNil(lib.catalog.labels[key], key)
         }
     }
@@ -607,5 +610,120 @@ final class FrameworkTests: XCTestCase {
         XCTAssertEqual(Glance(store: store, state: kept, today: today).countdown?.label, "FedRAMP 2026 rules")
         p.setWidgetDeadline(nil)
         XCTAssertNil(Glance(store: store, state: ProgressStore(url: url).state, today: today).countdown, "Automatic again")
+    }
+
+    // MARK: Round 3: the plays tied in, saved elements, an element's text
+
+    /// Every play is tied into the navigator: the links file holds each play of playbook/app/plays.json once, in the
+    /// plays' own order; every link names a framework once and elements that framework holds; the file says whose reading
+    /// the links are; the lead story starts with the two plays; and the counts the screens print are computed.
+    func testEveryPlayIsTiedIntoTheNavigator() throws {
+        let links = try XCTUnwrap(lib.playLinks)
+        let shelf = try Library.bundled()
+        XCTAssertEqual(links.plays.map(\.playId), shelf.plays.plays.map(\.id), "every play, in the plays' own order")
+        XCTAssertTrue(links.basis.contains("own reading") && links.basis.contains("No publisher prints a crosswalk"), links.basis)
+        for entry in links.plays {
+            XCTAssertFalse(entry.links.isEmpty, entry.playId)
+            XCTAssertEqual(Set(entry.links.map(\.frameworkId)).count, entry.links.count, "\(entry.playId) names a framework once")
+            for link in entry.links {
+                let g = try XCTUnwrap(lib.graphs[link.frameworkId], "\(entry.playId): \(link.frameworkId)")
+                for n in link.nodeIds { XCTAssertNotNil(g.node(n), "\(entry.playId): \(link.frameworkId) holds \(n)") }
+                XCTAssertTrue(link.line.hasSuffix("."), link.line)
+            }
+        }
+        XCTAssertEqual(links.story.playIds, ["insiders", "containment"])
+        // the story's two plays reach controls, outcomes and techniques, the AI RMF and all three MITRE knowledge bases
+        for play in links.story.playIds {
+            let own = lib.links(forPlay: play)
+            for id in ["sp800-53", "csf20", "ai-rmf", "attack", "d3fend", "aml", "dod-zt", "cisa-ztmm"] {
+                XCTAssertTrue(own.contains { $0.frameworkId == id && !$0.nodeIds.isEmpty }, "\(play) reaches \(id)")
+            }
+            let counts = lib.linkCounts(forPlay: play)
+            XCTAssertEqual(counts.frameworks, own.count)
+            XCTAssertEqual(counts.elements, own.reduce(0) { $0 + $1.nodeIds.count })
+        }
+        // the way back: the plays that touch an element, and a framework
+        XCTAssertTrue(lib.plays(touching: "AC-6", in: "sp800-53").contains("insiders"))
+        XCTAssertTrue(lib.plays(touching: "AML.T0051", in: "aml").contains("containment"))
+        XCTAssertTrue(lib.plays(touching: "AC-6", in: "csf20").isEmpty, "an identifier is its own framework's")
+        XCTAssertEqual(lib.plays(touching: "aml").map(\.playId), links.plays.filter { e in e.links.contains { $0.frameworkId == "aml" } }.map(\.playId))
+        XCTAssertTrue(lib.links(forPlay: "nothing").isEmpty)
+        // a count is in the publisher's word where every element is at one level, and there is none for a whole framework
+        let csf = try XCTUnwrap(lib.links(forPlay: "insiders").first { $0.frameworkId == "csf20" })
+        XCTAssertEqual(lib.countLine(csf), "\(csf.nodeIds.count) Subcategories")
+        let mixed = try XCTUnwrap(lib.links(forPlay: "insiders").first { $0.frameworkId == "sp800-53" })
+        XCTAssertEqual(lib.countLine(mixed), "\(mixed.nodeIds.count) elements")
+        XCTAssertNil(lib.countLine(try XCTUnwrap(lib.links(forPlay: "resources").first)))
+        XCTAssertEqual(PlaysOnFrameworkView.countLine(3, of: 35, labels: lib), "3 of the 35 plays touch it")
+        // a link to an element that is not there fails the load
+        XCTAssertThrowsError(try library(editing: "play-links") { tree in
+            var plays = tree["plays"] as! [[String: Any]]
+            var first = (plays[0]["links"] as! [[String: Any]])
+            first[0]["nodeIds"] = ["NOPE-1"]
+            plays[0]["links"] = first
+            tree["plays"] = plays
+        })
+        XCTAssertEqual(Nav(pathParts: Nav.playsOn("aml").pathParts), .playsOn("aml"))
+        XCTAssertEqual(Nav.playsOn("aml").home, .frameworks)
+    }
+
+    /// A single element is saved, described and opened by its own key (Round 3), an identifier with a space or a
+    /// bracket included, and the app's own link carries it.
+    func testAnElementIsSavedByItsOwnKey() throws {
+        let model = AppModel(store: store, library: try Library.bundled(), progress: ProgressStore(url: nil), frameworks: lib)
+        for (f, n, title, line) in [("sp800-53", "AC-2(1)", "AC-2(1) Automated System Account Management", "SP 800-53"),
+                                    ("ai-rmf", "GOVERN 1.1", "GOVERN 1.1", "AI RMF"),
+                                    ("aml", "AML.T0051", "AML.T0051 LLM Prompt Injection", "ATLAS")] {
+            let item = SavedItem.node(f, n)
+            XCTAssertEqual(item.key, "node:\(f):\(n)")
+            XCTAssertEqual(SavedItem(key: item.key), item)
+            XCTAssertTrue(model.exists(item), item.key)
+            let d = try XCTUnwrap(model.describe(item))
+            XCTAssertEqual(d.title, title)
+            XCTAssertTrue(d.line.hasPrefix(line), d.line)
+            XCTAssertTrue(model.open(link: DeepLink.open(item)), item.key)
+            XCTAssertEqual(model.tab, .frameworks)
+            XCTAssertEqual(model.paths[.frameworks], [.node(f, n)])
+        }
+        XCTAssertFalse(model.exists(.node("sp800-53", "NOPE-1")))
+        XCTAssertNil(SavedItem(key: "node:sp800-53"))
+        XCTAssertNil(SavedItem(key: "node::AC-2"))
+        // no identifier holds a colon, so a key always splits in three
+        for f in lib.frameworks { XCTAssertFalse(f.nodes.contains { $0.id.contains(":") }, f.id) }
+        XCTAssertEqual(HomeView.byType([.play("containment"), .node("sp800-53", "AC-6"), .step(.dow, 2)]).map(\.key),
+                       ["node:sp800-53:AC-6", "step:dow:2", "play:containment"])
+    }
+
+    /// An element's own text takes the map's first-use rule (Round 3): an abbreviation the glossary holds is spelled out
+    /// once, the spell-out is marked as Lensatic's, and the publisher's words are all still there, in order.
+    func testAnElementsTextTakesTheFirstUseRuleAndKeepsThePublishersWords() throws {
+        var spelled = 0
+        for f in lib.frameworks where f.terms.shows == .text {
+            for node in f.nodes {
+                guard let text = node.text else { continue }
+                let words = NodeProse(node, rules: store.rules)
+                let run = words.prose[try XCTUnwrap(words.text)]
+                let own = run.segments.filter { if case .expansion = $0 { return false } else { return true } }.map(\.string).joined()
+                XCTAssertEqual(own, text, "\(f.id) \(node.id): the publisher's words, whole and in order")
+                XCTAssertEqual(words.expanded, own != run.text, "\(f.id) \(node.id)")
+                if words.expanded { spelled += 1 }
+            }
+        }
+        XCTAssertGreaterThan(spelled, 0, "at least one element's text holds an abbreviation the glossary spells out")
+        // a framework that shows titles only has no text to spell out
+        let control = try XCTUnwrap(lib.graphs["sp800-53"]?.node("AC-6"))
+        XCTAssertNil(NodeProse(control, rules: store.rules).text)
+    }
+
+    /// Ruling 5 of 15 November 2026: a publisher's title is printed as published. The department's activity 6.5.3 is
+    /// the one such title, the file lists it, and its source note says titles are as published.
+    func testAPublishersTitleIsPrintedAsPublished() throws {
+        let f = try XCTUnwrap(lib.byId["dod-zt"])
+        XCTAssertEqual(f.asPublished, ["6.5.3"])
+        let title = try XCTUnwrap(lib.graphs["dod-zt"]?.node("6.5.3")?.title)
+        XCTAssertEqual(title.split(separator: " ").count, 2)
+        XCTAssertTrue(title.split(separator: " ").allSatisfy { $0.first?.isUppercase == true }, "both words carry the department's capitals")
+        XCTAssertTrue(f.sources.contains { $0.verification.note.contains("as the department publishes it") })
+        XCTAssertTrue(lib.frameworks.filter { $0.id != "dod-zt" }.allSatisfy { $0.asPublished == nil })
     }
 }

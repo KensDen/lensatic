@@ -32,7 +32,12 @@ too, each framework by its own sources.
 A navigator item carries its framework's id (frameworkId), which the app opens, and the framework's own stack entry
 where it has one, so the item still marks the steps on a path that name that entry.
 
-The app's own additions are not news: an entry the map adds that its publisher put out long before, or a date the map
+Lensatic's own news (owner's ruling of 15 November 2026): a release's changelog entry may name, in `news`, what it adds
+to Lensatic itself that a reader should hear about, a new trailhead or the framework navigator.
+  feature    a headline the release's changelog entry        dated the release day; news. It opens the trailhead
+             carries, in the list's own style                question or the Frameworks tab (its `action`)
+
+Apart from those headlines, the app's own additions are not news: an entry the map adds that its publisher put out long before, or a date the map
 records for a deadline its source has stated all along, makes no item. Wording and notes, short text for the app, roles
 and publishers' spellings are not items either. Each item names its entry,
 so the app can say which steps on the reader's path it affects, and its release, so the app can tell what is newer than
@@ -194,7 +199,15 @@ def diff(old: dict, new: dict, short_titles: dict[str, str]) -> list[dict]:
             item("removed", eid, f"{resolve(e['shortName'], old)} leaves the map", day)
     order = {k: i for i, k in enumerate(("added", "removed", "document", "deadline", "status", "link", "recheck"))}
     place = {eid: i for i, eid in enumerate(list(b) + [x for x in a if x not in b])}
-    return sorted(items, key=lambda i: (order[i["kind"]], place[i["entityId"]]))
+    return headlines(new) + sorted(items, key=lambda i: (order[i["kind"]], place[i["entityId"]]))
+
+
+def headlines(data: dict) -> list[dict]:
+    """A release's own news, from its changelog entry: first in the release, in the entry's order."""
+    rel, day = data["meta"]["contentVersion"], data["meta"]["builtOn"]
+    entry = next((c for c in data["meta"].get("changelog", []) if c.get("version") == rel), {})
+    return [{"id": f"{rel}/app:{n['id']}/feature", "release": rel, "released": day, "date": day, "kind": "feature",
+             "entityId": "", "title": n["title"], "action": n["opens"]} for n in entry.get("news", [])]
 
 
 def build() -> dict:

@@ -145,8 +145,17 @@ struct FrameworkDetailView: View {
                 } header: {
                     ListNote(L.label("useIt"))
                 }
-                if !f.related.isEmpty || f.chapterId != nil {
+                let touching = L.plays(touching: f.id)
+                if !f.related.isEmpty || f.chapterId != nil || !touching.isEmpty {
                     SwiftUI.Section {
+                        // Round 3: the Agentic SecOps plays that touch this framework, one tap on
+                        if !touching.isEmpty {
+                            NavigationLink(value: Nav.playsOn(f.id)) {
+                                TileRow(icon: RowIcon.playbook, title: L.label("playsOn"),
+                                        subtitle: PlaysOnFrameworkView.countLine(touching.count, of: model.library.plays.plays.count, labels: L))
+                            }
+                            .accessibilityIdentifier("framework-plays")
+                        }
                         if let chapter = f.chapterId.flatMap({ model.library.guide.chapter($0) }) {
                             NavigationLink(value: Nav.chapter(chapter.id)) {
                                 TileRow(icon: RowIcon.guide, title: chapter.displayTitle, subtitle: L.label("inFieldGuide"))
@@ -294,23 +303,31 @@ struct NodeView: View {
             // where the node sits: the framework, its level, and for a deeper node the one above it ("CISA ZTMM · Stage · Authentication")
             let parent = node.parents.first.flatMap { graph.node($0) }
             let above = graph.identified(node) ? nil : parent.flatMap { p in graph.identified(p) ? nil : p.title }
+            // Round 3: the element's text goes through the map's first-use rule, as a framework's screen does, so an
+            // abbreviation the glossary holds is spelled out once and opens its entry
+            let words = model.screen("node-prose-\(frameworkId)-\(nodeId)") { NodeProse(node, rules: model.store.rules) }
             ListScreen(eyebrow: dotted([f.shortName, level?.name, above].compactMap { $0 }, separator: model.store.label("metaSeparator")),
                        eyebrowColor: f.tone,
                        // a node the publisher gives only a sentence is named by its level: "Subcategory GV.OC-01"; one at a
                        // level the publisher does not number is named by its title alone
                        title: !graph.identified(node) ? (node.title ?? "") : node.title.map { "\(node.id) \($0)" } ?? "\(level?.name ?? "") \(node.id)",
-                       identifier: "node-screen") {
+                       identifier: "node-screen", saves: .node(f.id, node.id)) {
                 if node.text != nil || node.note != nil {
                     SwiftUI.Section {
                         VStack(alignment: .leading, spacing: 6) {
-                            if let text = node.text {
-                                Text(text).font(DS.style(.body)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                            if let text = words.text {
+                                ProseText(run: words.prose[text], font: DS.style(.body), color: .primary)
                                     .accessibilityIdentifier("node-text")
                             }
-                            if let note = node.note {
-                                Text(note).font(DS.style(.subheadline).weight(.semibold)).foregroundStyle(f.tone)
-                                    .fixedSize(horizontal: false, vertical: true)
+                            if let note = words.note {
+                                ProseText(run: words.prose[note], font: DS.style(.subheadline).weight(.semibold), color: f.tone)
                                     .accessibilityIdentifier("node-note")
+                            }
+                            // the publisher's words stay the publisher's: a spell-out the rule adds is marked as Lensatic's
+                            if words.expanded {
+                                Text(L.label("spelledOut")).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                    .accessibilityIdentifier("node-spelled-out")
                             }
                         }
                         .padding(.vertical, 4)
@@ -383,6 +400,18 @@ struct NodeView: View {
                                 ListNote(dotted([s.publisher, SourceRows.checked(s.verification, store: model.store, labels: L)], separator: model.store.label("metaSeparator")))
                             }
                         }
+                    }
+                }
+                // Round 3: the plays that name this element
+                let plays = L.plays(touching: node.id, in: f.id).compactMap { model.library.play($0) }
+                if !plays.isEmpty {
+                    SwiftUI.Section {
+                        ForEach(plays) { PlayLinkRow(play: $0, line: $0.summary) }
+                    } header: {
+                        // the identifier sits on the header: one on the section would replace its rows' own
+                        ListNote("\(L.label("playsThatTouch")): \(plays.count)").accessibilityIdentifier("node-plays")
+                    } footer: {
+                        if let basis = L.playLinks?.basis { ListNote(basis) }
                     }
                 }
                 // a node Lensatic lists by title says where its text is, and every node ends in the way to its source
@@ -495,6 +524,27 @@ struct FlowBadges: View {
         FlowLayout {
             ForEach(ids, id: \.self) { NodeBadge(id: $0, tone: tone) }
         }
+    }
+}
+
+/// An element's own text as runs under the map's rules (Round 3): the publisher's text, then Lensatic's note, in the
+/// order they are read. `expanded` says whether the rule spelled an abbreviation out inside the publisher's text, so the
+/// screen can say whose words the spell-out is.
+struct NodeProse {
+    let prose: Prose
+    let text: Int?
+    let note: Int?
+    let expanded: Bool
+
+    init(_ node: Framework.Node, rules: Rules) {
+        var b = ProseBuilder()
+        text = node.text.map { b.text($0) }
+        note = node.note.map { b.text($0) }
+        let applied = b.applied(rules)
+        prose = applied
+        expanded = text.map { i in
+            applied[i].segments.contains { if case .expansion = $0 { return true } else { return false } }
+        } ?? false
     }
 }
 

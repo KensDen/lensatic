@@ -115,6 +115,7 @@ struct Shell: View {
         case .compare(let id): CompareView(id: id, in: model.frameworks)
         case .pair(let a, let b): CompareView(a: a, b: b, in: model.frameworks)
         case .group(let id): FrameworkGroupView(id: id)
+        case .playsOn(let id): PlaysOnFrameworkView(frameworkId: id)
         case .check(let id): ReadinessView(id: id)
         case .landing(let id): LandingView(id: id)
         }

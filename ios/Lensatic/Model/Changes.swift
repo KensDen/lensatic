@@ -16,6 +16,9 @@ struct Changes: Decodable, Sendable {
             case added, removed, document, deadline, status, link, recheck
             /// A framework of the navigator moves to a new edition (Lensatic 2.0, Round 2).
             case edition
+            /// Lensatic's own news (Round 3, the owner's ruling of 15 November 2026): a headline the release's changelog
+            /// entry carries, for a new trailhead or the framework navigator.
+            case feature
 
             /// A check against the source (a recheck, a status it changed), not news: behind Show Source Checks.
             var isCheck: Bool { self == .recheck || self == .status }
@@ -31,6 +34,7 @@ struct Changes: Decodable, Sendable {
                 case .status: return "Status"
                 case .recheck: return "Source check"
                 case .edition: return "New edition"
+                case .feature: return "New in Lensatic"
                 }
             }
         }
@@ -46,8 +50,14 @@ struct Changes: Decodable, Sendable {
         /// The navigator's framework the item is about (Lensatic 2.0, Round 2): the item opens that framework. Its
         /// `entityId` is then the framework's own stack entry, or empty where it has none.
         let frameworkId: String?
+        /// Where one of Lensatic's own headlines leads (Round 3): the trailhead question, or the Frameworks tab. Such an
+        /// item names no entry and no framework.
+        let action: Action?
 
-        /// The screen an item opens: its framework in the navigator, or its entry's card.
+        enum Action: String, Decodable, Sendable { case trailheads, frameworks }
+
+        /// The screen an item opens: its framework in the navigator, or its entry's card. A headline with an action
+        /// opens no screen of its own; the row runs the action.
         var opens: Nav { frameworkId.map(Nav.framework) ?? .entity(entityId) }
     }
 

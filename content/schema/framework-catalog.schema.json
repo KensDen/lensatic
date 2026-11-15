@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:lensatic:framework-catalog.schema:2.0.0-r2",
+  "$id": "urn:lensatic:framework-catalog.schema:2.0.0-r3",
   "title": "The Lensatic framework catalog",
-  "description": "Schema for content/frameworks/catalog.json: the groups, the order of the cards, where other standards land, the comparison and check files, and the navigator's labels.",
+  "description": "Schema for content/frameworks/catalog.json: the groups, the order of the cards, where other standards land, the comparison and check files, and the navigator's labels; and, since Round 3, the file that links the Agentic SecOps plays to the frameworks.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -147,6 +147,11 @@
         "pattern": "^[a-z0-9][a-z0-9-]*$"
       },
       "uniqueItems": true
+    },
+    "plays": {
+      "description": "The file of links from the plays to the frameworks' elements.",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
     }
   },
   "$defs": {

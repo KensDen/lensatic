@@ -13,8 +13,9 @@ struct HomeView: View {
     @Environment(\.horizontalSizeClass) private var sizeClass
     @State private var showStory = false
     static let savedShown = 5
-    /// The play the playbook door starts with (Ken's ruling, 10 November 2026): Agentic Insider Risk, by its id in
-    /// playbook/app/plays.json. A unit test holds it to a play in the file.
+    /// The play the playbook door started with in build 6 (Ken's ruling, 10 November 2026): Agentic Insider Risk, by its
+    /// id in playbook/app/plays.json. Since Lensatic 2.0, Round 3, Home's lead story names the plays to start with
+    /// (content/frameworks/play-links.json), and this one is the first of them; a unit test holds the two together.
     static let startPlay = "insiders"
 
     var body: some View {
@@ -26,7 +27,15 @@ struct HomeView: View {
                         .listRowInsets(EdgeInsets(top: 8, leading: 20, bottom: 2, trailing: 20))
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
-                    // Lensatic 2.0: the zero trust countdown and the way into the frameworks lead; the three doors follow
+                    // Lensatic 2.0, Round 3: the lead story, agents as the new insiders, with its plays to start with. It
+                    // is the way into the plays, so the third door is this card
+                    if let story = model.frameworks.playLinks?.story {
+                        HomeStory(story: story, wide: sizeClass == .regular && !typeSize.isAccessibilitySize)
+                            .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                    }
+                    // Lensatic 2.0: the zero trust countdown and the way into the frameworks; the other doors follow
                     lead
                         .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
                         .listRowBackground(Color.clear)
@@ -189,6 +198,8 @@ struct HomeView: View {
                      identifier: "home-door-guide") {
                 model.push(.guide)
             }
+            // the plays' door is the lead story above; without a story in the content it stands here, as in build 6
+            if model.frameworks.playLinks?.story == nil {
             HomeDoor(symbol: RowIcon.playbook.0, tile: RowIcon.playbook.1, tint: Palette.secPurple, eyebrow: site.playsName,
                      // the hub's line opens with the title this door already carries, so the app has its own (ui.labels)
                      title: site.playsTitle, line: model.store.label("homePlaysLine"), status: [model.playsStatus.line], tall: wide,
@@ -198,6 +209,7 @@ struct HomeView: View {
                      identifier: "home-door-playbook") {
                 model.push(.plays)
             }
+            }
         }
         // side by side, the doors share one height
         .fixedSize(horizontal: false, vertical: true)
@@ -206,7 +218,7 @@ struct HomeView: View {
     /// Saved items grouped by type, in the order frameworks, steps, plays, each group keeping its newest-first order.
     static func byType(_ items: [SavedItem]) -> [SavedItem] {
         func rank(_ i: SavedItem) -> Int {
-            switch i { case .entity, .framework: return 0; case .step: return 1; case .play: return 2 }
+            switch i { case .entity, .framework, .node: return 0; case .step: return 1; case .play: return 2 }
         }
         return items.enumerated().sorted { a, b in rank(a.element) != rank(b.element) ? rank(a.element) < rank(b.element) : a.offset < b.offset }.map(\.element)
     }

@@ -446,7 +446,29 @@ struct ChangeRow: View {
     var inList = false
 
     var body: some View {
-        if inList {
+        if inList, let action = item.action {
+            // one of Lensatic's own headlines (Round 3): the row runs its action, and looks like the rows around it
+            Button { model.run(action) } label: {
+                HStack(alignment: .firstTextBaseline, spacing: 10) {
+                    if isNew { Circle().fill(Palette.accent).frame(width: 8, height: 8).accessibilityHidden(true) }
+                    VStack(alignment: .leading, spacing: 2) {
+                        if isNew { Text("New").font(DS.style(.footnote).weight(.semibold)).foregroundStyle(Palette.accent) }
+                        Text(keepWhole(item.title)).font(DS.style(.body)).foregroundStyle(.primary)
+                        Text(metaLine).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                    Image(systemName: "chevron.forward").font(.footnote.weight(.semibold)).foregroundStyle(.tertiary).accessibilityHidden(true)
+                }
+                .padding(.vertical, 2)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityElement(children: .combine)
+            .accessibilityAddTraits(.isButton)
+            .accessibilityIdentifier("change-\(item.id)")
+        } else if inList {
             NavigationLink(value: item.opens) {
                 HStack(alignment: .firstTextBaseline, spacing: 10) {
                     if isNew { Circle().fill(Palette.accent).frame(width: 8, height: 8).accessibilityHidden(true) }
@@ -469,7 +491,7 @@ struct ChangeRow: View {
     }
 
     private var card: some View {
-        Button { model.push(item.opens) } label: {
+        Button { if let action = item.action { model.run(action) } else { model.push(item.opens) } } label: {
             HStack(alignment: .firstTextBaseline, spacing: 10) {
                 if isNew { Circle().fill(Palette.accent).frame(width: 8, height: 8).accessibilityHidden(true) }
                 VStack(alignment: .leading, spacing: 2) {

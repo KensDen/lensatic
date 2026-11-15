@@ -69,6 +69,7 @@
 		9258DC0E6B333B5039591A3A /* LensaticIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7EC69255DC40A345E52522B /* LensaticIntents.swift */; };
 		9690C67ED643830FF192DB84 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 32BA4EB3057307C6B64E1DED /* OFL.txt */; };
 		96A43FE8CA85C5DD207FE246 /* LensaticWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC79C802C8F82191CD532A3 /* LensaticWidget.swift */; };
+		9DB7A807779D2BB1B5DB2601 /* PlayLinksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2764B2D21126E797FACC241C /* PlayLinksView.swift */; };
 		9E86C20273991E27F4A5C0BE /* IBMPlexMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 750C9F3601B22441A4BC806B /* IBMPlexMono-Regular.ttf */; };
 		A52B6D40634893DF2498876C /* Content.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF4E37E5BB91527957380B9 /* Content.swift */; };
 		A65E6EE4E85887484D5474B6 /* Glance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F82538EE4B5C02FBFBD2011 /* Glance.swift */; };
@@ -159,6 +160,7 @@
 		20C6C16B2C58F0760FF8BFCC /* LensaticApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LensaticApp.swift; sourceTree = "<group>"; };
 		20E5BADC225FFF5190500E3B /* Reader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reader.swift; sourceTree = "<group>"; };
 		2572BC4541C0EC4775E0A02F /* ExploreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreView.swift; sourceTree = "<group>"; };
+		2764B2D21126E797FACC241C /* PlayLinksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayLinksView.swift; sourceTree = "<group>"; };
 		294D7B352EEC047626CD0F56 /* guide.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = guide.json; sourceTree = "<group>"; };
 		2AFC2099A6C9995FAD92913E /* LensaticWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = LensaticWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C8A4130F143CFAF5F0FA7FD /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
@@ -435,6 +437,7 @@
 				A16DD384DF211A77048A52BA /* HomeView.swift */,
 				8126127134E77A969438FF89 /* LibraryView.swift */,
 				34637BAAA56FF1A42E985976 /* MyPathView.swift */,
+				2764B2D21126E797FACC241C /* PlayLinksView.swift */,
 				8CD76A0807005AC8EB03A5BD /* ReadinessView.swift */,
 				DA895FEDEAC8133F8089250E /* ReferenceViews.swift */,
 				85E562EF2E0CE771CDF13819 /* SearchView.swift */,
@@ -705,6 +708,7 @@
 				824F3F249CC54AA0F86EA994 /* NativeFigures.swift in Sources */,
 				3BCA1F9A2DDBF6D7CB28F480 /* Nav.swift in Sources */,
 				A6E18D50A6285A1087312135 /* PathPlan.swift in Sources */,
+				9DB7A807779D2BB1B5DB2601 /* PlayLinksView.swift in Sources */,
 				21DDA502946BC34BD535C46D /* ProgressStore.swift in Sources */,
 				0068CF08B4EB3DEF95B67F3C /* Prose.swift in Sources */,
 				FFCE07A4AAA80BF4088EFB3E /* ProseText.swift in Sources */,

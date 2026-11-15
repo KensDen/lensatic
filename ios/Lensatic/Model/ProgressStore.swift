@@ -290,15 +290,20 @@ final class ProgressStore {
 }
 
 /// Something the reader saved: an entry (its card), a step on a trailhead, a play, or since Lensatic 2.0 a framework of
-/// the navigator. Kept in the file by its key.
+/// the navigator, and since Round 3 one element of a framework (a control, an outcome, a technique). Kept in the file by
+/// its key.
 enum SavedItem: Hashable, Sendable {
     case entity(String)
     case step(Door.ID, Int)
     case play(String)
     case framework(String)
+    /// One element, by its framework and the publisher's identifier. No identifier holds a colon (the battery's
+    /// frameworks check holds the files to that), so the key splits in three.
+    case node(String, String)
 
     var key: String {
         switch self {
+        case .node(let framework, let id): return "node:\(framework):\(id)"
         case .framework(let id): return "framework:\(id)"
         case .entity(let id): return "entity:\(id)"
         case .step(let door, let order): return "step:\(door.rawValue):\(order)"
@@ -312,6 +317,7 @@ enum SavedItem: Hashable, Sendable {
         case ("entity", 2) where !parts[1].isEmpty: self = .entity(parts[1])
         case ("play", 2) where !parts[1].isEmpty: self = .play(parts[1])
         case ("framework", 2) where !parts[1].isEmpty: self = .framework(parts[1])
+        case ("node", 3) where !parts[1].isEmpty && !parts[2].isEmpty: self = .node(parts[1], parts[2])
         case ("step", 3):
             guard let door = Door.ID(rawValue: parts[1]), let order = Int(parts[2]) else { return nil }
             self = .step(door, order)

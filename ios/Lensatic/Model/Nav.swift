@@ -53,6 +53,8 @@ enum Nav: Hashable, Sendable {
     /// Round 2: any two cards side by side, and a group of cards opened from Explore (the adversary column).
     case pair(String, String)
     case group(String)
+    /// Round 3: the plays that touch a framework.
+    case playsOn(String)
 
     /// The screen as the parts of an address (Target.url), and back.
     var pathParts: [String] {
@@ -77,6 +79,7 @@ enum Nav: Hashable, Sendable {
         case .landing(let id): return ["landing", id]
         case .pair(let a, let b): return ["pair", a, b]
         case .group(let id): return ["group", id]
+        case .playsOn(let id): return ["plays-on", id]
         }
     }
 
@@ -104,6 +107,7 @@ enum Nav: Hashable, Sendable {
         case ("landing", 2): self = .landing(parts[1])
         case ("pair", 3): self = .pair(parts[1], parts[2])
         case ("group", 2): self = .group(parts[1])
+        case ("plays-on", 2): self = .playsOn(parts[1])
         default: return nil
         }
     }
@@ -113,7 +117,7 @@ enum Nav: Hashable, Sendable {
         switch self {
         case .entity, .layer, .cell: return .explore
         case .glossary, .sources, .about, .saved, .guide, .chapter, .plays, .play, .changes: return .home
-        case .framework, .node, .baseline, .compare, .check, .landing, .pair, .group: return .frameworks
+        case .framework, .node, .baseline, .compare, .check, .landing, .pair, .group, .playsOn: return .frameworks
         }
     }
 }

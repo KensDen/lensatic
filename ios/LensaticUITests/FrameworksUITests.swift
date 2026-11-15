@@ -23,9 +23,10 @@ extension LensaticUITests {
                                "govramp", "cjis", "ai-rmf", "ir8596", "attack", "d3fend", "aml"]
 
     /// Home (Lensatic 2.0): the countdown opens the framework that sets it, and the frameworks card says how many there are
-    /// and names a reader's own framework. On a phone (Round 2, ruling 7) the countdown and the card are compact, so all
-    /// three doors, the playbook's start row included, are on the first screen at the default text size; where the card
-    /// keeps its three controls (the iPad) they open Browse, Compare and the self-checks.
+    /// and names a reader's own framework. On a phone (Round 2, ruling 7) the countdown and the card are compact, so the
+    /// lead story with its two plays (Round 3), the countdown, the frameworks and both other doors are on the first screen
+    /// at the default text size; where the card keeps its three controls (the iPad) they open Browse, Compare and the
+    /// self-checks.
     func testHomeLeadsWithTheCountdownAndTheFrameworks() throws {
         launch(door: nil)
         XCTAssertTrue(element("home").waitForExistence(timeout: 10))
@@ -37,7 +38,7 @@ extension LensaticUITests {
         XCTAssertTrue(element("home-framework-fedramp").isHittable && element("home-framework-iso27001").isHittable)
         if UIDevice.current.userInterfaceIdiom == .phone {
             // every door on the first screen, above the tab bar, with nothing scrolled
-            for id in ["home-countdown", "home-frameworks", "home-door-maps", "home-door-guide", "home-door-playbook", "home-door-playbook-start"] {
+            for id in ["home-door-playbook", "home-story-play-insiders", "home-story-play-containment", "home-countdown", "home-frameworks", "home-door-maps", "home-door-guide"] {
                 XCTAssertTrue(element(id).isHittable, "\(id) is on the first screen")
                 XCTAssertLessThanOrEqual(element(id).frame.maxY, tabBarTop(), "\(id) ends above the tab bar")
             }
@@ -64,6 +65,59 @@ extension LensaticUITests {
         XCTAssertTrue(element("framework-screen").waitForExistence(timeout: 5), "the countdown opens its framework")
         XCTAssertEqual(title(), "DoD Zero Trust Strategy")
         XCTAssertTrue(reveal("framework-countdown", in: "framework-screen").exists)
+    }
+
+    /// The plays tied into the navigator (Round 3): a play lists the frameworks it touches and says whose reading the
+    /// links are; a framework's card opens to its elements, and an element opens its own screen, which names the plays
+    /// that touch it and can be saved; a framework lists the plays that touch it. Each screen passes the audit.
+    func testAPlayLeadsIntoTheNavigatorAndBack() throws {
+        launch(door: nil, ["-LensaticNav", "play/insiders"])
+        XCTAssertTrue(element("play-screen").waitForExistence(timeout: 10))
+        XCTAssertTrue(reveal("play-links-count", in: "play-screen").label.contains("frameworks"), element("play-links-count").label)
+        let head = reveal("play-link-aml", in: "play-screen")
+        XCTAssertEqual(head.value as? String, "Collapsed")
+        XCTAssertTrue(head.label.contains("ATLAS"), head.label)
+        try auditScreen("play-screen")
+        head.tap()
+        XCTAssertEqual(element("play-link-aml").value as? String, "Expanded")
+        let row = reveal("play-link-aml-AML.T0080", in: "play-screen")
+        XCTAssertEqual(row.label, "AML.T0080 AI Agent Context Poisoning")
+        try auditScreen("play-screen")
+        XCTAssertTrue(reveal("play-links-basis", in: "play-screen").label.contains("own reading"), "the screen says whose reading the links are")
+        tap("play-link-aml-AML.T0080", in: "play-screen")
+        XCTAssertTrue(element("node-screen").waitForExistence(timeout: 5), "an element opens from the play")
+        XCTAssertEqual(title(), "AML.T0080 AI Agent Context Poisoning")
+        // Round 3: a single element can be saved (the bookmark is in the list's first row, so before any scrolling),
+        // and Home lists it by its identifier and name
+        element("bookmark").tap()
+        XCTAssertEqual(element("bookmark").label, "Saved")
+        // the element names the plays that touch it, and the way back to one of them
+        XCTAssertTrue(reveal("node-plays", in: "node-screen").label.contains("Plays That Touch It"), element("node-plays").label)
+        XCTAssertTrue(reveal("play-row-insiders", in: "node-screen").exists)
+        try auditScreen("node-screen")
+        // the tab already open goes back to its first screen
+        showTab("tab-home")
+        XCTAssertTrue(element("home").waitForExistence(timeout: 5))
+        XCTAssertTrue(reveal("saved-node:aml:AML.T0080", in: "home").label.contains("AML.T0080 AI Agent Context Poisoning"), "the saved element is on Home")
+        tap("saved-node:aml:AML.T0080", in: "home")
+        XCTAssertTrue(element("node-screen").waitForExistence(timeout: 5), "a saved element opens its screen")
+        XCTAssertEqual(element("bookmark").label, "Saved")
+        tap("play-row-agentir", in: "node-screen")
+        XCTAssertTrue(element("play-screen").waitForExistence(timeout: 5), "a play opens from the element")
+        // a framework lists the plays that touch it
+        launch(door: nil, ["-LensaticNav", "framework/aml"])
+        XCTAssertTrue(element("framework-screen").waitForExistence(timeout: 10))
+        tap("framework-plays", in: "framework-screen")
+        XCTAssertTrue(element("plays-on-screen").waitForExistence(timeout: 5))
+        XCTAssertTrue(element("plays-on-count").label.contains("plays touch it"), element("plays-on-count").label)
+        try auditScreen("plays-on-screen")
+        tap("play-row-red", in: "plays-on-screen")
+        XCTAssertTrue(element("play-screen").waitForExistence(timeout: 5))
+        // the plays' list starts with the story's two plays
+        launch(door: nil, ["-LensaticNav", "plays"])
+        XCTAssertTrue(element("plays-screen").waitForExistence(timeout: 10))
+        XCTAssertTrue(element("plays-story").exists && element("plays-story-insiders").exists && element("plays-story-containment").exists)
+        XCTAssertLessThan(element("plays-story-insiders").frame.minY, element("plays-story-containment").frame.minY)
     }
 
     /// Browse: every framework is a card that reads as one sentence, grouped the way the stack is ordered; a card with a

@@ -389,6 +389,12 @@ final class LibraryTests: XCTestCase {
         XCTAssertEqual(try XCTUnwrap(library.play(HomeView.startPlay)).name, "Agentic Insider Risk")
         let progress = tempStore()
         let model = AppModel(store: store, library: library, progress: progress)
+        // Lensatic 2.0, Round 3: Home's lead story names the plays to start with, and the first is build 6's start play
+        let story = try XCTUnwrap(model.frameworks.playLinks?.story)
+        XCTAssertEqual(story.playIds.first, HomeView.startPlay)
+        XCTAssertEqual(story.playIds.compactMap { library.play($0)?.name }, ["Agentic Insider Risk", "Agent Containment"])
+        XCTAssertFalse(story.title.hasSuffix("."), "a title, not a sentence")
+        XCTAssertTrue(story.line.hasSuffix(".") && story.short.hasSuffix("."))
         let weeks = library.guide.core.count + (library.guide.tracks.first?.weeks.count ?? 0)
         XCTAssertEqual(model.guideStatus.line, "\(weeks) weeks", "before a trailhead, the route's length")
         XCTAssertEqual(model.playsStatus.line, "0 of \(library.plays.plays.count) plays read")

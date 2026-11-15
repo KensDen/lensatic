@@ -82,6 +82,37 @@
               },
               "summary": {
                 "$ref": "#/$defs/prose"
+              },
+              "news": {
+                "description": "What this release adds to Lensatic itself that a reader should hear as news (owner's ruling of 15 November 2026: a new trailhead and the framework navigator are news). Each becomes a headline in What Changed, in that list's own style: a capital first, no full stop, at most 60 characters. `opens` is where the headline leads in the app: the trailhead question, or the Frameworks tab.",
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "title",
+                    "opens"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9][a-z0-9-]*$"
+                    },
+                    "title": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 60
+                    },
+                    "opens": {
+                      "enum": [
+                        "trailheads",
+                        "frameworks"
+                      ]
+                    }
+                  }
+                }
               }
             }
           }

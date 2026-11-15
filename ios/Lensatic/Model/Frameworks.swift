@@ -47,6 +47,9 @@ struct Framework: Decodable, Sendable, Identifiable {
     let nodes: [Node]
     let sets: [NodeSet]
     let crosswalks: [Crosswalk]
+    /// The elements whose title is printed exactly as the publisher prints it although it carries a word the content's
+    /// house rule otherwise keeps out (Round 3, ruling 5). The checks read it; the app shows every title as it is.
+    let asPublished: [String]?
     /// The heading over the sets, and the line under them, where they are not baselines on another catalog (CMMC's levels).
     let setsTitle: String?
     let setsLine: String?
@@ -191,6 +194,8 @@ struct FrameworkCatalog: Decodable, Sendable {
     let lands: [Landing]
     let compares: [String]
     let checks: [String]
+    /// The file that links the Agentic SecOps plays to the frameworks' elements (Round 3).
+    let plays: String?
     let labels: [String: String]
 
     struct Group: Decodable, Sendable, Identifiable {
@@ -289,6 +294,40 @@ struct ReadinessCheck: Decodable, Sendable, Identifiable {
     }
 }
 
+/// The links from the Agentic SecOps plays to the navigator (Lensatic 2.0, Round 3): for each play, the frameworks it
+/// touches and, in each, the elements, with one line that says why. Lensatic's own reading of each play, which `basis`
+/// says on screen; no publisher prints this crosswalk, so nothing in it is counted as an overlap. `story` is what Home
+/// leads with: a title, its lines and the plays to start with.
+struct PlayLinks: Decodable, Sendable {
+    let id: String
+    let basis: String
+    let story: Story
+    let plays: [Entry]
+
+    struct Story: Decodable, Sendable {
+        let title: String
+        let line: String
+        /// The story in one line, for the card on a phone.
+        let short: String
+        let playIds: [String]
+    }
+
+    struct Entry: Decodable, Sendable, Identifiable {
+        let playId: String
+        let links: [Link]
+        var id: String { playId }
+    }
+
+    /// One framework a play touches: the elements by the publisher's identifiers, or none where the play touches the
+    /// framework as a whole, and why.
+    struct Link: Decodable, Sendable, Hashable, Identifiable {
+        let frameworkId: String
+        let nodeIds: [String]
+        let line: String
+        var id: String { frameworkId }
+    }
+}
+
 /// A dated deadline on a framework's card, whichever file it comes from: the framework's own, or its stack entry's.
 struct DatedDeadline: Sendable, Hashable {
     let frameworkId: String
@@ -312,6 +351,9 @@ final class FrameworkLibrary: Sendable {
     let graphs: [String: Graph]
     let compares: [Comparison]
     let checks: [ReadinessCheck]
+    /// The plays' links (Round 3); nil where the catalog names no such file (a test's own small catalog).
+    let playLinks: PlayLinks?
+    private let linksByPlay: [String: [PlayLinks.Link]]
 
     enum LoadError: Error, Equatable { case missing(String), invalid(String) }
 
@@ -339,6 +381,15 @@ final class FrameworkLibrary: Sendable {
         graphs = Dictionary(uniqueKeysWithValues: frameworks.map { ($0.id, Graph($0)) })
         compares = try catalog.compares.map { try decode(Comparison.self, $0) }
         checks = try catalog.checks.map { try decode(ReadinessCheck.self, $0) }
+        playLinks = try catalog.plays.map { try decode(PlayLinks.self, $0) }
+        linksByPlay = Dictionary((playLinks?.plays ?? []).map { ($0.playId, $0.links) }, uniquingKeysWith: { first, _ in first })
+        // a play's link never points at a framework or an element that is not there
+        for entry in playLinks?.plays ?? [] {
+            for link in entry.links {
+                guard let g = graphs[link.frameworkId] else { throw LoadError.invalid("play \(entry.playId) links \(link.frameworkId), which is not a framework") }
+                if let bad = link.nodeIds.first(where: { g.node($0) == nil }) { throw LoadError.invalid("play \(entry.playId): \(bad) is not in \(link.frameworkId)") }
+            }
+        }
         // every reference resolves: a card never points at a framework, a group or a node that is not there
         let groups = Set(catalog.groups.map(\.id))
         for f in frameworks {
@@ -511,6 +562,37 @@ final class FrameworkLibrary: Sendable {
     /// The readiness checks a trailhead's readers are offered on My Path.
     func checks(for door: Door.ID) -> [ReadinessCheck] { checks.filter { ($0.doors ?? []).contains(door.rawValue) } }
     func checks(on framework: String) -> [ReadinessCheck] { checks.filter { $0.frameworkId == framework } }
+
+    // MARK: the plays' links (Round 3)
+
+    /// The frameworks a play touches, in the file's order; none for a play the file does not hold.
+    func links(forPlay id: String) -> [PlayLinks.Link] { linksByPlay[id] ?? [] }
+
+    /// How many elements a play's links name, and in how many frameworks.
+    func linkCounts(forPlay id: String) -> (elements: Int, frameworks: Int) {
+        let links = links(forPlay: id)
+        return (links.reduce(0) { $0 + $1.nodeIds.count }, links.count)
+    }
+
+    /// The plays that touch a framework, in the plays' own order, each with its link.
+    func plays(touching framework: String) -> [(playId: String, link: PlayLinks.Link)] {
+        (playLinks?.plays ?? []).compactMap { e in e.links.first { $0.frameworkId == framework }.map { (e.playId, $0) } }
+    }
+
+    /// The plays that name one element of a framework, in the plays' own order.
+    func plays(touching node: String, in framework: String) -> [String] {
+        (playLinks?.plays ?? []).filter { e in e.links.contains { $0.frameworkId == framework && $0.nodeIds.contains(node) } }.map(\.playId)
+    }
+
+    /// The count of what a link names, in the publisher's word where every element is at one level ("5 Techniques"),
+    /// else in the content's word for elements.
+    func countLine(_ link: PlayLinks.Link) -> String? {
+        guard !link.nodeIds.isEmpty, let g = graphs[link.frameworkId] else { return nil }
+        let levels = Set(link.nodeIds.compactMap { g.node($0)?.level })
+        let n = link.nodeIds.count
+        if levels.count == 1, let level = levels.first.flatMap({ g.level($0) }) { return "\(n) \(n == 1 ? level.name : level.plural)" }
+        return "\(n) \(label(n == 1 ? "element" : "elementsWord"))"
+    }
 
     // MARK: one layer model (Round 2)
 

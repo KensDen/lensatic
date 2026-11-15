@@ -250,6 +250,28 @@ struct PlaysView: View {
                     .padding(.vertical, 2)
                     .accessibilityIdentifier("plays-intro")
             }
+            // Round 3: the lead story's plays first, under the story's own title and line
+            if let story = model.frameworks.playLinks?.story {
+                SwiftUI.Section {
+                    Text(story.line).font(DS.style(.subheadline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                        .padding(.vertical, 2)
+                        .accessibilityIdentifier("plays-story-line")
+                    ForEach(story.playIds.compactMap { lib.play($0) }) { p in
+                        NavigationLink(value: Nav.play(p.id)) {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(noOrphan(keepWhole(p.name))).font(DS.style(.body).weight(.semibold)).foregroundStyle(.primary)
+                                Text(noOrphan(keepWhole(p.subtitle))).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+                            }
+                            .fixedSize(horizontal: false, vertical: true)
+                            .padding(.vertical, 2)
+                        }
+                        .accessibilityIdentifier("plays-story-\(p.id)")
+                    }
+                } header: {
+                    ListNote("\(model.frameworks.label("storyStart")): \(story.title)")
+                        .accessibilityIdentifier("plays-story")
+                }
+            }
             ForEach(lib.plays.groups, id: \.label) { g in
                 SwiftUI.Section {
                     ForEach(lib.plays(in: g)) { p in
@@ -287,6 +309,8 @@ struct PlayView: View {
                 BookmarkButton(item: .play(id))
             } content: {
                 SummaryFirst(summary: p.summary, outline: p.outline, accent: Palette.secPurple)
+                // Round 3: the frameworks the play touches, each a way into the navigator
+                PlayLinksSection(playId: id)
                 BlocksView(blocks: p.blocks, accent: Palette.secPurple)
             }
             // a play opened counts as read on Home's playbook door (content release 1.0.1)

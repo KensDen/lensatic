@@ -1,0 +1,1776 @@
+{
+  "id": "play-links",
+  "basis": "These links are Lensatic’s own reading of each play. No publisher prints a crosswalk from the plays to these frameworks, so nothing here is counted as an overlap, and each group says why it is there.",
+  "story": {
+    "title": "Agents are the new insiders",
+    "line": "An AI agent with broad access acts like a privileged insider, at machine speed. Give it an identity, an owner and least privilege, then put a boundary around it that it cannot talk its way past.",
+    "short": "An AI agent with broad access is a privileged insider. Start here.",
+    "playIds": [
+      "insiders",
+      "containment"
+    ]
+  },
+  "plays": [
+    {
+      "playId": "overview",
+      "links": [
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "CA-8",
+            "CA-8(2)",
+            "CA-7"
+          ],
+          "line": "The play turns periodic assessment into a loop: penetration testing, red team exercises and continuous monitoring."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.IM-02",
+            "DE.CM-09"
+          ],
+          "line": "Improvements come from tests and exercises, and what runs is watched all the time."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "GOVERN 3.2"
+          ],
+          "line": "Humans in command is a stated oversight role for people working with AI systems."
+        },
+        {
+          "frameworkId": "attack",
+          "nodeIds": [],
+          "line": "Red and purple work is planned and scored against ATT&CK’s techniques."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [],
+          "line": "The same loop covers attacks on your own AI, which ATLAS catalogs."
+        }
+      ]
+    },
+    {
+      "playId": "humancommand",
+      "links": [
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "GOVERN 3.2",
+            "GOVERN 2.3",
+            "MAP 3.5",
+            "MANAGE 2.4"
+          ],
+          "line": "People own the decisions: defined oversight roles, leadership that answers for the risk, documented human oversight and the means to switch a system off."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "GV.RR-01",
+            "GV.RR-02"
+          ],
+          "line": "Accountability stays with named leaders and roles."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "AC-5",
+            "AC-6"
+          ],
+          "line": "An agent that proposes is not the one that approves, and autonomy widens only as privilege is granted."
+        }
+      ]
+    },
+    {
+      "playId": "foundations",
+      "links": [
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.AM-02",
+            "ID.AM-07",
+            "PR.PS-04",
+            "DE.AE-02",
+            "DE.AE-03"
+          ],
+          "line": "The fundamentals the play builds first: know your systems and data, generate the logs, and analyze and correlate events before automating the work."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "AU-6",
+            "SI-4",
+            "IR-4"
+          ],
+          "line": "Triage discipline, tuned monitoring and incident handling are the ground AI multiplies."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0051",
+            "AML.T0010",
+            "AML.T0020"
+          ],
+          "line": "The play’s three ways AI is turned on its owner: input threats, compromised suppliers and poisoned data."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MAP 4.1",
+            "GOVERN 6.1"
+          ],
+          "line": "AI brings new suppliers, and the risks of third-party data and models are mapped and governed."
+        }
+      ]
+    },
+    {
+      "playId": "red",
+      "links": [
+        {
+          "frameworkId": "attack",
+          "nodeIds": [
+            "T1595",
+            "T1190",
+            "T1566",
+            "T1588.007",
+            "T1059"
+          ],
+          "line": "An emulation chain as the play describes it: scan, exploit a public-facing application or phish, with AI as an obtained capability, then execute."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0051",
+            "AML.T0054",
+            "AML.T0070",
+            "AML.T0015",
+            "AML.T0010",
+            "AML.T0110",
+            "AML.T0109",
+            "AML.T0116",
+            "AML.T0124"
+          ],
+          "line": "Your own AI attack surface, tested: prompt injection, jailbreaks, RAG poisoning, model evasion, the AI supply chain, poisoned agent tools and rug pulls, and autonomous reconnaissance and orchestration."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "CA-8",
+            "CA-8(1)",
+            "CA-8(2)",
+            "RA-5",
+            "SA-11"
+          ],
+          "line": "Penetration testing by an independent team, red team exercises, vulnerability scanning and developer testing."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MEASURE 2.7",
+            "MEASURE 1.3",
+            "MEASURE 2.1"
+          ],
+          "line": "Security and resilience are evaluated, by people who did not build the system, with the test sets and tools documented."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.RA-01",
+            "ID.IM-02"
+          ],
+          "line": "Vulnerabilities are validated and not only found, and exercises feed improvement."
+        }
+      ]
+    },
+    {
+      "playId": "blue",
+      "links": [
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "DE.CM-01",
+            "DE.CM-09",
+            "DE.AE-02",
+            "DE.AE-03",
+            "DE.AE-07",
+            "RS.MA-02",
+            "RS.MA-03"
+          ],
+          "line": "Triage is the Detect and Respond outcomes at volume: monitor, analyze, correlate, bring in threat intelligence, then triage and prioritize."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "SI-4",
+            "SI-4(2)",
+            "AU-6",
+            "AU-6(1)",
+            "IR-4",
+            "IR-4(1)",
+            "RA-10",
+            "SI-2"
+          ],
+          "line": "Monitoring with automated real-time analysis, audit review, automated incident handling, threat hunting and flaw remediation."
+        },
+        {
+          "frameworkId": "dod-zt",
+          "nodeIds": [
+            "7.2",
+            "7.3",
+            "6.5",
+            "6.7"
+          ],
+          "line": "The department’s SIEM, analytics, orchestrated response and security operations capabilities are the ones triage agents work in."
+        },
+        {
+          "frameworkId": "d3fend",
+          "nodeIds": [
+            "D3-NTA",
+            "D3-PA",
+            "D3-UBA",
+            "D3-MA"
+          ],
+          "line": "The analysis a detection agent runs, by D3FEND’s names: network traffic, process, user behavior and message analysis."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0051",
+            "AML.T0119"
+          ],
+          "line": "The alert, the log line and the suspect file are attacker-shaped input: prompt injection, and exploiting an automated pipeline that processes artifacts."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MEASURE 2.4",
+            "MEASURE 3.1",
+            "MANAGE 4.1"
+          ],
+          "line": "A defensive agent’s quality drifts, so it is monitored in production and its risks tracked over time."
+        }
+      ]
+    },
+    {
+      "playId": "purple",
+      "links": [
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "CA-8(2)",
+            "CA-7",
+            "CA-2",
+            "SI-4(9)",
+            "PM-14"
+          ],
+          "line": "Red team exercises joined to continuous monitoring, control assessment and tests of the monitoring tools themselves."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.IM-01",
+            "ID.IM-02",
+            "DE.AE-02"
+          ],
+          "line": "Improvements identified from evaluations and exercises, with each missed detection analyzed."
+        },
+        {
+          "frameworkId": "attack",
+          "nodeIds": [
+            "T1566",
+            "T1078",
+            "T1098",
+            "T1556"
+          ],
+          "line": "The deepfake help desk example ends in the account: phishing by voice, then valid accounts, account manipulation and a changed authentication process."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0088",
+            "AML.T0073",
+            "AML.T0051"
+          ],
+          "line": "ATT&CK coverage alone misses the AI techniques the loop must also run: deepfakes, impersonation and prompt injection."
+        },
+        {
+          "frameworkId": "d3fend",
+          "nodeIds": [],
+          "line": "Each gap the loop finds closes with a countermeasure, which D3FEND names."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MEASURE 2.7",
+            "MANAGE 4.2"
+          ],
+          "line": "Security is evaluated again and again, and what is learned goes back into the system."
+        }
+      ]
+    },
+    {
+      "playId": "maturity",
+      "links": [
+        {
+          "frameworkId": "cisa-ztmm",
+          "nodeIds": [
+            "cross-cutting.automation-and-orchestration",
+            "cross-cutting.visibility-and-analytics",
+            "cross-cutting.governance"
+          ],
+          "line": "A maturity ladder beside a maturity model: the CISA model’s cross-cutting capabilities climb the same way, from manual to automated to dynamic."
+        },
+        {
+          "frameworkId": "dod-zt",
+          "nodeIds": [
+            "6.3",
+            "6.4",
+            "6.5"
+          ],
+          "line": "The Automation and Orchestration pillar names machine learning, artificial intelligence and orchestrated response as capabilities."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "GOVERN 1.3",
+            "MAP 3.5"
+          ],
+          "line": "How much oversight a level needs follows the risk the organization will accept."
+        }
+      ]
+    },
+    {
+      "playId": "roadmap",
+      "links": [
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.RA-05",
+            "ID.IM-01",
+            "GV.OV-03",
+            "GV.RM-02"
+          ],
+          "line": "Assess and baseline first, improve from the evaluation, review performance at each gate, and set the risk appetite before autonomy grows."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "CA-2",
+            "CA-5",
+            "CA-7",
+            "PM-9"
+          ],
+          "line": "A baseline assessment, a plan of action with milestones, continuous monitoring and a risk management strategy."
+        },
+        {
+          "frameworkId": "rmf",
+          "nodeIds": [],
+          "line": "A phased path with an exit gate at every phase follows the RMF’s own shape: prepare, then step by step to monitoring."
+        },
+        {
+          "frameworkId": "attack",
+          "nodeIds": [],
+          "line": "Coverage against ATT&CK is the roadmap’s baseline measure."
+        }
+      ]
+    },
+    {
+      "playId": "program",
+      "links": [
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "GV.RR-01",
+            "GV.RR-02",
+            "GV.RR-03",
+            "GV.RR-04",
+            "PR.AT-01",
+            "PR.AT-02"
+          ],
+          "line": "Who owns what, the resources, the workforce and the training are the Govern and Awareness outcomes."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "PM-2",
+            "PM-3",
+            "PM-13",
+            "AT-3",
+            "SA-4"
+          ],
+          "line": "A named program leader, resources, a security workforce, role-based training and an acquisition process for build or buy."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "GOVERN 2.1",
+            "GOVERN 2.2",
+            "GOVERN 6.1"
+          ],
+          "line": "Roles and lines of communication for AI risk, training for the people who carry them, and policy for third-party AI."
+        }
+      ]
+    },
+    {
+      "playId": "metrics",
+      "links": [
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "GV.OV-03",
+            "ID.IM-03",
+            "DE.AE-04"
+          ],
+          "line": "Performance is evaluated and reviewed, improvements come from operations, and the scope of events is understood."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "PM-6",
+            "CA-7",
+            "IR-5"
+          ],
+          "line": "Measures of performance, continuous monitoring and incident monitoring give the numbers the play pairs for speed and quality."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MEASURE 1.1",
+            "MEASURE 1.2",
+            "MEASURE 2.3",
+            "MEASURE 4.3"
+          ],
+          "line": "Metrics are chosen, their fitness is reviewed, performance is measured in conditions like deployment, and gains or declines are tracked."
+        },
+        {
+          "frameworkId": "attack",
+          "nodeIds": [],
+          "line": "Coverage is counted as the share of in-scope ATT&CK techniques with a tested detection."
+        }
+      ]
+    },
+    {
+      "playId": "actionplan",
+      "links": [
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "CA-5",
+            "PM-4",
+            "RA-7"
+          ],
+          "line": "One sequenced list of every action is a plan of action and milestones with a risk response for each item."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.RA-06",
+            "GV.RM-04"
+          ],
+          "line": "Risk responses are chosen, prioritized, planned and tracked."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MANAGE 1.2",
+            "MANAGE 1.3"
+          ],
+          "line": "Treatment of AI risk is prioritized, and the responses are planned and documented."
+        }
+      ]
+    },
+    {
+      "playId": "architecture",
+      "links": [
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "PL-8",
+            "SA-8",
+            "SA-17",
+            "SC-7",
+            "AC-4",
+            "SI-10"
+          ],
+          "line": "A layered architecture with security engineering principles, boundaries, controlled flows between layers and validated input."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MAP 2.1",
+            "MAP 4.2",
+            "MEASURE 2.4",
+            "MEASURE 2.7"
+          ],
+          "line": "The system’s tasks and components are defined, each component’s controls are identified, and behavior and security are measured at the evaluation layer."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.AM-03",
+            "PR.IR-01",
+            "PR.DS-10"
+          ],
+          "line": "Data flows are mapped, environments are protected, and data in use is protected."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0051",
+            "AML.T0070",
+            "AML.T0010",
+            "AML.T0053",
+            "AML.T0018"
+          ],
+          "line": "The attacker’s view, layer by layer: the prompt, the retrieval store, the supply chain, the tools and the model itself."
+        },
+        {
+          "frameworkId": "sp800-207",
+          "nodeIds": [],
+          "line": "Every layer applies the zero trust principle: no request is trusted for where it comes from."
+        }
+      ]
+    },
+    {
+      "playId": "infra",
+      "links": [
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "SA-9",
+            "CP-2",
+            "CP-9",
+            "SC-5",
+            "SC-6",
+            "SC-28",
+            "AU-4"
+          ],
+          "line": "Hosting as an external service, contingency and backup, protection from denial of service, resource availability, data at rest and log capacity."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "PR.IR-03",
+            "PR.IR-04",
+            "PR.DS-01",
+            "PR.DS-11",
+            "ID.AM-04"
+          ],
+          "line": "Resilience, capacity, data at rest, backups and an inventory of supplier services."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0034",
+            "AML.T0029"
+          ],
+          "line": "Token economics have an adversary’s side: cost harvesting and denial of AI service."
+        },
+        {
+          "frameworkId": "fedramp",
+          "nodeIds": [],
+          "line": "Hosting an agent on a cloud service for a federal customer brings FedRAMP in."
+        }
+      ]
+    },
+    {
+      "playId": "netsec",
+      "links": [
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "SC-7",
+            "SC-7(5)",
+            "SC-7(8)",
+            "SC-7(10)",
+            "AC-4",
+            "SI-4(4)",
+            "SI-4(18)",
+            "IA-9",
+            "AC-6",
+            "SC-12",
+            "SC-8",
+            "SC-39"
+          ],
+          "line": "The plumbing by control: boundary protection that denies by default, proxied and filtered egress, flow enforcement, traffic monitored for covert exfiltration, service identity, least privilege, key management, protected transit and isolation."
+        },
+        {
+          "frameworkId": "dod-zt",
+          "nodeIds": [
+            "5.1",
+            "5.3",
+            "5.4",
+            "7.1",
+            "1.7"
+          ],
+          "line": "Data flow mapping, macro and micro segmentation, all traffic logged and least privileged access."
+        },
+        {
+          "frameworkId": "cisa-ztmm",
+          "nodeIds": [
+            "networks.network-segmentation",
+            "networks.network-traffic-management",
+            "networks.traffic-encryption",
+            "identity.access-management"
+          ],
+          "line": "The Networks pillar’s functions and access management, applied to an agent enclave."
+        },
+        {
+          "frameworkId": "d3fend",
+          "nodeIds": [
+            "D3-OTF",
+            "D3-ITF",
+            "D3-NI",
+            "D3-DNSAL",
+            "D3-NTA",
+            "D3-EI"
+          ],
+          "line": "Outbound and inbound filtering, network isolation, DNS allowlisting, traffic analysis and execution isolation."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "PR.IR-01",
+            "PR.DS-02",
+            "DE.CM-01",
+            "PR.AA-05"
+          ],
+          "line": "Networks protected from unauthorized use, data in transit protected, networks monitored and permissions enforced."
+        },
+        {
+          "frameworkId": "sp800-207",
+          "nodeIds": [],
+          "line": "Egress control and segmentation are how the zero trust definition becomes physical."
+        }
+      ]
+    },
+    {
+      "playId": "otics",
+      "links": [
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "SC-7",
+            "SC-7(21)",
+            "AC-4",
+            "CP-12",
+            "SI-17",
+            "SC-24",
+            "PE-6"
+          ],
+          "line": "The line between IT and OT is a boundary with isolated components and enforced flows; safe mode, fail-safe procedures and a known failure state put safety first."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "PR.IR-01",
+            "PR.IR-03",
+            "DE.CM-02",
+            "ID.AM-05"
+          ],
+          "line": "Protected environments, resilience in adverse conditions, the physical environment monitored and assets ranked by mission impact."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MEASURE 2.6",
+            "MAP 3.5",
+            "MANAGE 2.4"
+          ],
+          "line": "Safety is evaluated, human oversight is defined, and the system can be disengaged."
+        },
+        {
+          "frameworkId": "cisa-ztmm",
+          "nodeIds": [
+            "networks.network-segmentation"
+          ],
+          "line": "Zero trust in OT starts at segmentation."
+        },
+        {
+          "frameworkId": "rmf",
+          "nodeIds": [],
+          "line": "A control system is authorized under the RMF like any other federal system."
+        }
+      ]
+    },
+    {
+      "playId": "governance",
+      "links": [
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "GOVERN 1.1",
+            "GOVERN 1.4",
+            "GOVERN 1.5",
+            "GOVERN 2.1",
+            "GOVERN 4.2",
+            "MANAGE 4.1"
+          ],
+          "line": "The play anchors itself to the AI RMF: requirements understood, the process transparent and reviewed, roles clear, risks documented and monitoring planned."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "AC-2",
+            "AC-6",
+            "AU-2",
+            "AU-6",
+            "AU-12",
+            "CA-7",
+            "CM-3"
+          ],
+          "line": "Authorize, scope, log and review: accounts, least privilege, event logging and review, continuous monitoring and change control for every suppression and tuning change."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "GV.PO-01",
+            "GV.PO-02",
+            "GV.OV-01",
+            "GV.RR-02",
+            "PR.AA-05"
+          ],
+          "line": "Policy is set and enforced, outcomes are reviewed, authorities are clear and permissions are managed."
+        },
+        {
+          "frameworkId": "rmf",
+          "nodeIds": [],
+          "line": "Mapping each control to a recognized framework is what makes the evidence usable in an authorization."
+        }
+      ]
+    },
+    {
+      "playId": "compliance",
+      "links": [
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "GV.OC-03",
+            "GV.OV-02"
+          ],
+          "line": "Legal, regulatory and contractual requirements are understood and managed, and the strategy is adjusted to cover them."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "GOVERN 1.1",
+            "GOVERN 4.3",
+            "MANAGE 4.3"
+          ],
+          "line": "Legal and regulatory requirements involving AI are understood and documented, and incidents are identified and communicated."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "PM-9",
+            "AU-11",
+            "IR-6",
+            "PL-2"
+          ],
+          "line": "The audit trail the obligations ask for: a risk strategy, retained records, incident reporting and a documented plan."
+        },
+        {
+          "frameworkId": "iso27001",
+          "nodeIds": [],
+          "line": "The play likens the management system standard for AI to ISO/IEC 27001, the one for information security."
+        }
+      ]
+    },
+    {
+      "playId": "federal",
+      "links": [
+        {
+          "frameworkId": "rmf",
+          "nodeIds": [],
+          "line": "Authorization to operate, and continuous authorization, are the RMF’s Authorize and Monitor steps."
+        },
+        {
+          "frameworkId": "fedramp",
+          "nodeIds": [],
+          "line": "A cloud service an agent runs on needs FedRAMP certification for federal use."
+        },
+        {
+          "frameworkId": "il",
+          "nodeIds": [],
+          "line": "The department’s Impact Levels set where data of each sensitivity may be processed."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "CA-6",
+            "CA-7",
+            "PL-2",
+            "AC-2",
+            "IA-9",
+            "SC-7",
+            "AC-4"
+          ],
+          "line": "The control spine: authorization, continuous monitoring, the system security plan, accounts and service identities for agents, and the boundary an authorization draws."
+        },
+        {
+          "frameworkId": "dod-zt",
+          "nodeIds": [
+            "1.9",
+            "1.4",
+            "1.7",
+            "3.5"
+          ],
+          "line": "Agents as non-human identities belong in the integrated ICAM platform, under privileged access management and least privilege, with continuous monitoring and ongoing authorizations."
+        },
+        {
+          "frameworkId": "sp800-171",
+          "nodeIds": [],
+          "line": "Controlled unclassified information on a contractor’s systems brings SP 800-171 in."
+        },
+        {
+          "frameworkId": "cmmc",
+          "nodeIds": [],
+          "line": "And CMMC is how the department checks it."
+        }
+      ]
+    },
+    {
+      "playId": "vendor",
+      "links": [
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "GV.SC-04",
+            "GV.SC-05",
+            "GV.SC-06",
+            "GV.SC-07",
+            "ID.RA-09",
+            "ID.RA-10",
+            "ID.AM-04"
+          ],
+          "line": "Suppliers are known and ranked, requirements go into contracts, due diligence comes before the relationship, and authenticity is assessed before use."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "SA-4",
+            "SA-9",
+            "SR-3",
+            "SR-4",
+            "SR-6",
+            "SR-11",
+            "CM-8"
+          ],
+          "line": "The acquisition process, external services, supply chain controls, provenance, supplier reviews, component authenticity and a component inventory, which an AI bill of materials extends."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "GOVERN 6.1",
+            "GOVERN 6.2",
+            "MAP 4.1",
+            "MANAGE 3.1",
+            "MANAGE 3.2"
+          ],
+          "line": "Third-party AI risk is governed, contingencies are planned, components are mapped, and pre-trained models are monitored."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0010",
+            "AML.T0020",
+            "AML.T0109",
+            "AML.T0111"
+          ],
+          "line": "What diligence is looking for: a compromised supply chain, poisoned training data, a rug pull and inflated reputation."
+        },
+        {
+          "frameworkId": "fedramp",
+          "nodeIds": [],
+          "line": "For a cloud vendor, FedRAMP certification is evidence a federal buyer can reuse."
+        }
+      ]
+    },
+    {
+      "playId": "threatmodel",
+      "links": [
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0051",
+            "AML.T0054",
+            "AML.T0053",
+            "AML.T0080",
+            "AML.T0010",
+            "AML.T0011"
+          ],
+          "line": "A model of how the system is attacked draws on ATLAS: prompt injection and jailbreaks, tool invocation, context poisoning, the supply chain and a user who runs what the repository tells them to."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MAP 1.1",
+            "MAP 2.1",
+            "MAP 5.1",
+            "MEASURE 2.7"
+          ],
+          "line": "Start from the use case: intended purpose and setting, the task, the likelihood and size of each impact, then security evaluated."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "RA-3",
+            "SA-11",
+            "SA-8",
+            "PL-8"
+          ],
+          "line": "Risk assessment, developer testing with threat modeling, engineering principles and the security architecture."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.RA-03",
+            "ID.RA-04",
+            "ID.RA-05"
+          ],
+          "line": "Threats are identified, their likelihood and impact recorded, and both used to set priorities."
+        },
+        {
+          "frameworkId": "attack",
+          "nodeIds": [],
+          "line": "The classic techniques still apply to an AI system’s ordinary parts."
+        }
+      ]
+    },
+    {
+      "playId": "threats",
+      "links": [
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0051",
+            "AML.T0020",
+            "AML.T0070",
+            "AML.T0080",
+            "AML.T0088",
+            "AML.T0087",
+            "AML.T0024",
+            "AML.T0086"
+          ],
+          "line": "The taxonomy the play opens with: prompt injection, data and memory poisoning, deepfakes and identity theft, and the lethal trifecta’s way out through an inference API or an agent’s tools."
+        },
+        {
+          "frameworkId": "attack",
+          "nodeIds": [
+            "T1588.007",
+            "T1566",
+            "T1078"
+          ],
+          "line": "AI as a capability adversaries obtain, and the phishing and valid accounts it sharpens."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.RA-02",
+            "ID.RA-03",
+            "DE.AE-07"
+          ],
+          "line": "Threat intelligence is received, threats are recorded, and both are used in analysis."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "PM-16",
+            "RA-3",
+            "SI-5"
+          ],
+          "line": "A threat awareness program, risk assessment and the advisories that feed them."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MEASURE 3.1",
+            "GOVERN 4.3"
+          ],
+          "line": "Emergent AI risks are tracked, and incidents are identified and shared."
+        }
+      ]
+    },
+    {
+      "playId": "cti",
+      "links": [
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.RA-02",
+            "ID.RA-03",
+            "DE.AE-07",
+            "DE.AE-02",
+            "ID.IM-03"
+          ],
+          "line": "Intelligence is received, turned into recorded threats, used in analysis, and what hunting finds becomes a detection."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "PM-16",
+            "PM-16(1)",
+            "RA-10",
+            "SI-4(24)",
+            "SI-5",
+            "PM-15"
+          ],
+          "line": "A threat awareness program with automated sharing, threat hunting, indicators of compromise, advisories and contact with security groups."
+        },
+        {
+          "frameworkId": "dod-zt",
+          "nodeIds": [
+            "7.5",
+            "7.2"
+          ],
+          "line": "Threat intelligence integration is a capability of the Visibility and Analytics pillar."
+        },
+        {
+          "frameworkId": "attack",
+          "nodeIds": [
+            "T1595",
+            "T1589",
+            "T1588"
+          ],
+          "line": "What CTI tells red to emulate and blue to hunt begins before the intrusion: scanning, gathering identities and obtaining capabilities."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0054",
+            "AML.T0116"
+          ],
+          "line": "Jailbreaks tracked as a class of intelligence, and reconnaissance that runs on its own."
+        }
+      ]
+    },
+    {
+      "playId": "insiders",
+      "links": [
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "AC-2",
+            "AC-2(3)",
+            "AC-2(12)",
+            "AC-6",
+            "AC-6(9)",
+            "IA-9",
+            "IA-5",
+            "IA-5(7)",
+            "AU-10",
+            "AU-9",
+            "PM-12",
+            "SI-4(20)"
+          ],
+          "line": "Every agent gets its own account, an owner and least privilege, credentials that are never embedded, actions that can be attributed to it, and the monitoring a privileged user gets."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "PR.AA-01",
+            "PR.AA-03",
+            "PR.AA-05",
+            "DE.CM-03",
+            "ID.AM-08"
+          ],
+          "line": "The outcomes the play asks for: identities for services are managed and authenticated, permissions are least privilege and reviewed, activity is monitored, and each identity is managed through its life cycle."
+        },
+        {
+          "frameworkId": "dod-zt",
+          "nodeIds": [
+            "1.4",
+            "1.6",
+            "1.7",
+            "1.8",
+            "7.4"
+          ],
+          "line": "The play treats an agent as a user: privileged access management, behavioral identity, least privileged access, continuous authentication and entity behavior analytics."
+        },
+        {
+          "frameworkId": "cisa-ztmm",
+          "nodeIds": [
+            "identity.authentication",
+            "identity.access-management",
+            "identity.risk-assessments",
+            "identity.visibility-and-analytics-capability"
+          ],
+          "line": "The Identity pillar’s functions, read for an identity that is not a person."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "GOVERN 1.6",
+            "GOVERN 1.7",
+            "GOVERN 2.1",
+            "MEASURE 2.4",
+            "MEASURE 2.8"
+          ],
+          "line": "Inventory every AI system, retire it safely, name who answers for it, monitor it in production and examine its accountability."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0080",
+            "AML.T0081",
+            "AML.T0083",
+            "AML.T0098",
+            "AML.T0053",
+            "AML.T0086",
+            "AML.T0092"
+          ],
+          "line": "What a subverted agent does with an insider’s access: poisoned context and memory, a changed configuration, harvested credentials, and tools invoked to move data out."
+        },
+        {
+          "frameworkId": "attack",
+          "nodeIds": [
+            "T1078",
+            "T1098",
+            "T1528",
+            "T1550.001"
+          ],
+          "line": "The classic insider techniques an agent’s identity is open to: valid accounts, account manipulation and stolen or replayed application tokens."
+        },
+        {
+          "frameworkId": "d3fend",
+          "nodeIds": [
+            "D3-AA",
+            "D3-CRO",
+            "D3-UAP",
+            "D3-UBA",
+            "D3-CR"
+          ],
+          "line": "Countermeasures by name: authenticate the agent, rotate and revoke its credentials, scope its permissions and analyze its behavior."
+        },
+        {
+          "frameworkId": "sp800-207",
+          "nodeIds": [],
+          "line": "The play’s zero trust for agents starts from this definition: verify every request, whoever or whatever makes it."
+        }
+      ]
+    },
+    {
+      "playId": "containment",
+      "links": [
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "SC-7",
+            "SC-7(5)",
+            "SC-7(10)",
+            "SC-39",
+            "SC-44",
+            "AC-4",
+            "CM-7",
+            "SI-4",
+            "SI-2",
+            "RA-5",
+            "IR-4(5)",
+            "SI-17"
+          ],
+          "line": "Deterministic boundaries first: deny outbound traffic by default, prevent exfiltration, isolate the process, limit function, monitor, patch by risk, and stop the system automatically when a threshold trips."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "PR.IR-01",
+            "PR.PS-05",
+            "DE.CM-09",
+            "ID.RA-01",
+            "RS.MI-01"
+          ],
+          "line": "The environment is protected from unauthorized use, unauthorized software cannot run, the runtime is monitored, vulnerabilities are validated, and incidents are contained."
+        },
+        {
+          "frameworkId": "dod-zt",
+          "nodeIds": [
+            "5.3",
+            "5.4",
+            "2.5",
+            "6.5"
+          ],
+          "line": "Macro and micro segmentation put the boundary in the network; automated patching and orchestrated response act at the agent’s speed."
+        },
+        {
+          "frameworkId": "cisa-ztmm",
+          "nodeIds": [
+            "networks.network-segmentation",
+            "applications-and-workloads.application-threat-protections",
+            "devices.device-threat-protection"
+          ],
+          "line": "Segmentation and threat protection, where the model asks how far an agent’s workload is isolated."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MANAGE 2.4",
+            "MANAGE 2.3",
+            "MEASURE 2.7",
+            "MAP 3.5"
+          ],
+          "line": "The means to disengage or deactivate a system, a response to an unknown risk, security and resilience evaluated, and human oversight that is defined and not assumed."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0051",
+            "AML.T0086",
+            "AML.T0101",
+            "AML.T0105",
+            "AML.T0097",
+            "AML.T0025"
+          ],
+          "line": "What the boundary has to hold against: prompt injection, exfiltration and destruction through an agent’s tools, escape to the host and sandbox evasion."
+        },
+        {
+          "frameworkId": "attack",
+          "nodeIds": [
+            "T1552",
+            "T1567",
+            "T1611",
+            "T1059"
+          ],
+          "line": "The play’s own worked example in ATT&CK’s words is unsecured credentials sent to a web service. A shell and an escape to the host are what the sandbox is there to stop."
+        },
+        {
+          "frameworkId": "d3fend",
+          "nodeIds": [
+            "D3-EI",
+            "D3-NI",
+            "D3-OTF",
+            "D3-SCF",
+            "D3-DNSAL",
+            "D3-EAL",
+            "D3-PT"
+          ],
+          "line": "Execution isolation, network isolation, outbound traffic filtering, system call filtering and allowlists, then process termination when a breaker trips."
+        }
+      ]
+    },
+    {
+      "playId": "agentir",
+      "links": [
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "RS.MA-01",
+            "RS.MA-02",
+            "RS.AN-03",
+            "RS.AN-06",
+            "RS.AN-07",
+            "RS.MI-01",
+            "RS.MI-02",
+            "RC.RP-01",
+            "RC.RP-05",
+            "ID.IM-04"
+          ],
+          "line": "The play follows Respond and Recover: execute the plan, triage, find the root cause, preserve the records, contain, eradicate, restore and verify, with the plan kept current."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "IR-4",
+            "IR-4(1)",
+            "IR-4(5)",
+            "IR-5",
+            "IR-8",
+            "IR-3",
+            "AU-9",
+            "AU-11",
+            "CP-10",
+            "AC-2(13)"
+          ],
+          "line": "Incident handling, automated and able to disable the system, with a plan that is tested, logs that are protected and kept, recovery, and accounts disabled fast."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MANAGE 2.3",
+            "MANAGE 2.4",
+            "MANAGE 4.3",
+            "GOVERN 6.2"
+          ],
+          "line": "Respond to an unknown risk, deactivate the system, track and communicate incidents, and plan for a third party’s failure."
+        },
+        {
+          "frameworkId": "d3fend",
+          "nodeIds": [
+            "D3-PT",
+            "D3-CR",
+            "D3-AL",
+            "D3-ST",
+            "D3-NI"
+          ],
+          "line": "Fast containment by D3FEND’s names: terminate the process, revoke the credential, lock the account, end the session and isolate the network."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0051",
+            "AML.T0080",
+            "AML.T0101",
+            "AML.T0081"
+          ],
+          "line": "The agent as the incident: injected, its context poisoned, its tools used to destroy data, its configuration changed."
+        },
+        {
+          "frameworkId": "dod-zt",
+          "nodeIds": [
+            "6.7",
+            "6.5"
+          ],
+          "line": "Security operations and incident response, with orchestration to act at the agent’s speed."
+        }
+      ]
+    },
+    {
+      "playId": "cscrm",
+      "links": [
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "SR-2",
+            "SR-3",
+            "SR-4",
+            "SR-7",
+            "SR-9",
+            "SR-11",
+            "SI-7",
+            "CM-14",
+            "SA-10",
+            "RA-5"
+          ],
+          "line": "The supply chain family, read as counterintelligence: a plan, controls, provenance, operations security, tamper detection, component authenticity, integrity checks, signed components and control of the configuration files that steer an agent."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "GV.SC-01",
+            "GV.SC-03",
+            "GV.SC-07",
+            "GV.SC-08",
+            "ID.RA-09"
+          ],
+          "line": "A supply chain risk program inside enterprise risk, supplier risk understood, suppliers in incident planning and authenticity checked before use."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0010",
+            "AML.T0020",
+            "AML.T0115",
+            "AML.T0081",
+            "AML.T0084",
+            "AML.T0109",
+            "AML.T0110",
+            "AML.T0018"
+          ],
+          "line": "How an adversary uses the AI supply chain: compromise it, poison the data, publish poisoned artifacts, change or read an agent’s configuration, pull the rug, poison a tool or manipulate the model."
+        },
+        {
+          "frameworkId": "attack",
+          "nodeIds": [
+            "T1195",
+            "T1195.001",
+            "T1195.002",
+            "T1677",
+            "T1199"
+          ],
+          "line": "Supply chain compromise through dependencies or the product itself, poisoned pipelines and trusted relationships."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MAP 4.1",
+            "MANAGE 3.1",
+            "MANAGE 3.2",
+            "GOVERN 6.1"
+          ],
+          "line": "Third-party components are mapped, monitored and governed, pre-trained models included."
+        },
+        {
+          "frameworkId": "dod-zt",
+          "nodeIds": [
+            "3.2",
+            "3.3"
+          ],
+          "line": "Secure software development and software risk management are capabilities of the Applications and Workloads pillar."
+        }
+      ]
+    },
+    {
+      "playId": "frontier",
+      "links": [
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "GOVERN 5.1",
+            "GOVERN 4.3",
+            "MEASURE 4.1"
+          ],
+          "line": "Work with people outside the team: feedback from outside is sought, testing and incident sharing are enabled, and measurement is informed by domain experts."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.RA-02",
+            "GV.OC-02"
+          ],
+          "line": "Threat intelligence comes from sharing forums, and outside stakeholders are understood."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "PM-15",
+            "PM-16"
+          ],
+          "line": "Contact with security groups and a threat awareness program are how a program hears from the frontier."
+        }
+      ]
+    },
+    {
+      "playId": "frameworks",
+      "links": [
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "GOVERN",
+            "MAP",
+            "MEASURE",
+            "MANAGE"
+          ],
+          "line": "The play’s first reference, by its four functions."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [],
+          "line": "CSF 2.0 is the common language the play uses for outcomes."
+        },
+        {
+          "frameworkId": "cis",
+          "nodeIds": [],
+          "line": "The CIS Controls are the play’s prioritized safeguards."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [],
+          "line": "ATLAS is its catalog of attacks on AI."
+        },
+        {
+          "frameworkId": "sp800-207",
+          "nodeIds": [],
+          "line": "Zero trust for agents rests on the SP 800-207 definition."
+        },
+        {
+          "frameworkId": "ir8596",
+          "nodeIds": [],
+          "line": "NIST’s Cyber AI Profile joins CSF 2.0 to AI."
+        }
+      ]
+    },
+    {
+      "playId": "academic",
+      "links": [
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MEASURE 1.3",
+            "MEASURE 2.1",
+            "MEASURE 4.1"
+          ],
+          "line": "Independent research is the play’s counterweight to vendor claims: assessors who did not build the system, documented test methods and outside experts."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [],
+          "line": "The papers the play cites test attacks that ATLAS catalogs."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.RA-02"
+          ],
+          "line": "Research is a source of threat intelligence."
+        }
+      ]
+    },
+    {
+      "playId": "cases",
+      "links": [
+        {
+          "frameworkId": "attack",
+          "nodeIds": [
+            "T1595",
+            "T1190",
+            "T1078",
+            "T1021",
+            "T1213",
+            "T1567",
+            "T1588.007"
+          ],
+          "line": "The documented intrusions in ATT&CK’s words: scanning, exploiting public-facing applications, valid accounts, remote services, data from repositories and exfiltration to web services, with AI as the obtained capability."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0124",
+            "AML.T0116",
+            "AML.T0117",
+            "AML.T0054",
+            "AML.T0102"
+          ],
+          "line": "And in ATLAS’s: autonomous orchestration, reconnaissance and attack-path adaptation, by way of a jailbreak and generated commands."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.IM-02",
+            "RS.AN-03",
+            "ID.RA-03"
+          ],
+          "line": "What each case proves is used: lessons from tests, root cause from incidents and threats recorded."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "CA-8(2)",
+            "IR-4",
+            "RA-10"
+          ],
+          "line": "The cases cover red team exercises, incident handling and threat hunting."
+        }
+      ]
+    },
+    {
+      "playId": "risks",
+      "links": [
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0051",
+            "AML.T0086",
+            "AML.T0080",
+            "AML.T0053",
+            "AML.T0061",
+            "AML.T0118"
+          ],
+          "line": "The play’s risks as ATLAS techniques: prompt injection and exfiltration through tools, memory poisoning, tool invocation, self-replicating prompts and agents talking to agents."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "MAP 5.1",
+            "MANAGE 1.2",
+            "MANAGE 1.4",
+            "GOVERN 4.1",
+            "MEASURE 2.10",
+            "GOVERN 1.1"
+          ],
+          "line": "Impacts are sized, treatment is prioritized, residual risk is written down, a safety-first habit is kept, privacy risk is examined and legal requirements are understood."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "AU-10",
+            "AU-9",
+            "AC-6",
+            "RA-3",
+            "AT-2",
+            "PM-12"
+          ],
+          "line": "The play names AU-10 and AU-9 for attribution; least privilege, risk assessment, awareness and an insider threat program answer the rest."
+        },
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "GV.RM-02",
+            "GV.RM-06",
+            "ID.RA-04",
+            "PR.AT-01"
+          ],
+          "line": "Risk appetite is stated, risks are scored one way, impact and likelihood are recorded, and people are trained against overreliance."
+        }
+      ]
+    },
+    {
+      "playId": "tools",
+      "links": [
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "ID.AM-02",
+            "DE.CM-09",
+            "DE.AE-03"
+          ],
+          "line": "A tool stack starts as an inventory of software and services, then monitoring and correlation."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "CM-8",
+            "SA-4",
+            "SI-4(3)",
+            "CA-8"
+          ],
+          "line": "A component inventory, an acquisition process, integrated monitoring tools and penetration testing tools."
+        },
+        {
+          "frameworkId": "dod-zt",
+          "nodeIds": [
+            "6.5",
+            "6.6",
+            "7.2"
+          ],
+          "line": "Orchestrated response, standard APIs and a SIEM are the capabilities the stack fills."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [],
+          "line": "The AI security tools in the play test for techniques ATLAS names."
+        },
+        {
+          "frameworkId": "ir8596",
+          "nodeIds": [],
+          "line": "One of the play’s tools maps its work to the Cyber AI Profile, among other frameworks."
+        }
+      ]
+    },
+    {
+      "playId": "fluency",
+      "links": [
+        {
+          "frameworkId": "aml",
+          "nodeIds": [
+            "AML.T0051",
+            "AML.T0054",
+            "AML.T0070",
+            "AML.T0020",
+            "AML.T0015"
+          ],
+          "line": "The attack terms the glossary defines, by identifier: prompt injection, jailbreak, RAG poisoning, training data poisoning and model evasion."
+        },
+        {
+          "frameworkId": "attack",
+          "nodeIds": [],
+          "line": "TTP, tactic and technique are ATT&CK’s words."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [],
+          "line": "The federal terms point at the control catalog."
+        },
+        {
+          "frameworkId": "sp800-171",
+          "nodeIds": [],
+          "line": "CUI terms point at SP 800-171."
+        },
+        {
+          "frameworkId": "fedramp",
+          "nodeIds": [],
+          "line": "And the cloud terms at FedRAMP."
+        },
+        {
+          "frameworkId": "rmf",
+          "nodeIds": [],
+          "line": "ATO and continuous ATO are RMF terms."
+        },
+        {
+          "frameworkId": "sp800-207",
+          "nodeIds": [],
+          "line": "Zero trust is defined in SP 800-207."
+        }
+      ]
+    },
+    {
+      "playId": "learningpath",
+      "links": [
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [
+            "PR.AT-01",
+            "PR.AT-02"
+          ],
+          "line": "A self-study path is the training outcome, for everyone and for specialized roles."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [
+            "AT-2",
+            "AT-2(1)",
+            "AT-3",
+            "CA-8(2)"
+          ],
+          "line": "Literacy training with practical exercises, role-based training, and red team exercises to practice on."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [
+            "GOVERN 2.2",
+            "MAP 3.4"
+          ],
+          "line": "AI risk training for staff and partners, and proficiency of the people who operate the system."
+        },
+        {
+          "frameworkId": "attack",
+          "nodeIds": [],
+          "line": "The path names ATT&CK among the frameworks to know cold."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [],
+          "line": "And ATLAS beside it."
+        }
+      ]
+    },
+    {
+      "playId": "resources",
+      "links": [
+        {
+          "frameworkId": "csf20",
+          "nodeIds": [],
+          "line": "The index names CSF 2.0 among its framework sources."
+        },
+        {
+          "frameworkId": "ai-rmf",
+          "nodeIds": [],
+          "line": "It names the AI RMF beside it."
+        },
+        {
+          "frameworkId": "sp800-53",
+          "nodeIds": [],
+          "line": "The federal control catalog is among its federal standards."
+        },
+        {
+          "frameworkId": "sp800-207",
+          "nodeIds": [],
+          "line": "Its zero trust sources start from this definition."
+        },
+        {
+          "frameworkId": "cisa-ztmm",
+          "nodeIds": [],
+          "line": "And follow the lineage on to the CISA model."
+        },
+        {
+          "frameworkId": "dod-zt",
+          "nodeIds": [],
+          "line": "Then to the department’s strategy."
+        },
+        {
+          "frameworkId": "fedramp",
+          "nodeIds": [],
+          "line": "FedRAMP is among its federal sources."
+        },
+        {
+          "frameworkId": "attack",
+          "nodeIds": [],
+          "line": "ATT&CK is among its threat sources."
+        },
+        {
+          "frameworkId": "aml",
+          "nodeIds": [],
+          "line": "So is ATLAS."
+        }
+      ]
+    }
+  ]
+}

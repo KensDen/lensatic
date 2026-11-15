@@ -52,7 +52,7 @@ def load(path: str) -> dict:
 
 
 DASHED: list[str] = []  # the publisher's texts whose dash was set as a spaced hyphen, for the import's report
-LOWERED: list[str] = []  # the publisher's texts in which the one word the house rule keeps out of content lost its capital
+KEPT: list[str] = []  # the publisher's texts that carry, as published, the one word the house rule keeps out of Lensatic's own text
 
 try:  # the word is read at run time from the local sweep source and never written here (tools/validate.py)
     import validate as _V
@@ -72,13 +72,18 @@ def prose(s: str, dash: bool = False) -> str:
             sys.exit(f"a dash in the publisher's text, to settle by hand: {s[:80]}")
         s = re.sub(r"\s*[\u2014\u2013]\s*", " - ", s)
         DASHED.append(s)
-    # one word may not stand with a capital anywhere in the content (the validator's rule). Where a publisher prints it
-    # so in a title, it is set in lower case, and the import says how many texts that changes
+    # one word may not stand with a capital in anything Lensatic writes (the validator's rule). A publisher's title keeps
+    # it as published (owner's ruling 5 of 15 November 2026): the import counts those texts, and the caller lists their
+    # elements in the file's asPublished, which is what the checks let through
     if HOUSE_WORD and HOUSE_WORD in s:
-        s = s.replace(HOUSE_WORD, HOUSE_WORD.lower())
-        LOWERED.append(s)
-        print(f"  one word set in lower case in a publisher's text ({len(LOWERED)} so far)")
+        KEPT.append(s)
+        print(f"  one word kept with its capital, as published, in a publisher's text ({len(KEPT)} so far)")
     return typography.curl(s)
+
+
+def as_published(nodes: list[dict]) -> list[str]:
+    """The ids of the elements whose title carries that word as published, for the file's asPublished."""
+    return [n["id"] for n in nodes if HOUSE_WORD and HOUSE_WORD in n.get("title", "")]
 
 
 def write_into(path: str, **blocks) -> None:
@@ -635,9 +640,10 @@ def dodzt(args) -> None:
              "members": [a["id"] for a in d["activities"] if a["level"] == lv]} for lv in ("Target", "Advanced")]
     counts = {k: sum(1 for n in nodes if n["level"] == k) for k in ("pillar", "capability", "activity")}
     print(f"dod-zt: {counts}; " + ", ".join(f"{s['name']} {len(s['members'])}" for s in sets))
+    kept = as_published(nodes)
     write_into(args.into, levels=[{"id": "pillar", "name": "Pillar", "plural": "Pillars"}, {"id": "capability", "name": "Capability", "plural": "Capabilities"},
                                   {"id": "activity", "name": "Activity", "plural": "Activities"}],
-               nodes=nodes, sets=sets,
+               nodes=nodes, sets=sets, **({"asPublished": kept} if kept else {}),
                depth={"shown": counts["activity"], "of": counts["activity"], "unit": "activities",
                       "why": "Each is listed by number and name. The descriptions, outcomes and end states are at the source."})
 
