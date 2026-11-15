@@ -836,7 +836,13 @@ final class LensaticUITests: XCTestCase {
                 continueAfterFailure = true
                 XCTAssertTrue(element("figure-\(figure)").waitForExistence(timeout: 10), figure)
                 sleep(1)
-                try auditScreen("play-screen")
+                // contrast first, on its own, with the screen at rest on the figure (Round 3). The audit's text size
+                // check makes the page shorter for a moment, and a page scrolled this far down then comes back at an
+                // earlier section: since the play gained its frameworks section above the figure, a contrast read after
+                // that check was of a heading in motion, which measures 17:1 at rest. Every element in view is still
+                // read for contrast, and nothing is exempt; the other checks follow
+                try auditScreen("play-screen", types: .contrast)
+                try auditScreen("play-screen", types: XCUIAccessibilityAuditType.all.subtracting(.contrast))
             }
         }
     }
