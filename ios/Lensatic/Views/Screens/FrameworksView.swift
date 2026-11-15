@@ -307,7 +307,10 @@ struct ComparisonCard: View {
     }
 }
 
-/// Two frameworks side by side, each by its tile, short name and kind, with the word between them from the content.
+/// Two frameworks, each by its tile, short name and kind, with the word between them from the content: side by side
+/// where both names and kinds fit on one line each, one under the other where they do not (long names on a phone, the
+/// accessibility sizes). Round 2: in two equal columns a point wider than its longest word, a kind broken over two lines
+/// under a name broken over two read as low contrast to the audit on the iPhone 18 Pro, and was cramped on every phone.
 struct ComparePair: View {
     @Environment(AppModel.self) private var model
     @Environment(\.dynamicTypeSize) private var typeSize
@@ -318,20 +321,39 @@ struct ComparePair: View {
     var nameB: String?
 
     var body: some View {
-        let stacked = typeSize.isAccessibilitySize
-        (stacked ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8)) : AnyLayout(HStackLayout(alignment: .center, spacing: 10))) {
-            side(a, nameA)
-            Text(model.frameworks.label("with")).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
-            side(b, nameB)
+        if typeSize.isAccessibilitySize {
+            column
+        } else {
+            ViewThatFits(in: .horizontal) {
+                HStack(alignment: .center, spacing: 10) {
+                    side(a, nameA, oneLine: true)
+                    with
+                    side(b, nameB, oneLine: true)
+                }
+                column
+            }
         }
     }
 
-    private func side(_ f: Framework, _ name: String?) -> some View {
+    private var column: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            side(a, nameA, oneLine: false)
+            with
+            side(b, nameB, oneLine: false)
+        }
+    }
+
+    private var with: some View {
+        Text(model.frameworks.label("with")).font(DS.style(.footnote)).foregroundStyle(Palette.fg2)
+    }
+
+    private func side(_ f: Framework, _ name: String?, oneLine: Bool) -> some View {
         HStack(spacing: 8) {
             FrameworkTile(framework: f, base: 30)
             VStack(alignment: .leading, spacing: 0) {
-                Text(keepDesignations(name ?? f.shortName)).font(DS.style(.headline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
-                Eyebrow(text: f.kind, color: f.tone, small: true)
+                Text(keepDesignations(name ?? f.shortName)).font(DS.style(.headline)).foregroundStyle(.primary)
+                    .fixedSize(horizontal: oneLine, vertical: true)
+                Eyebrow(text: f.kind, color: f.tone, small: true).fixedSize(horizontal: oneLine, vertical: true)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
