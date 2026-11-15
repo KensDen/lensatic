@@ -51,9 +51,9 @@
       "url": "https://csrc.nist.gov/projects/cprt/catalog#/cprt/framework/version/CSF_2_0_0/home",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "The Core was exported from NIST’s Cybersecurity and Privacy Reference Tool on 14 November 2026 (https://csrc.nist.gov/extensions/nudp/services/json/nudp/framework/version/csf_2_0_0/export/json?element=all). Leaving out the entries the export marks withdrawn from CSF 1.1, it holds 6 Functions, 22 Categories and 106 Subcategories, and every identifier and text here is that export’s. The export prints a spaced hyphen where the PDF prints a dash.",
+        "note": "The Core was exported from NIST’s Cybersecurity and Privacy Reference Tool on 14 November 2026 (https://csrc.nist.gov/extensions/nudp/services/json/nudp/framework/version/csf_2_0_0/export/json?element=all). Leaving out the entries the export marks withdrawn from CSF 1.1, it holds 6 Functions, 22 Categories and 106 Subcategories, and every identifier and text here is that export’s. The export prints a spaced hyphen where the PDF prints a dash. Read again on 15 November 2026: the tool’s export still names Version 2.0 and still holds 6 Functions, 22 Categories and 106 Subcategories once the withdrawn CSF 1.1 entries are left out.",
         "recheckAfter": "2027-02-12"
       }
     },
@@ -66,9 +66,9 @@
       "url": "https://csrc.nist.gov/projects/cybersecurity-framework/filters",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "The Reference Tool’s download (https://csrc.nist.gov/extensions/nudp/services/json/csf/download?olirids=all) was generated on 14 November 2026. The SP 800-53 Rev 5.2.0 references beside each Subcategory are taken from it as printed; all 106 Subcategories carry at least one. The download says of itself that it is a user generated version of the Core, not an official NIST publication. The same download prints references to other documents beside each Subcategory. Lensatic takes four more from it: SP 800-171 Revision 3 and the RMF tasks of SP 800-37 Revision 2, each resolved to the element it names, and ISO/IEC 27001:2022 and the CIS Controls v8.1, kept as bare identifiers (‘Clause 6.1’, ‘Annex A 5.15’, a safeguard’s number) because Lensatic lists neither standard’s elements. A reference NIST prints with no number is left out.",
+        "note": "The Reference Tool’s download (https://csrc.nist.gov/extensions/nudp/services/json/csf/download?olirids=all) was generated on 14 November 2026. The SP 800-53 Rev 5.2.0 references beside each Subcategory are taken from it as printed; all 106 Subcategories carry at least one. The download says of itself that it is a user generated version of the Core, not an official NIST publication. The same download prints references to other documents beside each Subcategory. Lensatic takes four more from it: SP 800-171 Revision 3 and the RMF tasks of SP 800-37 Revision 2, each resolved to the element it names, and ISO/IEC 27001:2022 and the CIS Controls v8.1, kept as bare identifiers (‘Clause 6.1’, ‘Annex A 5.15’, a safeguard’s number) because Lensatic lists neither standard’s elements. A reference NIST prints with no number is left out. Read again on 15 November 2026: a fresh download, stamped that day, still carries SP 800-53 Rev 5.2.0 references beside all 106 Subcategories and still describes itself as a user generated version of the Core.",
         "recheckAfter": "2027-02-12"
       }
     },
@@ -81,9 +81,9 @@
       "url": "https://www.nist.gov/cyberframework/faqs",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: ‘NIST does not offer certifications or endorsements of CSF-related products, implementations, or services, and there are no plans to develop a conformity assessment program.’",
+        "note": "Read on 14 November 2026: ‘NIST does not offer certifications or endorsements of CSF-related products, implementations, or services, and there are no plans to develop a conformity assessment program.’ Read again on 15 November 2026: the sentence on certifications and endorsements is still on the page word for word.",
         "recheckAfter": "2027-02-12"
       }
     }

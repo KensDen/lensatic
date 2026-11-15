@@ -42,10 +42,10 @@
       "url": "https://dl.dod.cyber.mil/wp-content/uploads/cloud/zip/U_Cloud_Computing_SRG_V1R4.zip",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026. This is the last single-volume guide that could be opened, and it is not the current edition. It gives the four levels in use (level 1 was merged into IL2 and level 3 into IL4), IL2 as non-controlled unclassified information, IL4 as controlled unclassified information, IL6 as classified information up to SECRET, and the provisional authorization as approved by the DISA authorizing official while the mission owner grants the authorization to operate.",
-        "recheckAfter": "2026-12-15"
+        "note": "Read on 14 November 2026. This is the last single-volume guide that could be opened, and it is not the current edition. It gives the four levels in use (level 1 was merged into IL2 and level 3 into IL4), IL2 as non-controlled unclassified information, IL4 as controlled unclassified information, IL6 as classified information up to SECRET, and the provisional authorization as approved by the DISA authorizing official while the mission owner grants the authorization to operate. Read again on 15 November 2026: the archive is still at the same address and still holds Version 1, Release 4 of 14 January 2022.",
+        "recheckAfter": "2027-01-15"
       }
     },
     {
@@ -57,10 +57,10 @@
       "url": "https://dl.dod.cyber.mil/wp-content/uploads/stigs/pdf/July-2025-STIGs-to-Be-Released.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026. For the Cloud Service Provider SRG, Version 1, Release 3: ‘Updated guidance for approach for IL4 addressing both Moderate and High categorizations. IL5 now accommodates unclassified National Security System/National Security Information with CUI no longer part of this Impact Level.’ The guide itself had by then been split into a Cloud Service Provider SRG and mission owner documents.",
-        "recheckAfter": "2026-12-15"
+        "note": "Read on 14 November 2026. For the Cloud Service Provider SRG, Version 1, Release 3: ‘Updated guidance for approach for IL4 addressing both Moderate and High categorizations. IL5 now accommodates unclassified National Security System/National Security Information with CUI no longer part of this Impact Level.’ The guide itself had by then been split into a Cloud Service Provider SRG and mission owner documents. Read again on 15 November 2026: the release note of 2 July 2025 is still at the same address with the same entry for the Cloud Service Provider SRG, Version 1, Release 3.",
+        "recheckAfter": "2027-01-15"
       }
     },
     {
@@ -74,8 +74,8 @@
         "status": "unverified",
         "verifiedOn": null,
         "method": "none",
-        "note": "The current release could not be opened on 14 November 2026: the document library’s list did not load for a script, and the 2026 release notes sit on a host whose certificate was not trusted. Tried: https://www.cyber.mil/dccs/dccs-documents/ and https://www.cyber.mil/stigs/downloads. DISA’s Cloud Connection Process Guide of December 2025 cites an edition of September 2025. So this card’s wording for IL4 and IL5 rests on the 2025 release notes, not on the current text.",
-        "recheckAfter": "2026-12-15"
+        "note": "The current release could not be opened on 14 November 2026: the document library’s list did not load for a script, and the 2026 release notes sit on a host whose certificate was not trusted. Tried: https://www.cyber.mil/dccs/dccs-documents/ and https://www.cyber.mil/stigs/downloads. DISA’s Cloud Connection Process Guide of December 2025 cites an edition of September 2025. So this card’s wording for IL4 and IL5 rests on the 2025 release notes, not on the current text. On 15 November 2026 the document library again answered a script with 200 and an empty script-drawn page, so the current release was still not read.",
+        "recheckAfter": "2027-01-15"
       }
     },
     {
@@ -87,9 +87,9 @@
       "url": "https://www.acquisition.gov/dfars/239.7602-1-general.",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: the contracting officer ‘shall only award a contract to acquire cloud computing services from a cloud service provider’ that ‘has been granted provisional authorization by Defense Information Systems Agency, at the level appropriate to the requirement’. The clause DFARS 252.239-7010 carries the guide into the contract.",
+        "note": "Read on 14 November 2026: the contracting officer ‘shall only award a contract to acquire cloud computing services from a cloud service provider’ that ‘has been granted provisional authorization by Defense Information Systems Agency, at the level appropriate to the requirement’. The clause DFARS 252.239-7010 carries the guide into the contract. Read again on 15 November 2026: the page still shows the DFARS change of 7 May 2026 and the same paragraph (b)(1).",
         "recheckAfter": "2027-02-12"
       }
     }

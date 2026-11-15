@@ -42,9 +42,9 @@
       "url": "https://govramp.org/security-program",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026, with https://govramp.org/authorized: the statuses are Core, Ready, Provisional and Authorized, on NIST SP 800-53 Revision 5 at a Low, Moderate or High impact level. Authorized needs a security assessment report from a third-party assessor and ‘Government sponsorship or approval through the GovRAMP Approvals Committee’.",
+        "note": "Read on 14 November 2026, with https://govramp.org/authorized: the statuses are Core, Ready, Provisional and Authorized, on NIST SP 800-53 Revision 5 at a Low, Moderate or High impact level. Authorized needs a security assessment report from a third-party assessor and ‘Government sponsorship or approval through the GovRAMP Approvals Committee’. Read again on 15 November 2026: the same four statuses, SP 800-53 Rev. 5 and the same requirements for Authorized are on the two pages.",
         "recheckAfter": "2027-01-15"
       }
     },
@@ -57,9 +57,9 @@
       "url": "https://govramp.org/news/blog/stateramp-announces-rebrand-to-govramp-reflecting-mission-to-unite-public-and-private-sectors-in-advancing-cybersecurity",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: the rebrand was announced on 14 February 2025. StateRAMP remains the legal name.",
+        "note": "Read on 14 November 2026: the rebrand was announced on 14 February 2025. StateRAMP remains the legal name. Read again on 15 November 2026: the release of 14 February 2025 is unchanged and still says StateRAMP remains the legal name.",
         "recheckAfter": "2027-02-12"
       }
     },
@@ -72,9 +72,9 @@
       "url": "https://govramp.org/faqs",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: ‘GovRAMP operates as a 501(c)(6) nonprofit organization governed by a Board of Directors composed primarily of state and local government officials.’ The participating governments page (https://govramp.org/participating-government-organizations) printed 72 that day; the home page says 70+.",
+        "note": "Read on 14 November 2026: ‘GovRAMP operates as a 501(c)(6) nonprofit organization governed by a Board of Directors composed primarily of state and local government officials.’ The participating governments page (https://govramp.org/participating-government-organizations) printed 72 that day; the home page says 70+. Read again on 15 November 2026: the sentence is unchanged and the participating governments page still prints 72.",
         "recheckAfter": "2027-01-15"
       }
     }

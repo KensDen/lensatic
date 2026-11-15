@@ -58,9 +58,9 @@
       "url": "https://www.cisecurity.org/controls/implementation-groups",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: ‘There is a total of 153 Safeguards in CIS Controls v8 and v8.1.’ The first group holds 56, the second adds 74 and the third 23. Version 8.1, released on 25 June 2024, was still the latest on the site, and the Controls list page numbers 18 Controls.",
+        "note": "Read on 14 November 2026: ‘There is a total of 153 Safeguards in CIS Controls v8 and v8.1.’ The first group holds 56, the second adds 74 and the third 23. Version 8.1, released on 25 June 2024, was still the latest on the site, and the Controls list page numbers 18 Controls. Read again on 15 November 2026: the pages still give 153 Safeguards as 56, 74 and 23, the list page still numbers 18 Controls, and v8.1 is still named the latest version.",
         "recheckAfter": "2027-01-15"
       }
     },
@@ -73,9 +73,9 @@
       "url": "https://www.cisecurity.org/controls/cis-controls-faq",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: ‘The CIS Controls are not a replacement for any existing regulatory, compliance, or authorization scheme.’ The same page says a vendor or consultant should hold a CIS SecureSuite membership or be an authorized Supporter ‘to use the Controls in tools or services that benefit your customers’. The release announcement for v8.1 says the Controls are in state safe harbor statutes in Ohio, Utah, Connecticut and Iowa.",
+        "note": "Read on 14 November 2026: ‘The CIS Controls are not a replacement for any existing regulatory, compliance, or authorization scheme.’ The same page says a vendor or consultant should hold a CIS SecureSuite membership or be an authorized Supporter ‘to use the Controls in tools or services that benefit your customers’. The release announcement for v8.1 says the Controls are in state safe harbor statutes in Ohio, Utah, Connecticut and Iowa. Read again on 15 November 2026: both quoted sentences are still on the FAQ page word for word.",
         "recheckAfter": "2027-01-15"
       }
     },
@@ -88,9 +88,9 @@
       "url": "https://www.cisecurity.org/terms-of-use-for-non-member-cis-products",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: the Controls and their guidance are offered under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License, and the terms add that a user may not post the product on a website or create a derivative work from it. CIS’s trademark policy asks an independent publication to carry the disclaimer in this entry’s terms.",
+        "note": "Read on 14 November 2026: the Controls and their guidance are offered under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License, and the terms add that a user may not post the product on a website or create a derivative work from it. CIS’s trademark policy asks an independent publication to carry the disclaimer in this entry’s terms. Read again on 15 November 2026: the terms still name the Attribution-NonCommercial-NoDerivatives 4.0 license for the Controls and still bar posting on a website and derivative works.",
         "recheckAfter": "2027-02-12"
       }
     }

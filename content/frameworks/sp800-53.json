@@ -52,9 +52,9 @@
       "url": "https://github.com/usnistgov/oscal-content/tree/main/nist.gov/SP800-53/rev5",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "The catalog was fetched from NIST’s oscal-content repository on 14 November 2026 (release v1.6.0, published 22 October 2026; the catalog’s own version is 5.2.0). Leaving out withdrawn entries, it holds 20 families, 300 controls and 714 enhancements, 1,014 in all. Identifiers are the catalog’s printed labels, such as AC-2(1); the same catalog also gives each a zero-padded form, AC-02(01), which the CSF 2.0 references use.",
+        "note": "The catalog was fetched from NIST’s oscal-content repository on 14 November 2026 (release v1.6.0, published 22 October 2026; the catalog’s own version is 5.2.0). Leaving out withdrawn entries, it holds 20 families, 300 controls and 714 enhancements, 1,014 in all. Identifiers are the catalog’s printed labels, such as AC-2(1); the same catalog also gives each a zero-padded form, AC-02(01), which the CSF 2.0 references use. Read again on 15 November 2026: v1.6.0 is still the newest release, the catalog’s version is still 5.2.0, and it still counts 20 families, 300 controls and 714 enhancements.",
         "recheckAfter": "2027-02-12"
       }
     },
@@ -67,9 +67,9 @@
       "url": "https://github.com/usnistgov/oscal-content/tree/main/nist.gov/SP800-53/rev5/json",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "The four baseline profiles were fetched on 14 November 2026: Low selects 149 controls and enhancements, Moderate 287, High 370 and Privacy 96. The High profile’s title still says Revision 5.1.1 while its version field says 5.2.0.",
+        "note": "The four baseline profiles were fetched on 14 November 2026: Low selects 149 controls and enhancements, Moderate 287, High 370 and Privacy 96. The High profile’s title still says Revision 5.1.1 while its version field says 5.2.0. Read again on 15 November 2026: the four profiles still select 149, 287, 370 and 96, and the High profile’s title still says Revision 5.1.1 beside version 5.2.0.",
         "recheckAfter": "2027-02-12"
       }
     }

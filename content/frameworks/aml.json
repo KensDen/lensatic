@@ -55,10 +55,10 @@
       "url": "https://github.com/mitre-atlas/atlas-data",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026. Release 2026.10, of 28 October 2026, was still the newest. Its changelog counts 16 tactics, 129 techniques, 92 sub-techniques, 44 mitigations and 77 case studies, and a count of the data file (dist/v6/ATLAS-2026.10.yaml) agrees. MITRE publishes that file as YAML only; it was converted to JSON on this machine for the import. Tactics are in the matrix’s own order, and each technique’s tactics and each sub-technique’s parent come from the file’s relationships. The data file and the README spell the name out as ‘Adversarial Threat Landscape for AI Systems’; the site’s suggested citation writes ‘Artificial-Intelligence Systems’.",
-        "recheckAfter": "2026-12-15"
+        "note": "Read on 14 November 2026. Release 2026.10, of 28 October 2026, was still the newest. Its changelog counts 16 tactics, 129 techniques, 92 sub-techniques, 44 mitigations and 77 case studies, and a count of the data file (dist/v6/ATLAS-2026.10.yaml) agrees. MITRE publishes that file as YAML only; it was converted to JSON on this machine for the import. Tactics are in the matrix’s own order, and each technique’s tactics and each sub-technique’s parent come from the file’s relationships. The data file and the README spell the name out as ‘Adversarial Threat Landscape for AI Systems’; the site’s suggested citation writes ‘Artificial-Intelligence Systems’. Read again on 15 November 2026: release 2026.10 is still the newest, and its changelog and data file still count 16 tactics, 129 techniques, 92 sub-techniques, 44 mitigations and 77 case studies.",
+        "recheckAfter": "2027-01-15"
       }
     },
     {
@@ -70,9 +70,9 @@
       "url": "https://github.com/mitre-atlas/atlas-data/blob/main/LICENSE",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: the data repository’s license file reads Copyright 2021-2026 MITRE, licensed under the Apache License, Version 2.0. The site’s own terms page (atlas.mitre.org/terms) says the same, but it is drawn by script and answers a plain request with 404.",
+        "note": "Read on 14 November 2026: the data repository’s license file reads Copyright 2021-2026 MITRE, licensed under the Apache License, Version 2.0. The site’s own terms page (atlas.mitre.org/terms) says the same, but it is drawn by script and answers a plain request with 404. Read again on 15 November 2026: the license file still reads Copyright 2021-2026 MITRE under the Apache License, Version 2.0.",
         "recheckAfter": "2027-02-12"
       }
     }

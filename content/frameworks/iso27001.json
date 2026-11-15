@@ -62,9 +62,9 @@
       "url": "https://www.iso.org/standard/27001",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "ISO’s catalogue page refuses scripts; opened in a browser on 14 November 2026 it reads ‘Published (Edition 3, 2022)’ with one amendment. The details were read the same day in ISO Open Data, the catalogue ISO publishes for machines: ISO/IEC 27001:2022, edition 3, published 25 October 2022, with Amendment 1:2024, Climate action changes, published 23 February 2024, and no revision registered. Its scope says that excluding any requirement of clauses 4 to 10 is not acceptable when an organization claims conformity. The text of the standard was not read and none of it is shown.",
+        "note": "ISO’s catalogue page refuses scripts; opened in a browser on 14 November 2026 it reads ‘Published (Edition 3, 2022)’ with one amendment. The details were read the same day in ISO Open Data, the catalogue ISO publishes for machines: ISO/IEC 27001:2022, edition 3, published 25 October 2022, with Amendment 1:2024, Climate action changes, published 23 February 2024, and no revision registered. Its scope says that excluding any requirement of clauses 4 to 10 is not acceptable when an organization claims conformity. The text of the standard was not read and none of it is shown. Read again on 15 November 2026: the catalogue page answered a script with 403, and ISO Open Data (file of 11 November 2026) still lists edition 3 of 2022 with Amendment 1:2024 and no revision registered.",
         "recheckAfter": "2027-01-15"
       }
     },
@@ -77,9 +77,9 @@
       "url": "https://committee.iso.org/files/live/sites/jtc1sc27/files/resources/ISO-IEC%20JTC%201-SC%2027_N22755_SC27%20Journal%20Vol%202%20Issue%202%20(update%20Dec%202022).pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026, from the committee that owns the standard: the controls ‘are organized through 4 themes: 37 organizational, 8 people, 14 physical and 34’ technological, 93 in all. The clause numbers 4 to 10 were read in the British Standards Institution’s preview of its adoption of the standard.",
+        "note": "Read on 14 November 2026, from the committee that owns the standard: the controls ‘are organized through 4 themes: 37 organizational, 8 people, 14 physical and 34’ technological, 93 in all. The clause numbers 4 to 10 were read in the British Standards Institution’s preview of its adoption of the standard. Read again on 15 November 2026: the journal is still at the same address and still gives 37 organizational, 8 people, 14 physical and 34 technological controls, 93 in all.",
         "recheckAfter": "2027-01-15"
       }
     },
@@ -92,9 +92,9 @@
       "url": "https://iaf.nu/iaf_system/uploads/documents/IAF_MD26_Issue_2_15012023.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: ‘All certifications based on ISO/IEC 27001:2013 shall expire or be withdrawn at the end of the transition period’, which ended on 31 October 2025. The forum ceased operations on 1 January 2026; Global Accreditation Cooperation Incorporated now runs the recognition arrangement, and iaf.nu is kept as an archive.",
+        "note": "Read on 14 November 2026: ‘All certifications based on ISO/IEC 27001:2013 shall expire or be withdrawn at the end of the transition period’, which ended on 31 October 2025. The forum ceased operations on 1 January 2026; Global Accreditation Cooperation Incorporated now runs the recognition arrangement, and iaf.nu is kept as an archive. Read again on 15 November 2026: Issue 2 is still at the same address with the same sentence, and iaf.nu still says the forum ceased operations on 1 January 2026.",
         "recheckAfter": "2027-02-12"
       }
     }

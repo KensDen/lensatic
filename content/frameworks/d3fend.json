@@ -44,10 +44,10 @@
       "url": "https://d3fend.mitre.org/",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026. Version 1.6.0 is dated 31 August 2026 and was still current; its files were fetched twice that day and did not change. The matrix file (https://d3fend.mitre.org/api/matrix.json) holds seven tactics and 272 techniques nested up to five deep; 271 carry an identifier, and one, Particle Radiation Hardening, has none in this release. The matrix is listed in the order the site shows it, by name at each level. Release 1.6.0 tracks ATT&CK v19.0, not v20.",
-        "recheckAfter": "2026-12-15"
+        "note": "Read on 14 November 2026. Version 1.6.0 is dated 31 August 2026 and was still current; its files were fetched twice that day and did not change. The matrix file (https://d3fend.mitre.org/api/matrix.json) holds seven tactics and 272 techniques nested up to five deep; 271 carry an identifier, and one, Particle Radiation Hardening, has none in this release. The matrix is listed in the order the site shows it, by name at each level. Release 1.6.0 tracks ATT&CK v19.0, not v20. Read again on 15 November 2026: 1.6.0 of 31 August 2026 is still current, the matrix still holds seven tactics and 272 techniques, and the ontology still names ATT&CK v19.0.",
+        "recheckAfter": "2027-01-15"
       }
     },
     {
@@ -59,9 +59,9 @@
       "url": "https://d3fend.mitre.org/faq/",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: ‘D3FEND is a knowledge base, but more specifically a knowledge graph, of cybersecurity countermeasure techniques’, and the sentence quoted on this card.",
+        "note": "Read on 14 November 2026: ‘D3FEND is a knowledge base, but more specifically a knowledge graph, of cybersecurity countermeasure techniques’, and the sentence quoted on this card. Read again on 15 November 2026: both sentences are still on the page word for word.",
         "recheckAfter": "2027-02-12"
       }
     },
@@ -74,9 +74,9 @@
       "url": "https://d3fend.mitre.org/tou/",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026. The license paragraph grants use ‘for research, development, and commercial purposes’ provided a copy reproduces ‘MITRE’s copyright designation and this license’. The page prints no designation sentence for D3FEND; its footer reads ‘© 2025 The MITRE Corporation.’ The ontology’s file and repository declare the MIT License, ‘Copyright (c) 2022 The MITRE Corporation’ (https://github.com/d3fend/d3fend-ontology/blob/develop/LICENSE.md). Which line MITRE means by its designation is not stated anywhere read, so all of them are reproduced. Every page writes the name with the trademark sign; none says it is registered.",
+        "note": "Read on 14 November 2026. The license paragraph grants use ‘for research, development, and commercial purposes’ provided a copy reproduces ‘MITRE’s copyright designation and this license’. The page prints no designation sentence for D3FEND; its footer reads ‘© 2025 The MITRE Corporation.’ The ontology’s file and repository declare the MIT License, ‘Copyright (c) 2022 The MITRE Corporation’ (https://github.com/d3fend/d3fend-ontology/blob/develop/LICENSE.md). Which line MITRE means by its designation is not stated anywhere read, so all of them are reproduced. Every page writes the name with the trademark sign; none says it is registered. Read again on 15 November 2026: the license paragraph, the 2025 footer and the repository’s MIT License of 2022 are unchanged.",
         "recheckAfter": "2027-02-12"
       }
     }

@@ -43,10 +43,10 @@
       "url": "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026 through the eCFR’s own interface: title 32 was current to 12 November 2026 and Part 170 unchanged since 16 December 2024. Section 170.14 states the model: Level 1 is the 15 requirements of FAR 52.204-21(b)(1)(i) to (xv); ‘The security requirements in CMMC Level 2 are identical to the requirements in NIST SP 800-171 R2’; Level 3 adds the 24 requirements in its Table 1, taken from NIST SP 800-172 of February 2021, 16 of them with values the department assigns. The Level 1 identifiers and their SP 800-171 numbers are in Table 2 to section 170.15(c)(1)(ii): 15 requirements, 17 numbers, because one is split in three. The tables were extracted by script and counted. NIST withdrew SP 800-172 of 2021 on 13 May 2026 in favor of Revision 3; the rule still names the 2021 edition.",
-        "recheckAfter": "2026-12-15"
+        "note": "Read on 14 November 2026 through the eCFR’s own interface: title 32 was current to 12 November 2026 and Part 170 unchanged since 16 December 2024. Section 170.14 states the model: Level 1 is the 15 requirements of FAR 52.204-21(b)(1)(i) to (xv); ‘The security requirements in CMMC Level 2 are identical to the requirements in NIST SP 800-171 R2’; Level 3 adds the 24 requirements in its Table 1, taken from NIST SP 800-172 of February 2021, 16 of them with values the department assigns. The Level 1 identifiers and their SP 800-171 numbers are in Table 2 to section 170.15(c)(1)(ii): 15 requirements, 17 numbers, because one is split in three. The tables were extracted by script and counted. NIST withdrew SP 800-172 of 2021 on 13 May 2026 in favor of Revision 3; the rule still names the 2021 edition. Read again on 15 November 2026 through the eCFR’s versioner API: title 32 was still current to 12 November 2026 and Part 170 unchanged since 16 December 2024; the reading page sent a script to a bot test.",
+        "recheckAfter": "2027-01-15"
       }
     },
     {
@@ -58,9 +58,9 @@
       "url": "https://www.acquisition.gov/far/52.204-21",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: paragraph (b)(1) lists the 15 safeguarding requirements, and the text of each is the text shown here, word for word the same in the eCFR. The FAR overhaul’s model text carries the same clause as 52.240-93 and reserves this number.",
+        "note": "Read on 14 November 2026: paragraph (b)(1) lists the 15 safeguarding requirements, and the text of each is the text shown here, word for word the same in the eCFR. The FAR overhaul’s model text carries the same clause as 52.240-93 and reserves this number. Read again on 15 November 2026: the page still shows the clause of November 2021 with the 15 requirements of paragraph (b)(1), under FAC 2026-01.",
         "recheckAfter": "2027-02-12"
       }
     }

@@ -48,9 +48,9 @@
       "url": "https://github.com/mitre-attack/attack-stix-data",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "The bundle enterprise-attack-20.1.json was fetched on 14 November 2026. Leaving out revoked and deprecated objects it holds 15 tactics, 227 techniques and 479 sub-techniques, the same counts the v20 release notes and the site’s list pages print. Since v19, of 28 April 2026, Enterprise has no Defense Evasion tactic: TA0005 is Stealth and TA0112 is Defense Impairment. Each sub-technique names its parent twice, by a relationship and by its identifier (T1059.001 under T1059), and the two agree for all 479. The bundle was fetched again later that day and was the same file.",
+        "note": "The bundle enterprise-attack-20.1.json was fetched on 14 November 2026. Leaving out revoked and deprecated objects it holds 15 tactics, 227 techniques and 479 sub-techniques, the same counts the v20 release notes and the site’s list pages print. Since v19, of 28 April 2026, Enterprise has no Defense Evasion tactic: TA0005 is Stealth and TA0112 is Defense Impairment. Each sub-technique names its parent twice, by a relationship and by its identifier (T1059.001 under T1059), and the two agree for all 479. The bundle was fetched again later that day and was the same file. Read again on 15 November 2026: v20.1 is still the newest release, and the bundle still counts 15 tactics, 227 techniques and 479 sub-techniques.",
         "recheckAfter": "2027-01-15"
       }
     },
@@ -63,9 +63,9 @@
       "url": "https://attack.mitre.org/resources/versions/",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: the page lists v20.1 as current, from 13 October 2026, the day v20 was released; the v20.1 data itself is dated 5 November 2026 in MITRE’s repository. The site describes ATT&CK as a ‘knowledge base of adversary tactics and techniques based on real-world observations’.",
+        "note": "Read on 14 November 2026: the page lists v20.1 as current, from 13 October 2026, the day v20 was released; the v20.1 data itself is dated 5 November 2026 in MITRE’s repository. The site describes ATT&CK as a ‘knowledge base of adversary tactics and techniques based on real-world observations’. Read again on 15 November 2026: the page still lists v20.1 as current from 13 October 2026.",
         "recheckAfter": "2027-01-15"
       }
     },
@@ -78,9 +78,9 @@
       "url": "https://attack.mitre.org/resources/legal-and-branding/terms-of-use/",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026. The license and the copyright designation it requires in any copy are reproduced in this entry’s terms. The same page says that covering ATT&CK’s techniques ‘will not guarantee full defensive coverage’.",
+        "note": "Read on 14 November 2026. The license and the copyright designation it requires in any copy are reproduced in this entry’s terms. The same page says that covering ATT&CK’s techniques ‘will not guarantee full defensive coverage’. Read again on 15 November 2026: the license, the 2026 copyright designation and the sentence on defensive coverage are still on the page.",
         "recheckAfter": "2027-02-12"
       }
     }

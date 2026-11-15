@@ -1,6 +1,6 @@
 {
   "modelVersion": "2.0.0-r3",
-  "checkedOn": "2026-11-14",
+  "checkedOn": "2026-11-15",
   "intro": "Every framework as a card: what it is for, who it binds, how it is verified, how big it is and where it sits.",
   "groups": [
     {
@@ -86,9 +86,9 @@
         "url": "https://www.aicpa-cima.com/news/article/aicpa-proposes-update-of-soc-2-r-trust-services-criteria-to-enhance-the-relevance-usability-and-value-of-cpas-reports",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-11-14",
+          "verifiedOn": "2026-11-15",
           "method": "primary-fetch",
-          "note": "Read on 14 November 2026: ‘SOC 2® is an examination performed by a licensed, independent CPA under the AICPA Attestation Standards’. The criteria in force are the 2017 Trust Services Criteria with the revised points of focus of 2022; a proposed 2027 edition is out for comment until 15 January 2027. The FedRAMP rule is FRC-CLA-ASF in the Consolidated Rules for 2026, read the same day.",
+          "note": "Read on 14 November 2026: ‘SOC 2® is an examination performed by a licensed, independent CPA under the AICPA Attestation Standards’. The criteria in force are the 2017 Trust Services Criteria with the revised points of focus of 2022; a proposed 2027 edition is out for comment until 15 January 2027. The FedRAMP rule is FRC-CLA-ASF in the Consolidated Rules for 2026, read the same day. Read again on 15 November 2026: the release is unchanged, the proposed 2027 edition is still out for comment until 15 January 2027, and FedRAMP rule FRC-CLA-ASF still names SOC 2 Type II.",
           "recheckAfter": "2027-01-20"
         }
       }
@@ -111,9 +111,9 @@
         "url": "https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-C/part-164/subpart-C",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-11-14",
+          "verifiedOn": "2026-11-15",
           "method": "primary-fetch",
-          "note": "Read on 14 November 2026: sections 164.308, 164.310 and 164.312 are the administrative, physical and technical safeguards, and ‘A covered entity or business associate must comply’. The proposed rule of 6 January 2025 (90 FR 898) was still pending: the 2026 Unified Agenda lists it under Long-Term Actions with final action in July 2027.",
+          "note": "Read on 14 November 2026: sections 164.308, 164.310 and 164.312 are the administrative, physical and technical safeguards, and ‘A covered entity or business associate must comply’. The proposed rule of 6 January 2025 (90 FR 898) was still pending: the 2026 Unified Agenda lists it under Long-Term Actions with final action in July 2027. Read again on 15 November 2026 through the eCFR’s versioner API: title 45 was still current to 12 November 2026 with Subpart C unchanged, and the proposed rule of 6 January 2025 was still listed under Long-Term Actions with final action in July 2027.",
           "recheckAfter": "2027-02-12"
         }
       }
@@ -136,9 +136,9 @@
         "url": "https://www.pcisecuritystandards.org/standards/pci-dss/",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-11-14",
+          "verifiedOn": "2026-11-15",
           "method": "primary-fetch",
-          "note": "Read on 14 November 2026. Version 4.0.1, announced on 11 June 2024, has been the only active version since 1 January 2025 and was still current; the council took comments on it from 3 June to 20 July 2026 toward the next iteration. Only counts are shown here, not the standard’s text.",
+          "note": "Read on 14 November 2026. Version 4.0.1, announced on 11 June 2024, has been the only active version since 1 January 2025 and was still current; the council took comments on it from 3 June to 20 July 2026 toward the next iteration. Only counts are shown here, not the standard’s text. Read again on 15 November 2026: v4.0.1 is still the version the council’s Document Library features, and no later version is announced on the pages read.",
           "recheckAfter": "2027-02-12"
         }
       }

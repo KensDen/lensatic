@@ -64,10 +64,10 @@
       "url": "https://www.fedramp.gov/2026/",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026. The rules launched on 24 June 2026 and took effect on 4 July 2026; the release tagged 2026.11.02.01 was published on 5 November 2026. They name two certification types, 20x and Rev5, two paths, Program and Agency, and Classes A to D. The Choose a Type page says Rev5 ‘will be retired in the future’. The What’s Changing page says continuous monitoring is now Ongoing Certification and that plans of action and milestones ‘have been eliminated entirely’. The Classes page says agencies should not treat classes as one-for-one replacements for the Low, Moderate and High impact levels. The 20x page said on that day that 20x was in Phase 3, with Class D Certifications to be developed in Phase 4.",
-        "recheckAfter": "2026-12-15"
+        "note": "Read on 14 November 2026. The rules launched on 24 June 2026 and took effect on 4 July 2026; the release tagged 2026.11.02.01 was published on 5 November 2026. They name two certification types, 20x and Rev5, two paths, Program and Agency, and Classes A to D. The Choose a Type page says Rev5 ‘will be retired in the future’. The What’s Changing page says continuous monitoring is now Ongoing Certification and that plans of action and milestones ‘have been eliminated entirely’. The Classes page says agencies should not treat classes as one-for-one replacements for the Low, Moderate and High impact levels. The 20x page said on that day that 20x was in Phase 3, with Class D Certifications to be developed in Phase 4. Read again on 15 November 2026: 2026.11.02.01 is still the newest release, and the quoted statements on Rev5, Ongoing Certification, the classes and the 20x phases are still on their pages.",
+        "recheckAfter": "2027-01-15"
       }
     },
     {
@@ -79,10 +79,10 @@
       "url": "https://github.com/FedRAMP/rules/blob/main/fedramp-consolidated-rules.json",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Fetched on 14 November 2026. Every ruleset, theme, Key Security Indicator, statement and related control here is that file’s: 17 rulesets and 46 Key Security Indicators in 10 themes. Rule FRC-CSF-BSL lists 155 controls for Rev5 Class B, 322 for Class C and 409 for Class D. Each is one fewer than the legacy workbook’s Low, Moderate and High baselines of 156, 323 and 410, which FedRAMP still publishes marked as legacy: CA-5 is no longer listed. The file writes identifiers as AC-02 (01); they are shown as SP 800-53 prints them, AC-2(1).",
-        "recheckAfter": "2026-12-15"
+        "note": "Fetched on 14 November 2026. Every ruleset, theme, Key Security Indicator, statement and related control here is that file’s: 17 rulesets and 46 Key Security Indicators in 10 themes. Rule FRC-CSF-BSL lists 155 controls for Rev5 Class B, 322 for Class C and 409 for Class D. Each is one fewer than the legacy workbook’s Low, Moderate and High baselines of 156, 323 and 410, which FedRAMP still publishes marked as legacy: CA-5 is no longer listed. The file writes identifiers as AC-02 (01); they are shown as SP 800-53 prints them, AC-2(1). Read again on 15 November 2026: the file is still version 2026.11.02.01 with 17 rulesets, 46 Key Security Indicators in 10 themes, and 155, 322 and 409 controls in rule FRC-CSF-BSL.",
+        "recheckAfter": "2027-01-15"
       }
     },
     {
@@ -94,10 +94,10 @@
       "url": "https://www.fedramp.gov/2026/providers/updating/deadlines/",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026. The page’s Critical Overall Dates: from 1 January 2027 new Rev5 applications and active 20x certifications must follow the Consolidated Rules for 2026; on 11 June 2027 ‘No new applications for FedRAMP Rev5 Certification will be accepted’; on 1 February 2028 all grace periods expire. It also says the rules’ practices expire no later than 31 December 2028.",
-        "recheckAfter": "2026-12-15"
+        "note": "Read on 14 November 2026. The page’s Critical Overall Dates: from 1 January 2027 new Rev5 applications and active 20x certifications must follow the Consolidated Rules for 2026; on 11 June 2027 ‘No new applications for FedRAMP Rev5 Certification will be accepted’; on 1 February 2028 all grace periods expire. It also says the rules’ practices expire no later than 31 December 2028. Read again on 15 November 2026: the Critical Overall Dates and the expiry of 31 December 2028 are unchanged.",
+        "recheckAfter": "2027-01-15"
       }
     },
     {
@@ -109,9 +109,9 @@
       "url": "https://www.fedramp.gov/notices/0004/",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: ‘The single official label for all FedRAMP authorizations will be FedRAMP Certification or FedRAMP Certified.’ Class B takes in the former LI-SaaS and Low baselines, Class C the Moderate and Class D the High.",
+        "note": "Read on 14 November 2026: ‘The single official label for all FedRAMP authorizations will be FedRAMP Certification or FedRAMP Certified.’ Class B takes in the former LI-SaaS and Low baselines, Class C the Moderate and Class D the High. Read again on 15 November 2026: the notice is unchanged, with the same sentence on the single official label and the same class mapping.",
         "recheckAfter": "2027-02-12"
       }
     },
@@ -125,9 +125,9 @@
       "pdf": "https://www.whitehouse.gov/wp-content/uploads/2024/07/M-24-15-Modernizing-the-Federal-Risk-and-Authorization-Management-Program.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026 as FedRAMP reproduces it; the memorandum is dated 25 July 2024. The FedRAMP Authorization Act is section 5921 of Public Law 117-263, enacted on 23 December 2022 and codified at 44 U.S.C. 3607 to 3616, which FedRAMP reproduces at https://www.fedramp.gov/2026/authority/law/.",
+        "note": "Read on 14 November 2026 as FedRAMP reproduces it; the memorandum is dated 25 July 2024. The FedRAMP Authorization Act is section 5921 of Public Law 117-263, enacted on 23 December 2022 and codified at 44 U.S.C. 3607 to 3616, which FedRAMP reproduces at https://www.fedramp.gov/2026/authority/law/. Read again on 15 November 2026: FedRAMP still reproduces the memorandum of 25 July 2024 and the Act as section 5921 of Public Law 117-263, and the whitehouse.gov PDF address answered 200.",
         "recheckAfter": "2027-02-12"
       }
     }

@@ -51,9 +51,9 @@
       "url": "https://csrc.nist.gov/projects/cprt/catalog#/cprt/framework/version/SP_800_171_3_0_0/home",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Both editions were exported from NIST’s Cybersecurity and Privacy Reference Tool on 14 November 2026. Revision 2 holds 14 families and 110 requirements, each a statement with no title. Revision 3 holds 17 families and 130 numbers, 33 of them withdrawn, which leaves 97 requirements; each has a title, and its statement is put together here from the lettered and numbered parts the export holds, in order. A count of each edition’s PDF agrees. Revision 3’s export also points each requirement at its source controls in SP 800-53 Revision 5 (release 5.1.1).",
+        "note": "Both editions were exported from NIST’s Cybersecurity and Privacy Reference Tool on 14 November 2026. Revision 2 holds 14 families and 110 requirements, each a statement with no title. Revision 3 holds 17 families and 130 numbers, 33 of them withdrawn, which leaves 97 requirements; each has a title, and its statement is put together here from the lettered and numbered parts the export holds, in order. A count of each edition’s PDF agrees. Revision 3’s export also points each requirement at its source controls in SP 800-53 Revision 5 (release 5.1.1). Read again on 15 November 2026: the exports still hold 14 families and 110 requirements for Revision 2 and 17 families, 130 numbers and 33 withdrawn for Revision 3, which still points at SP 800-53 release 5.1.1.",
         "recheckAfter": "2027-02-12"
       }
     },
@@ -66,9 +66,9 @@
       "url": "https://csrc.nist.gov/pubs/sp/800/171/r3/final",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: ‘Date Published: May 2024’ and ‘Supersedes: SP 800-171 Rev. 2 (01/28/2021)’. The page lists no later revision or draft, and the addresses a Revision 4 would have answer 404.",
+        "note": "Read on 14 November 2026: ‘Date Published: May 2024’ and ‘Supersedes: SP 800-171 Rev. 2 (01/28/2021)’. The page lists no later revision or draft, and the addresses a Revision 4 would have answer 404. Read again on 15 November 2026: the page still gives May 2024 with no later revision or draft, and the addresses a Revision 4 would have still answer 404.",
         "recheckAfter": "2027-02-12"
       }
     },
@@ -81,9 +81,9 @@
       "url": "https://csrc.nist.gov/pubs/sp/800/171/r2/upd1/final",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026: ‘Withdrawn on May 14, 2024. Superseded by SP 800-171 Rev. 3’. The page also says the PDF of Revision 2 is the authoritative source of the requirements.",
+        "note": "Read on 14 November 2026: ‘Withdrawn on May 14, 2024. Superseded by SP 800-171 Rev. 3’. The page also says the PDF of Revision 2 is the authoritative source of the requirements. Read again on 15 November 2026: the page still marks Revision 2 withdrawn on May 14, 2024 and still names its PDF as the authoritative source.",
         "recheckAfter": "2027-02-12"
       }
     }

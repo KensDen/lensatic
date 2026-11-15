@@ -1747,10 +1747,10 @@
       "url": "https://www.fedramp.gov/2026/",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-14",
+        "verifiedOn": "2026-11-15",
         "method": "primary-fetch",
-        "note": "Read on 14 November 2026 at fedramp.gov and in FedRAMP’s machine-readable rules file (https://github.com/FedRAMP/rules/blob/main/fedramp-consolidated-rules.json), fetched twice that day: the Consolidated Rules for 2026 launched on 24 June 2026 and stood at version 2026.11.02.01. An authorization is now a FedRAMP Certification, in Class A, B, C or D, of the 20x type (46 Key Security Indicators in 10 themes) or the Rev5 type (SP 800-53 baselines of 155, 322 and 409 controls for Classes B, C and D). The rule on approved alternative security frameworks names the ways into Class A: FedRAMP Rev5, including FedRAMP Ready; SOC 2 Type II; and GovRAMP, each within the past 12 months. The Marketplace rule on the deadline for assessment gives two years from the first listing to schedule a Class B, C or D assessment. The rule for agencies on authorization before use has each agency complete its own authorization to operate for a system that uses a certified service.",
-        "recheckAfter": "2026-12-15"
+        "note": "Read on 14 November 2026 at fedramp.gov and in FedRAMP’s machine-readable rules file (https://github.com/FedRAMP/rules/blob/main/fedramp-consolidated-rules.json), fetched twice that day: the Consolidated Rules for 2026 launched on 24 June 2026 and stood at version 2026.11.02.01. An authorization is now a FedRAMP Certification, in Class A, B, C or D, of the 20x type (46 Key Security Indicators in 10 themes) or the Rev5 type (SP 800-53 baselines of 155, 322 and 409 controls for Classes B, C and D). The rule on approved alternative security frameworks names the ways into Class A: FedRAMP Rev5, including FedRAMP Ready; SOC 2 Type II; and GovRAMP, each within the past 12 months. The Marketplace rule on the deadline for assessment gives two years from the first listing to schedule a Class B, C or D assessment. The rule for agencies on authorization before use has each agency complete its own authorization to operate for a system that uses a certified service. Read again on 15 November 2026: 2026.11.02.01 was still the newest release, and the rules file still counts 17 rulesets, 46 Key Security Indicators in 10 themes, and 155, 322 and 409 controls.",
+        "recheckAfter": "2027-01-15"
       },
       "authority": {
         "nature": "assessment",
@@ -1771,10 +1771,10 @@
         "note": "Agencies must favor FedRAMP Certified cloud services where the use is in scope, under the FedRAMP Authorization Act and OMB Memorandum M-24-15; a provider follows the rules to earn and keep a certification.",
         "verification": {
           "status": "verified",
-          "verifiedOn": "2026-11-14",
+          "verifiedOn": "2026-11-15",
           "method": "primary-fetch",
-          "note": "Read on 14 November 2026: the dates are on FedRAMP’s Important Deadlines page (https://www.fedramp.gov/2026/providers/updating/deadlines/), the agency duty on its page of the law (https://www.fedramp.gov/2026/authority/law/agencies/), which quotes 44 U.S.C. 3613, and the memorandum on https://www.fedramp.gov/2026/authority/m-24-15/.",
-          "recheckAfter": "2026-12-15"
+          "note": "Read on 14 November 2026: the dates are on FedRAMP’s Important Deadlines page (https://www.fedramp.gov/2026/providers/updating/deadlines/), the agency duty on its page of the law (https://www.fedramp.gov/2026/authority/law/agencies/), which quotes 44 U.S.C. 3613, and the memorandum on https://www.fedramp.gov/2026/authority/m-24-15/. Read again on 15 November 2026: the dates on the Important Deadlines page are unchanged, and the page of the law still carries section 3613.",
+          "recheckAfter": "2027-01-15"
         }
       },
       "shortNote": "Rebuilt in mid 2026: an authorization is now a FedRAMP Certification, in Classes A to D.",
