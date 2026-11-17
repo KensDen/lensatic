@@ -9,8 +9,8 @@
       "file": "01_iPhone-18-Pro_home.png",
       "width": 1206,
       "height": 2622,
-      "sha256": "84a813e6c20f6368f0e411a5b33d1b4b2cd79f8269d828f54c68fa40ae8e918b",
-      "contentSha256": "5c6c93bbd6582f462b1e3cafde4654a1f910d02cda28a3c1ce51f9ca1b749aeb"
+      "sha256": "468b88db309cea897ff28e9b90c1eed55312e4681f42a3d01f9d79e6df2032ab",
+      "contentSha256": "6172517d31089fef558645d10e5406f62eb5bf1649bdd0e9dba70062bf25d9df"
     },
     {
       "order": 2,
@@ -20,19 +20,19 @@
       "file": "02_iPhone-18-Pro_path.png",
       "width": 1206,
       "height": 2622,
-      "sha256": "1be527e947ca668865162290183a8ba0f22a801b4e289f2fbc68980b3d43010e",
-      "contentSha256": "adc2b2c3cc2ca664dc4c1073627df396e774726f3a9d3db38fbec89b65ee4f55"
+      "sha256": "a1ac57b993d32343508e35b2e47392a1bb0922f35b4d61ac972ffcab964a9b1d",
+      "contentSha256": "d3811b78e2a8ef9e567da9abf96ebeb661240c853e44cad78031a85c2e3e4391"
     },
     {
       "order": 3,
       "device": "iPhone-18-Pro",
       "display": "iPhone 6.3-inch display",
-      "screen": "stack",
-      "file": "03_iPhone-18-Pro_stack.png",
+      "screen": "frameworks",
+      "file": "03_iPhone-18-Pro_frameworks.png",
       "width": 1206,
       "height": 2622,
-      "sha256": "f2c8bd23e562b14f89cb8d00e340fb8efa48c76cc7c3906a44efc7465b9c8d7b",
-      "contentSha256": "cc42c0ca8a15701252d25543f92faa0522aa17ae26e0fc43e180644f27dbee86"
+      "sha256": "fc4785249193743d65d6562399f43faa8534de2790c4bf5a420a4116eb5ccd95",
+      "contentSha256": "c6410d70181a5f9ded77eb5dfc4568f981bd91b4fff154d0bb91db87ccf4e0b3"
     },
     {
       "order": 4,
@@ -49,12 +49,12 @@
       "order": 5,
       "device": "iPhone-18-Pro",
       "display": "iPhone 6.3-inch display",
-      "screen": "sources",
-      "file": "05_iPhone-18-Pro_sources.png",
+      "screen": "links",
+      "file": "05_iPhone-18-Pro_links.png",
       "width": 1206,
       "height": 2622,
-      "sha256": "7a3fad321f1590415f9ea51522e4dec6da9b036ecb1cd79a53ba6863df59b9ba",
-      "contentSha256": "512fe522f9132797f73a300c72e5db7b73704aad603320d6f217d01bba064f84"
+      "sha256": "8d27d934a42edfc199ff356f81024f836e63a9785f167eab9f2fa42f06d87b9d",
+      "contentSha256": "16fe25ed6cf3f2d24f2da7bc4205937302186958bb21522e3a9c9affe5ae2712"
     },
     {
       "order": 6,
@@ -86,8 +86,8 @@
       "file": "08_iPhone-18-Pro_play.png",
       "width": 1206,
       "height": 2622,
-      "sha256": "c17413e1f2505e4a147477a4bacf1e8bfe0d1a094e4bf0e6b503efd05aa8ca54",
-      "contentSha256": "2dcdb339479ed2b146fa962dc3e0fa17a4f3f4606a0e8c63c56932db38cf4e84"
+      "sha256": "08bafceac5c17ec198db4feb673aef56b1ec6df20c43785a10cca9dd74c4eb29",
+      "contentSha256": "6e8d891145ded00d4f82dc7221e2d0d620141785f6a0307cca8cc852d4b3f458"
     },
     {
       "order": 1,
@@ -97,8 +97,8 @@
       "file": "01_iPad-Pro-13-inch-M5_home.png",
       "width": 2064,
       "height": 2752,
-      "sha256": "5b65b5e80c7b0c98e9626263b23ee2ca7ca0d7e500ebb4507b028876dd91c8c4",
-      "contentSha256": "349b4e6a1f029ce383f2b9e08e858eeac50a2cd118ac5cbd57723b8e0735a6bf"
+      "sha256": "acaa83ed0b83cff57f683e4f7a4ad85266693f1101705b573aa3debf1c844d24",
+      "contentSha256": "09e95bc6e8e9383f8beae5641ff4a1b7958066ea5fb6c6fbd61f467569425e48"
     },
     {
       "order": 2,
@@ -108,19 +108,19 @@
       "file": "02_iPad-Pro-13-inch-M5_path.png",
       "width": 2064,
       "height": 2752,
-      "sha256": "01d10cc472619dfd06c65375753013e724cf240d28c4603be6058c4e832f320a",
-      "contentSha256": "cea78e2dee7b4de1959023f09c36e646b825cc5a46fa6d37afebce2510a8389e"
+      "sha256": "012e7655497a23b662de6afcdfbd906c0c22bc57806bd67729c81c36a18443d7",
+      "contentSha256": "5d32fa11b6ad2bd7fd42e54b48e7ab6330c02584605aa193c16f43247c73e7dd"
     },
     {
       "order": 3,
       "device": "iPad-Pro-13-inch-M5",
       "display": "iPad 13-inch display",
-      "screen": "stack",
-      "file": "03_iPad-Pro-13-inch-M5_stack.png",
+      "screen": "frameworks",
+      "file": "03_iPad-Pro-13-inch-M5_frameworks.png",
       "width": 2064,
       "height": 2752,
-      "sha256": "ea63204287e32662a9f8f011849e619af0df5f428d67ec42ef75feaaf0ab3230",
-      "contentSha256": "7d0a14c22f527cf391735659f2c4d94708246dc454a99bc20d49b33105d6e97e"
+      "sha256": "437f80eab0c646541d73bb97e0c64608e66e309d26700f1117241a138ac5b972",
+      "contentSha256": "c2d733608729b4e8b5ff4dd66b363ff041d855ad97c602e4d63b930b9e474708"
     },
     {
       "order": 4,
@@ -130,19 +130,19 @@
       "file": "04_iPad-Pro-13-inch-M5_card.png",
       "width": 2064,
       "height": 2752,
-      "sha256": "b111c64c62b0e25e6058d228bf41fa51e16e7c97635ae9a54509a8ba900ed51f",
+      "sha256": "2ded49f948f2f009cbfbc45558ee58fa6d54fcadf445a9bfb3eb8d81a90403dd",
       "contentSha256": "d9654b66232437399356ef97ee0cd5e2ef06fafb995d1add8bd3d8b3ef4269a8"
     },
     {
       "order": 5,
       "device": "iPad-Pro-13-inch-M5",
       "display": "iPad 13-inch display",
-      "screen": "sources",
-      "file": "05_iPad-Pro-13-inch-M5_sources.png",
+      "screen": "links",
+      "file": "05_iPad-Pro-13-inch-M5_links.png",
       "width": 2064,
       "height": 2752,
-      "sha256": "8a8f6c4780026bb30e13bd40225c1500cfa267092cd5441e36c95ca15cc6aa27",
-      "contentSha256": "86e8c9d98a48a98b58c14ffd5b32cbbc8b2d1d66db755364432eb18dc305fe50"
+      "sha256": "885cddd9f5e1aa6a08a9537c26fba6f6f760abe5448407c6449257302c594887",
+      "contentSha256": "41ce4257f4f43155c3abf020981120daf072af8169123d954a5199052562b60d"
     },
     {
       "order": 6,
@@ -152,8 +152,8 @@
       "file": "06_iPad-Pro-13-inch-M5_search.png",
       "width": 2064,
       "height": 2752,
-      "sha256": "f3ceb73222657122a83a9044877d55783e2f9cb2bebaf4686e3abc1e1ccc56c6",
-      "contentSha256": "2cf8b8cf4391ae7a817321c08e9a5bb74c708cc00c85dcb38662bcf750aeb7c5"
+      "sha256": "fa88ba5a657a150d1219ce467cf93963cc6be27cb05d5904f59a25f672fcc886",
+      "contentSha256": "9925bbbb21f519efd70f188da38c6446afa11bee5b84745fa22b245dd2ecda90"
     },
     {
       "order": 7,
@@ -163,7 +163,7 @@
       "file": "07_iPad-Pro-13-inch-M5_guide.png",
       "width": 2064,
       "height": 2752,
-      "sha256": "2cacf36a734cba2029df41404e93c0e9a49c74a5b408d3678b95765a12f7ca62",
+      "sha256": "9b3ae8f501fb0759aa3232cb817558fb8669820e59fe2cd02d8ff2052777e3a6",
       "contentSha256": "93b0d83dc60ff95ca5dc0141ad0b5b7687f67b32650cc41b3225ee6dcdd2a573"
     },
     {
@@ -174,8 +174,8 @@
       "file": "08_iPad-Pro-13-inch-M5_play.png",
       "width": 2064,
       "height": 2752,
-      "sha256": "9c08cad5e885317e13fa7ef3ad511619a4391e92d9eb71cd313684c8f3717a1f",
-      "contentSha256": "38008e507ae77cb3296ab43114af27835d4158825df410013346cd6ff2fe2db9"
+      "sha256": "32207497d796816a655550a214dff90c5009c7f6423286d2e740569acbcf7c9c",
+      "contentSha256": "b15db43461db5de202adb39db7b19a257e0475ebc1f1231f7c3e3965c284cf12"
     }
   ]
 }
