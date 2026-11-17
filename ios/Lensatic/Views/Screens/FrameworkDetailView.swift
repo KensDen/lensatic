@@ -50,9 +50,12 @@ struct FrameworkDetailView: View {
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                             .listRowBackground(Color.clear)
                             .accessibilityIdentifier("framework-countdown")
-                        // Round 4: the dates after the next one, so FedRAMP's 11 June 2027 is on its own screen
-                        let later = L.deadlines(f, store: model.store).filter { $0.date > deadline.date }
-                        if !later.isEmpty {
+                    }
+                    // Round 4: the dates after the next one, so FedRAMP's 11 June 2027 is on its own screen; a card of its
+                    // own under the countdown's, not fused to it (the third fresh-eyes review, G-7)
+                    let later = L.deadlines(f, store: model.store).filter { $0.date > deadline.date }
+                    if !later.isEmpty {
+                        SwiftUI.Section {
                             VStack(alignment: .leading, spacing: 6) {
                                 Text(L.label("laterDates")).font(DS.style(.footnote).weight(.semibold)).foregroundStyle(Palette.fg2)
                                     .accessibilityAddTraits(.isHeader)
@@ -64,6 +67,7 @@ struct FrameworkDetailView: View {
                             .padding(.vertical, 4)
                             .accessibilityElement(children: .combine)
                             .accessibilityIdentifier("framework-later-dates")
+                            .id("framework-later-dates")
                         }
                     }
                 }

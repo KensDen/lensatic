@@ -480,6 +480,7 @@ struct SourceRows: View {
         .padding(.vertical, 2)
         .accessibilityElement(children: .combine)
         .accessibilityIdentifier("source-\(source.id)")
+        .id("source-\(source.id)")
         if let url = URL(string: source.url) {
             Button { Reader.open(url) } label: {
                 HStack(spacing: 8) {

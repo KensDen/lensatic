@@ -108,6 +108,10 @@ struct ListScreen<Body: View>: View {
             .lxRows()
         }
         .listStyle(.insetGrouped)
+        #if DEBUG
+        // the captures (Round 4): -LensaticScrollTo reaches a list screen's row too, by the row's id
+        .debugScrollTo()
+        #endif
         .lxListSurface()
         // the back button starts close under the status bar, as on the card and the reading screens: the list's own top
         // margin left an empty band above it (the fresh-eyes review of build 6, finding 16)

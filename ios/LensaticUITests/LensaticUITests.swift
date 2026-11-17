@@ -712,13 +712,14 @@ final class LensaticUITests: XCTestCase {
         XCTAssertLessThan(element("home-story-play-insiders").frame.minX, element("home-story-play-containment").frame.maxX, "the two plays, in the story's order")
         let ids = ["home-door-playbook", "home-door-maps", "home-door-guide"]
         for id in ids { XCTAssertTrue(element(id).exists, id) }
-        XCTAssertLessThan(element(ids[0]).frame.minY, element(ids[1]).frame.minY, "the story, then Framework Maps")
+        XCTAssertLessThan(element(ids[0]).frame.minY, element(ids[1]).frame.minY, "the story, then My Path")
         if UIDevice.current.userInterfaceIdiom == .phone {
             XCTAssertLessThan(element(ids[1]).frame.minY, element(ids[2]).frame.minY, "then the Field Guide")
         } else {
             XCTAssertLessThan(element(ids[1]).frame.minX, element(ids[2]).frame.minX, "side by side on the iPad")
         }
-        XCTAssertTrue(element("home-door-maps").label.contains("FRAMEWORK MAPS") || element("home-door-maps").label.contains("Framework Maps"), element("home-door-maps").label)
+        // Round 4: the door carries the tab's name, My Path, as the trailhead question does
+        XCTAssertTrue(element("home-door-maps").label.contains("MY PATH") || element("home-door-maps").label.contains("My Path"), element("home-door-maps").label)
         XCTAssertTrue(element("home-door-guide").label.contains("8 weeks"), element("home-door-guide").label)
         XCTAssertTrue(element("home-door-playbook").label.contains("0 of"), element("home-door-playbook").label)
         try auditScreen("home")
