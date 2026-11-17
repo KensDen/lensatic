@@ -15,10 +15,10 @@ Lensatic Cyber
 ## Subtitle (`subtitle`)
 
 ```text
-A zero trust compass
+Framework navigator, ZT, plays
 ```
 
-20 characters (limit 30)
+30 characters (limit 30)
 
 ## Promotional Text (`promotionalText`)
 

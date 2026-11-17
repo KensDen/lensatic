@@ -60,7 +60,7 @@ PLAYS = ROOT / "playbook" / "app" / "plays.json"
 # the settled wording (the owner's decisions of 27 and 28 September 2026, and of 18 October 2026 for "public sector" in the
 # tagline, the pitch and the description's opening), verbatim. Only the App Store says "Lensatic Cyber"; everywhere else says "Lensatic".
 STORE_NAME = "Lensatic Cyber"
-SUBTITLE = "A zero trust compass"  # Ken's ruling, 5 November 2026 (content release 1.0.1): zero trust wording, the name unchanged
+SUBTITLE = "Framework navigator, ZT, plays"  # Ken's ruling, 16 November 2026 (2.0, Round 4): option A; "zero trust" stays a keyword
 TAGLINE = "Public sector cyber frameworks are thick woods. Lensatic is the compass."
 # 5 November 2026: on zero trust; 7 November 2026, Ken's pick of a shorter close ("take your next bearing"), since the
 # ruled wording ran to 179 characters, over the promotional text's 170
@@ -82,7 +82,8 @@ WHATS_INSIDE = "What’s Inside"  # a heading, in Title Case (R4)
 KEYWORD_CANDIDATES = ("zero trust", "NIST", "CSF", "800-53", "800-207", "800-171", "CMMC", "RMF", "FedRAMP", "CISA", "compliance",
                       "cybersecurity", "federal", "framework", "controls", "reference", "governance")
 
-# Ken's ruling, 7 November 2026: "Zero Trust" stays the first keyword though the subtitle names zero trust too
+# Ken's ruling, 7 November 2026: "Zero Trust" stays the first keyword though the subtitle names zero trust too; since 16 November
+# 2026 the subtitle abbreviates it ("ZT"), so the keyword is what lets search find the words spelled out
 KEYWORD_SUBTITLE_OVERLAP = ("zero trust",)
 
 SITE = "https://kensden.github.io/lensatic/"
