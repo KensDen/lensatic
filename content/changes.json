@@ -24,6 +24,33 @@
    "action": "frameworks"
   },
   {
+   "id": "1.4.0/rmf-ato/recheck",
+   "release": "1.4.0",
+   "released": "2026-11-15",
+   "date": "2026-11-17",
+   "kind": "recheck",
+   "entityId": "rmf-ato",
+   "title": "RMF / ATO rechecked against its source"
+  },
+  {
+   "id": "1.4.0/ir8596/recheck",
+   "release": "1.4.0",
+   "released": "2026-11-15",
+   "date": "2026-11-17",
+   "kind": "recheck",
+   "entityId": "ir8596",
+   "title": "Cyber AI Profile rechecked against its source"
+  },
+  {
+   "id": "1.4.0/sp800-171/recheck",
+   "release": "1.4.0",
+   "released": "2026-11-15",
+   "date": "2026-11-17",
+   "kind": "recheck",
+   "entityId": "sp800-171",
+   "title": "SP 800-171 rechecked against its source"
+  },
+  {
    "id": "1.4.0/framework:csf20/recheck",
    "release": "1.4.0",
    "released": "2026-11-15",

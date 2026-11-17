@@ -235,7 +235,7 @@
       {
         "version": "1.4.0",
         "date": "2026-11-15",
-        "summary": "Lensatic 2.0, the framework navigator. A sixth trailhead, for a cloud provider selling to government: seven steps from what FedRAMP certifies now, through its classes, its Key Security Indicators and each agency’s own authorization, to zero trust and CSF 2.0. FedRAMP joins the stack at Layer 5 as the certification layer for that trailhead, from its Consolidated Rules for 2026, with the day its rules come into force, 1 January 2027. The glossary adds KSI, 3PAO, POA&M, CJIS, D3FEND, ATLAS, TTP, TEVV, ODP, SOC 2 and GovRAMP, each read at its publisher on 14 November 2026. Search’s starting chips add FedRAMP and ISO/IEC 27001. The privacy page lists three more things the iOS app keeps on the device, the answers you give in a readiness check, the view you chose for the Frameworks list and the deadline you chose for the widget, and says a readiness check is a self-check whose answers are never sent anywhere. The Agentic SecOps plays are tied to the navigator: each play lists the frameworks it touches and, in each, the controls, outcomes and techniques, as Lensatic’s own reading. Every source of the navigator was read again at its publisher on 15 November 2026, FedRAMP’s entry on the stack with them. Nothing else on the stack changes.",
+        "summary": "Lensatic 2.0, the framework navigator. A sixth trailhead, for a cloud provider selling to government: seven steps from what FedRAMP certifies now, through its classes, its Key Security Indicators and each agency’s own authorization, to zero trust and CSF 2.0. FedRAMP joins the stack at Layer 5 as the certification layer for that trailhead, from its Consolidated Rules for 2026, with the day its rules come into force, 1 January 2027. The glossary adds KSI, 3PAO, POA&M, CJIS, D3FEND, ATLAS, TTP, TEVV, ODP, SOC 2 and GovRAMP, each read at its publisher on 14 November 2026. Search’s starting chips add FedRAMP and ISO/IEC 27001. The privacy page lists three more things the iOS app keeps on the device, the answers you give in a readiness check, the view you chose for the Frameworks list and the deadline you chose for the widget, and says a readiness check is a self-check whose answers are never sent anywhere. The Agentic SecOps plays are tied to the navigator: each play lists the frameworks it touches and, in each, the controls, outcomes and techniques, as Lensatic’s own reading. Every source of the navigator was read again at its publisher on 15 November 2026, FedRAMP’s entry on the stack with them. Twelve records due by 15 December are rechecked on 17 November 2026: nine were read again and are unchanged, and the department’s libraries refused a script, so the strategy, its memorandum and the portfolio office keep their September reads. Nothing else on the stack changes.",
         "news": [
           {
             "id": "trailhead-cloud-provider",
@@ -307,16 +307,16 @@
       "abbr": "DoW",
       "statutory": "Department of Defense",
       "basis": "Executive Order 14347 of 5 September 2025 (90 FR 43893, published 10 September 2025) authorizes Department of War and Secretary of War as secondary titles for the department and its secretary; section 2(e) keeps statutory references controlling.",
-      "verifiedOn": "2026-09-09",
+      "verifiedOn": "2026-11-17",
       "renderRule": "Prose renders the department only from this object, through render tokens: the token dow alone renders the abbreviation, the token dow.current renders the current name, and a first mention renders the current name followed by the abbreviation in parentheses. Citation fields (publisher, title, edition), published document titles and organization names keep the form printed at the source.",
       "statusNote": "The statutory title remains Department of Defense pending Congress. On 9 September 2026, 10 U.S.C. 111 still read Department of Defense (text current through 8 September 2026); the FY2026 National Defense Authorization Act, enacted 18 December 2025 as Public Law 119-60, did not change it; the FY2027 bill the House of Representatives passed on 22 July 2026 as H.R. 8800 carries a section deeming statutory references to the Department of Defense to be references to the department’s current name, and the Senate bill (S. 4784) carries a section redesignating the department in titles 10, 32 and 37; neither is law.",
       "url": "https://www.federalregister.gov/documents/2025/09/10/2025-17508/restoring-the-united-states-department-of-war",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-11-17",
         "method": "primary-fetch",
-        "note": "EO 14347 read from the govinfo Federal Register PDF (FR Doc. 2025-17508); 10 U.S.C. 111 read on uscode.house.gov; bill status read on congress.gov; the department’s own site is www.war.gov and uses the current name.",
-        "recheckAfter": "2026-12-15"
+        "note": "EO 14347 read from the govinfo Federal Register PDF (FR Doc. 2025-17508); 10 U.S.C. 111 read on uscode.house.gov; bill status read on congress.gov; the department’s own site is www.war.gov and uses the current name. Rechecked 17 November 2026: the Federal Register’s own document service still lists the order at 90 FR 43893 with no correction; govinfo’s list of public laws, through Public Law 119-138, holds no FY2027 defense authorization act; the US Code’s own site, current through Public Law 119-142 of 10 November 2026, could not show the section that day; congress.gov and the department’s home page answered a script with 403, and the department’s news feed on www.war.gov uses the current name.",
+        "recheckAfter": "2027-01-15"
       }
     },
     "cisa": {
@@ -349,8 +349,8 @@
         "status": "verified",
         "verifiedOn": "2026-09-17",
         "method": "primary-fetch",
-        "note": "Current name read on 16 September 2026 in the CIO’s operational technology guidance, cleared 18 November 2025, which names the office and gives its purpose, and in NSA’s January 2026 implementation guideline primer. The office has no page of its own on dowcio.war.gov; its documents are listed in the CIO library (https://dowcio.war.gov/Library/). January 2022 is printed in the DoD Zero Trust Strategy (https://dowcio.war.gov/Portals/0/Documents/Library/DoD-ZTStrategy.pdf). DTM 25-003 (https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dtm/DTM%2025-003.PDF), incorporating change 1 of 2 September 2025, establishes the office in an issuance, directs component heads to submit implementation plans annually to the CIO through it (Attachment 2, paragraph 11.d; the Military Departments are components under its applicability) and gives the Chief Zero Trust Officer the review and approval of those plans (Attachment 3, paragraph 5.a.(2)); the DTM’s printed expiry of 17 July 2026 has passed and the issuance library still lists it. The Department of the Navy CIO reports that the office conducted the summer 2023 purple team assessment of Flank Speed against the 91 Target activities and sponsored the spring 2024 round against all 152 (https://www.doncio.navy.mil/ContentView.aspx?ID=18012); no publisher page names the office as the tester of any other solution. DTM 25-003 rechecked on 17 September 2026: still listed with change 1; no later change, extension or successor instruction.",
-        "recheckAfter": "2026-12-15"
+        "note": "Current name read on 16 September 2026 in the CIO’s operational technology guidance, cleared 18 November 2025, which names the office and gives its purpose, and in NSA’s January 2026 implementation guideline primer. The office has no page of its own on dowcio.war.gov; its documents are listed in the CIO library (https://dowcio.war.gov/Library/). January 2022 is printed in the DoD Zero Trust Strategy (https://dowcio.war.gov/Portals/0/Documents/Library/DoD-ZTStrategy.pdf). DTM 25-003 (https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dtm/DTM%2025-003.PDF), incorporating change 1 of 2 September 2025, establishes the office in an issuance, directs component heads to submit implementation plans annually to the CIO through it (Attachment 2, paragraph 11.d; the Military Departments are components under its applicability) and gives the Chief Zero Trust Officer the review and approval of those plans (Attachment 3, paragraph 5.a.(2)); the DTM’s printed expiry of 17 July 2026 has passed and the issuance library still lists it. The Department of the Navy CIO reports that the office conducted the summer 2023 purple team assessment of Flank Speed against the 91 Target activities and sponsored the spring 2024 round against all 152 (https://www.doncio.navy.mil/ContentView.aspx?ID=18012); no publisher page names the office as the tester of any other solution. DTM 25-003 rechecked on 17 September 2026: still listed with change 1; no later change, extension or successor instruction. On 17 November 2026 the CIO library, the issuance library, NSA’s primer on media.defense.gov and the Department of the Navy CIO’s page each refused a script (403 or a rejected request), so nothing here was read again that day.",
+        "recheckAfter": "2027-01-15"
       }
     }
   },
@@ -535,8 +535,8 @@
         "status": "verified",
         "verifiedOn": "2026-09-09",
         "method": "primary-fetch",
-        "note": "PDF fetched from the CIO library at dowcio.war.gov, which also serves the older dodcio.defense.gov address. Printed date 21 October 2022, version 1.0; cleared for open publication 7 November 2022; announced 22 November 2022, the date usually cited for it. Pillars, the two levels and the FY2027 mandate were read from the document; its Appendix A chart depicts the 45 capabilities, and the counts are printed in the companion roadmap.",
-        "recheckAfter": "2026-12-15"
+        "note": "PDF fetched from the CIO library at dowcio.war.gov, which also serves the older dodcio.defense.gov address. Printed date 21 October 2022, version 1.0; cleared for open publication 7 November 2022; announced 22 November 2022, the date usually cited for it. Pillars, the two levels and the FY2027 mandate were read from the document; its Appendix A chart depicts the 45 capabilities, and the counts are printed in the companion roadmap. On 17 November 2026 the CIO library answered a script with 403, so the strategy was not read again that day; the department’s news feeds on www.war.gov, read the same day, announced no new zero trust strategy.",
+        "recheckAfter": "2027-01-15"
       },
       "authority": {
         "nature": "strategy",
@@ -584,8 +584,8 @@
             "status": "verified",
             "verifiedOn": "2026-09-17",
             "method": "primary-fetch",
-            "note": "Read on 9 September 2026 from the issuance library. Directs component heads to reach at least Target Level zero trust across unclassified and classified systems by the end of FY2027 and requires cyber assessment teams to report the level achieved; effective 17 July 2025; it states that it will be converted into a DoD instruction and will expire effective 17 July 2026. Rechecked 17 September 2026: the issuance library still lists it with change 1 and the printed expiry of 17 July 2026; no change 2, extension, cancellation or successor instruction on zero trust appears in the directive-type memorandum, instruction, directive or manual lists, and the library also still lists other memoranda past their printed expiry. The issuance library’s cancelled-issuances list requires a department login and was not checked.",
-            "recheckAfter": "2026-12-15"
+            "note": "Read on 9 September 2026 from the issuance library. Directs component heads to reach at least Target Level zero trust across unclassified and classified systems by the end of FY2027 and requires cyber assessment teams to report the level achieved; effective 17 July 2025; it states that it will be converted into a DoD instruction and will expire effective 17 July 2026. Rechecked 17 September 2026: the issuance library still lists it with change 1 and the printed expiry of 17 July 2026; no change 2, extension, cancellation or successor instruction on zero trust appears in the directive-type memorandum, instruction, directive or manual lists, and the library also still lists other memoranda past their printed expiry. The issuance library’s cancelled-issuances list requires a department login and was not checked. On 17 November 2026 the issuance library answered a script with 403, so the memorandum’s listing was not read again that day.",
+            "recheckAfter": "2027-01-15"
           },
           "note": "The issuance that turned the strategy into direction to components and established the zero trust portfolio office in policy (the office itself dates from January 2022). Its printed expiry of 17 July 2026 has passed; on 17 September 2026 the issuance library still listed it without a cancellation or extension, and no instruction had replaced it."
         }
@@ -1017,10 +1017,10 @@
       "url": "https://csrc.nist.gov/pubs/sp/800/37/r2/final",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-30",
+        "verifiedOn": "2026-11-17",
         "method": "primary-fetch",
-        "note": "CSRC pages fetched: SP 800-37 Revision 2, December 2018 (final 20 December 2018), seven steps Prepare through Monitor; SP 800-53A Revision 5, January 2022. The authorization definition is the OMB Circular A-130 definition quoted in the glossary. The CSRMC sentences rest on the CIO announcement of 24 September 2025 (https://dowcio.war.gov/In-the-News/Article/4367432/), read on 30 September 2026, which calls the RMF the previous Risk Management Framework and presents the construct in five phases, and on the construct itself (https://media.defense.gov/2025/Sep/24/2003808112/-1/-1/1/DOD-CIO-CYBER-SECURITY-RISK-MANAGEMENT-CONSTRUCT.PDF), read on 30 September 2026: its five phases, Design, Build, Test, Onboard and Operations, each name the RMF steps they carry, and it prints no date and does not cancel DoD Instruction 8510.01. DoD Instruction 8510.01, read on 30 September 2026, is effective 19 July 2022, reissues and cancels the 2014 instruction, and says nothing of being canceled; the CIO library (https://dowcio.war.gov/Library/), read on 29 September 2026, still listed Instruction 8510.01 for the RMF. The construct and the instruction returned 403 to a plain read later that day.",
-        "recheckAfter": "2026-12-15"
+        "note": "CSRC pages fetched: SP 800-37 Revision 2, December 2018 (final 20 December 2018), seven steps Prepare through Monitor; SP 800-53A Revision 5, January 2022. The authorization definition is the OMB Circular A-130 definition quoted in the glossary. The CSRMC sentences rest on the CIO announcement of 24 September 2025 (https://dowcio.war.gov/In-the-News/Article/4367432/), read on 30 September 2026, which calls the RMF the previous Risk Management Framework and presents the construct in five phases, and on the construct itself (https://media.defense.gov/2025/Sep/24/2003808112/-1/-1/1/DOD-CIO-CYBER-SECURITY-RISK-MANAGEMENT-CONSTRUCT.PDF), read on 30 September 2026: its five phases, Design, Build, Test, Onboard and Operations, each name the RMF steps they carry, and it prints no date and does not cancel DoD Instruction 8510.01. DoD Instruction 8510.01, read on 30 September 2026, is effective 19 July 2022, reissues and cancels the 2014 instruction, and says nothing of being canceled; the CIO library (https://dowcio.war.gov/Library/), read on 29 September 2026, still listed Instruction 8510.01 for the RMF. The construct and the instruction returned 403 to a plain read later that day. Rechecked 17 November 2026: CSRC still lists SP 800-37 Revision 2 of December 2018 and SP 800-53A Revision 5 of January 2022 as final. The construct and Instruction 8510.01 again answered a script with 403, so the sentences on them stand on the 30 September read.",
+        "recheckAfter": "2027-01-15"
       },
       "documents": [
         {
@@ -1132,10 +1132,10 @@
       "url": "https://csrc.nist.gov/pubs/ir/8596/iprd",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-29",
+        "verifiedOn": "2026-11-17",
         "method": "primary-fetch",
-        "note": "CSRC record and PDF fetched: initial preliminary draft published 16 December 2025, comment period closed 30 January 2026; the draft is organized by CSF 2.0 outcomes across three focus areas. No initial public draft had appeared by 9 September 2026; on 9 September 2026 the NCCoE project page listed the status as reviewing comments after working sessions in April and May 2026 (the page could not be reached on 17 September 2026). The initial public draft, when it appears, changes this entry. Rechecked 17 September 2026: no initial public draft on CSRC (the ipd path returns 404); the preliminary draft of 16 December 2025 remains the only release, and CSRC and the PDF cover print the subtitle NIST Community Profile. NIST IR 8607 (August 2026, section 4) planned the initial public draft for public comment in summer 2026 (https://doi.org/10.6028/NIST.IR.8607); it had not appeared on CSRC by 17 September 2026.",
-        "recheckAfter": "2026-12-15"
+        "note": "CSRC record and PDF fetched: initial preliminary draft published 16 December 2025, comment period closed 30 January 2026; the draft is organized by CSF 2.0 outcomes across three focus areas. No initial public draft had appeared by 9 September 2026; on 9 September 2026 the NCCoE project page listed the status as reviewing comments after working sessions in April and May 2026 (the page could not be reached on 17 September 2026). The initial public draft, when it appears, changes this entry. Rechecked 17 September 2026: no initial public draft on CSRC (the ipd path returns 404); the preliminary draft of 16 December 2025 remains the only release, and CSRC and the PDF cover print the subtitle NIST Community Profile. NIST IR 8607 (August 2026, section 4) planned the initial public draft for public comment in summer 2026 (https://doi.org/10.6028/NIST.IR.8607); it had not appeared on CSRC by 17 September 2026. Rechecked 17 November 2026: CSRC still lists the preliminary draft of 16 December 2025 as the only release and the ipd path still returns 404; the NCCoE project page answered a script with 403.",
+        "recheckAfter": "2027-01-15"
       },
       "authority": {
         "nature": "guidance",
@@ -1514,10 +1514,10 @@
           "url": "https://csrc.nist.gov/pubs/sp/800/171/r3/final",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-30",
+            "verifiedOn": "2026-11-17",
             "method": "primary-fetch",
-            "note": "Fetched; Revision 3, May 2024 (final 14 May 2024); no errata listed. The proposed rule in the entry’s note was read on 30 September 2026 in the Federal Register (https://www.federalregister.gov/documents/2026/06/23/2026-12559/federal-acquisition-regulation-revolutionary-federal-acquisition-regulation-overhaul-parts-1-2-4-33): 91 FR 37550, a proposed rule published 23 June 2026, whose proposed FAR 52.240-7, page 37633, has the contractor ‘Comply with the security requirements of NIST SP 800-171 Revision 3’; a Federal Register search that day found no final rule under the overhaul’s title published since 24 June 2026.",
-            "recheckAfter": "2026-12-15"
+            "note": "Fetched; Revision 3, May 2024 (final 14 May 2024); no errata listed. The proposed rule in the entry’s note was read on 30 September 2026 in the Federal Register (https://www.federalregister.gov/documents/2026/06/23/2026-12559/federal-acquisition-regulation-revolutionary-federal-acquisition-regulation-overhaul-parts-1-2-4-33): 91 FR 37550, a proposed rule published 23 June 2026, whose proposed FAR 52.240-7, page 37633, has the contractor ‘Comply with the security requirements of NIST SP 800-171 Revision 3’; a Federal Register search that day found no final rule under the overhaul’s title published since 24 June 2026. Rechecked 17 November 2026: CSRC still lists Revision 3 of May 2024 as final with no errata, and the Federal Register’s own document service lists no final rule under the overhaul’s title since 24 June 2026, only proposed rules for other parts.",
+            "recheckAfter": "2027-01-15"
           },
           "note": "NIST’s current edition; applies to a contract only when the contract says so. A FAR proposed rule of 23 June 2026 (91 FR 37550) would require Revision 3 for controlled unclassified information in contracts under the FAR; it was not final on 30 September 2026."
         },
@@ -4873,10 +4873,10 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-11",
+        "verifiedOn": "2026-11-17",
         "method": "primary-fetch",
-        "note": "Expansion and meaning read on 11 November 2026 in Executive Order 14434, Inaugurating the Era of Super Intelligence, signed 29 September 2026 and published 2 October 2026 at 91 FR 63129 (https://www.federalregister.gov/documents/2026/10/02/2026-20321/inaugurating-the-era-of-super-intelligence). Section 2(a) has agencies use “Super Intelligence” and “SI” in place of “Artificial Intelligence” and “AI” in official correspondence, public communications, websites, reports, policy documents and other non-statutory documents; section 2(b) says nothing in the section requires the alteration of previously issued documents; section 3(b) asks for a proposed statutory definition within 60 days.",
-        "recheckAfter": "2026-12-15"
+        "note": "Expansion and meaning read on 11 November 2026 in Executive Order 14434, Inaugurating the Era of Super Intelligence, signed 29 September 2026 and published 2 October 2026 at 91 FR 63129 (https://www.federalregister.gov/documents/2026/10/02/2026-20321/inaugurating-the-era-of-super-intelligence). Section 2(a) has agencies use “Super Intelligence” and “SI” in place of “Artificial Intelligence” and “AI” in official correspondence, public communications, websites, reports, policy documents and other non-statutory documents; section 2(b) says nothing in the section requires the alteration of previously issued documents; section 3(b) asks for a proposed statutory definition within 60 days. Rechecked 17 November 2026 through the Federal Register’s own document service, since its reading page now asks a script for a bot test: the order is still Executive Order 14434 at 91 FR 63129, signed 29 September 2026, with no correction listed.",
+        "recheckAfter": "2027-01-15"
       }
     },
     {
@@ -4891,10 +4891,10 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-11-11",
+        "verifiedOn": "2026-11-17",
         "method": "primary-fetch",
-        "note": "Expansion and meaning read on 11 November 2026 on the project’s page (https://csrc.nist.gov/projects/cosis), which prints the project as SP 800-53 Control Overlays for Super Intelligence Systems and as The Control Overlays for Super Intelligence Systems (COSIS), and records the renaming on 20 October 2026; its publications list held no overlay draft that day.",
-        "recheckAfter": "2026-12-15"
+        "note": "Expansion and meaning read on 11 November 2026 on the project’s page (https://csrc.nist.gov/projects/cosis), which prints the project as SP 800-53 Control Overlays for Super Intelligence Systems and as The Control Overlays for Super Intelligence Systems (COSIS), and records the renaming on 20 October 2026; its publications list held no overlay draft that day. Rechecked 17 November 2026: the page still prints the project under that name with the renaming of 20 October 2026, and its publications list still holds no overlay draft.",
+        "recheckAfter": "2027-01-15"
       }
     },
     {
@@ -5092,10 +5092,10 @@
       ],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-30",
+        "verifiedOn": "2026-11-17",
         "method": "primary-fetch",
-        "note": "Expansion and meaning read on 30 September 2026 in NIST SP 800-82 Revision 3, whose abstract says OT encompasses a broad range of programmable systems and devices that interact with the physical environment, with industrial control systems and building automation systems among its examples (https://csrc.nist.gov/pubs/sp/800/82/r3/final). NIST posted the initial public draft of Revision 4 on 21 September 2026; Revision 3 remains the final. Both read the same day in the Revision 3 page’s planning note and on the draft’s own page, which gives comments due 30 November 2026 (https://csrc.nist.gov/pubs/sp/800/82/r4/ipd).",
-        "recheckAfter": "2026-12-01"
+        "note": "Expansion and meaning read on 30 September 2026 in NIST SP 800-82 Revision 3, whose abstract says OT encompasses a broad range of programmable systems and devices that interact with the physical environment, with industrial control systems and building automation systems among its examples (https://csrc.nist.gov/pubs/sp/800/82/r3/final). NIST posted the initial public draft of Revision 4 on 21 September 2026; Revision 3 remains the final. Both read the same day in the Revision 3 page’s planning note and on the draft’s own page, which gives comments due 30 November 2026 (https://csrc.nist.gov/pubs/sp/800/82/r4/ipd). Rechecked 17 November 2026 on the same two pages: Revision 3 remains the final with the same abstract, and the initial public draft of Revision 4 still takes comments until 30 November 2026.",
+        "recheckAfter": "2027-01-15"
       }
     },
     {
@@ -5881,10 +5881,10 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-29",
+        "verifiedOn": "2026-11-17",
         "method": "primary-fetch",
-        "note": "Expansion read on 17 September 2026 in the ISO Standards Maintenance Portal banner (https://standards.iso.org/); the joint designation ISO/IEC 27001 read in NIST SP 800-82 Revision 3 (https://csrc.nist.gov/pubs/sp/800/82/r3/final).",
-        "recheckAfter": "2026-12-01"
+        "note": "Expansion read on 17 September 2026 in the ISO Standards Maintenance Portal banner (https://standards.iso.org/); the joint designation ISO/IEC 27001 read in NIST SP 800-82 Revision 3 (https://csrc.nist.gov/pubs/sp/800/82/r3/final). Rechecked 17 November 2026: the portal’s banner still reads International Organization for Standardization, and SP 800-82 Revision 3 still prints ISO/IEC 27001.",
+        "recheckAfter": "2027-01-15"
       },
       "prefix": true
     },
@@ -6141,10 +6141,10 @@
       "entityIds": [],
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-29",
+        "verifiedOn": "2026-11-17",
         "method": "primary-fetch",
-        "note": "Expansion and meaning read on 17 September 2026 in NIST SP 800-82 Revision 3, acronym list (https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-82r3.pdf).",
-        "recheckAfter": "2026-12-01"
+        "note": "Expansion and meaning read on 17 September 2026 in NIST SP 800-82 Revision 3, acronym list (https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-82r3.pdf). Rechecked 17 November 2026 in the same acronym list: SOC, Security Operations Center.",
+        "recheckAfter": "2027-01-15"
       }
     },
     {
