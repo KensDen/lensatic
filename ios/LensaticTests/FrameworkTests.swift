@@ -824,4 +824,43 @@ final class FrameworkTests: XCTestCase {
         XCTAssertEqual(FrameworksSplitView<EmptyView>.sidebarWidth(820), 320)
         XCTAssertEqual(FrameworksSplitView<EmptyView>.sidebarWidth(1366), 400)
     }
+
+    // MARK: Round 4
+
+    /// Round 4: a group of a level's list is a count, not a ratio, and an element the publisher gives no text says where
+    /// it sits and what its level is.
+    func testALevelsGroupsAreCountsAndAnActivitySaysWhereItSits() throws {
+        let g = try XCTUnwrap(lib.graphs["dod-zt"])
+        let set = try XCTUnwrap(lib.byId["dod-zt"]?.sets.first { $0.id == "target" })
+        let user = try XCTUnwrap(g.grouped(set.members).first { $0.top.id == "1" })
+        XCTAssertEqual(BaselineView.groupLine(user.top, nodes: user.nodes, graph: g), "Pillar 1, User: \(user.nodes.count) activities")
+        XCTAssertEqual(NodeView.chain(try XCTUnwrap(g.node("1.1.1")), graph: g), "Pillar 1, User · Capability 1.1, User Inventory")
+        XCTAssertNil(NodeView.chain(try XCTUnwrap(g.node("1")), graph: g), "a top-level node has nothing above it")
+    }
+
+    /// Round 4: a written comparison asked for in the other order is titled in the order picked, each row's cells with it.
+    func testAPairKeepsTheOrderPicked() throws {
+        let c = try XCTUnwrap(lib.named("iso27001", "csf20"))
+        XCTAssertEqual(c.a, "csf20")
+        let turned = c.flipped()
+        XCTAssertEqual([turned.a, turned.b], ["iso27001", "csf20"])
+        XCTAssertEqual(turned.rows.first?.a, c.rows.first?.b)
+        XCTAssertEqual(turned.flipped().rows, c.rows)
+    }
+
+    /// Round 4: the Deadline chip finds the frameworks whose screens count down, ahead of the rest.
+    func testTheDeadlineChipFindsTheFrameworksWithCountdowns() throws {
+        let index = SearchIndex(store: store, library: try Library.bundled(), door: nil, labels: .init(), frameworks: lib)
+        let found = try XCTUnwrap(index.search("Deadline").first { $0.kind == .framework }?.results.map(\.id))
+        XCTAssertTrue(found.prefix(4).contains("entity:fedramp"), "\(found)")
+        XCTAssertTrue(found.prefix(4).contains("entity:dod-zt-strategy"), "\(found)")
+        // an excerpt never runs a heading into the sentence after it
+        for group in index.search("deadlines") where group.kind == .play || group.kind == .guide {
+            for item in group.results {
+                guard let line = SearchIndex.excerpt(item, query: "deadlines") else { continue }
+                XCTAssertFalse(line.contains("\n"), line)
+                XCTAssertFalse(line.contains("Federal Policy Six weeks"), "a heading ran into its paragraph: \(line)")
+            }
+        }
+    }
 }

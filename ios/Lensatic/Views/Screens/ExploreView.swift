@@ -242,7 +242,7 @@ struct StackView: View {
     /// The section's footer, with the number of layers counted from the content.
     private func intro(_ screen: StackScreen) -> String {
         let n = NumberFormatter.localizedString(from: NSNumber(value: screen.layers.count), number: .spellOut).capitalized
-        return "\(n) layers, from what leadership funds down to who checks. AI runs alongside."
+        return "\(n) layers, from what leadership funds down to who checks. AI runs alongside. A framework on more than one layer is counted on each."
     }
 
     private func layerRow(_ layer: Layer, onPath: String?) -> TileRow {

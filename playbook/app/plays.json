@@ -1,5 +1,6 @@
 {
  "source": "playbook/Playbook/agentic-secops-teaming.jsx",
+ "asOf": "2026-11-11",
  "groups": [
   {
    "label": "Foundations",
@@ -4759,7 +4760,7 @@
    "blocks": [
     {
      "type": "text",
-     "text": "An AI agent with broad data access, the ability to act across systems, and machine-speed autonomy is, functionally, a privileged insider. As one December 2025 analysis argued, AI agents that are not treated as non-human identities, under the same strict monitoring and Zero Trust verification as any human user, could become the most dangerous insider threat an organization has faced. McKinsey’s 2025 research reports 80% of organizations have already encountered risky behavior from AI agents: this is a present-tense problem, not a future one. This is APT_UNICORN’s other face (see the opening): the dream hire that never sleeps is, structurally, the most privileged insider you have.",
+     "text": "An AI agent with broad data access, the ability to act across systems, and machine-speed autonomy is, functionally, a privileged insider. As one December 2025 analysis argued, AI agents that are not treated as non-human identities, under the same strict monitoring and Zero Trust verification as any human user, could become the most dangerous insider threat an organization has faced. McKinsey’s 2025 research reports 80% of organizations have already encountered risky behavior from AI agents: this is a present-tense problem, not a future one. This is APT_UNICORN’s other face (APT_UNICORN is the playbook’s fictional persona for Agentic AI as both the ideal hire and an advanced persistent threat): the dream hire that never sleeps is, structurally, the most privileged insider you have.",
      "heading": "The Core Realization"
     },
     {

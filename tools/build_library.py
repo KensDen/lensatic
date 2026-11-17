@@ -387,7 +387,12 @@ def build_plays() -> dict:
     missing = [f["id"] for f in figures if not any(b.get("figure") == f["id"] for p in plays for b in p["blocks"])]
     if missing:
         sys.exit(f"build_library: figures with no place in their play: {missing}")
-    return {"source": "playbook/Playbook/agentic-secops-teaming.jsx", "groups": groups, "plays": plays}
+    # Round 4: the day the playbook's text last changed, from the repository's history, for the plays screen's "as of" line
+    when = subprocess.run(["git", "-C", str(ROOT), "log", "-1", "--format=%cs", "--", str(JSX.relative_to(ROOT))],
+                          capture_output=True, text=True).stdout.strip()
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", when):
+        sys.exit("build_library: the playbook's last change could not be read from git")
+    return {"source": "playbook/Playbook/agentic-secops-teaming.jsx", "asOf": when, "groups": groups, "plays": plays}
 
 
 def png_size(path: Path) -> tuple[int, int]:
@@ -504,6 +509,11 @@ GUIDE_WORDING = (
 )
 PLAYS_WORDING = (
     ("Each name above is a tab in the navigation.", "Each name above is a play in the Library.", 1),
+    # Round 4: the app has no opening for "see the opening" to point at, so the insider play's line names the persona
+    # in the playbook's own words (its emblem's description and its note on the persona)
+    ("This is APT_UNICORN\u2019s other face (see the opening):",
+     "This is APT_UNICORN\u2019s other face (APT_UNICORN is the playbook\u2019s fictional persona for Agentic AI as both the ideal "
+     "hire and an advanced persistent threat):", 1),
 )
 
 

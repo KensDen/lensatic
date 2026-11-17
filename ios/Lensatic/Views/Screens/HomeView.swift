@@ -188,7 +188,8 @@ struct HomeView: View {
         let wide = sizeClass == .regular && !typeSize.isAccessibilitySize
         let layout = wide ? AnyLayout(HStackLayout(alignment: .top, spacing: 12)) : AnyLayout(VStackLayout(spacing: 10))
         layout {
-            HomeDoor(symbol: RowIcon.maps.0, tile: RowIcon.maps.1, tint: Palette.secMaps, eyebrow: site.section("maps")?.name ?? "",
+            // the door, the trailhead question and the tab are one thing with one name, My Path (Lensatic 2.0, Round 4)
+            HomeDoor(symbol: RowIcon.maps.0, tile: RowIcon.maps.1, tint: Palette.secMaps, eyebrow: AppTab.path.title,
                      title: model.store.label("homeMapsTitle"), line: site.section("maps")?.line ?? "",
                      status: model.pathStatus ?? [model.store.label("homePickTrailhead")], tall: wide, identifier: "home-door-maps") {
                 model.openMaps()
@@ -364,7 +365,15 @@ struct HomeFrameworks: View {
                         Button { model.show(.framework(f.id)) } label: {
                             HStack(spacing: 6) {
                                 Circle().fill(f.tone).frame(width: 8, height: 8).accessibilityHidden(true)
-                                Text(keepDesignations(f.shortName)).font(DS.style(.subheadline).weight(.semibold)).foregroundStyle(.primary)
+                                // Round 4: a chip may carry one short line from the content (FedRAMP rebuilt in 2026, how
+                                // ISO/IEC 27001 meets CSF 2.0), for the readers who came for that framework
+                                VStack(alignment: .leading, spacing: 0) {
+                                    Text(keepDesignations(f.shortName)).font(DS.style(.subheadline).weight(.semibold)).foregroundStyle(.primary)
+                                    if let line = L.catalog.labels["featuredLine.\(f.id)"] {
+                                        Text(keepDesignations(line)).font(DS.style(.caption)).foregroundStyle(Palette.fg2)
+                                            .accessibilityIdentifier("home-framework-line-\(f.id)")
+                                    }
+                                }
                             }
                             .padding(.horizontal, 12)
                             .frame(minHeight: 44)

@@ -75,7 +75,8 @@
   "pdfPrivateSector": "Quick Reference: Private Sector (PDF)",
   "fontsLine": "Fonts: IBM Plex, SIL Open Font License 1.1",
   "startWithQuestion": "Start with a question",
-  "allFrameworks": "Every framework as a card"
+  "allFrameworks": "Every framework as a card",
+  "playsAsOf": "{byline}, as of {date}."
  },
  "notFound": {
   "title": "That page isn’t here.",

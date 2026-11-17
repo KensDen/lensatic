@@ -19,8 +19,10 @@
 # the 6.3-inch iPhone App Store Connect requires (24 October 2026: the newest "iPhone NN Pro" from the 16 on, else the
 # newest plain iPhone from the 17 on) and the largest iPad. On each device, one at a time: the status bar set to 9:41,
 # a full battery, full signal and no carrier name; dark appearance, the redesign's own (R3; the light theme is R4); the
-# default text size; eight screens in the store's order (Home with its three doors, My Path with its countdown, Explore's
-# stack, a Framework card, its Sources sheet, Search, the Field Guide, a play read summary first). Each capture
+# default text size; eight screens in the store's order (Home with its three doors, My Path with its countdown, the
+# Frameworks tab, a Framework card, a play linked into the navigator, Search, the Field Guide, a play read summary first;
+# Ken's ruling of 16 November 2026 put the Frameworks tab and the linked play where Explore's stack and the Sources sheet
+# were). Each capture
 # loses its alpha channel (tools/png_opaque.swift, which refuses a file with any pixel that is not opaque) and must then
 # be, by sips, exactly Apple's size for its display (iPhone 6.3-inch 1206 x 2622, iPad 13-inch 2064 x 2752), RGB with no alpha.
 # Files are <nn>_<device>_<screen>.png; ios/store/screenshots.json lists each file's order, device, display, screen, size,
@@ -46,7 +48,7 @@ APP="$DERIVED/Build/Products/Debug-iphonesimulator/Lensatic.app"
 BUNDLE=io.github.kensden.lensatic
 GROUP=group.io.github.kensden.lensatic
 SCREENS="start question home path changes stack matrix matrix-jump functions layer ai card card-type sources search guide chapter plays play glossary sources-list about"
-STORE_SCREENS="home path stack card sources search guide play"
+STORE_SCREENS="home path frameworks card links search guide play"
 # the empty states: one My Path per trailhead (path-<door>), in the content's order, then the rest
 DOORS="$(python3 -c 'import json; print(" ".join(d["id"] for d in json.load(open("content/stack.json"))["doors"]))')"
 STATES="home-fresh question-fresh search-fresh search-recent home-saved-empty home-saved-two path-none guide-none $(for d in $DOORS; do printf 'path-%s ' "$d"; done)path-all-done"
@@ -132,6 +134,9 @@ open_screen() {
     changes) xcrun simctl launch "$udid" "$BUNDLE" -LensaticResetProgress -LensaticDoor dow -LensaticChecked 1,2 \
                -LensaticChangesViewed "$PREVIOUS" -LensaticNav changes >/dev/null ;;
     stack) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticTab explore >/dev/null ;;
+    # the Frameworks tab (Lensatic 2.0), and a play with its SP 800-53 links open (NIST's, so no list of MITRE's techniques)
+    frameworks) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticTab frameworks >/dev/null ;;
+    links) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticNav play/insiders -LensaticLinksOpen >/dev/null ;;
     matrix|functions) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticTab explore -LensaticExplore "$screen" >/dev/null ;;
     # the matrix scrolled to a function, as its jump row scrolls it (on a phone the row is then pinned at the top)
     matrix-jump) xcrun simctl launch "$udid" "$BUNDLE" "${path[@]}" -LensaticTab explore -LensaticExplore matrix \

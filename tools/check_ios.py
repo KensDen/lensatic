@@ -136,7 +136,8 @@ INFO_VALUES = {
     "CFBundleShortVersionString": "$(MARKETING_VERSION)",
     "CFBundleVersion": "$(CURRENT_PROJECT_VERSION)",
     "ITSAppUsesNonExemptEncryption": False,
-    "UILaunchScreen": {},
+    # Round 4: the launch screen is the app's own ground (the bg colour set, light and dark), not a white page
+    "UILaunchScreen": {"UIColorName": "bg"},
     "UISupportedInterfaceOrientations": ["UIInterfaceOrientationPortrait", "UIInterfaceOrientationLandscapeLeft",
                                          "UIInterfaceOrientationLandscapeRight"],
     "UISupportedInterfaceOrientations~ipad": ["UIInterfaceOrientationPortrait", "UIInterfaceOrientationPortraitUpsideDown",

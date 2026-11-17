@@ -216,8 +216,12 @@ struct SearchView: View {
     private var hint: String {
         let s = model.search.items
         func n(_ k: SearchIndex.Kind) -> Int { s.filter { $0.kind == k }.count }
-        var parts = ["\(n(.framework)) frameworks and sources", "\(n(.guide)) guide chapters", "\(n(.play)) plays", "\(n(.term)) glossary terms"]
-        if n(.step) > 0 { parts.insert("the \(n(.step)) steps on your path", at: 1) }
+        // Round 4: the same count of frameworks as Home and the Frameworks tab; the stack's other entries and the standards
+        // that land on the map are counted apart, so 19 here and 19 on Home agree
+        let frameworks = model.frameworks.frameworks.count
+        let others = max(0, n(.framework) - frameworks)
+        var parts = ["the \(frameworks) frameworks", "\(others) more sources and standards", "\(n(.guide)) guide chapters", "\(n(.play)) plays", "\(n(.term)) glossary terms"]
+        if n(.step) > 0 { parts.insert("the \(n(.step)) steps on your path", at: 2) }
         return "Searches " + parts.dropLast().joined(separator: ", ") + " and " + (parts.last ?? "") + "."
     }
 

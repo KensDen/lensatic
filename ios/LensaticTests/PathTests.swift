@@ -275,6 +275,15 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(keepDesignations("Express the target as a CSF 2.0 Profile"), "Express the target as a CSF\u{00A0}2.0 Profile")
         XCTAssertEqual(keepDesignations("Step 3 of 7"), "Step 3 of 7", "an ordinary word before a number may still break")
         XCTAssertEqual(unbroken("9 Sep 2026"), "9\u{00A0}Sep\u{00A0}2026")
+        // Round 4: "ISO/IEC 27001" never breaks at its slash, and a long edition breaks at its spaces instead
+        XCTAssertEqual(keepDesignations("ISO/IEC 27001"), "ISO/\u{2060}IEC\u{00A0}27001")
+        XCTAssertEqual(joinSlashes("ISO/IEC JTC 1/SC 27"), "ISO/\u{2060}IEC JTC 1/SC 27")
+        let long = dotted(["ISO and IEC", "ISO/IEC 27001:2022, edition 3, with Amendment 1:2024"], separator: " · ")
+        XCTAssertFalse(long.contains("ISO/IEC"), "the slash is joined")
+        XCTAssertTrue(long.contains("edition 3, with"), "a long part breaks at its spaces")
+        // a source's date shows once: not again where the edition prints it
+        XCTAssertNil(SourceRows.date("2026-10-22", unlessIn: "Release 5.2.0 (OSCAL content v1.6.0, 22 October 2026)"))
+        XCTAssertNotNil(SourceRows.date("2022-10-25", unlessIn: "ISO/IEC 27001:2022, edition 3, with Amendment 1:2024"))
     }
 
     func testTitleCase() {

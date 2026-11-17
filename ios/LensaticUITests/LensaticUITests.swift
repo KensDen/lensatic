@@ -314,7 +314,7 @@ final class LensaticUITests: XCTestCase {
             let window = app.windows.firstMatch.frame
             let footer = app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'Switch paths anytime from My Path'")).firstMatch
             XCTAssertTrue(footer.exists, "the footer says where to switch paths")
-            XCTAssertTrue(app.staticTexts["CHOOSE A TRAILHEAD"].exists || app.staticTexts["Choose a trailhead"].exists, "the eyebrow")
+            XCTAssertTrue(app.staticTexts["MY PATH"].exists, "the eyebrow names My Path, in capitals (the tab's label is not)")
             // content release 1.0.1 (6.14, Ken's ruling of 7 November 2026): each trailhead says who it is for in one
             // short line, and all five, with the footer, fit without a scroll at the default size on every phone
             // Lensatic 2.0, Round 2: six, with the cloud provider's

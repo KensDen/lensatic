@@ -44,7 +44,7 @@ struct WelcomeView: View {
                         }
                     }
                     VStack(alignment: .leading, spacing: 8) {
-                        Eyebrow(text: "Choose a trailhead")
+                        Eyebrow(text: AppTab.path.title)  // one name with Home's door and the tab (Round 4)
                         Text(model.store.label("homeMapsTitle"))
                             .font(DS.welcomeTitle).foregroundStyle(Palette.fg)
                             .accessibilityAddTraits(.isHeader)

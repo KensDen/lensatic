@@ -238,6 +238,13 @@ struct Comparison: Decodable, Sendable, Identifiable {
         let a: String
         let b: String
     }
+
+    /// The same comparison with its two sides swapped, for a pair picked in the other order (Round 4): the names and each
+    /// row's two cells change places; the verdict and the lines on how the two connect are prose and stay as written.
+    func flipped() -> Comparison {
+        Comparison(id: id, a: b, b: a, aName: bName, bName: aName, title: title, verdict: verdict,
+                   rows: rows.map { Row(label: $0.label, a: $0.b, b: $0.a) }, connect: connect, noScore: noScore, overlapLine: overlapLine)
+    }
 }
 
 /// A readiness check: questions tied to a framework's nodes, three answers, and what to do next for each. A self-check

@@ -471,7 +471,7 @@ struct SourceRows: View {
         let sep = model.store.label("metaSeparator")
         VStack(alignment: .leading, spacing: 3) {
             Text(keepWhole(source.title)).font(DS.style(.body)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
-            Text(dotted([source.publisher, source.edition, Rules.formatDate(source.date)], separator: sep))
+            Text(dotted([source.publisher, source.edition, SourceRows.date(source.date, unlessIn: source.edition)].compactMap { $0 }, separator: sep))
                 .font(DS.style(.footnote)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
             Text(SourceRows.checked(source.verification, store: model.store, labels: L))
                 .font(DS.style(.footnote)).foregroundStyle(source.verification.status == .conflict ? Palette.bad : Palette.secMaps)
@@ -505,6 +505,21 @@ struct SourceRows: View {
             .buttonStyle(.plain)
             .accessibilityIdentifier("source-pdf-\(source.id)")
         }
+    }
+
+    /// The source's date for its line, or nil where the edition already prints it (Round 4): "Release 5.2.0 (OSCAL content
+    /// v1.6.0, 22 October 2026)" is not followed by "22 Oct 2026" again.
+    static func date(_ date: String, unlessIn edition: String) -> String? {
+        let shown = Rules.formatDate(date)
+        let p = date.split(separator: "-").compactMap { Int($0) }
+        let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+        var forms = [shown]
+        if p.count >= 2, (1...12).contains(p[1]) {
+            forms.append(p.count == 3 ? "\(p[2]) \(months[p[1] - 1]) \(p[0])" : "\(months[p[1] - 1]) \(p[0])")
+        } else if p.count == 1 {
+            forms.append(String(p[0]))
+        }
+        return forms.contains { edition.contains($0) } ? nil : shown
     }
 
     /// "Verified · checked 14 Nov 2026", in the stack's own status words.

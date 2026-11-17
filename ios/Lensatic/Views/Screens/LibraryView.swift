@@ -249,6 +249,12 @@ struct PlaysView: View {
                     .foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
                     .padding(.vertical, 2)
                     .accessibilityIdentifier("plays-intro")
+                // who wrote the plays and as of when (Round 4)
+                if let asOf = lib.plays.asOf, let line = lib.site.labels["playsAsOf"], let by = lib.site.byline?.text {
+                    Text(line.replacingOccurrences(of: "{byline}", with: by).replacingOccurrences(of: "{date}", with: unbroken(Rules.formatDate(asOf))))
+                        .font(DS.style(.footnote)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                        .accessibilityIdentifier("plays-as-of")
+                }
             }
             // Round 3: the lead story's plays first, under the story's own title and line
             if let story = model.frameworks.playLinks?.story {

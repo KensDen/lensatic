@@ -156,7 +156,8 @@ struct LibraryBlock: Decodable, Sendable {
     var proseText: String {
         var out = [heading, lead, text, label].compactMap { $0 } + leads + lines
         for c in cards { out += [c.title, c.text].compactMap { $0 } + (c.leads ?? []) + (c.bullets ?? []) }
-        return out.joined(separator: " ")
+        // one line each (Round 4): a heading is not a sentence, so Search's excerpt must not run it into the next one
+        return out.joined(separator: "\n")
     }
 
     var searchText: String {
@@ -229,12 +230,17 @@ struct Plays: Decodable, Sendable {
         let blocks: [LibraryBlock]
     }
 
+    /// The day the playbook's text last changed (Round 4), for the plays screen's "as of" line.
+    let asOf: String?
     let groups: [Group]
     let plays: [Play]
 }
 
 /// The umbrella's names, from hub/site.json: each section's name, the guide's name and shape, and the playbook's title.
 struct SiteNames: Decodable, Sendable {
+    /// The hub's byline ("By Ken Connell"), which the plays screen's "as of" line opens with (Round 4).
+    struct Byline: Decodable, Sendable { let text: String }
+    let byline: Byline?
     struct SectionInfo: Decodable, Sendable {
         let key: String
         let name: String

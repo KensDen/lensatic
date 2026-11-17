@@ -88,9 +88,15 @@ struct SearchIndex: Sendable {
         let sep = store.label("metaSeparator")
         // Lensatic 2.0: the frameworks the navigator adds (one the stack already has is found as its entry, below), and
         // the standards it says where they land; each opens its own screen
+        // Round 4: a framework with a dated deadline is found by "deadline" and by each deadline's words, as its countdown is
+        func dated(_ f: Framework?) -> [String] {
+            guard let f, let L = frameworks else { return [] }
+            let d = L.deadlines(f, store: store)
+            return d.isEmpty ? [] : ["deadline", "deadlines"] + d.flatMap { [$0.short, $0.label] }
+        }
         for f in frameworks?.frameworks ?? [] where f.entityId == nil {
             out.append(Item(kind: .framework, id: "framework:\(f.id)", title: f.name, subtitle: f.kind + sep + f.purpose,
-                            aliases: [f.shortName] + (f.aliases ?? []), body: [f.what, f.note ?? "", f.binds.line, f.verifiedBy.line, f.sits.line].joined(separator: " "),
+                            aliases: [f.shortName] + (f.aliases ?? []) + dated(f), body: [f.what, f.note ?? "", f.binds.line, f.verifiedBy.line, f.sits.line].joined(separator: " "),
                             opens: .nav(.framework(f.id))))
         }
         for l in frameworks?.catalog.lands ?? [] {
@@ -101,7 +107,7 @@ struct SearchIndex: Sendable {
             let lead = store.layerTag(e.layerId) ?? labels.source
             let card = frameworks?.framework(forEntity: e.id)
             out.append(Item(kind: .framework, id: "entity:\(e.id)", title: e.displayName, subtitle: lead + sep + e.shortSummary,
-                            aliases: [e.shortName, e.title, e.name] + (card.map { [$0.shortName] + ($0.aliases ?? []) } ?? []), body: [e.oneLiner, e.answersQuestion ?? "", e.role ?? "", e.publisher].joined(separator: " "),
+                            aliases: [e.shortName, e.title, e.name] + (card.map { [$0.shortName] + ($0.aliases ?? []) } ?? []) + dated(card), body: [e.oneLiner, e.answersQuestion ?? "", e.role ?? "", e.publisher].joined(separator: " "),
                             opens: .nav(.entity(e.id))))
         }
         if let door {
@@ -114,13 +120,13 @@ struct SearchIndex: Sendable {
         for c in library.guide.chapters {
             out.append(Item(kind: .guide, id: "chapter:\(c.id)", title: c.displayTitle, subtitle: library.site.guideName, aliases: [c.part].compactMap { $0 },
                             body: ([c.summary ?? ""] + c.blocks.map(\.searchText)).joined(separator: " "),
-                            prose: ([c.summary ?? ""] + c.blocks.map(\.proseText)).joined(separator: " "), opens: .nav(.chapter(c.id))))
+                            prose: ([c.summary ?? ""] + c.blocks.map(\.proseText)).joined(separator: "\n"), opens: .nav(.chapter(c.id))))
         }
         for g in library.plays.groups {
             for p in library.plays(in: g) {
                 out.append(Item(kind: .play, id: "play:\(p.id)", title: p.name, subtitle: g.label, aliases: [p.title],
                                 body: ([p.subtitle, p.summary ?? ""] + p.blocks.map(\.searchText)).joined(separator: " "),
-                                prose: ([p.subtitle, p.summary ?? ""] + p.blocks.map(\.proseText)).joined(separator: " "), opens: .nav(.play(p.id))))
+                                prose: ([p.subtitle, p.summary ?? ""] + p.blocks.map(\.proseText)).joined(separator: "\n"), opens: .nav(.play(p.id))))
             }
         }
         for t in store.terms {
@@ -234,6 +240,9 @@ struct SearchIndex: Sendable {
         }
         /// Whether a sentence opens at `i`: the text before it ends one and the character at it can open one.
         func boundary(_ i: Int) -> Bool {
+            // a heading, a card's title and a list item each stand on their own line (Round 4): a line is its own sentence
+            if i > 0, i < body.length, body.character(at: i - 1) == 0x0A { return true }
+            if i < body.length, body.character(at: i) == 0x0A { return true }
             guard i > 0, i < body.length, isSpace(body.character(at: i - 1)), opens(body.character(at: i)) else { return false }
             var k = i - 1
             while k > 0, isSpace(body.character(at: k)) { k -= 1 }

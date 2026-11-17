@@ -20,7 +20,7 @@ extension LensaticUITests {
     ]
 
     /// The pushed screen's title as its words: the app keeps a designation and its number on one line with a no-break space.
-    func title() -> String { element("screen-title").label.replacingOccurrences(of: "\u{00A0}", with: " ") }
+    func title() -> String { element("screen-title").label.replacingOccurrences(of: "\u{00A0}", with: " ").replacingOccurrences(of: "\u{2060}", with: "") }
 
     static let frameworkIds = ["csf20", "iso27001", "sp800-207", "dod-zt", "cisa-ztmm", "sp800-53", "sp800-171", "cis", "rmf", "fedramp", "il", "cmmc",
                                "govramp", "cjis", "ai-rmf", "ir8596", "attack", "d3fend", "aml"]
@@ -407,10 +407,10 @@ extension LensaticUITests {
         XCTAssertTrue(reveal("compare-no-crosswalk", in: "compare-screen").label.contains("counts no overlap"))
         XCTAssertTrue(reveal("compare-no-score", in: "compare-screen").label.contains("no strictness score"))
         try auditScreen("compare-screen")
-        // a pair that has a written comparison shows it, whichever order it is asked in
+        // a pair that has a written comparison shows it, whichever order it is asked in, titled in the order picked (Round 4)
         launch(door: nil, ["-LensaticNav", "pair/iso27001/csf20"])
         XCTAssertTrue(element("compare-screen").waitForExistence(timeout: 10))
-        XCTAssertEqual(title(), "CSF 2.0 with ISO/IEC 27001")
+        XCTAssertEqual(title(), "ISO/IEC 27001 with CSF 2.0")
         XCTAssertTrue(element("compare-verdict").label.hasPrefix("Complementary."), element("compare-verdict").label)
         XCTAssertTrue(reveal("compare-reached", in: "compare-screen").label.contains("identifiers of ISO/IEC 27001"), element("compare-reached").label)
         // two parts of one framework

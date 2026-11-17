@@ -421,14 +421,23 @@ func unbroken(_ date: String) -> String { date.replacingOccurrences(of: " ", wit
 
 /// Parts joined by the content's separator (" · "), each part kept whole and each dot kept with the part after it, so a
 /// line breaks only before a dot and never ends on one (R5, item 23).
+/// Round 4: a part too long for one line (an edition such as "ISO/IEC 27001:2022, edition 3, with Amendment 1:2024")
+/// breaks at its spaces, with its designations and dates kept whole, rather than at its slash.
 func dotted(_ parts: [String], separator: String) -> String {
-    parts.map(unbroken).joined(separator: " " + separator.trimmingCharacters(in: .whitespaces) + "\u{00A0}")
+    parts.map { $0.count <= 32 ? joinSlashes(unbroken($0)) : keepWhole($0) }
+        .joined(separator: " " + separator.trimmingCharacters(in: .whitespaces) + "\u{00A0}")
+}
+
+/// A name joined by a slash ("ISO/IEC") never breaks at it (Round 4): a word joiner follows a slash between two
+/// capitalized names. It is invisible and VoiceOver passes over it.
+func joinSlashes(_ s: String) -> String {
+    s.replacingOccurrences(of: #"(?<=[A-Z]{2})/(?=[A-Z]{2})"#, with: "/\u{2060}", options: .regularExpression)
 }
 
 /// A short title with each designation kept whole ("SP 800-207", "EO 14028", "CSF 2.0"): the space between a capitalized
 /// designation and its number does not break, so a line never ends on "SP".
 func keepDesignations(_ s: String) -> String {
-    s.replacingOccurrences(of: #"\b([A-Z]{2,}) (?=\d)"#, with: "$1\u{00A0}", options: .regularExpression)
+    joinSlashes(s.replacingOccurrences(of: #"\b([A-Z]{2,}) (?=\d)"#, with: "$1\u{00A0}", options: .regularExpression))
 }
 
 /// Short text as the content's layout check lays it out (tools/validate.py, keep_whole): each designation kept whole

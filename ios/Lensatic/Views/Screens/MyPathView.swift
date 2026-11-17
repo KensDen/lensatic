@@ -92,7 +92,9 @@ struct MyPathView: View {
                         }
                         ForEach(complete && !showDone ? [] : plan.steps, id: \.order) { step in
                             StepRow(door: door.id, step: step, isDone: checked.contains(step.order), isNext: step.order == next?.order,
-                                    layer: model.store.layerTag(step.layerId), names: names(step.entityIds),
+                                    // the layer by what it is, not its number, which My Path never explains (Round 4):
+                                    // "Next · Verification", not "Next · Layer 5"
+                                    layer: layerName(step.layerId), names: names(step.entityIds),
                                     expanded: expanded.contains(step.order),
                                     toggle: { model.progress.toggle(door.id, step.order) },
                                     expand: { toggleExpanded(step.order) },
@@ -147,6 +149,12 @@ struct MyPathView: View {
         showDone = true
         expanded.insert(order)
         DispatchQueue.main.async { proxy.scrollTo("step-row-\(order)", anchor: .top) }
+    }
+
+    /// A step's layer by what it is ("Verification"), for the next step's eyebrow.
+    private func layerName(_ id: String?) -> String? {
+        guard let id, let layer = model.store.layers[id] else { return nil }
+        return TitleCase.apply(layer.name)
     }
 
     private func names(_ ids: [String]) -> [(id: String, name: String)] {

@@ -35,7 +35,7 @@
       "unit": "Activities"
     }
   ],
-  "note": "Every pillar, capability and activity is listed by number and name. They come from a second document, the department’s Zero Trust Capabilities and Activities v1.1 of January 2025, which goes with the strategy of 2022; each has its own source below, with the day it was checked.",
+  "note": "Every pillar, capability and activity is listed by number and name. They come from a second document, the department’s Zero Trust Capabilities and Activities v1.1 of January 2025, which goes with the strategy of 2022; each has its own source below, with the day it was checked. Titles keep the department’s name as printed, DoD; Lensatic’s own lines use its current name, {{dow.current}} ({{dow}}).",
   "chapterId": "qr-dow",
   "sits": {
     "layers": [

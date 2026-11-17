@@ -50,6 +50,21 @@ struct FrameworkDetailView: View {
                             .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                             .listRowBackground(Color.clear)
                             .accessibilityIdentifier("framework-countdown")
+                        // Round 4: the dates after the next one, so FedRAMP's 11 June 2027 is on its own screen
+                        let later = L.deadlines(f, store: model.store).filter { $0.date > deadline.date }
+                        if !later.isEmpty {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text(L.label("laterDates")).font(DS.style(.footnote).weight(.semibold)).foregroundStyle(Palette.fg2)
+                                    .accessibilityAddTraits(.isHeader)
+                                ForEach(later, id: \.date) { d in
+                                    Text(dotted([Rules.formatDate(d.date), d.label], separator: model.store.label("metaSeparator")))
+                                        .font(DS.style(.subheadline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                                }
+                            }
+                            .padding(.vertical, 4)
+                            .accessibilityElement(children: .combine)
+                            .accessibilityIdentifier("framework-later-dates")
+                        }
                     }
                 }
                 SwiftUI.Section {
@@ -306,6 +321,10 @@ struct NodeView: View {
             // Round 3: the element's text goes through the map's first-use rule, as a framework's screen does, so an
             // abbreviation the glossary holds is spelled out once and opens its entry
             let words = model.screen("node-prose-\(frameworkId)-\(nodeId)") { NodeProse(node, rules: model.store.rules) }
+            // Round 4: a node whose note names its level (an activity's "Target Level.") says what that level is, and an
+            // element the publisher gives no text says where it sits ("Pillar 1, User · Capability 1.1, User Inventory")
+            let levelSets = f.sets.filter { $0.of == f.id && $0.members.contains(node.id) && node.note?.hasPrefix($0.name) == true }
+            let chain = node.text == nil ? NodeView.chain(node, graph: graph) : nil
             ListScreen(eyebrow: dotted([f.shortName, level?.name, above].compactMap { $0 }, separator: model.store.label("metaSeparator")),
                        eyebrowColor: f.tone,
                        // a node the publisher gives only a sentence is named by its level: "Subcategory GV.OC-01"; one at a
@@ -315,6 +334,10 @@ struct NodeView: View {
                 if node.text != nil || node.note != nil {
                     SwiftUI.Section {
                         VStack(alignment: .leading, spacing: 6) {
+                            if let chain {
+                                Text(chain).font(DS.style(.footnote)).foregroundStyle(Palette.fg2).fixedSize(horizontal: false, vertical: true)
+                                    .accessibilityIdentifier("node-chain")
+                            }
                             if let text = words.text {
                                 ProseText(run: words.prose[text], font: DS.style(.body), color: .primary)
                                     .accessibilityIdentifier("node-text")
@@ -322,6 +345,12 @@ struct NodeView: View {
                             if let note = words.note {
                                 ProseText(run: words.prose[note], font: DS.style(.subheadline).weight(.semibold), color: f.tone)
                                     .accessibilityIdentifier("node-note")
+                            }
+                            ForEach(levelSets) { set in
+                                if let line = set.line {
+                                    Text(line).font(DS.style(.subheadline)).foregroundStyle(.primary).fixedSize(horizontal: false, vertical: true)
+                                        .accessibilityIdentifier("node-level-line")
+                                }
                             }
                             // the publisher's words stay the publisher's: a spell-out the rule adds is marked as Lensatic's
                             if words.expanded {
@@ -460,6 +489,20 @@ struct NodeView: View {
 
 /// A baseline: a named selection of another framework's nodes, grouped by that framework's top level, each group with
 /// its count. Says how many of how many it selects.
+extension NodeView {
+    /// The identified levels above a node, outermost first: "Pillar 1, User · Capability 1.1, User Inventory".
+    static func chain(_ node: Framework.Node, graph: FrameworkLibrary.Graph) -> String? {
+        var parts: [String] = [], next = node.parents.first, seen = Set<String>()
+        while let id = next, seen.insert(id).inserted, let p = graph.node(id) {
+            if graph.identified(p), let level = graph.level(p.level) {
+                parts.insert("\(level.name) \(p.id)" + (p.title.map { ", \($0)" } ?? ""), at: 0)
+            }
+            next = p.parents.first
+        }
+        return parts.isEmpty ? nil : parts.joined(separator: " · ")
+    }
+}
+
 struct BaselineView: View {
     @Environment(AppModel.self) private var model
     let frameworkId: String
@@ -472,7 +515,9 @@ struct BaselineView: View {
             ListScreen(eyebrow: f.shortName, eyebrowColor: f.tone, title: set.title ?? "\(set.name) \(L.label("baseline"))", identifier: "baseline-screen") {
                 SwiftUI.Section {
                     VStack(alignment: .leading, spacing: 6) {
-                        Text(BaselineView.countLine(set, host: host, graph: graph, labels: L)).font(DS.style(.headline)).foregroundStyle(.primary)
+                        // the framework's short name stays on one line ("DoD ZT Strategy", Round 4)
+                        Text(BaselineView.countLine(set, host: host, graph: graph, labels: L).replacingOccurrences(of: host.shortName, with: unbroken(host.shortName)))
+                            .font(DS.style(.headline)).foregroundStyle(.primary)
                             .fixedSize(horizontal: false, vertical: true)
                             .accessibilityIdentifier("baseline-count")
                         if let line = set.line {
@@ -490,12 +535,31 @@ struct BaselineView: View {
                     SwiftUI.Section {
                         ForEach(group.nodes) { NodeRow(framework: host, graph: graph, node: $0, counts: false, notes: Set(group.nodes.compactMap(\.note)).count > 1) }
                     } header: {
-                        ListNote("\(graph.name(group.top)): \(group.nodes.count)")
+                        ListNote(BaselineView.groupLine(group.top, nodes: group.nodes, graph: graph))
                             .accessibilityIdentifier("baseline-group-\(group.top.id)")
                     }
                 }
             }
         }
+    }
+
+    /// A group's header as a count, not a ratio (Round 4): "Pillar 1, User: 13 activities", "Family AC, Access Control:
+    /// 25 controls and enhancements"; a level without identifiers keeps its title alone.
+    static func groupLine(_ top: Framework.Node, nodes: [Framework.Node], graph: FrameworkLibrary.Graph) -> String {
+        let name: String
+        if graph.identified(top), let level = graph.level(top.level) {
+            name = "\(level.name) \(top.id)" + (top.title.map { ", \($0)" } ?? "")
+        } else {
+            name = graph.name(top)
+        }
+        let levels = Set(nodes.map(\.level))
+        let unit: String
+        if levels.count == 1, let level = levels.first.flatMap({ graph.level($0) }) {
+            unit = (nodes.count == 1 ? level.name : level.plural).lowercased()
+        } else {
+            unit = graph.framework.depth.value?.unit ?? ""
+        }
+        return "\(name): \(Rules.grouped(nodes.count))" + (unit.isEmpty ? "" : " \(unit)")
     }
 
     /// "410 of 1,014 controls and enhancements in SP 800-53".

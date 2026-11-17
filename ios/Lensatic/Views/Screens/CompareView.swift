@@ -22,12 +22,14 @@ struct CompareView: View {
         named = c
     }
 
-    /// Any two cards, in the order picked; the named comparison of the two, where there is one, keeps its own order.
+    /// Any two cards, in the order picked; the named comparison of the two, where there is one, is turned to that order
+    /// (Round 4: ISO/IEC 27001 picked first stays first).
     init(a: String, b: String, in L: FrameworkLibrary) {
         if let c = L.named(a, b) {
-            self.a = c.a
-            self.b = c.b
-            named = c
+            let turned = c.a == a ? c : c.flipped()
+            self.a = turned.a
+            self.b = turned.b
+            named = turned
         } else {
             self.a = a
             self.b = b
