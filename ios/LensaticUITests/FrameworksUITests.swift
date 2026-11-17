@@ -314,7 +314,7 @@ extension LensaticUITests {
         tap("baseline-row-rev5-class-d", in: "framework-screen")
         XCTAssertTrue(element("baseline-screen").waitForExistence(timeout: 5))
         XCTAssertEqual(title(), "Rev5 Class D Baseline")
-        XCTAssertEqual(element("baseline-count").label, "409 of the 1,014 controls and enhancements in SP 800-53")
+        XCTAssertEqual(element("baseline-count").label.replacingOccurrences(of: "\u{00A0}", with: " "), "409 of the 1,014 controls and enhancements in SP 800-53")
         XCTAssertTrue(element("baseline-line").label.contains("no longer list CA-5"), "the count that surprises says why")
         try auditScreen("baseline-screen")
         tap("node-row-AC-2", in: "baseline-screen")
@@ -447,12 +447,12 @@ extension LensaticUITests {
         tap("baseline-row-level-2", in: "framework-screen")
         XCTAssertTrue(element("baseline-screen").waitForExistence(timeout: 5))
         XCTAssertEqual(title(), "CMMC Level 2")
-        XCTAssertEqual(element("baseline-count").label, "110 of the 110 requirements in SP 800-171 Revision 2")
+        XCTAssertEqual(element("baseline-count").label.replacingOccurrences(of: "\u{00A0}", with: " "), "110 of the 110 requirements in SP 800-171 Revision 2")
         // the department's activities, with Target Level as a set of its own
         launch(door: nil, ["-LensaticNav", "baseline/dod-zt/target"])
         XCTAssertTrue(element("baseline-screen").waitForExistence(timeout: 10))
         XCTAssertEqual(title(), "Target Level Activities")
-        XCTAssertEqual(element("baseline-count").label, "91 of the 152 activities in DoD ZT Strategy")
+        XCTAssertEqual(element("baseline-count").label.replacingOccurrences(of: "\u{00A0}", with: " "), "91 of the 152 activities in DoD ZT Strategy")
         try auditScreen("baseline-screen")
         // a CSF outcome: NIST's references to ISO/IEC 27001 are identifiers, and open nothing but the card
         launch(door: nil, ["-LensaticNav", "node/csf20/GV.OC-01"])
