@@ -1074,7 +1074,7 @@
             "PR.AA-05",
             "DE.CM-03"
           ],
-          "line": "The outcomes the play asks for: identities for services are managed and authenticated, permissions are least privilege and reviewed, activity is monitored, and each identity is managed through its life cycle."
+          "line": "The outcomes the play asks for: identities and credentials for services are managed and authenticated, permissions are least privilege and reviewed, activity is monitored, and each agent is managed through its life cycle as a system."
         },
         {
           "frameworkId": "dod-zt",
@@ -1095,7 +1095,7 @@
             "identity.access-management",
             "identity.visibility-and-analytics-capability"
           ],
-          "line": "The Identity pillar’s functions, read for an identity that is not a person."
+          "line": "Four of the Identity pillar’s functions, read for an identity that is not a person."
         },
         {
           "frameworkId": "ai-rmf",
@@ -1116,10 +1116,10 @@
             "AML.T0081",
             "AML.T0083",
             "AML.T0086",
-            "AML.T0092",
-            "AML.T0098"
+            "AML.T0098",
+            "AML.T0080.000"
           ],
-          "line": "What a subverted agent does with an insider’s access: poisoned context and memory, a changed configuration, harvested credentials, and tools invoked to move data out."
+          "line": "What a subverted agent does with an insider’s access: poisoned context and a poisoned memory that later sessions trust, a changed configuration, harvested credentials, and tools invoked to move data out."
         },
         {
           "frameworkId": "attack",
@@ -1145,7 +1145,7 @@
         {
           "frameworkId": "sp800-207",
           "nodeIds": [],
-          "line": "The play’s zero trust for agents starts from this definition: verify every request, whoever or whatever makes it."
+          "line": "The play puts SP 800-207 underneath its zero trust for agents: every access is a per-session decision under dynamic policy, whoever or whatever asks."
         }
       ]
     },
@@ -1194,11 +1194,11 @@
         {
           "frameworkId": "cisa-ztmm",
           "nodeIds": [
-            "devices.device-threat-protection",
             "networks.network-segmentation",
-            "applications-and-workloads.application-threat-protections"
+            "applications-and-workloads.application-threat-protections",
+            "applications-and-workloads.visibility-and-analytics-capability"
           ],
-          "line": "Segmentation and threat protection, where the model asks how far an agent’s workload is isolated."
+          "line": "Network segmentation and application threat protection put the boundary around an agent’s workload; the workload’s own visibility answers the monitoring gap a sandbox leaves."
         },
         {
           "frameworkId": "ai-rmf",
@@ -1216,11 +1216,10 @@
             "AML.T0025",
             "AML.T0051",
             "AML.T0086",
-            "AML.T0097",
             "AML.T0101",
             "AML.T0105"
           ],
-          "line": "What the boundary has to hold against: prompt injection, exfiltration and destruction through an agent’s tools, escape to the host and sandbox evasion."
+          "line": "What the boundary has to hold against: prompt injection, exfiltration and destruction through an agent’s tools, and escape to the host."
         },
         {
           "frameworkId": "attack",
@@ -1230,7 +1229,7 @@
             "T1567",
             "T1611"
           ],
-          "line": "The play’s own worked example in ATT&CK’s words is unsecured credentials sent to a web service. A shell and an escape to the host are what the sandbox is there to stop."
+          "line": "The play’s own worked example, credentials read from a file and posted to an external endpoint, is unsecured credentials and exfiltration over a web service in ATT&CK’s words. A shell and an escape to the host are what the sandbox is there to stop."
         },
         {
           "frameworkId": "d3fend",
