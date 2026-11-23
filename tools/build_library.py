@@ -514,6 +514,14 @@ PLAYS_WORDING = (
     ("This is APT_UNICORN\u2019s other face (see the opening):",
      "This is APT_UNICORN\u2019s other face (APT_UNICORN is the playbook\u2019s fictional persona for Agentic AI as both the ideal "
      "hire and an advanced persistent threat):", 1),
+    # Round 5 (Ken's note of 17 November 2026): the two other lines that pointed at the opening stand on their own the same
+    # way, Fundamentals' and Case Studies', in the same words of the playbook's
+    ("This playbook gives that duality a face, APT_UNICORN (see the opening):",
+     "This playbook gives that duality a face, APT_UNICORN (the playbook\u2019s fictional persona for Agentic AI as both the "
+     "ideal hire and an advanced persistent threat):", 1),
+    ("\u2018APT_UNICORN\u2019 is this playbook\u2019s fictional framing device (see the opening), not a real designation;",
+     "\u2018APT_UNICORN\u2019 is this playbook\u2019s fictional framing device (a persona for Agentic AI as both the ideal hire and "
+     "an advanced persistent threat), not a real designation;", 1),
 )
 
 

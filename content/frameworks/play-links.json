@@ -1174,6 +1174,7 @@
           "frameworkId": "csf20",
           "nodeIds": [
             "ID.RA-01",
+            "PR.PS-02",
             "PR.PS-05",
             "PR.IR-01",
             "DE.CM-09",
@@ -1213,7 +1214,6 @@
         {
           "frameworkId": "aml",
           "nodeIds": [
-            "AML.T0025",
             "AML.T0051",
             "AML.T0086",
             "AML.T0101",
@@ -1236,7 +1236,6 @@
           "nodeIds": [
             "D3-SCF",
             "D3-EI",
-            "D3-EAL",
             "D3-NI",
             "D3-DNSAL",
             "D3-OTF",
