@@ -514,10 +514,20 @@ def umbrella() -> dict:
     return json.loads(HUB_SITE.read_text(encoding="utf-8"))
 
 
+def app_store_line(s: dict, cls: str = "") -> str:
+    """Release day (2.0, Round 5): one line linking the App Store listing, on the hub under the byline and on the support
+    page, only once hub/site.json's appStore.live is true. Until then it is empty and the pages are as before."""
+    a = s.get("appStore") or {}
+    if a.get("live") is not True:
+        return ""
+    attr = f' class="{cls}"' if cls else ""
+    return f'<p{attr}><a href="{esc(a["url"])}">{esc(a["line"])}</a></p>'
+
+
 def version_line() -> str:
     """The build string on the About pages (R6, the owner's ruling: the current app and content versions, generated, never
     typed): the iOS app's marketing version and build from ios/project.yml, and the content version from
-    content/stack.json, as in "Lensatic app 2.0 (1), content 1.4.0"."""
+    content/stack.json, as in "Lensatic app 2.0 (7), content 1.4.0"."""
     yml = (ROOT / "ios" / "project.yml").read_text(encoding="utf-8")
     mv = re.search(r'^\s*MARKETING_VERSION:\s*"?([\d.]+)"?\s*$', yml, re.M).group(1)
     build = re.search(r'^\s*CURRENT_PROJECT_VERSION:\s*"?(\d+)"?\s*$', yml, re.M).group(1)
@@ -1286,6 +1296,7 @@ def build_page(d: dict, key: str, author: str = "") -> bytes:
         body.append(f'<p class="small">{r.label("pagesEffective")}: <time datetime="{esc(meta["builtOn"])}">{fmt_date(meta["builtOn"])}</time></p>')
     body += [f"<p>{repo_paths(r.tl(s))}</p>" for s in page["paragraphs"]]
     if key == "support":
+        body += [x for x in [app_store_line(umbrella())] if x]  # release day: nothing until hub/site.json's appStore.live is true
         body.append(f'<p>{r.t(meta["about"]["notAffiliated"])}</p>')
         rows = [(r.label("pagesContentVersion") if L_has(d, "pagesContentVersion") else r.label("contentVersion"), esc(meta["contentVersion"]))]
         due = sorted(x for x in recheck_dates(d) if x >= meta["builtOn"])

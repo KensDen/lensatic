@@ -20,7 +20,9 @@ maker named only in the copyright line; no emoji in any field (App Store Connect
 and the availability is the United States only, on iPhone and iPad (the owner's decisions of 29 September 2026); the
 version, the devices, the encryption answer and the privacy answer agree with the app; the README's tagline and
 wayfinder lines equal the content fields;
-the copy sheet equals a fresh generation; the screenshot list names eight screens per device, in the settled order, at
+2.0 is the first version (Ken's ruling of 23 November 2026: 2.0 is the app's first public release), so What's New is
+empty and no customer-facing field reads as new in a version or compares the app with an earlier one; the review notes
+carry the withdrawn submission's sentence; the copy sheet equals a fresh generation; the screenshot list names eight screens per device, in the settled order, at
 Apple's sizes, no two alike in their files or below their status bars; and no em dash, forbidden word or email address
 in ios/store/.
 The sweep covers ios/store/ in validate.py (as part of ios/).
@@ -108,6 +110,22 @@ REVIEW_SUPPORT = ("Support is through the public issues page linked from the sup
 FAMILY = {"1": "iPhone", "2": "iPad"}  # TARGETED_DEVICE_FAMILY's numbers
 MAKER_SURNAME = "Connell"  # the maker is named in the copyright line only
 NULLABLE = ("secondaryCategory", "whatsNew")  # null: no secondary category, and not used for a first version
+# Ken's ruling of 23 November 2026: 1.0.1 (build 6) does not launch, and 2.0 is Lensatic's first public release. A first
+# version has no What's New field in App Store Connect, so nothing in the listing may read as new in 2.0 or compare the
+# app with an earlier one; the review notes say what became of the earlier submission, in one sentence
+FIRST_VERSION = "2.0"
+REVIEW_WITHDRAWN = ("2.0 is the app’s first release on the App Store; an earlier submission, 1.0.1 (6), was withdrawn before a "
+                    "decision and replaced by this build.")
+# the first release's rules, matched case-insensitively on the fields a customer reads and on the review notes (bar the
+# withdrawn submission's sentence)
+FIRST_RELEASE_FIELDS = ("subtitle", "promotionalText", "description", "reviewNotes")
+NOT_FIRST = (
+    ("a version named as new (\"version 2.0 adds\")", r"\bversion\s+\d"),
+    ("new in a version", r"\bnew\s+(in|to)\s+(this|the|version|\d)"),
+    ("an addition to an earlier app", r"\b(adds|added|now\s+(has|links|shows|opens|holds|leads|follows|lists))\b"),
+    ("an earlier version or release", r"\b(earlier|previous|prior|last|older)\s+(version|release|build|update)s?\b"),
+    ("a change from an earlier app", r"\b(no longer|updated|redesigned|rebuilt app|improved)\b"),
+)
 
 # the listing rules, matched case-insensitively on the listing's fields
 BANNED = (
@@ -158,7 +176,9 @@ NOTES = {"name": "The App Store name only; everywhere else the app is Lensatic."
                       "controls, age assurance and medical or wellness topics none; giving 4+.",
          "privacyNutrition": "The App Privacy answer: the app collects no data.",
          "exportCompliance": "The app uses no non-exempt encryption; Info.plist says so with ITSAppUsesNonExemptEncryption set to NO.",
-         "whatsNew": "What changed since the version before; not used for a first version."}
+         "whatsNew": "Not used: 2.0 is the app's first public release (Ken's ruling, 23 November 2026), and App Store Connect has "
+                     "no What's New field for a first version. If the version page shows the field anyway, paste: The first "
+                     "public release of Lensatic Cyber."}
 
 
 def units(s: str) -> int:
@@ -230,7 +250,8 @@ def build_description(d: dict) -> str:
             f"order, as steps you check off, and counts down to the next deadline wherever a source dates one. Beside the map sit two companions to read "
             f"on your phone: {f['guide']}, a zero trust field guide, and {f['playbook']}, a playbook of {f['plays']} plays.")
     # Lensatic 2.0 (Round 3): the framework navigator, said once in a paragraph of its own and first under What's Inside
-    navigator = (f"Version 2.0 adds a framework navigator: {f['frameworks']} frameworks as cards, each opened down to its controls, outcomes "
+    # Round 5: said as a first release (Ken's ruling, 23 November 2026), with no version that adds it
+    navigator = (f"Its framework navigator holds {f['frameworks']} frameworks as cards, each opened down to its controls, outcomes "
                  f"or techniques by the publisher's own identifiers, {f['elements']:,} elements in all, with comparisons that give no "
                  f"score and self-checks whose answers stay on your device.")
     items = [
@@ -240,8 +261,9 @@ def build_description(d: dict) -> str:
                     "publisher prints a crosswalk"),
         ("Self-Checks", f"{n(f['checks'])} short readiness checks, each tied to one framework, ending in what to do next"),
         # Round 3: Home leads with the story, and every play is tied to the frameworks
+        # Round 5: Home's doors are My Path and the field guide since Round 4 (the door, the question and the tab are one name)
         ("Home", f"the lead story, {f['story']}, with {' and '.join(f['storyPlays'])} to start; your zero trust countdown; and the doors "
-                 "to Framework Maps and the field guide, with your saved items"),
+                 "to My Path and the field guide, with your saved items"),
         ("Plays", f"each of the {f['plays']} plays linked to the controls, outcomes and techniques it touches"),
         ("My Path", f"pick one of {n(len(f['doors']))} trailheads ({doors}) and get your frameworks in order, as steps you check off"),
         ("Countdown", "the days to your next deadline where a source dates one, each date taken from that source"),
@@ -414,6 +436,17 @@ def check(rep) -> None:
             errs.append(f"{p}: emoji U+{ord(m.group(0)):04X}")
     rep.check("no emoji in any field (App Store Connect rejects them)", errs)
 
+    # the first release (Ken's ruling, 23 November 2026): nothing reads as new in a version or as a change from an earlier app
+    errs = []
+    if listing.get("version") == FIRST_VERSION:
+        for k in FIRST_RELEASE_FIELDS:
+            s = str(listing.get(k) or "").replace(REVIEW_WITHDRAWN, " ")
+            for why, pattern in NOT_FIRST:
+                errs += [f"{k}: {why}: {m.group(0)!r}" for m in re.finditer(pattern, s, re.I)]
+    rep.check(f"a first release: {FIRST_VERSION} has no What's New, and no subtitle, promotional text, description or review "
+              "note reads as new in a version or compares the app with an earlier one", errs,
+              f"version {listing.get('version')}, {len(FIRST_RELEASE_FIELDS)} fields")
+
     # the addresses, the version and the app's answers
     errs = []
     avail = listing.get("availability") if isinstance(listing.get("availability"), dict) else {}
@@ -450,10 +483,12 @@ def check(rep) -> None:
         errs.append(f"reading the app's settings: {exc}")
     if REVIEW_SUPPORT not in str(listing.get("reviewNotes", "")):
         errs.append("reviewNotes do not carry the support sentence")
-    if listing.get("version") == "1.0" and listing.get("whatsNew") is not None:
-        errs.append("whatsNew is set for a first version")
-    if listing.get("version") != "1.0" and not listing.get("whatsNew"):
+    if listing.get("version") == FIRST_VERSION and listing.get("whatsNew") is not None:
+        errs.append(f"whatsNew is set for {FIRST_VERSION}, the first version")
+    if listing.get("version") != FIRST_VERSION and not listing.get("whatsNew"):
         errs.append(f"whatsNew is empty for version {listing.get('version')}")
+    if listing.get("version") == FIRST_VERSION and REVIEW_WITHDRAWN not in str(listing.get("reviewNotes", "")):
+        errs.append("reviewNotes do not carry the withdrawn submission's sentence")
     rep.check("the support, marketing and privacy addresses are the site's own pages and exist in docs/; copyright, secondary "
               "category (none), price, availability, age rating and privacy answer as settled; version, devices, encryption "
               "and privacy agree with the app", errs,

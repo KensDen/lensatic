@@ -147,8 +147,10 @@ INFO_VALUES = {
     "CFBundleURLTypes": [{"CFBundleURLName": "io.github.kensden.lensatic", "CFBundleURLSchemes": ["lensatic"]}],
 }
 PROJECT_SETTINGS = {"PRODUCT_BUNDLE_IDENTIFIER": "io.github.kensden.lensatic", "MARKETING_VERSION": '"2.0"',
-                    # Lensatic 2.0, build 1 (Round 3, 15 November 2026; build 6 of version 1.0.1 is the launch build)
-                    "CURRENT_PROJECT_VERSION": '"1"', "TARGETED_DEVICE_FAMILY": '"1,2"', "CODE_SIGN_STYLE": "Automatic",
+                    # Lensatic 2.0, build 7 (Round 5, 23 November 2026): 2.0 is the first public release, and its build
+                    # number is above every build uploaded before it (1.0 build 4, 1.0.1 builds 5 and 6), so App Store
+                    # Connect takes it whether it reads build numbers per version or across the app
+                    "CURRENT_PROJECT_VERSION": '"7"', "TARGETED_DEVICE_FAMILY": '"1,2"', "CODE_SIGN_STYLE": "Automatic",
                     # Xcode 27's recommended settings (R5, item 13)
                     "xcodeVersion": '"27.1"', "BuildIndependentTargetsInParallel": "YES", "ENABLE_USER_SCRIPT_SANDBOXING": "YES",
                     "ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS": "YES", "STRING_CATALOG_GENERATE_SYMBOLS": "YES",
