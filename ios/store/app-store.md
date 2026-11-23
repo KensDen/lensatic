@@ -33,7 +33,7 @@ Public sector cyber frameworks are thick woods. Lensatic is the compass: find wh
 ```text
 I learned land navigation with a lensatic compass in the Army, and more than 20 years later it still points north. That’s the idea behind this app: when the noise gets loud, go back to the fundamentals that hold.
 
-Lensatic Cyber is built around zero trust. It starts with SP 800-207 and the DoD and CISA maturity models, then shows how CSF 2.0, SP 800-53, the RMF, CMMC and the NIST AI frameworks connect to it, so you know which document answers which question before you open a control catalog.
+Lensatic Cyber maps the U.S. public sector cyber frameworks, from CSF 2.0, SP 800-53, the RMF, FedRAMP and CMMC to the NIST AI frameworks, with zero trust as its sharpest route: SP 800-207 and the DoD and CISA maturity models. It shows how they connect, so you know which document answers which question before you open a control catalog.
 
 Framework Maps is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber assurance terrain.
 
@@ -64,7 +64,7 @@ No account. No data collected.
 Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework publisher.
 ```
 
-3505 characters (limit 4,000)
+3561 characters (limit 4,000)
 
 ## Keywords (`keywords`)
 

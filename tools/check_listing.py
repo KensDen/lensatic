@@ -71,10 +71,11 @@ PITCH = ("Public sector cyber frameworks are thick woods. Lensatic is the compas
 WAYFINDER = ("Framework Maps is a wayfinder, not a crosswalk. It guides you, showing which framework answers which question and how "
              "the trails converge, so you know your bearing before you step into a control catalog or navigate the cyber "
              "assurance terrain.")
-# the description's second paragraph (Ken's ruling, 5 November 2026): zero trust first, the other frameworks around it
-OPENING = ("Lensatic Cyber is built around zero trust. It starts with SP 800-207 and the DoD and CISA maturity models, then shows "
-           "how CSF 2.0, SP 800-53, the RMF, CMMC and the NIST AI frameworks connect to it, so you know which document answers "
-           "which question before you open a control catalog.")
+# the description's second paragraph (Ken's ruling, 5 November 2026: zero trust first; Ken's ruling, 23 November 2026: the
+# frameworks the app maps, with zero trust as its sharpest route)
+OPENING = ("Lensatic Cyber maps the U.S. public sector cyber frameworks, from CSF 2.0, SP 800-53, the RMF, FedRAMP and CMMC to "
+           "the NIST AI frameworks, with zero trust as its sharpest route: SP 800-207 and the DoD and CISA maturity models. It "
+           "shows how they connect, so you know which document answers which question before you open a control catalog.")
 # the compass story leads the description (R5, nits v0.5 item 17): two plain sentences in the maker's own words, the
 # second word for word from the content's Why the name; the settled opening follows it
 STORY = ("I learned land navigation with a lensatic compass in the Army, and more than 20 years later it still points north. "
