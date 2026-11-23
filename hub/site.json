@@ -1,5 +1,5 @@
 {
- "about": "The umbrella’s shared data: the section names, addresses and one-line descriptions, the hub’s tagline, the guides list, the version line, the hub’s byline, the hero’s two lines of the compass story and its photo’s alt text, the About banner’s alt text (R5) and the order of the hub’s About blocks (aboutBlocks: meta.about fields in content/stack.json; nameStory is the Framework Maps name panel, its heading and the compass photo, rendered from the same content). tools/build_hub.py builds the hub and the guides index from it, and tools/build_web.py draws the map’s umbrella bar from it. The Zero Trust guide’s build and the Agentic SecOps landing and app carry the same bar, and tools/check_umbrella.py holds every page to this file. Counts are never typed here: build_hub.py reads them from content/stack.json, the guides list and the Agentic SecOps sources.",
+ "about": "The umbrella’s shared data: the section names, addresses and one-line descriptions, the hub’s tagline, the guides list, the version line, the hub’s byline, the App Store line (appStore: false until the app is on the store; set live to true on release day and rebuild, and the hub and the support page link the listing), the hero’s two lines of the compass story and its photo’s alt text, the About banner’s alt text (R5) and the order of the hub’s About blocks (aboutBlocks: meta.about fields in content/stack.json; nameStory is the Framework Maps name panel, its heading and the compass photo, rendered from the same content). tools/build_hub.py builds the hub and the guides index from it, and tools/build_web.py draws the map’s umbrella bar from it. The Zero Trust guide’s build and the Agentic SecOps landing and app carry the same bar, and tools/check_umbrella.py holds every page to this file. Counts are never typed here: build_hub.py reads them from content/stack.json, the guides list and the Agentic SecOps sources.",
  "name": "Lensatic",
  "site": "https://kensden.github.io/lensatic/",
  "repo": "https://github.com/KensDen/lensatic",
@@ -7,6 +7,7 @@
  "rightsLink": "All rights reserved",
  "date": "2026-10-25",
  "byline": {"text": "By Ken Connell", "name": "Ken Connell", "href": "https://kensden.github.io/"},
+ "appStore": {"live": false, "url": "https://apps.apple.com/app/lensatic-cyber/id6816759617", "line": "Lensatic Cyber for iPhone and iPad is on the App Store."},
  "heroStory": ["My lensatic compass, oriented to map north."],
  "heroPhotoAlt": "My lensatic compass, open at an angle on a world map.",
  "bannerAlt": "My lensatic compass on a world map, over the Atlantic between the Americas and Africa.",

@@ -20,6 +20,8 @@ own, and the field system that ties the sections together.
               scripts and styles aside
   counts      the hub's Agentic SecOps counts equal the canon playbook/Validation/ripple_check.cjs derives
   sitemap     docs/sitemap.xml lists the hub, the map, the guides index, the Zero Trust guide, the landing and the app
+  appstore    hub/site.json's appStore.live is false until release day, and no page links the listing; true, the hub
+              and the support page each carry the App Store line once
   sweep       with LENSATIC_PRIVATE_SWEEP set to the owner's private list, no term appears in a file the umbrella wrote
               (counts only, never the terms); without it, one SKIP line
 Usage: python3 tools/check_umbrella.py
@@ -299,6 +301,23 @@ def main() -> int:
     page_of = lambda rel: DOCS / rel if rel.endswith(".html") else DOCS / rel / "index.html"
     errs += [f"{u} has no page in docs/" for u in locs if not page_of(u[len(s["site"]):]).is_file()]
     rep.check("sitemap: docs/sitemap.xml lists the hub, the map, the guides index, the Zero Trust guide, the landing, the app, privacy and support, each a page in docs/", errs)
+
+    # ---- the App Store line (2.0, Round 5): hub/site.json's appStore.live is the one switch for release day
+    store = s.get("appStore") or {}
+    url = str(store.get("url", ""))
+    errs = [] if re.fullmatch(r"https://apps\.apple\.com/app/[a-z0-9-]+/id\d+", url) and isinstance(store.get("live"), bool) \
+        else ["hub/site.json appStore needs live (true or false) and an apps.apple.com/app/<name>/id<number> address"]
+    pages = sorted(p for p in DOCS.rglob("*.html") if url and url in p.read_text(encoding="utf-8", errors="replace"))
+    rels = [str(p.relative_to(DOCS)) for p in pages]
+    line = bw.app_store_line(s)
+    if store.get("live") is True:
+        errs += [f"docs/{rel} does not carry the App Store line" for rel in ("index.html", "support.html")
+                 if (DOCS / rel).read_text(encoding="utf-8").count(line.split(">", 1)[1]) != 1]
+        errs += [f"docs/{rel} links the listing, outside the hub and the support page" for rel in rels if rel not in ("index.html", "support.html")]
+    else:
+        errs += [f"docs/{rel} links the listing before release day" for rel in rels]
+    rep.check("the App Store line: off until release day (no page links the listing); on, the hub and the support page each carry "
+              "it once, and no other page", errs, f"appStore.live {store.get('live')}")
 
     # ---- sweep
     src = os.environ.get("LENSATIC_PRIVATE_SWEEP")

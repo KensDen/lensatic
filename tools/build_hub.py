@@ -308,7 +308,7 @@ def hub_page(s: dict, d: dict) -> str:
             f'<p class="lx-eyebrow lx-eyebrow-row" aria-label="{esc(eyebrow)}">{eyebrow_html}</p><h1>{esc(s["name"])}</h1>'
             f'<p class="lx-standfirst">{esc(d["meta"]["tagline"])}</p>'
             # 3.2: zero trust as the spine, one sentence after the locked tagline
-            f'<p class="lx-standfirst lx-spine">{esc(d["meta"]["ztSpine"])}</p>{byline(s)}</div>'
+            f'<p class="lx-standfirst lx-spine">{esc(d["meta"]["ztSpine"])}</p>{byline(s)}{bw.app_store_line(s, "lx-byline")}</div>'
             f'<figure class="lx-hero-photo">{photo(HERO_PHOTO, "lx-hero-img", s["heroPhotoAlt"])}<figcaption>{story}</figcaption></figure>'
             f'<div class="lx-hero-more"><ul class="lx-hero-lines">{hero_lines}</ul>'
             f'<p class="lx-actions lx-start"><a class="lx-btn" href="maps/#view-doors">{r.label("heroPrimary")}</a></p></div></div></header>\n')
