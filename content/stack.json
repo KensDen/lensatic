@@ -235,7 +235,7 @@
       {
         "version": "1.4.0",
         "date": "2026-11-15",
-        "summary": "Lensatic 2.0, the framework navigator. A sixth trailhead, for a cloud provider selling to government: seven steps from what FedRAMP certifies now, through its classes, its Key Security Indicators and each agency’s own authorization, to zero trust and CSF 2.0. FedRAMP joins the stack at Layer 5 as the certification layer for that trailhead, from its Consolidated Rules for 2026, with the day its rules come into force, 1 January 2027. The glossary adds KSI, 3PAO, POA&M, CJIS, D3FEND, ATLAS, TTP, TEVV, ODP, SOC 2 and GovRAMP, each read at its publisher on 14 November 2026. Search’s starting chips add FedRAMP and ISO/IEC 27001. The privacy page lists three more things the iOS app keeps on the device, the answers you give in a readiness check, the view you chose for the Frameworks list and the deadline you chose for the widget, and says a readiness check is a self-check whose answers are never sent anywhere. The Agentic SecOps plays are tied to the navigator: each play lists the frameworks it touches and, in each, the controls, outcomes and techniques, as Lensatic’s own reading. Every source of the navigator was read again at its publisher on 15 November 2026, FedRAMP’s entry on the stack with them. Twelve records due by 15 December are rechecked on 17 November 2026: nine were read again and are unchanged, and the department’s libraries refused a script, so the strategy, its memorandum and the portfolio office keep their September reads. Nothing else on the stack changes.",
+        "summary": "Lensatic 2.0, the framework navigator. A sixth trailhead, for a cloud provider selling to government: seven steps from what FedRAMP certifies now, through its classes, its Key Security Indicators and each agency’s own authorization, to zero trust and CSF 2.0. FedRAMP joins the stack at Layer 5 as the certification layer for that trailhead, from its Consolidated Rules for 2026, with the day its rules come into force, 1 January 2027. The glossary adds KSI, 3PAO, POA&M, CJIS, D3FEND, ATLAS, TTP, TEVV, ODP, SOC 2 and GovRAMP, each read at its publisher on 14 November 2026. Search’s starting chips add FedRAMP and ISO/IEC 27001. The privacy page lists three more things the iOS app keeps on the device, the answers you give in a readiness check, the view you chose for the Frameworks list and the deadline you chose for the widget, and says a readiness check is a self-check whose answers are never sent anywhere. The Agentic SecOps plays are tied to the navigator: each play lists the frameworks it touches and, in each, the controls, outcomes and techniques, as Lensatic’s own reading. Every source of the navigator was read again at its publisher on 15 November 2026, FedRAMP’s entry on the stack with them. Twelve records due by 15 December are rechecked on 17 November 2026: nine were read again and are unchanged, and the department’s libraries refused a script, so the strategy, its memorandum and the portfolio office keep their September reads. The Impact Levels card is rebuilt from DISA’s Cloud Service Provider SRG, Version 1, Release 7, of 30 June 2026, read on 24 November 2026: the four levels as its section 3.7 defines them, with its section numbers. The same day the department’s zero trust strategy, its execution roadmap, its capabilities and activities and its CMMC page are rechecked in a browser, since its library refuses a script: all unchanged. Nothing else on the stack changes.",
         "news": [
           {
             "id": "trailhead-cloud-provider",
@@ -533,9 +533,9 @@
       "pdf": "https://dowcio.war.gov/Portals/0/Documents/Library/DoD-ZTStrategy.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-09",
+        "verifiedOn": "2026-11-24",
         "method": "primary-fetch",
-        "note": "PDF fetched from the CIO library at dowcio.war.gov, which also serves the older dodcio.defense.gov address. Printed date 21 October 2022, version 1.0; cleared for open publication 7 November 2022; announced 22 November 2022, the date usually cited for it. Pillars, the two levels and the FY2027 mandate were read from the document; its Appendix A chart depicts the 45 capabilities, and the counts are printed in the companion roadmap. On 17 November 2026 the CIO library answered a script with 403, so the strategy was not read again that day; the department’s news feeds on www.war.gov, read the same day, announced no new zero trust strategy.",
+        "note": "PDF fetched from the CIO library at dowcio.war.gov, which also serves the older dodcio.defense.gov address. Printed date 21 October 2022, version 1.0; cleared for open publication 7 November 2022; announced 22 November 2022, the date usually cited for it. Pillars, the two levels and the FY2027 mandate were read from the document; its Appendix A chart depicts the 45 capabilities, and the counts are printed in the companion roadmap. On 17 November 2026 the CIO library answered a script with 403. Rechecked on 24 November 2026: the CIO library refuses a script (403), so it was read in a browser, and it still lists the strategy as DoD-ZTStrategy.pdf, last modified 22 November 2022, with no newer zero trust strategy beside it.",
         "recheckAfter": "2027-01-15"
       },
       "authority": {
@@ -570,9 +570,9 @@
           "pdf": "https://dowcio.war.gov/Portals/0/Documents/Library/DoD-ZTStrategy.pdf",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-29",
+            "verifiedOn": "2026-11-24",
             "method": "primary-fetch",
-            "note": "Fetched; cover and running headers print 21 October 2022; change history 1.0 initial published version."
+            "note": "Fetched; cover and running headers print 21 October 2022; change history 1.0 initial published version. Rechecked on 24 November 2026 in a browser, since the library refuses a script: the same file, last modified 22 November 2022, and no Zero Trust Strategy 2.0."
           }
         },
         {
@@ -1408,9 +1408,9 @@
       "pdf": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-ExecutionRoadmap-v1.1.pdf",
       "verification": {
         "status": "verified",
-        "verifiedOn": "2026-09-29",
+        "verifiedOn": "2026-11-24",
         "method": "primary-fetch",
-        "note": "Fetched from the CIO library: cover ‘Zero Trust Execution Roadmap v1.1’, 22 November 2024, cleared 9 December 2024; PDF title ‘DoD Zero Trust Capability Execution Roadmap (COA 1)’; prints 45 capabilities (42 Target, 3 Advanced) and 152 activities (91 Target, 61 Advanced). The companion capabilities and activities document was fetched from the same library; its cover prints v1.1 and 22 January 2025."
+        "note": "Fetched from the CIO library: cover ‘Zero Trust Execution Roadmap v1.1’, 22 November 2024, cleared 9 December 2024; PDF title ‘DoD Zero Trust Capability Execution Roadmap (COA 1)’; prints 45 capabilities (42 Target, 3 Advanced) and 152 activities (91 Target, 61 Advanced). The companion capabilities and activities document was fetched from the same library; its cover prints v1.1 and 22 January 2025. Rechecked on 24 November 2026: the CIO library refuses a script (403), so it was read in a browser, and both files are the size of the copies saved on 30 September 2026, so v1.1 is still current."
       },
       "authority": {
         "nature": "strategy",
@@ -1438,9 +1438,9 @@
           "pdf": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-ExecutionRoadmap-v1.1.pdf",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-29",
+            "verifiedOn": "2026-11-24",
             "method": "primary-fetch",
-            "note": "Fetched; 22 November 2024; three courses of action with considerations and example use cases."
+            "note": "Fetched; 22 November 2024; three courses of action with considerations and example use cases. Rechecked on 24 November 2026 in a browser, since the library refuses a script: ZT-ExecutionRoadmap-v1.1.pdf, last modified 17 January 2025, 3,540,044 bytes, the same size as the copy saved on 30 September 2026."
           }
         },
         {
@@ -1451,9 +1451,9 @@
           "pdf": "https://dowcio.war.gov/Portals/0/Documents/Library/ZT-CapabilitiesActivities.pdf",
           "verification": {
             "status": "verified",
-            "verifiedOn": "2026-09-29",
+            "verifiedOn": "2026-11-24",
             "method": "primary-fetch",
-            "note": "Fetched; the cover is image-only and prints ‘DOD Zero Trust Execution Roadmap (COAs 1-3), v1.1’ and ‘22 January 2025’, with prepublication case 25-T-1465 cleared 18 March 2025; the served file’s PDF metadata is dated August and September 2025. The library link text is ‘Zero Trust Capabilities and Activities’ and the page headers are ‘DoD Zero Trust Capabilities’ and ‘DoD Zero Trust Activities’. Supersedes the 6 January 2023 publication; 45 capability and 152 activity identifiers counted; updates Target Level activities only."
+            "note": "Fetched; the cover is image-only and prints ‘DOD Zero Trust Execution Roadmap (COAs 1-3), v1.1’ and ‘22 January 2025’, with prepublication case 25-T-1465 cleared 18 March 2025; the served file’s PDF metadata is dated August and September 2025. The library link text is ‘Zero Trust Capabilities and Activities’ and the page headers are ‘DoD Zero Trust Capabilities’ and ‘DoD Zero Trust Activities’. Supersedes the 6 January 2023 publication; 45 capability and 152 activity identifiers counted; updates Target Level activities only. Rechecked on 24 November 2026 in a browser, since the library refuses a script: ZT-CapabilitiesActivities.pdf, last modified 3 September 2025, 651,809 bytes, the same size as the copy saved on 30 September 2026."
           },
           "note": "The activity-level detail: responsibility (enterprise or component), predecessors, and end states for each activity."
         }
@@ -1561,15 +1561,15 @@
           "defense-contractors-fci-cui"
         ],
         "deadline": {
-          "text": "Phase 1 began 10 November 2025 when the acquisition rule took effect; the rule’s later phases, due one year apart through 10 November 2028, are suspended, implementation was paused in Phase 1 on 13 July 2026, and no new date had been set by 10 November 2026",
+          "text": "Phase 1 began 10 November 2025 when the acquisition rule took effect; the rule’s later phases, due one year apart through 10 November 2028, are suspended, implementation was paused in Phase 1 on 13 July 2026, and no new date had been set by 24 November 2026",
           "sourceId": "cmmc20"
         },
         "note": "Binds defense contractors and subcontractors when the clause is in the contract.",
         "verification": {
           "status": "conflict",
-          "verifiedOn": "2026-11-10",
+          "verifiedOn": "2026-11-24",
           "method": "primary-fetch",
-          "note": "Two layers, rechecked 10 November 2026. Rule text, unamended: the electronic Code of Federal Regulations is current to 6 November 2026 and shows no change to part 170 since 16 December 2024, and the Federal Register shows no rule or notice amending either rule since 13 July 2026 (c013); 32 CFR 170.3(e)(2) (c016) starts Phase 2 one year after Phase 1, which would be 10 November 2026, and DFARS 204.7504 phases the clause through 10 November 2028. Department policy in effect: the CIO and acquisition memoranda of 13 July 2026 suspend the Phase 2 transition with no new date and let solicitations and contracts call only for Level 1 and Level 2 self-assessments, alongside select government-led assessments; Class Deviation 2026-O0025 carries that into contracting, first in Revision 2 of 16 July 2026 and now in Revision 3 of 3 September 2026, still the latest revision found on 10 November 2026 (the class deviation list did not load from here). The department’s CMMC page, read on 10 November 2026 (c011), still reports the 13 July 2026 suspension of Phase 2 with the Phase 1 self-assessment requirements in place. No task force report or new Phase 2 date had been published by 10 November 2026. Both layers recorded; the memoranda and the deviation are listed under documents.",
+          "note": "Two layers, rechecked 10 November 2026. Rule text, unamended: the electronic Code of Federal Regulations is current to 6 November 2026 and shows no change to part 170 since 16 December 2024, and the Federal Register shows no rule or notice amending either rule since 13 July 2026 (c013); 32 CFR 170.3(e)(2) (c016) starts Phase 2 one year after Phase 1, which would be 10 November 2026, and DFARS 204.7504 phases the clause through 10 November 2028. Department policy in effect: the CIO and acquisition memoranda of 13 July 2026 suspend the Phase 2 transition with no new date and let solicitations and contracts call only for Level 1 and Level 2 self-assessments, alongside select government-led assessments; Class Deviation 2026-O0025 carries that into contracting, first in Revision 2 of 16 July 2026 and now in Revision 3 of 3 September 2026, still the latest revision found on 10 November 2026 (the class deviation list did not load from here). The department’s CMMC page, read on 10 November 2026 (c011), still reports the 13 July 2026 suspension of Phase 2 with the Phase 1 self-assessment requirements in place. No task force report or new Phase 2 date had been published by 10 November 2026. Both layers recorded; the memoranda and the deviation are listed under documents. Rechecked on 24 November 2026: the department’s CMMC page (https://dowcio.war.gov/CMMC/) refuses a script, so it was read in a browser; it still reports Phase 2 suspended since 13 July 2026 with the Phase 1 self-assessment requirements in place, and links the press release and the two memoranda. Neither the page nor a web search that day found a later update or a new Phase 2 date. The rule-text layer was last read on 10 November 2026.",
           "recheckAfter": "2027-02-01"
         }
       },

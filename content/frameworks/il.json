@@ -11,14 +11,14 @@
     "dark": "#E7B07A"
   },
   "purpose": "How sensitive the information is that a cloud service may hold for the {{dow.current}}.",
-  "what": "Four levels in use: IL2, IL4, IL5 and IL6. IL2 is for public and other non-controlled information, IL4 for controlled unclassified information, IL6 for classified information up to SECRET. IL5 changed in 2025.",
+  "what": "Four levels, defined by DISA in section 3.7 of its cloud SRG: IL2 (3.7.1) for public and non-controlled information, IL4 (3.7.2) for CUI and mission data, IL5 (3.7.3) for unclassified national security information, IL6 (3.7.4) for classified up to SECRET.",
   "binds": {
     "short": "The department’s cloud providers",
     "line": "The DFARS lets a cloud contract go only to a provider that DISA has granted a provisional authorization at the level the work needs."
   },
   "verifiedBy": {
     "short": "DISA provisional authorization",
-    "line": "DISA grants the provisional authorization. The mission owner’s authorizing official still grants the authorization to operate."
+    "line": "DISA’s authorizing official grants the provisional authorization (3.6). The mission owner’s authorizing official still grants the authorization to operate (section 4)."
   },
   "size": [
     {
@@ -30,9 +30,24 @@
     "layers": [
       "l5"
     ],
-    "line": "Layer 5. The levels were built on FedRAMP baselines plus the department’s own controls. Neither side has yet said how they line up with FedRAMP’s new classes."
+    "line": "Layer 5. Each level is assessed on a FedRAMP baseline plus the department’s own controls: Moderate or High for IL2 and IL4, High for IL5 and IL6 (3.7.5). The guide does not mention FedRAMP’s new classes."
   },
   "sources": [
+    {
+      "id": "il-srg-v1r7",
+      "publisher": "DISA",
+      "title": "Cloud Service Provider (CSP) Security Requirements Guide (SRG)",
+      "edition": "Version 1, Release 7",
+      "date": "2026-06-30",
+      "url": "https://www.cyber.mil/dccs/dccs-documents/",
+      "verification": {
+        "status": "verified",
+        "verifiedOn": "2026-11-24",
+        "method": "primary-fetch",
+        "note": "Read on 24 November 2026 in DISA’s own copy. The document library at https://www.cyber.mil/dccs/dccs-documents/ draws its list by script, so a script sees an empty page; it was opened in a browser, and its Cloud Computing SRG entry, uploaded 26 June 2026, was downloaded as U_Cloud_Computing_Y26M06_SRG.zip. In it, U_Cloud_Service_Provider_V1R7_SRG.pdf prints Version 1, Release 7, 30 June 2026, developed by DISA for the department under its current name. Section 3.7 defines four levels: IL2 for publicly releasable and other nonpublic unclassified information not designated CUI (3.7.1), IL4 for CUI and other mission data (3.7.2), IL5 for nonpublic unclassified national security systems and information, including CUI or mission data whose owner needs more protection than IL4 gives (3.7.3), and IL6 for classified information, at this time only SECRET or below, reached over private SIPRNet connections or approved CNSSP-11 circuits, on infrastructure dedicated and separate from the provider’s other offerings (3.7.4). Section 3.7 also says Impact Levels are a construct of the department only and do not apply to FedRAMP baselines, and that the data of a national security system shall be housed at IL5 or higher. Section 3.7.5 and its Table 3-1 give the FedRAMP baseline each level is assessed on; section 3.6 says the DISA authorizing official approves and revokes provisional authorizations, and section 4 that the mission owner’s authorizing official grants the authorization to operate. The revision history in the same archive dates Release 7 to 30 June 2026, with changes to sections 4.4, 5.5.1 and 5.5.2. The release note of July 2025, below, said CUI was no longer part of IL5; the text of 3.7.3 in Release 7 still lets IL5 take CUI that needs more than IL4. This copy replaces the lead of a vendor page of 10 August 2026, which first named Release 7.",
+        "recheckAfter": "2027-01-15"
+      }
+    },
     {
       "id": "il-srg-v1r4",
       "publisher": "DISA",
@@ -64,21 +79,6 @@
       }
     },
     {
-      "id": "il-srg-current",
-      "publisher": "DISA",
-      "title": "Cloud Service Provider Security Requirements Guide, current release",
-      "edition": "Not read",
-      "date": "2025-09",
-      "url": "https://www.cyber.mil/dccs/dccs-documents/",
-      "verification": {
-        "status": "unverified",
-        "verifiedOn": null,
-        "method": "none",
-        "note": "The current release could not be opened on 14 November 2026: the document library’s list did not load for a script, and the 2026 release notes sit on a host whose certificate was not trusted. Tried: https://www.cyber.mil/dccs/dccs-documents/ and https://www.cyber.mil/stigs/downloads. DISA’s Cloud Connection Process Guide of December 2025 cites an edition of September 2025. So this card’s wording for IL4 and IL5 rests on the 2025 release notes, not on the current text. On 15 November 2026 the document library again answered a script with 200 and an empty script-drawn page, so the current release was still not read. On 17 November 2026 the library again drew its list by script, and the guide’s likely addresses on DISA’s download host answered 404, so the current release was still not read. A vendor page of 10 August 2026 says the current guide is the Cloud Service Provider SRG, Version 1, Release 7, of 30 June 2026, under the department’s current name. That is a lead, not a source: this card keeps its wording until DISA’s own copy is read.",
-        "recheckAfter": "2027-01-15"
-      }
-    },
-    {
       "id": "il-dfars",
       "publisher": "Defense Acquisition Regulations System",
       "title": "DFARS 239.7602-1 General",
@@ -97,7 +97,7 @@
   "terms": {
     "basis": "us-government-work",
     "shows": "structure",
-    "line": "A work of the United States government. Lensatic shows the card only for now, in its own words, and its sources say where the wording rests on release notes.",
+    "line": "A work of the United States government. Lensatic shows the card only, in its own words, with the guide’s section numbers.",
     "notice": null,
     "url": null
   },
@@ -105,7 +105,7 @@
   "related": [
     {
       "id": "fedramp",
-      "line": "Each level was defined on top of a FedRAMP baseline."
+      "line": "Each level is assessed on a FedRAMP baseline, though an Impact Level is not a FedRAMP level."
     },
     {
       "id": "rmf",
@@ -116,5 +116,6 @@
   "levels": [],
   "nodes": [],
   "sets": [],
-  "crosswalks": []
+  "crosswalks": [],
+  "note": "Impact Levels are the department’s own construct and do not apply to FedRAMP baselines, so there is no FedRAMP Impact Level (3.7). Data of a national security system goes in IL5 or higher (3.7); IL5 also takes CUI its owner judges needs more than IL4 (3.7.3). IL6 holds classified information up to SECRET, reached over SIPRNet or approved circuits, on infrastructure kept separate (3.7.4)."
 }

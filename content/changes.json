@@ -24,6 +24,15 @@
    "action": "frameworks"
   },
   {
+   "id": "1.4.0/dod-zt-strategy/recheck",
+   "release": "1.4.0",
+   "released": "2026-11-15",
+   "date": "2026-11-24",
+   "kind": "recheck",
+   "entityId": "dod-zt-strategy",
+   "title": "DoD ZT Strategy rechecked against its source"
+  },
+  {
    "id": "1.4.0/rmf-ato/recheck",
    "release": "1.4.0",
    "released": "2026-11-15",
@@ -42,6 +51,15 @@
    "title": "Cyber AI Profile rechecked against its source"
   },
   {
+   "id": "1.4.0/dod-zt-roadmap/recheck",
+   "release": "1.4.0",
+   "released": "2026-11-15",
+   "date": "2026-11-24",
+   "kind": "recheck",
+   "entityId": "dod-zt-roadmap",
+   "title": "DoD ZT Roadmap rechecked against its source"
+  },
+  {
    "id": "1.4.0/sp800-171/recheck",
    "release": "1.4.0",
    "released": "2026-11-15",
@@ -49,6 +67,15 @@
    "kind": "recheck",
    "entityId": "sp800-171",
    "title": "SP 800-171 rechecked against its source"
+  },
+  {
+   "id": "1.4.0/cmmc20/recheck",
+   "release": "1.4.0",
+   "released": "2026-11-15",
+   "date": "2026-11-24",
+   "kind": "recheck",
+   "entityId": "cmmc20",
+   "title": "CMMC rechecked against its source"
   },
   {
    "id": "1.4.0/framework:csf20/recheck",
@@ -84,7 +111,7 @@
    "id": "1.4.0/framework:dod-zt/recheck",
    "release": "1.4.0",
    "released": "2026-11-15",
-   "date": "2026-09-30",
+   "date": "2026-11-24",
    "kind": "recheck",
    "entityId": "dod-zt-strategy",
    "title": "DoD ZT Strategy checked against its source",
@@ -154,7 +181,7 @@
    "id": "1.4.0/framework:il/recheck",
    "release": "1.4.0",
    "released": "2026-11-15",
-   "date": "2026-11-15",
+   "date": "2026-11-24",
    "kind": "recheck",
    "entityId": "",
    "title": "Impact Levels checked against its source",
