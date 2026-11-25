@@ -18,7 +18,7 @@
   },
   "verifiedBy": {
     "short": "DISA provisional authorization",
-    "line": "DISA’s authorizing official grants the provisional authorization (3.6). The mission owner’s authorizing official still grants the authorization to operate (section 4)."
+    "line": "DISA grants the provisional authorization (3.6). The mission owner’s authorizing official grants the authorization to operate (section 4)."
   },
   "size": [
     {
@@ -30,7 +30,7 @@
     "layers": [
       "l5"
     ],
-    "line": "Layer 5. Each level is assessed on a FedRAMP baseline, Moderate or High for IL2 and IL4 and High for IL5 and IL6, with the department’s own controls added from IL4 up (3.7.5). The guide does not mention FedRAMP’s new classes."
+    "line": "Layer 5. Each level rests on a FedRAMP baseline, Moderate or High for IL2 and IL4 and High for IL5 and IL6, with the department’s own controls from IL4 up (3.7.5)."
   },
   "sources": [
     {
@@ -105,7 +105,7 @@
   "related": [
     {
       "id": "fedramp",
-      "line": "Each level is assessed on a FedRAMP baseline, though an Impact Level is not a FedRAMP level."
+      "line": "Each level rests on a FedRAMP baseline but is not a FedRAMP level."
     },
     {
       "id": "rmf",
@@ -117,5 +117,5 @@
   "nodes": [],
   "sets": [],
   "crosswalks": [],
-  "note": "Impact Levels are the department’s own construct and do not apply to FedRAMP baselines, so there is no FedRAMP Impact Level (3.7). Data of a national security system goes in IL5 or higher (3.7); IL5 also takes CUI that needs more protection than IL4 gives (3.7.3). IL6 holds classified information up to SECRET, reached over SIPRNet or approved circuits, on infrastructure kept separate (3.7.4)."
+  "note": "Impact Levels are the department’s own construct, not FedRAMP levels (3.7). Data of a national security system goes in IL5 or higher (3.7); IL5 also takes CUI that needs more than IL4 (3.7.3). IL6 is reached over SIPRNet or approved circuits, on separate infrastructure (3.7.4)."
 }

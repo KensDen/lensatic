@@ -302,7 +302,7 @@ final class PathTests: XCTestCase {
         XCTAssertEqual(strategy.type, "Strategy")
         XCTAssertEqual(strategy.readLabel, "Read the Strategy")
         XCTAssertEqual(strategy.eyebrow, "Layer 3 · Target state and maturity")
-        XCTAssertEqual(strategy.verifiedLine, "Verified against the source · " + unbroken("9 Sep 2026"))
+        XCTAssertEqual(strategy.verifiedLine, "Verified against the source · " + unbroken("24 Nov 2026"))
         // web pages first (content 1.3.0): the strategy's link is the CIO library's page, its PDF kept beside it
         XCTAssertFalse(strategy.isPDF)
         XCTAssertEqual(strategy.entity.pdf, "https://dowcio.war.gov/Portals/0/Documents/Library/DoD-ZTStrategy.pdf")
