@@ -11,7 +11,7 @@
     "dark": "#E7B07A"
   },
   "purpose": "How sensitive the information is that a cloud service may hold for the {{dow.current}}.",
-  "what": "Four levels, defined by DISA in section 3.7 of its cloud SRG: IL2 (3.7.1) for public and non-controlled information, IL4 (3.7.2) for CUI and mission data, IL5 (3.7.3) for unclassified national security information, IL6 (3.7.4) for classified up to SECRET.",
+  "what": "Four levels, defined by DISA in section 3.7 of its cloud SRG: IL2 for public and non-controlled information (3.7.1), IL4 for CUI and mission data (3.7.2), IL5 for unclassified national security information (3.7.3), IL6 for classified up to SECRET (3.7.4).",
   "binds": {
     "short": "The department’s cloud providers",
     "line": "The DFARS lets a cloud contract go only to a provider that DISA has granted a provisional authorization at the level the work needs."
