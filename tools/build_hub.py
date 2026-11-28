@@ -390,13 +390,13 @@ def not_found_page(s: dict, d: dict) -> str:
     return head_html + body
 
 
-MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
-
-
 def playbook_date() -> str:
-    """The Agentic SecOps release date: the first line of playbook/README.md's version history ("- v5.4.2, 24 October 2026: ...")."""
-    m = re.search(r"^- v[\d.]+, (\d{1,2}) (\w+) (\d{4}):", (PLAYBOOK / "README.md").read_text(encoding="utf-8"), re.M)
-    return f"{m.group(3)}-{MONTHS.index(m.group(2)) + 1:02d}-{int(m.group(1)):02d}"
+    """The Agentic SecOps release date: current_version.date in playbook/Validation/registry.json, beside the release
+    version the app's badge states (the README's version history it was read from left public view on 27 November 2026)."""
+    when = json.loads((PLAYBOOK / "Validation" / "registry.json").read_text(encoding="utf-8"))["current_version"]["date"]
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", when):
+        sys.exit(f"build_hub: playbook/Validation/registry.json current_version.date is not YYYY-MM-DD: {when!r}")
+    return when
 
 
 def sitemap(s: dict, d: dict) -> str:

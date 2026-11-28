@@ -28,13 +28,6 @@ Not affiliated with NIST, CISA, NSA, Department of War, OMB, or any framework pu
     docs/       the GitHub Pages root: published copies only
     critique/   review findings and naming records
 
-## Version history
-
-- 2.0.3, 25 October 2026: every closing block lines up. On every page the closing paragraph, the footer lines, the copyright line and the badge run the full width of the page's column, on the cards' left edge, and under 520px the legend boxes span it like the cards. A new battery check, the layout guard (`tools/layout_guard.mjs`, playwright-core driving the system Chrome), holds every published page to that at 375, 390 and 1440 wide, in light and dark.
-- 2.0.2, 18 October 2026: one theme toggle in the umbrella bar for every page, Framework Maps under its own name, section-tinted buttons, the APT_UNICORN emblem in its tile, and a rights line in the hub and guides index footers.
-- 2.0.1, 18 October 2026: the hub tells where the name comes from; the notices allow personal study.
-- 2.0, 18 October 2026: Framework Maps, Field Guides and Playbook under one roof.
-
 ## License
 
 Lensatic's own code and text are copyright 2026 Ken Connell, all rights reserved ([`LICENSE`](LICENSE)). The text is the summaries, matrix cell text, trailheads, helper answers and glossary in `content/stack.json`, the schema descriptions, the review records in `critique/`, and this README. The code is `tools/`, `web/src/`, the build and check scripts, and the iOS app's source in `ios/`. The built pages, `web/lensatic.html` and everything in `docs/`, hold both. The repository is published so the work can be read, reviewed and used for personal study. No license is granted to copy, modify, distribute or otherwise use its code, text or artwork, in whole or in part, except as the law allows without a license or with Ken Connell's prior written permission. To ask about reusing any of it, open an issue at https://github.com/KensDen/lensatic/issues.
